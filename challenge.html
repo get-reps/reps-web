@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>REPS Challenge</title>
+  <meta name="description" content="Someone challenged you to a game on REPS! Open the app to play.">
+  <meta property="og:title" content="REPS - Can you beat me?">
+  <meta property="og:description" content="Someone challenged you to a game on REPS! Tap to play the same puzzle.">
+  <meta property="og:type" content="website">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #FFFAF7;
+      color: #1F2937;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .card {
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+    }
+    .emoji { font-size: 64px; margin-bottom: 16px; }
+    h1 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+    .subtitle { font-size: 16px; color: #6B7280; margin-bottom: 32px; line-height: 1.5; }
+    .open-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+      color: white;
+      font-size: 17px;
+      font-weight: 700;
+      padding: 16px 48px;
+      border-radius: 16px;
+      text-decoration: none;
+      margin-bottom: 16px;
+      transition: transform 0.15s;
+    }
+    .open-btn:active { transform: scale(0.97); }
+    .fallback {
+      font-size: 13px;
+      color: #9CA3AF;
+      margin-top: 24px;
+      line-height: 1.6;
+    }
+    .fallback a { color: #FF6B6B; text-decoration: none; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="emoji">&#127942;</div>
+    <h1>You've been challenged!</h1>
+    <p class="subtitle">Someone wants you to play the same puzzle on REPS. Can you beat their score?</p>
+    <a id="open-link" class="open-btn" href="#">Open in REPS</a>
+    <p class="fallback">
+      Don't have REPS yet?<br>
+      <a href="https://apps.apple.com/app/reps-save-play-remember/id6742042398">Download on the App Store</a>
+    </p>
+  </div>
+  <script>
+    (function() {
+      var params = new URLSearchParams(window.location.search);
+      var type = params.get('type');
+      var id = params.get('id');
+      if (type && id) {
+        var deepLink = 'reps://challenge?type=' + encodeURIComponent(type) + '&id=' + encodeURIComponent(id);
+        document.getElementById('open-link').href = deepLink;
+        // Auto-redirect on mobile after a brief moment
+        if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+          setTimeout(function() { window.location.href = deepLink; }, 300);
+        }
+      }
+    })();
+  </script>
+</body>
+</html>
