@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Why You Forget Everything You Read (And How to Fix It) — REPS</title>
+  <meta name="description" content="The forgetting curve is real. Here's the research behind spaced repetition — and why 3 minutes a day beats 3 hours a week." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --coral: #FF6B6B;
+      --coral-dark: #FF8E53;
+      --bg: #FFFAF7;
+      --text: #1A1A1A;
+      --muted: #6B6B6B;
+      --border: #EDE8E3;
+      --max-width: 680px;
+    }
+
+    html {
+      font-size: 17px;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      padding: 24px 32px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      background-color: var(--bg);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .wordmark {
+      font-family: 'Lora', serif;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+
+    /* ── LAYOUT ── */
+    .page-wrapper {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── ARTICLE HEADER ── */
+    .article-header {
+      padding-top: 56px;
+      padding-bottom: 40px;
+    }
+
+    .pill {
+      display: inline-block;
+      background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-family: 'Lora', serif;
+      font-size: 2.75rem;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    .subheadline {
+      font-family: 'Lora', serif;
+      font-size: 1.2rem;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    .author-line {
+      font-size: 0.85rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .author-line .dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--muted);
+      display: inline-block;
+    }
+
+    .article-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 40px 0;
+    }
+
+    /* ── ARTICLE BODY ── */
+    .article-body {
+      padding-bottom: 80px;
+    }
+
+    .article-body p {
+      margin-bottom: 1.6rem;
+      color: #2C2C2C;
+    }
+
+    h2 {
+      font-family: 'Lora', serif;
+      font-size: 1.55rem;
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--text);
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
+    }
+
+    /* ── HIGHLIGHT ── */
+    .hl {
+      background: linear-gradient(to bottom, transparent 60%, rgba(255, 107, 107, 0.22) 60%);
+      padding-bottom: 1px;
+    }
+
+    /* ── PULL QUOTES ── */
+    .pull-quote {
+      border-left: 4px solid var(--coral);
+      margin: 2.5rem 0;
+      padding: 20px 28px;
+      background: rgba(255, 107, 107, 0.05);
+      border-radius: 0 8px 8px 0;
+    }
+
+    .pull-quote p {
+      font-family: 'Lora', serif;
+      font-size: 1.25rem;
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1.55;
+      color: var(--text);
+      margin-bottom: 0 !important;
+    }
+
+    .pull-quote .pq-source {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      font-style: normal;
+      color: var(--muted);
+      margin-top: 10px !important;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── SECTION DIVIDER ── */
+    .section-break {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 3rem 0 2.5rem;
+    }
+
+    .section-break span {
+      width: 32px;
+      height: 3px;
+      background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+      border-radius: 2px;
+      display: inline-block;
+    }
+
+    /* ── REPS CLOSING SECTION ── */
+    .reps-note {
+      background: linear-gradient(135deg, rgba(255, 107, 107, 0.08), rgba(255, 142, 83, 0.08));
+      border: 1px solid rgba(255, 107, 107, 0.2);
+      border-radius: 16px;
+      padding: 36px 40px;
+      margin-top: 3.5rem;
+    }
+
+    .reps-note h2 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      font-size: 1.35rem;
+    }
+
+    .reps-note p {
+      font-size: 0.97rem;
+      color: #3a3a3a;
+    }
+
+    .reps-note .closing-line {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text);
+      margin-top: 1.4rem !important;
+      margin-bottom: 0 !important;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      text-align: center;
+    }
+
+    footer p {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    footer a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    footer a:hover {
+      color: var(--coral);
+    }
+
+    footer .footer-links {
+      display: inline-flex;
+      gap: 20px;
+      margin-top: 6px;
+    }
+
+    /* ── FIGURES ── */
+    .article-figure {
+      margin: 2rem 0 2.5rem;
+    }
+
+    .article-figure img {
+      width: 100%;
+      border-radius: 10px;
+      display: block;
+    }
+
+    .article-figure figcaption {
+      margin-top: 10px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.5;
+      font-style: italic;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      html {
+        font-size: 15.5px;
+      }
+
+      nav {
+        padding: 18px 20px;
+      }
+
+      .page-wrapper {
+        padding: 0 20px;
+      }
+
+      .article-header {
+        padding-top: 40px;
+        padding-bottom: 28px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      .subheadline {
+        font-size: 1.05rem;
+      }
+
+      h2 {
+        font-size: 1.3rem;
+      }
+
+      .pull-quote {
+        padding: 16px 20px;
+      }
+
+      .pull-quote p {
+        font-size: 1.1rem;
+      }
+
+      .reps-note {
+        padding: 28px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="https://getreps.io" class="wordmark">REPS</a>
+  </nav>
+
+  <!-- ARTICLE -->
+  <main class="page-wrapper">
+
+    <header class="article-header">
+      <div class="pill">REPS Science</div>
+      <h1>Why You Forget Everything You Read (And How to Fix It)</h1>
+      <p class="subheadline">The forgetting curve is real. Here's the research behind spaced repetition — and why 3 minutes a day beats 3 hours a week.</p>
+      <div class="author-line">
+        <span>By the REPS Team</span>
+        <span class="dot"></span>
+        <span>2 min read</span>
+      </div>
+    </header>
+
+    <hr class="article-divider" />
+
+    <article class="article-body">
+
+      <p>Think about the last article you read that genuinely excited you. Can you recall its three main points right now, without looking? If you're hesitating, you're not forgetful — you're experiencing one of the most well-documented findings in cognitive science. It has a name, a shape, and a surprisingly elegant fix.</p>
+
+      <!-- SECTION 1 -->
+      <div class="section-break"><span></span></div>
+
+      <h2>Ebbinghaus and the Forgetting Curve</h2>
+
+      <p>In 1885, German psychologist Hermann Ebbinghaus published <em>Über das Gedächtnis</em> — the first rigorous scientific study of memory. Using himself as the sole subject, he memorised thousands of meaningless syllable strings, then measured precisely how fast he forgot them. The result was the forgetting curve: a graph showing that memory doesn't fade gently. It collapses.</p>
+
+      <p><span class="hl">Within 24 hours, we forget roughly 50–70% of new information. Within a week, close to 90% is gone.</span> The drop is steepest in the first hour after learning — a fact that makes passive reading, without any follow-up, almost comically inefficient. Ebbinghaus also found the antidote: each time you successfully retrieve a memory just before it disappears, the curve resets at a higher baseline and decays more slowly next time.</p>
+
+      <div class="pull-quote">
+        <p>"Without reinforcement, people forget up to 50–70% of new information within 24 hours, and close to 90% within a week."</p>
+        <p class="pq-source">— Based on Ebbinghaus, <em>Über das Gedächtnis</em> (1885); see also Cepeda et al., <em>Psychological Bulletin</em> (2006)</p>
+      </div>
+
+      <figure class="article-figure">
+        <img src="https://pub-74249335258c44b9b658bf29604b81a6.r2.dev/media/1770372707532-g8sl8ip-desktop.webp" alt="Graph showing how spaced reviews reset the forgetting curve, leading to better long-term retention over time" />
+        <figcaption>Each review resets the forgetting curve at a higher baseline — so intervals between reviews can grow progressively longer.</figcaption>
+      </figure>
+
+      <!-- SECTION 2 -->
+      <div class="section-break"><span></span></div>
+
+      <h2>SM-2: When the Algorithm Does the Remembering for You</h2>
+
+      <p>The optimal review schedule — revisiting material at expanding intervals, right at the moment it's about to slip — is called spaced repetition. The theory had been around for decades, but it took a Polish researcher named Piotr Woźniak to turn it into something a computer could run.</p>
+
+      <p>In 1987, Woźniak developed the <strong>SM-2 algorithm</strong> for his SuperMemo software. SM-2 assigns every piece of information an <em>easiness factor</em> — a number that adjusts based on how confidently you recalled it. Answer easily and the next review is pushed further out, perhaps weeks. Struggle, and the interval contracts. <span class="hl">Each card gets its own personalised forgetting curve</span>, and the algorithm schedules reviews at the precise moment memory needs reinforcing — not before (wasteful), not after (too late).</p>
+
+      <p>SM-2, or a close descendant of it, now powers most major spaced repetition software in the world, from Anki to Duolingo. The underlying maths remain largely unchanged because they turned out to be remarkably accurate from the start.</p>
+
+      <!-- SECTION 3 -->
+      <div class="section-break"><span></span></div>
+
+      <h2>Interleaving: Why Mixing Questions Beats Reviewing One Topic at a Time</h2>
+
+      <p>Spaced repetition handles <em>when</em> to review. But the research also has strong things to say about <em>how</em> you should sequence questions — and the answer surprises most people.</p>
+
+      <p>Most study sessions are <em>blocked</em>: finish everything on topic A, then move to topic B. It feels organised and productive. But a series of studies by Doug Rohrer and colleagues at the University of South Florida found the opposite approach — <em>interleaving</em> questions from different topics within the same session — produces dramatically better results on delayed tests.</p>
+
+      <div class="pull-quote">
+        <p>"Students who used interleaved practice scored 72% on a test two weeks later. Those who used blocked practice scored 38%."</p>
+        <p class="pq-source">— Rohrer, Dedrick & Burgess, <em>Psychonomic Bulletin & Review</em> (2014)</p>
+      </div>
+
+      <figure class="article-figure">
+        <img src="https://substackcdn.com/image/fetch/$s_!vHil!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1d30e67d-0730-41bc-93c4-8a8ebb9ea097_681x288.png" alt="Chart comparing rate of learning under different training schedules — showing interleaved (1×1) practice outperforms massed (2×2) sessions over time" />
+        <figcaption>Rate of learning across training schedules. 1×1 (one session per day) consistently outperforms 2×2 (two two-hour sessions). From: Baddeley, A., Eysenck, M. W., & Anderson, M. C. (2020). <em>Memory</em> (3rd ed.). Routledge. (p. 111)</figcaption>
+      </figure>
+
+      <p>Why? Blocked practice lets you answer on autopilot — you already know the next question will be about the same thing. Interleaving forces your brain to identify <em>which</em> concept applies, not just execute it. That act of discrimination is itself a form of retrieval, and it makes memories more durable and more transferable. <span class="hl">Interleaving feels harder in the moment. That difficulty is exactly what makes it work.</span></p>
+
+      <!-- REPS NOTE -->
+      <div class="reps-note">
+        <h2>A Note on REPS</h2>
+        <p>This is exactly why we built REPS. We kept finishing genuinely interesting articles and podcasts, feeling that warm glow of having learned something — and then watching it quietly vanish within a week. The science was clear on what was missing: not more reading, but better retrieval.</p>
+        <p>REPS converts the content you already consume into short daily review sessions — interleaved, spaced by an SM-2–inspired algorithm, and built around active recall rather than passive re-reading. No flashcard creation. No manual scheduling. Just a few reps a day, timed precisely when your memory needs them.</p>
+        <p class="closing-line">If you're reading this inside the REPS app, you've already taken the first step. Add this article and start training — your future self will thank you.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Made with 🧠 in London</p>
+    <div class="footer-links">
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+      <span style="color: var(--muted);">© 2026 REPS</span>
+    </div>
+  </footer>
+
+</body>
+</html>
