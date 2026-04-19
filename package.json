@@ -1,0 +1,9 @@
+{
+  "name": "reps-web",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "@trigger.dev/sdk": "^4.4.3"
+  }
+}
