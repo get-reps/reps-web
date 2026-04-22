@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chrome Extension Privacy — REPS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --background: #FFFAF7;
+        --foreground: #2C3E50;
+        --primary: #FF6B6B;
+        --muted-foreground: #8B95A1;
+        --border: #EAEAEA;
+        --secondary: #FFF5F0;
+        --card: #FFFFFF;
+      }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+
+      body {
+        font-family: "Figtree", sans-serif;
+        background: var(--background);
+        color: var(--foreground);
+        line-height: 1.7;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.25rem 1.5rem;
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: rgba(255, 250, 247, 0.9);
+        backdrop-filter: blur(12px);
+      }
+
+      header a {
+        font-weight: 700;
+        font-size: 1.5rem;
+        letter-spacing: -0.025em;
+        color: var(--primary);
+        text-decoration: none;
+      }
+
+      main {
+        max-width: 680px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem 4rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        margin-bottom: 0.25rem;
+        color: var(--foreground);
+      }
+
+      .effective-date {
+        font-size: 0.875rem;
+        color: var(--muted-foreground);
+        margin-bottom: 2.5rem;
+      }
+
+      h2 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-top: 2.5rem;
+        margin-bottom: 0.75rem;
+        color: var(--foreground);
+        letter-spacing: -0.015em;
+      }
+
+      h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-top: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: var(--foreground);
+      }
+
+      p {
+        margin-bottom: 1rem;
+        color: var(--foreground);
+        font-size: 0.9375rem;
+      }
+
+      ul {
+        margin-bottom: 1rem;
+        padding-left: 1.25rem;
+      }
+
+      ul li {
+        margin-bottom: 0.5rem;
+        font-size: 0.9375rem;
+        color: var(--foreground);
+      }
+
+      ul li strong {
+        font-weight: 600;
+      }
+
+      a {
+        color: var(--primary);
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .intro {
+        font-size: 1rem;
+        color: var(--muted-foreground);
+        margin-bottom: 2rem;
+        line-height: 1.8;
+      }
+
+      .divider {
+        border: none;
+        border-top: 1px solid var(--border);
+        margin: 2.5rem 0;
+      }
+
+      .callout {
+        background: var(--secondary);
+        border-left: 3px solid var(--primary);
+        padding: 1rem 1.25rem;
+        border-radius: 6px;
+        margin: 1.5rem 0;
+        font-size: 0.9375rem;
+      }
+
+      footer {
+        padding: 2.5rem 1.5rem;
+        border-top: 1px solid var(--border);
+        background: var(--secondary);
+        text-align: center;
+      }
+
+      footer .links {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+      }
+
+      footer .links a {
+        font-size: 0.8125rem;
+        color: var(--muted-foreground);
+      }
+
+      footer .copy {
+        font-size: 0.75rem;
+        color: var(--muted-foreground);
+        opacity: 0.6;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="/">REPS</a>
+    </header>
+
+    <main>
+      <h1>Chrome Extension Privacy</h1>
+      <p class="effective-date">Effective: April 22, 2026</p>
+
+      <p class="intro">
+        This page explains what the REPS Chrome extension collects, what it doesn't, and how the data it does handle is used. It covers the extension specifically — for how REPS as a whole handles your information, see our <a href="/privacy">main Privacy Policy</a>.
+      </p>
+
+      <div class="callout">
+        <strong>Short version:</strong> the extension only acts when you explicitly invoke it (toolbar click, right-click menu, or keyboard shortcut). It does not read pages you haven't saved, does not track your browsing, does not run background scripts, and does not include any analytics or third-party trackers.
+      </div>
+
+      <hr class="divider" />
+
+      <h2>1. What the Extension Collects</h2>
+
+      <h3>(a) The pairing token</h3>
+      <p>When you pair the extension with your REPS account, the REPS backend issues a <strong>device token</strong> — an opaque identifier tied to your account. The token is stored locally in <code>chrome.storage.local</code> on your device so the extension stays signed in across browser restarts. It is never shared beyond the REPS ingest pipeline and never used to identify you to third parties.</p>
+
+      <h3>(b) URLs and page titles you explicitly save</h3>
+      <p>When you click the extension icon, press the keyboard shortcut, or otherwise trigger a "save" action on a page, the extension reads the URL and title of that tab and sends them to your REPS account. No other pages, tabs, or browsing activity are collected.</p>
+
+      <h3>(c) Text selections you explicitly save</h3>
+      <p>When you highlight text on a page and choose "Save selection to REPS" from the right-click menu, the highlighted excerpt is sent to your REPS account along with the source URL (so you can see where it came from later). Only the selected text is captured — not the rest of the page.</p>
+
+      <hr class="divider" />
+
+      <h2>2. What the Extension Does NOT Collect</h2>
+
+      <ul>
+        <li><strong>Your browsing history.</strong> The extension has no visibility into pages you visit unless you explicitly save them.</li>
+        <li><strong>Page content you haven't saved.</strong> The extension never reads or scrapes page bodies in the background. When you save a URL, the extension sends only the URL and title — REPS's server-side pipeline fetches the page content via trusted extraction providers.</li>
+        <li><strong>Keystrokes, mouse movements, or form data.</strong> The extension does not observe user activity at all.</li>
+        <li><strong>Analytics or telemetry.</strong> The extension does not include Google Analytics, PostHog, Mixpanel, error-reporting SDKs, or any other third-party measurement tools.</li>
+        <li><strong>Personal information.</strong> Name, email, age, location, payment information — none of this is requested, read, or collected by the extension. Your name and email live in your paired REPS account and are governed by our <a href="/privacy">main Privacy Policy</a>.</li>
+      </ul>
+
+      <hr class="divider" />
+
+      <h2>3. How Saved Content Is Used</h2>
+
+      <p>The URLs, page titles, and text selections you save are sent over HTTPS to the REPS ingest pipeline (<code>getreps.app.n8n.cloud</code>) and stored in your REPS account. From there, they go through the same spaced-repetition processing pipeline as anything you add through the mobile app: extraction (for URLs and videos), concept generation, and rep creation.</p>
+
+      <p>Saved content is used <strong>solely</strong> to power your learning experience inside your own REPS account. It is not sold, not shared with advertisers, and not used to train AI models outside the normal processing pipeline described in the <a href="/privacy">main Privacy Policy</a>.</p>
+
+      <hr class="divider" />
+
+      <h2>4. Where Data Is Stored</h2>
+
+      <p>Saved content and the device token's hashed form are stored in REPS's backend database (Supabase). REPS and its service providers operate in the United States and other countries; by using the extension you consent to the cross-border transfer of the content you save, under the same terms as our <a href="/privacy">main Privacy Policy</a>.</p>
+
+      <p>Retention follows the same rules as your REPS account. When you delete content in the REPS app, it is archived per the main policy's section on <a href="/privacy#archived-content">archived content</a>. Deleting your REPS account deletes the content you've saved through the extension.</p>
+
+      <hr class="divider" />
+
+      <h2>5. Third Parties</h2>
+
+      <p>Content you save through the extension flows through the same service providers described in the <a href="/privacy">main Privacy Policy</a>. Relevant to the extension:</p>
+
+      <ul>
+        <li><strong>Supabase</strong> — hosts your REPS account database (used by the extension to redeem the one-time pairing code during setup).</li>
+        <li><strong>n8n</strong> — orchestrates REPS's content processing pipeline (the ingest endpoint the extension POSTs to).</li>
+        <li><strong>Content extraction providers</strong> (such as Firecrawl and Jina) — fetch the text of URLs you save so they can be processed into learning content. Only the URL is sent to these providers.</li>
+        <li><strong>Anthropic (Claude)</strong> — generates concepts and reps from the saved content. Anthropic does not use API inputs to train their models.</li>
+      </ul>
+
+      <p>The extension does not communicate with any advertising networks, analytics platforms, or other third parties beyond the REPS infrastructure listed above.</p>
+
+      <hr class="divider" />
+
+      <h2>6. Your Control</h2>
+
+      <ul>
+        <li><strong>Disconnect this browser from local access</strong> by uninstalling the extension from <code>chrome://extensions</code> or by clearing the extension's local storage. This removes the device token from this browser.</li>
+        <li><strong>Server-side token revocation</strong> (centrally invalidating a paired browser from your REPS account) is not yet available in this version of the extension. It will ship in a future release. For now, if you lose access to a browser and need its pairing revoked before that release lands, contact <a href="mailto:privacy@getreps.io">privacy@getreps.io</a>.</li>
+        <li><strong>Delete content you've saved</strong> inside the REPS mobile app — the same delete controls apply to content from any ingest source, including the Chrome extension.</li>
+        <li><strong>Delete your REPS account</strong> per the process in our <a href="/privacy#your-privacy-rights">main Privacy Policy</a>. This deletes everything you've saved through the extension alongside the rest of your account data.</li>
+      </ul>
+
+      <hr class="divider" />
+
+      <h2>7. Remote Code</h2>
+
+      <p>The extension executes <strong>no remote code</strong>. All JavaScript is bundled into the extension at build time and ships inside the Chrome Web Store package. There are no runtime imports, no <code>eval</code> calls, and no dynamic script loading from any origin. Every response the extension receives over the network is treated as data, not code.</p>
+
+      <hr class="divider" />
+
+      <h2>8. Changes to This Policy</h2>
+
+      <p>We may update this Chrome Extension Privacy page as the extension adds capabilities. Material changes will be reflected in the effective date at the top of the page and announced through the main REPS <a href="/privacy">Privacy Policy</a>. Continued use of the extension after changes are posted constitutes your acceptance of the revised policy.</p>
+
+      <hr class="divider" />
+
+      <h2>9. Contact</h2>
+
+      <p>Questions about how the Chrome extension handles your data?</p>
+      <p><strong>Email:</strong> <a href="mailto:privacy@getreps.io">privacy@getreps.io</a></p>
+      <p><strong>Main privacy policy:</strong> <a href="/privacy">getreps.io/privacy</a></p>
+    </main>
+
+    <footer>
+      <div class="links">
+        <a href="/">Home</a>
+        <a href="/privacy">Main Privacy Policy</a>
+        <a href="/terms">Terms of Service</a>
+      </div>
+      <div class="copy">&copy; 2026 REPS</div>
+    </footer>
+  </body>
+</html>
