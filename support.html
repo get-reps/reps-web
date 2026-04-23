@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Support — REPS</title>
-    <meta name="description" content="Get help with the REPS Chrome extension and the REPS mobile app. Email support@getreps.io." />
+    <meta name="description" content="Get help with REPS — send us a message, browse FAQ, or email support@getreps.io." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -20,6 +20,7 @@
         --muted-foreground: #8B95A1;
         --border: #EAEAEA;
         --secondary: #FFF5F0;
+        --card: #FFFFFF;
       }
 
       * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -97,6 +98,7 @@
         margin: 2.5rem 0;
       }
 
+      /* Carried over from original support.html */
       .email-cta {
         display: inline-flex;
         align-items: center;
@@ -112,7 +114,6 @@
         transition: background 0.15s ease;
         margin-top: 0.5rem;
       }
-
       .email-cta:hover { background: var(--primary-hover); text-decoration: none; }
 
       .response-time {
@@ -131,6 +132,94 @@
         color: var(--muted-foreground);
         font-size: 0.9375rem;
         margin-left: 0;
+      }
+
+      /* Form styles */
+      .form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.375rem;
+      }
+
+      .label {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--foreground);
+      }
+
+      .input,
+      .select,
+      .textarea {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1.5px solid var(--border);
+        border-radius: 8px;
+        font-family: "Figtree", sans-serif;
+        font-size: 0.9375rem;
+        color: var(--foreground);
+        background: var(--card);
+        transition: border-color 0.15s ease;
+        -webkit-appearance: none;
+      }
+
+      .input:focus,
+      .select:focus,
+      .textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+      }
+
+      .textarea { resize: vertical; min-height: 120px; }
+
+      .submit {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.9rem 1.75rem;
+        background: var(--primary);
+        color: white;
+        font-family: "Figtree", sans-serif;
+        font-size: 1rem;
+        font-weight: 600;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.15s ease;
+        align-self: flex-start;
+      }
+      .submit:hover { background: var(--primary-hover); }
+      .submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+      .status--success {
+        padding: 0.875rem 1rem;
+        background: #f0fdf4;
+        border: 1.5px solid #86efac;
+        border-radius: 8px;
+        color: #166534;
+        font-size: 0.9375rem;
+        font-weight: 500;
+      }
+
+      .status--error {
+        padding: 0.875rem 1rem;
+        background: #fef2f2;
+        border: 1.5px solid #fca5a5;
+        border-radius: 8px;
+        color: #991b1b;
+        font-size: 0.9375rem;
+      }
+
+      .honeypot-wrap {
+        position: absolute;
+        left: -9999px;
+        top: -9999px;
       }
 
       footer {
@@ -167,14 +256,53 @@
 
     <main>
       <h1>Support</h1>
-      <p class="intro">
-        Got a question, a bug report, or an idea? We read every message.
-      </p>
+      <p class="intro">Got a question, a bug report, or an idea? Send us a message — we read every one.</p>
+
+      <form id="support-form" class="form">
+        <div class="field">
+          <label class="label" for="name">Name <span style="font-weight:400;color:var(--muted-foreground)">(optional)</span></label>
+          <input class="input" type="text" id="name" name="name" maxlength="100" autocomplete="name" />
+        </div>
+
+        <div class="field">
+          <label class="label" for="email">Email</label>
+          <input class="input" type="email" id="email" name="email" required maxlength="200" autocomplete="email" />
+        </div>
+
+        <div class="field">
+          <label class="label" for="category">Category</label>
+          <select class="select" id="category" name="category" required>
+            <option value="" disabled selected>Select a category…</option>
+            <option value="bug">Bug report</option>
+            <option value="feature">Feature request</option>
+            <option value="account">Account</option>
+            <option value="chrome-extension">Chrome extension</option>
+            <option value="privacy">Privacy</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="label" for="message">Message</label>
+          <textarea class="textarea" id="message" name="message" required maxlength="4000" rows="6" placeholder="Tell us what's going on…"></textarea>
+        </div>
+
+        <!-- Honeypot: off-screen, not display:none, aria-hidden, tabindex=-1 -->
+        <div class="honeypot-wrap" aria-hidden="true">
+          <input type="text" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <input type="hidden" name="submit_elapsed_ms" value="0" />
+
+        <button type="submit" class="submit">Send message</button>
+      </form>
+
+      <div id="status" role="status" aria-live="polite"></div>
 
       <a class="email-cta" href="mailto:support@getreps.io?subject=REPS%20support">
         Email support@getreps.io
       </a>
-      <p class="response-time">Most replies go out within one business day.</p>
+      <p class="response-time">Prefer email instead of the form? We read both inboxes.</p>
 
       <hr class="divider" />
 
@@ -213,5 +341,63 @@
       </div>
       <div class="copy">&copy; 2026 REPS</div>
     </footer>
+
+    <script>
+      const pageLoadTime = Date.now();
+      const form = document.getElementById('support-form');
+      const statusEl = document.getElementById('status');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        statusEl.className = '';
+        statusEl.textContent = '';
+
+        const submitBtn = form.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+
+        const elapsedInput = form.querySelector('input[name="submit_elapsed_ms"]');
+        if (elapsedInput) {
+          elapsedInput.value = String(Date.now() - pageLoadTime);
+        }
+
+        const fd = new FormData(form);
+        const payload = {
+          name: fd.get('name') || null,
+          email: fd.get('email'),
+          category: fd.get('category'),
+          message: fd.get('message'),
+          website: fd.get('website') || '',
+          submit_elapsed_ms: Number(fd.get('submit_elapsed_ms') || 0),
+          source_page: (() => {
+            const u = new URL(window.location.href);
+            return `${u.origin}${u.pathname}`;
+          })(),
+        };
+
+        try {
+          const res = await fetch('/api/support', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          if (res.ok) {
+            statusEl.className = 'status--success';
+            statusEl.textContent = 'Thanks — we got it. You\'ll hear from us soon.';
+            form.reset();
+          } else if (res.status === 429) {
+            statusEl.className = 'status--error';
+            statusEl.innerHTML = 'Too many submissions from this network. Try again later, or email <a href="mailto:support@getreps.io">support@getreps.io</a>.';
+          } else {
+            statusEl.className = 'status--error';
+            statusEl.innerHTML = 'Something went wrong. Please email <a href="mailto:support@getreps.io">support@getreps.io</a>.';
+          }
+        } catch {
+          statusEl.className = 'status--error';
+          statusEl.innerHTML = 'Couldn\'t reach the server. Please email <a href="mailto:support@getreps.io">support@getreps.io</a>.';
+        } finally {
+          submitBtn.disabled = false;
+        }
+      });
+    </script>
   </body>
 </html>
