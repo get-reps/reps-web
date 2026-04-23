@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Support — REPS</title>
-    <meta name="description" content="Get help with the REPS Chrome extension and the REPS mobile app. Report a bug, ask a question, or request a feature." />
+    <meta name="description" content="Get help with the REPS Chrome extension and the REPS mobile app. Email support@getreps.io." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -20,9 +20,6 @@
         --muted-foreground: #8B95A1;
         --border: #EAEAEA;
         --secondary: #FFF5F0;
-        --card: #FFFFFF;
-        --success: #4a7c59;
-        --error: #b3261e;
       }
 
       * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -100,13 +97,28 @@
         margin: 2.5rem 0;
       }
 
-      .callout {
-        background: var(--secondary);
-        border-left: 3px solid var(--primary);
-        padding: 1rem 1.25rem;
-        border-radius: 6px;
-        margin: 1.5rem 0;
-        font-size: 0.9375rem;
+      .email-cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.9rem 1.5rem;
+        background: var(--primary);
+        color: white;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: background 0.15s ease;
+        margin-top: 0.5rem;
+      }
+
+      .email-cta:hover { background: var(--primary-hover); text-decoration: none; }
+
+      .response-time {
+        font-size: 0.875rem;
+        color: var(--muted-foreground);
+        margin-top: 0.75rem;
       }
 
       .faq dt {
@@ -119,93 +131,6 @@
         color: var(--muted-foreground);
         font-size: 0.9375rem;
         margin-left: 0;
-      }
-
-      form {
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 1.75rem 1.5rem;
-        margin-top: 1rem;
-      }
-
-      .field {
-        margin-bottom: 1.1rem;
-      }
-
-      label {
-        display: block;
-        font-size: 0.8125rem;
-        font-weight: 600;
-        letter-spacing: 0.02em;
-        text-transform: uppercase;
-        color: var(--muted-foreground);
-        margin-bottom: 0.4rem;
-      }
-
-      input[type="text"],
-      input[type="email"],
-      select,
-      textarea {
-        font-family: inherit;
-        font-size: 0.9375rem;
-        width: 100%;
-        padding: 0.65rem 0.8rem;
-        border: 1px solid var(--border);
-        border-radius: 7px;
-        background: var(--background);
-        color: var(--foreground);
-        line-height: 1.5;
-        transition: border-color 0.15s ease;
-      }
-
-      input[type="text"]:focus,
-      input[type="email"]:focus,
-      select:focus,
-      textarea:focus {
-        outline: none;
-        border-color: var(--primary);
-      }
-
-      textarea {
-        min-height: 140px;
-        resize: vertical;
-      }
-
-      .required::after {
-        content: " *";
-        color: var(--primary);
-      }
-
-      button[type="submit"] {
-        font-family: inherit;
-        font-size: 0.9375rem;
-        font-weight: 600;
-        padding: 0.75rem 1.5rem;
-        background: var(--primary);
-        color: white;
-        border: none;
-        border-radius: 7px;
-        cursor: pointer;
-        transition: background 0.15s ease;
-      }
-
-      button[type="submit"]:hover:not(:disabled) { background: var(--primary-hover); }
-      button[type="submit"]:disabled { opacity: 0.6; cursor: not-allowed; }
-
-      .status {
-        margin-top: 1rem;
-        font-size: 0.9375rem;
-        display: none;
-      }
-
-      .status.ok { color: var(--success); display: block; }
-      .status.err { color: var(--error); display: block; }
-
-      .fallback {
-        font-size: 0.875rem;
-        color: var(--muted-foreground);
-        margin-top: 0.75rem;
       }
 
       footer {
@@ -243,12 +168,13 @@
     <main>
       <h1>Support</h1>
       <p class="intro">
-        Got a question, a bug report, or an idea? We read every message. Most replies go out within one business day.
+        Got a question, a bug report, or an idea? We read every message.
       </p>
 
-      <div class="callout">
-        <strong>Before you send:</strong> the FAQ below covers the most common questions about pairing, saved content, and account access. If your issue isn't there, use the form further down or email <a href="mailto:support@getreps.io">support@getreps.io</a> directly.
-      </div>
+      <a class="email-cta" href="mailto:support@getreps.io?subject=REPS%20support">
+        Email support@getreps.io
+      </a>
+      <p class="response-time">Most replies go out within one business day.</p>
 
       <hr class="divider" />
 
@@ -259,7 +185,7 @@
         <dd>Open the REPS mobile app, go to Settings → Connect browser, and generate a pairing code. In the extension's Options page, paste the 8-character code. That's a one-time step — once paired, saving is one click.</dd>
 
         <dt>Something I saved didn't show up in the app. What happened?</dt>
-        <dd>Saved content takes a few minutes to process through the REPS pipeline before it becomes reps you can train on. If it's been longer than 30 minutes, send us the URL you tried to save using the form below and we'll look at it.</dd>
+        <dd>Saved content takes a few minutes to process through the REPS pipeline before it becomes reps you can train on. If it's been longer than 30 minutes, email us the URL you tried to save and we'll look at it.</dd>
 
         <dt>How do I delete my account or a piece of saved content?</dt>
         <dd>Email <a href="mailto:privacy@getreps.io">privacy@getreps.io</a>. We delete or anonymise account data within 30 days of request. For deletion of individual saved items, include the source URL in your email.</dd>
@@ -273,45 +199,9 @@
 
       <hr class="divider" />
 
-      <h2>Send us a message</h2>
-
-      <p>Use this form for bug reports, feature requests, billing questions, and anything else. Responses go to the email you provide.</p>
-
-      <form id="support-form" novalidate>
-        <div class="field">
-          <label for="name">Name</label>
-          <input type="text" id="name" name="name" autocomplete="name" maxlength="100" />
-        </div>
-
-        <div class="field">
-          <label for="email" class="required">Email</label>
-          <input type="email" id="email" name="email" autocomplete="email" required maxlength="200" />
-        </div>
-
-        <div class="field">
-          <label for="category" class="required">What's this about?</label>
-          <select id="category" name="category" required>
-            <option value="" disabled selected>Choose one</option>
-            <option value="bug">Bug report</option>
-            <option value="feature">Feature request</option>
-            <option value="account">Account or billing</option>
-            <option value="chrome-extension">Chrome extension</option>
-            <option value="privacy">Privacy or data</option>
-            <option value="other">Something else</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="message" class="required">Message</label>
-          <textarea id="message" name="message" required maxlength="4000" placeholder="What's going on? Include any relevant URLs or screenshots you can paste."></textarea>
-        </div>
-
-        <button type="submit" id="submit-btn">Send message</button>
-
-        <div class="status" id="status"></div>
-
-        <p class="fallback">Prefer email? Reach us at <a href="mailto:support@getreps.io">support@getreps.io</a>.</p>
-      </form>
+      <h2>Other ways to reach us</h2>
+      <p>For privacy or data-deletion requests specifically: <a href="mailto:privacy@getreps.io">privacy@getreps.io</a></p>
+      <p>For everything else: <a href="mailto:support@getreps.io">support@getreps.io</a></p>
     </main>
 
     <footer>
@@ -323,57 +213,5 @@
       </div>
       <div class="copy">&copy; 2026 REPS</div>
     </footer>
-
-    <script>
-      const form = document.getElementById("support-form");
-      const statusEl = document.getElementById("status");
-      const btn = document.getElementById("submit-btn");
-
-      form.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        statusEl.className = "status";
-        statusEl.textContent = "";
-
-        if (!form.email.value || !form.category.value || !form.message.value) {
-          statusEl.className = "status err";
-          statusEl.textContent = "Please fill in email, category, and message.";
-          return;
-        }
-
-        btn.disabled = true;
-        btn.textContent = "Sending…";
-
-        try {
-          const response = await fetch("/api/support", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              name: form.name.value.trim(),
-              email: form.email.value.trim(),
-              category: form.category.value,
-              message: form.message.value.trim(),
-              page: window.location.href,
-              userAgent: navigator.userAgent,
-            }),
-          });
-
-          if (response.ok) {
-            statusEl.className = "status ok";
-            statusEl.textContent = "Thanks — your message is on its way. We'll reply to the email you gave us.";
-            form.reset();
-          } else {
-            const body = await response.text();
-            statusEl.className = "status err";
-            statusEl.textContent = "Something went wrong. Please email support@getreps.io directly. (" + (body || response.status) + ")";
-          }
-        } catch (error) {
-          statusEl.className = "status err";
-          statusEl.textContent = "Network error. Please email support@getreps.io directly.";
-        } finally {
-          btn.disabled = false;
-          btn.textContent = "Send message";
-        }
-      });
-    </script>
   </body>
 </html>
