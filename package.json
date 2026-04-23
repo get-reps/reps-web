@@ -4,6 +4,10 @@
   "type": "module",
   "private": true,
   "dependencies": {
-    "@trigger.dev/sdk": "^4.4.3"
+    "@trigger.dev/sdk": "^4.4.3",
+    "@supabase/supabase-js": "^2.45.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.0"
   }
 }
