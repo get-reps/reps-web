@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow, noarchive" />
+<title>REPS — Product Roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:wght@500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --cream: #FFFAF7;
+    --paper: #FFFFFF;
+    --ink: #1A1A1A;
+    --graphite: #3D3D3D;
+    --slate: #737373;
+    --mist: #D4D4D4;
+    --coral: #FF6B6B;
+    --coral-deep: #FF8E53;
+    --coral-wash: #FFEEEC;
+    --galaxy: #040409;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+    height: 100vh;
+  }
+
+  .page {
+    min-height: 100vh;
+    width: 100%;
+    scroll-snap-align: start;
+    padding: 80px 100px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid var(--mist);
+  }
+
+  .page-number {
+    position: absolute;
+    top: 32px;
+    right: 100px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--slate);
+  }
+
+  .page-footer {
+    position: absolute;
+    bottom: 32px;
+    left: 100px;
+    right: 100px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--slate);
+    letter-spacing: 0.04em;
+  }
+
+  /* COVER */
+  .cover {
+    background: var(--galaxy);
+    color: white;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .cover-icon {
+    position: absolute;
+    right: 120px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 378px;
+    height: 378px;
+    max-width: 28vw;
+    max-height: 50vh;
+    object-fit: cover;
+    border-radius: 22.37%;
+    filter: drop-shadow(0 0 60px rgba(255, 107, 107, 0.18));
+    pointer-events: none;
+    user-select: none;
+  }
+  .cover-text {
+    position: relative;
+    z-index: 2;
+    max-width: 60%;
+  }
+  .cover .eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--coral);
+    margin-bottom: 24px;
+  }
+  .cover h1 {
+    font-family: 'Lora', Georgia, serif;
+    font-size: 88px;
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+    max-width: 1100px;
+  }
+  .cover h1 em { font-style: italic; color: var(--coral); }
+  .cover .deck {
+    font-size: 21px;
+    color: rgba(255,255,255,0.78);
+    max-width: 760px;
+    line-height: 1.5;
+  }
+  .cover .deck ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .cover .deck li {
+    position: relative;
+    padding: 10px 0 10px 36px;
+  }
+  .cover .deck li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    color: var(--coral);
+    font-size: 22px;
+    line-height: 1.4;
+  }
+  .cover .meta {
+    position: absolute;
+    bottom: 60px;
+    left: 100px;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+  }
+
+  /* SHARED HEADERS */
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--coral);
+    margin-bottom: 16px;
+  }
+  h2 {
+    font-family: 'Lora', Georgia, serif;
+    font-size: 56px;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    margin-bottom: 16px;
+    max-width: 1000px;
+  }
+  h2 em { font-style: italic; color: var(--coral); }
+
+  /* ─── CLIP PAGES (one per feature) ─── */
+  .clip-page {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .clip-media {
+    background: var(--galaxy);
+    border-radius: 28px;
+    overflow: hidden;
+    position: relative;
+    height: 82vh;
+    max-height: 820px;
+    aspect-ratio: 1290 / 2796;
+    width: auto;
+    box-shadow: 0 16px 50px rgba(0,0,0,0.22);
+  }
+  .clip-media video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 2;
+    background: var(--galaxy);
+  }
+  .clip-media .placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #0a0a14 0%, #040409 100%);
+    color: rgba(255,255,255,0.35);
+    z-index: 1;
+  }
+  .clip-media .placeholder .play {
+    font-size: 80px;
+    color: var(--coral);
+    margin-bottom: 16px;
+    line-height: 1;
+  }
+  .clip-media .placeholder .ph-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .clip-media .badge {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    z-index: 2;
+    background: rgba(255,107,107,0.95);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    border-radius: 999px;
+  }
+
+  .clip-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 40px;
+  }
+  .clip-copy .clip-id {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--coral);
+    margin-bottom: 16px;
+  }
+  .clip-copy h2 {
+    font-size: 52px;
+    margin-bottom: 12px;
+  }
+  .clip-copy .tagline {
+    font-size: 22px;
+    color: var(--graphite);
+    font-style: italic;
+    margin-bottom: 36px;
+    max-width: 540px;
+    line-height: 1.4;
+  }
+  .clip-copy .features {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 32px;
+  }
+  .clip-copy .features li {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--mist);
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .clip-copy .features li:last-child { border-bottom: none; }
+  .clip-copy .features li .marker {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--coral);
+    line-height: 1.5;
+  }
+  .clip-copy .features li .text {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .clip-copy .features li .text strong {
+    display: block;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .clip-copy .features li .text span {
+    color: var(--graphite);
+  }
+  .clip-copy .why-matters {
+    background: var(--coral-wash);
+    border-left: 3px solid var(--coral);
+    padding: 18px 22px;
+    border-radius: 4px;
+    font-size: 15px;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .clip-copy .why-matters strong {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--coral);
+    margin-bottom: 6px;
+  }
+
+  /* ─── ALL-PILLARS PAGE ─── */
+  .pillars-page { padding: 60px 80px; }
+  .pillars-page h2 {
+    font-size: 42px;
+    margin-bottom: 8px;
+    max-width: none;
+    white-space: nowrap;
+  }
+  .pillars-page .lede {
+    font-size: 15px;
+    color: var(--graphite);
+    max-width: 1100px;
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: 220px repeat(4, 1fr);
+    gap: 12px;
+    flex: 1;
+  }
+  .pillars-grid .col-header {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--slate);
+    padding: 0 12px 12px;
+    border-bottom: 2px solid var(--mist);
+    text-align: center;
+  }
+  .pillars-grid .col-header.now { color: var(--ink); border-bottom-color: var(--ink); }
+  .pillars-grid .col-header.next { color: var(--graphite); border-bottom-color: var(--graphite); }
+  .pillars-grid .col-header.later { color: var(--slate); border-bottom-color: var(--slate); }
+  .pillars-grid .col-header.vision { color: var(--coral); border-bottom-color: var(--coral); }
+  .pillars-grid .col-header .when {
+    display: block;
+    font-weight: 400;
+    font-size: 9px;
+    margin-top: 2px;
+    color: var(--slate);
+    letter-spacing: 0.04em;
+    text-transform: none;
+  }
+  .pillars-grid .col-header.now .when { color: var(--graphite); }
+
+  .pillars-grid .row-header {
+    background: var(--paper);
+    border-radius: 10px;
+    padding: 18px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border-left: 4px solid var(--ink);
+  }
+  .pillars-grid .row-header.p2 { border-left-color: var(--coral); }
+  .pillars-grid .row-header .num {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: var(--coral);
+    margin-bottom: 4px;
+  }
+  .pillars-grid .row-header .name {
+    font-family: 'Lora', Georgia, serif;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.15;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .pillars-grid .row-header .name em { font-style: italic; color: var(--coral); }
+  .pillars-grid .row-header .promise {
+    font-size: 11px;
+    color: var(--slate);
+    line-height: 1.35;
+  }
+
+  .pillars-grid .cell {
+    background: var(--paper);
+    border-radius: 10px;
+    padding: 12px 14px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+  .pillars-grid .cell.hero {
+    background: linear-gradient(135deg, var(--coral) 0%, var(--coral-deep) 100%);
+    color: white;
+    box-shadow: 0 4px 14px rgba(255,107,107,0.3);
+  }
+  .pillars-grid .cell ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .pillars-grid .cell li {
+    font-size: 11.5px;
+    line-height: 1.35;
+    padding: 5px 0;
+    color: var(--graphite);
+    border-bottom: 1px dashed var(--mist);
+  }
+  .pillars-grid .cell.hero li { color: rgba(255,255,255,0.95); border-bottom-color: rgba(255,255,255,0.25); }
+  .pillars-grid .cell li:last-child { border-bottom: none; }
+  .pillars-grid .cell li strong {
+    display: block;
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 11.5px;
+    margin-bottom: 1px;
+  }
+  .pillars-grid .cell.hero li strong { color: white; }
+
+  .pillars-grid .cell.hero .hero-tag {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  /* VISION PAGE */
+  .vision-page {
+    background: var(--galaxy);
+    color: white;
+    justify-content: center;
+  }
+  .vision-page .eyebrow { color: var(--coral); }
+  .vision-page h2 {
+    color: white;
+    font-size: 60px;
+    max-width: 1200px;
+  }
+  .vision-page h2 em { color: var(--coral); }
+  .vision-page .lede {
+    color: rgba(255,255,255,0.7);
+    font-size: 22px;
+    max-width: 920px;
+    margin-top: 32px;
+    line-height: 1.45;
+  }
+  .vision-page .three {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+    margin-top: 56px;
+    max-width: 1500px;
+  }
+  .vision-page .three .item {
+    border-left: 3px solid var(--coral);
+    padding-left: 20px;
+  }
+  .vision-page .three .item .num {
+    font-size: 11px;
+    color: var(--coral);
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    margin-bottom: 8px;
+  }
+  .vision-page .three .item .text {
+    font-size: 18px;
+    color: white;
+    line-height: 1.4;
+  }
+
+  /* NAV DOTS */
+  .nav-dots {
+    position: fixed;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 100;
+  }
+  .nav-dots a {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--mist);
+    transition: all 0.2s ease;
+  }
+  .nav-dots a:hover { background: var(--coral); transform: scale(1.3); }
+
+  @media print {
+    body { scroll-snap-type: none; height: auto; overflow: visible; }
+    .page { page-break-after: always; min-height: 0; height: 100vh; }
+    .nav-dots { display: none; }
+  }
+
+  /* Lock body to one viewport-tall page at a time — no half-page bleed */
+  html, body { height: 100%; overflow: hidden; }
+  body {
+    overflow-y: hidden;
+    scroll-snap-type: none;
+  }
+  .deck-stage {
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+  }
+  .deck-track {
+    will-change: transform;
+    transition: transform 480ms cubic-bezier(0.65, 0.05, 0.36, 1);
+  }
+  .deck-track > .page {
+    height: 100vh;
+    min-height: 100vh;
+    border-bottom: none;
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── PASSWORD GATE ─── -->
+<div id="auth-gate">
+  <div class="auth-card">
+    <img src="assets/icon.png" class="auth-icon" alt="REPS" />
+    <div class="auth-eyebrow">REPS · Pre-Seed · 2026</div>
+    <div class="auth-title">Private Roadmap</div>
+    <div class="auth-sub">Enter the access code shared with you.</div>
+    <form id="auth-form" autocomplete="off">
+      <input type="password" id="auth-input" placeholder="Access code" autocomplete="off" autofocus />
+      <button type="submit">Continue →</button>
+    </form>
+    <div class="auth-error" id="auth-error">Wrong code. Try again.</div>
+  </div>
+</div>
+<style>
+  #auth-gate { position: fixed; inset: 0; z-index: 99999; background: #040409; display: flex; align-items: center; justify-content: center; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+  #auth-gate.hidden { display: none; }
+  #auth-gate .auth-card { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 48px; max-width: 460px; width: 90%; text-align: center; }
+  #auth-gate .auth-icon { width: 96px; height: 96px; border-radius: 22.37%; filter: drop-shadow(0 0 60px rgba(255,107,107,0.18)); margin-bottom: 12px; user-select: none; }
+  #auth-gate .auth-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #FF6B6B; }
+  #auth-gate .auth-title { font-family: 'Lora', Georgia, serif; font-size: 36px; font-weight: 600; color: white; line-height: 1.1; }
+  #auth-gate .auth-title em { font-style: italic; color: #FF6B6B; }
+  #auth-gate .auth-sub { font-size: 15px; color: rgba(255,255,255,0.65); margin-bottom: 14px; max-width: 360px; line-height: 1.45; }
+  #auth-gate form { display: flex; gap: 10px; width: 100%; max-width: 420px; }
+  #auth-gate input { flex: 1; padding: 14px 18px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; color: white; font-size: 15px; font-family: inherit; outline: none; -webkit-text-security: disc; }
+  #auth-gate input::placeholder { color: rgba(255,255,255,0.4); }
+  #auth-gate input:focus { border-color: #FF6B6B; background: rgba(255,255,255,0.12); }
+  #auth-gate button { padding: 14px 22px; background: linear-gradient(135deg, #FF6B6B, #FF8E53); color: white; border: none; border-radius: 999px; font-weight: 600; font-size: 14px; cursor: pointer; font-family: inherit; letter-spacing: 0.02em; }
+  #auth-gate button:hover { filter: brightness(1.05); }
+  #auth-gate .auth-error { font-size: 13px; color: rgba(255,107,107,0.95); height: 18px; opacity: 0; transition: opacity 0.2s; margin-top: 4px; }
+  #auth-gate .auth-error.visible { opacity: 1; }
+  @keyframes shake-x { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
+  #auth-gate .auth-card.shake { animation: shake-x 0.4s; }
+</style>
+<script>
+  (function() {
+    var KEY = 'reps_inv_2026';
+    var PASS = '@R3PS2026!';
+    if (sessionStorage.getItem(KEY) === 'ok') {
+      var g = document.getElementById('auth-gate');
+      if (g) g.classList.add('hidden');
+      return;
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      var form = document.getElementById('auth-form');
+      var input = document.getElementById('auth-input');
+      var err = document.getElementById('auth-error');
+      var card = document.querySelector('#auth-gate .auth-card');
+      var gate = document.getElementById('auth-gate');
+      if (!form) return;
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (input.value === PASS) {
+          sessionStorage.setItem(KEY, 'ok');
+          gate.classList.add('hidden');
+        } else {
+          err.classList.add('visible');
+          card.classList.add('shake');
+          setTimeout(function() { card.classList.remove('shake'); }, 400);
+          input.value = '';
+          input.focus();
+        }
+      });
+    });
+  })();
+</script>
+
+<div class="deck-stage">
+<div class="deck-track" id="deckTrack">
+
+<nav class="nav-dots">
+  <a href="#cover" title="Cover"></a>
+  <a href="#clip-a" title="Knowledge Galaxy"></a>
+  <a href="#clip-b" title="Capture"></a>
+  <a href="#clip-c" title="Training"></a>
+  <a href="#clip-d" title="Games"></a>
+  <a href="#clip-e" title="Discovery"></a>
+  <a href="#clip-f" title="The Feed"></a>
+  <a href="#pillars" title="Pillars"></a>
+  <a href="#vision" title="Vision"></a>
+</nav>
+
+<!-- ─────── PAGE 1 — COVER ─────── -->
+<section class="page cover" id="cover">
+  <img src="assets/icon.png" class="cover-icon" alt="REPS" />
+  <div class="cover-text">
+    <div class="eyebrow">Product Roadmap · 2026 — 2027</div>
+    <h1>We forget 95%+ of what we read.<br/><em>Not anymore.</em></h1>
+    <div class="deck">
+      <ul>
+        <li>Most apps compete for your attention. REPS compounds it.</li>
+        <li>Every article you save, every video you watch, every podcast you finish becomes a node in a 3D galaxy of what you actually know.</li>
+        <li>REPS brings it back via games and challenges, just at the right time to remember.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="meta">REPS · Pre-Seed · 2026</div>
+</section>
+
+<!-- ─────── PAGE 2 — CLIP A · KNOWLEDGE GALAXY ─────── -->
+<section class="page clip-page" id="clip-a">
+  <div class="page-number">02 / 09</div>
+  <div class="clip-media">
+    <div class="badge">Live</div>
+    <video autoplay muted loop playsinline>
+      <source src="videos/A-knowledge-galaxy.mp4" type="video/mp4" />
+    </video>
+    <div class="placeholder">
+      <div class="play">▶</div>
+      <div class="ph-label">Knowledge Galaxy · 12–15s</div>
+    </div>
+  </div>
+  <div class="clip-copy">
+    <div class="clip-id">The Hero Experience</div>
+    <h2>Your knowledge, <em>visible.</em></h2>
+    <div class="tagline">A 3D galaxy of every concept you've ever saved — clustered by topic, glowing where you're due to train.</div>
+    <ul class="features">
+      <li><div class="marker">01</div><div class="text"><strong>Cluster by topic</strong><span>Concepts auto-group into a force-simulated galaxy. No folders. No manual tagging. The structure emerges from what you read.</span></div></li>
+      <li><div class="marker">02</div><div class="text"><strong>Focus just at the right time</strong><span>Concepts you're about to forget glow for attention. The product literally shows you what's slipping.</span></div></li>
+      <li><div class="marker">03</div><div class="text"><strong>Tap any node</strong><span>Drill into a concept's full context — source, date, related ideas, training history.</span></div></li>
+    </ul>
+    <div class="why-matters">
+      <strong>Why it matters</strong>
+      The galaxy is the mental hook. Users see their knowledge grow — they don't just trust it exists. It's how a five-minute daily habit turns into something you actually want to come back to.
+    </div>
+  </div>
+  <div class="page-footer"><span>REPS · Pre-Seed · 2026</span><span>02 / 09</span></div>
+</section>
+
+<!-- ─────── PAGE 3 — CLIP B · CAPTURE ─────── -->
+<section class="page clip-page" id="clip-b">
+  <div class="page-number">03 / 09</div>
+  <div class="clip-media">
+    <div class="badge">Live</div>
+    <video autoplay muted loop playsinline>
+      <source src="videos/B-capture.mp4" type="video/mp4" />
+    </video>
+    <div class="placeholder">
+      <div class="play">▶</div>
+      <div class="ph-label">Capture · 12–15s</div>
+    </div>
+  </div>
+  <div class="clip-copy">
+    <div class="clip-id">The Frictionless Save</div>
+    <h2>From any source, in <em>one tap.</em></h2>
+    <div class="tagline">Read it on Safari. Share it to REPS. Watch the AI surface the concepts worth remembering.</div>
+    <ul class="features">
+      <li><div class="marker">01</div><div class="text"><strong>Universal capture</strong><span>Articles, YouTube, PDFs, images, podcasts, manual notes — all funnel through the same pipeline.</span></div></li>
+      <li><div class="marker">02</div><div class="text"><strong>Concept extraction</strong><span>Claude pulls the durable ideas from any source. Not summaries — atomic concepts you can train on.</span></div></li>
+      <li><div class="marker">03</div><div class="text"><strong>Mark as core</strong><span>You decide what enters spaced rep. Everything else stays archived for retrieval. Zero noise.</span></div></li>
+    </ul>
+    <div class="why-matters">
+      <strong>Why it matters</strong>
+      Friction is what kills a memory product. Five seconds from "I read this" to "this is in my system" — at a quality users actually trust — is what unlocks the daily habit.
+    </div>
+  </div>
+  <div class="page-footer"><span>REPS · Pre-Seed · 2026</span><span>03 / 09</span></div>
+</section>
+
+<!-- ─────── PAGE 4 — CLIP C · TRAINING ─────── -->
+<section class="page clip-page" id="clip-c">
+  <div class="page-number">04 / 09</div>
+  <div class="clip-media">
+    <div class="badge">Live</div>
+    <video autoplay muted loop playsinline>
+      <source src="videos/C-training.mp4" type="video/mp4" />
+    </video>
+    <div class="placeholder">
+      <div class="play">▶</div>
+      <div class="ph-label">Training · 10–12s</div>
+    </div>
+  </div>
+  <div class="clip-copy">
+    <div class="clip-id">The Daily Habit</div>
+    <h2>Five minutes. <em>Real retention.</em></h2>
+    <div class="tagline">A daily session built on SM-2 spaced repetition — engineered to feel like a game, not a flashcard app.</div>
+    <ul class="features">
+      <li><div class="marker">01</div><div class="text"><strong>Adaptive queue</strong><span>The algorithm picks what you're closest to forgetting. You never review what you already know.</span></div></li>
+      <li><div class="marker">02</div><div class="text"><strong>Multi-format reps</strong><span>Multiple choice, fill-in-blank, true/false today. Recall, reflection, and synthesis formats on the way. The variety keeps the brain engaged and the habit sticky.</span></div></li>
+      <li><div class="marker">03</div><div class="text"><strong>Six mastery tiers, grounded in science</strong><span>Built on the spaced-repetition science behind Anki and SuperMemo (SM-2 algorithm). New → Training → Conditioned → Strong → Primed → Locked In. Visible progression every day.</span></div></li>
+    </ul>
+    <div class="why-matters">
+      <strong>Why it matters</strong>
+      Spaced repetition works. Apps that gate it behind 1985 flashcard UIs don't. We built a five-minute habit that competes with Wordle for daily attention.
+    </div>
+  </div>
+  <div class="page-footer"><span>REPS · Pre-Seed · 2026</span><span>04 / 09</span></div>
+</section>
+
+<!-- ─────── PAGE 5 — CLIP D · DAILY GAMES ─────── -->
+<section class="page clip-page" id="clip-d">
+  <div class="page-number">05 / 09</div>
+  <div class="clip-media">
+    <div class="badge">Live</div>
+    <video autoplay muted loop playsinline>
+      <source src="videos/D-games.mp4" type="video/mp4" />
+    </video>
+    <div class="placeholder">
+      <div class="play">▶</div>
+      <div class="ph-label">Daily Games · 8–10s</div>
+    </div>
+  </div>
+  <div class="clip-copy">
+    <div class="clip-id">The NYT Games Layer</div>
+    <h2>Games powered by your <em>content.</em></h2>
+    <div class="tagline">Three games live today. A pipeline of more on the way — and a social layer where you challenge friends on your content, or theirs.</div>
+    <ul class="features">
+      <li><div class="marker">01</div><div class="text"><strong>Powered by your content</strong><span>Every clue is generated from what you've actually saved — articles, podcasts, videos. No generic trivia. Always feels yours.</span></div></li>
+      <li><div class="marker">02</div><div class="text"><strong>Three today, more on the way</strong><span>Crossword, Ladder, and Cryptic live now. Connections, Head-to-Head, and more on the roadmap. A growing layer, not a fixed three.</span></div></li>
+      <li><div class="marker">03</div><div class="text"><strong>Built for social play</strong><span>Challenge friends on your content. Play with theirs. Daily games become daily stakes — the social loop that pulls everyone back.</span></div></li>
+    </ul>
+    <div class="why-matters">
+      <strong>Why it matters</strong>
+      Games are the engagement engine that makes the spaced-rep habit invisible. NYT Games proved the model with generic trivia. We're applying it to your memory — and to your friends.
+    </div>
+  </div>
+  <div class="page-footer"><span>REPS · Pre-Seed · 2026</span><span>05 / 09</span></div>
+</section>
+
+<!-- ─────── PAGE 6 — CLIP E · DISCOVERY ─────── -->
+<section class="page clip-page" id="clip-e">
+  <div class="page-number">06 / 09</div>
+  <div class="clip-media">
+    <div class="badge">Live</div>
+    <video autoplay muted loop playsinline>
+      <source src="videos/E-discovery.mp4" type="video/mp4" />
+    </video>
+    <div class="placeholder">
+      <div class="play">▶</div>
+      <div class="ph-label">Discovery · 8–10s</div>
+    </div>
+  </div>
+  <div class="clip-copy">
+    <div class="clip-id">The Cold-Start Killer</div>
+    <h2>Day one is <em>never empty.</em></h2>
+    <div class="tagline">Three ways to fill the galaxy on day one — so the first session is rich, not blank.</div>
+    <ul class="features">
+      <li><div class="marker">01</div><div class="text"><strong>Import what you already know</strong><span>Snap a photo of your bookshelf. Paste your notes. Drop in your Kindle highlights. REPS extracts the concepts automatically — your existing knowledge becomes your first galaxy.</span></div></li>
+      <li><div class="marker">02</div><div class="text"><strong>Trending + curated sets</strong><span>Echo publishes weekly across 14 topics — what's worth remembering this week, ready to train. AI-generated, human-validated.</span></div></li>
+      <li><div class="marker">03</div><div class="text"><strong>Friends + public library</strong><span>Copy what your friends are training. Browse the public set library. The signal arrives before the empty-state ever does.</span></div></li>
+    </ul>
+    <div class="why-matters">
+      <strong>Why it matters</strong>
+      Discovery solves the cold-start problem and seeds the network effect. New users have value on day one; existing users get pulled back daily.
+    </div>
+  </div>
+  <div class="page-footer"><span>REPS · Pre-Seed · 2026</span><span>06 / 09</span></div>
+</section>
+
+<!-- ─────── PAGE 7 — THE BLOOM FEED ─────── -->
+<section class="page clip-page" id="clip-f">
+  <div class="page-number">07 / 09</div>
+  <div class="clip-media">
+    <div class="badge">Live</div>
+    <video autoplay muted loop playsinline>
+      <source src="videos/F-feed.mp4" type="video/mp4" />
+    </video>
+    <div class="placeholder">
+      <div class="play">▶</div>
+      <div class="ph-label">The Bloom Feed · 12–15s</div>
+    </div>
+  </div>
+  <div class="clip-copy">
+    <div class="clip-id">The Anti-Tabloid Feed</div>
+    <h2>A feed worth your <em>time.</em></h2>
+    <div class="tagline">Meaningful content where the rest of the internet trades signal for outrage. Curated today. Network-driven at scale.</div>
+    <ul class="features">
+      <li><div class="marker">01</div><div class="text"><strong>Bloom-scrolling, not doom-scrolling</strong><span>A feed of content actually worth remembering. No engagement bait, no outrage cycle, no tabloid optimization. Things that still matter in six months.</span></div></li>
+      <li><div class="marker">02</div><div class="text"><strong>Format experimentation, fast iteration</strong><span>Traditional feed. TikTok-style vertical bloom. Espresso-style 60-second briefs. We test relentlessly to find what users actually engage with — and remember.</span></div></li>
+      <li><div class="marker">03</div><div class="text"><strong>The network becomes the content engine</strong><span>Day one we curate via Echo. At scale, what users save, share, and remember surfaces what's worth your attention — content quality compounds with every active user.</span></div></li>
+    </ul>
+    <div class="why-matters">
+      <strong>Why it matters</strong>
+      Social media is optimized for time-on-platform. We optimize for what still matters in six months. The hyper-news-cycle is over by Friday — REPS filters for signal that compounds.
+    </div>
+  </div>
+  <div class="page-footer"><span>REPS · Pre-Seed · 2026</span><span>07 / 09</span></div>
+</section>
+
+<!-- ─────── PAGE 8 — ALL THREE PILLARS ─────── -->
+<section class="page pillars-page" id="pillars">
+  <div class="page-number">08 / 09</div>
+  <div class="eyebrow">The Roadmap</div>
+  <h2>Three pillars. Four horizons. <em>One compounding system.</em></h2>
+  <div class="lede">
+    Each pillar compounds independently. Built to last makes the unit economics work. Memory makes the user can't-live-without-it. Network makes the moat uncopyable.
+  </div>
+
+  <div class="pillars-grid">
+    <div></div>
+    <div class="col-header now">Now <span class="when">Q2 2026 · Shipping</span></div>
+    <div class="col-header next">Next <span class="when">Q3 2026</span></div>
+    <div class="col-header later">Later <span class="when">Q4 '26 — Q1 '27</span></div>
+    <div class="col-header vision">Vision <span class="when">2027 +</span></div>
+
+    <!-- ROW 1: BUILT TO LAST -->
+    <div class="row-header">
+      <div class="num">PILLAR 01</div>
+      <div class="name">Built to last.</div>
+      <div class="promise">Won't fall over. Won't bleed margin.</div>
+    </div>
+    <div class="cell"><ul>
+      <li><strong>Knowledge Galaxy stability</strong>10K nodes, context-loss recovery</li>
+      <li><strong>n8n → Trigger.dev migration</strong>Cleaner ops surface</li>
+      <li><strong>Supabase + RLS</strong>Hardened auth, full taxonomy</li>
+    </ul></div>
+    <div class="cell"><ul>
+      <li><strong>LLM unit economics</strong>Sub-cent per active user</li>
+      <li><strong>User monetization</strong>Stripe + Pro tier launch</li>
+      <li><strong>Offline foundation</strong>JSON-serializable state, AsyncStorage</li>
+      <li><strong>Eval harness</strong>Regression gates pre-deploy</li>
+    </ul></div>
+    <div class="cell"><ul>
+      <li><strong>Vector + graph search</strong>Sub-100ms cross-set traversal</li>
+      <li><strong>Edge inference</strong>On-device reranking</li>
+      <li><strong>Multi-region</strong>Replicas, regional Supabase</li>
+    </ul></div>
+    <div class="cell"><ul>
+      <li><strong>Margin compounds w/ scale</strong>Open-weights for non-critical paths</li>
+      <li><strong>Instant feel at any size</strong>10M+ concepts/user</li>
+      <li><strong>Five-nines uptime</strong>The default brain extension</li>
+    </ul></div>
+
+    <!-- ROW 2: MEMORY (HERO) -->
+    <div class="row-header p2">
+      <div class="num">PILLAR 02</div>
+      <div class="name">Memory, <em>finally made easy.</em></div>
+      <div class="promise">The AI Coach that's read what you've read.</div>
+    </div>
+    <div class="cell"><ul>
+      <li><strong>New rep types &amp; recall mechanics</strong>Beyond MC and fill-blank — recall, reflection, synthesis</li>
+      <li><strong>Friend challenges in games</strong>Head-to-head on each other's content</li>
+      <li><strong>AI Coach v1 — Chat with your knowledge</strong>Ask anything you've ever read</li>
+    </ul></div>
+    <div class="cell hero">
+      <span class="hero-tag">★ The Coach Goes Proactive</span>
+      <ul>
+        <li><strong>AI Coach v2 — Proactive</strong>Recommendations and discussions, not just answers</li>
+        <li><strong>Adaptive difficulty</strong>Reps that target what's slipping</li>
+        <li><strong>Cross-concept synthesis</strong>"You read X and Y — here's the link"</li>
+      </ul>
+    </div>
+    <div class="cell"><ul>
+      <li><strong>Coach v3 — Debate</strong>Socratic mode, voice, weekly review</li>
+      <li><strong>Fact-check &amp; devil's advocate</strong>Coach challenges what you've saved</li>
+      <li><strong>Image integration</strong>Visual concepts inside reps and the Galaxy</li>
+    </ul></div>
+    <div class="cell"><ul>
+      <li><strong>The Coach you can't outgrow</strong>Knows everything you've consumed</li>
+      <li><strong>Memory becomes meaning</strong>Years of reading, connected</li>
+      <li><strong>Default brain extension</strong>The "can't live without it" moment</li>
+    </ul></div>
+
+    <!-- ROW 3: NETWORK -->
+    <div class="row-header">
+      <div class="num">PILLAR 03</div>
+      <div class="name">Compounds with the <em>network.</em></div>
+      <div class="promise">Every node makes every other node valuable.</div>
+    </div>
+    <div class="cell"><ul>
+      <li><strong>Friends + leaderboards</strong>Streaks, weekly activity</li>
+      <li><strong>Echo content engine</strong>Trending sets, 14 categories</li>
+      <li><strong>Push notifications</strong>Re-engagement at the right moment</li>
+      <li><strong>Capture everywhere</strong>Chrome ext, iOS share, social media</li>
+    </ul></div>
+    <div class="cell"><ul>
+      <li><strong>Publisher partnerships + Creator interface</strong>5–10 launch creators, "Add to REPS"</li>
+      <li><strong>User premium plans</strong>Coach, premium games, friend features</li>
+      <li><strong>Network signals</strong>"Trending in your network"</li>
+    </ul></div>
+    <div class="cell"><ul>
+      <li><strong>Creator monetization</strong>Premium packs, rev share</li>
+      <li><strong>Cross-user concept linking</strong>Population-level graph</li>
+      <li><strong>Industry intelligence</strong>"What your industry is learning"</li>
+    </ul></div>
+    <div class="cell"><ul>
+      <li><strong>Network-aware companion</strong>Smarter because of who you learn alongside</li>
+      <li><strong>Publisher operating system</strong>Every creator routes retention through REPS</li>
+      <li><strong>The data moat</strong>The most personal graph ever built per user</li>
+    </ul></div>
+  </div>
+
+  <div class="page-footer"><span>REPS · Pre-Seed · 2026</span><span>08 / 09</span></div>
+</section>
+
+<!-- ─────── PAGE 9 — VISION ─────── -->
+<section class="page vision-page" id="vision">
+  <div class="eyebrow">The Vision</div>
+  <h2>As we expand features,<br/>REPS becomes the <em>most personal product</em><br/>on your phone.</h2>
+  <div class="lede">Everyone wins. Users replace doom-scrolling with a habit that grows their knowledge and their mental health. Friends connect through what they're learning together. Publishers and creators unlock new insights into what their content actually lands — and a channel to keep engaging readers months and years after publication.</div>
+  <div class="three">
+    <div class="item"><div class="num">01 · INFRASTRUCTURE</div><div class="text">Margin compounds with scale. Sub-cent unit economics.</div></div>
+    <div class="item"><div class="num">02 · COMPOUNDING</div><div class="text">The home for everything you care to remember. Years of articles, podcasts, and videos in one place. Switching cost compounds with every concept added.</div></div>
+    <div class="item"><div class="num">03 · NETWORK</div><div class="text">What you read becomes how you connect. Games with friends, real conversation at dinner, the social flex of being genuinely curious. Strava for your mind.</div></div>
+    <div class="item"><div class="num">04 · PUBLISHERS</div><div class="text">Unparalleled insight into what readers actually retain — paragraph by paragraph. Content resurfaced months and years after it's published.</div></div>
+  </div>
+</section>
+
+</div>
+</div>
+
+<script>
+(function() {
+  const track = document.getElementById('deckTrack');
+  const pages = Array.from(track.querySelectorAll('.page'));
+  let current = 0;
+  let isAnimating = false;
+
+  function goTo(idx) {
+    if (idx < 0 || idx >= pages.length || idx === current || isAnimating) return;
+    isAnimating = true;
+    current = idx;
+    track.style.transform = 'translateY(' + (-idx * 100) + 'vh)';
+    history.replaceState(null, '', '#' + pages[idx].id);
+    setTimeout(() => { isAnimating = false; }, 500);
+  }
+
+  // Wheel — debounced single-step navigation
+  let wheelLock = false;
+  window.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    if (wheelLock || isAnimating) return;
+    if (Math.abs(e.deltaY) < 10 && Math.abs(e.deltaX) < 10) return;
+    const delta = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+    wheelLock = true;
+    if (delta > 0) goTo(current + 1);
+    else goTo(current - 1);
+    setTimeout(() => { wheelLock = false; }, 600);
+  }, { passive: false });
+
+  // Keyboard
+  window.addEventListener('keydown', (e) => {
+    if (['ArrowDown', 'ArrowRight', 'PageDown', ' '].includes(e.key)) {
+      e.preventDefault();
+      goTo(current + 1);
+    } else if (['ArrowUp', 'ArrowLeft', 'PageUp'].includes(e.key)) {
+      e.preventDefault();
+      goTo(current - 1);
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      goTo(0);
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      goTo(pages.length - 1);
+    }
+  });
+
+  // Nav dot clicks
+  document.querySelectorAll('.nav-dots a').forEach((dot, i) => {
+    dot.addEventListener('click', (e) => {
+      e.preventDefault();
+      goTo(i);
+    });
+  });
+
+  // Touch swipe (vertical)
+  let touchStartY = 0;
+  let touchStartX = 0;
+  window.addEventListener('touchstart', (e) => {
+    touchStartY = e.touches[0].clientY;
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+  window.addEventListener('touchend', (e) => {
+    const dy = touchStartY - e.changedTouches[0].clientY;
+    const dx = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(dy) < 50 && Math.abs(dx) < 50) return;
+    if (Math.abs(dy) > Math.abs(dx)) {
+      if (dy > 0) goTo(current + 1); else goTo(current - 1);
+    } else {
+      if (dx > 0) goTo(current + 1); else goTo(current - 1);
+    }
+  }, { passive: true });
+
+  // Honor initial hash
+  if (window.location.hash) {
+    const idx = pages.findIndex(p => '#' + p.id === window.location.hash);
+    if (idx > 0) goTo(idx);
+  }
+})();
+</script>
+
+</body>
+</html>
