@@ -615,6 +615,15 @@
         sessionStorage.setItem(KEY, 'ok');
         sessionStorage.setItem(EMAIL_KEY, email);
         gate.classList.add('hidden');
+        // Fire-and-forget log to Slack
+        try {
+          fetch('/api/investor-log', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email }),
+            keepalive: true,
+          }).catch(function() { /* swallow */ });
+        } catch (_) { /* swallow */ }
       });
     });
   })();
