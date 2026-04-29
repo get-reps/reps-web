@@ -543,10 +543,11 @@
   /* ─── MOBILE (≤768px wide — phones, narrow tablets) ─── */
   @media (max-width: 768px) {
     /* Disable forced page-snap on mobile — let body scroll normally */
-    html, body { height: auto; overflow: auto; overflow-y: auto; scroll-snap-type: none; }
-    .deck-stage { height: auto; overflow: visible; }
-    .deck-track { transform: none !important; transition: none !important; }
-    .page { min-height: 100vh; height: auto; padding: 40px 20px; border-bottom: 1px solid var(--mist); }
+    html, body { height: auto !important; overflow: auto !important; overflow-y: auto !important; scroll-snap-type: none !important; }
+    .deck-stage { height: auto !important; overflow: visible !important; }
+    .deck-track { transform: none !important; transition: none !important; height: auto !important; }
+    .deck-track > .page,
+    .page { min-height: 100vh; height: auto !important; padding: 40px 20px !important; border-bottom: 1px solid var(--mist) !important; }
     .page-number, .page-footer { display: none; }
     .nav-dots { display: none; }
 
