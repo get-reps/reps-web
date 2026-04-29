@@ -539,28 +539,30 @@
     <img src="assets/icon.png" class="auth-icon" alt="REPS" />
     <div class="auth-eyebrow">REPS · Pre-Seed · 2026</div>
     <div class="auth-title">Private Roadmap</div>
-    <div class="auth-sub">Enter the access code shared with you.</div>
-    <form id="auth-form" autocomplete="off">
-      <input type="password" id="auth-input" placeholder="Access code" autocomplete="off" autofocus />
+    <div class="auth-sub">Enter your email and the access code shared with you.</div>
+    <form id="auth-form" autocomplete="off" novalidate>
+      <input type="email" id="auth-email" placeholder="Your email" autocomplete="email" required autofocus />
+      <input type="password" id="auth-input" placeholder="Access code" autocomplete="off" required />
       <button type="submit">Continue →</button>
     </form>
-    <div class="auth-error" id="auth-error">Wrong code. Try again.</div>
+    <div class="auth-error" id="auth-error">&nbsp;</div>
   </div>
 </div>
 <style>
   #auth-gate { position: fixed; inset: 0; z-index: 99999; background: #040409; display: flex; align-items: center; justify-content: center; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
   #auth-gate.hidden { display: none; }
-  #auth-gate .auth-card { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 48px; max-width: 460px; width: 90%; text-align: center; }
+  #auth-gate .auth-card { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 48px; max-width: 460px; width: 90%; text-align: center; }
   #auth-gate .auth-icon { width: 96px; height: 96px; border-radius: 22.37%; filter: drop-shadow(0 0 60px rgba(255,107,107,0.18)); margin-bottom: 12px; user-select: none; }
   #auth-gate .auth-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #FF6B6B; }
   #auth-gate .auth-title { font-family: 'Lora', Georgia, serif; font-size: 36px; font-weight: 600; color: white; line-height: 1.1; }
   #auth-gate .auth-title em { font-style: italic; color: #FF6B6B; }
-  #auth-gate .auth-sub { font-size: 15px; color: rgba(255,255,255,0.65); margin-bottom: 14px; max-width: 360px; line-height: 1.45; }
-  #auth-gate form { display: flex; gap: 10px; width: 100%; max-width: 420px; }
-  #auth-gate input { flex: 1; padding: 14px 18px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; color: white; font-size: 15px; font-family: inherit; outline: none; -webkit-text-security: disc; }
+  #auth-gate .auth-sub { font-size: 15px; color: rgba(255,255,255,0.65); margin-bottom: 12px; max-width: 380px; line-height: 1.45; }
+  #auth-gate form { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 420px; }
+  #auth-gate input { width: 100%; padding: 14px 18px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; color: white; font-size: 15px; font-family: inherit; outline: none; box-sizing: border-box; }
   #auth-gate input::placeholder { color: rgba(255,255,255,0.4); }
   #auth-gate input:focus { border-color: #FF6B6B; background: rgba(255,255,255,0.12); }
-  #auth-gate button { padding: 14px 22px; background: linear-gradient(135deg, #FF6B6B, #FF8E53); color: white; border: none; border-radius: 999px; font-weight: 600; font-size: 14px; cursor: pointer; font-family: inherit; letter-spacing: 0.02em; }
+  #auth-gate input.invalid { border-color: rgba(255,107,107,0.6); }
+  #auth-gate button { padding: 14px 22px; background: linear-gradient(135deg, #FF6B6B, #FF8E53); color: white; border: none; border-radius: 999px; font-weight: 600; font-size: 14px; cursor: pointer; font-family: inherit; letter-spacing: 0.02em; margin-top: 4px; }
   #auth-gate button:hover { filter: brightness(1.05); }
   #auth-gate .auth-error { font-size: 13px; color: rgba(255,107,107,0.95); height: 18px; opacity: 0; transition: opacity 0.2s; margin-top: 4px; }
   #auth-gate .auth-error.visible { opacity: 1; }
@@ -570,7 +572,9 @@
 <script>
   (function() {
     var KEY = 'reps_inv_2026';
+    var EMAIL_KEY = 'reps_inv_email';
     var PASS = '@R3PS2026!';
+    var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
     if (sessionStorage.getItem(KEY) === 'ok') {
       var g = document.getElementById('auth-gate');
       if (g) g.classList.add('hidden');
@@ -578,23 +582,39 @@
     }
     document.addEventListener('DOMContentLoaded', function() {
       var form = document.getElementById('auth-form');
-      var input = document.getElementById('auth-input');
+      var emailInput = document.getElementById('auth-email');
+      var passInput = document.getElementById('auth-input');
       var err = document.getElementById('auth-error');
       var card = document.querySelector('#auth-gate .auth-card');
       var gate = document.getElementById('auth-gate');
       if (!form) return;
+      function showErr(msg, focus) {
+        err.textContent = msg;
+        err.classList.add('visible');
+        card.classList.add('shake');
+        setTimeout(function() { card.classList.remove('shake'); }, 400);
+        if (focus) focus.focus();
+      }
       form.addEventListener('submit', function(e) {
         e.preventDefault();
-        if (input.value === PASS) {
-          sessionStorage.setItem(KEY, 'ok');
-          gate.classList.add('hidden');
-        } else {
-          err.classList.add('visible');
-          card.classList.add('shake');
-          setTimeout(function() { card.classList.remove('shake'); }, 400);
-          input.value = '';
-          input.focus();
+        var email = emailInput.value.trim();
+        var pass = passInput.value;
+        emailInput.classList.remove('invalid');
+        passInput.classList.remove('invalid');
+        if (!EMAIL_RE.test(email)) {
+          emailInput.classList.add('invalid');
+          showErr('Please enter a valid email.', emailInput);
+          return;
         }
+        if (pass !== PASS) {
+          passInput.classList.add('invalid');
+          showErr('Wrong access code. Try again.', passInput);
+          passInput.value = '';
+          return;
+        }
+        sessionStorage.setItem(KEY, 'ok');
+        sessionStorage.setItem(EMAIL_KEY, email);
+        gate.classList.add('hidden');
       });
     });
   })();
