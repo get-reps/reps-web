@@ -1,2 +1,3 @@
 User-agent: *
+Disallow: /product-2026/
 Disallow: /investor-2026/

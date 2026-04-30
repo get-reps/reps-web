@@ -52,11 +52,11 @@ export async function POST(request: Request): Promise<Response> {
   const ipHint = xff.split(",")[0]?.trim() || "(no ip)";
 
   const slackPayload = {
-    text: `Investor roadmap viewed — ${email}`,
+    text: `Product roadmap viewed by ${email}`,
     blocks: [
       {
         type: "header",
-        text: { type: "plain_text", text: "👀 Investor roadmap viewed" },
+        text: { type: "plain_text", text: "👀 Product roadmap viewed" },
       },
       {
         type: "section",
@@ -85,10 +85,10 @@ export async function POST(request: Request): Promise<Response> {
       signal: controller.signal,
     });
     if (!slackRes.ok) {
-      console.error("investor-log: slack non-2xx", slackRes.status);
+      console.error("product-log: slack non-2xx", slackRes.status);
     }
   } catch (e) {
-    console.error("investor-log: slack threw", e);
+    console.error("product-log: slack threw", e);
   } finally {
     clearTimeout(timeoutId);
   }
