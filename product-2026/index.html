@@ -1060,11 +1060,37 @@
 
 <script>
 (function() {
-  // Skip the snap-nav on mobile — let it scroll normally
-  if (window.matchMedia('(max-width: 768px)').matches) return;
-
   const track = document.getElementById('deckTrack');
   const pages = Array.from(track.querySelectorAll('.page'));
+
+  // Reset and play the video on a given page (no-op if page has none)
+  function resetPageVideo(page) {
+    if (!page) return;
+    const v = page.querySelector('video');
+    if (!v) return;
+    try {
+      v.currentTime = 0;
+      const p = v.play();
+      if (p && typeof p.catch === 'function') p.catch(function() {});
+    } catch (_) {}
+  }
+
+  // Mobile: use IntersectionObserver to reset videos as pages enter viewport.
+  // Skip the desktop snap-nav setup entirely — body scrolls normally.
+  if (window.matchMedia('(max-width: 768px)').matches) {
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+            resetPageVideo(entry.target);
+          }
+        });
+      }, { threshold: [0.5] });
+      pages.forEach(function(p) { io.observe(p); });
+    }
+    return;
+  }
+
   let current = 0;
   let isAnimating = false;
 
@@ -1074,6 +1100,7 @@
     current = idx;
     track.style.transform = 'translateY(' + (-idx * 100) + 'vh)';
     history.replaceState(null, '', '#' + pages[idx].id);
+    resetPageVideo(pages[idx]);
     setTimeout(() => { isAnimating = false; }, 500);
   }
 
