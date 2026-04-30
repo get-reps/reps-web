@@ -12,6 +12,11 @@
       "statusCode": 301
     },
     {
+      "source": "/investor-2026/",
+      "destination": "/product-2026/",
+      "statusCode": 301
+    },
+    {
       "source": "/investor-2026/:path*",
       "destination": "/product-2026/:path*",
       "statusCode": 301
