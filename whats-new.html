@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>What's New in REPS — Your Second Brain</title>
+  <meta name="description" content="Your Second Brain is here. A new way to see everything you've ever saved — alive, connected, and growing." />
+  <meta property="og:title" content="What's New in REPS — Your Second Brain" />
+  <meta property="og:description" content="A new way to see everything you've ever saved — alive, connected, and growing." />
+  <meta property="og:image" content="https://getreps.io/whats-new-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --coral: #FF6B6B;
+      --coral-dark: #FF8E53;
+      --bg: #FFFAF7;
+      --galaxy: #040409;
+      --text: #1A1A1A;
+      --muted: #6B6B6B;
+      --border: #EDE8E3;
+      --max-width: 680px;
+    }
+
+    html {
+      font-size: 17px;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    nav {
+      padding: 24px 32px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      background-color: var(--bg);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .wordmark {
+      font-family: 'Lora', serif;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+
+    .page-wrapper {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .article-header {
+      padding-top: 56px;
+      padding-bottom: 32px;
+      text-align: center;
+    }
+
+    .pill {
+      display: inline-block;
+      background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-family: 'Lora', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+
+    .subheadline {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .hero-video-wrap {
+      max-width: 360px;
+      margin: 32px auto 48px;
+      background: var(--galaxy);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(255, 107, 107, 0.18);
+    }
+
+    .hero-video-wrap video {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .cta-block {
+      text-align: center;
+      padding: 24px 0 32px;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 16px 32px;
+      border-radius: 100px;
+      text-decoration: none;
+      box-shadow: 0 8px 24px rgba(255, 107, 107, 0.3);
+      transition: transform 0.15s ease;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-1px);
+    }
+
+    .cta-required {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 12px;
+      font-weight: 500;
+    }
+
+    section.update {
+      padding: 48px 0 40px;
+      position: relative;
+    }
+
+    section.update::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 15%;
+      width: 70%;
+      height: 1px;
+      background: var(--border);
+    }
+
+    section.update:first-of-type::before {
+      display: none;
+    }
+
+    section.update:first-of-type {
+      padding-top: 32px;
+    }
+
+    .bottom-cta::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 15%;
+      width: 70%;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .update-eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--coral);
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      font-family: 'Lora', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    section.update p {
+      font-size: 1rem;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .icon-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 0;
+    }
+
+    .icon-row img {
+      width: 72px;
+      height: 72px;
+      border-radius: 16px;
+      flex-shrink: 0;
+    }
+
+    .icon-row .icon-text {
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .echo-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      padding-top: 8px;
+    }
+
+    .echo-row .echo-img {
+      width: 144px;
+      height: auto;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 480px) {
+      .echo-row {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .echo-row .echo-img {
+        width: 120px;
+      }
+    }
+
+    footer {
+      padding: 64px 24px 48px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    footer a {
+      color: var(--muted);
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 2rem; }
+      h2 { font-size: 1.4rem; }
+      .article-header { padding-top: 40px; }
+      .hero-video-wrap { max-width: 88%; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/" class="wordmark">REPS</a>
+  </nav>
+
+  <div class="page-wrapper">
+    <header class="article-header">
+      <span class="pill">New in REPS</span>
+      <h1>Your Second Brain is here.</h1>
+      <p class="subheadline">A new way to see everything you've ever saved — alive, connected, and growing.</p>
+    </header>
+
+    <div class="hero-video-wrap">
+      <video src="whats-new-hero.mp4" autoplay muted loop playsinline preload="metadata"></video>
+    </div>
+
+    <div class="cta-block">
+      <a class="cta-button" href="itms-beta://">Update on TestFlight</a>
+      <p class="cta-required">Required to see this update. Open on your iPhone.</p>
+    </div>
+
+    <section class="update">
+      <div class="update-eyebrow">Second Brain</div>
+      <h2>Every concept you've ever saved, in one place.</h2>
+      <p>Your Second Brain is a living map of everything you've trained. Concepts cluster by topic, glow when they're due for review, and bloom as you lock them in. Time-travel through your Second Brain with Chronoscope to see how it grew week by week.</p>
+    </section>
+
+    <section class="update">
+      <div class="update-eyebrow">Meet the new Echo</div>
+      <div class="echo-row">
+        <img src="whats-new-echo.png" alt="The new Echo — node-sprite" class="echo-img" />
+        <div>
+          <h2>Echo is now a node-sprite.</h2>
+          <p>Echo has been redesigned. The character and the product are now the same thing — a glowing knowledge-graph node, awakened. Same encouraging companion, fully reborn for the Second Brain era.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="update">
+      <div class="update-eyebrow">New app icon</div>
+      <div class="icon-row">
+        <img src="whats-new-icon.png" alt="New REPS app icon — a side-profile brain rendered as a glowing node network" />
+        <div class="icon-text">A side-profile brain rendered as a glowing node-and-link network. The icon now mirrors your Second Brain inside the app.</div>
+      </div>
+    </section>
+
+    <section class="update">
+      <div class="update-eyebrow">Podcasts</div>
+      <h2>Podcasts now turn into reps.</h2>
+      <p>Paste any podcast link into REPS — the episode becomes a set of reps you can train, just like an article or a video. The thing you listened to on the train doesn't fade by Friday.</p>
+    </section>
+
+    <section class="update">
+      <div class="update-eyebrow">Send to friends</div>
+      <h2>Send articles and challenges to friends.</h2>
+      <p>Found a great article? Send it straight to a friend's REPS — they'll get the reps in their training queue. Just crushed a Crossword? Challenge a friend to beat your score, right from the result screen.</p>
+    </section>
+
+    <section class="update">
+      <div class="update-eyebrow">Chrome extension</div>
+      <h2>Save anything from the web — any day now.</h2>
+      <p>The REPS Chrome extension is in final review with the Chrome Web Store. Once approved (any day now), you'll be able to highlight any passage, right-click, and send it straight to your Second Brain.</p>
+    </section>
+
+    <div class="cta-block bottom-cta" style="padding-top: 40px; margin-top: 16px; position: relative;">
+      <a class="cta-button" href="itms-beta://">Update on TestFlight</a>
+      <p class="cta-required">Required to see the new build. Open on your iPhone.</p>
+    </div>
+  </div>
+
+  <footer>
+    <p>You're getting this because you joined the REPS beta.<br />
+    Questions or feedback? Reply to this email or message Mike.</p>
+    <p style="margin-top: 16px;">
+      <a href="/">getreps.io</a> &nbsp;·&nbsp; <a href="/privacy">Privacy</a> &nbsp;·&nbsp; <a href="/terms">Terms</a>
+    </p>
+  </footer>
+</body>
+</html>
