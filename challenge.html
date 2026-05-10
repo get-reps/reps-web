@@ -66,8 +66,12 @@
       var params = new URLSearchParams(window.location.search);
       var type = params.get('type');
       var id = params.get('id');
+      var from = params.get('from');
       if (type && id) {
         var deepLink = 'reps://challenge?type=' + encodeURIComponent(type) + '&id=' + encodeURIComponent(id);
+        if (from) {
+          deepLink += '&from=' + encodeURIComponent(from);
+        }
         document.getElementById('open-link').href = deepLink;
         // Auto-redirect on mobile after a brief moment
         if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
