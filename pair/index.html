@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pair your Chrome browser — REPS</title>
+  <meta name="description" content="Connect your Chrome browser to your REPS account.">
+  <meta name="robots" content="noindex">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #FFFAF7;
+      color: #1F2937;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .card {
+      text-align: center;
+      max-width: 420px;
+      width: 100%;
+    }
+    .emoji { font-size: 56px; margin-bottom: 16px; }
+    h1 { font-size: 22px; font-weight: 700; margin-bottom: 6px; letter-spacing: -0.01em; }
+    .subtitle { font-size: 15px; color: #6B7280; margin-bottom: 24px; line-height: 1.5; }
+
+    .code-block {
+      display: inline-block;
+      font-family: ui-monospace, 'SF Mono', Menlo, Consolas, 'Roboto Mono', monospace;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: #1F2937;
+      background: #FFFFFF;
+      border: 1.5px solid #F3E8E0;
+      padding: 14px 20px;
+      border-radius: 12px;
+      margin-bottom: 8px;
+      user-select: all;
+    }
+    .copy-btn {
+      display: inline-block;
+      background: transparent;
+      border: none;
+      font-size: 13px;
+      color: #FF6B6B;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      padding: 6px 10px;
+      margin-bottom: 24px;
+    }
+    .copy-btn:hover { text-decoration: underline; }
+    .copy-btn.copied { color: #16A34A; }
+
+    .open-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+      color: white;
+      font-size: 17px;
+      font-weight: 700;
+      padding: 16px 48px;
+      border-radius: 16px;
+      text-decoration: none;
+      margin-bottom: 16px;
+      transition: transform 0.15s;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .open-btn:active { transform: scale(0.97); }
+
+    .fallback {
+      font-size: 13px;
+      color: #9CA3AF;
+      margin-top: 24px;
+      line-height: 1.6;
+      opacity: 0;
+      transition: opacity 200ms ease;
+    }
+    .fallback.visible { opacity: 1; }
+    .fallback a { color: #FF6B6B; text-decoration: none; font-weight: 600; }
+    .fallback p { margin-bottom: 10px; }
+
+    .invalid h1 { color: #DC2626; }
+    .invalid .open-btn {
+      background: #F3F4F6;
+      color: #6B7280;
+    }
+  </style>
+</head>
+<body>
+  <div class="card" id="root">
+    <div class="emoji">&#128279;</div>
+    <h1>Pair this browser</h1>
+    <p class="subtitle">Open REPS on your phone to finish pairing your Chrome browser.</p>
+    <div class="code-block" id="code-display">--------</div>
+    <div>
+      <button type="button" class="copy-btn" id="copy-btn">Copy code</button>
+    </div>
+    <a id="open-link" class="open-btn" href="#">Open REPS</a>
+    <div class="fallback" id="fallback">
+      <p>Don't have REPS yet?</p>
+      <p><a href="https://apps.apple.com/app/reps-save-play-remember/id6742042398">Download on the App Store</a></p>
+      <p style="margin-top:18px; line-height:1.5;">Already installed? Open REPS &rarr; Settings &rarr; Connect Chrome Extension &rarr; Enter a code.</p>
+    </div>
+  </div>
+  <script>
+    (function() {
+      // Single normalization rule. Mirrors normalizePairingCode in
+      // reps-app/lib/queries/pairings.ts and the extension input handler.
+      function normalize(raw) {
+        if (typeof raw !== 'string') return '';
+        return raw.replace(/\s+/g, '').toUpperCase().slice(0, 8);
+      }
+
+      var CODE_REGEX = /^[A-Z2-7]{8}$/;
+      var params = new URLSearchParams(window.location.search);
+      var rawCode = params.get('code');
+      var code = normalize(rawCode || '');
+
+      var root = document.getElementById('root');
+      var codeDisplay = document.getElementById('code-display');
+      var openLink = document.getElementById('open-link');
+      var copyBtn = document.getElementById('copy-btn');
+      var fallback = document.getElementById('fallback');
+
+      if (!CODE_REGEX.test(code)) {
+        // Invalid or missing code — render an error state.
+        root.classList.add('invalid');
+        root.innerHTML =
+          '<div class="emoji">&#9888;&#65039;</div>' +
+          '<h1>Invalid pairing link</h1>' +
+          '<p class="subtitle">' +
+            'This pairing link is not valid. Open your Chrome extension to generate a fresh QR code, ' +
+            'or type the 8-character code into the REPS app on your phone.' +
+          '</p>' +
+          '<a class="open-btn" href="https://getreps.io">Back to getreps.io</a>';
+        return;
+      }
+
+      // Render the code with a mid-space for readability (display only).
+      codeDisplay.textContent = code.slice(0, 4) + ' ' + code.slice(4);
+
+      // Both the auto-redirect and the user-gesture button target the same URL.
+      var deepLink = 'reps://pair?code=' + encodeURIComponent(code);
+      openLink.href = deepLink;
+
+      // Auto-redirect on mobile after 1s so the user has time to see the code.
+      // Desktop users never auto-redirect (they'll click the button if they
+      // scanned the QR with their phone and the page is now open on desktop).
+      var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      if (isMobile) {
+        window.setTimeout(function() {
+          window.location.href = deepLink;
+        }, 1000);
+      }
+
+      // Reveal the "don't have REPS yet?" fallback after 2.5s if the page is
+      // still in the foreground — typically means the deep-link redirect did
+      // not catch (app not installed, or iOS Safari interstitial dismissed).
+      window.setTimeout(function() {
+        if (document.visibilityState === 'visible') {
+          fallback.classList.add('visible');
+        }
+      }, 2500);
+
+      // Copy-code button.
+      copyBtn.addEventListener('click', function() {
+        var write = navigator.clipboard && navigator.clipboard.writeText
+          ? navigator.clipboard.writeText(code)
+          : Promise.reject();
+        write.then(function() {
+          copyBtn.textContent = 'Copied';
+          copyBtn.classList.add('copied');
+          window.setTimeout(function() {
+            copyBtn.textContent = 'Copy code';
+            copyBtn.classList.remove('copied');
+          }, 1500);
+        }).catch(function() {
+          // Fallback: select the code-display text so the user can copy manually.
+          var range = document.createRange();
+          range.selectNodeContents(codeDisplay);
+          var sel = window.getSelection();
+          if (sel) { sel.removeAllRanges(); sel.addRange(range); }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
