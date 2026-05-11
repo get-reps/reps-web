@@ -174,7 +174,7 @@
 
     <main>
       <h1>Chrome Extension Privacy</h1>
-      <p class="effective-date">Effective: April 22, 2026</p>
+      <p class="effective-date">Effective: May 11, 2026</p>
 
       <p class="intro">
         This page explains what the REPS Chrome extension collects, what it doesn't, and how the data it does handle is used. It covers the extension specifically — for how REPS as a whole handles your information, see our <a href="/privacy">main Privacy Policy</a>.
@@ -189,7 +189,12 @@
       <h2>1. What the Extension Collects</h2>
 
       <h3>(a) The pairing token</h3>
-      <p>When you pair the extension with your REPS account, the REPS backend issues a <strong>device token</strong> — an opaque identifier tied to your account. The token is stored locally in <code>chrome.storage.local</code> on your device so the extension stays signed in across browser restarts. It is never shared beyond the REPS ingest pipeline and never used to identify you to third parties.</p>
+      <p>To pair the extension with your REPS account the extension uses a one-time code. There are two flows:</p>
+      <ul>
+        <li><strong>Extension-initiated (QR code).</strong> When you open the options page the extension calls the REPS backend to create a temporary, anonymous pairing row. A short-lived pre-claim token is stored in <code>chrome.storage.local</code> under the key <code>pendingPairing</code> while you scan the QR code with the REPS mobile app. Once you confirm pairing on your phone, the backend links the token to your account; the extension detects this within a few seconds, promotes the token to the canonical <code>pairing</code> storage key, and clears the temporary <code>pendingPairing</code> entry.</li>
+        <li><strong>App-initiated (typed code).</strong> You generate a one-time code in the REPS mobile app and type it into the extension's options page. The extension sends the code to the REPS backend, which issues the device token and links it to your account.</li>
+      </ul>
+      <p>In both cases the resulting <strong>device token</strong> is an opaque identifier tied to your account. It is stored in <code>chrome.storage.local</code> under the key <code>pairing</code> so the extension stays signed in across browser restarts. It is never shared beyond the REPS ingest pipeline and never used to identify you to third parties.</p>
 
       <h3>(b) URLs and page titles you explicitly save</h3>
       <p>When you click the extension icon, press the keyboard shortcut, or otherwise trigger a "save" action on a page, the extension reads the URL and title of that tab and sends them to your REPS account. No other pages, tabs, or browsing activity are collected.</p>
@@ -232,7 +237,7 @@
       <p>Content you save through the extension flows through the same service providers described in the <a href="/privacy">main Privacy Policy</a>. Relevant to the extension:</p>
 
       <ul>
-        <li><strong>Supabase</strong> — hosts your REPS account database (used by the extension to redeem the one-time pairing code during setup).</li>
+        <li><strong>Supabase</strong> — hosts your REPS account database. Used by the extension during setup to create and validate pairing codes, and to send saved content to your account. Specific calls: <code>create_anonymous_pairing</code> (creates an anonymous pairing row when you open the options page), <code>validate_device_token</code> (polls every few seconds until pairing is confirmed), and <code>redeem_pairing_code</code> (app-initiated pairing path).</li>
         <li><strong>n8n</strong> — orchestrates REPS's content processing pipeline (the ingest endpoint the extension POSTs to).</li>
         <li><strong>Content extraction providers</strong> (such as Firecrawl and Jina) — fetch the text of URLs you save so they can be processed into learning content. Only the URL is sent to these providers.</li>
         <li><strong>Anthropic (Claude)</strong> — generates concepts and reps from the saved content. Anthropic does not use API inputs to train their models.</li>
