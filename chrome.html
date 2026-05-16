@@ -132,6 +132,57 @@
       font-weight: 500;
     }
 
+    .testflight-prereq {
+      background: #E8F8F6;
+      border: 1.5px solid #4ECDC4;
+      border-radius: 16px;
+      padding: 24px 28px;
+      margin: 8px auto 24px;
+      max-width: 540px;
+      text-align: center;
+    }
+    .testflight-prereq h3 {
+      font-family: 'Lora', serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: var(--text);
+      margin: 0 0 6px;
+    }
+    .testflight-prereq p {
+      font-size: 0.95rem;
+      color: var(--text);
+      margin: 0 0 14px;
+      line-height: 1.55;
+    }
+    .tf-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #4ECDC4, #2DB29F);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 12px 24px;
+      border-radius: 100px;
+      text-decoration: none;
+      box-shadow: 0 6px 18px rgba(78, 205, 196, 0.28);
+      transition: transform 0.15s ease;
+    }
+    .tf-button:hover { transform: translateY(-1px); }
+
+    .tf-reminder {
+      text-align: center;
+      padding: 0 24px 16px;
+    }
+    .tf-reminder p {
+      font-size: 0.85rem;
+      color: #2DB29F;
+      margin: 0;
+      font-weight: 600;
+    }
+    .tf-reminder a {
+      color: #2DB29F;
+      text-decoration: underline;
+    }
+
     section.update {
       padding: 48px 0 40px;
       position: relative;
@@ -282,9 +333,14 @@
 
     <img class="hero-shot" src="chrome-hero.gif" alt="Click the REPS icon to save the page. It lands in your REPS as a fresh rep." />
 
+    <div class="testflight-prereq">
+      <h3>But first — update the REPS app.</h3>
+      <p>Pairing your browser needs the latest TestFlight build. Takes ten seconds.</p>
+      <a class="tf-button" href="itms-beta://">Update on TestFlight &rarr;</a>
+    </div>
+
     <div class="cta-block">
       <a class="cta-button" href="https://chromewebstore.google.com/detail/reps-%E2%80%94-save-play-remember/pkklccghmhejmjilhlpokbkdoejhjnbg">Add to Chrome — Free</a>
-      <p class="cta-helper">You'll need the REPS app to pair the extension. <a href="itms-beta://" style="color:var(--coral);text-decoration:none;font-weight:600;">Update on TestFlight</a> if you haven't already.</p>
     </div>
 
     <section class="update">
@@ -358,6 +414,9 @@
 
     <div class="cta-block bottom-cta" style="padding-top:48px;">
       <a class="cta-button" href="https://chromewebstore.google.com/detail/reps-%E2%80%94-save-play-remember/pkklccghmhejmjilhlpokbkdoejhjnbg">Install REPS for Chrome</a>
+      <div class="tf-reminder" style="margin-top:14px;">
+        <p>Reminder &middot; <a href="itms-beta://">update REPS on TestFlight</a> before you pair.</p>
+      </div>
       <p class="cta-helper">Save it or lose it. Most people lose it.</p>
     </div>
   </div>
