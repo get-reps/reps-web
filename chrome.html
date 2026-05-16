@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The REPS Chrome extension is live</title>
+  <meta name="description" content="Save anything from the web in one click. The REPS Chrome extension turns articles, videos, and selections into spaced-repetition reps." />
+  <meta property="og:title" content="The REPS Chrome extension is live" />
+  <meta property="og:description" content="Save anything from the web in one click — finally remember it." />
+  <meta property="og:image" content="https://getreps.io/chrome-step-3.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --coral: #FF6B6B;
+      --coral-dark: #FF8E53;
+      --bg: #FFFAF7;
+      --galaxy: #040409;
+      --text: #1A1A1A;
+      --muted: #6B6B6B;
+      --border: #EDE8E3;
+      --max-width: 680px;
+    }
+
+    html { font-size: 17px; scroll-behavior: smooth; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    nav {
+      padding: 24px 32px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      background-color: var(--bg);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .wordmark {
+      font-family: 'Lora', serif;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+
+    .page-wrapper {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .article-header {
+      padding-top: 56px;
+      padding-bottom: 24px;
+      text-align: center;
+    }
+
+    .pill {
+      display: inline-block;
+      background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-family: 'Lora', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .subheadline {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .hero-shot {
+      max-width: 420px;
+      margin: 32px auto 24px;
+      display: block;
+      width: 100%;
+      height: auto;
+      filter: drop-shadow(0 12px 32px rgba(255, 107, 107, 0.22));
+    }
+
+    .cta-block {
+      text-align: center;
+      padding: 16px 0 40px;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+      color: #fff;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 16px 32px;
+      border-radius: 100px;
+      text-decoration: none;
+      box-shadow: 0 8px 24px rgba(255, 107, 107, 0.3);
+      transition: transform 0.15s ease;
+    }
+
+    .cta-button:hover { transform: translateY(-1px); }
+
+    .cta-helper {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 12px;
+      font-weight: 500;
+    }
+
+    section.update {
+      padding: 48px 0 40px;
+      position: relative;
+    }
+
+    section.update::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 15%;
+      width: 70%;
+      height: 1px;
+      background: var(--border);
+    }
+
+    section.update:first-of-type::before { display: none; }
+    section.update:first-of-type { padding-top: 24px; }
+
+    .bottom-cta::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 15%;
+      width: 70%;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .update-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--coral);
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      font-family: 'Lora', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+      margin-bottom: 12px;
+    }
+
+    section.update p { font-size: 1rem; margin-bottom: 12px; }
+
+    .step {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      padding: 24px 0;
+    }
+
+    .step + .step { border-top: 1px solid var(--border); }
+
+    .step-num {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .step-body { flex: 1; }
+    .step-body h3 {
+      font-family: 'Lora', serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      margin-bottom: 6px;
+    }
+    .step-body p { font-size: 0.95rem; color: var(--muted); margin: 0; }
+    .step-shot {
+      width: 100%;
+      max-width: 320px;
+      height: auto;
+      margin-top: 12px;
+      border-radius: 12px;
+      filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.08));
+    }
+
+    .shortcut-row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      padding-top: 16px;
+    }
+
+    .shortcut-card {
+      flex: 1;
+      min-width: 180px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+    }
+
+    .shortcut-card .kbd-row {
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+      font-size: 0.85rem;
+      color: var(--coral);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .shortcut-card h4 {
+      font-family: 'Lora', serif;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 6px;
+    }
+
+    .shortcut-card p { font-size: 0.9rem; color: var(--muted); margin: 0; }
+
+    footer {
+      padding: 64px 24px 48px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    footer a { color: var(--muted); text-decoration: underline; }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 2rem; }
+      h2 { font-size: 1.4rem; }
+      .article-header { padding-top: 40px; }
+      .step { flex-direction: column; gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/" class="wordmark">REPS</a>
+  </nav>
+
+  <div class="page-wrapper">
+    <header class="article-header">
+      <h1>Save it before you lose it.</h1>
+      <p class="subheadline">The REPS Chrome extension is live. One click on any article, video, or page you actually want to remember — and REPS turns it into reps on your phone.</p>
+    </header>
+
+    <img class="hero-shot" src="chrome-hero.gif" alt="Click the REPS icon to save the page. It lands in your REPS as a fresh rep." />
+
+    <div class="cta-block">
+      <a class="cta-button" href="https://chromewebstore.google.com/detail/reps-%E2%80%94-save-play-remember/pkklccghmhejmjilhlpokbkdoejhjnbg">Add to Chrome — Free</a>
+      <p class="cta-helper">You'll need the REPS app to pair the extension. <a href="itms-beta://" style="color:var(--coral);text-decoration:none;font-weight:600;">Update on TestFlight</a> if you haven't already.</p>
+    </div>
+
+    <section class="update">
+      <div class="update-eyebrow">How it works</div>
+      <h2>Four steps. Under two minutes.</h2>
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3>Install the extension.</h3>
+          <p>One click in the Chrome Web Store. The REPS icon shows up in your browser bar.</p>
+          <img class="step-shot" src="chrome-step-1.png" alt="REPS extension popup — Not connected, Connect to REPS" />
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>Pin it to your toolbar.</h3>
+          <p>Click the puzzle-piece icon in Chrome, find REPS, and hit the pin. Otherwise it hides behind the puzzle menu and you'll forget it's there.</p>
+          <img class="step-shot" src="chrome-step-pin.png" alt="Chrome extensions menu with the REPS pin icon circled in red" />
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3>Pair with your account.</h3>
+          <p>Scan the QR with your phone. REPS opens, the browser pairs, and you're done — one time, about ten seconds.</p>
+          <img class="step-shot" src="chrome-step-2.png" alt="REPS pairing screen with QR code" />
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h3>Save anything you read.</h3>
+          <p>Click the icon, or hit Ctrl+Shift+S (⌘+Shift+S on Mac). Articles, YouTube videos, podcast pages — they land in your REPS as fresh reps before your next training session.</p>
+          <img class="step-shot" src="chrome-step-3.png" alt="REPS extension popup — Save this page, paired state" />
+        </div>
+      </div>
+    </section>
+
+    <section class="update">
+      <div class="update-eyebrow">Three ways to save</div>
+      <h2>However your hands prefer it.</h2>
+      <div class="shortcut-row">
+        <div class="shortcut-card">
+          <div class="kbd-row">Click</div>
+          <h4>Save the whole page</h4>
+          <p>Click the REPS icon. The page lands in your vault.</p>
+        </div>
+        <div class="shortcut-card">
+          <div class="kbd-row">Right-click</div>
+          <h4>Save just a passage</h4>
+          <p>Highlight text → right-click → "Save selection to REPS". Only the excerpt is captured.</p>
+        </div>
+        <div class="shortcut-card">
+          <div class="kbd-row">Ctrl+Shift+S</div>
+          <h4>Hands-free save</h4>
+          <p>Cmd+Shift+S on Mac. The current tab is saved without your hands leaving the keyboard.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="update">
+      <div class="update-eyebrow">Privacy</div>
+      <h2>It only sees what you save.</h2>
+      <p>No bulk scrapes. No passive tracking. The extension only reads the URL, title, or selection you explicitly save — and sends it straight to your own REPS account. Your reading history stays your reading history.</p>
+    </section>
+
+    <div class="cta-block bottom-cta" style="padding-top:48px;">
+      <a class="cta-button" href="https://chromewebstore.google.com/detail/reps-%E2%80%94-save-play-remember/pkklccghmhejmjilhlpokbkdoejhjnbg">Install REPS for Chrome</a>
+      <p class="cta-helper">Save it or lose it. Most people lose it.</p>
+    </div>
+  </div>
+
+  <footer>
+    <p><a href="/">getreps.io</a> &nbsp;·&nbsp; <a href="/whats-new">What's new</a> &nbsp;·&nbsp; <a href="/privacy-chrome">Privacy</a></p>
+  </footer>
+</body>
+</html>
