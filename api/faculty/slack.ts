@@ -459,9 +459,18 @@ async function handleOpenFormModal(
     }
   } catch (error) {
     console.error("Slack views.open failed for form modal", { approvalId, error });
+    // Telemetry: surface the underlying Slack error inline so we can diagnose
+    // from the click side. Generic copy hid the actual failure (invalid_blocks,
+    // expired_trigger_id, missing_scope, etc.) for ~3 sessions of debugging.
+    const detail =
+      error instanceof Error
+        ? `${error.message}`
+        : typeof error === "string"
+          ? error
+          : "unknown_error";
     await respondToInteraction(payload.response_url, {
       response_type: "ephemeral",
-      text: "Couldn't open the form right now. Please try again in a moment.",
+      text: `Couldn't open the form: \`${detail}\` (approvalId=\`${approvalId}\`). Click again to retry; report this text if it persists.`,
     });
   }
 
@@ -537,9 +546,17 @@ async function handleTweakModal(payload: SlackBlockActions): Promise<Response> {
       approvalId: row.id,
       error,
     });
+    // Telemetry: same rationale as handleOpenFormModal — surface the actual
+    // underlying Slack error so we don't burn cycles guessing.
+    const detail =
+      error instanceof Error
+        ? `${error.message}`
+        : typeof error === "string"
+          ? error
+          : "unknown_error";
     await respondToInteraction(payload.response_url, {
       response_type: "ephemeral",
-      text: "Couldn't open the form right now. Please try again in a moment.",
+      text: `Couldn't open the tweak form: \`${detail}\` (approvalId=\`${row.id}\`). Click again to retry; report this text if it persists.`,
     });
   }
 
