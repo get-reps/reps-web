@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Opening REPS…</title>
+  <meta name="description" content="Opening REPS — your second brain.">
+  <meta property="og:title" content="REPS — Save. Play. Remember.">
+  <meta property="og:description" content="Opening REPS — your second brain.">
+  <meta property="og:type" content="website">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #FFFAF7;
+      color: #2A2320;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .card { text-align: center; max-width: 400px; width: 100%; }
+    .wordmark { font-weight: 900; letter-spacing: 0.14em; font-size: 22px; color: #2A2320; margin-bottom: 6px; }
+    .tag { font-size: 12px; color: #9B8E86; margin-bottom: 28px; }
+    h1 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+    .subtitle { font-size: 15px; color: #6B7280; margin-bottom: 28px; line-height: 1.5; }
+    .open-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+      color: white; font-size: 17px; font-weight: 700;
+      padding: 16px 44px; border-radius: 16px; text-decoration: none;
+      transition: transform 0.15s;
+    }
+    .open-btn:active { transform: scale(0.97); }
+    .fallback { font-size: 13px; color: #9CA3AF; margin-top: 24px; line-height: 1.6; }
+    .fallback a { color: #FF6B6B; text-decoration: none; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="wordmark">REPS</div>
+    <div class="tag">Save. Play. Remember.</div>
+    <h1>Opening REPS…</h1>
+    <p class="subtitle">If the app doesn't open automatically, tap below.</p>
+    <a id="open-link" class="open-btn" href="https://apps.apple.com/app/reps-save-play-remember/id6742042398">Open in REPS</a>
+    <p class="fallback">
+      Don't have REPS yet?<br>
+      <a href="https://apps.apple.com/app/reps-save-play-remember/id6742042398">Download on the App Store</a>
+    </p>
+  </div>
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var to = params.get('to');
+      if (!to || to.indexOf('reps://') !== 0) return;
+      // Merge reminder attribution params into the deep link so the app's
+      // deep-link handler records open/return attribution.
+      var extra = [];
+      ['reminder_id', 'rc', 'rch', 'rdate'].forEach(function (k) {
+        var v = params.get(k);
+        if (v) extra.push(encodeURIComponent(k) + '=' + encodeURIComponent(v));
+      });
+      var deepLink = to;
+      if (extra.length) {
+        deepLink += (to.indexOf('?') >= 0 ? '&' : '?') + extra.join('&');
+      }
+      document.getElementById('open-link').setAttribute('href', deepLink);
+      // Auto-open on mobile after a brief moment.
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        setTimeout(function () { window.location.href = deepLink; }, 300);
+      }
+    })();
+  </script>
+</body>
+</html>
