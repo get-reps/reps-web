@@ -496,110 +496,57 @@
     font-weight: 600;
   }
 
-  /* Share-sheet overlay (sits over the article) */
-  .share-backdrop {
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    backdrop-filter: blur(2px);
-    z-index: 3;
-  }
-  .share-sheet {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: #f4f4f4;
-    border-top-left-radius: 16px;
-    border-top-right-radius: 16px;
-    padding: 10px 16px 24px;
-    z-index: 4;
-    font-family: 'Inter', sans-serif;
-  }
-  .share-sheet-handle {
-    width: 38px;
-    height: 4px;
-    background: rgba(0,0,0,0.18);
-    border-radius: 4px;
-    margin: 0 auto 14px;
-  }
-  .share-sheet-title {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    color: rgba(0,0,0,0.5);
-    text-align: center;
-    text-transform: uppercase;
-    margin-bottom: 18px;
-  }
-  .share-sheet-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 22px 8px;
-    margin-bottom: 12px;
+  /* Inline share row — sits under the byline like NYT / Nat Geo */
+  .article-share-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 24px 18px;
+    border-bottom: 1px solid #ebebeb;
   }
   .share-icon {
-    aspect-ratio: 1;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #FFFFFF;
-    border-radius: 16px;
-    color: #1a1a1a;
-    font-size: 17px;
+    background: transparent;
+    border: 1.4px solid #2a2320;
+    color: #2a2320;
+    font-size: 14px;
     font-weight: 700;
     font-family: 'Inter', sans-serif;
-    position: relative;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    flex-shrink: 0;
   }
-  .share-icon::after {
-    content: attr(data-label);
-    position: absolute;
-    bottom: -16px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 9px;
-    font-weight: 500;
-    letter-spacing: 0.02em;
-    color: #5a5a5a;
-    white-space: nowrap;
-  }
-  .share-icon.x { background: #000000; color: #ffffff; }
-  .share-icon.fb { background: #1877F2; color: #ffffff; font-family: 'Lora', Georgia, serif; font-style: italic; font-size: 20px; }
-  .share-icon.wa { background: #25D366; color: #ffffff; }
-  .share-icon.li { background: #0A66C2; color: #ffffff; font-size: 14px; }
-  .share-icon.ig {
-    color: #ffffff;
-    background:
-      radial-gradient(circle at 30% 110%, #FDD786 0%, #DC2A6F 45%, #5A2DA5 75%);
-    font-size: 12px;
-    font-weight: 800;
-  }
-  .share-icon.mail { background: #FFFFFF; color: #2a8eff; font-size: 22px; }
-  .share-icon.copy { background: #FFFFFF; color: #5a5a5a; font-size: 19px; }
+  .share-icon.fb { font-family: 'Lora', Georgia, serif; font-style: italic; font-size: 16px; }
+  .share-icon.x  { font-size: 13px; }
+  .share-icon.mail { font-size: 13px; }
+  .share-icon.copy { font-size: 14px; }
   .share-icon.reps {
     background: linear-gradient(135deg, var(--coral) 0%, var(--coral-deep) 100%);
     color: white;
-    box-shadow: 0 8px 22px rgba(255,107,107,0.55), 0 0 0 3px rgba(255,107,107,0.18);
-    transform: scale(1.08);
+    border: none;
     font-family: 'Lora', Georgia, serif;
     font-style: italic;
-    font-size: 22px;
+    font-size: 17px;
+    box-shadow: 0 4px 14px rgba(255,107,107,0.45), 0 0 0 4px rgba(255,107,107,0.14);
+    position: relative;
   }
   .share-icon.reps::after {
-    color: var(--coral);
+    content: 'Add to REPS';
+    position: absolute;
+    left: 44px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-size: 10px;
     font-weight: 700;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-  }
-  .share-sheet-caption {
-    margin-top: 26px;
-    text-align: center;
-    font-size: 11px;
-    color: rgba(0,0,0,0.55);
-    line-height: 1.5;
-    font-style: italic;
-    padding: 0 8px;
+    color: var(--coral);
+    white-space: nowrap;
   }
 
   /* ─── ALL-PILLARS PAGE ─── */
@@ -1240,27 +1187,18 @@
         <div class="article-headline">The Quiet Revolution in How We Remember</div>
         <div class="article-deck">A new generation of readers is choosing to save, not share. The implications for publishers are larger than they first appear.</div>
         <div class="article-byline">By <span class="author-name">Anya Mehta</span> · May 28, 2026</div>
+        <div class="article-share-row">
+          <div class="share-icon fb">f</div>
+          <div class="share-icon x">𝕏</div>
+          <div class="share-icon mail">✉</div>
+          <div class="share-icon copy">⎘</div>
+          <div class="share-icon reps">R</div>
+        </div>
         <div class="article-image"></div>
         <div class="article-caption">Readers increasingly distinguish between content worth broadcasting and content worth keeping. <span class="credit">Illustration by Jules Pellegrini</span></div>
         <p class="article-para">For two decades, digital publishers have optimized for one signal above all others: the click. Every headline, every push notification, every paywall prompt has been engineered to win a momentary act of attention.</p>
         <p class="article-para">But a quieter pattern is beginning to emerge. <span class="saved-phrase">A reader who saves a piece for themselves behaves nothing like a reader who shares it with their followers</span>, and publishers are only just starting to notice.</p>
       </div>
-    </div>
-    <div class="share-backdrop"></div>
-    <div class="share-sheet">
-      <div class="share-sheet-handle"></div>
-      <div class="share-sheet-title">Share article</div>
-      <div class="share-sheet-grid">
-        <div class="share-icon x" data-label="X">𝕏</div>
-        <div class="share-icon fb" data-label="Facebook">f</div>
-        <div class="share-icon wa" data-label="WhatsApp">✆</div>
-        <div class="share-icon li" data-label="LinkedIn">in</div>
-        <div class="share-icon ig" data-label="Instagram">IG</div>
-        <div class="share-icon reps" data-label="Add to REPS">R</div>
-        <div class="share-icon mail" data-label="Mail">✉</div>
-        <div class="share-icon copy" data-label="Copy">⎘</div>
-      </div>
-      <div class="share-sheet-caption">"Add to REPS" sits alongside every social share. New supply, new signal.</div>
     </div>
   </div>
   <div class="clip-copy">
