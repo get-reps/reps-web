@@ -7,7 +7,7 @@
 <title>REPS · Product Roadmap</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:wght@500;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:wght@500;600;700&family=Old+Standard+TT:wght@400;700&display=swap" rel="stylesheet" />
 <style>
   :root {
     --cream: #FFFAF7;
@@ -319,36 +319,215 @@
     margin-bottom: 6px;
   }
 
-  /* ─── PUBLISHER PAGE — share-sheet visual ─── */
-  .share-sheet-media {
+  /* ─── PUBLISHER PAGE — faux NYT article + share sheet ─── */
+  .publisher-mockup {
+    background: #FFFFFF;
+  }
+  .publisher-mockup .badge {
+    z-index: 6;
+  }
+
+  .article-view {
+    position: absolute;
+    inset: 0;
+    background: #FFFFFF;
+    color: #121212;
+    z-index: 1;
     display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .article-status {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    padding: 32px;
-  }
-  .share-sheet {
-    width: 100%;
-    max-width: 360px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    backdrop-filter: blur(20px);
-    border-radius: 22px;
-    padding: 18px 18px 22px;
-    position: relative;
-    z-index: 2;
-  }
-  .share-sheet-handle {
-    width: 36px;
-    height: 4px;
-    background: rgba(255,255,255,0.22);
-    border-radius: 4px;
-    margin: 0 auto 16px;
-  }
-  .share-sheet-title {
+    padding: 16px 28px 6px;
+    font-family: 'Inter', sans-serif;
     font-size: 13px;
     font-weight: 600;
+    color: #121212;
+  }
+  .article-status .status-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+  }
+  .article-status .status-right .battery {
+    width: 22px;
+    height: 11px;
+    border: 1.4px solid #121212;
+    border-radius: 3px;
+    position: relative;
+    padding: 1px;
+  }
+  .article-status .status-right .battery::after {
+    content: '';
+    position: absolute;
+    right: -3px;
+    top: 3px;
+    width: 2px;
+    height: 4px;
+    background: #121212;
+    border-radius: 0 1px 1px 0;
+  }
+  .article-status .status-right .battery::before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: #121212;
+    border-radius: 1px;
+  }
+  .article-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 22px 10px;
+    color: #5a5a5a;
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    border-bottom: 1px solid #ebebeb;
+  }
+  .article-nav .nav-actions {
+    display: flex;
+    gap: 18px;
+    font-size: 16px;
+  }
+  .nyt-masthead {
+    font-family: 'Old Standard TT', 'Lora', 'Times New Roman', Georgia, serif;
+    font-weight: 700;
+    font-size: 26px;
+    text-align: center;
+    color: #121212;
+    padding: 16px 24px 14px;
+    letter-spacing: -0.005em;
+    border-bottom: 1px solid #ebebeb;
+    line-height: 1;
+  }
+  .article-body {
+    flex: 1;
+    overflow: hidden;
+    padding: 0 0 8px;
+  }
+  .article-section {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    color: #b8331c;
+    text-transform: uppercase;
+    padding: 20px 24px 0;
+  }
+  .article-headline {
+    font-family: 'Lora', 'Times New Roman', Georgia, serif;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.18;
+    color: #121212;
+    padding: 10px 24px 12px;
+    letter-spacing: -0.012em;
+  }
+  .article-deck {
+    font-family: 'Lora', Georgia, serif;
+    font-size: 13px;
+    line-height: 1.4;
+    color: #5a5a5a;
+    padding: 0 24px 14px;
+    font-style: italic;
+  }
+  .article-byline {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: #6a6a6a;
+    padding: 0 24px 16px;
+    border-bottom: 1px solid #ebebeb;
+    letter-spacing: 0.01em;
+  }
+  .article-byline .author-name {
+    color: #121212;
+    font-weight: 600;
+  }
+  .article-image {
+    height: 130px;
+    margin: 0;
+    background:
+      radial-gradient(circle at 30% 40%, rgba(255,255,255,0.18) 0%, transparent 40%),
+      linear-gradient(135deg, #2a2320 0%, #5a4a40 55%, #8a7060 100%);
+    position: relative;
+  }
+  .article-caption {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    color: #6a6a6a;
+    padding: 8px 24px 14px;
+    line-height: 1.4;
+    border-bottom: 1px solid #ebebeb;
+  }
+  .article-caption .credit {
+    color: #9a9a9a;
+    font-size: 9px;
     letter-spacing: 0.04em;
-    color: rgba(255,255,255,0.55);
+    text-transform: uppercase;
+    margin-left: 6px;
+  }
+  .article-para {
+    font-family: 'Lora', 'Times New Roman', Georgia, serif;
+    font-size: 13px;
+    line-height: 1.55;
+    color: #1a1a1a;
+    padding: 0 24px 10px;
+  }
+  .article-para:first-of-type {
+    padding-top: 14px;
+  }
+  .article-para:first-of-type::first-letter {
+    font-size: 38px;
+    font-weight: 700;
+    line-height: 0.9;
+    float: left;
+    padding: 4px 6px 0 0;
+    color: #121212;
+  }
+  .article-para .saved-phrase {
+    background: linear-gradient(180deg, transparent 60%, rgba(255,107,107,0.28) 60%);
+    color: #121212;
+    font-weight: 600;
+  }
+
+  /* Share-sheet overlay (sits over the article) */
+  .share-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(2px);
+    z-index: 3;
+  }
+  .share-sheet {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #f4f4f4;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    padding: 10px 16px 24px;
+    z-index: 4;
+    font-family: 'Inter', sans-serif;
+  }
+  .share-sheet-handle {
+    width: 38px;
+    height: 4px;
+    background: rgba(0,0,0,0.18);
+    border-radius: 4px;
+    margin: 0 auto 14px;
+  }
+  .share-sheet-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: rgba(0,0,0,0.5);
     text-align: center;
     text-transform: uppercase;
     margin-bottom: 18px;
@@ -356,39 +535,53 @@
   .share-sheet-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 14px 8px;
-    margin-bottom: 18px;
+    gap: 22px 8px;
+    margin-bottom: 12px;
   }
   .share-icon {
     aspect-ratio: 1;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: rgba(255,255,255,0.08);
+    background: #FFFFFF;
     border-radius: 16px;
-    color: rgba(255,255,255,0.78);
-    font-size: 18px;
+    color: #1a1a1a;
+    font-size: 17px;
     font-weight: 700;
     font-family: 'Inter', sans-serif;
     position: relative;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
   }
   .share-icon::after {
     content: attr(data-label);
     position: absolute;
     bottom: -16px;
+    left: 50%;
+    transform: translateX(-50%);
     font-size: 9px;
     font-weight: 500;
-    letter-spacing: 0.04em;
-    color: rgba(255,255,255,0.42);
-    text-transform: none;
+    letter-spacing: 0.02em;
+    color: #5a5a5a;
     white-space: nowrap;
   }
+  .share-icon.x { background: #000000; color: #ffffff; }
+  .share-icon.fb { background: #1877F2; color: #ffffff; font-family: 'Lora', Georgia, serif; font-style: italic; font-size: 20px; }
+  .share-icon.wa { background: #25D366; color: #ffffff; }
+  .share-icon.li { background: #0A66C2; color: #ffffff; font-size: 14px; }
+  .share-icon.ig {
+    color: #ffffff;
+    background:
+      radial-gradient(circle at 30% 110%, #FDD786 0%, #DC2A6F 45%, #5A2DA5 75%);
+    font-size: 12px;
+    font-weight: 800;
+  }
+  .share-icon.mail { background: #FFFFFF; color: #2a8eff; font-size: 22px; }
+  .share-icon.copy { background: #FFFFFF; color: #5a5a5a; font-size: 19px; }
   .share-icon.reps {
     background: linear-gradient(135deg, var(--coral) 0%, var(--coral-deep) 100%);
     color: white;
-    box-shadow: 0 8px 22px rgba(255,107,107,0.45);
-    transform: scale(1.06);
+    box-shadow: 0 8px 22px rgba(255,107,107,0.55), 0 0 0 3px rgba(255,107,107,0.18);
+    transform: scale(1.08);
     font-family: 'Lora', Georgia, serif;
     font-style: italic;
     font-size: 22px;
@@ -396,15 +589,15 @@
   .share-icon.reps::after {
     color: var(--coral);
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
   }
   .share-sheet-caption {
-    margin-top: 28px;
+    margin-top: 26px;
     text-align: center;
-    font-size: 12px;
-    color: rgba(255,255,255,0.5);
-    line-height: 1.45;
+    font-size: 11px;
+    color: rgba(0,0,0,0.55);
+    line-height: 1.5;
     font-style: italic;
     padding: 0 8px;
   }
@@ -1030,20 +1223,42 @@
 <!-- ─────── PAGE 8 — PUBLISHERS & CREATORS ─────── -->
 <section class="page clip-page" id="clip-g">
   <div class="page-number">08 / 10</div>
-  <div class="clip-media share-sheet-media">
+  <div class="clip-media publisher-mockup">
     <div class="badge">Q3 2026</div>
+    <div class="article-view">
+      <div class="article-status">
+        <span>9:41</span>
+        <span class="status-right"><span>●●● 5G</span><span class="battery"></span></span>
+      </div>
+      <div class="article-nav">
+        <span>‹</span>
+        <span class="nav-actions"><span>Aa</span><span>♡</span><span>↗</span></span>
+      </div>
+      <div class="nyt-masthead">The New York Times</div>
+      <div class="article-body">
+        <div class="article-section">Opinion · The Attention Economy</div>
+        <div class="article-headline">The Quiet Revolution in How We Remember</div>
+        <div class="article-deck">A new generation of readers is choosing to save, not share. The implications for publishers are larger than they first appear.</div>
+        <div class="article-byline">By <span class="author-name">Anya Mehta</span> · May 28, 2026</div>
+        <div class="article-image"></div>
+        <div class="article-caption">Readers increasingly distinguish between content worth broadcasting and content worth keeping. <span class="credit">Illustration by Jules Pellegrini</span></div>
+        <p class="article-para">For two decades, digital publishers have optimized for one signal above all others: the click. Every headline, every push notification, every paywall prompt has been engineered to win a momentary act of attention.</p>
+        <p class="article-para">But a quieter pattern is beginning to emerge. <span class="saved-phrase">A reader who saves a piece for themselves behaves nothing like a reader who shares it with their followers</span>, and publishers are only just starting to notice.</p>
+      </div>
+    </div>
+    <div class="share-backdrop"></div>
     <div class="share-sheet">
       <div class="share-sheet-handle"></div>
       <div class="share-sheet-title">Share article</div>
       <div class="share-sheet-grid">
-        <div class="share-icon" data-label="X">𝕏</div>
-        <div class="share-icon" data-label="Facebook">f</div>
-        <div class="share-icon" data-label="WhatsApp">W</div>
-        <div class="share-icon" data-label="LinkedIn">in</div>
-        <div class="share-icon" data-label="Instagram">IG</div>
+        <div class="share-icon x" data-label="X">𝕏</div>
+        <div class="share-icon fb" data-label="Facebook">f</div>
+        <div class="share-icon wa" data-label="WhatsApp">✆</div>
+        <div class="share-icon li" data-label="LinkedIn">in</div>
+        <div class="share-icon ig" data-label="Instagram">IG</div>
         <div class="share-icon reps" data-label="Add to REPS">R</div>
-        <div class="share-icon" data-label="Email">@</div>
-        <div class="share-icon" data-label="Copy">⎘</div>
+        <div class="share-icon mail" data-label="Mail">✉</div>
+        <div class="share-icon copy" data-label="Copy">⎘</div>
       </div>
       <div class="share-sheet-caption">"Add to REPS" sits alongside every social share. New supply, new signal.</div>
     </div>
