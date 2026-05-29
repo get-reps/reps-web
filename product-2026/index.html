@@ -319,6 +319,96 @@
     margin-bottom: 6px;
   }
 
+  /* ─── PUBLISHER PAGE — share-sheet visual ─── */
+  .share-sheet-media {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+  }
+  .share-sheet {
+    width: 100%;
+    max-width: 360px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(20px);
+    border-radius: 22px;
+    padding: 18px 18px 22px;
+    position: relative;
+    z-index: 2;
+  }
+  .share-sheet-handle {
+    width: 36px;
+    height: 4px;
+    background: rgba(255,255,255,0.22);
+    border-radius: 4px;
+    margin: 0 auto 16px;
+  }
+  .share-sheet-title {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.55);
+    text-align: center;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .share-sheet-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px 8px;
+    margin-bottom: 18px;
+  }
+  .share-icon {
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.08);
+    border-radius: 16px;
+    color: rgba(255,255,255,0.78);
+    font-size: 18px;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+  }
+  .share-icon::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: -16px;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.42);
+    text-transform: none;
+    white-space: nowrap;
+  }
+  .share-icon.reps {
+    background: linear-gradient(135deg, var(--coral) 0%, var(--coral-deep) 100%);
+    color: white;
+    box-shadow: 0 8px 22px rgba(255,107,107,0.45);
+    transform: scale(1.06);
+    font-family: 'Lora', Georgia, serif;
+    font-style: italic;
+    font-size: 22px;
+  }
+  .share-icon.reps::after {
+    color: var(--coral);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .share-sheet-caption {
+    margin-top: 28px;
+    text-align: center;
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.45;
+    font-style: italic;
+    padding: 0 8px;
+  }
+
   /* ─── ALL-PILLARS PAGE ─── */
   .pillars-page { padding: 60px 80px; }
   .pillars-page h2 {
@@ -734,6 +824,7 @@
   <a href="#clip-d" title="Games"></a>
   <a href="#clip-e" title="Discovery"></a>
   <a href="#clip-f" title="The Feed"></a>
+  <a href="#clip-g" title="Publishers & Creators"></a>
   <a href="#pillars" title="Pillars"></a>
   <a href="#vision" title="Vision"></a>
 </nav>
@@ -758,7 +849,7 @@
 
 <!-- ─────── PAGE 2 — CLIP A · KNOWLEDGE GALAXY ─────── -->
 <section class="page clip-page" id="clip-a">
-  <div class="page-number">02 / 09</div>
+  <div class="page-number">02 / 10</div>
   <div class="clip-media">
     <div class="badge">Live</div>
     <video autoplay muted loop playsinline>
@@ -783,12 +874,12 @@
       The galaxy is the mental hook. Users see their knowledge grow. They don't just trust it exists. It's how a five-minute daily habit turns into something you actually want to come back to.
     </div>
   </div>
-  <div class="page-footer"><span>REPS · Product Roadmap · 2026</span><span>02 / 09</span></div>
+  <div class="page-footer"><span>REPS · Product Roadmap · 2026</span><span>02 / 10</span></div>
 </section>
 
 <!-- ─────── PAGE 3 — CLIP B · CAPTURE ─────── -->
 <section class="page clip-page" id="clip-b">
-  <div class="page-number">03 / 09</div>
+  <div class="page-number">03 / 10</div>
   <div class="clip-media">
     <div class="badge">Live</div>
     <video autoplay muted loop playsinline>
@@ -813,12 +904,12 @@
       Friction is what kills a memory product. Five seconds from "I read this" to "this is in my system", at a quality users actually trust. That's what unlocks the daily habit.
     </div>
   </div>
-  <div class="page-footer"><span>REPS · Product Roadmap · 2026</span><span>03 / 09</span></div>
+  <div class="page-footer"><span>REPS · Product Roadmap · 2026</span><span>03 / 10</span></div>
 </section>
 
 <!-- ─────── PAGE 4 — CLIP C · TRAINING ─────── -->
 <section class="page clip-page" id="clip-c">
-  <div class="page-number">04 / 09</div>
+  <div class="page-number">04 / 10</div>
   <div class="clip-media">
     <div class="badge">Live</div>
     <video autoplay muted loop playsinline>
@@ -843,12 +934,12 @@
       Spaced repetition works. Apps that gate it behind 1985 flashcard UIs don't. We built a five-minute habit that competes with Wordle for daily attention.
     </div>
   </div>
-  <div class="page-footer"><span>REPS · Product Roadmap · 2026</span><span>04 / 09</span></div>
+  <div class="page-footer"><span>REPS · Product Roadmap · 2026</span><span>04 / 10</span></div>
 </section>
 
 <!-- ─────── PAGE 5 — CLIP D · DAILY GAMES ─────── -->
 <section class="page clip-page" id="clip-d">
-  <div class="page-number">05 / 09</div>
+  <div class="page-number">05 / 10</div>
   <div class="clip-media">
     <div class="badge">Live</div>
     <video autoplay muted loop playsinline>
@@ -873,12 +964,12 @@
       Games are the engagement engine that makes the spaced-rep habit invisible. NYT Games proved the model with generic trivia. We're applying it to your memory, and to your friends.
     </div>
   </div>
-  <div class="page-footer"><span>REPS · Product Roadmap · 2026</span><span>05 / 09</span></div>
+  <div class="page-footer"><span>REPS · Product Roadmap · 2026</span><span>05 / 10</span></div>
 </section>
 
 <!-- ─────── PAGE 6 — CLIP E · DISCOVERY ─────── -->
 <section class="page clip-page" id="clip-e">
-  <div class="page-number">06 / 09</div>
+  <div class="page-number">06 / 10</div>
   <div class="clip-media">
     <div class="badge">Live</div>
     <video autoplay muted loop playsinline>
@@ -903,12 +994,12 @@
       Discovery solves the cold-start problem and seeds the network effect. New users have value on day one; existing users get pulled back daily.
     </div>
   </div>
-  <div class="page-footer"><span>REPS · Product Roadmap · 2026</span><span>06 / 09</span></div>
+  <div class="page-footer"><span>REPS · Product Roadmap · 2026</span><span>06 / 10</span></div>
 </section>
 
 <!-- ─────── PAGE 7 — THE BLOOM FEED ─────── -->
 <section class="page clip-page" id="clip-f">
-  <div class="page-number">07 / 09</div>
+  <div class="page-number">07 / 10</div>
   <div class="clip-media">
     <div class="badge">Live</div>
     <video autoplay muted loop playsinline>
@@ -933,12 +1024,50 @@
       Social media is optimized for time-on-platform. We optimize for what still matters in six months. The hyper-news-cycle is over by Friday. REPS filters for signal that compounds.
     </div>
   </div>
-  <div class="page-footer"><span>REPS · Product Roadmap · 2026</span><span>07 / 09</span></div>
+  <div class="page-footer"><span>REPS · Product Roadmap · 2026</span><span>07 / 10</span></div>
 </section>
 
-<!-- ─────── PAGE 8 — ALL THREE PILLARS ─────── -->
+<!-- ─────── PAGE 8 — PUBLISHERS & CREATORS ─────── -->
+<section class="page clip-page" id="clip-g">
+  <div class="page-number">08 / 10</div>
+  <div class="clip-media share-sheet-media">
+    <div class="badge">Q3 2026</div>
+    <div class="share-sheet">
+      <div class="share-sheet-handle"></div>
+      <div class="share-sheet-title">Share article</div>
+      <div class="share-sheet-grid">
+        <div class="share-icon" data-label="X">𝕏</div>
+        <div class="share-icon" data-label="Facebook">f</div>
+        <div class="share-icon" data-label="WhatsApp">W</div>
+        <div class="share-icon" data-label="LinkedIn">in</div>
+        <div class="share-icon" data-label="Instagram">IG</div>
+        <div class="share-icon reps" data-label="Add to REPS">R</div>
+        <div class="share-icon" data-label="Email">@</div>
+        <div class="share-icon" data-label="Copy">⎘</div>
+      </div>
+      <div class="share-sheet-caption">"Add to REPS" sits alongside every social share. New supply, new signal.</div>
+    </div>
+  </div>
+  <div class="clip-copy">
+    <div class="clip-id">The Publisher & Creator Layer</div>
+    <h2>The share button worth <em>shipping.</em></h2>
+    <div class="tagline">When "Add to REPS" sits next to Facebook, X, and WhatsApp, every publisher and creator gets three things they have never had at once.</div>
+    <ul class="features">
+      <li><div class="marker">01</div><div class="text"><strong>A signal nobody else captures</strong><span>Wanting to save something for yourself is a fundamentally different intent than wanting to broadcast it. "Add to REPS" measures who found a piece worth remembering, not who wanted to be seen sharing it. A truer read on what landed.</span></div></li>
+      <li><div class="marker">02</div><div class="text"><strong>Editorial intelligence, paragraph by paragraph</strong><span>We can tell you which concepts inside the article readers actually kept. Not which headline got the click. Which ideas earned a place in someone's long-term memory.</span></div></li>
+      <li><div class="marker">03</div><div class="text"><strong>Re-engagement that compounds for months</strong><span>Your content surfaces inside readers' daily reps weeks and months after publication. A way back into the reader's attention that publishers and creators have never had before.</span></div></li>
+    </ul>
+    <div class="why-matters">
+      <strong>Works at every scale</strong>
+      The sommelier running a wine seminar in her living room. The Substack writer with 5K subscribers. The Instagram creator with 50M followers. The Economist. The New York Times. Same button, same three benefits, different sized audiences finding their best readers.
+    </div>
+  </div>
+  <div class="page-footer"><span>REPS · Product Roadmap · 2026</span><span>08 / 10</span></div>
+</section>
+
+<!-- ─────── PAGE 9 — ALL THREE PILLARS ─────── -->
 <section class="page pillars-page" id="pillars">
-  <div class="page-number">08 / 09</div>
+  <div class="page-number">09 / 10</div>
   <div class="eyebrow">The Roadmap</div>
   <h2>Three pillars. Four horizons. <em>One compounding system.</em></h2>
   <div class="lede">
@@ -1039,10 +1168,10 @@
     </ul></div>
   </div>
 
-  <div class="page-footer"><span>REPS · Product Roadmap · 2026</span><span>08 / 09</span></div>
+  <div class="page-footer"><span>REPS · Product Roadmap · 2026</span><span>09 / 10</span></div>
 </section>
 
-<!-- ─────── PAGE 9 — VISION ─────── -->
+<!-- ─────── PAGE 10 — VISION ─────── -->
 <section class="page vision-page" id="vision">
   <div class="eyebrow">The Vision</div>
   <h2>As we expand features,<br/>REPS becomes the <em>most personal product</em><br/>on your phone.</h2>
