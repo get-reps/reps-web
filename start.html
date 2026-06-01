@@ -374,67 +374,94 @@
       font-style: italic;
     }
 
-    /* ── SHARE RETURN BAR (extraction-excluded: <aside>) ── */
-    .share-return-bar {
+    /* ── SHARE RETURN MODAL (extraction-excluded: <aside>) ── */
+    .share-return-overlay {
       position: fixed;
-      left: 50%;
-      bottom: max(18px, env(safe-area-inset-bottom));
+      inset: 0;
       z-index: 200;
-      width: min(calc(100% - 32px), 560px);
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      padding: 12px 12px 12px 18px;
-      border: 1px solid rgba(255, 107, 107, 0.18);
-      border-radius: 24px;
-      background: #FFFAF7;
-      box-shadow: 0 18px 50px rgba(42, 35, 32, 0.16), 0 6px 18px rgba(255, 107, 107, 0.12);
+      justify-content: center;
+      padding: 24px;
+      background: rgba(4, 9, 12, 0.55);
+      -webkit-backdrop-filter: blur(3px);
+      backdrop-filter: blur(3px);
       opacity: 0;
       pointer-events: none;
-      transform: translate(-50%, 24px);
-      transition: opacity 350ms ease, transform 350ms cubic-bezier(0.16, 1, 0.3, 1), visibility 350ms ease;
       visibility: hidden;
+      transition: opacity 320ms ease, visibility 320ms ease;
     }
 
-    .share-return-bar.is-visible {
+    .share-return-overlay.is-visible {
       opacity: 1;
       pointer-events: auto;
-      transform: translate(-50%, 0);
       visibility: visible;
     }
 
-    .share-return-copy {
-      color: #2A2320;
-      font-size: 0.95rem;
-      font-weight: 600;
-      line-height: 1.25;
+    .share-return-card {
+      width: min(100%, 420px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 14px;
+      padding: 40px 32px 32px;
+      border-radius: 28px;
+      background: linear-gradient(135deg, #4ECDC4, #2DB29F);
+      box-shadow: 0 30px 80px rgba(4, 9, 12, 0.45), 0 10px 28px rgba(45, 178, 159, 0.4);
+      transform: translateY(16px) scale(0.94);
+      opacity: 0;
+      transition: transform 380ms cubic-bezier(0.16, 1, 0.3, 1), opacity 300ms ease;
+    }
+
+    .share-return-overlay.is-visible .share-return-card {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+
+    .share-return-title {
+      color: #fff;
+      font-size: 1.6rem;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.22);
+    }
+
+    .share-return-sub {
+      color: rgba(255, 255, 255, 0.92);
+      font-size: 0.98rem;
+      font-weight: 500;
+      line-height: 1.45;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.16);
     }
 
     .share-return-cta {
-      flex: 0 0 auto;
-      min-height: 42px;
+      margin-top: 6px;
+      min-height: 50px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       border-radius: 999px;
-      padding: 0 18px;
-      background: linear-gradient(135deg, #FF6B6B, #FF8E53);
-      box-shadow: 0 10px 24px rgba(255, 107, 107, 0.26);
-      color: #fff;
-      font-size: 0.9rem;
+      padding: 0 30px;
+      background: #FFFFFF;
+      color: #1B9C8A;
+      font-size: 1rem;
       font-weight: 700;
       text-decoration: none;
-      animation: shareReturnGlow 3.8s ease-in-out infinite;
+      box-shadow: 0 8px 22px rgba(4, 9, 12, 0.22);
+      animation: shareReturnPulse 3.8s ease-in-out infinite;
       white-space: nowrap;
     }
 
-    @keyframes shareReturnGlow {
+    @keyframes shareReturnPulse {
       0%, 100% {
-        box-shadow: 0 10px 24px rgba(255, 107, 107, 0.22);
+        transform: scale(1);
+        box-shadow: 0 8px 22px rgba(4, 9, 12, 0.2);
       }
       50% {
-        box-shadow: 0 12px 30px rgba(255, 142, 83, 0.34);
+        transform: scale(1.03);
+        box-shadow: 0 12px 30px rgba(4, 9, 12, 0.28);
       }
     }
 
@@ -498,16 +525,13 @@
         width: 100%;
       }
 
-      .share-return-bar {
-        align-items: stretch;
-        flex-direction: column;
-        gap: 10px;
-        padding: 14px;
-        border-radius: 20px;
+      .share-return-card {
+        padding: 32px 24px 28px;
+        border-radius: 24px;
       }
 
-      .share-return-copy {
-        text-align: center;
+      .share-return-title {
+        font-size: 1.4rem;
       }
 
       .share-return-cta {
@@ -627,7 +651,7 @@
     </aside>
   </main>
 
-  <aside id="share-return-bar" class="share-return-bar" hidden aria-hidden="true"></aside>
+  <aside id="share-return-bar" class="share-return-overlay" hidden aria-hidden="true"></aside>
 
   <!-- FOOTER -->
   <footer>
@@ -693,23 +717,41 @@
         clearPollTimer();
         abortInFlight();
 
-        var bar = document.getElementById('share-return-bar');
-        if (!bar) return;
+        var overlay = document.getElementById('share-return-bar');
+        if (!overlay) return;
 
-        var copy = document.createElement('span');
-        copy.className = 'share-return-copy';
-        copy.textContent = 'Article shared!';
+        var card = document.createElement('div');
+        card.className = 'share-return-card';
+
+        var title = document.createElement('div');
+        title.className = 'share-return-title';
+        title.textContent = 'Article shared!';
+
+        var sub = document.createElement('p');
+        sub.className = 'share-return-sub';
+        sub.textContent = 'It just landed in your galaxy.';
 
         var cta = document.createElement('a');
         cta.className = 'share-return-cta';
         cta.href = 'reps://?src=share_demo';
         cta.textContent = 'Return to REPS \u2192';
 
-        bar.replaceChildren(copy, cta);
-        bar.hidden = false;
-        bar.setAttribute('aria-hidden', 'false');
+        card.replaceChildren(title, sub, cta);
+        overlay.replaceChildren(card);
+        overlay.hidden = false;
+        overlay.setAttribute('aria-hidden', 'false');
+
+        // Tapping the dimmed backdrop (outside the card) dismisses, so a reader
+        // who wants to keep reading is never trapped away from the article.
+        overlay.addEventListener('click', function (e) {
+          if (e.target === overlay) {
+            overlay.classList.remove('is-visible');
+            overlay.setAttribute('aria-hidden', 'true');
+          }
+        });
+
         requestAnimationFrame(function () {
-          bar.classList.add('is-visible');
+          overlay.classList.add('is-visible');
         });
       }
 
