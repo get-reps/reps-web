@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="no-referrer" />
   <title>Why You Forget Everything You Read (And How to Fix It) — REPS</title>
   <meta name="description" content="The forgetting curve is real. Here's the research behind spaced repetition — and why 3 minutes a day beats 3 hours a week." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -373,6 +374,70 @@
       font-style: italic;
     }
 
+    /* ── SHARE RETURN BAR (extraction-excluded: <aside>) ── */
+    .share-return-bar {
+      position: fixed;
+      left: 50%;
+      bottom: max(18px, env(safe-area-inset-bottom));
+      z-index: 200;
+      width: min(calc(100% - 32px), 560px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 12px 12px 12px 18px;
+      border: 1px solid rgba(255, 107, 107, 0.18);
+      border-radius: 24px;
+      background: #FFFAF7;
+      box-shadow: 0 18px 50px rgba(42, 35, 32, 0.16), 0 6px 18px rgba(255, 107, 107, 0.12);
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, 24px);
+      transition: opacity 350ms ease, transform 350ms cubic-bezier(0.16, 1, 0.3, 1), visibility 350ms ease;
+      visibility: hidden;
+    }
+
+    .share-return-bar.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(-50%, 0);
+      visibility: visible;
+    }
+
+    .share-return-copy {
+      color: #2A2320;
+      font-size: 0.95rem;
+      font-weight: 600;
+      line-height: 1.25;
+    }
+
+    .share-return-cta {
+      flex: 0 0 auto;
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 0 18px;
+      background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+      box-shadow: 0 10px 24px rgba(255, 107, 107, 0.26);
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-decoration: none;
+      animation: shareReturnGlow 3.8s ease-in-out infinite;
+      white-space: nowrap;
+    }
+
+    @keyframes shareReturnGlow {
+      0%, 100% {
+        box-shadow: 0 10px 24px rgba(255, 107, 107, 0.22);
+      }
+      50% {
+        box-shadow: 0 12px 30px rgba(255, 142, 83, 0.34);
+      }
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 640px) {
       html {
@@ -430,6 +495,22 @@
       }
 
       .share-steps {
+        width: 100%;
+      }
+
+      .share-return-bar {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 10px;
+        padding: 14px;
+        border-radius: 20px;
+      }
+
+      .share-return-copy {
+        text-align: center;
+      }
+
+      .share-return-cta {
         width: 100%;
       }
     }
@@ -546,6 +627,8 @@
     </aside>
   </main>
 
+  <aside id="share-return-bar" class="share-return-bar" hidden aria-hidden="true"></aside>
+
   <!-- FOOTER -->
   <footer>
     <p>Made with 🧠 in London</p>
@@ -555,6 +638,155 @@
       <span style="color: var(--muted);">© 2026 REPS</span>
     </div>
   </footer>
+
+  <script>
+    (function () {
+      var token = new URLSearchParams(window.location.search).get('st');
+      if (!token || !/^[0-9a-f]{48}$/.test(token)) return;
+
+      var SUPABASE_URL = 'https://vciosaulrfvddcenblmo.supabase.co';
+      var SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_WVmbxo4_qIF1a9IpqRG6EA_lTYz_MB9';
+      var POLL_DELAY_MS = 2500;
+      var REQUEST_TIMEOUT_MS = 8000;
+      var GLOBAL_TIMEOUT_MS = 31 * 60 * 1000;
+
+      var landed = false;
+      var timedOut = false;
+      var pollTimer = null;
+      var inFlightController = null;
+      var epoch = 0;
+
+      function clearPollTimer() {
+        if (pollTimer !== null) {
+          clearTimeout(pollTimer);
+          pollTimer = null;
+        }
+      }
+
+      function abortInFlight() {
+        if (inFlightController) {
+          inFlightController.abort();
+          inFlightController = null;
+          epoch++; // supersede any in-flight pollOnce's trailing reschedule
+        }
+      }
+
+      var globalTimer = setTimeout(function () {
+        timedOut = true;
+        clearPollTimer();
+        abortInFlight();
+      }, GLOBAL_TIMEOUT_MS);
+
+      function scheduleNextPoll() {
+        clearPollTimer();
+        if (landed || timedOut) {
+          abortInFlight();
+          return;
+        }
+        if (document.hidden) return;
+        pollTimer = setTimeout(pollOnce, POLL_DELAY_MS);
+      }
+
+      function showReturnBar() {
+        landed = true;
+        clearTimeout(globalTimer);
+        clearPollTimer();
+        abortInFlight();
+
+        var bar = document.getElementById('share-return-bar');
+        if (!bar) return;
+
+        var copy = document.createElement('span');
+        copy.className = 'share-return-copy';
+        copy.textContent = 'Article shared!';
+
+        var cta = document.createElement('a');
+        cta.className = 'share-return-cta';
+        cta.href = 'reps://?src=share_demo';
+        cta.textContent = 'Return to REPS \u2192';
+
+        bar.replaceChildren(copy, cta);
+        bar.hidden = false;
+        bar.setAttribute('aria-hidden', 'false');
+        requestAnimationFrame(function () {
+          bar.classList.add('is-visible');
+        });
+      }
+
+      async function pollOnce() {
+        clearPollTimer();
+        if (landed || timedOut) return;
+        if (document.hidden) {
+          scheduleNextPoll();
+          return;
+        }
+
+        var myEpoch = epoch;
+        var controller = new AbortController();
+        inFlightController = controller;
+        var requestTimer = setTimeout(function () {
+          controller.abort();
+        }, REQUEST_TIMEOUT_MS);
+
+        try {
+          var res = await fetch(SUPABASE_URL + '/rest/v1/rpc/check_share_demo_token', {
+            method: 'POST',
+            headers: {
+              apikey: SUPABASE_PUBLISHABLE_KEY,
+              Authorization: 'Bearer ' + SUPABASE_PUBLISHABLE_KEY,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ p_token: token }),
+            signal: controller.signal,
+          });
+          var hasLanded = false;
+          if (res.ok) {
+            try {
+              hasLanded = (await res.json()) === true;
+            } catch (_) {
+              hasLanded = false;
+            }
+          }
+          if (hasLanded) {
+            showReturnBar();
+            return;
+          }
+        } catch (_) {
+          if (!controller.signal.aborted) {
+            // Treat all polling errors as not-yet-landed.
+          }
+        } finally {
+          clearTimeout(requestTimer);
+          if (inFlightController === controller) {
+            inFlightController = null;
+          }
+        }
+
+        if (myEpoch === epoch) scheduleNextPoll();
+      }
+
+      document.addEventListener('visibilitychange', function () {
+        if (landed || timedOut) return;
+        if (document.hidden) {
+          clearPollTimer();
+          abortInFlight();
+          return;
+        }
+        if (!inFlightController && pollTimer === null) {
+          pollOnce();
+        }
+      });
+
+      window.addEventListener('pagehide', function () {
+        timedOut = true;
+        clearTimeout(globalTimer);
+        clearPollTimer();
+        abortInFlight();
+      });
+
+      pollOnce();
+    })();
+  </script>
 
 </body>
 </html>
