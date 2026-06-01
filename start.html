@@ -229,6 +229,103 @@
       margin-bottom: 0 !important;
     }
 
+    /* ── SHARE GUIDE (extraction-excluded: <aside>) ── */
+    .share-guide {
+      background: linear-gradient(135deg, rgba(255, 107, 107, 0.08), rgba(255, 142, 83, 0.08));
+      border: 1px solid rgba(255, 107, 107, 0.2);
+      border-radius: 16px;
+      padding: 36px 40px;
+      margin-top: 2.5rem;
+    }
+
+    .share-guide-title {
+      font-family: 'Lora', serif;
+      font-size: 1.35rem;
+      font-weight: 600;
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      margin-bottom: 0.6rem;
+    }
+
+    .share-guide-lede {
+      font-size: 0.97rem;
+      color: #3a3a3a;
+      margin-bottom: 1.8rem;
+    }
+
+    .share-guide-grid {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .share-phone {
+      position: relative;
+      flex: 0 0 auto;
+      width: 232px;
+      aspect-ratio: 456 / 897;
+    }
+
+    .share-phone-screen {
+      position: absolute;
+      top: 4.57%;
+      left: 10.31%;
+      right: 8.55%;
+      bottom: 5.02%;
+      border-radius: 26px;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .share-phone-screen video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .share-phone-frame {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .share-steps {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      padding: 0;
+      margin: 0;
+    }
+
+    .share-steps li {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      font-size: 0.97rem;
+      color: #2C2C2C;
+      line-height: 1.5;
+    }
+
+    .share-step-num {
+      flex: 0 0 auto;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     /* ── FOOTER ── */
     footer {
       border-top: 1px solid var(--border);
@@ -318,6 +415,23 @@
       .reps-note {
         padding: 28px 24px;
       }
+
+      .share-guide {
+        padding: 28px 24px;
+      }
+
+      .share-guide-grid {
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      .share-phone {
+        width: 200px;
+      }
+
+      .share-steps {
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -399,15 +513,37 @@
 
       <p>Why? Blocked practice lets you answer on autopilot — you already know the next question will be about the same thing. Interleaving forces your brain to identify <em>which</em> concept applies, not just execute it. That act of discrimination is itself a form of retrieval, and it makes memories more durable and more transferable. <span class="hl">Interleaving feels harder in the moment. That difficulty is exactly what makes it work.</span></p>
 
-      <!-- REPS NOTE -->
-      <div class="reps-note">
-        <h2>A Note on REPS</h2>
-        <p>This is exactly why we built REPS. We kept finishing genuinely interesting articles and podcasts, feeling that warm glow of having learned something — and then watching it quietly vanish within a week. The science was clear on what was missing: not more reading, but better retrieval.</p>
-        <p>REPS converts the content you already consume into short daily review sessions — interleaved, spaced by an SM-2–inspired algorithm, and built around active recall rather than passive re-reading. No flashcard creation. No manual scheduling. Just a few reps a day, timed precisely when your memory needs them.</p>
-        <p class="closing-line">If you're reading this inside the REPS app, you've already taken the first step. Add this article and start training — your future self will thank you.</p>
-      </div>
-
     </article>
+
+    <!-- REPS NOTE — <aside> so the content fetcher (Firecrawl excludeTags +
+         Jina X-Remove-Selector both strip `aside`) keeps this REPS product copy
+         OUT of extracted concepts. Only the <article> body becomes concepts. -->
+    <aside class="reps-note">
+      <h2>A Note on REPS</h2>
+      <p>This is exactly why we built REPS. We kept finishing genuinely interesting articles and podcasts, feeling that warm glow of having learned something — and then watching it quietly vanish within a week. The science was clear on what was missing: not more reading, but better retrieval.</p>
+      <p>REPS converts the content you already consume into short daily review sessions — interleaved, spaced by an SM-2–inspired algorithm, and built around active recall rather than passive re-reading. No flashcard creation. No manual scheduling. Just a few reps a day, timed precisely when your memory needs them.</p>
+      <p class="closing-line">Try it with this very article. Tap your browser's Share button, choose REPS, and watch it land in your galaxy.</p>
+    </aside>
+
+    <!-- SHARE GUIDE — <aside> for the same extraction-exclusion reason. This
+         teaches the OS share gesture; it must NOT be extracted as concepts. -->
+    <aside class="share-guide">
+      <h2 class="share-guide-title">Save this into REPS in one tap</h2>
+      <p class="share-guide-lede">This is how you'll save anything you read, watch, or listen to. Try it now with this article.</p>
+      <div class="share-guide-grid">
+        <div class="share-phone">
+          <div class="share-phone-screen">
+            <video src="/share-extension-tutorial.mp4" autoplay loop muted playsinline></video>
+          </div>
+          <img class="share-phone-frame" src="/iphone-frame.png" alt="" aria-hidden="true" />
+        </div>
+        <ol class="share-steps">
+          <li><span class="share-step-num">1</span><span>Tap the <strong>Share</strong> button in your browser's toolbar.</span></li>
+          <li><span class="share-step-num">2</span><span>Choose <strong>REPS</strong> from the list of apps.</span></li>
+          <li><span class="share-step-num">3</span><span>Done. This article lands in your galaxy, ready to train.</span></li>
+        </ol>
+      </div>
+    </aside>
   </main>
 
   <!-- FOOTER -->
