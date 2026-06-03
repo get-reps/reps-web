@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="robots" content="noindex" />
+    <base href="/product/" />
     <title>REPS — Save. Play. Remember.</title>
 
     <!-- REPS typography: system sans = product voice (headlines, CTAs, nav, motto);
@@ -80,12 +81,12 @@
       .panel--end { align-items: center; justify-content: center; }
       @media (max-width: 760px) {
         .panel { padding: 20px; }
-        .panel--copy { max-width: 100%; align-items: flex-end; padding-bottom: 8svh; }
-        /* legibility scrim so copy reads over the phone/graph on small screens */
+        .panel--copy { max-width: 100%; align-items: flex-end; padding-bottom: 7svh; }
+        /* legibility scrim: smooth full-height gradient (no hard edge cutting the phone) */
         .panel--copy > div, .panel--hero .hero-copy { position: relative; z-index: 5; }
         .panel--copy::after, .panel--hero::after {
-          content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 62%; z-index: 1; pointer-events: none;
-          background: linear-gradient(to top, #000 18%, rgba(0,0,0,0.86) 48%, transparent 100%);
+          content: ""; position: absolute; left: 0; right: 0; bottom: 0; top: 0; z-index: 1; pointer-events: none;
+          background: linear-gradient(to top, #000 0%, rgba(0,0,0,0.92) 30%, rgba(0,0,0,0.55) 50%, transparent 72%);
         }
       }
 
@@ -194,9 +195,9 @@
          status bar + Dynamic Island baked in; overlaying our own doubled it and the glare
          shimmered over the UI. Real footage carries the island so it always matches. */
       @media (max-width: 760px) {
-        /* phone anchored to the TOP half; copy lives in the bottom half over a scrim */
-        #phone-stage { width: 100vw; height: 100svh; perspective: 1200px; align-items: flex-start; padding-top: 9svh; z-index: 2; }
-        .phone { width: min(220px, 52vw); }
+        /* phone sits in the UPPER ~55% only; copy owns the lower ~45% with the scrim. No overlap. */
+        #phone-stage { width: 100vw; height: 55svh; top: 6svh; bottom: auto; perspective: 1200px; align-items: center; z-index: 2; }
+        .phone { width: auto; height: min(46svh, 360px); aspect-ratio: 1080 / 2240; }
         nav { padding: 16px 18px; }
         .wordmark { font-size: 17px; letter-spacing: 0.14em; }
         .wordmark .appicon { width: 24px; height: 24px; }
@@ -287,8 +288,7 @@
 
       <section class="panel panel--center" data-clip="galaxy" data-phone="0">
         <div class="themes">
-          <div class="line reveal">A second brain that compounds.</div>
-          <div class="line reveal d1">Become the <b>smartest person</b> in the room.</div>
+          <div class="line reveal">A second brain that proactively makes you <b>sharper.</b></div>
           <div class="line reveal d2">Most apps compete for your attention.<br />REPS <b>compounds</b> it.</div>
         </div>
       </section>
@@ -323,7 +323,7 @@
               <span class="ctxt">Save from your laptop too<small>Chrome extension &middot; coming soon</small></span>
             </span>
           </div>
-          <p class="bloom-line reveal d3">Stop doom scrolling. <span class="grad">Start bloom scrolling.</span></p>
+          <p class="bloom-line reveal d3">Stop doom scrolling. <span class="grad">Start&nbsp;bloom&nbsp;scrolling.</span></p>
         </div>
       </section>
     </div>
