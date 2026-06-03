@@ -575,6 +575,12 @@
       addEventListener("pointerup",(e)=>{drag.active=false;canvas.style.cursor="grab";if(moved<8&&performance.now()-downTime<350)tryPick(e.clientX,e.clientY);});
       canvas.style.cursor="grab";
 
+      // cursor tracking for pointer-proximity node glow (desktop hover spotlight)
+      const cursor={x:-9999,y:-9999,active:false};
+      addEventListener("pointermove",(e)=>{ if(e.pointerType==='touch'){cursor.active=false;return;} cursor.x=e.clientX; cursor.y=e.clientY; cursor.active=true; },{passive:true});
+      addEventListener("pointerleave",()=>{cursor.active=false;});
+      addEventListener("blur",()=>{cursor.active=false;});
+
       // pick
       const raycaster=new THREE.Raycaster(),ndc=new THREE.Vector2(),card=document.getElementById("card");
       function tryPick(cx,cy){ndc.x=(cx/innerWidth)*2-1;ndc.y=-(cy/innerHeight)*2+1;raycaster.setFromCamera(ndc,camera);const hits=raycaster.intersectObjects(pickables,false);if(hits.length){const n=hits[0].object.userData.node;showCard(n);startCascade(nodes.indexOf(n),clock.getElapsedTime());nextTrig=clock.getElapsedTime()+rnd(TRIG_MIN,TRIG_MAX);}else hideCard();}
@@ -801,6 +807,21 @@
         // node activation (the ONLY glow source) — emissive stays the node's own color
         for(let i=0;i<nodeMeshes.length;i++) nodeMeshes[i].targetAct=0;
         for(const f of firings){ const e=envelope(t-f.t0)*f.peak; if(e>nodeMeshes[f.idx].targetAct) nodeMeshes[f.idx].targetAct=e; }
+        // pointer-proximity spotlight: nodes near the cursor glow, scaled by closeness.
+        // Projects each node to screen; cheap enough at this node count. Touch has no hover.
+        const HOVER_R = Math.min(innerWidth,innerHeight)*0.16;   // spotlight radius (px)
+        if(cursor.active){
+          for(let i=0;i<nodeMeshes.length;i++){
+            worldP.copy(nodeMeshes[i].cur).applyMatrix4(root.matrixWorld).project(camera);
+            if(worldP.z>1) continue;                              // behind camera
+            const sx=(worldP.x*0.5+0.5)*innerWidth, sy=(-worldP.y*0.5+0.5)*innerHeight;
+            const dx=sx-cursor.x, dy=sy-cursor.y, dist=Math.hypot(dx,dy);
+            if(dist<HOVER_R){
+              const h=(1-dist/HOVER_R); const hv=h*h*0.85;        // ease-in falloff, capped below cascade peak
+              if(hv>nodeMeshes[i].targetAct) nodeMeshes[i].targetAct=hv;
+            }
+          }
+        }
         for(let i=0;i<nodeMeshes.length;i++){
           const nm=nodeMeshes[i];
           nm.act+=(nm.targetAct-nm.act)*0.5;
