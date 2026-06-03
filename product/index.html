@@ -47,7 +47,7 @@
 
       /* graph is now an AMBIENT backdrop: dimmed, softly blurred, behind everything,
          non-interactive so it never competes with the phones. Still alive (drift + cascade). */
-      #stage { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.72; filter: blur(1px); }
+      #stage { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 1; filter: blur(1px); }
       #stage::after {
         content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 2;
         background:
@@ -733,7 +733,7 @@
         const intro=Math.min(t/INTRO,1), ie=1-Math.pow(1-intro,3);
         // graph opacity: bold at the top (page feels alive on first open), eases down as you
         // scroll into the phones so it never competes; a phone on screen pulls the floor lower.
-        const top=0.72, floor=phoneOn?0.12:0.20;
+        const top=1.0, floor=phoneOn?0.12:0.20;
         const targetOpacity=(top+(floor-top)*Math.min(scrollProgress/0.45,1))*ie;
         const curOp=parseFloat(graphCanvas.style.opacity)||top;
         graphCanvas.style.opacity=(curOp+(targetOpacity-curOp)*0.08).toFixed(3);
