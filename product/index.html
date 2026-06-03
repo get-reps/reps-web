@@ -45,7 +45,7 @@
 
       /* graph is now an AMBIENT backdrop: dimmed, softly blurred, behind everything,
          non-interactive so it never competes with the phones. Still alive (drift + cascade). */
-      #stage { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.34; filter: blur(1.4px); transition: opacity 0.8s; }
+      #stage { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.72; filter: blur(1px); }
       #stage::after {
         content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 2;
         background:
@@ -197,7 +197,11 @@
       @media (max-width: 760px) {
         /* phone sits in the UPPER ~55% only; copy owns the lower ~45% with the scrim. No overlap. */
         #phone-stage { width: 100vw; height: 55svh; top: 6svh; bottom: auto; perspective: 1200px; align-items: center; z-index: 2; }
-        .phone { width: auto; height: min(46svh, 360px); aspect-ratio: 1080 / 2240; }
+        /* squarer corners on the smaller mobile phone (real iPhone ~12% radius, not stadium) */
+        .phone { width: auto; height: min(46svh, 360px); aspect-ratio: 1080 / 2240; border-radius: 32px; padding: 9px; }
+        .phone::before { border-radius: 34px; }
+        .phone::after { border-radius: 32px; }
+        .phone .screen { border-radius: 24px; }
         nav { padding: 16px 18px; }
         .wordmark { font-size: 17px; letter-spacing: 0.14em; }
         .wordmark .appicon { width: 24px; height: 24px; }
@@ -281,7 +285,7 @@
       <section class="panel panel--copy" data-clip="feed" data-phone="1">
         <div>
           <div class="eyebrow reveal">Discover together</div>
-          <h2 class="reveal d1">See what your friends<br /><span class="coral">are actually reading.</span></h2>
+          <h2 class="reveal d1">No more clickbait.<br />See what your friends are reading and <span class="coral">discover from the community.</span></h2>
           <p class="lede reveal d2">A feed of high-quality content worth remembering, surfaced by the people you trust. No outrage, no doom. Just things that make you sharper.</p>
         </div>
       </section>
@@ -623,7 +627,8 @@
         // latest pendingClip and land front-facing.
       }
       const graphCanvas=document.getElementById("stage");
-      function setPhone(on){ phoneStage.classList.toggle("live",!!on); graphCanvas.style.opacity=on?"0.18":"0.34"; }
+      let phoneOn=false;
+      function setPhone(on){ phoneOn=!!on; phoneStage.classList.toggle("live",phoneOn); }
       const panelObs=new IntersectionObserver((es)=>{
         es.forEach((en)=>{ if(!en.isIntersecting)return; const p=en.target;
           if(p.dataset.clip)setClip(p.dataset.clip);
@@ -720,6 +725,12 @@
 
         // intro fly-in, then scroll
         const intro=Math.min(t/INTRO,1), ie=1-Math.pow(1-intro,3);
+        // graph opacity: bold at the top (page feels alive on first open), eases down as you
+        // scroll into the phones so it never competes; a phone on screen pulls the floor lower.
+        const top=0.72, floor=phoneOn?0.12:0.20;
+        const targetOpacity=(top+(floor-top)*Math.min(scrollProgress/0.45,1))*ie;
+        const curOp=parseFloat(graphCanvas.style.opacity)||top;
+        graphCanvas.style.opacity=(curOp+(targetOpacity-curOp)*0.08).toFixed(3);
         const s=sampleKF(scrollProgress);
         const dX=THREE.MathUtils.lerp(0,s.px,ie),dY=THREE.MathUtils.lerp(4,s.py,ie),dZ=THREE.MathUtils.lerp(130,s.pz,ie);
         camera.position.x+=(dX-camera.position.x)*0.06;
