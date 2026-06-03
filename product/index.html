@@ -715,6 +715,19 @@
       function pickSeed(){ const due=[];nodes.forEach((n,i)=>{if(n.due)due.push(i);}); return due.length&&rand()<0.6?due[Math.floor(rand()*due.length)]:Math.floor(rand()*N); }
       let nextTrig=1.8;
 
+      // BIG cascade: many simultaneous origins igniting across the whole brain. Used when the
+      // user engages the waitlist form (focus) — a celebratory full-graph surge, not the small
+      // ambient cascade. Accumulates firings from several seeds instead of resetting.
+      function startBigCascade(now){
+        const SEEDS=7;
+        let all=[]; const seen=new Set();
+        for(let s=0;s<SEEDS;s++){
+          startCascade(Math.floor(rand()*N), now + s*0.06);  // slight stagger so origins ripple outward
+          for(const f of firings){ const key=f.idx+':'+f.t0.toFixed(3); if(!seen.has(key)){ seen.add(key); all.push(f); } }
+        }
+        firings=all; // keep the union so updatePhone()/render lights every seeded region at once
+      }
+
       // ---------- animate ----------
       const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
       const INTRO=3.0;
@@ -722,6 +735,26 @@
       let autoRamp=0, autoY=0, prevT=0;
       const drift=new THREE.Vector3(), worldP=new THREE.Vector3();
       addEventListener("scroll", onScroll, { passive: true }); onScroll();
+
+      // Big cascade when the user engages the waitlist form. The form is a cross-origin
+      // Waitlister iframe, so we can't read its clicks directly — but the window blurs and
+      // document.activeElement becomes the iframe the moment it's clicked into. Debounced so
+      // re-focusing fields doesn't re-fire constantly.
+      (function(){
+        const formEl=document.querySelector('.waitlister-form');
+        let lastFire=-999;
+        function maybeFire(){
+          const ae=document.activeElement;
+          const inForm=ae && formEl && (ae===formEl || formEl.contains(ae) || (ae.tagName==='IFRAME' && formEl.contains(ae)));
+          if(!inForm)return;
+          const t=clock.getElapsedTime();
+          if(t-lastFire<2.5)return;   // debounce
+          lastFire=t;
+          startBigCascade(t);
+        }
+        // activeElement updates just after the blur event; check on next tick.
+        window.addEventListener('blur', ()=>setTimeout(maybeFire,0));
+      })();
       function tick(){
         const t=clock.getElapsedTime();
         const dt=Math.min(0.05,t-prevT); prevT=t;
