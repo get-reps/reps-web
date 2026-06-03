@@ -36,7 +36,9 @@
         --serif: "Lora", Georgia, "Times New Roman", serif;
       }
       * { margin: 0; padding: 0; box-sizing: border-box; }
-      html { scroll-behavior: smooth; }
+      /* snappy section scrolling: each beat lands aligned (phone + flip + text arrive together).
+         Native CSS snap — respects trackpad/keyboard/momentum, no scroll-hijacking. */
+      html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
       body {
         background: var(--bg); color: var(--ink); font-family: var(--sans);
         -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
@@ -74,7 +76,9 @@
       }
 
       #scroller { position: relative; z-index: 3; pointer-events: none; }
-      .panel { min-height: 100svh; display: flex; padding: clamp(24px, 5vw, 80px); position: relative; }
+      .panel { min-height: 100svh; display: flex; padding: clamp(24px, 5vw, 80px); position: relative; scroll-snap-align: start; scroll-snap-stop: always; }
+      /* exempt the CTA: its waitlist form can exceed viewport height; mandatory snap would trap it */
+      .panel--end { scroll-snap-align: none; scroll-snap-stop: normal; }
       .panel--hero { align-items: flex-end; }
       .panel--center { align-items: center; }
       .panel--copy { align-items: center; max-width: 50vw; } /* copy on the left, phone on the right */
@@ -215,7 +219,7 @@
         .cta-wrap { max-width: 100%; }
       }
       @media (max-width: 380px) { .nav-cta { padding: 8px 13px; font-size: 12px; } .phone { width: min(200px, 50vw); } }
-      @media (prefers-reduced-motion: reduce) { .scrollcue, .hint .pulse { animation: none; } html { scroll-behavior: auto; } }
+      @media (prefers-reduced-motion: reduce) { .scrollcue, .hint .pulse { animation: none; } html { scroll-behavior: auto; scroll-snap-type: none; } }
       .footnote { position: fixed; bottom: 12px; right: 16px; z-index: 6; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: rgba(244,238,233,.18); pointer-events: none; }
     </style>
   </head>
