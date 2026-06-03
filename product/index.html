@@ -85,7 +85,8 @@
       .panel--end { align-items: center; justify-content: center; }
       @media (max-width: 760px) {
         .panel { padding: 20px; }
-        .panel--copy { max-width: 100%; align-items: flex-end; padding-bottom: 7svh; }
+        .panel--copy { max-width: 100%; align-items: flex-end; padding-bottom: 3svh; }
+        .panel--hero { padding-bottom: 3svh; }
         /* legibility scrim: smooth full-height gradient (no hard edge cutting the phone) */
         .panel--copy > div, .panel--hero .hero-copy { position: relative; z-index: 5; }
         .panel--copy::after, .panel--hero::after {
@@ -199,10 +200,11 @@
          status bar + Dynamic Island baked in; overlaying our own doubled it and the glare
          shimmered over the UI. Real footage carries the island so it always matches. */
       @media (max-width: 760px) {
-        /* phone sits in the UPPER ~55% only; copy owns the lower ~45% with the scrim. No overlap. */
-        #phone-stage { width: 100vw; height: 55svh; top: 6svh; bottom: auto; perspective: 1200px; align-items: center; z-index: 2; }
+        /* phone fills the upper region; bigger so the in-app UI is legible. Copy sits just
+           below it (low padding) to use the former dead space at the bottom. */
+        #phone-stage { width: 100vw; height: 60svh; top: 4svh; bottom: auto; perspective: 1200px; align-items: center; z-index: 2; }
         /* squarer corners on the smaller mobile phone (real iPhone ~12% radius, not stadium) */
-        .phone { width: auto; height: min(46svh, 360px); aspect-ratio: 1080 / 2240; border-radius: 32px; padding: 9px; }
+        .phone { width: auto; height: min(56svh, 460px); aspect-ratio: 1080 / 2240; border-radius: 36px; padding: 10px; }
         .phone::before { border-radius: 34px; }
         .phone::after { border-radius: 32px; }
         .phone .screen { border-radius: 24px; }
