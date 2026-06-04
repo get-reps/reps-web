@@ -36,10 +36,11 @@
         --serif: "Lora", Georgia, "Times New Roman", serif;
       }
       * { margin: 0; padding: 0; box-sizing: border-box; }
-      /* snappy section scrolling: each beat lands aligned. Uses PROXIMITY (not mandatory) so a
-         tall panel like the CTA can always be reached and scrolled through on touch, while short
-         panels still snap cleanly. */
-      html { scroll-behavior: smooth; scroll-snap-type: y proximity; }
+      /* snappy section scrolling: each beat lands aligned. MANDATORY so the user always lands on a
+         clean beat and never rests in a half-scrolled state showing the bare backdrop. Every panel is
+         exactly one viewport tall (100dvh mobile / 100svh desktop) and the CTA is sized to fit, so no
+         section overflows the viewport and traps the mandatory snap. */
+      html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
       body {
         background: var(--bg); color: var(--ink); font-family: var(--sans);
         -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
@@ -98,12 +99,10 @@
            NOT justify-content (which is the horizontal axis). */
         .panel--copy { max-width: 100%; align-items: flex-end; justify-content: flex-start; padding-top: 0; padding-bottom: 5dvh; }
         .panel--hero { padding-bottom: 5dvh; }
-        /* legibility scrim: smooth full-height gradient (no hard edge cutting the phone) */
+        /* No legibility scrim: the page background is already near-black, so a black gradient just
+           adds a visible horizontal "cut" against the live constellation backdrop. Text sits above
+           the (very dim, blurred) backdrop and the phone with no overlay. */
         .panel--copy > div, .panel--hero .hero-copy { position: relative; z-index: 5; }
-        .panel--copy::after, .panel--hero::after {
-          content: ""; position: absolute; left: 0; right: 0; bottom: 0; top: 0; z-index: 1; pointer-events: none;
-          background: linear-gradient(to top, #000 0%, rgba(0,0,0,0.92) 30%, rgba(0,0,0,0.55) 50%, transparent 72%);
-        }
       }
 
       nav {
