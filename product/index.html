@@ -86,11 +86,18 @@
       .panel--copy { align-items: center; max-width: 50vw; } /* copy on the left, phone on the right */
       .panel--end { align-items: center; justify-content: center; }
       @media (max-width: 760px) {
-        .panel { padding: 20px; }
-        /* copy lives in the lower ~45svh, centered in that band beneath the phone (no dead gap
-           above OR below). Phone occupies the top ~55svh; this fills the rest. */
-        .panel--copy { max-width: 100%; align-items: center; justify-content: flex-start; padding-top: 56svh; padding-bottom: 4svh; }
-        .panel--hero { padding-bottom: 4svh; }
+        /* Bulletproof mobile composition: everything tracks the DYNAMIC viewport (dvh) and is
+           anchored to the BOTTOM, so it stays correct no matter whether Safari/Chrome's top or
+           bottom toolbars are showing. The old svh sizing caused a dead band — the panel was sized
+           to the SMALL viewport while the real viewport grew as the chrome collapsed, leaving empty
+           space below the copy and floating the text too high. dvh = the live viewport, always. */
+        .panel { padding: 20px; min-height: 100dvh; }
+        /* copy hugs the BOTTOM of the live viewport; the pinned phone (also dvh-bottom-anchored)
+           sits right above it. The scrim keeps text legible where tall copy overlaps the phone.
+           NB: .panel is a flex ROW, so vertical anchoring is align-items (flex-end = bottom),
+           NOT justify-content (which is the horizontal axis). */
+        .panel--copy { max-width: 100%; align-items: flex-end; justify-content: flex-start; padding-top: 0; padding-bottom: 5dvh; }
+        .panel--hero { padding-bottom: 5dvh; }
         /* legibility scrim: smooth full-height gradient (no hard edge cutting the phone) */
         .panel--copy > div, .panel--hero .hero-copy { position: relative; z-index: 5; }
         .panel--copy::after, .panel--hero::after {
@@ -206,10 +213,11 @@
          status bar + Dynamic Island baked in; overlaying our own doubled it and the glare
          shimmered over the UI. Real footage carries the island so it always matches. */
       @media (max-width: 760px) {
-        /* phone in the upper ~52svh; copy fills the lower ~44svh right beneath it (no dead band). */
-        #phone-stage { width: 100vw; height: 52svh; top: 3svh; bottom: auto; perspective: 1200px; align-items: center; z-index: 2; }
+        /* phone pinned and anchored from the BOTTOM in dvh, so it tracks the live viewport together
+           with the copy and always sits just above it (no divergence as the chrome toggles). */
+        #phone-stage { width: 100vw; height: min(50dvh, 410px); top: auto; bottom: 35dvh; perspective: 1200px; align-items: center; z-index: 2; }
         /* squarer corners on the smaller mobile phone (real iPhone ~12% radius, not stadium) */
-        .phone { width: auto; height: min(48svh, 400px); aspect-ratio: 1080 / 2240; border-radius: 32px; padding: 9px; }
+        .phone { width: auto; height: min(50dvh, 410px); aspect-ratio: 1080 / 2240; border-radius: 32px; padding: 9px; }
         .phone::before { border-radius: 34px; }
         .phone::after { border-radius: 32px; }
         .phone .screen { border-radius: 24px; }
