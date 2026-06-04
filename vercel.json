@@ -1,10 +1,26 @@
 {
   "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/product/index.html"
+    }
+  ],
   "redirects": [
     {
       "source": "/r/:code",
       "destination": "/?ref=:code",
       "statusCode": 302
+    },
+    {
+      "source": "/product",
+      "destination": "/",
+      "statusCode": 301
+    },
+    {
+      "source": "/product/",
+      "destination": "/",
+      "statusCode": 301
     },
     {
       "source": "/investor-2026",
