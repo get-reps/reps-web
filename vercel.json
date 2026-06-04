@@ -3,7 +3,7 @@
   "rewrites": [
     {
       "source": "/",
-      "destination": "/product/index.html"
+      "destination": "/product"
     }
   ],
   "redirects": [
