@@ -124,6 +124,13 @@
       /* coral->peach gradient text, matching the app CTA button gradient */
       .grad { background: linear-gradient(100deg, var(--coral), var(--peach)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
       .hero-copy { max-width: 1100px; }
+      /* Text shadow replaces the removed scrim: it lifts the copy off the live constellation
+         backdrop (and any bright phone edge) with a soft halo instead of a hard black band.
+         Tight contact shadow for crisp legibility + a wider ambient shadow for separation.
+         Applies to gradient (.grad) text too — the shadow renders behind the clipped glyphs. */
+      .eyebrow, h1, h2, .lede, .themes .line, .bloom-line, .invite-line, .waitlist-note, .wordmark {
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55), 0 3px 16px rgba(0, 0, 0, 0.42);
+      }
 
       .scrollcue { position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%); font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--faint); display: flex; flex-direction: column; align-items: center; gap: 10px; animation: bob 2.4s ease-in-out infinite; }
       .scrollcue .bar { width: 1px; height: 38px; background: linear-gradient(var(--coral), transparent); }
