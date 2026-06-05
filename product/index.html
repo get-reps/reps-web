@@ -191,7 +191,7 @@
       #card .stat .v .em { margin-right: 6px; }
 
       /* ---------- CSS-3D hero phone (pinned, native video, scroll-tilt + clip swap) ---------- */
-      #phone-stage { position: fixed; z-index: 4; top: 0; right: 0; width: 50vw; height: 100svh; display: flex; align-items: center; justify-content: center; pointer-events: none; perspective: 1600px; opacity: 0; transition: opacity 0.2s; }
+      #phone-stage { position: fixed; z-index: 4; top: 0; right: 0; width: 50vw; height: 100svh; display: flex; align-items: center; justify-content: center; pointer-events: none; perspective: 1600px; opacity: 0; transition: opacity 0.6s; }
       #phone-stage.live { opacity: 1; }
       .phone {
         position: relative; width: min(310px, 78vw); aspect-ratio: 1080 / 2240;
@@ -216,7 +216,7 @@
         box-shadow: 0 0 0 1px rgba(255,255,255,0.10), 0 0 0 4px rgba(0,0,0,0.55);
       }
       .phone .screen { position: relative; width: 100%; height: 100%; border-radius: 38px; overflow: hidden; background: #000; transform: translateZ(1px); }
-      .phone .screen video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: none; }
+      .phone .screen video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.4s ease; }
       .phone .screen video.show { opacity: 1; }
       /* NOTE: no fake Dynamic Island / no glare — the in-app footage already has a real iOS
          status bar + Dynamic Island baked in; overlaying our own doubled it and the glare
@@ -647,15 +647,26 @@
       function swapVideo(clip){
         for(const k in vids){const v=vids[k];if(k===clip){v.classList.add("show");try{v.currentTime=0;}catch(_e){}const pr=v.play();if(pr&&pr.catch)pr.catch(()=>{});}else{v.classList.remove("show");try{v.pause();}catch(_e){}}}
       }
-      // INSTANT clip swap — no flip, no crossfade. The moment a panel becomes active its recording
-      // is already on screen, landing together with that panel's title + subtext. The old 900ms
-      // 360° flip + 400ms video fade was the single biggest source of the "phone shows, the clip/
-      // text catches up a beat later" half-state Mike kept hitting. Gone.
+      // 360° horizontal flip on clip change. INVARIANT: flipTarget is ALWAYS a multiple of
+      // 360, so the phone can only ever come to rest front-facing — even if a scroll reverses
+      // mid-spin. An interrupted flip is never restarted from an arbitrary angle; it finishes
+      // its clean turn and just swaps to the latest clip. The video swaps at the edge-on midpoint
+      // so the swap itself is hidden — the flip is a flourish, never a half-state (the panel's
+      // title + subtext are already fully composed at rest; see the .reveal no-op above).
+      let flipSpin=0, flipTarget=0, flipFrom=0, flipStart=-1, pendingClip=null, shownClip=null;
+      const FLIP_MS=900;
       function setClip(clip){
         if(!vids[clip])return;
-        if(clip===activeClip)return;   // already showing it
-        activeClip=clip;
-        swapVideo(clip);               // instant (video transition:none)
+        if(activeClip===null){activeClip=clip;shownClip=clip;swapVideo(clip);return;} // first load: no flip
+        if(clip===activeClip && clip===shownClip && flipStart<0)return;               // already at rest on it
+        activeClip=clip; pendingClip=clip;
+        if(flipStart<0){ // idle -> begin one clean turn to the next multiple of 360
+          flipFrom=flipSpin;
+          flipTarget=Math.round(flipSpin/360)*360+360;
+          flipStart=performance.now();
+        }
+        // if mid-flip: leave flipTarget (still a multiple of 360); the loop will show the
+        // latest pendingClip and land front-facing.
       }
       const graphCanvas=document.getElementById("stage");
       let phoneOn=false;
@@ -675,12 +686,24 @@
       addEventListener("pointermove",(e)=>{pointerTX=(e.clientY/innerHeight-0.5)*-4;pointerTY=(e.clientX/innerWidth-0.5)*6;},{passive:true});
       function updatePhone(){
         const now=performance.now();
-        // No flip — the phone just holds a gentle ambient tilt + float. Clip swaps are instant
-        // (see setClip), so the phone never spins to "reveal" a new recording; it's simply already
-        // showing the right one when its panel is in view.
+        // 360° flip: ease flipSpin from flipFrom to flipTarget (always a 360-multiple), swap
+        // video at the edge-on midpoint. On completion, snap exactly to flipTarget (front-
+        // facing) and, if the clip changed again after the swap, kick one more clean turn.
+        if(flipStart>=0){
+          const p=Math.min((now-flipStart)/FLIP_MS,1);
+          const e=p<0.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2;   // easeInOutCubic
+          flipSpin=flipFrom+(flipTarget-flipFrom)*e;
+          if(pendingClip&&p>=0.5){swapVideo(pendingClip);shownClip=pendingClip;pendingClip=null;}
+          if(p>=1){
+            flipSpin=flipTarget; flipStart=-1;
+            if(shownClip!==activeClip){ // clip changed after the swap point -> one more clean turn
+              if(vids[activeClip]){pendingClip=activeClip;flipFrom=flipTarget;flipTarget=flipTarget+360;flipStart=now;}
+            }
+          }
+        }
         const baseY=innerWidth<760?0:-9;                  // shallow resting yaw (faces slightly left toward copy)
         const scrollTilt=Math.sin(scrollProgress*Math.PI*2)*3;
-        const ry=baseY+pointerTY*0.5+scrollTilt;
+        const ry=baseY+pointerTY*0.5+scrollTilt+flipSpin;
         const rx=1+pointerTX*0.5;
         const floatY=Math.sin(now*0.0006)*7;
         phoneEl.style.transform=`rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translateY(${floatY.toFixed(1)}px)`;
