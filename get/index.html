@@ -82,7 +82,7 @@
       /* perched Echo on the email bar (animated canvas, brand-faithful) */
       [data-signup] { position: relative; }
       .hero [data-signup] { margin-top: 28px; }
-      .perch { position: absolute; top: -46px; right: 16px; z-index: 3; pointer-events: none; }
+      .perch { position: absolute; top: -122px; right: 0; z-index: 3; pointer-events: none; }
 
       /* ---------- Signup form ---------- */
       .signup { display: flex; flex-direction: column; gap: 10px; margin-top: var(--s1); }
@@ -191,7 +191,7 @@
         </script>
 
         <div data-signup>
-          <canvas class="perch" data-echo-perched data-size="62" aria-hidden="true"></canvas>
+          <canvas class="perch" data-echo-perched-reading data-size="146" aria-hidden="true"></canvas>
           <form class="signup" novalidate>
             <input type="email" name="email" inputmode="email" autocomplete="email"
               autocapitalize="off" spellcheck="false" placeholder="Enter your email" required aria-label="Email address" />
@@ -282,8 +282,8 @@
 
     <iframe name="wl_sink" title="waitlist" style="display:none" aria-hidden="true"></iframe>
 
-    <!-- Perched Echo on the email bar — animated Canvas-2D port of the canonical Skia perched state -->
-    <script src="/get/assets/echo-perched.js" defer></script>
+    <!-- Perched Echo reading a book, on the email bar — Canvas-2D port of the canonical Skia state -->
+    <script src="/get/assets/echo-perched-reading.js" defer></script>
 
     <!-- ---------- PostHog (scoped to this paid variant only) ---------- -->
     <script>
