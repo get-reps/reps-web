@@ -1018,30 +1018,32 @@ const REF = 200;
         }
       }
 
-  // ── mount: render perched-reading on a [data-echo-perched-reading] canvas ──
-  // Mirrors the prototype's live cell: 240×290 logical box, Echo (REF 200) at translate(20,22).
+  // ── mount: render perched-reading, CROPPED TIGHT to Echo's content box ──
+  // BOX = Echo's animated bounding box in REF-200 coords (measured over a full page-turn
+  // cycle, incl. page-lift + leg-sway) + small margin. Cropping removes the empty canvas
+  // padding so Echo's FEET are the canvas bottom edge → it perches ON the bar, not above it.
+  // data-size = the on-screen WIDTH of Echo's box. ALWAYS animates (decorative aria-hidden
+  // mascot — intentionally not gated on prefers-reduced-motion).
+  var BOX = { x0: 32, y0: 50, w: 132, h: 156 };
   function mountReading(canvas) {
-    var displayW = parseInt(canvas.getAttribute('data-size') || '120', 10);
-    var LOGW = 240, LOGH = 290, scale = displayW / LOGW, displayH = Math.round(LOGH * scale);
+    var displayW = parseInt(canvas.getAttribute('data-size') || '54', 10);
+    var scale = displayW / BOX.w;
+    var displayH = Math.round(BOX.h * scale);
     var dpr = Math.max(1, Math.min(3, window.devicePixelRatio || 1));
     canvas.style.width = displayW + 'px';
     canvas.style.height = displayH + 'px';
     canvas.width = Math.round(displayW * dpr);
     canvas.height = Math.round(displayH * dpr);
     var ctx = canvas.getContext('2d');
-    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var t0 = null;
     function tick(now) {
       if (t0 === null) t0 = now;
       var tMs = now - t0;
-      ctx.setTransform(dpr * scale, 0, 0, dpr * scale, 0, 0);
-      ctx.clearRect(0, 0, LOGW, LOGH);
-      ctx.save();
-      ctx.translate(20, 22);
-      var f = reduce ? computePerchedReadingFrame(0, { reducedMotion: true }) : computePerchedReadingFrame(tMs);
-      drawEcho(ctx, 200, f, tMs / 1000);
-      ctx.restore();
-      if (!reduce) requestAnimationFrame(tick);
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.setTransform(dpr * scale, 0, 0, dpr * scale, -BOX.x0 * dpr * scale, -BOX.y0 * dpr * scale);
+      drawEcho(ctx, 200, computePerchedReadingFrame(tMs), tMs / 1000);
+      requestAnimationFrame(tick);
     }
     requestAnimationFrame(tick);
   }
