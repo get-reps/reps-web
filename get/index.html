@@ -5,172 +5,134 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>REPS · Remember everything you read, watch, and hear</title>
     <meta name="description" content="REPS turns what you read, watch, and hear into quick games that make it stick. Get early access." />
-    <!-- Paid-traffic landing variant. Not for organic index; the canonical brand page is /. -->
     <meta name="robots" content="noindex" />
 
     <link rel="preconnect" href="https://us.i.posthog.com" crossorigin />
     <link rel="preconnect" href="https://us-assets.i.posthog.com" crossorigin />
     <link rel="preconnect" href="https://waitlister.me" crossorigin />
+    <!-- Display typeface for headlines (product voice = sans; a chosen grotesk, not OS default) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
 
     <style>
       :root {
         --cream: #fffaf7;
-        --galaxy: #040409; /* contained 3D-panel black — NEVER #000000 */
+        --galaxy: #040409;
         --coral: #ff6b6b;
         --peach: #ff8e53;
-        --ink: #211a14; /* warm ink — editorial headline color on cream */
+        --ink: #211a14;          /* warm-ink headline */
         --slate: #2c3e50;
-        --muted: rgba(33, 26, 20, 0.64);
-        --faint: rgba(33, 26, 20, 0.45);
-        --hairline: rgba(33, 26, 20, 0.12);
+        --body: rgba(33, 26, 20, 0.72);
+        --muted: rgba(33, 26, 20, 0.58);
+        --hairline: rgba(33, 26, 20, 0.13);
         --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        --display: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        /* 8-pt spacing scale */
+        --s1: 8px; --s2: 16px; --s3: 24px; --s4: 32px; --s6: 48px; --s8: 64px;
       }
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html, body { background: var(--cream); }
       body {
-        color: var(--slate);
-        font-family: var(--sans);
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        line-height: 1.45;
-        text-rendering: optimizeLegibility;
+        color: var(--body); font-family: var(--sans);
+        -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+        line-height: 1.45; text-rendering: optimizeLegibility;
       }
       img, video { display: block; max-width: 100%; }
       .wrap { width: 100%; max-width: 460px; margin: 0 auto; padding: 0 22px; }
 
-      /* ---------- Header ---------- */
-      header { padding: 16px 0 0; }
-      .wordmark { font-weight: 800; font-size: 19px; letter-spacing: 0.14em; color: var(--ink); }
+      header { padding: var(--s2) 0 0; }
+      .wordmark { font-family: var(--display); font-weight: 700; font-size: 19px; letter-spacing: 0.12em; color: var(--ink); }
 
       /* ---------- Hero ---------- */
-      .hero {
-        min-height: calc(100dvh - 52px);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 14px;
-        padding: 6px 0 22px;
-        text-align: center;
-      }
+      .hero { display: flex; flex-direction: column; gap: var(--s2); padding: var(--s2) 0 var(--s4); text-align: center; }
       h1 {
-        color: var(--ink);
-        font-weight: 800;
-        font-size: clamp(27px, 7vw, 36px);
-        line-height: 1.08;
-        letter-spacing: -0.02em;
+        font-family: var(--display); color: var(--ink); font-weight: 700;
+        font-size: clamp(30px, 7.6vw, 42px); line-height: 1.05; letter-spacing: -0.02em;
+        text-wrap: balance;
       }
-      .lede {
-        font-size: 15.5px;
-        color: var(--muted);
-        max-width: 33ch;
-        margin: 0 auto;
-      }
+      .lede { font-size: 16px; color: var(--muted); max-width: 32ch; margin: 0 auto; text-wrap: balance; }
 
-      /* ---------- Phone-frame hero visual (uncropped galaxy at native aspect) ---------- */
-      .stage { position: relative; display: flex; justify-content: center; padding: 6px 0 2px; }
+      /* ---------- Phone-frame hero visual (game clip, uncropped at native aspect) ---------- */
+      .stage { position: relative; display: flex; justify-content: center; padding: 4px 0 0; }
       .stage::before {
-        content: "";
-        position: absolute;
-        inset: -6% 8% 4%;
-        background: radial-gradient(circle at 50% 42%, rgba(255, 107, 107, 0.16), rgba(255, 142, 83, 0.08) 38%, transparent 64%);
-        filter: blur(2px);
-        z-index: 0;
+        content: ""; position: absolute; left: 12%; right: 12%; top: 2%; bottom: 6%;
+        background: radial-gradient(circle at 50% 44%, rgba(255, 107, 107, 0.20), rgba(255, 142, 83, 0.10) 42%, transparent 66%);
+        filter: blur(14px); z-index: 0;
       }
       .phone {
-        position: relative;
-        z-index: 1;
-        width: clamp(148px, 42vw, 180px);
-        padding: 7px;
-        background: #0b0b12;
-        border-radius: 30px;
-        box-shadow: 0 26px 50px -18px rgba(33, 26, 20, 0.32), 0 0 0 1px rgba(33, 26, 20, 0.05);
-        transform: rotate(-5deg);
+        position: relative; z-index: 1;
+        width: clamp(150px, 43vw, 196px);
+        padding: 6px; background: #0b0b12; border-radius: 30px;
+        box-shadow: 0 2px 6px rgba(33, 26, 20, 0.16), 0 26px 54px -22px rgba(33, 26, 20, 0.38);
+      }
+      .phone::after { /* subtle bezel rim-light */
+        content: ""; position: absolute; inset: 0; border-radius: 30px;
+        box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.08); pointer-events: none;
       }
       .phone .screen {
-        position: relative;
-        width: 100%;
-        aspect-ratio: 540 / 1170; /* exact galaxy.mp4 aspect → zero crop */
-        border-radius: 23px;
-        overflow: hidden;
-        background: var(--galaxy);
+        width: 100%; aspect-ratio: 540 / 1170; /* exact clip aspect → zero crop */
+        border-radius: 24px; overflow: hidden; background: var(--galaxy);
       }
       .phone .screen video { width: 100%; height: 100%; object-fit: cover; }
-      .phone .island {
-        position: absolute;
-        top: 8px; left: 50%; transform: translateX(-50%);
-        width: 34%; height: 10px; border-radius: 6px;
-        background: #0b0b12; z-index: 2;
-      }
       .echo {
-        position: absolute;
-        z-index: 2;
-        width: clamp(72px, 22vw, 92px);
-        left: 4%;
-        bottom: -6px;
-        transform: rotate(4deg);
-        filter: drop-shadow(0 8px 14px rgba(33, 26, 20, 0.18));
+        position: absolute; z-index: 0;
+        width: clamp(84px, 26vw, 106px);
+        left: 6%; bottom: -2px;
+        filter: drop-shadow(0 6px 12px rgba(33, 26, 20, 0.16));
         pointer-events: none;
       }
 
       /* ---------- Signup form ---------- */
-      .signup { display: flex; flex-direction: column; gap: 10px; margin-top: 2px; }
+      .signup { display: flex; flex-direction: column; gap: 10px; margin-top: var(--s1); }
       .signup input[type="email"] {
-        width: 100%; height: 52px;
-        border: 1.5px solid var(--hairline);
-        border-radius: 14px; background: #fff;
-        padding: 0 16px; font-family: var(--sans);
-        font-size: 16px; color: var(--ink); outline: none;
-        text-align: center;
-        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        width: 100%; height: 52px; border: 1.5px solid var(--hairline); border-radius: 14px;
+        background: #fff; padding: 0 18px; font-family: var(--sans); font-size: 16px; color: var(--ink);
+        outline: none; transition: border-color 0.15s ease, box-shadow 0.15s ease;
       }
       .signup input[type="email"]:focus { border-color: var(--coral); box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.16); }
-      .signup input::placeholder { color: var(--faint); }
+      .signup input::placeholder { color: var(--muted); }
       .signup button {
         width: 100%; height: 52px; border: 0; border-radius: 14px;
-        background: linear-gradient(180deg, var(--coral) 0%, var(--peach) 100%);
-        color: #fff; font-family: var(--sans); font-weight: 700; font-size: 17px;
-        cursor: pointer; box-shadow: 0 10px 22px -10px rgba(255, 107, 107, 0.7);
+        background: linear-gradient(135deg, var(--coral) 0%, var(--peach) 100%);
+        color: #fff; font-family: var(--sans); font-weight: 700; font-size: 17px; cursor: pointer;
+        box-shadow: 0 8px 20px -8px rgba(255, 107, 107, 0.34);
         transition: transform 0.12s ease, opacity 0.12s ease;
       }
       .signup button:active { transform: translateY(1px) scale(0.995); }
       .signup button[disabled] { opacity: 0.6; cursor: default; }
-      .reassure { font-size: 13px; color: var(--faint); margin-top: 1px; }
-      .err { font-size: 13px; color: #c0392b; margin-top: 1px; }
+      .reassure { font-size: 13px; color: var(--muted); margin-top: 2px; }
+      .err { font-size: 13px; color: #c0392b; margin-top: 2px; }
       .err:empty { display: none; }
 
-      /* success state replaces the form */
       .success { display: none; }
       .form-done .signup, .form-done .reassure { display: none; }
       .form-done .success {
         display: flex; align-items: center; gap: 12px; text-align: left;
         padding: 16px 18px; border-radius: 16px; background: #fff;
-        border: 1.5px solid rgba(78, 205, 196, 0.5);
-        color: var(--ink); font-weight: 600; font-size: 15.5px;
+        border: 1.5px solid rgba(78, 205, 196, 0.5); color: var(--ink); font-weight: 600; font-size: 15.5px;
       }
-      .success img { width: 46px; height: 46px; flex: none; }
+      .success img { width: 46px; height: 40px; flex: none; object-fit: contain; }
 
-      /* ---------- Below the fold: motto spine (Save / Play / Remember) ---------- */
-      .beats { padding: 30px 0 6px; display: flex; flex-direction: column; gap: 22px; }
-      .beat { display: grid; grid-template-columns: 30px 1fr; gap: 14px; align-items: start; }
-      .beat .glyph { width: 30px; height: 30px; color: var(--coral); margin-top: 2px; }
+      /* ---------- Below the fold: Save / Play / Remember ---------- */
+      .beats { padding: var(--s6) 0 var(--s1); display: flex; flex-direction: column; gap: var(--s3); }
+      .beat { display: grid; grid-template-columns: 28px 1fr; gap: var(--s2); align-items: start; }
+      .beat .glyph { width: 28px; height: 28px; color: rgba(33, 26, 20, 0.7); margin-top: 2px; }
       .beat .glyph svg { width: 100%; height: 100%; display: block; }
-      .beat .verb { font-size: 11px; font-weight: 800; letter-spacing: 0.16em; color: var(--coral); }
-      .beat h3 { color: var(--ink); font-size: 17px; font-weight: 800; letter-spacing: -0.01em; margin-top: 1px; }
-      .beat p { color: var(--muted); font-size: 14.5px; margin-top: 2px; }
+      .beat .verb { font-family: var(--display); font-size: 11px; font-weight: 600; letter-spacing: 0.18em; color: var(--muted); }
+      .beat h3 { font-family: var(--display); color: var(--ink); font-size: 18px; font-weight: 700; letter-spacing: -0.01em; margin-top: 1px; }
+      .beat p { color: var(--body); font-size: 14.5px; margin-top: 3px; }
 
-      .pov { margin-top: 26px; text-align: center; font-size: 15px; color: var(--ink); font-weight: 600; }
+      .pov { margin-top: var(--s4); text-align: center; font-family: var(--display); font-size: 16px; color: var(--ink); font-weight: 600; }
 
-      .cta2 { padding: 24px 0 46px; display: flex; flex-direction: column; gap: 12px; text-align: center; }
-      .cta2 h2 { color: var(--ink); font-size: 21px; font-weight: 800; letter-spacing: -0.015em; }
+      .cta2 { padding: var(--s4) 0 var(--s6); display: flex; flex-direction: column; gap: var(--s2); text-align: center; }
+      .cta2 h2 { font-family: var(--display); color: var(--ink); font-size: 22px; font-weight: 700; letter-spacing: -0.015em; text-wrap: balance; }
 
-      footer { padding: 6px 0 38px; color: var(--faint); font-size: 12px; text-align: center; }
-      footer .motto { display: block; margin-bottom: 6px; font-weight: 700; letter-spacing: 0.05em; color: var(--faint); }
-      footer a { color: var(--faint); text-decoration: underline; }
+      footer { padding: var(--s1) 0 var(--s6); color: var(--muted); font-size: 12px; text-align: center; }
+      footer .motto { display: block; margin-bottom: 6px; font-family: var(--display); font-weight: 600; letter-spacing: 0.04em; }
+      footer a { color: var(--muted); text-decoration: underline; }
 
-      @media (prefers-reduced-motion: reduce) {
-        .signup button { transition: none; }
-        .phone { transform: rotate(-5deg); }
-      }
+      @media (prefers-reduced-motion: reduce) { .signup button { transition: none; } }
     </style>
   </head>
   <body>
@@ -181,24 +143,18 @@
     <main class="hero">
       <div class="wrap">
         <h1 id="h1">Finally remember everything you read, watch, and hear.</h1>
-        <p class="lede">Save anything you read, watch, or hear. A three-minute game locks it into memory.</p>
+        <p class="lede">Save what you read, watch, or hear. A three-minute game makes it stick.</p>
 
         <div class="stage">
+          <img class="echo" src="/get/assets/echo.png" alt="Echo, the REPS companion" />
           <div class="phone">
-            <div class="island"></div>
             <div class="screen">
-              <video
-                src="/get/assets/galaxy.mp4"
-                poster="/get/assets/galaxy-poster.jpg"
-                autoplay muted loop playsinline preload="metadata" aria-hidden="true"
-              ></video>
+              <video src="/get/assets/training.mp4" poster="/get/assets/game-poster.jpg"
+                autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
             </div>
           </div>
-          <img class="echo" src="/get/assets/echo.png" alt="Echo, the REPS knowledge companion" />
         </div>
 
-        <!-- angle swap: runs during parse; only for a recognised non-default param.
-             Default H1 above is correct for organic + ?a=transform with zero JS dependency. -->
         <script>
           (function () {
             var H1 = {
@@ -231,7 +187,7 @@
       <div class="wrap">
         <div class="beat">
           <span class="glyph" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12a1 1 0 0 1 1 1v15l-7-4-7 4V5a1 1 0 0 1 1-1z"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12a1 1 0 0 1 1 1v15l-7-4-7 4V5a1 1 0 0 1 1-1z"/></svg>
           </span>
           <div>
             <div class="verb">SAVE</div>
@@ -241,7 +197,7 @@
         </div>
         <div class="beat">
           <span class="glyph" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16l13-8L7 4z"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M10 9l5 3-5 3V9z"/></svg>
           </span>
           <div>
             <div class="verb">PLAY</div>
@@ -251,7 +207,7 @@
         </div>
         <div class="beat">
           <span class="glyph" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v5h-5"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v5h-5"/></svg>
           </span>
           <div>
             <div class="verb">REMEMBER</div>
@@ -274,7 +230,7 @@
             <button type="submit">Get early access</button>
           </form>
           <p class="err" role="alert"></p>
-          <p class="reassure">Invite-only early access. One email when your invite is ready. No spam.</p>
+          <p class="reassure">No spam, ever. Just one email when your invite lands.</p>
           <div class="success">
             <img src="/get/assets/echo.png" alt="" aria-hidden="true" />
             <span>You're in. We'll email your invite the moment it's ready.</span>
@@ -327,7 +283,6 @@
         }
         function showSuccess(box) { box.classList.add("form-done"); }
 
-        // CORS fallback: native form POST to a hidden iframe, then optimistically succeed.
         function fallbackSubmit(email, box) {
           var f = document.createElement("form");
           f.method = "POST"; f.action = WL_ENDPOINT; f.target = "wl_sink"; f.style.display = "none";
@@ -371,11 +326,8 @@
         }
         document.querySelectorAll("[data-signup]").forEach(wireForm);
 
-        // Respect reduced-motion: pause the galaxy loop, keep the static poster.
         if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-          document.querySelectorAll(".phone video").forEach(function (v) {
-            v.removeAttribute("autoplay"); try { v.pause(); } catch (e) {}
-          });
+          document.querySelectorAll(".phone video").forEach(function (v) { v.removeAttribute("autoplay"); try { v.pause(); } catch (e) {} });
         }
       })();
     </script>
