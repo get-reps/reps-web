@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>REPS · Remember everything you read, watch, and hear</title>
+    <meta name="description" content="REPS turns what you read, watch, and hear into quick games that make it stick. Get early access." />
+    <!-- Paid-traffic landing variant. Not for organic index; the canonical brand page is /. -->
+    <meta name="robots" content="noindex" />
+
+    <!-- Speed: warm up the two third-party origins this page talks to. -->
+    <link rel="preconnect" href="https://us.i.posthog.com" crossorigin />
+    <link rel="preconnect" href="https://us-assets.i.posthog.com" crossorigin />
+    <link rel="preconnect" href="https://waitlister.me" crossorigin />
+
+    <style>
+      :root {
+        --cream: #fffaf7;
+        --galaxy: #040409; /* contained 3D-panel black — NEVER #000000 */
+        --coral: #ff6b6b;
+        --peach: #ff8e53;
+        --ink: #211a14; /* warm ink — editorial headline color on cream */
+        --slate: #2c3e50; /* app-chrome / body text */
+        --muted: rgba(33, 26, 20, 0.62);
+        --faint: rgba(33, 26, 20, 0.42);
+        --hairline: rgba(33, 26, 20, 0.12);
+        --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { background: var(--cream); }
+      body {
+        color: var(--slate);
+        font-family: var(--sans);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        line-height: 1.45;
+        text-rendering: optimizeLegibility;
+      }
+      img, video { display: block; max-width: 100%; }
+
+      .wrap { width: 100%; max-width: 460px; margin: 0 auto; padding: 0 22px; }
+
+      /* ---------- Header ---------- */
+      header { padding: 18px 0 6px; }
+      .wordmark {
+        font-weight: 800;
+        font-size: 19px;
+        letter-spacing: 0.14em;
+        color: var(--ink);
+      }
+
+      /* ---------- Hero (single viewport, form above the fold) ---------- */
+      .hero {
+        min-height: calc(100dvh - 60px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 16px;
+        padding: 8px 0 26px;
+      }
+
+      .galaxy-panel {
+        width: 100%;
+        height: 132px;
+        border-radius: 20px;
+        overflow: hidden;
+        background: var(--galaxy);
+        box-shadow: 0 12px 30px -16px rgba(4, 4, 9, 0.55);
+      }
+      .galaxy-panel video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+      }
+
+      h1 {
+        color: var(--ink);
+        font-weight: 800;
+        font-size: clamp(28px, 7.4vw, 38px);
+        line-height: 1.1;
+        letter-spacing: -0.018em;
+      }
+      .motto {
+        margin-top: 2px;
+        font-weight: 700;
+        font-size: 13px;
+        letter-spacing: 0.04em;
+        color: var(--coral);
+        text-transform: none;
+      }
+      .lede {
+        font-size: 16px;
+        color: var(--muted);
+        max-width: 30ch;
+      }
+
+      /* ---------- Signup form ---------- */
+      .signup { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+      .signup input[type="email"] {
+        width: 100%;
+        height: 52px;
+        border: 1.5px solid var(--hairline);
+        border-radius: 14px;
+        background: #fff;
+        padding: 0 16px;
+        font-family: var(--sans);
+        font-size: 16px; /* >=16px prevents iOS zoom-on-focus */
+        color: var(--ink);
+        outline: none;
+        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      }
+      .signup input[type="email"]:focus {
+        border-color: var(--coral);
+        box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.16);
+      }
+      .signup input::placeholder { color: var(--faint); }
+      .signup button {
+        width: 100%;
+        height: 52px;
+        border: 0;
+        border-radius: 14px;
+        background: linear-gradient(180deg, var(--coral) 0%, var(--peach) 100%);
+        color: #fff;
+        font-family: var(--sans);
+        font-weight: 700;
+        font-size: 17px;
+        letter-spacing: 0.01em;
+        cursor: pointer;
+        box-shadow: 0 10px 22px -10px rgba(255, 107, 107, 0.7);
+        transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
+      }
+      .signup button:active { transform: translateY(1px) scale(0.995); }
+      .signup button[disabled] { opacity: 0.6; cursor: default; }
+
+      .reassure { font-size: 13px; color: var(--faint); margin-top: 2px; }
+      .err { font-size: 13px; color: #c0392b; margin-top: 2px; min-height: 0; }
+      .err:empty { display: none; }
+
+      /* success state replaces the form */
+      .success { display: none; }
+      .form-done .signup { display: none; }
+      .form-done .reassure { display: none; }
+      .form-done .success {
+        display: block;
+        padding: 18px 18px;
+        border-radius: 16px;
+        background: #fff;
+        border: 1.5px solid rgba(78, 205, 196, 0.5);
+        color: var(--ink);
+        font-weight: 600;
+        font-size: 16px;
+      }
+
+      /* ---------- Below the fold ---------- */
+      .benefits { padding: 30px 0 8px; display: flex; flex-direction: column; gap: 20px; }
+      .beat { display: flex; flex-direction: column; gap: 3px; }
+      .beat h3 { color: var(--ink); font-size: 18px; font-weight: 800; letter-spacing: -0.01em; }
+      .beat p { color: var(--muted); font-size: 15px; }
+      .beat-media {
+        margin-top: 8px;
+        width: 100%;
+        border-radius: 16px;
+        overflow: hidden;
+        background: var(--galaxy);
+        aspect-ratio: 16 / 10;
+      }
+      .beat-media video, .beat-media img { width: 100%; height: 100%; object-fit: cover; }
+
+      .cta2 { padding: 26px 0 48px; display: flex; flex-direction: column; gap: 14px; }
+      .cta2 h2 { color: var(--ink); font-size: 22px; font-weight: 800; letter-spacing: -0.015em; }
+
+      footer { padding: 8px 0 40px; color: var(--faint); font-size: 12px; }
+      footer a { color: var(--faint); text-decoration: underline; }
+
+      @media (prefers-reduced-motion: reduce) {
+        .signup button { transition: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="wrap"><span class="wordmark">REPS</span></div>
+    </header>
+
+    <main class="hero">
+      <div class="wrap">
+        <div class="galaxy-panel">
+          <video
+            src="assets/galaxy.mp4"
+            poster="assets/galaxy-poster.jpg"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            aria-hidden="true"
+          ></video>
+        </div>
+
+        <h1 id="h1">Finally remember everything you read, watch, and hear.</h1>
+        <!-- angle swap: runs synchronously during parse, only for a recognised non-default param.
+             Default copy above is correct for organic + ?a=transform with zero JS dependency. -->
+        <script>
+          (function () {
+            var H1 = {
+              loss: "You forget 90% of what you read.",
+              doomscroll: "Stop rotting your brain. Start remembering.",
+              transform: "Finally remember everything you read, watch, and hear."
+            };
+            var a = new URLSearchParams(location.search).get("a");
+            if (a && H1[a]) document.getElementById("h1").textContent = H1[a];
+          })();
+        </script>
+
+        <p class="motto">Save. Play. Remember.</p>
+        <p class="lede">Turn what you read, watch, and hear into quick games that make it stick.</p>
+
+        <div data-signup>
+          <form class="signup" novalidate>
+            <input
+              type="email"
+              name="email"
+              inputmode="email"
+              autocomplete="email"
+              autocapitalize="off"
+              spellcheck="false"
+              placeholder="Enter your email"
+              required
+              aria-label="Email address"
+            />
+            <button type="submit">Get early access</button>
+          </form>
+          <p class="err" role="alert"></p>
+          <p class="reassure">Now in private TestFlight. One email when your invite is ready. No spam.</p>
+          <div class="success">You're in. We'll email your invite the moment it's ready.</div>
+        </div>
+      </div>
+    </main>
+
+    <section class="benefits">
+      <div class="wrap">
+        <div class="beat">
+          <h3>Save it in two taps</h3>
+          <p>Read, watch, or hear something worth keeping? Two taps and it's saved.</p>
+          <div class="beat-media" data-lazy data-src="assets/capture.mp4"></div>
+        </div>
+        <div class="beat">
+          <h3>Play to remember</h3>
+          <p>A three-minute game turns it into a question, and locks it into memory.</p>
+          <div class="beat-media" data-lazy data-src="assets/training.mp4"></div>
+        </div>
+        <div class="beat">
+          <h3>It compounds, not fades</h3>
+          <p>REPS quizzes you at the perfect moment, so what you learn keeps building.</p>
+          <div class="beat-media" data-lazy data-src="assets/galaxy.mp4"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta2">
+      <div class="wrap">
+        <h2>Remember what's worth keeping.</h2>
+        <div data-signup>
+          <form class="signup" novalidate>
+            <input
+              type="email"
+              name="email"
+              inputmode="email"
+              autocomplete="email"
+              autocapitalize="off"
+              spellcheck="false"
+              placeholder="Enter your email"
+              required
+              aria-label="Email address"
+            />
+            <button type="submit">Get early access</button>
+          </form>
+          <p class="err" role="alert"></p>
+          <p class="reassure">Now in private TestFlight. One email when your invite is ready. No spam.</p>
+          <div class="success">You're in. We'll email your invite the moment it's ready.</div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="wrap">REPS · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a></div>
+    </footer>
+
+    <!-- hidden sink for the no-CORS fallback submit path -->
+    <iframe name="wl_sink" title="waitlist" style="display:none" aria-hidden="true"></iframe>
+
+    <!-- ---------- PostHog (scoped to this paid variant only) ---------- -->
+    <script>
+      !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+
+      var ANGLE = (function () {
+        var a = new URLSearchParams(location.search).get("a");
+        return a === "loss" || a === "doomscroll" || a === "transform" ? a : "organic";
+      })();
+
+      posthog.init("phc_gTI0FJoXiGPjdACbgVyunpDSl0mPs2HEYtmzUtK3SyE", {
+        api_host: "https://us.i.posthog.com",
+        ui_host: "https://us.posthog.com",
+        defaults: "2025-05-24",
+        persistence: "localStorage+cookie",
+        loaded: function (ph) {
+          // Distinct pageview property: rides on autocaptured $pageview + every event.
+          ph.register({ lp_variant: "paid_get", angle: ANGLE });
+        }
+      });
+    </script>
+
+    <!-- ---------- Waitlist wiring + lazy below-fold media ---------- -->
+    <script>
+      (function () {
+        var WL_ENDPOINT = "https://waitlister.me/s/1IFflE5ASXo6";
+        var UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
+        var params = new URLSearchParams(location.search);
+
+        function attribution() {
+          var data = { angle: ANGLE };
+          UTM_KEYS.forEach(function (k) {
+            var v = params.get(k);
+            if (v) data[k] = v;
+          });
+          return data;
+        }
+
+        function captureSubmit() {
+          var props = attribution();
+          if (window.posthog && typeof posthog.capture === "function") {
+            posthog.capture("waitlist_submitted", props);
+          }
+        }
+
+        function showSuccess(box) {
+          box.classList.add("form-done");
+        }
+
+        // Fallback for environments where the cross-origin fetch is blocked (CORS):
+        // post a real form to a hidden iframe (no response read), then optimistically succeed.
+        function fallbackSubmit(email, box) {
+          var f = document.createElement("form");
+          f.method = "POST";
+          f.action = WL_ENDPOINT;
+          f.target = "wl_sink";
+          f.style.display = "none";
+          var fields = attribution();
+          fields.email = email;
+          Object.keys(fields).forEach(function (k) {
+            var i = document.createElement("input");
+            i.type = "hidden";
+            i.name = k;
+            i.value = fields[k];
+            f.appendChild(i);
+          });
+          document.body.appendChild(f);
+          f.submit();
+          captureSubmit();
+          showSuccess(box);
+        }
+
+        function wireForm(box) {
+          var form = box.querySelector("form.signup");
+          var input = box.querySelector('input[type="email"]');
+          var btn = box.querySelector("button");
+          var err = box.querySelector(".err");
+
+          form.addEventListener("submit", function (e) {
+            e.preventDefault();
+            err.textContent = "";
+            var email = (input.value || "").trim();
+            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+              err.textContent = "Please enter a valid email address.";
+              input.focus();
+              return;
+            }
+            btn.disabled = true;
+            btn.textContent = "Joining...";
+
+            var body = new URLSearchParams(attribution());
+            body.set("email", email);
+
+            fetch(WL_ENDPOINT, {
+              method: "POST",
+              headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/x-www-form-urlencoded"
+              },
+              body: body.toString()
+            })
+              .then(function (r) {
+                return r.json().then(function (j) { return { ok: r.ok, j: j }; });
+              })
+              .then(function (res) {
+                if (res.ok && res.j && res.j.success) {
+                  captureSubmit();
+                  showSuccess(box);
+                } else {
+                  var msg = (res.j && (res.j.message || res.j.error)) || "Something went wrong. Please try again.";
+                  // Treat "already signed up" as a win.
+                  if (/already|exist/i.test(String(msg))) {
+                    captureSubmit();
+                    showSuccess(box);
+                  } else {
+                    err.textContent = msg;
+                    btn.disabled = false;
+                    btn.textContent = "Get early access";
+                  }
+                }
+              })
+              .catch(function () {
+                // network/CORS failure -> fallback path guarantees capture
+                fallbackSubmit(email, box);
+              });
+          });
+        }
+
+        document.querySelectorAll("[data-signup]").forEach(wireForm);
+
+        // Lazy-mount below-fold videos only when scrolled near.
+        var lazies = document.querySelectorAll("[data-lazy]");
+        if ("IntersectionObserver" in window) {
+          var io = new IntersectionObserver(function (entries, obs) {
+            entries.forEach(function (en) {
+              if (!en.isIntersecting) return;
+              var el = en.target;
+              var v = document.createElement("video");
+              v.src = el.getAttribute("data-src");
+              v.muted = true;
+              v.loop = true;
+              v.autoplay = true;
+              v.setAttribute("playsinline", "");
+              v.setAttribute("preload", "none");
+              v.setAttribute("aria-hidden", "true");
+              el.appendChild(v);
+              v.play().catch(function () {});
+              obs.unobserve(el);
+            });
+          }, { rootMargin: "0px" });
+          lazies.forEach(function (el) { io.observe(el); });
+        } else {
+          lazies.forEach(function (el) {
+            var v = document.createElement("video");
+            v.src = el.getAttribute("data-src");
+            v.muted = true; v.loop = true; v.autoplay = true;
+            v.setAttribute("playsinline", "");
+            el.appendChild(v);
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>
