@@ -165,7 +165,7 @@
 
     <main>
       <h1>Privacy Policy</h1>
-      <p class="effective-date">Effective: June 11, 2026</p>
+      <p class="effective-date">Effective: June 17, 2026</p>
 
       <p class="intro">
         At REPS, we are committed to protecting and respecting your privacy. This Privacy Policy explains how we collect, use, and share your personal information when you use our mobile application ("App"), our website at getreps.io ("Website"), and any related services (collectively, our "Platform").
@@ -182,9 +182,10 @@
       <h3>(a) Information you provide to us</h3>
       <ul>
         <li><strong>Account information.</strong> When you create an account, we collect your name, email address, display name, and profile photo or avatar. If you sign in using Google or Apple, we receive your name and email address from those providers.</li>
-        <li><strong>Content you submit.</strong> When you share articles, URLs, or text with REPS for processing, we collect those URLs and any text you provide. We store the learning sets, concepts, and flashcards generated from your content.</li>
+        <li><strong>Content you submit.</strong> When you share articles, URLs, or text with REPS for processing, we collect those URLs and any text you provide. We store the learning sets, concepts, and flashcards generated from your content. If you use book scanning, the photo of the page is processed on your device to extract text, and the image itself is not uploaded to our servers.</li>
         <li><strong>Learning activity.</strong> We collect information about your training sessions, including which questions you answered, whether your answers were correct, your mastery levels, streaks, and IQ points earned.</li>
-        <li><strong>Social information.</strong> If you use our social features, we collect your friend connections, activity shared with friends, and any sets you choose to make public or share.</li>
+        <li><strong>Voice training.</strong> If you use voice training, your microphone audio is streamed in real time to our voice AI provider so Echo can converse with you and assess your answers. We store a text transcript of your responses to power grading and your learning history. We do not keep the audio recording.</li>
+        <li><strong>Social information.</strong> If you use our social features, we collect your friend connections, activity shared with friends, and any sets you choose to make public or share. To help you find friends already on REPS, we can match your device contacts: the email addresses and phone numbers in your address book are hashed on your device, and only the resulting one-way hashes are sent to us for matching. Your raw contact details are never uploaded.</li>
         <li><strong>Communications.</strong> When you contact us for support or send us feedback, we collect your email address and the content of your message.</li>
       </ul>
 
@@ -193,6 +194,8 @@
         <li><strong>Device and browser data.</strong> We collect your device type, operating system, app version, and a unique device identifier.</li>
         <li><strong>Usage data.</strong> We collect information about how you interact with the App, including screens visited, features used, session duration, and performance data.</li>
         <li><strong>Approximate location.</strong> We may infer your approximate location from your IP address for the purpose of analytics and compliance with applicable laws.</li>
+        <li><strong>Analytics and session activity.</strong> We use analytics and session-replay tools to understand how the App is used, diagnose crashes, and improve the experience. This includes recordings of in-app screen interactions, captured in a privacy-preserving form designed to mask personal content.</li>
+        <li><strong>Advertising attribution.</strong> We work with a mobile measurement partner to understand which of our own marketing campaigns led you to install REPS. On iOS, we ask for your permission through Apple's App Tracking Transparency prompt before any measurement that involves tracking, and you can change your choice at any time in your device settings.</li>
       </ul>
 
       <h3>(c) Information we do not collect</h3>
@@ -213,7 +216,7 @@
         <li><strong>To ensure safety and security,</strong> including detecting and preventing fraud, abuse, or unauthorised access.</li>
         <li><strong>To comply with legal obligations,</strong> including responding to lawful requests from public authorities.</li>
       </ul>
-      <p>We do not use your personal information for advertising or sell your data to advertisers.</p>
+      <p>We do not sell your personal information, and we do not use it to target you with third-party behavioural advertising. We do measure the effectiveness of our own marketing campaigns through an attribution provider, so we can understand which campaigns bring people who love the App. On iOS, this measurement is subject to your App Tracking Transparency choice.</p>
 
       <hr class="divider" />
 
@@ -225,11 +228,15 @@
         <li><strong>AI processing providers.</strong> We use Anthropic's Claude API to generate learning content (concepts and flashcards) from the articles and text you submit. The content you submit is sent to Anthropic for processing. We encourage you to review <a href="https://www.anthropic.com/privacy">Anthropic's Privacy Policy</a>.</li>
         <li><strong>Content extraction providers.</strong> When you share a URL, we use third-party services (such as Firecrawl and Jina) to extract the text content of the article for processing. Only the URL is shared with these providers.</li>
         <li><strong>Workflow automation.</strong> We use Trigger.dev to orchestrate our content processing pipeline. It processes data on our behalf as part of our backend infrastructure.</li>
+        <li><strong>Analytics providers.</strong> We use PostHog to collect product-usage events and diagnostics, which helps us understand engagement and fix problems. This usage data is associated with your account.</li>
+        <li><strong>Session replay.</strong> We use UXCam to record privacy-preserving replays of in-app sessions (screen layouts and interactions) so we can improve usability. UXCam's technology is designed to mask personal content and does not use advertising identifiers.</li>
+        <li><strong>Advertising attribution.</strong> We use AppsFlyer to attribute app installs to our own marketing campaigns. AppsFlyer may receive a device identifier and your user identifier for measurement purposes. On iOS, this is gated by App Tracking Transparency.</li>
+        <li><strong>Voice AI providers.</strong> When you use voice training, your audio is streamed to ElevenLabs, over LiveKit's real-time infrastructure, to power the conversation. Audio is processed in real time and is not stored by us as a recording.</li>
         <li><strong>Other users.</strong> If you make a set public, share a set with friends, or participate in social features like the activity feed or leaderboards, other users will see the information you choose to share, such as your display name, avatar, set titles, and learning milestones.</li>
         <li><strong>Legal and safety purposes.</strong> We may disclose your information if required to do so by law, in response to a court order or subpoena, or if we believe in good faith that disclosure is necessary to protect our rights, your safety, or the safety of others.</li>
         <li><strong>Business transfers.</strong> If REPS is involved in a merger, acquisition, or sale of assets, your personal information may be transferred to the acquiring entity. We will provide notice before your information becomes subject to a different privacy policy.</li>
       </ul>
-      <p>We do not sell your personal information to third parties, and we do not share your personal information with advertisers.</p>
+      <p>We do not sell your personal information to third parties, and we do not share it with advertisers to target you. Our use of an attribution provider is limited to measuring the performance of our own marketing.</p>
 
       <hr class="divider" />
 
@@ -309,7 +316,7 @@
       <h3>(b) For California Residents</h3>
       <p>This section is provided in compliance with the California Consumer Privacy Act (CCPA) and the California Privacy Rights Act (CPRA).</p>
       <p><strong>Categories of personal information collected.</strong> In the preceding twelve months, we have collected the following categories of personal information: identifiers (name, email, device ID), internet or network activity (usage data, browsing history within the App), and inferences (learning preferences, mastery levels).</p>
-      <p><strong>We do not sell your personal information.</strong> REPS does not sell personal information to third parties, as defined under the CCPA. We do not share your personal information for cross-context behavioural advertising.</p>
+      <p><strong>We do not sell your personal information.</strong> REPS does not sell personal information to third parties, as defined under the CCPA. We do not share your personal information for cross-context behavioural advertising. We use a mobile measurement partner solely to attribute app installs to our own marketing campaigns. This is advertising measurement, not cross-context behavioural advertising, and on iOS you can opt out through Apple's App Tracking Transparency setting.</p>
       <p><strong>Your California rights.</strong> California residents have the right to: know what personal information we collect, use, and disclose; request deletion of personal information; request correction of inaccurate personal information; and non-discrimination for exercising privacy rights.</p>
       <p>To exercise these rights, please contact us at <a href="mailto:privacy@getreps.io">privacy@getreps.io</a>.</p>
 
