@@ -171,8 +171,7 @@
     /* ── Proof — fade in on scroll ── */
     .proof {
       padding: 48px 24px;
-      border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline);
-      background: #fdf7f3;
+      background: var(--cream); /* same as hero, no visible band */
     }
     .proof-inner {
       max-width: 1120px; margin: 0 auto;
@@ -203,6 +202,7 @@
     /* ── Stacked Card Beats ── */
     .beats-label {
       text-align: center; padding: 64px 24px 32px;
+      background: #FFECE8; /* matches SAVE card — no hard cut into the stack */
     }
     .beats-label .section-eyebrow {
       font-size: 12px; font-weight: 600; letter-spacing: 0.14em;
@@ -240,13 +240,13 @@
       height: 100%;
       display: flex;
       flex-direction: column;
-      padding: 32px 24px 24px;
+      padding: 28px 24px 0;
       max-width: 1120px;
       margin: 0 auto;
-      gap: 24px;
+      gap: 16px;
     }
     .bc-copy { flex: 0 0 auto; }
-    .bc-phone-wrap { flex: 1; display: flex; justify-content: center; align-items: flex-end; min-height: 0; }
+    .bc-phone-wrap { flex: 1; display: flex; justify-content: center; align-items: center; min-height: 0; padding-bottom: 16px; }
 
     .bc-verb {
       display: inline-block; font-size: 11px; font-weight: 700;
