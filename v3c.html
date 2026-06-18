@@ -593,16 +593,21 @@
         --card-accent: #4c5fab;
         background: #eceffe;
       }
-      #bc-discover::after {
+      /* CTA section: starts with the discover-card blue and fades to cream */
+      .cta-section::before {
         content: '';
         position: absolute;
-        bottom: 0;
+        top: 0;
         left: 0;
         right: 0;
-        height: 500px;
-        background: linear-gradient(to bottom, rgba(255,250,247,0), rgba(255,250,247,0.4) 30%, rgba(255,250,247,0.8) 65%, #fffaf7);
+        height: 280px;
+        background: linear-gradient(to bottom, #eceffe, rgba(236,239,254,0));
         pointer-events: none;
-        z-index: 2;
+        z-index: 0;
+      }
+      .cta-section > * {
+        position: relative;
+        z-index: 1;
       }
 
       /* Desktop: copy and phone side by side within the card */
