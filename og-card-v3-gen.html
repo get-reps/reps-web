@@ -89,48 +89,20 @@
       }
       .right {
         flex: none;
-        width: 320px;
+        width: 380px;
         display: flex;
         align-items: center;
         justify-content: center;
         position: relative;
-      }
-      .right::before {
-        content: "";
-        position: absolute;
-        left: -10%;
-        right: -10%;
-        top: 5%;
-        bottom: 5%;
-        background: radial-gradient(
-          ellipse,
-          rgba(255, 107, 107, 0.14) 0%,
-          transparent 70%
-        );
-        filter: blur(28px);
-      }
-      .phone {
-        position: relative;
-        z-index: 1;
-        width: 240px;
-        background: #0a0a10;
-        border-radius: 36px;
-        padding: 6px;
-        box-shadow:
-          0 4px 16px rgba(33, 26, 20, 0.14),
-          0 28px 64px -20px rgba(33, 26, 20, 0.36);
-      }
-      .screen {
-        width: 100%;
-        aspect-ratio: 540/1170;
-        border-radius: 30px;
         overflow: hidden;
-        background: #040409;
       }
-      .screen img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+      .galaxy-img {
+        width: 580px;
+        height: 580px;
+        object-fit: contain;
+        position: relative;
+        right: -40px;
+        margin-top: -30px;
       }
     </style>
     <link
@@ -152,11 +124,7 @@
       <div class="badge">Join the waitlist</div>
     </div>
     <div class="right">
-      <div class="phone">
-        <div class="screen">
-          <img src="beats/quiz-frame.jpg" alt="" />
-        </div>
-      </div>
+      <img class="galaxy-img" src="galaxy-nobg.png" alt="" />
     </div>
   </body>
 </html>
