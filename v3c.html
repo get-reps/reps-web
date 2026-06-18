@@ -225,10 +225,15 @@
       .phone {
         position: relative;
         z-index: 1;
-        width: clamp(110px, 26vw, 165px);
+        /* Height-adaptive: fill the space left between the lede and the
+           form so the whole hero (header → Get early access) stays above
+           the fold. 0.4615 = phone aspect ratio 540/1170. svh accounts
+           for mobile browser chrome. The clamp caps width on wide/short
+           screens; the floor keeps it usable on tiny ones. */
+        width: min(clamp(150px, 48vw, 250px), calc((100svh - 330px) * 0.4615));
         padding: 5px;
         background: #0a0a10;
-        border-radius: 28px;
+        border-radius: 18px;
         box-shadow:
           0 2px 8px rgba(33, 26, 20, 0.14),
           0 22px 52px -18px rgba(33, 26, 20, 0.32);
@@ -237,14 +242,14 @@
         content: "";
         position: absolute;
         inset: 0;
-        border-radius: 28px;
+        border-radius: 18px;
         pointer-events: none;
         box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.07);
       }
       .phone .screen {
         width: 100%;
         aspect-ratio: 540/1170;
-        border-radius: 23px;
+        border-radius: 14px;
         overflow: hidden;
         background: var(--galaxy);
       }
@@ -723,7 +728,10 @@
           padding-top: 80px;
         }
         .phone {
-          width: clamp(160px, 18vw, 200px);
+          width: min(
+            clamp(190px, 24vw, 300px),
+            calc((100svh - 360px) * 0.4615)
+          );
         }
       }
       @media (prefers-reduced-motion: reduce) {
@@ -1213,6 +1221,10 @@
       var heroIdx = 0;
       var heroVid = document.getElementById("hero-vid");
       var FADE = 500;
+      var HERO_RATE = 0.7; /* 30% slower — playbackRate resets per src, so reapply on load */
+      heroVid.addEventListener("loadeddata", function () {
+        heroVid.playbackRate = HERO_RATE;
+      });
 
       function nextClip() {
         heroVid.style.opacity = "0";
