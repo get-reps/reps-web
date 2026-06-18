@@ -1,7 +1,8 @@
 <!doctype html>
-<!-- REPS Homepage Prototype A — Lean Conversion (2026-06-18 rev 2)
-     Changes from rev 1: icons on beats, eyebrow non-fear-frame, concept card
-     promoted near hero, canonical videos, reassurance microcopy legibility. -->
+<!-- REPS Homepage Prototype C — Dynamic Stack (2026-06-18)
+     Key feature: 4-card vertical sticky stack scroll inspired by Deepstash's card takeover.
+     Each beat slides up from below, previous card's colored header peeks at top.
+     Hero entrance animated. Color range expanded with per-beat card tints. -->
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
@@ -31,11 +32,9 @@
       --muted: rgba(33,26,20,0.52);
       --muted-strong: rgba(33,26,20,0.62);
       --hairline: rgba(33,26,20,0.09);
-      --card-bg: #ffffff;
       --galaxy: #040409;
       --display: "Space Grotesk", system-ui, -apple-system, sans-serif;
       --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-      --serif: "Lora", Georgia, serif;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { background: var(--cream); scroll-behavior: smooth; }
@@ -48,7 +47,7 @@
 
     /* ── Nav ── */
     nav {
-      position: sticky; top: 0; z-index: 100;
+      position: sticky; top: 0; z-index: 200;
       background: var(--cream); border-bottom: 1px solid var(--hairline);
       padding: 14px 24px;
     }
@@ -71,27 +70,41 @@
     }
     .nav-cta:hover { opacity: 0.9; transform: translateY(-1px); }
 
-    /* ── Hero ── */
-    .hero { padding: 64px 24px 48px; text-align: center; }
+    /* ── Hero — entrance animations on load ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .hero { padding: 72px 24px 56px; text-align: center; }
     .hero-inner { max-width: 520px; margin: 0 auto; }
+
     .eyebrow {
       display: inline-block; font-size: 12px; font-weight: 600;
-      letter-spacing: 0.18em; text-transform: uppercase;
-      color: var(--coral); margin-bottom: 18px;
+      letter-spacing: 0.18em; text-transform: uppercase; color: var(--coral);
+      margin-bottom: 18px;
+      animation: fadeUp 0.55s cubic-bezier(0.22,1,0.36,1) 0.05s both;
     }
     h1 {
       font-family: var(--display); color: var(--ink); font-weight: 700;
       font-size: clamp(30px, 6vw, 50px); line-height: 1.06; letter-spacing: -0.025em;
       text-wrap: balance; margin-bottom: 18px;
+      animation: fadeUp 0.65s cubic-bezier(0.22,1,0.36,1) 0.12s both;
     }
     .lede {
       font-size: clamp(16px, 2vw, 18px); color: var(--body); line-height: 1.6;
       max-width: 36ch; margin: 0 auto 36px; text-wrap: balance;
+      animation: fadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.22s both;
     }
 
-    /* ── Phone stage ── */
+    /* Phone stage — animated */
     .stage {
       position: relative; display: flex; justify-content: center; margin-bottom: 32px;
+      animation: fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) 0.1s both;
     }
     .stage::before {
       content: ""; position: absolute;
@@ -114,10 +127,16 @@
       width: 100%; aspect-ratio: 540/1170; border-radius: 23px;
       overflow: hidden; background: var(--galaxy);
     }
-    .phone .screen video { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.5s ease-in-out; }
+    .phone .screen video {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: opacity 0.5s ease-in-out;
+    }
 
-    /* ── Form ── */
-    .form-zone { max-width: 380px; margin: 0 auto; }
+    /* Form */
+    .form-zone {
+      max-width: 380px; margin: 0 auto;
+      animation: fadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.32s both;
+    }
     .signup { display: flex; flex-direction: column; gap: 8px; }
     .signup input[type="email"] {
       width: 100%; height: 50px; border: 1.5px solid var(--hairline); border-radius: 12px;
@@ -137,7 +156,6 @@
     .signup button:hover { opacity: 0.92; transform: translateY(-1px); }
     .signup button:active { transform: translateY(0); }
     .signup button:disabled { opacity: 0.6; cursor: default; transform: none; }
-    /* stronger contrast on reassurance — was too faded */
     .reassure { font-size: 13px; color: var(--muted-strong); text-align: center; margin-top: 8px; }
     .err { font-size: 13px; color: #c0392b; text-align: center; min-height: 16px; margin-top: 4px; }
     .success {
@@ -150,52 +168,7 @@
     .form-done .signup, .form-done .reassure { display: none; }
     .form-done .success { display: flex; }
 
-    /* ── Concept card (promoted near hero) ── */
-    .artifact { padding: 8px 24px 48px; }
-    .artifact-inner { max-width: 420px; margin: 0 auto; }
-    .artifact-label {
-      font-size: 12px; color: var(--muted); text-align: center;
-      letter-spacing: 0.04em; margin-bottom: 12px;
-    }
-    .concept-card {
-      background: var(--card-bg); border-radius: 20px; padding: 20px 20px 18px;
-      border: 1px solid var(--hairline);
-      box-shadow: 0 2px 8px rgba(33,26,20,0.05), 0 8px 28px rgba(33,26,20,0.07);
-    }
-    .concept-source {
-      display: inline-flex; align-items: center; gap: 7px;
-      padding: 5px 11px; border-radius: 9px;
-      background: rgba(33,26,20,0.04); border: 1px solid var(--hairline);
-      margin-bottom: 12px; font-size: 12px;
-    }
-    .concept-source-name { font-weight: 600; color: var(--ink); }
-    .concept-source-kind { color: var(--muted); }
-    .concept-title {
-      font-family: var(--serif); font-size: 18px; font-weight: 500;
-      color: var(--ink); line-height: 1.25; margin-bottom: 7px;
-    }
-    .concept-body {
-      font-family: var(--serif); font-size: 14px; color: var(--body);
-      line-height: 1.62; font-style: italic; margin-bottom: 14px;
-    }
-    .concept-divider { border: none; border-top: 1px solid var(--hairline); margin-bottom: 12px; }
-    .concept-meta { display: flex; align-items: center; justify-content: space-between; }
-    .concept-social { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--muted); }
-    .concept-avs { display: flex; }
-    .concept-avs .cav {
-      width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--card-bg);
-      background: linear-gradient(135deg, var(--coral), var(--peach));
-      margin-left: -6px; font-size: 9px; font-weight: 700; color: #fff;
-      display: flex; align-items: center; justify-content: center; font-family: var(--display);
-    }
-    .concept-avs .cav:first-child { margin-left: 0; }
-    .concept-mastery { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--muted); }
-    .mastery-dot {
-      width: 7px; height: 7px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--coral), var(--peach));
-    }
-
-    /* ── Proof ── */
+    /* ── Proof — fade in on scroll ── */
     .proof {
       padding: 48px 24px;
       border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline);
@@ -206,10 +179,14 @@
       display: grid; grid-template-columns: 1fr; gap: 20px;
     }
     .quote-card {
-      background: var(--card-bg); border-radius: 18px; padding: 22px 22px 20px;
+      background: #fff; border-radius: 18px; padding: 22px 22px 20px;
       border: 1px solid var(--hairline);
-      box-shadow: 0 1px 3px rgba(33,26,20,0.04), 0 4px 14px rgba(33,26,20,0.04);
+      box-shadow: 0 1px 3px rgba(33,26,20,0.04), 0 4px 14px rgba(33,26,20,0.03);
+      /* Start hidden — IntersectionObserver reveals */
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.55s cubic-bezier(0.22,1,0.36,1), transform 0.55s cubic-bezier(0.22,1,0.36,1);
     }
+    .quote-card.visible { opacity: 1; transform: translateY(0); }
     .stars { font-size: 13px; letter-spacing: 2px; color: var(--coral); margin-bottom: 10px; }
     .quote-text { font-size: 15px; line-height: 1.6; color: var(--ink); font-style: italic; margin-bottom: 16px; }
     .author { display: flex; align-items: center; gap: 10px; }
@@ -223,54 +200,121 @@
     .author-name { font-size: 13px; font-weight: 600; color: var(--ink); }
     .author-role { font-size: 12px; color: var(--muted); }
 
-    /* ── Beats 2×2 with icons ── */
-    .beats { padding: 72px 24px; }
-    .section-eyebrow {
-      text-align: center; font-size: 12px; font-weight: 600;
-      letter-spacing: 0.14em; text-transform: uppercase; color: var(--coral); margin-bottom: 10px;
+    /* ── Stacked Card Beats ── */
+    .beats-label {
+      text-align: center; padding: 64px 24px 32px;
     }
-    .beats h2 {
+    .beats-label .section-eyebrow {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--coral); margin-bottom: 10px;
+    }
+    .beats-label h2 {
       font-family: var(--display); color: var(--ink); font-weight: 700;
       font-size: clamp(22px, 3.5vw, 34px); letter-spacing: -0.02em; line-height: 1.12;
+    }
+
+    /* Wrapper drives the scroll height */
+    #stack-wrapper {
+      position: relative;
+      height: calc(4 * 100vh);
+    }
+
+    /* Sticky stage: the viewport window */
+    #stack-stage {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Individual beat cards — all absolutely positioned in the stage */
+    .beat-card {
+      position: absolute;
+      inset: 0;
+      will-change: transform;
+      /* Cards 1-3 start below viewport — JS sets initial transforms */
+    }
+
+    /* Card inner layout */
+    .bc-inner {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: 32px 24px 24px;
+      max-width: 1120px;
+      margin: 0 auto;
+      gap: 24px;
+    }
+    .bc-copy { flex: 0 0 auto; }
+    .bc-phone-wrap { flex: 1; display: flex; justify-content: center; align-items: flex-end; min-height: 0; }
+
+    .bc-verb {
+      display: inline-block; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--card-accent); margin-bottom: 8px;
+    }
+    .bc-copy h2 {
+      font-family: var(--display); color: var(--ink); font-weight: 700;
+      font-size: clamp(26px, 5vw, 48px); letter-spacing: -0.025em; line-height: 1.05;
       text-wrap: balance;
     }
-    .beats-header { text-align: center; margin-bottom: 40px; }
-    .beats-grid {
-      max-width: 860px; margin: 0 auto;
-      display: grid; grid-template-columns: 1fr; gap: 16px;
+    .bc-copy p {
+      font-size: clamp(15px, 1.8vw, 17px); color: var(--body); line-height: 1.6;
+      max-width: 40ch; margin-top: 12px;
     }
-    .beat {
-      background: var(--card-bg); border-radius: 18px; padding: 24px 24px 26px;
-      border: 1px solid var(--hairline);
-      box-shadow: 0 1px 3px rgba(33,26,20,0.04);
-      display: flex; flex-direction: column; gap: 6px;
+
+    /* Phone inside each card — grows to fill available space */
+    .bc-phone {
+      width: clamp(140px, 35vw, 200px);
+      padding: 5px; background: #0a0a10; border-radius: 26px;
+      box-shadow: 0 2px 8px rgba(33,26,20,0.16), 0 20px 48px -16px rgba(33,26,20,0.28);
+      position: relative;
     }
-    .beat-icon {
-      width: 26px; height: 26px; color: rgba(33,26,20,0.75); margin-bottom: 4px; flex: none;
+    .bc-phone::after {
+      content: ""; position: absolute; inset: 0; border-radius: 26px; pointer-events: none;
+      box-shadow: inset 0 1px 1px rgba(255,255,255,0.07);
     }
-    .beat-icon svg { width: 100%; height: 100%; display: block; }
-    .beat-verb {
-      font-size: 11px; font-weight: 600; letter-spacing: 0.14em;
-      text-transform: uppercase; color: var(--coral);
+    .bc-phone .screen {
+      width: 100%; aspect-ratio: 540/1170; border-radius: 21px;
+      overflow: hidden; background: var(--galaxy);
     }
-    .beat h3 {
-      font-family: var(--display); font-size: 18px; font-weight: 700;
-      letter-spacing: -0.015em; color: var(--ink); line-height: 1.22;
+    .bc-phone .screen video { width: 100%; height: 100%; object-fit: cover; }
+
+    /* Card accent colors via CSS custom properties */
+    #bc-save    { --card-accent: #ff6b6b; background: #FFECE8; }
+    #bc-remember { --card-accent: #2D8377; background: #E5F6F5; }
+    #bc-play    { --card-accent: #C8881D; background: #FEF3E0; }
+    #bc-discover { --card-accent: #4C5FAB; background: #ECEFFE; }
+
+    /* Desktop: copy and phone side by side within the card */
+    @media (min-width: 820px) {
+      .bc-inner {
+        flex-direction: row;
+        align-items: center;
+        padding: 56px 64px;
+        gap: 64px;
+      }
+      .bc-copy { flex: 1; }
+      .bc-phone-wrap { flex: none; align-items: center; }
+      .bc-phone { width: clamp(200px, 22vw, 270px); }
     }
-    .beat p { font-size: 14.5px; color: var(--body); line-height: 1.55; }
 
     /* ── CTA ── */
     .cta-section {
       padding: 88px 24px 72px;
       border-top: 1px solid var(--hairline);
       text-align: center;
+      opacity: 0; transform: translateY(32px);
+      transition: opacity 0.65s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.22,1,0.36,1);
     }
+    .cta-section.visible { opacity: 1; transform: translateY(0); }
     .cta-section h2 {
       font-family: var(--display); color: var(--ink); font-weight: 700;
       font-size: clamp(22px, 3.5vw, 36px); letter-spacing: -0.02em; line-height: 1.12;
       max-width: 26ch; margin: 0 auto 10px; text-wrap: balance;
     }
     .cta-sub { font-size: 16px; color: var(--body); margin-bottom: 32px; }
+    .form-zone-cta { max-width: 380px; margin: 0 auto; }
     .referral { font-size: 13px; color: var(--muted); margin-top: 12px; }
     .manifesto {
       margin-top: 40px;
@@ -293,18 +337,17 @@
     }
     footer a { text-decoration: underline; }
 
-    /* ── Desktop enhancements ── */
+    /* Desktop proof grid */
     @media (min-width: 640px) {
       .proof-inner { grid-template-columns: repeat(3, 1fr); }
-      .beats-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
     }
     @media (min-width: 900px) {
-      .hero { padding-top: 88px; }
-      .phone { width: 215px; }
+      .hero { padding-top: 96px; }
     }
     @media (prefers-reduced-motion: reduce) {
+      .eyebrow, h1, .lede, .stage, .form-zone { animation: none; opacity: 1; transform: none; }
+      .quote-card, .cta-section { opacity: 1; transform: none; transition: none; }
       html { scroll-behavior: auto; }
-      .signup button, .nav-cta { transition: none; }
     }
   </style>
 </head>
@@ -322,7 +365,12 @@
 
   <main>
 
-    <!-- HERO -->
+    <!-- ═══════════════════════════════════════════
+         SECTION 1: HERO
+         Entrance: staggered fade-up animations via CSS @keyframes.
+         Phone plays the 5-clip montage (same as v3a).
+         Form above fold. Nav CTA focuses hero email.
+    ════════════════════════════════════════════ -->
     <section class="hero" id="hero">
       <div class="hero-inner">
         <span class="eyebrow">Bloom scrolling</span>
@@ -354,7 +402,12 @@
       </div>
     </section>
 
-    <!-- SOCIAL PROOF -->
+    <!-- ═══════════════════════════════════════════
+         SECTION 2: SOCIAL PROOF
+         3 quote cards. IntersectionObserver stagger-reveals them
+         as they enter the viewport (opacity 0→1, translateY 28→0).
+         Each card gets a 120ms delay after the previous.
+    ════════════════════════════════════════════ -->
     <section class="proof" aria-label="What people are saying">
       <div class="proof-inner">
         <div class="quote-card">
@@ -393,75 +446,118 @@
       </div>
     </section>
 
-    <!-- HOW IT WORKS: 2×2 beats with icons -->
-    <section class="beats">
-      <div class="beats-header">
-        <div class="section-eyebrow">How it works</div>
-        <h2>Everything you save, remembered.</h2>
-      </div>
-      <div class="beats-grid">
+    <!-- ═══════════════════════════════════════════
+         SECTION 3: STACKED CARD BEATS
+         Architecture:
+           - #stack-wrapper is 400vh tall (drives scroll)
+           - #stack-stage is position:sticky, height:100vh (the "window")
+           - 4 .beat-card elements fill the stage absolutely (inset:0)
+           - Card 0 (SAVE) starts at translateY(0) — visible immediately
+           - Cards 1-3 start at translateY(100vh) — below viewport
 
-        <div class="beat">
-          <div class="beat-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M6 4h12a1 1 0 0 1 1 1v15l-7-4-7 4V5a1 1 0 0 1 1-1z"/>
-            </svg>
+         Scroll mechanic (JS updateStack()):
+           As you scroll through #stack-wrapper, each card slides up:
+             translateY = lerp(100vh, i * PEEK, enterProgress)
+           where enterProgress = clamp((scrolled - (i-1)*vh) / vh, 0, 1)
+           and PEEK = 60px (height of colored stub peeking above active card)
+
+         Visual result: stacked colored tabs build at the top as you
+         progress. Current card fills the viewport below the tab strip.
+         Each card has its own background tint and accent color.
+    ════════════════════════════════════════════ -->
+    <div class="beats-label">
+      <div class="section-eyebrow">How it works</div>
+      <h2>Everything you save, remembered.</h2>
+    </div>
+
+    <div id="stack-wrapper">
+      <div id="stack-stage">
+
+        <!-- Card 0: SAVE — coral tint -->
+        <div class="beat-card" id="bc-save" style="z-index:1">
+          <div class="bc-inner">
+            <div class="bc-copy">
+              <span class="bc-verb">Save</span>
+              <h2>Save anything<br>in one tap.</h2>
+              <p>A book, an article, a YouTube video, a podcast. Share anything into REPS from wherever you scroll. It pulls out what's worth keeping.</p>
+            </div>
+            <div class="bc-phone-wrap">
+              <div class="bc-phone">
+                <div class="screen">
+                  <video src="beats/save-share-ext.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+                </div>
+              </div>
+            </div>
           </div>
-          <span class="beat-verb">Save</span>
-          <h3>Save anything in one tap.</h3>
-          <p>A book, an article, a YouTube video, a podcast. Share anything into REPS and it pulls out what's worth keeping.</p>
         </div>
 
-        <div class="beat">
-          <div class="beat-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 8v4l2.5 2.5"/>
-              <path d="M5.1 5.1A9 9 0 1 0 12 3"/>
-              <path d="M12 3H8v4"/>
-            </svg>
+        <!-- Card 1: REMEMBER — teal tint -->
+        <div class="beat-card" id="bc-remember" style="z-index:2">
+          <div class="bc-inner">
+            <div class="bc-copy">
+              <span class="bc-verb">Remember</span>
+              <h2>It comes back,<br>right before you'd forget.</h2>
+              <p>REPS asks you a few questions a day, timed to the exact moment a memory starts to fade. That's spaced repetition. That's how the best ideas stick for life.</p>
+            </div>
+            <div class="bc-phone-wrap">
+              <div class="bc-phone">
+                <div class="screen">
+                  <video src="beats/quiz-single.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+                </div>
+              </div>
+            </div>
           </div>
-          <span class="beat-verb">Remember</span>
-          <h3>It comes back, right before you'd forget.</h3>
-          <p>A few questions a day, timed to the exact moment a memory starts to fade. That's how it sticks.</p>
         </div>
 
-        <div class="beat">
-          <div class="beat-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="6" y1="12" x2="10" y2="12"/>
-              <line x1="8" y1="10" x2="8" y2="14"/>
-              <circle cx="15" cy="11" r="1" fill="currentColor" stroke="none"/>
-              <circle cx="17" cy="13" r="1" fill="currentColor" stroke="none"/>
-              <path d="M10 7H6a3 3 0 0 0-3 3v4a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3v-4a3 3 0 0 0-3-3h-4"/>
-            </svg>
+        <!-- Card 2: PLAY — amber tint -->
+        <div class="beat-card" id="bc-play" style="z-index:3">
+          <div class="bc-inner">
+            <div class="bc-copy">
+              <span class="bc-verb">Play</span>
+              <h2>Remembering<br>feels like a game.</h2>
+              <p>Daily games built from what you've saved. Crosswords, recall challenges, head-to-heads with friends. The more you play, the more you keep.</p>
+            </div>
+            <div class="bc-phone-wrap">
+              <div class="bc-phone">
+                <div class="screen">
+                  <video src="beats/game-crossword.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+                </div>
+              </div>
+            </div>
           </div>
-          <span class="beat-verb">Play</span>
-          <h3>Remembering feels like a game.</h3>
-          <p>Daily games built from what you've saved. Play alone or challenge friends.</p>
         </div>
 
-        <div class="beat">
-          <div class="beat-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="9" cy="7" r="4"/>
-              <path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
-              <path d="M16 3.13a4 4 0 0 1 0 7.75M21 21v-2a4 4 0 0 0-3-3.87"/>
-            </svg>
+        <!-- Card 3: DISCOVER — indigo tint -->
+        <div class="beat-card" id="bc-discover" style="z-index:4">
+          <div class="bc-inner">
+            <div class="bc-copy">
+              <span class="bc-verb">Discover</span>
+              <h2>See what your friends<br>are actually reading.</h2>
+              <p>A feed of high-quality content from the people you trust, not the algorithm. No outrage. No doom. Just things that make you sharper.</p>
+            </div>
+            <div class="bc-phone-wrap">
+              <div class="bc-phone">
+                <div class="screen">
+                  <video src="beats/constellation.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+                </div>
+              </div>
+            </div>
           </div>
-          <span class="beat-verb">Discover</span>
-          <h3>See what your friends are actually reading.</h3>
-          <p>A feed of high-quality content from the people you trust. No outrage, no doom. Just things that make you sharper.</p>
         </div>
 
-      </div>
-    </section>
+      </div><!-- /#stack-stage -->
+    </div><!-- /#stack-wrapper -->
 
-    <!-- BOTTOM CTA -->
-    <section class="cta-section">
+    <!-- ═══════════════════════════════════════════
+         SECTION 4: CTA
+         IntersectionObserver reveals the section as it enters
+         the viewport (fade up). Same form + reassurance + manifesto.
+    ════════════════════════════════════════════ -->
+    <section class="cta-section" id="cta-section">
       <h2>Most apps compete for your attention. REPS compounds it.</h2>
       <p class="cta-sub">Join the waitlist. One email when your invite's ready.</p>
 
-      <div class="form-zone" id="cta-zone">
+      <div class="form-zone-cta" id="cta-zone">
         <form class="signup" id="cta-form" novalidate>
           <input type="email" id="cta-email" name="email" inputmode="email"
             autocomplete="email" autocapitalize="off" spellcheck="false"
@@ -488,12 +584,114 @@
   </footer>
 
   <script>
+    /* ─── Nav CTA → focus hero email ─── */
     document.getElementById('nav-cta').addEventListener('click', function () {
       var el = document.getElementById('hero-email');
       document.getElementById('hero').scrollIntoView({ behavior: 'smooth', block: 'start' });
       setTimeout(function () { el.focus(); }, 380);
     });
 
+    /* ─── Hero video montage (same as v3a) ─── */
+    var heroClips = [
+      'beats/save-bookshelf-found.mp4',
+      'beats/save-share-ext.mp4',
+      'beats/quiz-single.mp4',
+      'beats/game-crossword.mp4',
+      'beats/constellation.mp4'
+    ];
+    var heroIdx = 0;
+    var heroVid = document.getElementById('hero-vid');
+    var FADE = 500;
+
+    function nextClip() {
+      heroVid.style.opacity = '0';
+      heroIdx = (heroIdx + 1) % heroClips.length;
+      setTimeout(function () {
+        heroVid.src = heroClips[heroIdx];
+        heroVid.play().catch(function () {});
+        setTimeout(function () { heroVid.style.opacity = '1'; }, 120);
+      }, FADE);
+    }
+    heroVid.addEventListener('ended', nextClip);
+    heroVid.style.opacity = '0';
+    heroVid.src = heroClips[0];
+    heroVid.play().catch(function () {});
+    setTimeout(function () { heroVid.style.opacity = '1'; }, 120);
+
+    /* ─── IntersectionObserver: proof cards + CTA section ─── */
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    // Stagger quote cards by 120ms each
+    document.querySelectorAll('.quote-card').forEach(function (card, i) {
+      card.style.transitionDelay = (i * 0.12) + 's';
+      revealObserver.observe(card);
+    });
+    revealObserver.observe(document.getElementById('cta-section'));
+
+    /* ─── Stacked card scroll mechanic ─── */
+    var stackWrapper = document.getElementById('stack-wrapper');
+    var beatCards = Array.from(document.querySelectorAll('.beat-card'));
+    var PEEK = 60; // px of previous card peeking above current
+
+    // Set initial positions — card 0 visible, rest below viewport
+    beatCards.forEach(function (card, i) {
+      if (i === 0) {
+        card.style.transform = 'translateY(0)';
+      } else {
+        card.style.transform = 'translateY(100vh)';
+      }
+    });
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+    function clamp(x, lo, hi) { return x < lo ? lo : x > hi ? hi : x; }
+
+    // Ease function: smooth deceleration (easeOutCubic)
+    function ease(t) { return 1 - Math.pow(1 - t, 3); }
+
+    function updateStack() {
+      var rect = stackWrapper.getBoundingClientRect();
+      var scrolled = Math.max(0, -rect.top);
+      var vh = window.innerHeight;
+      var n = beatCards.length;
+
+      beatCards.forEach(function (card, i) {
+        var enterProgress;
+        if (i === 0) {
+          enterProgress = 1; // always entered
+        } else {
+          enterProgress = ease(clamp((scrolled - (i - 1) * vh) / vh, 0, 1));
+        }
+
+        // Final resting position when fully entered: i * PEEK from top
+        var ty = lerp(vh, i * PEEK, enterProgress);
+        card.style.transform = 'translateY(' + ty + 'px)';
+      });
+    }
+
+    // Use requestAnimationFrame for smooth 60fps updates
+    var stackTicking = false;
+    function onStackScroll() {
+      if (!stackTicking) {
+        requestAnimationFrame(function () {
+          updateStack();
+          stackTicking = false;
+        });
+        stackTicking = true;
+      }
+    }
+
+    window.addEventListener('scroll', onStackScroll, { passive: true });
+    window.addEventListener('resize', updateStack);
+    updateStack(); // Initial state
+
+    /* ─── Waitlist form wiring ─── */
     var WL = 'https://waitlister.me/s/1IFflE5ASXo6';
 
     function wireForm(formId, emailId, errId, zoneId) {
@@ -523,35 +721,6 @@
 
     wireForm('hero-form', 'hero-email', 'hero-err', 'hero-zone');
     wireForm('cta-form', 'cta-email', 'cta-err', 'cta-zone');
-
-    // Hero video montage — 5 clips, fade out → swap → fade in between each
-    var heroClips = [
-      'beats/save-bookshelf-found.mp4',
-      'beats/save-share-ext.mp4',
-      'beats/quiz-single.mp4',
-      'beats/game-crossword.mp4',
-      'beats/constellation.mp4'
-    ];
-    var heroIdx = 0;
-    var heroVid = document.getElementById('hero-vid');
-    var FADE = 500; // ms — matches CSS transition
-
-    function nextClip() {
-      heroVid.style.opacity = '0';
-      heroIdx = (heroIdx + 1) % heroClips.length;
-      setTimeout(function () {
-        heroVid.src = heroClips[heroIdx];
-        heroVid.play().catch(function () {});
-        setTimeout(function () { heroVid.style.opacity = '1'; }, 120);
-      }, FADE);
-    }
-
-    heroVid.addEventListener('ended', nextClip);
-    // First clip — fade in from nothing
-    heroVid.style.opacity = '0';
-    heroVid.src = heroClips[0];
-    heroVid.play().catch(function () {});
-    setTimeout(function () { heroVid.style.opacity = '1'; }, 120);
   </script>
 
 </body>
