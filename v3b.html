@@ -1,0 +1,623 @@
+<!doctype html>
+<!-- REPS Homepage Prototype B — Rich Showcase (2026-06-18)
+     Philosophy: same conversion-first hero as A, but desktop gets a full two-column
+     feature narrative (copy + phone per section, alternating sides). Deeper below the fold.
+     Also adds a static "saved concept" proof card to make the product tangible.
+     To ship: replace product/index.html with this file's content (+ OG tags from existing page). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>REPS · Remember everything you read, watch, and hear</title>
+  <meta name="description" content="REPS turns what you read, watch, and hear into quick games that make it stick. Get early access."/>
+  <link rel="canonical" href="https://getreps.io/"/>
+  <meta property="og:title" content="REPS · Save. Play. Remember."/>
+  <meta property="og:description" content="Finally remember everything you read, watch, and hear."/>
+  <meta property="og:url" content="https://getreps.io/"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="https://www.getreps.io/og-card-v2.png"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:image" content="https://www.getreps.io/og-card-v2.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Lora:ital,wght@0,500;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --cream: #fffaf7;
+      --coral: #ff6b6b;
+      --peach: #ff8e53;
+      --ink: #211a14;
+      --body: rgba(33,26,20,0.72);
+      --muted: rgba(33,26,20,0.52);
+      --hairline: rgba(33,26,20,0.09);
+      --card-bg: #ffffff;
+      --galaxy: #040409;
+      --display: "Space Grotesk", system-ui, -apple-system, sans-serif;
+      --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --serif: "Lora", Georgia, serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--cream); scroll-behavior: smooth; }
+    body {
+      background: var(--cream); color: var(--body); font-family: var(--sans);
+      -webkit-font-smoothing: antialiased; line-height: 1.5; overflow-x: hidden;
+    }
+    img, video { display: block; max-width: 100%; }
+    a { color: inherit; }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--cream); border-bottom: 1px solid var(--hairline);
+      padding: 14px 24px;
+    }
+    .nav-inner {
+      max-width: 1160px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .wordmark {
+      display: flex; align-items: center; gap: 8px; text-decoration: none;
+      font-family: var(--display); font-weight: 700; font-size: 18px;
+      letter-spacing: 0.04em; color: var(--ink);
+    }
+    .wordmark img { width: 26px; height: 26px; border-radius: 6px; box-shadow: 0 1px 4px rgba(33,26,20,0.12); }
+    .nav-cta {
+      font-size: 14px; font-weight: 600; color: #fff; border: none; cursor: pointer;
+      background: linear-gradient(135deg, var(--coral), var(--peach));
+      padding: 9px 20px; border-radius: 999px;
+      box-shadow: 0 2px 10px -3px rgba(255,107,107,0.38);
+      transition: opacity 0.14s, transform 0.14s;
+    }
+    .nav-cta:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    /* ── Hero ── */
+    /* Mobile: single-col centered. Desktop (≥900px): split — copy+form left, phone right */
+    .hero { padding: 64px 24px 56px; }
+    .hero-inner {
+      max-width: 1160px; margin: 0 auto;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 0; text-align: center;
+    }
+    .hero-copy { max-width: 520px; }
+    .eyebrow {
+      display: inline-block; font-size: 13px; font-weight: 600;
+      letter-spacing: 0.11em; text-transform: uppercase;
+      color: var(--coral); margin-bottom: 18px;
+    }
+    h1 {
+      font-family: var(--display); color: var(--ink); font-weight: 700;
+      font-size: clamp(30px, 6vw, 52px); line-height: 1.06; letter-spacing: -0.025em;
+      text-wrap: balance; margin-bottom: 18px;
+    }
+    .lede {
+      font-size: clamp(16px, 2vw, 18px); color: var(--body); line-height: 1.6;
+      max-width: 36ch; margin: 0 auto 36px; text-wrap: balance;
+    }
+
+    /* ── Phone stage (hero) ── */
+    .stage {
+      position: relative; display: flex; justify-content: center;
+      margin-bottom: 32px; width: 100%;
+    }
+    .stage::before {
+      content: ""; position: absolute;
+      left: 15%; right: 15%; top: 6%; bottom: 4%;
+      background: radial-gradient(ellipse at 50% 40%,
+        rgba(255,107,107,0.17) 0%, rgba(255,142,83,0.07) 48%, transparent 72%);
+      filter: blur(22px); z-index: 0;
+    }
+    .phone-sm {
+      position: relative; z-index: 1;
+      width: clamp(145px, 38vw, 198px);
+      padding: 5px; background: #0a0a10; border-radius: 28px;
+      box-shadow: 0 2px 8px rgba(33,26,20,0.14), 0 22px 52px -18px rgba(33,26,20,0.32);
+    }
+    .phone-sm::after {
+      content: ""; position: absolute; inset: 0; border-radius: 28px; pointer-events: none;
+      box-shadow: inset 0 1px 1px rgba(255,255,255,0.07);
+    }
+    .phone-sm .screen {
+      width: 100%; aspect-ratio: 540/1170; border-radius: 23px;
+      overflow: hidden; background: var(--galaxy);
+    }
+    .phone-sm .screen video { width: 100%; height: 100%; object-fit: cover; }
+
+    /* ── Form ── */
+    .form-zone { width: 100%; max-width: 380px; }
+    .form-zone.centered { margin: 0 auto; }
+    .signup { display: flex; flex-direction: column; gap: 8px; }
+    .signup input[type="email"] {
+      width: 100%; height: 50px; border: 1.5px solid var(--hairline); border-radius: 12px;
+      background: #fff; padding: 0 16px;
+      font-family: var(--sans); font-size: 16px; color: var(--ink);
+      outline: none; transition: border-color 0.14s, box-shadow 0.14s;
+    }
+    .signup input:focus { border-color: var(--coral); box-shadow: 0 0 0 3px rgba(255,107,107,0.13); }
+    .signup input::placeholder { color: var(--muted); }
+    .signup button {
+      width: 100%; height: 52px; border: 0; border-radius: 12px; cursor: pointer;
+      background: linear-gradient(135deg, var(--coral), var(--peach));
+      color: #fff; font-family: var(--sans); font-weight: 600; font-size: 16px;
+      box-shadow: 0 4px 16px -5px rgba(255,107,107,0.32);
+      transition: opacity 0.12s, transform 0.12s;
+    }
+    .signup button:hover { opacity: 0.92; transform: translateY(-1px); }
+    .signup button:active { transform: translateY(0); }
+    .signup button:disabled { opacity: 0.6; cursor: default; transform: none; }
+    .reassure { font-size: 13px; color: var(--muted); text-align: center; margin-top: 8px; }
+    .err { font-size: 13px; color: #c0392b; text-align: center; min-height: 16px; margin-top: 4px; }
+    .success {
+      display: none; align-items: center; gap: 14px;
+      padding: 16px 18px; border-radius: 14px;
+      background: #fff; border: 1.5px solid rgba(78,205,196,0.42);
+      color: var(--ink); font-weight: 600; font-size: 15px;
+    }
+    .success img { width: 40px; height: 36px; flex: none; object-fit: contain; }
+    .form-done .signup, .form-done .reassure { display: none; }
+    .form-done .success { display: flex; }
+
+    /* ── Proof ── */
+    .proof {
+      padding: 48px 24px;
+      border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline);
+      background: #fdf7f3;
+    }
+    .proof-inner {
+      max-width: 1160px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr; gap: 20px;
+    }
+    .quote-card {
+      background: var(--card-bg); border-radius: 18px; padding: 22px 22px 20px;
+      border: 1px solid var(--hairline);
+      box-shadow: 0 1px 3px rgba(33,26,20,0.04), 0 4px 14px rgba(33,26,20,0.03);
+    }
+    .stars { font-size: 13px; letter-spacing: 2px; color: var(--coral); margin-bottom: 10px; }
+    .quote-text { font-size: 15px; line-height: 1.6; color: var(--ink); font-style: italic; margin-bottom: 16px; }
+    .author { display: flex; align-items: center; gap: 10px; }
+    .av {
+      width: 34px; height: 34px; border-radius: 50%; flex: none;
+      background: linear-gradient(135deg, var(--coral), var(--peach));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; color: #fff; font-family: var(--display);
+    }
+    .author-meta { display: flex; flex-direction: column; }
+    .author-name { font-size: 13px; font-weight: 600; color: var(--ink); }
+    .author-role { font-size: 12px; color: var(--muted); }
+
+    /* ── Feature sections ── */
+    .feature {
+      padding: clamp(48px, 7vw, 88px) 24px;
+      border-top: 1px solid var(--hairline);
+    }
+    .feature-inner {
+      max-width: 1160px; margin: 0 auto;
+      display: flex; flex-direction: column; gap: 36px; align-items: center;
+    }
+    .feature-copy { display: flex; flex-direction: column; gap: 12px; max-width: 520px; }
+    .feature-eyebrow {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--coral);
+    }
+    .feature-copy h2 {
+      font-family: var(--display); color: var(--ink); font-weight: 700;
+      font-size: clamp(24px, 3.8vw, 38px); letter-spacing: -0.022em; line-height: 1.1;
+      text-wrap: balance;
+    }
+    .feature-copy p {
+      font-size: clamp(15px, 1.8vw, 17px); color: var(--body); line-height: 1.62; max-width: 40ch;
+    }
+    .feature-phone { display: flex; justify-content: center; width: 100%; }
+    .phone-lg {
+      width: clamp(160px, 40vw, 248px);
+      padding: 6px; background: #0a0a10; border-radius: 32px;
+      box-shadow: 0 2px 10px rgba(33,26,20,0.12), 0 24px 60px -18px rgba(33,26,20,0.26);
+    }
+    .phone-lg::after {
+      content: ""; position: absolute; inset: 0; border-radius: 32px; pointer-events: none;
+      box-shadow: inset 0 1px 1px rgba(255,255,255,0.07);
+    }
+    .phone-lg { position: relative; }
+    .phone-lg .screen {
+      width: 100%; aspect-ratio: 540/1170; border-radius: 26px;
+      overflow: hidden; background: var(--galaxy);
+    }
+    .phone-lg .screen video { width: 100%; height: 100%; object-fit: cover; }
+
+    /* ── Concept card (proof of product) ── */
+    .concept-section {
+      padding: clamp(48px, 6vw, 72px) 24px;
+      background: #fdf7f3;
+      border-top: 1px solid var(--hairline);
+      border-bottom: 1px solid var(--hairline);
+    }
+    .concept-section-header { text-align: center; margin-bottom: 28px; }
+    .concept-section-header .section-eyebrow {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.13em;
+      text-transform: uppercase; color: var(--coral); margin-bottom: 8px;
+    }
+    .concept-section-header p {
+      font-size: 15px; color: var(--muted); max-width: 38ch; margin: 0 auto;
+    }
+    .concept-card {
+      max-width: 420px; margin: 0 auto;
+      background: var(--card-bg); border-radius: 20px; padding: 22px 22px 20px;
+      border: 1px solid var(--hairline);
+      box-shadow: 0 2px 8px rgba(33,26,20,0.05), 0 8px 28px rgba(33,26,20,0.07);
+    }
+    .concept-source {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 12px; border-radius: 10px;
+      background: rgba(33,26,20,0.04); border: 1px solid var(--hairline);
+      margin-bottom: 14px;
+    }
+    .concept-source-icon { font-size: 14px; }
+    .concept-source-name { font-size: 12.5px; font-weight: 600; color: var(--ink); }
+    .concept-source-kind { font-size: 11px; color: var(--muted); }
+    .concept-title {
+      font-family: var(--serif); font-size: 20px; font-weight: 500;
+      color: var(--ink); line-height: 1.22; margin-bottom: 8px;
+    }
+    .concept-body {
+      font-family: var(--serif); font-size: 14.5px; color: var(--body);
+      line-height: 1.6; font-style: italic; margin-bottom: 16px;
+    }
+    .concept-divider { border: none; border-top: 1px solid var(--hairline); margin-bottom: 14px; }
+    .concept-meta { display: flex; align-items: center; justify-content: space-between; }
+    .concept-social {
+      display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--muted);
+    }
+    .concept-social-avs { display: flex; }
+    .concept-social-avs .sav {
+      width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--card-bg);
+      background: linear-gradient(135deg, var(--coral), var(--peach));
+      margin-left: -6px; font-size: 9px; font-weight: 700; color: #fff;
+      display: flex; align-items: center; justify-content: center; font-family: var(--display);
+    }
+    .concept-social-avs .sav:first-child { margin-left: 0; }
+    .concept-mastery {
+      display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted);
+    }
+    .mastery-pip {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--coral), var(--peach));
+      box-shadow: 0 0 6px rgba(255,107,107,0.4);
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      padding: 88px 24px 72px;
+      border-top: 1px solid var(--hairline);
+      text-align: center;
+    }
+    .cta-section h2 {
+      font-family: var(--display); color: var(--ink); font-weight: 700;
+      font-size: clamp(22px, 3.5vw, 36px); letter-spacing: -0.02em; line-height: 1.12;
+      max-width: 26ch; margin: 0 auto 10px; text-wrap: balance;
+    }
+    .cta-sub { font-size: 16px; color: var(--body); margin-bottom: 32px; }
+    .referral { font-size: 13px; color: var(--muted); margin-top: 12px; }
+    .manifesto {
+      margin-top: 40px;
+      font-family: var(--display); font-size: clamp(17px, 2.4vw, 21px);
+      font-weight: 700; color: var(--ink); letter-spacing: -0.01em;
+    }
+    .grad {
+      background: linear-gradient(100deg, var(--coral), var(--peach));
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
+    /* ── Footer ── */
+    footer {
+      padding: 24px 24px 48px; border-top: 1px solid var(--hairline);
+      text-align: center; color: var(--muted); font-size: 12px;
+    }
+    footer .motto {
+      display: block; font-family: var(--display); font-weight: 700;
+      font-size: 13px; letter-spacing: 0.04em; color: var(--ink); margin-bottom: 6px;
+    }
+    footer a { text-decoration: underline; }
+
+    /* ── Desktop enhancements ── */
+    @media (min-width: 640px) {
+      .proof-inner { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* Desktop hero: two-column (copy+form left, phone right) */
+    @media (min-width: 900px) {
+      .hero { padding: 80px 48px 64px; }
+      .hero-inner {
+        flex-direction: row; justify-content: space-between;
+        align-items: center; text-align: left; gap: 64px;
+      }
+      .hero-copy { max-width: 480px; }
+      .lede { margin-left: 0; }
+      .stage { width: auto; flex: none; margin-bottom: 0; }
+      .stage::before { left: -10%; right: -10%; }
+      .phone-sm { width: 220px; }
+      .form-zone { margin-left: 0; }
+    }
+
+    /* Desktop feature sections: two-column */
+    @media (min-width: 820px) {
+      .feature-inner { flex-direction: row; justify-content: space-between; gap: 72px; }
+      .feature-inner.flip { flex-direction: row-reverse; }
+      .feature-copy { max-width: 440px; }
+      .feature-phone { flex: none; }
+      .phone-lg { width: 248px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .signup button, .nav-cta { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a class="wordmark" href="#">
+        <img src="product/assets/app-icon.png" alt="REPS" width="26" height="26"/>
+        REPS
+      </a>
+      <button class="nav-cta" id="nav-cta">Join the waitlist</button>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- HERO — same conversion zone as Option A; two-column on desktop -->
+    <section class="hero" id="hero">
+      <div class="hero-inner">
+
+        <div class="hero-copy">
+          <span class="eyebrow">You forget 90% of what you read.</span>
+          <h1>Finally remember everything you read, watch, and hear.</h1>
+          <p class="lede">A quick daily game makes it stick. Two minutes a day.</p>
+
+          <div class="form-zone" id="hero-zone">
+            <form class="signup" id="hero-form" novalidate>
+              <input type="email" id="hero-email" name="email" inputmode="email"
+                autocomplete="email" autocapitalize="off" spellcheck="false"
+                placeholder="Enter your email" required aria-label="Email address"/>
+              <button type="submit">Get early access</button>
+            </form>
+            <p class="err" id="hero-err" role="alert"></p>
+            <p class="reassure">Invite-only early access. One email when your invite's ready. No spam.</p>
+            <div class="success" id="hero-success">
+              <img src="get/assets/echo.png" alt="" aria-hidden="true"/>
+              <span>You're in. We'll email your invite the moment it's ready.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="stage">
+          <div class="phone-sm">
+            <div class="screen">
+              <video src="get/assets/training.mp4" poster="get/assets/game-poster.jpg"
+                autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SOCIAL PROOF -->
+    <section class="proof" aria-label="What people are saying">
+      <div class="proof-inner">
+        <div class="quote-card">
+          <div class="stars">★★★★★</div>
+          <p class="quote-text">"I've tried Anki, Notion, journaling. REPS is the only thing that actually made knowledge stick without feeling like homework."</p>
+          <div class="author">
+            <div class="av">C</div>
+            <div class="author-meta">
+              <span class="author-name">Chloe D.</span>
+              <span class="author-role">UX designer</span>
+            </div>
+          </div>
+        </div>
+        <div class="quote-card">
+          <div class="stars">★★★★★</div>
+          <p class="quote-text">"I read a lot but retained almost nothing. Now every article I finish actually stays with me. It's like reading finally pays off."</p>
+          <div class="author">
+            <div class="av">J</div>
+            <div class="author-meta">
+              <span class="author-name">James T.</span>
+              <span class="author-role">Product manager</span>
+            </div>
+          </div>
+        </div>
+        <div class="quote-card">
+          <div class="stars">★★★★★</div>
+          <p class="quote-text">"My screen time hasn't changed but it feels completely different. I don't feel guilty about picking up my phone anymore."</p>
+          <div class="author">
+            <div class="av">P</div>
+            <div class="author-meta">
+              <span class="author-name">Priya M.</span>
+              <span class="author-role">Teacher</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURE 1: Save -->
+    <section class="feature">
+      <div class="feature-inner">
+        <div class="feature-copy">
+          <span class="feature-eyebrow">Save</span>
+          <h2>Save anything in one tap.</h2>
+          <p>A book, an article, a YouTube video, a podcast. Share anything into REPS from wherever you scroll. It pulls out the ideas worth keeping and builds them into your daily game.</p>
+        </div>
+        <div class="feature-phone">
+          <div class="phone-lg">
+            <div class="screen">
+              <video src="product/videos/capture.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURE 2: Remember (flipped) -->
+    <section class="feature">
+      <div class="feature-inner flip">
+        <div class="feature-copy">
+          <span class="feature-eyebrow">Remember</span>
+          <h2>It comes back, right before you'd forget.</h2>
+          <p>REPS asks you a few questions a day, timed to the exact moment a memory starts to fade. That's spaced repetition. That's how the best ideas stick for life, not just until Tuesday.</p>
+        </div>
+        <div class="feature-phone">
+          <div class="phone-lg">
+            <div class="screen">
+              <video src="get/assets/training.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURE 3: Play -->
+    <section class="feature">
+      <div class="feature-inner">
+        <div class="feature-copy">
+          <span class="feature-eyebrow">Play</span>
+          <h2>Remembering feels like a game.</h2>
+          <p>Daily games built from what you've saved. Crosswords, recall challenges, head-to-heads with friends. The more you play, the more you keep.</p>
+        </div>
+        <div class="feature-phone">
+          <div class="phone-lg">
+            <div class="screen">
+              <video src="product/videos/games.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURE 4: Discover (flipped) -->
+    <section class="feature">
+      <div class="feature-inner flip">
+        <div class="feature-copy">
+          <span class="feature-eyebrow">Discover</span>
+          <h2>See what your friends are actually reading.</h2>
+          <p>A feed of high-quality content from the people you trust, not the algorithm. No outrage. No doom. Just the things that make you sharper, surfaced by people with taste.</p>
+        </div>
+        <div class="feature-phone">
+          <div class="phone-lg">
+            <div class="screen">
+              <video src="product/videos/feed.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONCEPT CARD PROOF -->
+    <section class="concept-section">
+      <div class="concept-section-header">
+        <div class="section-eyebrow">What you're building</div>
+        <p>Every idea you save becomes a living concept in your knowledge base.</p>
+      </div>
+      <div class="concept-card">
+        <div class="concept-source">
+          <span class="concept-source-icon">📖</span>
+          <span class="concept-source-name">Atomic Habits</span>
+          <span class="concept-source-kind">&nbsp;· Book</span>
+        </div>
+        <h3 class="concept-title">The Aggregation of Marginal Gains</h3>
+        <p class="concept-body">"Getting 1% better each day compounds into being 37 times better over the course of a year. Small habits don't add up — they multiply."</p>
+        <hr class="concept-divider"/>
+        <div class="concept-meta">
+          <div class="concept-social">
+            <div class="concept-social-avs">
+              <div class="sav">A</div>
+              <div class="sav">M</div>
+              <div class="sav">K</div>
+            </div>
+            <span>4 friends know this</span>
+          </div>
+          <div class="concept-mastery">
+            <div class="mastery-pip"></div>
+            <span>💪 Strong</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BOTTOM CTA -->
+    <section class="cta-section">
+      <h2>Most apps compete for your attention. REPS compounds it.</h2>
+      <p class="cta-sub">Join the waitlist. One email when your invite's ready.</p>
+
+      <div class="form-zone centered" id="cta-zone">
+        <form class="signup" id="cta-form" novalidate>
+          <input type="email" id="cta-email" name="email" inputmode="email"
+            autocomplete="email" autocapitalize="off" spellcheck="false"
+            placeholder="Enter your email" required aria-label="Email address"/>
+          <button type="submit">Get early access</button>
+        </form>
+        <p class="err" id="cta-err" role="alert"></p>
+        <p class="reassure">No spam, ever. One email when your invite lands.</p>
+        <div class="success" id="cta-success">
+          <img src="get/assets/echo.png" alt="" aria-hidden="true"/>
+          <span>You're in. We'll email your invite the moment it's ready.</span>
+        </div>
+      </div>
+
+      <p class="referral">The list moves. Bring friends and skip ahead.</p>
+      <p class="manifesto">Stop doom scrolling. Start <span class="grad">bloom scrolling.</span></p>
+    </section>
+
+  </main>
+
+  <footer>
+    <span class="motto">Save. Play. Remember.</span>
+    REPS · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
+  </footer>
+
+  <script>
+    // Nav CTA scrolls to and focuses the hero email field
+    document.getElementById('nav-cta').addEventListener('click', function () {
+      var el = document.getElementById('hero-email');
+      document.getElementById('hero').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setTimeout(function () { el.focus(); }, 380);
+    });
+
+    // Form handling (both forms share the same Waitlister endpoint)
+    var WL = 'https://waitlister.me/s/1IFflE5ASXo6';
+
+    function wireForm(formId, emailId, errId, zoneId) {
+      var form = document.getElementById(formId);
+      if (!form) return;
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var email = document.getElementById(emailId).value.trim();
+        var errEl = document.getElementById(errId);
+        errEl.textContent = '';
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          errEl.textContent = 'Please enter a valid email address.';
+          return;
+        }
+        var btn = form.querySelector('button');
+        btn.disabled = true;
+        btn.textContent = 'Joining…';
+        fetch(WL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({ email: email })
+        })
+          .then(function () { document.getElementById(zoneId).classList.add('form-done'); })
+          .catch(function () { document.getElementById(zoneId).classList.add('form-done'); });
+      });
+    }
+
+    wireForm('hero-form', 'hero-email', 'hero-err', 'hero-zone');
+    wireForm('cta-form', 'cta-email', 'cta-err', 'cta-zone');
+  </script>
+
+</body>
+</html>
