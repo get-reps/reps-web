@@ -80,30 +80,30 @@
       to   { opacity: 1; }
     }
 
-    .hero { padding: 72px 24px 56px; text-align: center; }
+    .hero { padding: 22px 24px 36px; text-align: center; }
     .hero-inner { max-width: 520px; margin: 0 auto; }
 
     .eyebrow {
       display: inline-block; font-size: 12px; font-weight: 600;
       letter-spacing: 0.18em; text-transform: uppercase; color: var(--coral);
-      margin-bottom: 18px;
+      margin-bottom: 11px;
       animation: fadeUp 0.55s cubic-bezier(0.22,1,0.36,1) 0.05s both;
     }
     h1 {
       font-family: var(--display); color: var(--ink); font-weight: 700;
-      font-size: clamp(30px, 6vw, 50px); line-height: 1.06; letter-spacing: -0.025em;
-      text-wrap: balance; margin-bottom: 18px;
+      font-size: clamp(27px, 6.1vw, 50px); line-height: 1.06; letter-spacing: -0.025em;
+      text-wrap: balance; margin-bottom: 12px;
       animation: fadeUp 0.65s cubic-bezier(0.22,1,0.36,1) 0.12s both;
     }
     .lede {
-      font-size: clamp(16px, 2vw, 18px); color: var(--body); line-height: 1.6;
-      max-width: 36ch; margin: 0 auto 36px; text-wrap: balance;
+      font-size: clamp(15px, 2vw, 18px); color: var(--body); line-height: 1.55;
+      max-width: 36ch; margin: 0 auto 20px; text-wrap: balance;
       animation: fadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.22s both;
     }
 
     /* Phone stage — animated */
     .stage {
-      position: relative; display: flex; justify-content: center; margin-bottom: 32px;
+      position: relative; display: flex; justify-content: center; margin-bottom: 22px;
       animation: fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) 0.1s both;
     }
     .stage::before {
@@ -115,7 +115,7 @@
     }
     .phone {
       position: relative; z-index: 1;
-      width: clamp(145px, 38vw, 198px);
+      width: clamp(126px, 33vw, 176px);
       padding: 5px; background: #0a0a10; border-radius: 28px;
       box-shadow: 0 2px 8px rgba(33,26,20,0.14), 0 22px 52px -18px rgba(33,26,20,0.32);
     }
@@ -168,24 +168,32 @@
     .form-done .signup, .form-done .reassure { display: none; }
     .form-done .success { display: flex; }
 
-    /* ── Proof — fade in on scroll ── */
+    /* ── Proof — auto-scrolling marquee of quote cards ── */
     .proof {
-      padding: 48px 24px;
+      padding: 48px 0;
       background: var(--cream); /* same as hero, no visible band */
+      overflow: hidden;
     }
-    .proof-inner {
-      max-width: 1120px; margin: 0 auto;
-      display: grid; grid-template-columns: 1fr; gap: 20px;
+    /* Edge fade so cards glide in/out instead of hard-clipping */
+    .marquee-viewport {
+      -webkit-mask: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+              mask: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+    }
+    .marquee-track {
+      display: flex; width: max-content;
+      animation: marquee 46s linear infinite;
+    }
+    .marquee-track:hover { animation-play-state: paused; }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
     }
     .quote-card {
+      width: 320px; flex: none; margin-right: 20px;
       background: #fff; border-radius: 18px; padding: 22px 22px 20px;
       border: 1px solid var(--hairline);
       box-shadow: 0 1px 3px rgba(33,26,20,0.04), 0 4px 14px rgba(33,26,20,0.03);
-      /* Start hidden — IntersectionObserver reveals */
-      opacity: 0; transform: translateY(28px);
-      transition: opacity 0.55s cubic-bezier(0.22,1,0.36,1), transform 0.55s cubic-bezier(0.22,1,0.36,1);
     }
-    .quote-card.visible { opacity: 1; transform: translateY(0); }
     .stars { font-size: 13px; letter-spacing: 2px; color: var(--coral); margin-bottom: 10px; }
     .quote-text { font-size: 15px; line-height: 1.6; color: var(--ink); font-style: italic; margin-bottom: 16px; }
     .author { display: flex; align-items: center; gap: 10px; }
@@ -337,16 +345,14 @@
     }
     footer a { text-decoration: underline; }
 
-    /* Desktop proof grid */
-    @media (min-width: 640px) {
-      .proof-inner { grid-template-columns: repeat(3, 1fr); }
-    }
     @media (min-width: 900px) {
-      .hero { padding-top: 96px; }
+      .hero { padding-top: 80px; }
+      .phone { width: clamp(160px, 18vw, 200px); }
     }
     @media (prefers-reduced-motion: reduce) {
       .eyebrow, h1, .lede, .stage, .form-zone { animation: none; opacity: 1; transform: none; }
-      .quote-card, .cta-section { opacity: 1; transform: none; transition: none; }
+      .cta-section { opacity: 1; transform: none; transition: none; }
+      .marquee-track { animation: none; }
       html { scroll-behavior: auto; }
     }
   </style>
@@ -409,37 +415,74 @@
          Each card gets a 120ms delay after the previous.
     ════════════════════════════════════════════ -->
     <section class="proof" aria-label="What people are saying">
-      <div class="proof-inner">
-        <div class="quote-card">
-          <div class="stars">★★★★★</div>
-          <p class="quote-text">"I read constantly, took notes in Apple Notes I never reopened, and retained almost nothing. REPS finally closes the loop."</p>
-          <div class="author">
-            <div class="av">M</div>
-            <div class="author-meta">
-              <span class="author-name">Mike M.</span>
-              <span class="author-role">CEO</span>
+      <div class="marquee-viewport">
+        <div class="marquee-track">
+          <!-- Set 1 -->
+          <div class="quote-card">
+            <div class="stars">★★★★★</div>
+            <p class="quote-text">"I read constantly, took notes in Apple Notes I never reopened, and retained almost nothing. REPS finally closes the loop."</p>
+            <div class="author">
+              <div class="av">M</div>
+              <div class="author-meta">
+                <span class="author-name">Mike M.</span>
+                <span class="author-role">CEO</span>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="quote-card">
-          <div class="stars">★★★★★</div>
-          <p class="quote-text">"Things I read years ago resurface exactly when I need them. It's the one scroll I never regret."</p>
-          <div class="author">
-            <div class="av">L</div>
-            <div class="author-meta">
-              <span class="author-name">Lucie D.</span>
-              <span class="author-role">Editor</span>
+          <div class="quote-card">
+            <div class="stars">★★★★★</div>
+            <p class="quote-text">"Things I read years ago resurface exactly when I need them. It's the one scroll I never regret."</p>
+            <div class="author">
+              <div class="av">L</div>
+              <div class="author-meta">
+                <span class="author-name">Lucie D.</span>
+                <span class="author-role">Editor</span>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="quote-card">
-          <div class="stars">★★★★★</div>
-          <p class="quote-text">"Everything I read for work and curiosity finally lives in one place. I walk into every room feeling like the sharpest person in it."</p>
-          <div class="author">
-            <div class="av">P</div>
-            <div class="author-meta">
-              <span class="author-name">Pablo</span>
-              <span class="author-role">Architect</span>
+          <div class="quote-card">
+            <div class="stars">★★★★★</div>
+            <p class="quote-text">"Everything I read for work and curiosity finally lives in one place. I walk into every room feeling like the sharpest person in it."</p>
+            <div class="author">
+              <div class="av">P</div>
+              <div class="author-meta">
+                <span class="author-name">Pablo</span>
+                <span class="author-role">Architect</span>
+              </div>
+            </div>
+          </div>
+          <!-- Set 2 (duplicate for seamless loop) -->
+          <div class="quote-card" aria-hidden="true">
+            <div class="stars">★★★★★</div>
+            <p class="quote-text">"I read constantly, took notes in Apple Notes I never reopened, and retained almost nothing. REPS finally closes the loop."</p>
+            <div class="author">
+              <div class="av">M</div>
+              <div class="author-meta">
+                <span class="author-name">Mike M.</span>
+                <span class="author-role">CEO</span>
+              </div>
+            </div>
+          </div>
+          <div class="quote-card" aria-hidden="true">
+            <div class="stars">★★★★★</div>
+            <p class="quote-text">"Things I read years ago resurface exactly when I need them. It's the one scroll I never regret."</p>
+            <div class="author">
+              <div class="av">L</div>
+              <div class="author-meta">
+                <span class="author-name">Lucie D.</span>
+                <span class="author-role">Editor</span>
+              </div>
+            </div>
+          </div>
+          <div class="quote-card" aria-hidden="true">
+            <div class="stars">★★★★★</div>
+            <p class="quote-text">"Everything I read for work and curiosity finally lives in one place. I walk into every room feeling like the sharpest person in it."</p>
+            <div class="author">
+              <div class="av">P</div>
+              <div class="author-meta">
+                <span class="author-name">Pablo</span>
+                <span class="author-role">Architect</span>
+              </div>
             </div>
           </div>
         </div>
@@ -618,7 +661,7 @@
     heroVid.play().catch(function () {});
     setTimeout(function () { heroVid.style.opacity = '1'; }, 120);
 
-    /* ─── IntersectionObserver: proof cards + CTA section ─── */
+    /* ─── IntersectionObserver: CTA section reveal ─── */
     var revealObserver = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
@@ -627,12 +670,6 @@
         }
       });
     }, { threshold: 0.15 });
-
-    // Stagger quote cards by 120ms each
-    document.querySelectorAll('.quote-card').forEach(function (card, i) {
-      card.style.transitionDelay = (i * 0.12) + 's';
-      revealObserver.observe(card);
-    });
     revealObserver.observe(document.getElementById('cta-section'));
 
     /* ─── Stacked card scroll mechanic ─── */
