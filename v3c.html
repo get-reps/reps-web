@@ -516,6 +516,7 @@
         align-items: center;
         min-height: 0;
         padding-bottom: 16px;
+        overflow: hidden;
       }
 
       .bc-verb {
@@ -626,7 +627,8 @@
           align-items: center;
         }
         .bc-phone {
-          width: clamp(200px, 22vw, 270px);
+          /* min(): prefer 22vw/270px but shrink if viewport height is short */
+          width: min(clamp(200px, 22vw, 270px), calc((100vh - 160px) * 540 / 1170));
         }
       }
 
@@ -763,7 +765,7 @@
     ════════════════════════════════════════════ -->
       <section class="hero" id="hero">
         <div class="hero-inner">
-          <span class="eyebrow">Bloom scrolling</span>
+          <span class="eyebrow">Supercharge your memory</span>
           <h1>
             Finally <span class="grad">remember</span> everything you read,
             watch, and hear.

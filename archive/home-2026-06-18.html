@@ -1,0 +1,908 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <base href="/product/" />
+    <title>REPS · Save. Play. Remember.</title>
+    <meta name="description" content="REPS helps you remember what you read, watch, and listen to. Stop doom scrolling. Start bloom scrolling." />
+    <link rel="canonical" href="https://getreps.io/" />
+    <meta property="og:title" content="REPS · Save. Play. Remember." />
+    <meta property="og:description" content="REPS helps you remember what you read, watch, and listen to. Stop doom scrolling. Start bloom scrolling." />
+    <meta property="og:url" content="https://getreps.io/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="REPS" />
+    <!-- Social share card (WhatsApp / iMessage / Slack / Twitter rich preview). 1200×630, absolute
+         URL is mandatory — scrapers don't honour <base href>. Bump the filename (og-card-v2.png) if
+         the art ever changes: WhatsApp caches the image aggressively by URL. -->
+    <meta property="og:image" content="https://www.getreps.io/og-card-v2.png" />
+    <meta property="og:image:secure_url" content="https://www.getreps.io/og-card-v2.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="REPS · Save. Play. Remember. Remember everything you read, watch, and hear." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="REPS · Save. Play. Remember." />
+    <meta name="twitter:description" content="Remember everything you read, watch, and hear. Stop doom scrolling. Start bloom scrolling." />
+    <meta name="twitter:image" content="https://www.getreps.io/og-card-v2.png" />
+
+    <!-- REPS typography: system sans = product voice (headlines, CTAs, nav, motto);
+         Lora serif = content voice (editorial concept blurbs only). Per DESIGN_DECISIONS.md. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+    <!-- Waitlister embed (waitlist key 1IFflE5ASXo6) -->
+    <script src="https://waitlister.me/js/embed.js" defer></script>
+
+    <style>
+      :root {
+        --bg: #000000;
+        --coral: #ff6b6b;
+        --peach: #ff8e53;
+        --cyan: #57e9e9;
+        --ink: #f4eee9;
+        --muted: rgba(244, 238, 233, 0.58);
+        --faint: rgba(244, 238, 233, 0.32);
+        /* product voice = system sans (brand rule: wordmark, motto, taglines, CTAs are always sans) */
+        --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        --display: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        /* content voice = Lora (editorial only) */
+        --serif: "Lora", Georgia, "Times New Roman", serif;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      /* snappy section scrolling: each beat lands aligned. MANDATORY so the user always lands on a
+         clean beat and never rests in a half-scrolled state showing the bare backdrop. Every panel is
+         exactly one viewport tall (100dvh mobile / 100svh desktop) and the CTA is sized to fit, so no
+         section overflows the viewport and traps the mandatory snap. */
+      html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
+      body {
+        background: var(--bg); color: var(--ink); font-family: var(--sans);
+        -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+        overflow-x: hidden; cursor: default;
+      }
+
+      /* graph is now an AMBIENT backdrop: dimmed, softly blurred, behind everything,
+         non-interactive so it never competes with the phones. Still alive (drift + cascade). */
+      #stage { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 1; filter: blur(1px); }
+      #stage::after {
+        content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 2;
+        background:
+          radial-gradient(55% 45% at 4% 2%, rgba(255, 107, 107, 0.08), transparent 60%),
+          radial-gradient(50% 55% at 100% 100%, rgba(87, 233, 233, 0.05), transparent 55%);
+      }
+
+      /* liquid-glass source pills (projected DOM overlay above nodes) */
+      #labels { position: fixed; inset: 0; z-index: 4; pointer-events: none; }
+      .glasspill {
+        position: absolute; transform: translate(-50%, -50%);
+        display: inline-flex; align-items: center; gap: 6px;
+        padding: 4px 9px 4px 5px; border-radius: 999px;
+        font-size: 11px; font-weight: 500; letter-spacing: 0.01em; white-space: nowrap;
+        color: rgba(244, 238, 233, 0.92);
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        backdrop-filter: blur(10px) saturate(1.3); -webkit-backdrop-filter: blur(10px) saturate(1.3);
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+        will-change: transform, opacity; opacity: 0; transition: opacity 0.4s;
+      }
+      .glasspill .ic {
+        width: 16px; height: 16px; border-radius: 50%; display: grid; place-items: center;
+        font-size: 9px; font-weight: 700; color: #1a0c08;
+        background: linear-gradient(135deg, var(--coral), var(--peach));
+      }
+
+      #scroller { position: relative; z-index: 3; pointer-events: none; }
+      .panel { min-height: 100svh; display: flex; padding: clamp(24px, 5vw, 80px); position: relative; scroll-snap-align: start; }
+      /* CTA snaps to its TOP and never force-stops, so a tall form can be scrolled through freely
+         (proximity + start-align = it's reachable, not trapped). */
+      .panel--end { scroll-snap-align: start; }
+      .panel--hero { align-items: flex-end; }
+      .panel--center { align-items: center; }
+      .panel--copy { align-items: center; max-width: 50vw; } /* copy on the left, phone on the right */
+      .panel--end { align-items: center; justify-content: center; }
+      @media (max-width: 760px) {
+        /* Bulletproof mobile composition: everything tracks the DYNAMIC viewport (dvh) and is
+           anchored to the BOTTOM, so it stays correct no matter whether Safari/Chrome's top or
+           bottom toolbars are showing. The old svh sizing caused a dead band — the panel was sized
+           to the SMALL viewport while the real viewport grew as the chrome collapsed, leaving empty
+           space below the copy and floating the text too high. dvh = the live viewport, always. */
+        .panel { padding: 20px; min-height: 100dvh; }
+        /* copy hugs the BOTTOM of the live viewport; the pinned phone (also dvh-bottom-anchored)
+           sits right above it. The scrim keeps text legible where tall copy overlaps the phone.
+           NB: .panel is a flex ROW, so vertical anchoring is align-items (flex-end = bottom),
+           NOT justify-content (which is the horizontal axis). */
+        .panel--copy { max-width: 100%; align-items: flex-end; justify-content: flex-start; padding-top: 0; padding-bottom: 5dvh; }
+        .panel--hero { padding-bottom: 5dvh; }
+        /* No legibility scrim: the page background is already near-black, so a black gradient just
+           adds a visible horizontal "cut" against the live constellation backdrop. Text sits above
+           the (very dim, blurred) backdrop and the phone with no overlay. */
+        .panel--copy > div, .panel--hero .hero-copy { position: relative; z-index: 5; }
+      }
+
+      nav {
+        position: fixed; top: 0; left: 0; right: 0; z-index: 6;
+        display: flex; align-items: center; justify-content: space-between;
+        padding: clamp(18px, 3vw, 30px) clamp(20px, 5vw, 80px); pointer-events: none;
+      }
+      .wordmark { font-family: var(--display); font-weight: 800; font-size: 20px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink); display: flex; align-items: center; gap: 10px; }
+      .wordmark .appicon { width: 28px; height: 28px; border-radius: 7px; object-fit: cover; box-shadow: 0 2px 8px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.06); }
+      .nav-cta { pointer-events: auto; font-size: 14px; font-weight: 600; color: var(--ink); text-decoration: none; padding: 10px 20px; border: 1px solid rgba(244, 238, 233, 0.22); border-radius: 999px; background: rgba(244, 238, 233, 0.03); backdrop-filter: blur(8px); transition: border-color 0.3s, background 0.3s, transform 0.3s; }
+      .nav-cta:hover { border-color: var(--coral); background: rgba(255, 107, 107, 0.08); transform: translateY(-1px); }
+      .nav-short { display: none; }
+
+      .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: 0.26em; text-transform: uppercase; color: var(--coral); margin-bottom: 22px; }
+      h1 { font-family: var(--display); font-weight: 800; font-size: clamp(44px, 8.5vw, 128px); line-height: 0.95; letter-spacing: -0.03em; max-width: 16ch; }
+      h2 { font-family: var(--display); font-weight: 800; font-size: clamp(30px, 4.4vw, 60px); line-height: 1.05; letter-spacing: -0.025em; max-width: 18ch; }
+      .lede { font-size: clamp(17px, 2vw, 23px); line-height: 1.5; color: var(--muted); max-width: 42ch; margin-top: 26px; font-weight: 400; }
+      .dim { color: var(--faint); } .coral { color: var(--coral); }
+      /* coral->peach gradient text, matching the app CTA button gradient */
+      .grad { background: linear-gradient(100deg, var(--coral), var(--peach)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; text-shadow: none; }
+      .hero-copy { max-width: 1100px; }
+      /* Text shadow replaces the removed scrim: it lifts the copy off the live constellation
+         backdrop (and any bright phone edge) with a soft halo instead of a hard black band.
+         Tight contact shadow for crisp legibility + a wider ambient shadow for separation.
+         Applies to gradient (.grad) text too — the shadow renders behind the clipped glyphs. */
+      .eyebrow, h1, h2, .lede, .themes .line, .bloom-line, .invite-line, .waitlist-note, .wordmark {
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55), 0 3px 16px rgba(0, 0, 0, 0.42);
+      }
+
+      .scrollcue { position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%); font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--faint); display: flex; flex-direction: column; align-items: center; gap: 10px; animation: bob 2.4s ease-in-out infinite; }
+      .scrollcue .bar { width: 1px; height: 38px; background: linear-gradient(var(--coral), transparent); }
+      @keyframes bob { 0%,100% { opacity:.5; transform: translate(-50%,0);} 50% { opacity:1; transform: translate(-50%,6px);} }
+
+      /* NO entrance stagger. Every panel's copy is fully composed AT REST — the instant a panel is
+         snapped into view, eyebrow + headline + subtext are all already there. Never a half-state
+         where the phone shows first and the text fades up a beat later. (Reveal classes kept as
+         no-ops so the existing markup + IntersectionObserver can stay untouched.) */
+      .reveal, .reveal.in { opacity: 1; transform: none; transition: none; }
+      .reveal.d1, .reveal.d2, .reveal.d3 { transition-delay: 0s; }
+
+      .hint { margin-top: 30px; display: inline-flex; align-items: center; gap: 12px; font-size: 14px; color: var(--muted); border: 1px solid rgba(87,233,233,.28); background: rgba(87,233,233,.05); padding: 11px 18px; border-radius: 999px; }
+      .hint .pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 12px 2px rgba(87,233,233,.8); animation: pulse 1.8s ease-in-out infinite; }
+      @keyframes pulse { 0%,100% { opacity:.4; transform: scale(.85);} 50% { opacity:1; transform: scale(1.15);} }
+
+      .themes { display: flex; flex-direction: column; gap: clamp(14px, 2.4vw, 30px); }
+      .themes .line { font-family: var(--display); font-weight: 800; font-size: clamp(30px, 5.2vw, 66px); line-height: 1.04; letter-spacing: -0.025em; color: var(--ink); }
+      .themes .line--spaced { margin-top: 0.7em; }
+      .themes .line.in { color: var(--ink); }
+      .themes .line b { color: var(--coral); font-weight: 600; }
+
+      .cta-wrap { text-align: center; max-width: 640px; }
+      .badges { display: flex; gap: 14px; justify-content: center; margin-top: 30px; flex-wrap: wrap; }
+      .badge { height: 56px; padding: 0 20px; border-radius: 14px; border: 1px solid rgba(244,238,233,.18); background: rgba(244,238,233,.04); display: inline-flex; align-items: center; gap: 11px; color: var(--ink); font-size: 13px; text-decoration: none; }
+      .badge .blogo { width: 22px; height: 22px; flex: none; color: var(--ink); }
+      .badge .btxt { display: flex; flex-direction: column; line-height: 1.15; font-weight: 700; font-size: 15px; text-align: left; }
+      .badge .btxt small { color: var(--muted); font-size: 10.5px; font-weight: 400; letter-spacing: .04em; text-transform: uppercase; }
+      /* coming-soon: visibly inert, not clickable */
+      .is-soon { cursor: default; pointer-events: none; opacity: 0.55; }
+      .waitlist-note { margin-top: 22px; font-size: 14px; color: var(--faint); }
+      .bloom-line { margin-top: 30px; font-family: var(--display); font-weight: 800; font-size: clamp(20px, 2.6vw, 30px); letter-spacing: -0.01em; color: var(--ink); }
+      .waitlist { width: 100%; max-width: 440px; margin: 30px auto 0; pointer-events: auto; }
+      .waitlister-form { width: 100%; }
+      .invite-line { margin-top: 14px; font-size: 13px; color: var(--faint); letter-spacing: 0.01em; }
+      .chrome-row { margin-top: 20px; display: flex; justify-content: center; }
+      .chrome-pill { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; padding: 10px 18px 10px 12px; border-radius: 16px;
+        border: 1px solid rgba(244,238,233,.14); background: rgba(244,238,233,.04); color: var(--ink); }
+      .chrome-pill .cic-svg { width: 28px; height: 28px; flex: none; }
+      .chrome-pill .ctxt { display: flex; flex-direction: column; text-align: left; font-size: 14px; font-weight: 600; line-height: 1.2; }
+      .chrome-pill .ctxt small { font-weight: 400; color: var(--muted); font-size: 11px; letter-spacing: .03em; }
+
+      #card { position: fixed; z-index: 8; bottom: 28px; left: 50%; transform: translate(-50%, 140%); width: min(440px, calc(100vw - 32px)); background: rgba(8, 9, 14, 0.74); backdrop-filter: blur(22px) saturate(1.2); -webkit-backdrop-filter: blur(22px) saturate(1.2); border: 1px solid rgba(244,238,233,.12); border-radius: 22px; padding: 20px 22px; pointer-events: auto; transition: transform .5s cubic-bezier(.16,1,.3,1), opacity .4s; opacity: 0; box-shadow: 0 30px 80px rgba(0,0,0,.6); }
+      #card.show { transform: translate(-50%, 0); opacity: 1; }
+      #card .ctop { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+      #card .topic { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--cyan); }
+      #card .close { cursor: pointer; color: var(--faint); font-size: 20px; line-height: 1; background: none; border: none; pointer-events: auto; }
+      #card .ctitle { font-family: var(--serif); font-weight: 600; font-size: 24px; line-height: 1.15; margin-bottom: 6px; }
+      #card .cbody { font-family: var(--serif); font-size: 15px; color: var(--muted); line-height: 1.55; margin-bottom: 14px; }
+      #card .csource { display: inline-flex; align-items: center; gap: 9px; font-size: 12.5px; color: var(--ink); background: rgba(244,238,233,.05); border: 1px solid rgba(244,238,233,.1); padding: 7px 12px; border-radius: 10px; margin-bottom: 14px; }
+      #card .csource .ic { width: 18px; height: 18px; border-radius: 5px; display: grid; place-items: center; font-size: 11px; background: rgba(255,142,83,.18); color: var(--peach); }
+      #card .csource .kind { color: var(--faint); }
+      #card .csocial { display: flex; align-items: center; gap: 9px; font-size: 12.5px; color: var(--cyan); margin-bottom: 14px; }
+      #card .csocial .av { width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, var(--coral), var(--peach)); display: grid; place-items: center; font-size: 10px; font-weight: 700; color: #1a0c08; }
+      #card .crow { display: flex; gap: 22px; border-top: 1px solid rgba(244,238,233,.1); padding-top: 14px; }
+      #card .stat .k { font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--faint); }
+      #card .stat .v { font-size: 15px; font-weight: 600; margin-top: 4px; }
+      #card .stat .v .em { margin-right: 6px; }
+
+      /* ---------- CSS-3D hero phone (pinned, native video, scroll-tilt + clip swap) ---------- */
+      #phone-stage { position: fixed; z-index: 4; top: 0; right: 0; width: 50vw; height: 100svh; display: flex; align-items: center; justify-content: center; pointer-events: none; perspective: 1600px; opacity: 0; transition: opacity 0.6s; }
+      #phone-stage.live { opacity: 1; }
+      .phone {
+        position: relative; width: min(310px, 78vw); aspect-ratio: 1080 / 2240;
+        border-radius: 48px; padding: 12px;
+        /* titanium rail: light top-left edge, dark bottom-right gives a metal bezel read */
+        background: linear-gradient(135deg, #3a3a40 0%, #17171b 26%, #0a0a0d 60%, #2a2a30 100%);
+        box-shadow:
+          0 1px 1px rgba(255,255,255,0.22) inset,
+          0 -1px 2px rgba(0,0,0,0.7) inset,
+          0 60px 100px -24px rgba(0,0,0,0.9),
+          0 0 90px -34px rgba(255,107,107,0.4);
+        transform-style: preserve-3d; will-change: transform;
+      }
+      /* fake thickness: a darker slab pushed BEHIND the face in Z so the edge shows on tilt */
+      .phone::before {
+        content: ""; position: absolute; inset: -2px; border-radius: 50px; pointer-events: none;
+        background: linear-gradient(135deg, #2c2c31, #050507 55%, #1c1c20);
+        transform: translateZ(-16px); box-shadow: 0 0 0 1px rgba(0,0,0,0.8);
+      }
+      .phone::after { /* outer rim highlight */
+        content: ""; position: absolute; inset: 0; border-radius: 48px; pointer-events: none;
+        box-shadow: 0 0 0 1px rgba(255,255,255,0.10), 0 0 0 4px rgba(0,0,0,0.55);
+      }
+      .phone .screen { position: relative; width: 100%; height: 100%; border-radius: 38px; overflow: hidden; background: #000; transform: translateZ(1px); }
+      .phone .screen video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.4s ease; }
+      .phone .screen video.show { opacity: 1; }
+      /* NOTE: no fake Dynamic Island / no glare — the in-app footage already has a real iOS
+         status bar + Dynamic Island baked in; overlaying our own doubled it and the glare
+         shimmered over the UI. Real footage carries the island so it always matches. */
+      @media (max-width: 760px) {
+        /* phone pinned and anchored from the BOTTOM in dvh, so it tracks the live viewport together
+           with the copy and always sits just above it (no divergence as the chrome toggles). */
+        #phone-stage { width: 100vw; height: min(50dvh, 410px); top: auto; bottom: 38dvh; perspective: 1200px; align-items: center; z-index: 2; }
+        /* squarer corners on the smaller mobile phone (real iPhone ~12% radius, not stadium) */
+        .phone { width: auto; height: min(50dvh, 410px); aspect-ratio: 1080 / 2240; border-radius: 32px; padding: 9px; }
+        .phone::before { border-radius: 34px; }
+        .phone::after { border-radius: 32px; }
+        .phone .screen { border-radius: 24px; }
+        nav { padding: 16px 18px; }
+        .wordmark { font-size: 17px; letter-spacing: 0.14em; }
+        .wordmark .appicon { width: 24px; height: 24px; }
+        .nav-cta { font-size: 13px; padding: 9px 16px; }
+        .nav-long { display: none; } .nav-short { display: inline; }
+        h1 { font-size: clamp(38px, 12vw, 60px); }
+        h2 { font-size: clamp(25px, 6.8vw, 40px); }
+        /* the Discover feed panel has the longest copy (4-line headline + 3-line lede); tighten it a
+           touch so it always clears the phone above on short viewports (no overlap). */
+        .panel[data-clip="feed"] h2 { font-size: clamp(22px, 5.9vw, 34px); line-height: 1.02; }
+        .panel[data-clip="feed"] .lede { font-size: 15px; }
+        .themes .line { font-size: clamp(26px, 7vw, 42px); }
+        .lede { font-size: 16px; }
+        .badges { gap: 10px; }
+        .badge { padding: 0 16px; height: 52px; }
+        .cta-wrap { max-width: 100%; }
+      }
+      @media (max-width: 380px) { .nav-cta { padding: 8px 13px; font-size: 12px; } .phone { width: min(200px, 50vw); } }
+      @media (prefers-reduced-motion: reduce) { .scrollcue, .hint .pulse { animation: none; } html { scroll-behavior: auto; scroll-snap-type: none; } }
+      .footnote { position: fixed; bottom: 12px; right: 16px; z-index: 6; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: rgba(244,238,233,.32); pointer-events: none; }
+    </style>
+  </head>
+  <body>
+    <canvas id="stage"></canvas>
+    <div id="labels"></div>
+
+    <div id="phone-stage">
+      <div class="phone" id="phone">
+        <div class="screen">
+          <video id="v-capture"  data-clip="capture"  src="videos/capture.mp4"  muted loop playsinline preload="auto"></video>
+          <video id="v-training" data-clip="training" src="videos/training.mp4" muted loop playsinline preload="auto"></video>
+          <video id="v-galaxy"   data-clip="galaxy"   src="videos/galaxy.mp4"   muted loop playsinline preload="auto"></video>
+          <video id="v-games"    data-clip="games"    src="videos/games.mp4"    muted loop playsinline preload="auto"></video>
+          <video id="v-feed"     data-clip="feed"     src="videos/feed.mp4"     muted loop playsinline preload="auto"></video>
+        </div>
+      </div>
+    </div>
+
+    <nav>
+      <div class="wordmark"><img class="appicon" src="assets/app-icon.png" alt="REPS" />REPS</div>
+      <a class="nav-cta" href="/#cta"><span class="nav-long">Join the waitlist</span><span class="nav-short">Waitlist</span></a>
+    </nav>
+
+    <div id="scroller">
+      <section class="panel panel--hero" data-clip="capture" data-phone="0">
+        <div class="hero-copy">
+          <div class="eyebrow reveal in">Your second brain</div>
+          <h1 class="reveal in d1">Save.<br /><span class="grad">Play.</span><br />Remember.</h1>
+          <p class="lede reveal in d2">Everything you read, watch, and hear, turned into a living memory you actually keep.</p>
+        </div>
+        <div class="scrollcue">Scroll<span class="bar"></span></div>
+      </section>
+
+      <section class="panel panel--copy" data-clip="capture" data-phone="1">
+        <div>
+          <div class="eyebrow reveal">Save anything</div>
+          <h2 class="reveal d1">A book. An article. A video. <span class="grad">One&nbsp;tap.</span></h2>
+          <p class="lede reveal d2">Share anything you read, watch, or hear straight into REPS. It pulls out what's worth keeping and turns it into daily games and challenges.</p>
+        </div>
+      </section>
+
+      <section class="panel panel--copy" data-clip="training" data-phone="1">
+        <div>
+          <div class="eyebrow reveal">Remember it</div>
+          <h2 class="reveal d1">It comes back,<br />right <span class="grad">before you'd forget.</span></h2>
+          <p class="lede reveal d2">A few questions a day, timed to the exact moment a memory starts to fade. That's spaced repetition. That's how it sticks.</p>
+        </div>
+      </section>
+
+      <section class="panel panel--copy" data-clip="galaxy" data-phone="1">
+        <div>
+          <div class="eyebrow reveal">See it grow</div>
+          <h2 class="reveal d1">This is your mind,<br /><span class="grad">mapped.</span></h2>
+          <p class="lede reveal d2">Every idea you keep becomes a node in your second brain. Watch it light up and connect as you learn.</p>
+        </div>
+      </section>
+
+      <section class="panel panel--copy" data-clip="games" data-phone="1">
+        <div>
+          <div class="eyebrow reveal">Play with it</div>
+          <h2 class="reveal d1">Remembering feels<br /><span class="grad">like a game.</span></h2>
+          <p class="lede reveal d2">Daily games built from what you've saved. Play alone or challenge friends.</p>
+        </div>
+      </section>
+
+      <section class="panel panel--copy" data-clip="feed" data-phone="1">
+        <div>
+          <div class="eyebrow reveal">Discover together</div>
+          <h2 class="reveal d1">No more clickbait.<br />See what your <span class="grad">friends</span> are reading, discover from the <span class="grad">community</span>.</h2>
+          <p class="lede reveal d2">A feed of high-quality content worth remembering, surfaced by the people you trust. No outrage, no doom. Just things that make you sharper.</p>
+        </div>
+      </section>
+
+      <section class="panel panel--center" data-clip="galaxy" data-phone="0">
+        <div class="themes">
+          <div class="line reveal">A second brain that proactively <span class="grad">makes you sharper.</span></div>
+          <div class="line line--spaced reveal d2"><span class="grad">You are what you remember,</span> so don't let the brain rot win.</div>
+        </div>
+      </section>
+
+      <section class="panel panel--end" id="cta" data-clip="capture" data-phone="0">
+        <div class="cta-wrap">
+          <h2 class="reveal" style="margin:0 auto;">Get REPS on your phone.</h2>
+          <p class="lede reveal d1" style="margin:22px auto 0 auto;">Most apps compete for your attention. REPS <span class="grad">compounds</span> it.</p>
+          <div class="waitlist reveal d2">
+            <div class="waitlister-form" data-waitlist-key="1IFflE5ASXo6" data-height="197px"></div>
+          </div>
+          <p class="invite-line reveal d2">The list moves. Bring friends and skip ahead.</p>
+          <div class="badges reveal d2">
+            <span class="badge is-soon" aria-disabled="true">
+              <svg class="blogo" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.36 12.78c-.02-2.2 1.8-3.26 1.88-3.31-1.03-1.5-2.62-1.71-3.19-1.73-1.36-.14-2.65.8-3.34.8-.69 0-1.75-.78-2.88-.76-1.48.02-2.85.86-3.61 2.19-1.54 2.67-.39 6.62 1.1 8.79.73 1.06 1.6 2.25 2.74 2.21 1.1-.04 1.51-.71 2.84-.71 1.32 0 1.7.71 2.86.69 1.18-.02 1.93-1.08 2.65-2.15.84-1.23 1.18-2.42 1.2-2.48-.03-.01-2.29-.88-2.31-3.49zM14.2 6.3c.6-.74 1.01-1.75.9-2.77-.87.04-1.94.59-2.57 1.31-.56.64-1.06 1.69-.93 2.68.98.08 1.98-.49 2.6-1.22z"/></svg>
+              <span class="btxt">App Store<small>coming soon</small></span>
+            </span>
+            <span class="badge is-soon" aria-disabled="true">
+              <svg class="blogo" viewBox="0 0 24 24" aria-hidden="true"><path fill="#00d3ff" d="M3.6 2.3 13.3 12 3.6 21.7c-.3-.2-.5-.6-.5-1V3.3c0-.4.2-.8.5-1z"/><path fill="#ffce00" d="m16.9 8.4 3 1.7c.8.4.8 1.6 0 2l-3 1.7-2.6-2.6 2.6-2.8z"/><path fill="#00f076" d="M3.6 2.3c.3-.2.7-.2 1.1 0l11.2 6.1-2.6 2.6L3.6 2.3z"/><path fill="#ff3a44" d="m13.3 12 2.6 2.6-11.2 6.1c-.4.2-.8.2-1.1 0L13.3 12z"/></svg>
+              <span class="btxt">Google Play<small>coming soon</small></span>
+            </span>
+          </div>
+          <div class="chrome-row reveal d3">
+            <span class="chrome-pill is-soon" aria-disabled="true">
+              <svg class="cic-svg" viewBox="0 0 48 48" aria-hidden="true">
+                <!-- three 120° sectors (apexes hidden under the hub) -> exact Chrome geometry -->
+                <path fill="#EA4335" d="M24 24 L4.95 13 A22 22 0 0 1 43.05 13 Z"/>
+                <path fill="#FBBC05" d="M24 24 L43.05 13 A22 22 0 0 1 24 46 Z"/>
+                <path fill="#34A853" d="M24 24 L24 46 A22 22 0 0 1 4.95 13 Z"/>
+                <circle cx="24" cy="24" r="10" fill="#fff"/>
+                <circle cx="24" cy="24" r="8" fill="#4285F4"/>
+              </svg>
+              <span class="ctxt">Save from your laptop too<small>Chrome extension &middot; coming soon</small></span>
+            </span>
+          </div>
+          <p class="bloom-line reveal d3">Stop doom scrolling. <span class="grad">Start&nbsp;bloom&nbsp;scrolling.</span></p>
+          <p class="legal-line" style="margin:26px auto 0 auto; max-width:560px; font-size:11px; line-height:1.5; letter-spacing:.01em; color:rgba(244,238,233,.45);">REPS is a product of <strong style="font-weight:600; color:rgba(244,238,233,.66);">REPS AI LTD</strong>, registered in England &amp; Wales (company no.&nbsp;17271160). Registered office: 71-75 Shelton Street, Covent Garden, London, WC2H&nbsp;9JQ.</p>
+        </div>
+      </section>
+    </div>
+
+    <div id="card" aria-hidden="true">
+      <div class="ctop"><span class="topic" id="card-topic">Topic</span><button class="close" id="card-close" aria-label="Close">×</button></div>
+      <div class="ctitle" id="card-title">Concept</div>
+      <div class="cbody" id="card-body"></div>
+      <div class="csource" id="card-source" hidden><span class="ic" id="card-source-ic">B</span><span><span id="card-source-name"></span> <span class="kind" id="card-source-kind"></span></span></div>
+      <div class="csocial" id="card-social" hidden><span class="av" id="card-social-av">J</span><span id="card-social-text"></span></div>
+      <div class="crow">
+        <div class="stat"><div class="k">Mastery</div><div class="v" id="card-mastery"></div></div>
+        <div class="stat"><div class="k">Next review</div><div class="v" id="card-next"></div></div>
+      </div>
+    </div>
+
+    <div class="footnote">© 2026 REPS AI LTD</div>
+
+    <script type="importmap">
+      { "imports": {
+        "three": "https://unpkg.com/three@0.161.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.161.0/examples/jsm/"
+      } }
+    </script>
+
+    <script type="module">
+      import * as THREE from "three";
+      import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+      import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+      import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+      import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+
+      function mulberry32(a){return function(){a|=0;a=(a+0x6d2b79f5)|0;let t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+      const rand = mulberry32(7);
+
+      // topic palette (matches in-app force-graph register)
+      const TOPICS = [
+        { name: "Philosophy",   color: 0xff6b6b },
+        { name: "Finance",      color: 0xff8e53 },
+        { name: "Productivity", color: 0xffc24d },
+        { name: "Science",      color: 0x4dd6c0 },
+        { name: "Psychology",   color: 0x5b8cff },
+        { name: "History",      color: 0xb98bff },
+      ];
+      const CONCEPT_POOL = {
+        Philosophy: ["Amor fati","The dichotomy of control","Memento mori","Negative visualization","The Ship of Theseus","Occam's razor","The veil of ignorance","Eudaimonia","The trolley problem","Stoic virtue"],
+        Finance: ["Compound interest","Dollar-cost averaging","Opportunity cost","The margin of safety","Asymmetric bets","Sunk cost fallacy","Diversification","Inflation","Liquidity","Time value of money"],
+        Productivity: ["The Pomodoro technique","Deep work","Parkinson's law","The Eisenhower matrix","Spaced repetition","The two-minute rule","Time blocking","Pareto principle","Flow state","Habit stacking"],
+        Science: ["Photosynthesis","Bayes' theorem","Entropy","The Doppler effect","Mitochondria","Event horizons","Half-life","Plate tectonics","Natural selection","Quantum entanglement"],
+        Psychology: ["Cognitive dissonance","The halo effect","Loss aversion","Confirmation bias","The Zeigarnik effect","Anchoring","The spotlight effect","Dunning-Kruger","Priming","Reciprocity"],
+        History: ["The Silk Road","The printing press","The Antikythera mechanism","The Library of Alexandria","Bretton Woods","The Rosetta Stone","The Renaissance","The Bronze Age collapse","Pax Romana","The Enlightenment"],
+      };
+      const BLURBS = {
+        "Compound interest":"Interest earned on interest. Over time the curve stops being a line and starts being a launch.",
+        "Amor fati":"A love of one's fate. Treat everything that happens as not just accepted, but wanted.",
+        "Spaced repetition":"Reviewing material at increasing intervals, timed to the edge of forgetting. The engine REPS runs on.",
+        "Bayes' theorem":"Update what you believe in proportion to the strength of new evidence.",
+        "The two-minute rule":"If it takes under two minutes, do it now. Tiny habits scale into identity.",
+        "Deep work":"Focused, distraction-free effort on a cognitively demanding task. Where real value gets made.",
+        "Event horizons":"The boundary around a black hole past which nothing, not even light, can return.",
+        "The Silk Road":"The trade network that moved silk, spice, and ideas between East and West for 1,500 years.",
+        "Loss aversion":"Losses hurt about twice as much as equivalent gains feel good. It quietly runs your decisions.",
+        "Entropy":"The universe's tendency toward disorder. Order is the thing that costs energy.",
+      };
+      function blurbFor(n){ return BLURBS[n] || "A concept you saved to REPS. The app turns it into questions that keep it sharp."; }
+      const MASTERY=[{label:"New",em:"🌱"},{label:"Training",em:"🏋️"},{label:"Conditioned",em:"🏃"},{label:"Strong",em:"💪"},{label:"Primed",em:"🔥"},{label:"Locked In",em:"🔒"}];
+      const NEXT=["Due now","in 2 days","in 6 days","in 2 weeks","in 1 month","in 3 months"];
+
+      // floating liquid-glass source pills (concept -> source)
+      const PILLS = [
+        { concept: "The two-minute rule", text: "Atomic Habits", ic: "A" },
+        { concept: "Event horizons",      text: "BBC",          ic: "B" },
+        { concept: "The Silk Road",       text: "The Economist", ic: "E" },
+        { concept: "Spaced repetition",   text: "Huberman Lab",  ic: "H" },
+        { concept: "Bayes' theorem",      text: "3Blue1Brown",   ic: "3" },
+        { concept: "Compound interest",   text: "Psychology of Money", ic: "P" },
+        { concept: "Deep work",           text: "Cal Newport",   ic: "C" },
+      ];
+      const SOURCES = {
+        "The two-minute rule": { name: "Atomic Habits", kind: "Book", ic: "A" },
+        "Deep work": { name: "Deep Work", kind: "Book", ic: "C" },
+        "Spaced repetition": { name: "Huberman Lab", kind: "Podcast", ic: "H" },
+        "Compound interest": { name: "The Psychology of Money", kind: "Book", ic: "P" },
+        "Bayes' theorem": { name: "3Blue1Brown", kind: "YouTube", ic: "3" },
+        "Event horizons": { name: "BBC — A black hole's edge", kind: "Article", ic: "B" },
+        "The Silk Road": { name: "The Economist", kind: "Article", ic: "E" },
+        "Loss aversion": { name: "Thinking, Fast and Slow", kind: "Book", ic: "T" },
+      };
+      const SOCIAL = {
+        "Compound interest": { who: "Jane", text: "Jane just reviewed this" },
+        "Deep work": { who: "Marcus", text: "Marcus saved this today" },
+        "Bayes' theorem": { who: "Priya", text: "3 friends know this" },
+        "Spaced repetition": { who: "Leo", text: "Leo locked this in 🔒" },
+        "The Silk Road": { who: "Ana", text: "Ana just read this article" },
+      };
+
+      // ---------- BRAIN-SHAPED node field ----------
+      // two lobes (ellipsoids) with a central fissure; clustered by topic seed.
+      const N = 244;
+      // Larger lobe radii + smaller nodes => more breathing room (less squished).
+      const LOBE = { rx: 13.5, ry: 11.6, rz: 17.8, sep: 9.4 };
+      function inBrain(){
+        // sample a point inside one lobe, surface-biased, fissure gap near x=0
+        const side = rand() < 0.5 ? -1 : 1;
+        // radius^(1/3)-ish for volume, pushed outward for shell density
+        let u = rand(); u = 0.45 + 0.55 * Math.cbrt(u); // bias to shell
+        const a = rand() * Math.PI * 2;
+        const b = Math.acos(2 * rand() - 1);
+        let x = u * LOBE.rx * Math.sin(b) * Math.cos(a);
+        let y = u * LOBE.ry * Math.cos(b);
+        let z = u * LOBE.rz * Math.sin(b) * Math.sin(a);
+        x += side * (LOBE.sep / 2 + Math.abs(x) * 0.12); // shift to lobe + open the fissure
+        y += -1.2 * Math.exp(-(z*z)/60) * 0; // (kept flat; brains aren't symmetric but close enough)
+        return new THREE.Vector3(x, y, z);
+      }
+      // topic cluster seeds inside the brain so same-color nodes group
+      const SEEDS = [];
+      for (let i = 0; i < 11; i++) {
+        SEEDS.push({ pos: inBrain(), topic: i % TOPICS.length });
+      }
+      const nodes = [];
+      for (let i = 0; i < N; i++) {
+        const p = inBrain();
+        // nearest seed -> topic (clusters of same color)
+        let best = 0, bd = Infinity;
+        for (let s = 0; s < SEEDS.length; s++) { const d = p.distanceToSquared(SEEDS[s].pos); if (d < bd) { bd = d; best = s; } }
+        const ti = SEEDS[best].topic;
+        const topic = TOPICS[ti];
+        const due = rand() < 0.16;
+        const m = due ? 0 : 1 + Math.floor(rand() * 5);
+        const concepts = CONCEPT_POOL[topic.name];
+        nodes.push({
+          label: concepts[Math.floor(rand() * concepts.length)],
+          topic: topic.name, color: topic.color, due, mastery: m, seed: best,
+          size: 0.13 + (m / 5) * 0.14 + (due ? 0.06 : 0),
+          base: p, phase: rand() * Math.PI * 2, ti,
+        });
+      }
+
+      // ---------- links: connect to nearest same-cluster neighbors ----------
+      const links = []; const adj = nodes.map(() => []);
+      const linkSet = new Set();
+      function addLink(a, b){ const k = a < b ? a+"_"+b : b+"_"+a; if(a===b||linkSet.has(k))return; linkSet.add(k); links.push([a,b]); adj[a].push(b); adj[b].push(a); }
+      // Sparser than before: mostly 1 nearest same-cluster neighbor, occasionally 2.
+      // Matches the app's airy clusters (a few tight knots, lots of single strands)
+      // instead of a dense web that's hard to read into.
+      for (let i = 0; i < N; i++) {
+        const dists = [];
+        for (let j = 0; j < N; j++) if (j !== i && nodes[j].seed === nodes[i].seed) dists.push([nodes[i].base.distanceToSquared(nodes[j].base), j]);
+        dists.sort((p, q) => p[0] - q[0]);
+        const k = rand() < 0.35 ? 2 : 1;
+        for (let t = 0; t < Math.min(k, dists.length); t++) addLink(i, dists[t][1]);
+      }
+      // a couple of cross-cluster bridges (kept rare)
+      for (let k = 0; k < 5; k++) addLink(Math.floor(rand()*N), Math.floor(rand()*N));
+
+      // ---------- THREE ----------
+      const canvas = document.getElementById("stage");
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: "high-performance" });
+      renderer.setClearColor(0x000000, 1);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      const scene = new THREE.Scene();
+      scene.fog = new THREE.FogExp2(0x000000, 0.012);
+      const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.1, 500);
+      camera.position.set(0, 4, 110);
+      const root = new THREE.Group(); scene.add(root);
+
+      // lighting so resting spheres read as crisp lit jewels, not flat blobs
+      scene.add(new THREE.AmbientLight(0x4a5066, 0.85));
+      const key = new THREE.DirectionalLight(0xffffff, 1.1); key.position.set(6, 10, 14); scene.add(key);
+      const fill = new THREE.DirectionalLight(0x88aaff, 0.5); fill.position.set(-12, -6, 4); scene.add(fill);
+      const warm = new THREE.PointLight(0xff8e53, 0.7, 120); warm.position.set(-16, 6, 20); scene.add(warm);
+
+      // faint starfield
+      { const M=420,g=new THREE.BufferGeometry(),p=new Float32Array(M*3);
+        for(let i=0;i<M;i++){p[i*3]=(rand()-0.5)*320;p[i*3+1]=(rand()-0.5)*240;p[i*3+2]=(rand()-0.5)*320;}
+        g.setAttribute("position",new THREE.BufferAttribute(p,3));
+        scene.add(new THREE.Points(g,new THREE.PointsMaterial({color:0x232838,size:0.4,sizeAttenuation:true,transparent:true,opacity:0.45}))); }
+
+      function makeGlowTexture(){const s=128,c=document.createElement("canvas");c.width=c.height=s;const x=c.getContext("2d");const gr=x.createRadialGradient(s/2,s/2,0,s/2,s/2,s/2);gr.addColorStop(0,"rgba(255,255,255,1)");gr.addColorStop(0.25,"rgba(255,255,255,0.55)");gr.addColorStop(1,"rgba(255,255,255,0)");x.fillStyle=gr;x.fillRect(0,0,s,s);return new THREE.CanvasTexture(c);}
+      const glowTex = makeGlowTexture();
+
+      // links (positions refreshed per frame so the brain breathes coherently)
+      const linkPos = new Float32Array(links.length * 6);
+      const linkGeo = new THREE.BufferGeometry();
+      linkGeo.setAttribute("position", new THREE.BufferAttribute(linkPos, 3));
+      root.add(new THREE.LineSegments(linkGeo, new THREE.LineBasicMaterial({ color: 0x39424f, transparent: true, opacity: 0.34 })));
+
+      // crisp lit node spheres (NO resting glow). cascade adds emissive + glow sprite.
+      const sphereGeo = new THREE.SphereGeometry(1, 18, 18);
+      const nodeMeshes = []; const pickables = [];
+      nodes.forEach((n) => {
+        const col = new THREE.Color(n.color);
+        // matte, not glossy: high roughness, zero metalness. emissive = node's OWN
+        // color, intensity 0 at rest (glow only when a cascade fires through it).
+        const mat = new THREE.MeshStandardMaterial({ color: col, roughness: 0.95, metalness: 0.0, emissive: col, emissiveIntensity: 0 });
+        const mesh = new THREE.Mesh(sphereGeo, mat); mesh.scale.setScalar(n.size); mesh.userData.node = n; root.add(mesh);
+        // glow sprite tinted to the node's own color (subtle, additive)
+        const spr = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color: col.clone(), transparent: true, blending: THREE.AdditiveBlending, opacity: 0, depthWrite: false })); spr.scale.setScalar(n.size * 5); root.add(spr);
+        nodeMeshes.push({ mesh, spr, mat, n, baseColor: col, act: 0, targetAct: 0, cur: new THREE.Vector3() });
+        pickables.push(mesh);
+      });
+
+      // bloom — matches in-app subdued register (strength 1.2 / radius 1.2 / threshold 0.85)
+      const composer = new EffectComposer(renderer);
+      composer.addPass(new RenderPass(scene, camera));
+      const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 1.2, 1.2, 0.85);
+      composer.addPass(bloom); composer.addPass(new OutputPass());
+
+      function resize(){const w=innerWidth,h=innerHeight;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h);composer.setSize(w,h);}
+      addEventListener("resize", resize); resize();
+
+      // liquid-glass DOM pills
+      // Ambient source pills removed — they cluttered the graph and hurt readability.
+      // Source now appears only in the concept card on tap (see showCard), as before.
+      // A single glass pill is shown above the tapped node for spatial context.
+      const labelLayer = document.getElementById("labels");
+      const tapPill = document.createElement("div");
+      tapPill.className = "glasspill"; labelLayer.appendChild(tapPill);
+      let tapPillNode = -1; // node index the pill is pinned to, or -1
+
+      // camera scroll path (whole brain -> push in)
+      // camera Z drops from 68 (whole brain) to 6 (inside the cluster) by the end
+      const KF = [
+        [0.0,  0, 4, 66,  0, 0, 0],
+        [0.28, 9, 5, 46,  0, 0, 0],
+        [0.52,-12,-3, 32, -5,-4,-6],
+        [0.74, 4, 1, 20,  0, 0, 0],
+        [1.0,  0, 0,  6,  0, 0, 0],
+      ];
+      const tmpTarget = new THREE.Vector3();
+      const clock = new THREE.Clock();
+      function sampleKF(p){let i=0;while(i<KF.length-1&&p>KF[i+1][0])i++;const a=KF[i],b=KF[Math.min(i+1,KF.length-1)];const span=b[0]-a[0]||1;let t=(p-a[0])/span;t=t<0?0:t>1?1:t;const e=t*t*(3-2*t);const L=(k)=>a[k]+(b[k]-a[k])*e;return{px:L(1),py:L(2),pz:L(3),tx:L(4),ty:L(5),tz:L(6)};}
+      let scrollProgress = 0, lastInteract = -999;
+      function onScroll(){const max=document.documentElement.scrollHeight-innerHeight;scrollProgress=max>0?scrollY/max:0;lastInteract=clock.getElapsedTime();}
+
+      // grab + spin
+      const drag = { active:false,lastX:0,lastY:0,velX:0,velY:0,rotX:0,rotY:0 };
+      let downTime=0,moved=0;
+      canvas.addEventListener("pointerdown",(e)=>{drag.active=true;drag.lastX=e.clientX;drag.lastY=e.clientY;moved=0;downTime=performance.now();lastInteract=clock.getElapsedTime();canvas.style.cursor="grabbing";});
+      addEventListener("pointermove",(e)=>{if(!drag.active)return;const dx=e.clientX-drag.lastX,dy=e.clientY-drag.lastY;moved+=Math.abs(dx)+Math.abs(dy);drag.velY=dx*0.005;drag.velX=dy*0.005;drag.rotY+=drag.velY;drag.rotX+=drag.velX;drag.rotX=Math.max(-0.9,Math.min(0.9,drag.rotX));drag.lastX=e.clientX;drag.lastY=e.clientY;lastInteract=clock.getElapsedTime();});
+      addEventListener("pointerup",(e)=>{drag.active=false;canvas.style.cursor="grab";if(moved<8&&performance.now()-downTime<350)tryPick(e.clientX,e.clientY);});
+      canvas.style.cursor="grab";
+
+      // cursor tracking for pointer-proximity node glow (desktop hover spotlight)
+      const cursor={x:-9999,y:-9999,active:false};
+      addEventListener("pointermove",(e)=>{ if(e.pointerType==='touch'){cursor.active=false;return;} cursor.x=e.clientX; cursor.y=e.clientY; cursor.active=true; },{passive:true});
+      addEventListener("pointerleave",()=>{cursor.active=false;});
+      addEventListener("blur",()=>{cursor.active=false;});
+
+      // pick
+      const raycaster=new THREE.Raycaster(),ndc=new THREE.Vector2(),card=document.getElementById("card");
+      function tryPick(cx,cy){ndc.x=(cx/innerWidth)*2-1;ndc.y=-(cy/innerHeight)*2+1;raycaster.setFromCamera(ndc,camera);const hits=raycaster.intersectObjects(pickables,false);if(hits.length){const n=hits[0].object.userData.node;showCard(n);startCascade(nodes.indexOf(n),clock.getElapsedTime());nextTrig=clock.getElapsedTime()+rnd(TRIG_MIN,TRIG_MAX);}else hideCard();}
+      function showCard(n){
+        document.getElementById("card-topic").textContent=n.topic;
+        document.getElementById("card-title").textContent=n.label;
+        document.getElementById("card-body").textContent=blurbFor(n.label);
+        const src=SOURCES[n.label], srcEl=document.getElementById("card-source");
+        if(src){srcEl.hidden=false;document.getElementById("card-source-ic").textContent=src.ic;document.getElementById("card-source-name").textContent=src.name;document.getElementById("card-source-kind").textContent="· "+src.kind;}else srcEl.hidden=true;
+        const soc=SOCIAL[n.label], socEl=document.getElementById("card-social");
+        if(soc){socEl.hidden=false;document.getElementById("card-social-av").textContent=soc.who[0];document.getElementById("card-social-text").textContent=soc.text;}else socEl.hidden=true;
+        const m=MASTERY[n.mastery];
+        document.getElementById("card-mastery").innerHTML=`<span class="em">${m.em}</span>${m.label}`;
+        const nx=document.getElementById("card-next");nx.textContent=n.due?"Due now":NEXT[n.mastery];nx.style.color=n.due?"#ff6b6b":"";
+        card.classList.add("show");card.setAttribute("aria-hidden","false");
+        // pin a single liquid-glass source pill above the tapped node
+        tapPillNode=nodes.indexOf(n);
+        if(src){tapPill.innerHTML=`<span class="ic">${src.ic}</span>${src.name}`;}
+        else{tapPill.innerHTML=`<span class="ic">${n.topic[0]}</span>${n.topic}`;}
+      }
+      function hideCard(){card.classList.remove("show");card.setAttribute("aria-hidden","true");tapPillNode=-1;}
+      document.getElementById("card-close").addEventListener("click",hideCard);
+
+      // reveal
+      const io=new IntersectionObserver((es)=>es.forEach((en)=>{if(en.isIntersecting)en.target.classList.add("in");}),{threshold:0.35});
+      document.querySelectorAll(".reveal:not(.in), .themes .line").forEach((el)=>io.observe(el));
+
+      // ---------- hero phone: clip swap + show/hide driven by active panel ----------
+      const phoneStage=document.getElementById("phone-stage");
+      const phoneEl=document.getElementById("phone");
+      const vids={capture:document.getElementById("v-capture"),training:document.getElementById("v-training"),galaxy:document.getElementById("v-galaxy"),games:document.getElementById("v-games"),feed:document.getElementById("v-feed")};
+      let activeClip=null;
+      function swapVideo(clip){
+        for(const k in vids){const v=vids[k];if(k===clip){v.classList.add("show");try{v.currentTime=0;}catch(_e){}const pr=v.play();if(pr&&pr.catch)pr.catch(()=>{});}else{v.classList.remove("show");try{v.pause();}catch(_e){}}}
+      }
+      // 360° horizontal flip on clip change. INVARIANT: flipTarget is ALWAYS a multiple of
+      // 360, so the phone can only ever come to rest front-facing — even if a scroll reverses
+      // mid-spin. An interrupted flip is never restarted from an arbitrary angle; it finishes
+      // its clean turn and just swaps to the latest clip. The video swaps at the edge-on midpoint
+      // so the swap itself is hidden — the flip is a flourish, never a half-state (the panel's
+      // title + subtext are already fully composed at rest; see the .reveal no-op above).
+      let flipSpin=0, flipTarget=0, flipFrom=0, flipStart=-1, pendingClip=null, shownClip=null;
+      const FLIP_MS=900;
+      function setClip(clip){
+        if(!vids[clip])return;
+        if(activeClip===null){activeClip=clip;shownClip=clip;swapVideo(clip);return;} // first load: no flip
+        if(clip===activeClip && clip===shownClip && flipStart<0)return;               // already at rest on it
+        activeClip=clip; pendingClip=clip;
+        if(flipStart<0){ // idle -> begin one clean turn to the next multiple of 360
+          flipFrom=flipSpin;
+          flipTarget=Math.round(flipSpin/360)*360+360;
+          flipStart=performance.now();
+        }
+        // if mid-flip: leave flipTarget (still a multiple of 360); the loop will show the
+        // latest pendingClip and land front-facing.
+      }
+      const graphCanvas=document.getElementById("stage");
+      let phoneOn=false;
+      function setPhone(on){ phoneOn=!!on; phoneStage.classList.toggle("live",phoneOn); }
+      const panelObs=new IntersectionObserver((es)=>{
+        es.forEach((en)=>{ if(!en.isIntersecting)return; const p=en.target;
+          if(p.dataset.clip)setClip(p.dataset.clip);
+          setPhone(p.dataset.phone==="1");
+        });
+      },{threshold:0.55});
+      document.querySelectorAll(".panel[data-clip]").forEach((p)=>panelObs.observe(p));
+      setClip("capture");
+
+      // phone tilt: gentle scroll-linked rotateY + pointer parallax (faux-3D, native video stays crisp).
+      // Kept shallow so the in-app UI (incl. small footer icons) reads cleanly without perspective smear.
+      let pointerTX=0,pointerTY=0;
+      addEventListener("pointermove",(e)=>{pointerTX=(e.clientY/innerHeight-0.5)*-4;pointerTY=(e.clientX/innerWidth-0.5)*6;},{passive:true});
+      function updatePhone(){
+        const now=performance.now();
+        // 360° flip: ease flipSpin from flipFrom to flipTarget (always a 360-multiple), swap
+        // video at the edge-on midpoint. On completion, snap exactly to flipTarget (front-
+        // facing) and, if the clip changed again after the swap, kick one more clean turn.
+        if(flipStart>=0){
+          const p=Math.min((now-flipStart)/FLIP_MS,1);
+          const e=p<0.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2;   // easeInOutCubic
+          flipSpin=flipFrom+(flipTarget-flipFrom)*e;
+          if(pendingClip&&p>=0.5){swapVideo(pendingClip);shownClip=pendingClip;pendingClip=null;}
+          if(p>=1){
+            flipSpin=flipTarget; flipStart=-1;
+            if(shownClip!==activeClip){ // clip changed after the swap point -> one more clean turn
+              if(vids[activeClip]){pendingClip=activeClip;flipFrom=flipTarget;flipTarget=flipTarget+360;flipStart=now;}
+            }
+          }
+        }
+        const baseY=innerWidth<760?0:-9;                  // shallow resting yaw (faces slightly left toward copy)
+        const scrollTilt=Math.sin(scrollProgress*Math.PI*2)*3;
+        const ry=baseY+pointerTY*0.5+scrollTilt+flipSpin;
+        const rx=1+pointerTX*0.5;
+        const floatY=Math.sin(now*0.0006)*7;
+        phoneEl.style.transform=`rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translateY(${floatY.toFixed(1)}px)`;
+        requestAnimationFrame(updatePhone);
+      }
+      requestAnimationFrame(updatePhone);
+
+      // ---------- cascade engine (matched to in-app cadence + spread) ----------
+      // app: branch 2-3/hop, decay table, "small constellation, no flooding" (~7 nodes),
+      // burst 150ms ramp / 50 hold / 400 fade, hop delay 150-300ms +-50 jitter,
+      // trigger every 1-2.5s, 1 concurrent, glow = node's OWN topic color.
+      // Bigger graph => longer cascades: reaches ~16 nodes over up to 12 hops, with a
+      // gentle decay tail so the wave travels deep without ever flooding the whole brain.
+      const PEAK_DECAY=[1.0,0.9,0.8,0.72,0.64,0.56,0.5,0.44,0.4,0.36,0.32,0.3];
+      const MAX_HOPS=12, BRANCH_MIN=2, BRANCH_MAX=3, MAX_NODES=16;
+      const HOP_MIN=0.16, HOP_MAX=0.32, HOP_JIT=0.05;
+      const RAMP=0.15, HOLD=0.05, FADE=0.45, BURST=RAMP+HOLD+FADE;
+      const TRIG_MIN=2.2, TRIG_MAX=3.4;
+      function rnd(a,b){return a+rand()*(b-a);}
+      function randInt(a,b){return a+Math.floor(rand()*(b-a+1));}
+      function envelope(dt){ if(dt<0||dt>BURST)return 0; if(dt<RAMP)return dt/RAMP; if(dt<RAMP+HOLD)return 1; return 1-(dt-RAMP-HOLD)/FADE; }
+      let firings=[];           // {idx,t0,peak,from,dot,hd}
+      const pulseDots=[];
+      for(let i=0;i<24;i++){const s=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex,transparent:true,blending:THREE.AdditiveBlending,opacity:0,depthWrite:false}));s.scale.setScalar(0.9);root.add(s);pulseDots.push(s);}
+      function startCascade(seed,now){
+        firings=[]; pulseDots.forEach(d=>{d.material.opacity=0;});
+        const used=new Set([seed]); const t0map={}; t0map[seed]=now;
+        firings.push({idx:seed,t0:now,peak:1.0,from:-1,dot:-1,hd:0});
+        let frontier=[seed], hop=1, count=1, dotI=0;
+        while(hop<MAX_HOPS && count<MAX_NODES && frontier.length){
+          const next=[];
+          for(const u of frontier){
+            if(count>=MAX_NODES)break;
+            let pool=adj[u].filter(v=>!used.has(v));
+            const k=Math.min(randInt(BRANCH_MIN,BRANCH_MAX), pool.length);
+            for(let b=0;b<k && count<MAX_NODES;b++){
+              pool=pool.filter(v=>!used.has(v)); if(!pool.length)break;
+              const v=pool[Math.floor(rand()*pool.length)];
+              used.add(v); next.push(v); count++;
+              const hd=rnd(HOP_MIN,HOP_MAX);
+              const t0=t0map[u]+hd+rnd(-HOP_JIT,HOP_JIT); t0map[v]=t0;
+              firings.push({idx:v,t0,peak:PEAK_DECAY[Math.min(hop,PEAK_DECAY.length-1)],from:u,dot:dotI++,hd});
+            }
+          }
+          frontier=next; hop++;
+        }
+      }
+      function pickSeed(){ const due=[];nodes.forEach((n,i)=>{if(n.due)due.push(i);}); return due.length&&rand()<0.6?due[Math.floor(rand()*due.length)]:Math.floor(rand()*N); }
+      let nextTrig=1.8;
+
+      // BIG cascade: many simultaneous origins igniting across the whole brain. Used when the
+      // user engages the waitlist form (focus) — a celebratory full-graph surge, not the small
+      // ambient cascade. Accumulates firings from several seeds instead of resetting.
+      function startBigCascade(now){
+        const SEEDS=7;
+        let all=[]; const seen=new Set();
+        for(let s=0;s<SEEDS;s++){
+          startCascade(Math.floor(rand()*N), now + s*0.06);  // slight stagger so origins ripple outward
+          for(const f of firings){ const key=f.idx+':'+f.t0.toFixed(3); if(!seen.has(key)){ seen.add(key); all.push(f); } }
+        }
+        firings=all; // keep the union so updatePhone()/render lights every seeded region at once
+      }
+
+      // ---------- animate ----------
+      const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const INTRO=3.0;
+      const AUTOROTATE_SPEED=0.02;     // rad/sec, world Y (matches app)
+      let autoRamp=0, autoY=0, prevT=0;
+      const drift=new THREE.Vector3(), worldP=new THREE.Vector3();
+      addEventListener("scroll", onScroll, { passive: true }); onScroll();
+
+      // Big cascade when the user engages the waitlist form. The form is a cross-origin
+      // Waitlister iframe, so we can't read its clicks directly — but the window blurs and
+      // document.activeElement becomes the iframe the moment it's clicked into. Debounced so
+      // re-focusing fields doesn't re-fire constantly.
+      (function(){
+        const formEl=document.querySelector('.waitlister-form');
+        let lastFire=-999;
+        function maybeFire(){
+          const ae=document.activeElement;
+          const inForm=ae && formEl && (ae===formEl || formEl.contains(ae) || (ae.tagName==='IFRAME' && formEl.contains(ae)));
+          if(!inForm)return;
+          const t=clock.getElapsedTime();
+          if(t-lastFire<2.5)return;   // debounce
+          lastFire=t;
+          startBigCascade(t);
+        }
+        // activeElement updates just after the blur event; check on next tick.
+        window.addEventListener('blur', ()=>setTimeout(maybeFire,0));
+      })();
+      function tick(){
+        const t=clock.getElapsedTime();
+        const dt=Math.min(0.05,t-prevT); prevT=t;
+
+        // intro fly-in, then scroll
+        const intro=Math.min(t/INTRO,1), ie=1-Math.pow(1-intro,3);
+        // graph opacity: bold at the top (page feels alive on first open), eases down as you
+        // scroll into the phones so it never competes; a phone on screen pulls the floor lower.
+        const top=1.0, floor=phoneOn?0.12:0.20;
+        const targetOpacity=(top+(floor-top)*Math.min(scrollProgress/0.45,1))*ie;
+        const curOp=parseFloat(graphCanvas.style.opacity)||top;
+        graphCanvas.style.opacity=(curOp+(targetOpacity-curOp)*0.08).toFixed(3);
+        const s=sampleKF(scrollProgress);
+        const dX=THREE.MathUtils.lerp(0,s.px,ie),dY=THREE.MathUtils.lerp(4,s.py,ie),dZ=THREE.MathUtils.lerp(130,s.pz,ie);
+        camera.position.x+=(dX-camera.position.x)*0.06;
+        camera.position.y+=(dY-camera.position.y)*0.06;
+        camera.position.z+=(dZ-camera.position.z)*0.06;
+        tmpTarget.set(s.tx,s.ty,s.tz);camera.lookAt(tmpTarget);
+
+        // drag inertia + idle autorotation around world Y (like the app):
+        // pauses during gesture/scroll, ramps back in 2.5s after last interaction.
+        if(!drag.active){drag.velX*=0.94;drag.velY*=0.94;drag.rotY+=drag.velY;drag.rotX+=drag.velX;drag.rotX=Math.max(-0.9,Math.min(0.9,drag.rotX));}
+        const idle=!drag.active && (t-lastInteract)>2.5 && intro>=1 && !reduced;
+        autoRamp+=((idle?1:0)-autoRamp)*0.03;
+        autoY+=AUTOROTATE_SPEED*autoRamp*dt;
+        root.rotation.y+=((drag.rotY+autoY)-root.rotation.y)*0.12;
+        root.rotation.x+=(drag.rotX-root.rotation.x)*0.12;
+
+        // node organic drift
+        for(let i=0;i<nodeMeshes.length;i++){
+          const nm=nodeMeshes[i],n=nm.n;
+          const dx=reduced?0:Math.sin(t*0.5+n.phase)*0.28, dy=reduced?0:Math.cos(t*0.43+n.phase*1.3)*0.28, dz=reduced?0:Math.sin(t*0.37+n.phase*0.7)*0.28;
+          drift.set(n.base.x+dx,n.base.y+dy,n.base.z+dz);
+          nm.mesh.position.copy(drift);nm.spr.position.copy(drift);nm.cur.copy(drift);
+        }
+        // refresh links
+        for(let i=0;i<links.length;i++){const a=nodeMeshes[links[i][0]].cur,b=nodeMeshes[links[i][1]].cur,o=i*6;linkPos[o]=a.x;linkPos[o+1]=a.y;linkPos[o+2]=a.z;linkPos[o+3]=b.x;linkPos[o+4]=b.y;linkPos[o+5]=b.z;}
+        linkGeo.attributes.position.needsUpdate=true;
+
+        // cascade scheduling: one cascade every 2-3s (subdued, ~7 nodes)
+        if(t>nextTrig){ startCascade(pickSeed(),t); nextTrig=t+rnd(TRIG_MIN,TRIG_MAX); }
+        root.updateMatrixWorld();
+
+        // node activation (the ONLY glow source) — emissive stays the node's own color
+        for(let i=0;i<nodeMeshes.length;i++) nodeMeshes[i].targetAct=0;
+        for(const f of firings){ const e=envelope(t-f.t0)*f.peak; if(e>nodeMeshes[f.idx].targetAct) nodeMeshes[f.idx].targetAct=e; }
+        // pointer-proximity spotlight: nodes near the cursor glow, scaled by closeness.
+        // Projects each node to screen; cheap enough at this node count. Touch has no hover.
+        const HOVER_R = Math.min(innerWidth,innerHeight)*0.16;   // spotlight radius (px)
+        if(cursor.active){
+          for(let i=0;i<nodeMeshes.length;i++){
+            worldP.copy(nodeMeshes[i].cur).applyMatrix4(root.matrixWorld).project(camera);
+            if(worldP.z>1) continue;                              // behind camera
+            const sx=(worldP.x*0.5+0.5)*innerWidth, sy=(-worldP.y*0.5+0.5)*innerHeight;
+            const dx=sx-cursor.x, dy=sy-cursor.y, dist=Math.hypot(dx,dy);
+            if(dist<HOVER_R){
+              const h=(1-dist/HOVER_R); const hv=h*h*0.85;        // ease-in falloff, capped below cascade peak
+              if(hv>nodeMeshes[i].targetAct) nodeMeshes[i].targetAct=hv;
+            }
+          }
+        }
+        for(let i=0;i<nodeMeshes.length;i++){
+          const nm=nodeMeshes[i];
+          nm.act+=(nm.targetAct-nm.act)*0.5;
+          const a=nm.act;
+          nm.mat.emissiveIntensity=a*2.2;             // glow in the node's own color
+          nm.mesh.scale.setScalar(nm.n.size*(1+a*0.4));
+          nm.spr.material.opacity=a*0.5;              // subtle, node-colored halo
+          nm.spr.scale.setScalar(nm.n.size*5*(0.8+a*0.5));
+        }
+        // traveling dots parent->child, tinted to the child's color
+        for(let i=0;i<pulseDots.length;i++)pulseDots[i].material.opacity=0;
+        for(const f of firings){
+          if(f.dot<0||f.from<0)continue; const d=pulseDots[f.dot%pulseDots.length];
+          const p=(t-(f.t0-f.hd))/Math.max(0.001,f.hd);
+          if(p>=0&&p<=1){ d.position.lerpVectors(nodeMeshes[f.from].cur,nodeMeshes[f.idx].cur,p); d.material.color.copy(nodeMeshes[f.idx].baseColor); d.material.opacity=Math.sin(p*Math.PI)*0.6; }
+        }
+
+        // project the single tap pill above its pinned node (only while a node is selected)
+        if(tapPillNode>=0){
+          worldP.copy(nodeMeshes[tapPillNode].cur).applyMatrix4(root.matrixWorld);
+          const inFront=worldP.clone().sub(camera.position).dot(camera.getWorldDirection(new THREE.Vector3()))>0;
+          const proj=worldP.clone().project(camera);
+          if(inFront&&proj.x>-1&&proj.x<1&&proj.y>-1&&proj.y<1){
+            const sx=(proj.x*0.5+0.5)*innerWidth, sy=(-proj.y*0.5+0.5)*innerHeight;
+            tapPill.style.transform=`translate(-50%,-50%) translate(${sx}px, ${sy-22}px)`;
+            tapPill.style.opacity="1";
+          } else { tapPill.style.opacity="0"; }
+        } else { tapPill.style.opacity="0"; }
+
+        composer.render();
+        requestAnimationFrame(tick);
+      }
+      tick();
+    </script>
+  </body>
+</html>
