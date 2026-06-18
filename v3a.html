@@ -333,8 +333,7 @@
       <div class="stage">
         <div class="phone">
           <div class="screen">
-            <video src="beats/quiz-single.mp4"
-              autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+            <video id="hero-vid" muted playsinline preload="auto" aria-hidden="true"></video>
           </div>
         </div>
       </div>
@@ -555,6 +554,24 @@
 
     wireForm('hero-form', 'hero-email', 'hero-err', 'hero-zone');
     wireForm('cta-form', 'cta-email', 'cta-err', 'cta-zone');
+
+    // Hero video montage — 5 clips play in sequence, then loop back
+    var heroClips = [
+      'beats/save-bookshelf-head.mp4',
+      'beats/save-share-ext.mp4',
+      'beats/quiz-single.mp4',
+      'beats/game-crossword.mp4',
+      'beats/constellation.mp4'
+    ];
+    var heroIdx = 0;
+    var heroVid = document.getElementById('hero-vid');
+    function nextClip() {
+      heroVid.src = heroClips[heroIdx];
+      heroVid.play().catch(function () {});
+      heroIdx = (heroIdx + 1) % heroClips.length;
+    }
+    heroVid.addEventListener('ended', nextClip);
+    nextClip();
   </script>
 
 </body>

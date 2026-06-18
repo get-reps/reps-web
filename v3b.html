@@ -341,11 +341,13 @@
 
     /* Desktop feature sections: two-column */
     @media (min-width: 820px) {
-      .feature-inner { flex-direction: row; justify-content: space-between; gap: 72px; }
+      /* tighter container: copy fills remaining space, phone is fixed-width */
+      .feature-inner { max-width: 880px; flex-direction: row; justify-content: center; align-items: center; gap: 56px; }
       .feature-inner.flip { flex-direction: row-reverse; }
-      .feature-copy { max-width: 440px; }
+      .feature-copy { flex: 1; max-width: none; }
+      .feature-copy h2 { font-size: clamp(22px, 2.6vw, 32px); }
       .feature-phone { flex: none; }
-      .phone-lg { width: 248px; }
+      .phone-lg { width: 240px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -396,7 +398,7 @@
         <div class="stage">
           <div class="phone-sm">
             <div class="screen">
-              <video src="beats/save-bookshelf-head.mp4"
+              <video src="beats/quiz-single.mp4"
                 autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
             </div>
           </div>
