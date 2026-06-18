@@ -4,493 +4,905 @@
      Each beat slides up from below, previous card's colored header peeks at top.
      Hero entrance animated. Color range expanded with per-beat card tints. -->
 <html lang="en">
-<head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-  <title>REPS · Remember everything you read, watch, and hear</title>
-  <meta name="description" content="REPS turns what you read, watch, and hear into quick games that make it stick. Get early access."/>
-  <link rel="canonical" href="https://getreps.io/"/>
-  <meta property="og:title" content="REPS · Save. Play. Remember."/>
-  <meta property="og:description" content="Finally remember everything you read, watch, and hear."/>
-  <meta property="og:url" content="https://getreps.io/"/>
-  <meta property="og:type" content="website"/>
-  <meta property="og:image" content="https://www.getreps.io/og-card-v3.png"/>
-  <meta property="og:image:width" content="1200"/>
-  <meta property="og:image:height" content="630"/>
-  <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:image" content="https://www.getreps.io/og-card-v3.png"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Lora:ital,wght@0,500;1,400&display=swap" rel="stylesheet"/>
-  <style>
-    :root {
-      --cream: #fffaf7;
-      --coral: #ff6b6b;
-      --peach: #ff8e53;
-      --ink: #211a14;
-      --body: rgba(33,26,20,0.72);
-      --muted: rgba(33,26,20,0.52);
-      --muted-strong: rgba(33,26,20,0.62);
-      --hairline: rgba(33,26,20,0.09);
-      --galaxy: #040409;
-      --display: "Space Grotesk", system-ui, -apple-system, sans-serif;
-      --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { background: var(--cream); scroll-behavior: smooth; }
-    body {
-      background: var(--cream); color: var(--body); font-family: var(--sans);
-      -webkit-font-smoothing: antialiased; line-height: 1.5; overflow-x: hidden;
-    }
-    img, video { display: block; max-width: 100%; }
-    a { color: inherit; }
-
-    /* ── Nav ── */
-    nav {
-      position: sticky; top: 0; z-index: 200;
-      background: var(--cream); border-bottom: 1px solid var(--hairline);
-      padding: 14px 24px;
-    }
-    .nav-inner {
-      max-width: 1120px; margin: 0 auto;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .wordmark {
-      display: flex; align-items: center; gap: 8px; text-decoration: none;
-      font-family: var(--display); font-weight: 700; font-size: 18px;
-      letter-spacing: 0.04em; color: var(--ink);
-    }
-    .wordmark img { width: 26px; height: 26px; border-radius: 6px; box-shadow: 0 1px 4px rgba(33,26,20,0.12); }
-    .nav-cta {
-      font-size: 14px; font-weight: 600; color: #fff; border: none; cursor: pointer;
-      background: linear-gradient(135deg, var(--coral), var(--peach));
-      padding: 9px 20px; border-radius: 999px;
-      box-shadow: 0 2px 10px -3px rgba(255,107,107,0.38);
-      transition: opacity 0.14s, transform 0.14s;
-    }
-    .nav-cta:hover { opacity: 0.9; transform: translateY(-1px); }
-
-    /* ── Hero — entrance animations on load ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(22px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-
-    .hero { padding: 12px 24px 24px; text-align: center; }
-    .hero-inner { max-width: 520px; margin: 0 auto; }
-
-    .eyebrow {
-      display: inline-block; font-size: 12px; font-weight: 600;
-      letter-spacing: 0.18em; text-transform: uppercase; color: var(--coral);
-      margin-bottom: 8px;
-      animation: fadeUp 0.55s cubic-bezier(0.22,1,0.36,1) 0.05s both;
-    }
-    h1 {
-      font-family: var(--display); color: var(--ink); font-weight: 700;
-      font-size: clamp(24px, 5.5vw, 50px); line-height: 1.06; letter-spacing: -0.025em;
-      text-wrap: balance; margin-bottom: 8px;
-      animation: fadeUp 0.65s cubic-bezier(0.22,1,0.36,1) 0.12s both;
-    }
-    .lede {
-      font-size: clamp(14px, 1.8vw, 18px); color: var(--body); line-height: 1.5;
-      max-width: 36ch; margin: 0 auto 14px; text-wrap: balance;
-      animation: fadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.22s both;
-    }
-
-    /* Phone stage — animated */
-    .stage {
-      position: relative; display: flex; justify-content: center; margin-bottom: 16px;
-      animation: fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) 0.1s both;
-    }
-    .stage::before {
-      content: ""; position: absolute;
-      left: 15%; right: 15%; top: 6%; bottom: 4%;
-      background: radial-gradient(ellipse at 50% 40%,
-        rgba(255,107,107,0.16) 0%, rgba(255,142,83,0.07) 48%, transparent 72%);
-      filter: blur(22px); z-index: 0;
-    }
-    .phone {
-      position: relative; z-index: 1;
-      width: clamp(110px, 26vw, 165px);
-      padding: 5px; background: #0a0a10; border-radius: 28px;
-      box-shadow: 0 2px 8px rgba(33,26,20,0.14), 0 22px 52px -18px rgba(33,26,20,0.32);
-    }
-    .phone::after {
-      content: ""; position: absolute; inset: 0; border-radius: 28px; pointer-events: none;
-      box-shadow: inset 0 1px 1px rgba(255,255,255,0.07);
-    }
-    .phone .screen {
-      width: 100%; aspect-ratio: 540/1170; border-radius: 23px;
-      overflow: hidden; background: var(--galaxy);
-    }
-    .phone .screen video {
-      width: 100%; height: 100%; object-fit: cover;
-      transition: opacity 0.5s ease-in-out;
-    }
-
-    /* Form */
-    .form-zone {
-      max-width: 380px; margin: 0 auto;
-      animation: fadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.32s both;
-    }
-    .signup { display: flex; flex-direction: column; gap: 8px; }
-    .signup input[type="email"] {
-      width: 100%; height: 46px; border: 1.5px solid var(--hairline); border-radius: 12px;
-      background: #fff; padding: 0 16px;
-      font-family: var(--sans); font-size: 16px; color: var(--ink);
-      outline: none; transition: border-color 0.14s, box-shadow 0.14s;
-    }
-    .signup input:focus { border-color: var(--coral); box-shadow: 0 0 0 3px rgba(255,107,107,0.13); }
-    .signup input::placeholder { color: var(--muted); }
-    .signup button {
-      width: 100%; height: 48px; border: 0; border-radius: 12px; cursor: pointer;
-      background: linear-gradient(135deg, var(--coral), var(--peach));
-      color: #fff; font-family: var(--sans); font-weight: 600; font-size: 16px;
-      box-shadow: 0 4px 16px -5px rgba(255,107,107,0.32);
-      transition: opacity 0.12s, transform 0.12s;
-    }
-    .signup button:hover { opacity: 0.92; transform: translateY(-1px); }
-    .signup button:active { transform: translateY(0); }
-    .signup button:disabled { opacity: 0.6; cursor: default; transform: none; }
-    .reassure { font-size: 13px; color: var(--muted-strong); text-align: center; margin-top: 8px; }
-    .err { font-size: 13px; color: #c0392b; text-align: center; min-height: 16px; margin-top: 4px; }
-    .success {
-      display: none; align-items: center; gap: 14px;
-      padding: 16px 18px; border-radius: 14px;
-      background: #fff; border: 1.5px solid rgba(78,205,196,0.42);
-      color: var(--ink); font-weight: 600; font-size: 15px;
-    }
-    .success img { width: 40px; height: 36px; flex: none; object-fit: contain; }
-    .form-done .signup, .form-done .reassure { display: none; }
-    .form-done .success { display: flex; }
-
-    /* ── Proof — auto-scrolling marquee of quote cards ── */
-    .proof {
-      padding: 48px 0 64px;
-      /* fade from cream (hero above) into #FFECE8 (beats-label below) — no hard cut */
-      background: linear-gradient(to bottom, var(--cream) 0%, var(--cream) 45%, #FFECE8 100%);
-      overflow: hidden;
-    }
-    /* Edge fade so cards glide in/out instead of hard-clipping */
-    .marquee-viewport {
-      -webkit-mask: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
-              mask: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
-    }
-    .marquee-track {
-      display: flex; width: max-content;
-      animation: marquee 46s linear infinite;
-    }
-    .marquee-track:hover { animation-play-state: paused; }
-    @keyframes marquee {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
-    }
-    .quote-card {
-      width: 320px; flex: none; margin-right: 20px;
-      background: #fff; border-radius: 18px; padding: 22px 22px 20px;
-      border: 1px solid var(--hairline);
-      box-shadow: 0 1px 3px rgba(33,26,20,0.04), 0 4px 14px rgba(33,26,20,0.03);
-    }
-    .stars { font-size: 13px; letter-spacing: 2px; color: var(--coral); margin-bottom: 10px; }
-    .quote-text { font-size: 15px; line-height: 1.6; color: var(--ink); font-style: italic; margin-bottom: 16px; }
-    .author { display: flex; align-items: center; gap: 10px; }
-    .av {
-      width: 34px; height: 34px; border-radius: 50%; flex: none;
-      background: linear-gradient(135deg, var(--coral), var(--peach));
-      display: flex; align-items: center; justify-content: center;
-      font-size: 13px; font-weight: 700; color: #fff; font-family: var(--display);
-    }
-    .author-meta { display: flex; flex-direction: column; }
-    .author-name { font-size: 13px; font-weight: 600; color: var(--ink); }
-    .author-role { font-size: 12px; color: var(--muted); }
-
-    /* ── Stacked Card Beats ── */
-    .beats-label {
-      text-align: center; padding: 64px 24px 32px;
-      background: #FFECE8; /* matches SAVE card — no hard cut into the stack */
-    }
-    .beats-label .section-eyebrow {
-      font-size: 12px; font-weight: 600; letter-spacing: 0.14em;
-      text-transform: uppercase; color: var(--coral); margin-bottom: 10px;
-    }
-    .beats-label h2 {
-      font-family: var(--display); color: var(--ink); font-weight: 700;
-      font-size: clamp(22px, 3.5vw, 34px); letter-spacing: -0.02em; line-height: 1.12;
-    }
-
-    /* Wrapper drives the scroll height */
-    #stack-wrapper {
-      position: relative;
-      height: calc(4 * 100vh);
-    }
-
-    /* Sticky stage: the viewport window */
-    #stack-stage {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    /* Individual beat cards — all absolutely positioned in the stage */
-    .beat-card {
-      position: absolute;
-      inset: 0;
-      will-change: transform;
-      /* Cards 1-3 start below viewport — JS sets initial transforms */
-    }
-
-    /* Card inner layout */
-    .bc-inner {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      padding: 28px 24px 0;
-      max-width: 1120px;
-      margin: 0 auto;
-      gap: 16px;
-    }
-    .bc-copy { flex: 0 0 auto; }
-    .bc-phone-wrap { flex: 1; display: flex; justify-content: center; align-items: center; min-height: 0; padding-bottom: 16px; }
-
-    .bc-verb {
-      display: inline-block; font-size: 11px; font-weight: 700;
-      letter-spacing: 0.18em; text-transform: uppercase;
-      color: var(--card-accent); margin-bottom: 8px;
-    }
-    .bc-copy h2 {
-      font-family: var(--display); color: var(--ink); font-weight: 700;
-      font-size: clamp(26px, 5vw, 48px); letter-spacing: -0.025em; line-height: 1.05;
-      text-wrap: balance;
-    }
-    .bc-copy p {
-      font-size: clamp(15px, 1.8vw, 17px); color: var(--body); line-height: 1.6;
-      max-width: 40ch; margin-top: 12px;
-    }
-
-    /* Phone inside each card — grows to fill available space */
-    .bc-phone {
-      width: clamp(200px, 55vw, 260px);
-      padding: 5px; background: #0a0a10; border-radius: 26px;
-      box-shadow: 0 2px 8px rgba(33,26,20,0.16), 0 20px 48px -16px rgba(33,26,20,0.28);
-      position: relative;
-    }
-    .bc-phone::after {
-      content: ""; position: absolute; inset: 0; border-radius: 26px; pointer-events: none;
-      box-shadow: inset 0 1px 1px rgba(255,255,255,0.07);
-    }
-    .bc-phone .screen {
-      width: 100%; aspect-ratio: 540/1170; border-radius: 21px;
-      overflow: hidden; background: var(--galaxy);
-    }
-    .bc-phone .screen video { width: 100%; height: 100%; object-fit: cover; }
-
-    /* Card accent colors via CSS custom properties */
-    #bc-save    { --card-accent: #ff6b6b; background: #FFECE8; }
-    #bc-remember { --card-accent: #2D8377; background: #E5F6F5; }
-    #bc-play    { --card-accent: #C8881D; background: #FEF3E0; }
-    #bc-discover { --card-accent: #4C5FAB; background: #ECEFFE; }
-
-    /* Desktop: copy and phone side by side within the card */
-    @media (min-width: 820px) {
-      .bc-inner {
-        flex-direction: row;
-        align-items: center;
-        padding: 56px 64px;
-        gap: 64px;
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>REPS · Remember everything you read, watch, and hear</title>
+    <meta
+      name="description"
+      content="REPS turns what you read, watch, and hear into quick games that make it stick. Get early access."
+    />
+    <link rel="canonical" href="https://getreps.io/" />
+    <meta property="og:title" content="REPS · Save. Play. Remember." />
+    <meta
+      property="og:description"
+      content="Finally remember everything you read, watch, and hear."
+    />
+    <meta property="og:url" content="https://getreps.io/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://www.getreps.io/og-card-v3.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:image"
+      content="https://www.getreps.io/og-card-v3.png"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Lora:ital,wght@0,500;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --cream: #fffaf7;
+        --coral: #ff6b6b;
+        --peach: #ff8e53;
+        --ink: #211a14;
+        --body: rgba(33, 26, 20, 0.72);
+        --muted: rgba(33, 26, 20, 0.52);
+        --muted-strong: rgba(33, 26, 20, 0.62);
+        --hairline: rgba(33, 26, 20, 0.09);
+        --galaxy: #040409;
+        --display: "Space Grotesk", system-ui, -apple-system, sans-serif;
+        --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
       }
-      .bc-copy { flex: 1; }
-      .bc-phone-wrap { flex: none; align-items: center; }
-      .bc-phone { width: clamp(200px, 22vw, 270px); }
-    }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        background: var(--cream);
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--cream);
+        color: var(--body);
+        font-family: var(--sans);
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.5;
+        overflow-x: hidden;
+      }
+      img,
+      video {
+        display: block;
+        max-width: 100%;
+      }
+      a {
+        color: inherit;
+      }
 
-    /* ── CTA ── */
-    .cta-section {
-      padding: 88px 24px 72px;
-      border-top: 1px solid var(--hairline);
-      text-align: center;
-      opacity: 0; transform: translateY(32px);
-      transition: opacity 0.65s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.22,1,0.36,1);
-    }
-    .cta-section.visible { opacity: 1; transform: translateY(0); }
-    .cta-section h2 {
-      font-family: var(--display); color: var(--ink); font-weight: 700;
-      font-size: clamp(22px, 3.5vw, 36px); letter-spacing: -0.02em; line-height: 1.12;
-      max-width: 26ch; margin: 0 auto 10px; text-wrap: balance;
-    }
-    .cta-sub { font-size: 16px; color: var(--body); margin-bottom: 32px; }
-    .form-zone-cta { max-width: 380px; margin: 0 auto; }
-    .referral { font-size: 13px; color: var(--muted); margin-top: 12px; }
-    .manifesto {
-      margin-top: 40px;
-      font-family: var(--display); font-size: clamp(17px, 2.4vw, 21px);
-      font-weight: 700; color: var(--ink); letter-spacing: -0.01em;
-    }
-    .grad {
-      background: linear-gradient(100deg, var(--coral), var(--peach));
-      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-    }
+      /* ── Nav ── */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 200;
+        background: var(--cream);
+        border-bottom: 1px solid var(--hairline);
+        padding: 14px 24px;
+      }
+      .nav-inner {
+        max-width: 1120px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .wordmark {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 18px;
+        letter-spacing: 0.04em;
+        color: var(--ink);
+      }
+      .wordmark img {
+        width: 26px;
+        height: 26px;
+        border-radius: 6px;
+        box-shadow: 0 1px 4px rgba(33, 26, 20, 0.12);
+      }
+      .nav-cta {
+        font-size: 14px;
+        font-weight: 600;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        background: linear-gradient(135deg, var(--coral), var(--peach));
+        padding: 9px 20px;
+        border-radius: 999px;
+        box-shadow: 0 2px 10px -3px rgba(255, 107, 107, 0.38);
+        transition:
+          opacity 0.14s,
+          transform 0.14s;
+      }
+      .nav-cta:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+      }
 
-    /* ── Footer ── */
-    footer {
-      padding: 24px 24px 48px; border-top: 1px solid var(--hairline);
-      text-align: center; color: var(--muted); font-size: 12px;
-    }
-    footer .motto {
-      display: block; font-family: var(--display); font-weight: 700;
-      font-size: 13px; letter-spacing: 0.04em; color: var(--ink); margin-bottom: 6px;
-    }
-    footer a { text-decoration: underline; }
+      /* ── Hero — entrance animations on load ── */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(22px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
 
-    @media (min-width: 900px) {
-      .hero { padding-top: 80px; }
-      .phone { width: clamp(160px, 18vw, 200px); }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .eyebrow, h1, .lede, .stage, .form-zone { animation: none; opacity: 1; transform: none; }
-      .cta-section { opacity: 1; transform: none; transition: none; }
-      .marquee-track { animation: none; }
-      html { scroll-behavior: auto; }
-    }
-  </style>
-</head>
-<body>
+      .hero {
+        padding: 12px 24px 24px;
+        text-align: center;
+      }
+      .hero-inner {
+        max-width: 520px;
+        margin: 0 auto;
+      }
 
-  <nav>
-    <div class="nav-inner">
-      <a class="wordmark" href="#">
-        <img src="product/assets/app-icon.png" alt="REPS" width="26" height="26"/>
-        REPS
-      </a>
-      <button class="nav-cta" id="nav-cta">Join the waitlist</button>
-    </div>
-  </nav>
+      .eyebrow {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--coral);
+        margin-bottom: 8px;
+        animation: fadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
+      }
+      h1 {
+        font-family: var(--display);
+        color: var(--ink);
+        font-weight: 700;
+        font-size: clamp(24px, 5.5vw, 50px);
+        line-height: 1.06;
+        letter-spacing: -0.025em;
+        text-wrap: balance;
+        margin-bottom: 8px;
+        animation: fadeUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
+      }
+      .lede {
+        font-size: clamp(14px, 1.8vw, 18px);
+        color: var(--body);
+        line-height: 1.5;
+        max-width: 36ch;
+        margin: 0 auto 14px;
+        text-wrap: balance;
+        animation: fadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.22s both;
+      }
 
-  <main>
+      /* Phone stage — animated */
+      .stage {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 16px;
+        animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+      }
+      .stage::before {
+        content: "";
+        position: absolute;
+        left: 15%;
+        right: 15%;
+        top: 6%;
+        bottom: 4%;
+        background: radial-gradient(
+          ellipse at 50% 40%,
+          rgba(255, 107, 107, 0.16) 0%,
+          rgba(255, 142, 83, 0.07) 48%,
+          transparent 72%
+        );
+        filter: blur(22px);
+        z-index: 0;
+      }
+      .phone {
+        position: relative;
+        z-index: 1;
+        width: clamp(110px, 26vw, 165px);
+        padding: 5px;
+        background: #0a0a10;
+        border-radius: 28px;
+        box-shadow:
+          0 2px 8px rgba(33, 26, 20, 0.14),
+          0 22px 52px -18px rgba(33, 26, 20, 0.32);
+      }
+      .phone::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 28px;
+        pointer-events: none;
+        box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.07);
+      }
+      .phone .screen {
+        width: 100%;
+        aspect-ratio: 540/1170;
+        border-radius: 23px;
+        overflow: hidden;
+        background: var(--galaxy);
+      }
+      .phone .screen video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: opacity 0.5s ease-in-out;
+      }
 
-    <!-- ═══════════════════════════════════════════
+      /* Form */
+      .form-zone {
+        max-width: 380px;
+        margin: 0 auto;
+        animation: fadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.32s both;
+      }
+      .signup {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .signup input[type="email"] {
+        width: 100%;
+        height: 46px;
+        border: 1.5px solid var(--hairline);
+        border-radius: 12px;
+        background: #fff;
+        padding: 0 16px;
+        font-family: var(--sans);
+        font-size: 16px;
+        color: var(--ink);
+        outline: none;
+        transition:
+          border-color 0.14s,
+          box-shadow 0.14s;
+      }
+      .signup input:focus {
+        border-color: var(--coral);
+        box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.13);
+      }
+      .signup input::placeholder {
+        color: var(--muted);
+      }
+      .signup button {
+        width: 100%;
+        height: 48px;
+        border: 0;
+        border-radius: 12px;
+        cursor: pointer;
+        background: linear-gradient(135deg, var(--coral), var(--peach));
+        color: #fff;
+        font-family: var(--sans);
+        font-weight: 600;
+        font-size: 16px;
+        box-shadow: 0 4px 16px -5px rgba(255, 107, 107, 0.32);
+        transition:
+          opacity 0.12s,
+          transform 0.12s;
+      }
+      .signup button:hover {
+        opacity: 0.92;
+        transform: translateY(-1px);
+      }
+      .signup button:active {
+        transform: translateY(0);
+      }
+      .signup button:disabled {
+        opacity: 0.6;
+        cursor: default;
+        transform: none;
+      }
+      .reassure {
+        font-size: 13px;
+        color: var(--muted-strong);
+        text-align: center;
+        margin-top: 8px;
+      }
+      .err {
+        font-size: 13px;
+        color: #c0392b;
+        text-align: center;
+        min-height: 16px;
+        margin-top: 4px;
+      }
+      .success {
+        display: none;
+        align-items: center;
+        gap: 14px;
+        padding: 16px 18px;
+        border-radius: 14px;
+        background: #fff;
+        border: 1.5px solid rgba(78, 205, 196, 0.42);
+        color: var(--ink);
+        font-weight: 600;
+        font-size: 15px;
+      }
+      .success img {
+        width: 40px;
+        height: 36px;
+        flex: none;
+        object-fit: contain;
+      }
+      .form-done .signup,
+      .form-done .reassure {
+        display: none;
+      }
+      .form-done .success {
+        display: flex;
+      }
+
+      /* ── Proof — auto-scrolling marquee of quote cards ── */
+      .proof {
+        padding: 48px 0 64px;
+        /* fade from cream (hero above) into #FFECE8 (beats-label below) — no hard cut */
+        background: linear-gradient(
+          to bottom,
+          var(--cream) 0%,
+          var(--cream) 45%,
+          #ffece8 100%
+        );
+        overflow: hidden;
+      }
+      /* Edge fade so cards glide in/out instead of hard-clipping */
+      .marquee-viewport {
+        -webkit-mask: linear-gradient(
+          90deg,
+          transparent,
+          #000 7%,
+          #000 93%,
+          transparent
+        );
+        mask: linear-gradient(
+          90deg,
+          transparent,
+          #000 7%,
+          #000 93%,
+          transparent
+        );
+      }
+      .marquee-track {
+        display: flex;
+        width: max-content;
+        animation: marquee 46s linear infinite;
+      }
+      .marquee-track:hover {
+        animation-play-state: paused;
+      }
+      @keyframes marquee {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-50%);
+        }
+      }
+      .quote-card {
+        width: 320px;
+        flex: none;
+        margin-right: 20px;
+        background: #fff;
+        border-radius: 18px;
+        padding: 22px 22px 20px;
+        border: 1px solid var(--hairline);
+        box-shadow:
+          0 1px 3px rgba(33, 26, 20, 0.04),
+          0 4px 14px rgba(33, 26, 20, 0.03);
+      }
+      .stars {
+        font-size: 13px;
+        letter-spacing: 2px;
+        color: var(--coral);
+        margin-bottom: 10px;
+      }
+      .quote-text {
+        font-size: 15px;
+        line-height: 1.6;
+        color: var(--ink);
+        font-style: italic;
+        margin-bottom: 16px;
+      }
+      .author {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .av {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        flex: none;
+        background: linear-gradient(135deg, var(--coral), var(--peach));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 700;
+        color: #fff;
+        font-family: var(--display);
+      }
+      .author-meta {
+        display: flex;
+        flex-direction: column;
+      }
+      .author-name {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .author-role {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      /* ── Stacked Card Beats ── */
+      .beats-label {
+        text-align: center;
+        padding: 64px 24px 32px;
+        background: #ffece8; /* matches SAVE card — no hard cut into the stack */
+      }
+      .beats-label .section-eyebrow {
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--coral);
+        margin-bottom: 10px;
+      }
+      .beats-label h2 {
+        font-family: var(--display);
+        color: var(--ink);
+        font-weight: 700;
+        font-size: clamp(22px, 3.5vw, 34px);
+        letter-spacing: -0.02em;
+        line-height: 1.12;
+      }
+
+      /* Wrapper drives the scroll height */
+      #stack-wrapper {
+        position: relative;
+        height: calc(4 * 100vh);
+      }
+
+      /* Sticky stage: the viewport window */
+      #stack-stage {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      /* Individual beat cards — all absolutely positioned in the stage */
+      .beat-card {
+        position: absolute;
+        inset: 0;
+        will-change: transform;
+        /* Cards 1-3 start below viewport — JS sets initial transforms */
+      }
+
+      /* Card inner layout */
+      .bc-inner {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 28px 24px 0;
+        max-width: 1120px;
+        margin: 0 auto;
+        gap: 16px;
+      }
+      .bc-copy {
+        flex: 0 0 auto;
+      }
+      .bc-phone-wrap {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 0;
+        padding-bottom: 16px;
+      }
+
+      .bc-verb {
+        display: inline-block;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--card-accent);
+        margin-bottom: 8px;
+      }
+      .bc-copy h2 {
+        font-family: var(--display);
+        color: var(--ink);
+        font-weight: 700;
+        font-size: clamp(26px, 5vw, 48px);
+        letter-spacing: -0.025em;
+        line-height: 1.05;
+        text-wrap: balance;
+      }
+      .bc-copy p {
+        font-size: clamp(15px, 1.8vw, 17px);
+        color: var(--body);
+        line-height: 1.6;
+        max-width: 40ch;
+        margin-top: 12px;
+      }
+
+      /* Phone inside each card — grows to fill available space */
+      .bc-phone {
+        width: clamp(200px, 55vw, 260px);
+        padding: 5px;
+        background: #0a0a10;
+        border-radius: 26px;
+        box-shadow:
+          0 2px 8px rgba(33, 26, 20, 0.16),
+          0 20px 48px -16px rgba(33, 26, 20, 0.28);
+        position: relative;
+      }
+      .bc-phone::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 26px;
+        pointer-events: none;
+        box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.07);
+      }
+      .bc-phone .screen {
+        width: 100%;
+        aspect-ratio: 540/1170;
+        border-radius: 21px;
+        overflow: hidden;
+        background: var(--galaxy);
+      }
+      .bc-phone .screen video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* Card accent colors via CSS custom properties */
+      #bc-save {
+        --card-accent: #ff6b6b;
+        background: #ffece8;
+      }
+      #bc-remember {
+        --card-accent: #2d8377;
+        background: #e5f6f5;
+      }
+      #bc-play {
+        --card-accent: #c8881d;
+        background: #fef3e0;
+      }
+      #bc-discover {
+        --card-accent: #4c5fab;
+        background: #eceffe;
+      }
+
+      /* Desktop: copy and phone side by side within the card */
+      @media (min-width: 820px) {
+        .bc-inner {
+          flex-direction: row;
+          align-items: center;
+          padding: 56px 64px;
+          gap: 64px;
+        }
+        .bc-copy {
+          flex: 1;
+        }
+        .bc-phone-wrap {
+          flex: none;
+          align-items: center;
+        }
+        .bc-phone {
+          width: clamp(200px, 22vw, 270px);
+        }
+      }
+
+      /* ── CTA ── */
+      .cta-section {
+        padding: 88px 24px 72px;
+        border-top: 1px solid var(--hairline);
+        text-align: center;
+        opacity: 0;
+        transform: translateY(32px);
+        transition:
+          opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+          transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .cta-section.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .cta-section h2 {
+        font-family: var(--display);
+        color: var(--ink);
+        font-weight: 700;
+        font-size: clamp(22px, 3.5vw, 36px);
+        letter-spacing: -0.02em;
+        line-height: 1.12;
+        max-width: 26ch;
+        margin: 0 auto 10px;
+        text-wrap: balance;
+      }
+      .cta-sub {
+        font-size: 16px;
+        color: var(--body);
+        margin-bottom: 32px;
+      }
+      .form-zone-cta {
+        max-width: 380px;
+        margin: 0 auto;
+      }
+      .referral {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 12px;
+      }
+      .manifesto {
+        margin-top: 40px;
+        font-family: var(--display);
+        font-size: clamp(17px, 2.4vw, 21px);
+        font-weight: 700;
+        color: var(--ink);
+        letter-spacing: -0.01em;
+      }
+      .grad {
+        background: linear-gradient(100deg, var(--coral), var(--peach));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      /* ── Footer ── */
+      footer {
+        padding: 24px 24px 48px;
+        border-top: 1px solid var(--hairline);
+        text-align: center;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      footer .motto {
+        display: block;
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 13px;
+        letter-spacing: 0.04em;
+        color: var(--ink);
+        margin-bottom: 6px;
+      }
+      footer a {
+        text-decoration: underline;
+      }
+
+      @media (min-width: 900px) {
+        .hero {
+          padding-top: 80px;
+        }
+        .phone {
+          width: clamp(160px, 18vw, 200px);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .eyebrow,
+        h1,
+        .lede,
+        .stage,
+        .form-zone {
+          animation: none;
+          opacity: 1;
+          transform: none;
+        }
+        .cta-section {
+          opacity: 1;
+          transform: none;
+          transition: none;
+        }
+        .marquee-track {
+          animation: none;
+        }
+        html {
+          scroll-behavior: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="nav-inner">
+        <a class="wordmark" href="#">
+          <img
+            src="product/assets/app-icon.png"
+            alt="REPS"
+            width="26"
+            height="26"
+          />
+          REPS
+        </a>
+        <button class="nav-cta" id="nav-cta">Join the waitlist</button>
+      </div>
+    </nav>
+
+    <main>
+      <!-- ═══════════════════════════════════════════
          SECTION 1: HERO
          Entrance: staggered fade-up animations via CSS @keyframes.
          Phone plays the 5-clip montage (same as v3a).
          Form above fold. Nav CTA focuses hero email.
     ════════════════════════════════════════════ -->
-    <section class="hero" id="hero">
-      <div class="hero-inner">
-        <span class="eyebrow">Bloom scrolling</span>
-        <h1>Finally <span class="grad">remember</span> everything you read, watch, and hear.</h1>
-        <p class="lede">A quick daily game makes it stick. Two minutes a day.</p>
-      </div>
+      <section class="hero" id="hero">
+        <div class="hero-inner">
+          <span class="eyebrow">Bloom scrolling</span>
+          <h1>
+            Finally <span class="grad">remember</span> everything you read,
+            watch, and hear.
+          </h1>
+          <p class="lede">
+            A quick daily game makes it stick. Two minutes a day.
+          </p>
+        </div>
 
-      <div class="stage">
-        <div class="phone">
-          <div class="screen">
-            <video id="hero-vid" muted playsinline preload="auto" aria-hidden="true"></video>
+        <div class="stage">
+          <div class="phone">
+            <div class="screen">
+              <video
+                id="hero-vid"
+                muted
+                playsinline
+                preload="auto"
+                aria-hidden="true"
+              ></video>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="form-zone" id="hero-zone">
-        <form class="signup" id="hero-form" novalidate>
-          <input type="email" id="hero-email" name="email" inputmode="email"
-            autocomplete="email" autocapitalize="off" spellcheck="false"
-            placeholder="Enter your email" required aria-label="Email address"/>
-          <button type="submit">Get early access</button>
-        </form>
-        <p class="err" id="hero-err" role="alert"></p>
-        <p class="reassure">Invite-only early access. One email when your invite's ready. No spam.</p>
-        <div class="success" id="hero-success">
-          <img src="get/assets/echo.png" alt="" aria-hidden="true"/>
-          <span>You're in. We'll email your invite the moment it's ready.</span>
+        <div class="form-zone" id="hero-zone">
+          <form class="signup" id="hero-form" novalidate>
+            <input
+              type="email"
+              id="hero-email"
+              name="email"
+              inputmode="email"
+              autocomplete="email"
+              autocapitalize="off"
+              spellcheck="false"
+              placeholder="Enter your email"
+              required
+              aria-label="Email address"
+            />
+            <button type="submit">Get early access</button>
+          </form>
+          <p class="err" id="hero-err" role="alert"></p>
+          <p class="reassure">
+            Invite-only early access. One email when your invite's ready. No
+            spam.
+          </p>
+          <div class="success" id="hero-success">
+            <img src="get/assets/echo.png" alt="" aria-hidden="true" />
+            <span
+              >You're in. We'll email your invite the moment it's ready.</span
+            >
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- ═══════════════════════════════════════════
+      <!-- ═══════════════════════════════════════════
          SECTION 2: SOCIAL PROOF
          3 quote cards. IntersectionObserver stagger-reveals them
          as they enter the viewport (opacity 0→1, translateY 28→0).
          Each card gets a 120ms delay after the previous.
     ════════════════════════════════════════════ -->
-    <section class="proof" aria-label="What people are saying">
-      <div class="marquee-viewport">
-        <div class="marquee-track">
-          <!-- Set 1 -->
-          <div class="quote-card">
-            <div class="stars">★★★★★</div>
-            <p class="quote-text">"I read constantly, took notes in Apple Notes I never reopened, and retained almost nothing. REPS finally closes the loop."</p>
-            <div class="author">
-              <div class="av">M</div>
-              <div class="author-meta">
-                <span class="author-name">Mike M.</span>
-                <span class="author-role">CEO</span>
+      <section class="proof" aria-label="What people are saying">
+        <div class="marquee-viewport">
+          <div class="marquee-track">
+            <!-- Set 1 -->
+            <div class="quote-card">
+              <div class="stars">★★★★★</div>
+              <p class="quote-text">
+                "I read constantly, took notes in Apple Notes I never reopened,
+                and retained almost nothing. REPS finally closes the loop."
+              </p>
+              <div class="author">
+                <div class="av">M</div>
+                <div class="author-meta">
+                  <span class="author-name">Mike M.</span>
+                  <span class="author-role">CEO</span>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="quote-card">
-            <div class="stars">★★★★★</div>
-            <p class="quote-text">"Things I read years ago resurface exactly when I need them. It's the one scroll I never regret."</p>
-            <div class="author">
-              <div class="av">L</div>
-              <div class="author-meta">
-                <span class="author-name">Lucie D.</span>
-                <span class="author-role">Editor</span>
+            <div class="quote-card">
+              <div class="stars">★★★★★</div>
+              <p class="quote-text">
+                "Things I read years ago resurface exactly when I need them.
+                It's the one scroll I never regret."
+              </p>
+              <div class="author">
+                <div class="av">L</div>
+                <div class="author-meta">
+                  <span class="author-name">Lucie D.</span>
+                  <span class="author-role">Editor</span>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="quote-card">
-            <div class="stars">★★★★★</div>
-            <p class="quote-text">"Everything I read for work and curiosity finally lives in one place. I walk into every room feeling like the sharpest person in it."</p>
-            <div class="author">
-              <div class="av">P</div>
-              <div class="author-meta">
-                <span class="author-name">Pablo</span>
-                <span class="author-role">Architect</span>
+            <div class="quote-card">
+              <div class="stars">★★★★★</div>
+              <p class="quote-text">
+                "Everything I read for work and curiosity finally lives in one
+                place. I walk into every room feeling like the sharpest person
+                in it."
+              </p>
+              <div class="author">
+                <div class="av">P</div>
+                <div class="author-meta">
+                  <span class="author-name">Pablo</span>
+                  <span class="author-role">Architect</span>
+                </div>
               </div>
             </div>
-          </div>
-          <!-- Set 2 (duplicate for seamless loop) -->
-          <div class="quote-card" aria-hidden="true">
-            <div class="stars">★★★★★</div>
-            <p class="quote-text">"I read constantly, took notes in Apple Notes I never reopened, and retained almost nothing. REPS finally closes the loop."</p>
-            <div class="author">
-              <div class="av">M</div>
-              <div class="author-meta">
-                <span class="author-name">Mike M.</span>
-                <span class="author-role">CEO</span>
+            <!-- Set 2 (duplicate for seamless loop) -->
+            <div class="quote-card" aria-hidden="true">
+              <div class="stars">★★★★★</div>
+              <p class="quote-text">
+                "I read constantly, took notes in Apple Notes I never reopened,
+                and retained almost nothing. REPS finally closes the loop."
+              </p>
+              <div class="author">
+                <div class="av">M</div>
+                <div class="author-meta">
+                  <span class="author-name">Mike M.</span>
+                  <span class="author-role">CEO</span>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="quote-card" aria-hidden="true">
-            <div class="stars">★★★★★</div>
-            <p class="quote-text">"Things I read years ago resurface exactly when I need them. It's the one scroll I never regret."</p>
-            <div class="author">
-              <div class="av">L</div>
-              <div class="author-meta">
-                <span class="author-name">Lucie D.</span>
-                <span class="author-role">Editor</span>
+            <div class="quote-card" aria-hidden="true">
+              <div class="stars">★★★★★</div>
+              <p class="quote-text">
+                "Things I read years ago resurface exactly when I need them.
+                It's the one scroll I never regret."
+              </p>
+              <div class="author">
+                <div class="av">L</div>
+                <div class="author-meta">
+                  <span class="author-name">Lucie D.</span>
+                  <span class="author-role">Editor</span>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="quote-card" aria-hidden="true">
-            <div class="stars">★★★★★</div>
-            <p class="quote-text">"Everything I read for work and curiosity finally lives in one place. I walk into every room feeling like the sharpest person in it."</p>
-            <div class="author">
-              <div class="av">P</div>
-              <div class="author-meta">
-                <span class="author-name">Pablo</span>
-                <span class="author-role">Architect</span>
+            <div class="quote-card" aria-hidden="true">
+              <div class="stars">★★★★★</div>
+              <p class="quote-text">
+                "Everything I read for work and curiosity finally lives in one
+                place. I walk into every room feeling like the sharpest person
+                in it."
+              </p>
+              <div class="author">
+                <div class="av">P</div>
+                <div class="author-meta">
+                  <span class="author-name">Pablo</span>
+                  <span class="author-role">Architect</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- ═══════════════════════════════════════════
+      <!-- ═══════════════════════════════════════════
          SECTION 3: STACKED CARD BEATS
          Architecture:
            - #stack-wrapper is 400vh tall (drives scroll)
@@ -509,257 +921,344 @@
          progress. Current card fills the viewport below the tab strip.
          Each card has its own background tint and accent color.
     ════════════════════════════════════════════ -->
-    <div class="beats-label">
-      <div class="section-eyebrow">How it works</div>
-      <h2>Everything you save, remembered.</h2>
-    </div>
+      <div class="beats-label">
+        <div class="section-eyebrow">How it works</div>
+        <h2>Everything you save, remembered.</h2>
+      </div>
 
-    <div id="stack-wrapper">
-      <div id="stack-stage">
-
-        <!-- Card 0: SAVE — coral tint -->
-        <div class="beat-card" id="bc-save" style="z-index:1">
-          <div class="bc-inner">
-            <div class="bc-copy">
-              <span class="bc-verb">Save</span>
-              <h2>Save anything<br>in one tap.</h2>
-              <p>A book, an article, a YouTube video, a podcast. Share anything into REPS from wherever you scroll. It pulls out what's worth keeping.</p>
+      <div id="stack-wrapper">
+        <div id="stack-stage">
+          <!-- Card 0: SAVE — coral tint -->
+          <div class="beat-card" id="bc-save" style="z-index: 1">
+            <div class="bc-inner">
+              <div class="bc-copy">
+                <span class="bc-verb">Save</span>
+                <h2>Save anything<br />in one tap.</h2>
+                <p>
+                  A book, an article, a YouTube video, a podcast. Share anything
+                  into REPS from wherever you scroll. It pulls out what's worth
+                  keeping.
+                </p>
+              </div>
+              <div class="bc-phone-wrap">
+                <div class="bc-phone">
+                  <div class="screen">
+                    <video
+                      src="beats/save-composite.mp4"
+                      autoplay
+                      muted
+                      loop
+                      playsinline
+                      preload="metadata"
+                      aria-hidden="true"
+                    ></video>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="bc-phone-wrap">
-              <div class="bc-phone">
-                <div class="screen">
-                  <video src="beats/save-share-ext.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+          </div>
+
+          <!-- Card 1: REMEMBER — teal tint -->
+          <div class="beat-card" id="bc-remember" style="z-index: 2">
+            <div class="bc-inner">
+              <div class="bc-copy">
+                <span class="bc-verb">Remember</span>
+                <h2>It comes back,<br />right before you'd forget.</h2>
+                <p>
+                  REPS asks you a few questions a day, timed to the exact moment
+                  a memory starts to fade. That's spaced repetition. That's how
+                  the best ideas stick for life.
+                </p>
+              </div>
+              <div class="bc-phone-wrap">
+                <div class="bc-phone">
+                  <div class="screen">
+                    <video
+                      src="beats/quiz-all-sped.mp4"
+                      autoplay
+                      muted
+                      loop
+                      playsinline
+                      preload="metadata"
+                      aria-hidden="true"
+                    ></video>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: PLAY — amber tint -->
+          <div class="beat-card" id="bc-play" style="z-index: 3">
+            <div class="bc-inner">
+              <div class="bc-copy">
+                <span class="bc-verb">Play</span>
+                <h2>Remembering<br />feels like a game.</h2>
+                <p>
+                  Daily games built from what you've saved. Crosswords, recall
+                  challenges, head-to-heads with friends. The more you play, the
+                  more you keep.
+                </p>
+              </div>
+              <div class="bc-phone-wrap">
+                <div class="bc-phone">
+                  <div class="screen">
+                    <video
+                      src="beats/game-crossword.mp4"
+                      autoplay
+                      muted
+                      loop
+                      playsinline
+                      preload="metadata"
+                      aria-hidden="true"
+                    ></video>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: DISCOVER — indigo tint -->
+          <div class="beat-card" id="bc-discover" style="z-index: 4">
+            <div class="bc-inner">
+              <div class="bc-copy">
+                <span class="bc-verb">Discover</span>
+                <h2>See what your friends<br />are actually reading.</h2>
+                <p>
+                  A feed of high-quality content from the people you trust, not
+                  the algorithm. No outrage. No doom. Just things that make you
+                  sharper.
+                </p>
+              </div>
+              <div class="bc-phone-wrap">
+                <div class="bc-phone">
+                  <div class="screen">
+                    <video
+                      src="beats/constellation.mp4"
+                      autoplay
+                      muted
+                      loop
+                      playsinline
+                      preload="metadata"
+                      aria-hidden="true"
+                    ></video>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <!-- /#stack-stage -->
+      </div>
+      <!-- /#stack-wrapper -->
 
-        <!-- Card 1: REMEMBER — teal tint -->
-        <div class="beat-card" id="bc-remember" style="z-index:2">
-          <div class="bc-inner">
-            <div class="bc-copy">
-              <span class="bc-verb">Remember</span>
-              <h2>It comes back,<br>right before you'd forget.</h2>
-              <p>REPS asks you a few questions a day, timed to the exact moment a memory starts to fade. That's spaced repetition. That's how the best ideas stick for life.</p>
-            </div>
-            <div class="bc-phone-wrap">
-              <div class="bc-phone">
-                <div class="screen">
-                  <video src="beats/quiz-all-sped.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Card 2: PLAY — amber tint -->
-        <div class="beat-card" id="bc-play" style="z-index:3">
-          <div class="bc-inner">
-            <div class="bc-copy">
-              <span class="bc-verb">Play</span>
-              <h2>Remembering<br>feels like a game.</h2>
-              <p>Daily games built from what you've saved. Crosswords, recall challenges, head-to-heads with friends. The more you play, the more you keep.</p>
-            </div>
-            <div class="bc-phone-wrap">
-              <div class="bc-phone">
-                <div class="screen">
-                  <video src="beats/game-crossword.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Card 3: DISCOVER — indigo tint -->
-        <div class="beat-card" id="bc-discover" style="z-index:4">
-          <div class="bc-inner">
-            <div class="bc-copy">
-              <span class="bc-verb">Discover</span>
-              <h2>See what your friends<br>are actually reading.</h2>
-              <p>A feed of high-quality content from the people you trust, not the algorithm. No outrage. No doom. Just things that make you sharper.</p>
-            </div>
-            <div class="bc-phone-wrap">
-              <div class="bc-phone">
-                <div class="screen">
-                  <video src="beats/constellation.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div><!-- /#stack-stage -->
-    </div><!-- /#stack-wrapper -->
-
-    <!-- ═══════════════════════════════════════════
+      <!-- ═══════════════════════════════════════════
          SECTION 4: CTA
          IntersectionObserver reveals the section as it enters
          the viewport (fade up). Same form + reassurance + manifesto.
     ════════════════════════════════════════════ -->
-    <section class="cta-section" id="cta-section">
-      <h2>Most apps compete for your attention. REPS compounds it.</h2>
-      <p class="cta-sub">Join the waitlist. One email when your invite's ready.</p>
+      <section class="cta-section" id="cta-section">
+        <h2>Most apps compete for your attention. REPS compounds it.</h2>
+        <p class="cta-sub">
+          Join the waitlist. One email when your invite's ready.
+        </p>
 
-      <div class="form-zone-cta" id="cta-zone">
-        <form class="signup" id="cta-form" novalidate>
-          <input type="email" id="cta-email" name="email" inputmode="email"
-            autocomplete="email" autocapitalize="off" spellcheck="false"
-            placeholder="Enter your email" required aria-label="Email address"/>
-          <button type="submit">Get early access</button>
-        </form>
-        <p class="err" id="cta-err" role="alert"></p>
-        <p class="reassure">No spam, ever. One email when your invite lands.</p>
-        <div class="success" id="cta-success">
-          <img src="get/assets/echo.png" alt="" aria-hidden="true"/>
-          <span>You're in. We'll email your invite the moment it's ready.</span>
+        <div class="form-zone-cta" id="cta-zone">
+          <form class="signup" id="cta-form" novalidate>
+            <input
+              type="email"
+              id="cta-email"
+              name="email"
+              inputmode="email"
+              autocomplete="email"
+              autocapitalize="off"
+              spellcheck="false"
+              placeholder="Enter your email"
+              required
+              aria-label="Email address"
+            />
+            <button type="submit">Get early access</button>
+          </form>
+          <p class="err" id="cta-err" role="alert"></p>
+          <p class="reassure">
+            No spam, ever. One email when your invite lands.
+          </p>
+          <div class="success" id="cta-success">
+            <img src="get/assets/echo.png" alt="" aria-hidden="true" />
+            <span
+              >You're in. We'll email your invite the moment it's ready.</span
+            >
+          </div>
         </div>
-      </div>
 
-      <p class="referral">The list moves. Bring friends and skip ahead.</p>
-      <p class="manifesto">Stop doom scrolling. Start <span class="grad">bloom scrolling.</span></p>
-    </section>
+        <p class="referral">The list moves. Bring friends and skip ahead.</p>
+        <p class="manifesto">
+          Stop doom scrolling. Start <span class="grad">bloom scrolling.</span>
+        </p>
+      </section>
+    </main>
 
-  </main>
+    <footer>
+      <span class="motto">Save. Play. Remember.</span>
+      REPS · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
+    </footer>
 
-  <footer>
-    <span class="motto">Save. Play. Remember.</span>
-    REPS · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
-  </footer>
+    <script>
+      /* ─── Nav CTA → focus hero email ─── */
+      document.getElementById("nav-cta").addEventListener("click", function () {
+        var el = document.getElementById("hero-email");
+        document
+          .getElementById("hero")
+          .scrollIntoView({ behavior: "smooth", block: "start" });
+        setTimeout(function () {
+          el.focus();
+        }, 380);
+      });
 
-  <script>
-    /* ─── Nav CTA → focus hero email ─── */
-    document.getElementById('nav-cta').addEventListener('click', function () {
-      var el = document.getElementById('hero-email');
-      document.getElementById('hero').scrollIntoView({ behavior: 'smooth', block: 'start' });
-      setTimeout(function () { el.focus(); }, 380);
-    });
+      /* ─── Hero video montage (same as v3a) ─── */
+      var heroClips = [
+        "beats/save-bookshelf-found.mp4",
+        "beats/save-share-ext.mp4",
+        "beats/quiz-all-sped.mp4",
+        "beats/game-crossword.mp4",
+        "beats/constellation.mp4",
+      ];
+      var heroIdx = 0;
+      var heroVid = document.getElementById("hero-vid");
+      var FADE = 500;
 
-    /* ─── Hero video montage (same as v3a) ─── */
-    var heroClips = [
-      'beats/save-bookshelf-found.mp4',
-      'beats/save-share-ext.mp4',
-      'beats/quiz-all-sped.mp4',
-      'beats/game-crossword.mp4',
-      'beats/constellation.mp4'
-    ];
-    var heroIdx = 0;
-    var heroVid = document.getElementById('hero-vid');
-    var FADE = 500;
-
-    function nextClip() {
-      heroVid.style.opacity = '0';
-      heroIdx = (heroIdx + 1) % heroClips.length;
+      function nextClip() {
+        heroVid.style.opacity = "0";
+        heroIdx = (heroIdx + 1) % heroClips.length;
+        setTimeout(function () {
+          heroVid.src = heroClips[heroIdx];
+          heroVid.play().catch(function () {});
+          setTimeout(function () {
+            heroVid.style.opacity = "1";
+          }, 120);
+        }, FADE);
+      }
+      heroVid.addEventListener("ended", nextClip);
+      heroVid.style.opacity = "0";
+      heroVid.src = heroClips[0];
+      heroVid.play().catch(function () {});
       setTimeout(function () {
-        heroVid.src = heroClips[heroIdx];
-        heroVid.play().catch(function () {});
-        setTimeout(function () { heroVid.style.opacity = '1'; }, 120);
-      }, FADE);
-    }
-    heroVid.addEventListener('ended', nextClip);
-    heroVid.style.opacity = '0';
-    heroVid.src = heroClips[0];
-    heroVid.play().catch(function () {});
-    setTimeout(function () { heroVid.style.opacity = '1'; }, 120);
+        heroVid.style.opacity = "1";
+      }, 120);
 
-    /* ─── IntersectionObserver: CTA section reveal ─── */
-    var revealObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15 });
-    revealObserver.observe(document.getElementById('cta-section'));
+      /* ─── IntersectionObserver: CTA section reveal ─── */
+      var revealObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.15 },
+      );
+      revealObserver.observe(document.getElementById("cta-section"));
 
-    /* ─── Stacked card scroll mechanic ─── */
-    var stackWrapper = document.getElementById('stack-wrapper');
-    var beatCards = Array.from(document.querySelectorAll('.beat-card'));
-    var PEEK = 60; // px of previous card peeking above current
+      /* ─── Stacked card scroll mechanic ─── */
+      var stackWrapper = document.getElementById("stack-wrapper");
+      var beatCards = Array.from(document.querySelectorAll(".beat-card"));
+      var PEEK = 60; // px of previous card peeking above current
 
-    // Set initial positions — card 0 visible, rest below viewport
-    beatCards.forEach(function (card, i) {
-      if (i === 0) {
-        card.style.transform = 'translateY(0)';
-      } else {
-        card.style.transform = 'translateY(100vh)';
-      }
-    });
-
-    function lerp(a, b, t) { return a + (b - a) * t; }
-    function clamp(x, lo, hi) { return x < lo ? lo : x > hi ? hi : x; }
-
-    // Ease function: smooth deceleration (easeOutCubic)
-    function ease(t) { return 1 - Math.pow(1 - t, 3); }
-
-    function updateStack() {
-      var rect = stackWrapper.getBoundingClientRect();
-      var scrolled = Math.max(0, -rect.top);
-      var vh = window.innerHeight;
-      var n = beatCards.length;
-
+      // Set initial positions — card 0 visible, rest below viewport
       beatCards.forEach(function (card, i) {
-        var enterProgress;
         if (i === 0) {
-          enterProgress = 1; // always entered
+          card.style.transform = "translateY(0)";
         } else {
-          enterProgress = ease(clamp((scrolled - (i - 1) * vh) / vh, 0, 1));
+          card.style.transform = "translateY(100vh)";
         }
-
-        // Final resting position when fully entered: i * PEEK from top
-        var ty = lerp(vh, i * PEEK, enterProgress);
-        card.style.transform = 'translateY(' + ty + 'px)';
       });
-    }
 
-    // Use requestAnimationFrame for smooth 60fps updates
-    var stackTicking = false;
-    function onStackScroll() {
-      if (!stackTicking) {
-        requestAnimationFrame(function () {
-          updateStack();
-          stackTicking = false;
-        });
-        stackTicking = true;
+      function lerp(a, b, t) {
+        return a + (b - a) * t;
       }
-    }
+      function clamp(x, lo, hi) {
+        return x < lo ? lo : x > hi ? hi : x;
+      }
 
-    window.addEventListener('scroll', onStackScroll, { passive: true });
-    window.addEventListener('resize', updateStack);
-    updateStack(); // Initial state
+      // Ease function: smooth deceleration (easeOutCubic)
+      function ease(t) {
+        return 1 - Math.pow(1 - t, 3);
+      }
 
-    /* ─── Waitlist form wiring ─── */
-    var WL = 'https://waitlister.me/s/1IFflE5ASXo6';
+      function updateStack() {
+        var rect = stackWrapper.getBoundingClientRect();
+        var scrolled = Math.max(0, -rect.top);
+        var vh = window.innerHeight;
+        var n = beatCards.length;
 
-    function wireForm(formId, emailId, errId, zoneId) {
-      var form = document.getElementById(formId);
-      if (!form) return;
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        var email = document.getElementById(emailId).value.trim();
-        var errEl = document.getElementById(errId);
-        errEl.textContent = '';
-        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-          errEl.textContent = 'Please enter a valid email address.';
-          return;
+        beatCards.forEach(function (card, i) {
+          var enterProgress;
+          if (i === 0) {
+            enterProgress = 1; // always entered
+          } else {
+            enterProgress = ease(clamp((scrolled - (i - 1) * vh) / vh, 0, 1));
+          }
+
+          // Final resting position when fully entered: i * PEEK from top
+          var ty = lerp(vh, i * PEEK, enterProgress);
+          card.style.transform = "translateY(" + ty + "px)";
+        });
+      }
+
+      // Use requestAnimationFrame for smooth 60fps updates
+      var stackTicking = false;
+      function onStackScroll() {
+        if (!stackTicking) {
+          requestAnimationFrame(function () {
+            updateStack();
+            stackTicking = false;
+          });
+          stackTicking = true;
         }
-        var btn = form.querySelector('button');
-        btn.disabled = true;
-        btn.textContent = 'Joining…';
-        fetch(WL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify({ email: email })
-        })
-          .then(function () { document.getElementById(zoneId).classList.add('form-done'); })
-          .catch(function () { document.getElementById(zoneId).classList.add('form-done'); });
-      });
-    }
+      }
 
-    wireForm('hero-form', 'hero-email', 'hero-err', 'hero-zone');
-    wireForm('cta-form', 'cta-email', 'cta-err', 'cta-zone');
-  </script>
+      window.addEventListener("scroll", onStackScroll, { passive: true });
+      window.addEventListener("resize", updateStack);
+      updateStack(); // Initial state
 
-</body>
+      /* ─── Waitlist form wiring ─── */
+      var WL = "https://waitlister.me/s/1IFflE5ASXo6";
+
+      function wireForm(formId, emailId, errId, zoneId) {
+        var form = document.getElementById(formId);
+        if (!form) return;
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          var email = document.getElementById(emailId).value.trim();
+          var errEl = document.getElementById(errId);
+          errEl.textContent = "";
+          if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            errEl.textContent = "Please enter a valid email address.";
+            return;
+          }
+          var btn = form.querySelector("button");
+          btn.disabled = true;
+          btn.textContent = "Joining…";
+          fetch(WL, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+            body: JSON.stringify({ email: email }),
+          })
+            .then(function () {
+              document.getElementById(zoneId).classList.add("form-done");
+            })
+            .catch(function () {
+              document.getElementById(zoneId).classList.add("form-done");
+            });
+        });
+      }
+
+      wireForm("hero-form", "hero-email", "hero-err", "hero-zone");
+      wireForm("cta-form", "cta-email", "cta-err", "cta-zone");
+    </script>
+  </body>
 </html>
