@@ -190,6 +190,13 @@
         text-wrap: balance;
         animation: fadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.22s both;
       }
+      .tagline {
+        font-size: clamp(13px, 1.6vw, 16px);
+        color: var(--muted);
+        line-height: 1.5;
+        margin: 0 auto 12px;
+        animation: fadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+      }
 
       /* Phone stage — animated */
       .stage {
@@ -596,13 +603,13 @@
       }
       /* CTA section: starts with the discover-card blue and fades to cream */
       .cta-section::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 0;
         right: 0;
         height: 280px;
-        background: linear-gradient(to bottom, #eceffe, rgba(236,239,254,0));
+        background: linear-gradient(to bottom, #eceffe, rgba(236, 239, 254, 0));
         pointer-events: none;
         z-index: 0;
       }
@@ -628,7 +635,10 @@
         }
         .bc-phone {
           /* min(): prefer 22vw/270px but shrink if viewport height is short */
-          width: min(clamp(200px, 22vw, 270px), calc((100vh - 160px) * 540 / 1170));
+          width: min(
+            clamp(200px, 22vw, 270px),
+            calc((100vh - 160px) * 540 / 1170)
+          );
         }
       }
 
@@ -765,13 +775,10 @@
     ════════════════════════════════════════════ -->
       <section class="hero" id="hero">
         <div class="hero-inner">
-          <span class="eyebrow">Supercharge your memory</span>
-          <h1>
-            Finally <span class="grad">remember</span> everything you read,
-            watch, and hear.
-          </h1>
+          <span class="eyebrow">Your second brain</span>
+          <h1>Supercharge your <span class="grad">memory</span></h1>
           <p class="lede">
-            A quick daily game makes it stick. Two minutes a day.
+            Finally remember everything you read, watch, and hear.
           </p>
         </div>
 
@@ -788,6 +795,10 @@
             </div>
           </div>
         </div>
+
+        <p class="tagline">
+          A quick daily game makes it stick. Two minutes a day.
+        </p>
 
         <div class="form-zone" id="hero-zone">
           <form class="signup" id="hero-form" novalidate>
@@ -875,9 +886,9 @@
             <div class="quote-card">
               <div class="stars">★★★★★</div>
               <p class="quote-text">
-                "The crossword and cryptic are a fun part of my daily routine
-                I look forward to, especially since they're based on the
-                content I've saved."
+                "The crossword and cryptic are a fun part of my daily routine I
+                look forward to, especially since they're based on the content
+                I've saved."
               </p>
               <div class="author">
                 <div class="av">N</div>
@@ -890,8 +901,8 @@
             <div class="quote-card">
               <div class="stars">★★★★★</div>
               <p class="quote-text">
-                "A great way to discover content worth thinking deeply about
-                and actually remember it. Changed how I read."
+                "A great way to discover content worth thinking deeply about and
+                actually remember it. Changed how I read."
               </p>
               <div class="author">
                 <div class="av">G</div>
@@ -948,9 +959,9 @@
             <div class="quote-card" aria-hidden="true">
               <div class="stars">★★★★★</div>
               <p class="quote-text">
-                "The crossword and cryptic are a fun part of my daily routine
-                I look forward to, especially since they're based on the
-                content I've saved."
+                "The crossword and cryptic are a fun part of my daily routine I
+                look forward to, especially since they're based on the content
+                I've saved."
               </p>
               <div class="author">
                 <div class="av">N</div>
@@ -963,8 +974,8 @@
             <div class="quote-card" aria-hidden="true">
               <div class="stars">★★★★★</div>
               <p class="quote-text">
-                "A great way to discover content worth thinking deeply about
-                and actually remember it. Changed how I read."
+                "A great way to discover content worth thinking deeply about and
+                actually remember it. Changed how I read."
               </p>
               <div class="author">
                 <div class="av">G</div>
@@ -1134,7 +1145,10 @@
          the viewport (fade up). Same form + reassurance + manifesto.
     ════════════════════════════════════════════ -->
       <section class="cta-section" id="cta-section">
-        <h2>Most apps compete for your attention. <span class="grad">REPS compounds it.</span></h2>
+        <h2>
+          Most apps compete for your attention.
+          <span class="grad">REPS compounds it.</span>
+        </h2>
         <p class="cta-sub">
           Join the waitlist. One email when your invite's ready.
         </p>
@@ -1169,7 +1183,8 @@
 
         <p class="referral">The list moves. Bring friends and skip ahead.</p>
         <p class="manifesto">
-          Stop <s>doom scrolling</s>. Start <span class="grad">bloom scrolling.</span>
+          Stop <s>doom scrolling</s>. Start
+          <span class="grad">bloom scrolling.</span>
         </p>
       </section>
     </main>
