@@ -170,8 +170,9 @@
 
     /* ── Proof — auto-scrolling marquee of quote cards ── */
     .proof {
-      padding: 48px 0;
-      background: var(--cream); /* same as hero, no visible band */
+      padding: 48px 0 64px;
+      /* fade from cream (hero above) into #FFECE8 (beats-label below) — no hard cut */
+      background: linear-gradient(to bottom, var(--cream) 0%, var(--cream) 45%, #FFECE8 100%);
       overflow: hidden;
     }
     /* Edge fade so cards glide in/out instead of hard-clipping */
