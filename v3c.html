@@ -591,7 +591,18 @@
       }
       #bc-discover {
         --card-accent: #4c5fab;
-        background: linear-gradient(to bottom, #eceffe 60%, #fffaf7 100%);
+        background: #eceffe;
+      }
+      #bc-discover::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 220px;
+        background: linear-gradient(to bottom, transparent, #fffaf7);
+        pointer-events: none;
+        z-index: 2;
       }
 
       /* Desktop: copy and phone side by side within the card */
@@ -857,8 +868,9 @@
             <div class="quote-card">
               <div class="stars">★★★★★</div>
               <p class="quote-text">
-                "The crossword and cryptic are the most fun I've had with an
-                app in years. I do them every morning. Things actually stick."
+                "The crossword and cryptic are a fun part of my daily routine
+                I look forward to, especially since they're based on the
+                content I've saved."
               </p>
               <div class="author">
                 <div class="av">N</div>
@@ -929,8 +941,9 @@
             <div class="quote-card" aria-hidden="true">
               <div class="stars">★★★★★</div>
               <p class="quote-text">
-                "The crossword and cryptic are the most fun I've had with an
-                app in years. I do them every morning. Things actually stick."
+                "The crossword and cryptic are a fun part of my daily routine
+                I look forward to, especially since they're based on the
+                content I've saved."
               </p>
               <div class="author">
                 <div class="av">N</div>
