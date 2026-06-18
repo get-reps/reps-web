@@ -1,75 +1,162 @@
 <!doctype html>
 <html>
-<head>
-<meta charset="utf-8"/>
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body { width: 1200px; height: 630px; overflow: hidden; }
-  body {
-    background: #fffaf7;
-    font-family: "Space Grotesk", system-ui, -apple-system, sans-serif;
-    display: flex; align-items: center;
-    padding: 0 80px;
-    gap: 60px;
-  }
-  .left { flex: 1; }
-  .logo { display: flex; align-items: center; gap: 10px; margin-bottom: 36px; }
-  .logo img { width: 40px; height: 40px; border-radius: 10px; box-shadow: 0 2px 8px rgba(33,26,20,.14); }
-  .logo-text { font-weight: 700; font-size: 22px; letter-spacing: 0.04em; color: #211a14; }
-  .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #ff6b6b; margin-bottom: 18px; }
-  h1 { font-weight: 700; font-size: 54px; line-height: 1.04; letter-spacing: -0.025em; color: #211a14; margin-bottom: 22px; }
-  .grad { background: linear-gradient(100deg, #ff6b6b, #ff8e53); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-  .sub { font-size: 20px; color: rgba(33,26,20,.68); line-height: 1.5; }
-  .badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    margin-top: 36px;
-    background: linear-gradient(135deg, #ff6b6b, #ff8e53);
-    color: #fff; font-weight: 600; font-size: 17px;
-    padding: 12px 26px; border-radius: 999px;
-    box-shadow: 0 4px 20px -4px rgba(255,107,107,.45);
-  }
-  .right {
-    flex: none; width: 320px;
-    display: flex; align-items: center; justify-content: center;
-    position: relative;
-  }
-  .right::before {
-    content: "";
-    position: absolute; left: -10%; right: -10%; top: 5%; bottom: 5%;
-    background: radial-gradient(ellipse, rgba(255,107,107,.14) 0%, transparent 70%);
-    filter: blur(28px);
-  }
-  .phone {
-    position: relative; z-index: 1;
-    width: 240px;
-    background: #0a0a10; border-radius: 36px; padding: 6px;
-    box-shadow: 0 4px 16px rgba(33,26,20,.14), 0 28px 64px -20px rgba(33,26,20,.36);
-  }
-  .screen {
-    width: 100%; aspect-ratio: 540/1170; border-radius: 30px;
-    overflow: hidden; background: #040409;
-  }
-  .screen img { width: 100%; height: 100%; object-fit: cover; }
-</style>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet"/>
-</head>
-<body>
-  <div class="left">
-    <div class="logo">
-      <img src="product/assets/app-icon.png" alt="REPS"/>
-      <span class="logo-text">REPS</span>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+      }
+      body {
+        background: #fffaf7;
+        font-family:
+          "Space Grotesk",
+          system-ui,
+          -apple-system,
+          sans-serif;
+        display: flex;
+        align-items: center;
+        padding: 0 80px;
+        gap: 60px;
+      }
+      .left {
+        flex: 1;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 36px;
+      }
+      .logo img {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(33, 26, 20, 0.14);
+      }
+      .logo-text {
+        font-weight: 700;
+        font-size: 22px;
+        letter-spacing: 0.04em;
+        color: #211a14;
+      }
+      .eyebrow {
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #ff6b6b;
+        margin-bottom: 18px;
+      }
+      h1 {
+        font-weight: 700;
+        font-size: 54px;
+        line-height: 1.04;
+        letter-spacing: -0.025em;
+        color: #211a14;
+        margin-bottom: 22px;
+      }
+      .grad {
+        background: linear-gradient(100deg, #ff6b6b, #ff8e53);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .sub {
+        font-size: 20px;
+        color: rgba(33, 26, 20, 0.68);
+        line-height: 1.5;
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 36px;
+        background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+        color: #fff;
+        font-weight: 600;
+        font-size: 17px;
+        padding: 12px 26px;
+        border-radius: 999px;
+        box-shadow: 0 4px 20px -4px rgba(255, 107, 107, 0.45);
+      }
+      .right {
+        flex: none;
+        width: 320px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+      .right::before {
+        content: "";
+        position: absolute;
+        left: -10%;
+        right: -10%;
+        top: 5%;
+        bottom: 5%;
+        background: radial-gradient(
+          ellipse,
+          rgba(255, 107, 107, 0.14) 0%,
+          transparent 70%
+        );
+        filter: blur(28px);
+      }
+      .phone {
+        position: relative;
+        z-index: 1;
+        width: 240px;
+        background: #0a0a10;
+        border-radius: 36px;
+        padding: 6px;
+        box-shadow:
+          0 4px 16px rgba(33, 26, 20, 0.14),
+          0 28px 64px -20px rgba(33, 26, 20, 0.36);
+      }
+      .screen {
+        width: 100%;
+        aspect-ratio: 540/1170;
+        border-radius: 30px;
+        overflow: hidden;
+        background: #040409;
+      }
+      .screen img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    </style>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="left">
+      <div class="logo">
+        <img src="product/assets/app-icon.png" alt="REPS" />
+        <span class="logo-text">REPS</span>
+      </div>
+      <div class="eyebrow">Your second brain</div>
+      <h1>Supercharge your <span class="grad">memory</span></h1>
+      <p class="sub">
+        Finally remember everything you read,<br />watch, and hear.
+      </p>
+      <div class="badge">Join the waitlist</div>
     </div>
-    <div class="eyebrow">Bloom scrolling</div>
-    <h1>Finally <span class="grad">remember</span><br>everything<br>you read.</h1>
-    <p class="sub">A quick daily game makes it stick.<br>Two minutes a day.</p>
-    <div class="badge">Join the waitlist</div>
-  </div>
-  <div class="right">
-    <div class="phone">
-      <div class="screen">
-        <img src="beats/quiz-frame.jpg" alt=""/>
+    <div class="right">
+      <div class="phone">
+        <div class="screen">
+          <img src="beats/quiz-frame.jpg" alt="" />
+        </div>
       </div>
     </div>
-  </div>
-</body>
+  </body>
 </html>
