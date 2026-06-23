@@ -244,8 +244,8 @@
         <div class="stage reveal">
           <div class="phone">
             <div class="screen">
-              <video src="/get/assets/training.mp4" poster="/get/assets/game-poster.jpg"
-                autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+              <video src="/get/assets/quiz-all-sped.mp4" poster="/get/assets/quiz-frame.jpg"
+                autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
             </div>
           </div>
         </div>
@@ -470,9 +470,17 @@
         }
         document.querySelectorAll("[data-signup]").forEach(wireForm);
 
-        if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-          document.querySelectorAll(".phone video").forEach(function (v) { v.removeAttribute("autoplay"); try { v.pause(); } catch (e) {} });
-        }
+        // The hero product demo plays for everyone — it is the core value shown (muted, looping,
+        // contained in a phone frame), not decorative chrome. Reduced-motion is respected by the
+        // entrance/scroll reveals (gated by `anim-ready`) + the button transitions, not by freezing
+        // the demo. Nudge .play() for strict autoplay policies, with a one-time tap fallback.
+        document.querySelectorAll(".phone video").forEach(function (v) {
+          var tryPlay = function () { var p = v.play(); if (p && typeof p.catch === "function") p.catch(function () {}); };
+          tryPlay();
+          v.addEventListener("canplay", tryPlay, { once: true });
+          window.addEventListener("pointerdown", tryPlay, { once: true });
+          window.addEventListener("touchstart", tryPlay, { once: true });
+        });
       })();
     </script>
   </body>
