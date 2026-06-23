@@ -139,7 +139,7 @@
         width: 100%; aspect-ratio: 540 / 1170; /* exact clip aspect → zero crop */
         border-radius: 24px; overflow: hidden; background: var(--galaxy);
       }
-      .phone .screen video { width: 100%; height: 100%; object-fit: cover; }
+      .phone .screen video { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.5s ease-in-out; }
       /* perched Echo on the email bar (animated canvas, brand-faithful) */
       [data-signup] { position: relative; }
       .hero [data-signup] { margin-top: 28px; }
@@ -244,8 +244,7 @@
         <div class="stage reveal">
           <div class="phone">
             <div class="screen">
-              <video src="/get/assets/quiz-all-sped.mp4" poster="/get/assets/quiz-frame.jpg"
-                autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
+              <video id="hero-vid" muted playsinline preload="auto" aria-hidden="true"></video>
             </div>
           </div>
         </div>
@@ -470,17 +469,37 @@
         }
         document.querySelectorAll("[data-signup]").forEach(wireForm);
 
-        // The hero product demo plays for everyone — it is the core value shown (muted, looping,
-        // contained in a phone frame), not decorative chrome. Reduced-motion is respected by the
-        // entrance/scroll reveals (gated by `anim-ready`) + the button transitions, not by freezing
-        // the demo. Nudge .play() for strict autoplay policies, with a one-time tap fallback.
-        document.querySelectorAll(".phone video").forEach(function (v) {
-          var tryPlay = function () { var p = v.play(); if (p && typeof p.catch === "function") p.catch(function () {}); };
-          tryPlay();
-          v.addEventListener("canplay", tryPlay, { once: true });
-          window.addEventListener("pointerdown", tryPlay, { once: true });
-          window.addEventListener("touchstart", tryPlay, { once: true });
-        });
+        // Hero video montage — EXACT same composition as the getreps.io homepage:
+        // same 5 clips, same 0.5s cross-fade, same 0.7x rate, advance on `ended`.
+        // (Only difference: /beats paths are absolute since this page isn't at root.)
+        var heroClips = [
+          "/beats/save-bookshelf-found.mp4",
+          "/beats/save-share-ext.mp4",
+          "/beats/quiz-all-sped.mp4",
+          "/beats/game-crossword.mp4",
+          "/beats/constellation.mp4"
+        ];
+        var heroIdx = 0;
+        var heroVid = document.getElementById("hero-vid");
+        if (heroVid) {
+          var FADE = 500;
+          var HERO_RATE = 0.7; /* 30% slower — playbackRate resets per src, so reapply on load */
+          heroVid.addEventListener("loadeddata", function () { heroVid.playbackRate = HERO_RATE; });
+          var nextClip = function () {
+            heroVid.style.opacity = "0";
+            heroIdx = (heroIdx + 1) % heroClips.length;
+            setTimeout(function () {
+              heroVid.src = heroClips[heroIdx];
+              heroVid.play().catch(function () {});
+              setTimeout(function () { heroVid.style.opacity = "1"; }, 120);
+            }, FADE);
+          };
+          heroVid.addEventListener("ended", nextClip);
+          heroVid.style.opacity = "0";
+          heroVid.src = heroClips[0];
+          heroVid.play().catch(function () {});
+          setTimeout(function () { heroVid.style.opacity = "1"; }, 120);
+        }
       })();
     </script>
   </body>
