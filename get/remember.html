@@ -159,8 +159,9 @@
         background: linear-gradient(135deg, var(--coral) 0%, var(--peach) 100%);
         color: #fff; font-family: var(--sans); font-weight: 600; font-size: 16px; letter-spacing: 0.2px; cursor: pointer;
         box-shadow: 0 6px 16px -6px rgba(255, 107, 107, 0.28);
-        transition: transform 0.12s ease, opacity 0.12s ease;
+        transition: transform 0.13s ease, box-shadow 0.16s ease, opacity 0.12s ease;
       }
+      .signup button:hover { transform: translateY(-1px); box-shadow: 0 10px 22px -8px rgba(255, 107, 107, 0.42); }
       .signup button:active { transform: translateY(1px) scale(0.995); }
       .signup button[disabled] { opacity: 0.6; cursor: default; }
       .reassure { font-size: 13px; color: var(--muted); margin-top: 2px; }
@@ -198,10 +199,34 @@
       footer .motto { display: block; margin-bottom: 6px; font-family: var(--display); font-weight: 600; letter-spacing: 0.04em; }
       footer a { color: var(--muted); text-decoration: underline; }
 
-      @media (prefers-reduced-motion: reduce) { .signup button { transition: none; } }
+      /* ---------- Coral→peach gradient text (mirrors the v3c homepage .grad) ---------- */
+      .grad {
+        background: linear-gradient(100deg, var(--coral), var(--peach));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      /* ---------- Snappiness: entrance + scroll reveal (motion-gated, no-JS-safe) ----------
+         `.anim-ready` is set by an inline <body> script ONLY when motion is allowed, so
+         without JS or under reduced-motion every element stays fully visible at rest. */
+      .reveal { transition: opacity 0.6s cubic-bezier(0.22, 0.61, 0.36, 1), transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1); }
+      .anim-ready .reveal { opacity: 0; transform: translateY(16px); }
+      .anim-ready .reveal.in { opacity: 1; transform: none; }
+
+      @media (prefers-reduced-motion: reduce) {
+        .signup button, .signup button:hover { transition: none; transform: none; }
+        .reveal { transition: none; }
+      }
     </style>
   </head>
   <body>
+    <!-- Gate entrance motion before first paint (no flash): only when motion is allowed. -->
+    <script>
+      if (window.matchMedia && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        document.documentElement.classList.add("anim-ready");
+      }
+    </script>
     <header>
       <div class="wrap">
         <div class="brandlock">
@@ -213,10 +238,10 @@
 
     <main class="hero">
       <div class="wrap">
-        <h1 id="h1">Your second brain for everything you watch, read, and hear.</h1>
-        <p class="lede" id="lede">Save it in two taps. A quick daily game makes it stick. No notes, no busywork.</p>
+        <h1 id="h1" class="reveal">Your second brain for everything you watch, read, and hear.</h1>
+        <p class="lede reveal" id="lede">Save it in two taps. A quick daily game makes it stick. No notes, no busywork.</p>
 
-        <div class="stage">
+        <div class="stage reveal">
           <div class="phone">
             <div class="screen">
               <video src="/get/assets/training.mp4" poster="/get/assets/game-poster.jpg"
@@ -251,7 +276,7 @@
           })();
         </script>
 
-        <div data-signup>
+        <div class="reveal" data-signup>
           <canvas class="perch" data-echo-perched-reading data-size="43" aria-hidden="true"></canvas>
           <form class="signup" novalidate>
             <input type="email" name="email" inputmode="email" autocomplete="email"
@@ -270,7 +295,7 @@
 
     <section class="beats">
       <div class="wrap">
-        <div class="beat">
+        <div class="beat reveal">
           <span class="verb">SAVE</span>
           <span class="glyph" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12a1 1 0 0 1 1 1v15l-7-4-7 4V5a1 1 0 0 1 1-1z"/></svg>
@@ -280,7 +305,7 @@
             <p>From REPS or anywhere else you scroll, keep what's worth remembering. No notes, no folders.</p>
           </div>
         </div>
-        <div class="beat">
+        <div class="beat reveal">
           <span class="verb">PLAY</span>
           <span class="glyph" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M10 9l5 3-5 3V9z"/></svg>
@@ -290,7 +315,7 @@
             <p>A two-minute game turns it into a quick question and locks it in. Learning that feels like a break, not homework.</p>
           </div>
         </div>
-        <div class="beat">
+        <div class="beat reveal">
           <span class="verb">REMEMBER</span>
           <span class="glyph" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v5h-5"/></svg>
@@ -301,14 +326,14 @@
           </div>
         </div>
 
-        <p class="pov">Most apps compete for your attention. REPS compounds it.</p>
+        <p class="pov reveal">Most apps compete for your attention. <span class="grad">REPS compounds it.</span></p>
       </div>
     </section>
 
     <section class="cta2">
       <div class="wrap">
-        <h2>Start your second brain.</h2>
-        <div data-signup>
+        <h2 class="reveal">Start your second brain.</h2>
+        <div class="reveal" data-signup>
           <form class="signup" novalidate>
             <input type="email" name="email" inputmode="email" autocomplete="email"
               autocapitalize="off" spellcheck="false" placeholder="Enter your email" required aria-label="Email address" />
@@ -335,6 +360,29 @@
 
     <!-- Perched Echo reading a book, on the email bar — Canvas-2D port of the canonical Skia state -->
     <script src="/get/assets/echo-perched-reading.js" defer></script>
+
+    <!-- ---------- Snappiness: stagger the hero in on load, reveal the rest on scroll ---------- -->
+    <script>
+      (function () {
+        if (!document.documentElement.classList.contains("anim-ready")) return; // reduced-motion / no-JS: all visible at rest
+        var hero = document.querySelector("main.hero");
+        if (hero) {
+          var items = hero.querySelectorAll(".reveal");
+          items.forEach(function (el, i) { el.style.transitionDelay = i * 80 + "ms"; });
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () { items.forEach(function (el) { el.classList.add("in"); }); });
+          });
+        }
+        // Small per-row stagger on the Save/Play/Remember beats as they scroll in.
+        document.querySelectorAll(".beats .reveal").forEach(function (el, i) { el.style.transitionDelay = i * 70 + "ms"; });
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+        }, { threshold: 0.18, rootMargin: "0px 0px -6% 0px" });
+        document.querySelectorAll(".reveal").forEach(function (el) {
+          if (!hero || !hero.contains(el)) io.observe(el);
+        });
+      })();
+    </script>
 
     <!-- ---------- PostHog (scoped to this paid variant only) ---------- -->
     <script>
