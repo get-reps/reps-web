@@ -317,6 +317,7 @@
         function attribution() {
           var data = { angle: ANGLE };
           UTM_KEYS.forEach(function (k) { var v = params.get(k); if (v) data[k] = v; });
+          var ref = params.get("ref"); if (ref) data.referredBy = ref; // referral attribution
           return data;
         }
         function captureSubmit() {

@@ -1418,6 +1418,7 @@
       function wlAttribution() {
         var d = { angle: ANGLE };
         WL_UTM.forEach(function (k) { var v = WL_PARAMS.get(k); if (v) d[k] = v; });
+        var ref = WL_PARAMS.get("ref"); if (ref) d.referredBy = ref; // referral attribution
         return d;
       }
       // Single conversion choke point — every success route lands here, exactly once per signup.

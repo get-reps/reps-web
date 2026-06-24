@@ -1340,6 +1340,8 @@
 
       /* ─── Waitlist form wiring ─── */
       var WL = "https://waitlister.me/s/1IFflE5ASXo6";
+      // Referral attribution: carry ?ref= through to Waitlister (field name: referredBy)
+      var WL_REF = new URLSearchParams(location.search).get("ref");
 
       function wireForm(formId, emailId, errId, zoneId) {
         var form = document.getElementById(formId);
@@ -1362,7 +1364,9 @@
               "Content-Type": "application/json",
               Accept: "application/json",
             },
-            body: JSON.stringify({ email: email }),
+            body: JSON.stringify(
+              WL_REF ? { email: email, referredBy: WL_REF } : { email: email }
+            ),
           })
             .then(function () {
               document.getElementById(zoneId).classList.add("form-done");
