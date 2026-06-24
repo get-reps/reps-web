@@ -74,8 +74,21 @@
       }(window, document, 'ttq');
     </script>
 
-    <!-- [SLOT] Meta Pixel — paste fbq base code here when the Meta campaign launches, then
-         uncomment the fbq('track','Lead') line in the waitlist success handler. -->
+    <!-- Meta Pixel (REPS Website, dataset 2087800178795740). fbq init + PageView on load;
+         standard event Lead fires on successful waitlist submit (see wlCapture at end of body). -->
+    <script>
+      !function (f, b, e, v, n, t, s) {
+        if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
+        if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = [];
+        t = b.createElement(e); t.async = !0; t.src = v;
+        s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s);
+      }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '2087800178795740');
+      fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+        src="https://www.facebook.com/tr?id=2087800178795740&ev=PageView&noscript=1" alt="" /></noscript>
+
     <!-- [SLOT] Google Ads gtag.js — paste when AW- id + label land (account 145-364-3341),
          then uncomment the gtag conversion line in the waitlist success handler. -->
 
@@ -1411,8 +1424,8 @@
       function wlCapture() {
         if (window.posthog && typeof posthog.capture === "function") posthog.capture("waitlist_submitted", wlAttribution());
         if (window.ttq && typeof ttq.track === "function") ttq.track("SubmitForm");
+        if (window.fbq && typeof fbq === "function") fbq('track', 'Lead');
         // [SLOT] Google Ads: if (window.gtag) gtag('event','conversion',{ send_to: 'AW-XXXXXXXXX/YYYYYYYYYYYYYYYYYY' });
-        // [SLOT] Meta: if (window.fbq) fbq('track','Lead');
       }
       function wlFallback(email) {
         var f = document.createElement("form");
