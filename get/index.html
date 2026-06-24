@@ -299,6 +299,10 @@
         ui_host: "https://us.posthog.com",
         defaults: "2025-05-24",
         persistence: "localStorage+cookie",
+        capture_pageview: true,
+        capture_pageleave: true,
+        autocapture: true,
+        disable_session_recording: false,
         loaded: function (ph) { ph.register({ lp_variant: "paid_get", angle: ANGLE }); }
       });
     </script>
