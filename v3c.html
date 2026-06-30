@@ -282,8 +282,10 @@
       }
       .hero-sound {
         position: absolute;
-        bottom: 10px;
-        right: 10px;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        right: auto;
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -302,7 +304,7 @@
       }
       .hero-sound:hover {
         background: rgba(20, 20, 28, 0.78);
-        transform: translateY(-1px);
+        transform: translateX(-50%) translateY(-1px);
       }
       .hero-sound svg {
         width: 16px;
