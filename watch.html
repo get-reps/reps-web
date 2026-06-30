@@ -130,8 +130,9 @@
       /* Sound toggle pill */
       .sound {
         position: absolute;
-        top: 16px;
-        right: 16px;
+        bottom: 18px;
+        left: 50%;
+        transform: translateX(-50%);
         display: inline-flex;
         align-items: center;
         gap: 8px;
@@ -154,7 +155,7 @@
       }
       .sound:hover {
         background: rgba(20, 20, 28, 0.8);
-        transform: translateY(-1px);
+        transform: translateX(-50%) translateY(-1px);
       }
       .sound svg {
         width: 18px;
