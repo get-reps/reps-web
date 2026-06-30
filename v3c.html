@@ -297,7 +297,8 @@
         cursor: pointer;
         transition:
           background 0.15s,
-          transform 0.15s;
+          transform 0.15s,
+          opacity 0.35s ease;
       }
       .hero-sound:hover {
         background: rgba(20, 20, 28, 0.78);
@@ -310,6 +311,12 @@
       }
       .hero-sound.muted {
         animation: soundpulse 2.4s ease-in-out infinite;
+      }
+      /* Once sound is on, fade the nudge out for good. */
+      .hero-sound.is-hidden {
+        opacity: 0;
+        pointer-events: none;
+        animation: none;
       }
       @keyframes soundpulse {
         0%,
@@ -1326,37 +1333,29 @@
       var heroVertical =
         window.matchMedia("(pointer: coarse)").matches ||
         window.matchMedia("(max-width: 819px)").matches;
-      heroVid.src = HERO_BASE + (heroVertical ? "mobile-v7.mp4" : "desktop-v15.mp4");
+      heroVid.src = HERO_BASE + (heroVertical ? "mobile-v7.mp4" : "desktop-v16.mp4");
       heroVid.play().catch(function () {});
 
-      var HS_ON =
-        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>';
       var HS_OFF =
         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>';
+      heroIcon.innerHTML = HS_OFF;
 
-      function heroRender() {
-        if (heroVid.muted) {
-          heroIcon.innerHTML = HS_OFF;
-          heroSound.classList.add("muted");
-          heroSound.setAttribute("aria-label", "Turn sound on");
-        } else {
-          heroIcon.innerHTML = HS_ON;
-          heroSound.classList.remove("muted");
-          heroSound.setAttribute("aria-label", "Mute");
-        }
+      // The pill is a one-time "turn sound on" nudge — once sound is on it fades
+      // out and stays gone so it never covers the video.
+      function dismissHeroSound() {
+        heroSound.classList.remove("muted");
+        heroSound.classList.add("is-hidden");
       }
-      heroRender();
-
       heroSound.addEventListener("click", function () {
-        heroVid.muted = !heroVid.muted;
-        if (!heroVid.muted) {
-          heroVid.currentTime = 0; // start music from the top
-          heroVid.play().catch(function () {});
-        }
-        heroRender();
+        heroVid.muted = false;
+        heroVid.currentTime = 0; // start music from the top
+        heroVid.play().catch(function () {});
+        dismissHeroSound();
       });
-      // Keep the pill in sync if sound is toggled via the native controls.
-      heroVid.addEventListener("volumechange", heroRender);
+      // If sound is turned on via the native controls instead, dismiss too.
+      heroVid.addEventListener("volumechange", function () {
+        if (!heroVid.muted) dismissHeroSound();
+      });
 
       /* ─── IntersectionObserver: CTA section reveal ─── */
       var revealObserver = new IntersectionObserver(

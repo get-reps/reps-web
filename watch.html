@@ -20,7 +20,7 @@
     <meta property="og:type" content="video.other" />
     <meta
       property="og:image"
-      content="https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/watch/poster-v15.jpg"
+      content="https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/watch/poster-v16.jpg"
     />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="675" />
@@ -29,11 +29,11 @@
          show the poster image and open the page (which autoplays) on tap. -->
     <meta
       property="og:video"
-      content="https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/watch/desktop-v15.mp4"
+      content="https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/watch/desktop-v16.mp4"
     />
     <meta
       property="og:video:secure_url"
-      content="https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/watch/desktop-v15.mp4"
+      content="https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/watch/desktop-v16.mp4"
     />
     <meta property="og:video:type" content="video/mp4" />
     <meta property="og:video:width" content="1920" />
@@ -41,7 +41,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta
       name="twitter:image"
-      content="https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/watch/poster-v15.jpg"
+      content="https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/watch/poster-v16.jpg"
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -165,6 +165,12 @@
       .sound.muted {
         animation: soundpulse 2.4s ease-in-out infinite;
       }
+      /* Once sound is on, fade the nudge out for good so it never covers the video. */
+      .sound.is-hidden {
+        opacity: 0;
+        pointer-events: none;
+        animation: none;
+      }
       @keyframes soundpulse {
         0%,
         100% {
@@ -224,7 +230,7 @@
           loop
           controls
           controlslist="nodownload noplaybackrate noremoteplayback"
-          poster="https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/watch/poster-v15.jpg"
+          poster="https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/watch/poster-v16.jpg"
           preload="auto"
         ></video>
         <button class="sound muted" id="sound" type="button" aria-label="Turn sound on">
@@ -251,41 +257,32 @@
         var wantVertical =
           window.matchMedia("(pointer: coarse)").matches ||
           window.matchMedia("(max-width: 819px)").matches;
-        vid.src = BASE + (wantVertical ? "mobile-v7.mp4" : "desktop-v15.mp4");
+        vid.src = BASE + (wantVertical ? "mobile-v7.mp4" : "desktop-v16.mp4");
         vid.play().catch(function () {});
 
-        var SPEAKER_ON =
-          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>';
         var SPEAKER_OFF =
           '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>';
+        icon.innerHTML = SPEAKER_OFF;
 
-        function render() {
-          if (vid.muted) {
-            icon.innerHTML = SPEAKER_OFF;
-            label.textContent = "Tap for sound";
-            sound.classList.add("muted");
-            sound.setAttribute("aria-label", "Turn sound on");
-          } else {
-            icon.innerHTML = SPEAKER_ON;
-            label.textContent = "Sound on";
-            sound.classList.remove("muted");
-            sound.setAttribute("aria-label", "Mute");
-          }
+        // The pill is a one-time "turn sound on" nudge. Once sound is on it fades
+        // out and stays gone so it never covers the video. (Native controls below
+        // still let the user re-mute / scrub.)
+        function dismissSound() {
+          sound.classList.remove("muted");
+          sound.classList.add("is-hidden");
         }
-        render();
 
         sound.addEventListener("click", function () {
-          vid.muted = !vid.muted;
-          if (!vid.muted) {
-            vid.currentTime = 0; // start music from the top
-            vid.play().catch(function () {});
-          }
-          render();
+          vid.muted = false;
+          vid.currentTime = 0; // start music from the top
+          vid.play().catch(function () {});
+          dismissSound();
         });
 
-        // Native controls (below) own play / pause / scrub. Keep the pill in
-        // sync if sound is toggled via the controls' volume button.
-        vid.addEventListener("volumechange", render);
+        // If the user turns sound on via the native controls instead, dismiss too.
+        vid.addEventListener("volumechange", function () {
+          if (!vid.muted) dismissSound();
+        });
       })();
     </script>
   </body>
