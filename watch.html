@@ -20,7 +20,7 @@
     <meta property="og:type" content="video.other" />
     <meta
       property="og:image"
-      content="https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/watch/poster.jpg"
+      content="https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/watch/poster-v15.jpg"
     />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="675" />
@@ -29,11 +29,11 @@
          show the poster image and open the page (which autoplays) on tap. -->
     <meta
       property="og:video"
-      content="https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/watch/desktop.mp4"
+      content="https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/watch/desktop-v15.mp4"
     />
     <meta
       property="og:video:secure_url"
-      content="https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/watch/desktop.mp4"
+      content="https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/watch/desktop-v15.mp4"
     />
     <meta property="og:video:type" content="video/mp4" />
     <meta property="og:video:width" content="1920" />
@@ -41,7 +41,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta
       name="twitter:image"
-      content="https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/watch/poster.jpg"
+      content="https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/watch/poster-v15.jpg"
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -224,7 +224,7 @@
           loop
           controls
           controlslist="nodownload noplaybackrate noremoteplayback"
-          poster="https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/watch/poster.jpg"
+          poster="https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/watch/poster-v15.jpg"
           preload="auto"
         ></video>
         <button class="sound muted" id="sound" type="button" aria-label="Turn sound on">
@@ -251,7 +251,7 @@
         var wantVertical =
           window.matchMedia("(pointer: coarse)").matches ||
           window.matchMedia("(max-width: 819px)").matches;
-        vid.src = BASE + (wantVertical ? "mobile.mp4" : "desktop.mp4");
+        vid.src = BASE + (wantVertical ? "mobile-v7.mp4" : "desktop-v15.mp4");
         vid.play().catch(function () {});
 
         var SPEAKER_ON =
