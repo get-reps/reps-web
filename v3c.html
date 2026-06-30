@@ -330,17 +330,19 @@
 
       /* Form */
       .form-zone {
-        max-width: 380px;
+        max-width: 460px;
         margin: 0 auto;
+        scroll-margin-top: 80px;
         animation: fadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.32s both;
       }
       .signup {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         gap: 8px;
       }
       .signup input[type="email"] {
-        width: 100%;
+        flex: 1 1 auto;
+        min-width: 0;
         height: 52px;
         border: 1.5px solid rgba(33, 26, 20, 0.22);
         border-radius: 12px;
@@ -366,8 +368,10 @@
         color: var(--muted-strong);
       }
       .signup button {
-        width: 100%;
+        flex: 0 0 auto;
+        white-space: nowrap;
         height: 52px;
+        padding: 0 22px;
         border: 0;
         border-radius: 12px;
         cursor: pointer;
@@ -1312,15 +1316,16 @@
     </script>
 
     <script>
-      /* ─── Nav CTA → focus hero email ─── */
+      /* ─── Nav CTA → bring the signup form to a comfortable height + focus ─── */
       document.getElementById("nav-cta").addEventListener("click", function () {
         var el = document.getElementById("hero-email");
-        document
-          .getElementById("hero")
-          .scrollIntoView({ behavior: "smooth", block: "start" });
+        // Center the email field so the form lands mid-viewport (video above,
+        // reassure below) instead of overshooting down into the testimonials.
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        // preventScroll so focusing doesn't yank the page to a different spot.
         setTimeout(function () {
-          el.focus();
-        }, 380);
+          el.focus({ preventScroll: true });
+        }, 420);
       });
 
       /* ─── Hero demo video (device-switched, muted autoplay + sound toggle) ─── */
