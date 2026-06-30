@@ -1,0 +1,292 @@
+<!doctype html>
+<!-- /watch — shareable full-screen demo video.
+     Device-switches: touch/narrow → vertical (iPhone) cut, computer → horizontal cut.
+     Autoplay muted + loop; one 🔊 toggle adds sound (restarts so music starts from the top).
+     Videos hosted on Supabase Storage `web-media` bucket (not in git). -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>REPS — Watch</title>
+    <meta name="description" content="REPS in one minute. Save anything, remember everything." />
+    <!-- Shareable, but kept out of search until launch -->
+    <meta name="robots" content="noindex" />
+    <meta property="og:title" content="REPS — Watch" />
+    <meta property="og:description" content="Save anything. Remember everything. REPS in one minute." />
+    <meta property="og:url" content="https://getreps.io/watch" />
+    <meta property="og:type" content="video.other" />
+    <meta
+      property="og:image"
+      content="https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/watch/poster.jpg"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="675" />
+    <meta property="og:image:alt" content="REPS — your second brain" />
+    <!-- Video unfurl: Slack reads these to show an inline player; WhatsApp/iMessage
+         show the poster image and open the page (which autoplays) on tap. -->
+    <meta
+      property="og:video"
+      content="https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/watch/desktop.mp4"
+    />
+    <meta
+      property="og:video:secure_url"
+      content="https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/watch/desktop.mp4"
+    />
+    <meta property="og:video:type" content="video/mp4" />
+    <meta property="og:video:width" content="1920" />
+    <meta property="og:video:height" content="1080" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:image"
+      content="https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/watch/poster.jpg"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --galaxy: #040409;
+        --coral: #ff6b6b;
+        --peach: #ff8e53;
+        --display: "Space Grotesk", system-ui, -apple-system, sans-serif;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        background: var(--galaxy);
+        color: #fff;
+        font-family: var(--display);
+        -webkit-font-smoothing: antialiased;
+      }
+      .page {
+        min-height: 100svh;
+        display: flex;
+        flex-direction: column;
+      }
+      /* Header */
+      header {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 22px;
+      }
+      .wordmark {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        text-decoration: none;
+        color: #fff;
+        font-weight: 700;
+        font-size: 17px;
+        letter-spacing: 0.04em;
+      }
+      .wordmark img {
+        width: 26px;
+        height: 26px;
+        border-radius: 6px;
+      }
+      .home-link {
+        font-size: 13px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.6);
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      .home-link:hover {
+        color: #fff;
+      }
+      /* Stage */
+      .stage {
+        flex: 1 1 auto;
+        min-height: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 16px;
+        position: relative;
+      }
+      #vid {
+        max-width: 100%;
+        /* Bound to the space between the header banner and the footer CTA so the
+           video is truly centered there (and never overflows past the CTA). */
+        max-height: calc(100svh - 172px);
+        border-radius: 18px;
+        box-shadow: 0 30px 80px -28px rgba(0, 0, 0, 0.85);
+        background: #000;
+      }
+      /* Sound toggle pill */
+      .sound {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 11px 18px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 999px;
+        background: rgba(10, 10, 16, 0.62);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        color: #fff;
+        font-family: var(--display);
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        cursor: pointer;
+        transition:
+          opacity 0.2s,
+          transform 0.15s,
+          background 0.15s;
+      }
+      .sound:hover {
+        background: rgba(20, 20, 28, 0.8);
+        transform: translateY(-1px);
+      }
+      .sound svg {
+        width: 18px;
+        height: 18px;
+        display: block;
+      }
+      /* Pulse to invite the first tap while still muted */
+      .sound.muted {
+        animation: soundpulse 2.4s ease-in-out infinite;
+      }
+      @keyframes soundpulse {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(255, 142, 83, 0);
+        }
+        50% {
+          box-shadow: 0 0 0 6px rgba(255, 142, 83, 0.12);
+        }
+      }
+      /* Footer CTA */
+      footer {
+        flex: 0 0 auto;
+        text-align: center;
+        padding: 16px 22px 26px;
+      }
+      .cta {
+        display: inline-block;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 15px;
+        color: #fff;
+        background: linear-gradient(135deg, var(--coral), var(--peach));
+        padding: 12px 26px;
+        border-radius: 999px;
+        box-shadow: 0 6px 20px -6px rgba(255, 107, 107, 0.5);
+        transition:
+          opacity 0.15s,
+          transform 0.15s;
+      }
+      .cta:hover {
+        opacity: 0.92;
+        transform: translateY(-1px);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .sound.muted {
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header>
+        <a class="wordmark" href="/" aria-label="REPS home">
+          <img src="/product/assets/app-icon.png" alt="" />
+          REPS
+        </a>
+        <a class="home-link" href="/">getreps.io ↗</a>
+      </header>
+
+      <main class="stage">
+        <video
+          id="vid"
+          muted
+          playsinline
+          autoplay
+          loop
+          controls
+          controlslist="nodownload noplaybackrate noremoteplayback"
+          poster="https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/watch/poster.jpg"
+          preload="auto"
+        ></video>
+        <button class="sound muted" id="sound" type="button" aria-label="Turn sound on">
+          <span id="sound-icon"></span>
+          <span id="sound-label">Tap for sound</span>
+        </button>
+      </main>
+
+      <footer>
+        <a class="cta" href="/#hero-zone">Get early access</a>
+      </footer>
+    </div>
+
+    <script>
+      (function () {
+        var BASE =
+          "https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/watch/";
+        var vid = document.getElementById("vid");
+        var sound = document.getElementById("sound");
+        var icon = document.getElementById("sound-icon");
+        var label = document.getElementById("sound-label");
+
+        // Device switch: any touch device OR a narrow window → vertical (iPhone) cut.
+        var wantVertical =
+          window.matchMedia("(pointer: coarse)").matches ||
+          window.matchMedia("(max-width: 819px)").matches;
+        vid.src = BASE + (wantVertical ? "mobile.mp4" : "desktop.mp4");
+        vid.play().catch(function () {});
+
+        var SPEAKER_ON =
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>';
+        var SPEAKER_OFF =
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>';
+
+        function render() {
+          if (vid.muted) {
+            icon.innerHTML = SPEAKER_OFF;
+            label.textContent = "Tap for sound";
+            sound.classList.add("muted");
+            sound.setAttribute("aria-label", "Turn sound on");
+          } else {
+            icon.innerHTML = SPEAKER_ON;
+            label.textContent = "Sound on";
+            sound.classList.remove("muted");
+            sound.setAttribute("aria-label", "Mute");
+          }
+        }
+        render();
+
+        sound.addEventListener("click", function () {
+          vid.muted = !vid.muted;
+          if (!vid.muted) {
+            vid.currentTime = 0; // start music from the top
+            vid.play().catch(function () {});
+          }
+          render();
+        });
+
+        // Native controls (below) own play / pause / scrub. Keep the pill in
+        // sync if sound is toggled via the controls' volume button.
+        vid.addEventListener("volumechange", render);
+      })();
+    </script>
+  </body>
+</html>
