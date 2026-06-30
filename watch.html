@@ -118,6 +118,16 @@
         padding: 8px 16px;
         position: relative;
       }
+      /* Shrinks to the rendered video so the sound pill anchors to the video's
+         corner (not the stage), overlapping the video even when the landscape
+         cut is centered with dark bands above/below it. */
+      .video-wrap {
+        position: relative;
+        display: inline-block;
+        max-width: 100%;
+        max-height: 100%;
+        line-height: 0;
+      }
       #vid {
         max-width: 100%;
         /* Bound to the space between the header banner and the footer CTA so the
@@ -131,8 +141,7 @@
       .sound {
         position: absolute;
         top: 16px;
-        left: 50%;
-        transform: translateX(-50%);
+        right: 16px;
         display: inline-flex;
         align-items: center;
         gap: 8px;
@@ -155,7 +164,7 @@
       }
       .sound:hover {
         background: rgba(20, 20, 28, 0.8);
-        transform: translateX(-50%) translateY(-1px);
+        transform: translateY(-1px);
       }
       .sound svg {
         width: 18px;
@@ -275,7 +284,8 @@
       </header>
 
       <main class="stage">
-        <video
+        <div class="video-wrap">
+          <video
           id="vid"
           muted
           playsinline
@@ -290,6 +300,7 @@
           <span id="sound-icon"></span>
           <span id="sound-label">Tap for sound</span>
         </button>
+        </div>
       </main>
 
       <footer>
