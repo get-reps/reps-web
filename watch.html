@@ -180,29 +180,81 @@
           box-shadow: 0 0 0 6px rgba(255, 142, 83, 0.12);
         }
       }
-      /* Footer CTA */
+      /* Footer — inline waitlist capture (email left, CTA right) */
       footer {
         flex: 0 0 auto;
         text-align: center;
-        padding: 16px 22px 26px;
+        padding: 14px 22px 26px;
       }
-      .cta {
-        display: inline-block;
-        text-decoration: none;
+      .wl {
+        display: flex;
+        gap: 8px;
+        width: min(520px, 92vw);
+        margin: 0 auto;
+      }
+      .wl input {
+        flex: 1 1 auto;
+        min-width: 0;
+        height: 50px;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.96);
+        padding: 0 18px;
+        font-family: var(--display);
+        font-size: 15px;
+        color: #1a1a22;
+        outline: none;
+        transition:
+          box-shadow 0.15s,
+          border-color 0.15s;
+      }
+      .wl input::placeholder {
+        color: rgba(33, 26, 20, 0.5);
+      }
+      .wl input:focus {
+        border-color: var(--coral);
+        box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.28);
+      }
+      .wl button {
+        flex: 0 0 auto;
+        height: 50px;
+        padding: 0 22px;
+        border: 0;
+        border-radius: 999px;
+        cursor: pointer;
+        white-space: nowrap;
+        font-family: var(--display);
         font-weight: 600;
         font-size: 15px;
         color: #fff;
         background: linear-gradient(135deg, var(--coral), var(--peach));
-        padding: 12px 26px;
-        border-radius: 999px;
         box-shadow: 0 6px 20px -6px rgba(255, 107, 107, 0.5);
         transition:
           opacity 0.15s,
           transform 0.15s;
       }
-      .cta:hover {
+      .wl button:hover {
         opacity: 0.92;
         transform: translateY(-1px);
+      }
+      .wl button:disabled {
+        opacity: 0.6;
+        cursor: default;
+        transform: none;
+      }
+      .wl-msg {
+        min-height: 16px;
+        margin-top: 8px;
+        font-size: 13px;
+        color: #ffb3a7;
+      }
+      .wl-success {
+        max-width: 520px;
+        margin: 0 auto;
+        font-size: 15px;
+        font-weight: 600;
+        line-height: 1.4;
+        color: #fff;
       }
       @media (prefers-reduced-motion: reduce) {
         .sound.muted {
@@ -240,7 +292,26 @@
       </main>
 
       <footer>
-        <a class="cta" href="/#hero-zone">Get early access</a>
+        <form class="wl" id="wl-form" novalidate>
+          <input
+            type="email"
+            id="wl-email"
+            name="email"
+            inputmode="email"
+            autocomplete="email"
+            autocapitalize="off"
+            spellcheck="false"
+            placeholder="Enter your email"
+            required
+            aria-label="Email address"
+          />
+          <button type="submit">Get early access</button>
+        </form>
+        <p class="wl-msg" id="wl-msg" role="alert"></p>
+        <div class="wl-success" id="wl-success" hidden>
+          You're a Founding Member — one of the first 100. We'll email your
+          invite when it's ready.
+        </div>
       </footer>
     </div>
 
@@ -282,6 +353,47 @@
         // If the user turns sound on via the native controls instead, dismiss too.
         vid.addEventListener("volumechange", function () {
           if (!vid.muted) dismissSound();
+        });
+
+        // ── Inline waitlist capture (no navigation — submit right here) ──
+        // Same Waitlister endpoint + submit pattern as the homepage: the POST
+        // delivers even though the browser can't read the CORS-blocked redirect,
+        // so both then/catch show the success state.
+        var WL = "https://waitlister.me/s/1IFflE5ASXo6";
+        var WL_REF = new URLSearchParams(location.search).get("ref");
+        var wlForm = document.getElementById("wl-form");
+        var wlEmail = document.getElementById("wl-email");
+        var wlMsg = document.getElementById("wl-msg");
+        var wlSuccess = document.getElementById("wl-success");
+
+        wlForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+          var email = wlEmail.value.trim();
+          wlMsg.textContent = "";
+          if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            wlMsg.textContent = "Please enter a valid email address.";
+            return;
+          }
+          var btn = wlForm.querySelector("button");
+          btn.disabled = true;
+          btn.textContent = "Joining…";
+          function done() {
+            wlForm.style.display = "none";
+            wlMsg.style.display = "none";
+            wlSuccess.hidden = false;
+          }
+          fetch(WL, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+            body: JSON.stringify(
+              WL_REF ? { email: email, referredBy: WL_REF } : { email: email },
+            ),
+          })
+            .then(done)
+            .catch(done);
         });
       })();
     </script>
