@@ -89,8 +89,16 @@
     <noscript><img height="1" width="1" style="display:none"
         src="https://www.facebook.com/tr?id=2087800178795740&ev=PageView&noscript=1" alt="" /></noscript>
 
-    <!-- [SLOT] Google Ads gtag.js — paste when AW- id + label land (account 145-364-3341),
-         then uncomment the gtag conversion line in the waitlist success handler. -->
+    <!-- Google Ads (REPS AI LTD, account 145-364-3341) — gtag.js base + config for tag AW-18248405404.
+         Conversion action 'Sign-up' (send_to AW-18248405404/GlWKCPeVssEcEJyjwv1D) fires on successful
+         waitlist submit inside wlCapture() at end of body. IDs are public client-side identifiers. -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18248405404"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'AW-18248405404');
+    </script>
 
     <style>
       :root {
@@ -1426,7 +1434,7 @@
         if (window.posthog && typeof posthog.capture === "function") posthog.capture("waitlist_submitted", wlAttribution());
         if (window.ttq && typeof ttq.track === "function") ttq.track("SubmitForm");
         if (window.fbq && typeof fbq === "function") fbq('track', 'Lead');
-        // [SLOT] Google Ads: if (window.gtag) gtag('event','conversion',{ send_to: 'AW-XXXXXXXXX/YYYYYYYYYYYYYYYYYY' });
+        if (window.gtag) gtag('event', 'conversion', { send_to: 'AW-18248405404/GlWKCPeVssEcEJyjwv1D', value: 1.0, currency: 'GBP' });
       }
       function wlFallback(email) {
         var f = document.createElement("form");
