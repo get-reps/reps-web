@@ -47,7 +47,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
 
@@ -174,7 +174,6 @@
         --hairline: rgba(33, 26, 20, 0.09);
         --galaxy: #040409;
         --display: "Space Grotesk", system-ui, -apple-system, sans-serif;
-        --serif: "Lora", Georgia, "Times New Roman", serif;
         --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
       }
       *,
@@ -258,7 +257,7 @@
 
       /* ── Article frame ── */
       .wrap {
-        max-width: 760px;
+        max-width: 720px;
         margin: 0 auto;
         padding: 52px 24px 40px;
       }
@@ -277,86 +276,144 @@
       .crumbs a:hover {
         color: var(--coral);
       }
-      .eyebrow {
-        display: inline-block;
-        font-family: var(--display);
-        font-size: 12px;
-        font-weight: 600;
-        letter-spacing: 0.16em;
-        text-transform: uppercase;
-        color: var(--coral);
-        margin-bottom: 14px;
-      }
+
+      /* ── Confident type scale (v3) ── */
       h1 {
-        font-family: var(--serif);
-        color: var(--ink);
-        font-weight: 600;
-        font-size: clamp(30px, 6vw, 46px);
-        line-height: 1.1;
-        letter-spacing: -0.015em;
-        text-wrap: balance;
-        margin-bottom: 18px;
-      }
-      .byline {
         font-family: var(--display);
-        font-size: 13px;
-        color: var(--muted);
-        margin-bottom: 26px;
+        font-weight: 700;
+        font-size: clamp(34px, 5.2vw, 54px);
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+        color: var(--ink);
+        text-wrap: balance;
       }
 
-      /* ── Quick-answer card (AI-citation target) ── */
-      .quick-answer {
-        border-left: 4px solid var(--coral);
-        background: #fff;
-        border-radius: 0 14px 14px 0;
-        padding: 20px 22px;
-        margin: 0 0 40px;
-        box-shadow:
-          0 1px 3px rgba(33, 26, 20, 0.04),
-          0 4px 14px rgba(33, 26, 20, 0.03);
-      }
-      .quick-answer .qa-label {
+      /* ── Hero (v3) ── */
+      .eyebrow-pill {
+        display: inline-block;
         font-family: var(--display);
-        font-size: 11px;
-        font-weight: 700;
+        font-weight: 600;
+        font-size: 12px;
         letter-spacing: 0.14em;
         text-transform: uppercase;
         color: var(--coral);
-        display: block;
-        margin-bottom: 8px;
+        background: rgba(255, 107, 107, 0.08);
+        border: 1px solid rgba(255, 107, 107, 0.18);
+        border-radius: 999px;
+        padding: 4px 12px;
+        margin-bottom: 18px;
       }
-      .quick-answer p {
-        font-family: var(--serif);
-        font-size: 17px;
-        line-height: 1.6;
+      .byline {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        margin: 18px 0 24px;
+        font-family: var(--sans);
+        font-size: 14px;
+        color: var(--muted-strong);
+      }
+      .byline-mark {
+        border-radius: 7px;
+        box-shadow: 0 1px 4px rgba(33, 26, 20, 0.14);
+      }
+      .byline strong {
         color: var(--ink);
+      }
+      .byline-cred {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .lead {
+        font-family: var(--sans);
+        font-size: clamp(18px, 2.1vw, 20px);
+        line-height: 1.55;
+        color: var(--ink);
+        font-weight: 500;
+        border-left: 3px solid var(--coral);
+        padding-left: 18px;
+        margin: 22px 0;
+      }
+
+      /* ── Key takeaways callout (v3) ── */
+      .takeaways {
+        margin: 28px 0;
+        padding: 20px 22px;
+        background: rgba(255, 107, 107, 0.045);
+        border: 1px solid rgba(255, 107, 107, 0.16);
+        border-radius: 16px;
+      }
+      .takeaways-h {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--coral);
+        margin-bottom: 12px;
+      }
+      .takeaways ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .takeaways li {
+        font-family: var(--sans);
+        font-size: 15.5px;
+        line-height: 1.5;
+        color: var(--ink);
+        padding-left: 28px;
+        position: relative;
+        margin: 10px 0;
+      }
+      .takeaways li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        top: 0;
+        color: var(--coral);
+        font-weight: 700;
+      }
+
+      /* ── Section-label pill (v3) ── */
+      .section-pill {
+        display: inline-block;
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted-strong);
+        background: rgba(33, 26, 20, 0.05);
+        border-radius: 999px;
+        padding: 3px 11px;
+        margin-bottom: 12px;
       }
 
       /* ── Prose ── */
       .prose h2 {
-        font-family: var(--serif);
+        font-family: var(--display);
         color: var(--ink);
-        font-weight: 600;
-        font-size: clamp(23px, 3.6vw, 30px);
-        line-height: 1.18;
-        letter-spacing: -0.01em;
+        font-weight: 700;
+        font-size: clamp(24px, 3.4vw, 34px);
+        line-height: 1.12;
+        letter-spacing: -0.015em;
         text-wrap: balance;
-        margin: 48px 0 14px;
+        margin: 40px 0 14px;
       }
       .prose h3 {
-        font-family: var(--serif);
+        font-family: var(--display);
         color: var(--ink);
         font-weight: 600;
-        font-size: 20px;
+        font-size: clamp(18px, 2vw, 22px);
         line-height: 1.25;
         margin: 30px 0 8px;
       }
       .prose p {
-        font-family: var(--serif);
+        font-family: var(--sans);
         font-size: 17px;
-        line-height: 1.68;
+        line-height: 1.7;
         color: var(--body);
-        margin-bottom: 16px;
+        margin-bottom: 18px;
       }
       .prose p strong {
         color: var(--ink);
@@ -367,7 +424,7 @@
         padding-left: 22px;
       }
       .prose li {
-        font-family: var(--serif);
+        font-family: var(--sans);
         font-size: 17px;
         line-height: 1.6;
         color: var(--body);
@@ -553,7 +610,7 @@
         transform: rotate(45deg);
       }
       .faq .answer {
-        font-family: var(--serif);
+        font-family: var(--sans);
         font-size: 16px;
         line-height: 1.66;
         color: var(--body);
@@ -601,17 +658,17 @@
         scroll-margin-top: 80px;
       }
       .cta h2 {
-        font-family: var(--serif);
+        font-family: var(--display);
         color: var(--ink);
-        font-weight: 600;
+        font-weight: 700;
         font-size: clamp(24px, 4vw, 34px);
-        line-height: 1.14;
+        line-height: 1.15;
         letter-spacing: -0.015em;
         text-wrap: balance;
         margin-bottom: 12px;
       }
       .cta-sub {
-        font-family: var(--serif);
+        font-family: var(--sans);
         font-size: 17px;
         color: var(--body);
         max-width: 46ch;
@@ -759,7 +816,7 @@
       .proofshot .shot img { display:block; width:100%; height:auto; }
       .proofshot .cap { font-family:var(--sans); font-size:12.5px; color:var(--muted-strong); padding:10px 14px; border-top:1px solid var(--hairline); }
       .proofshot .cap a, .pullquote .src a { color:var(--coral); font-weight:600; text-decoration:none; }
-      .pullquote { margin:18px 0; padding:14px 18px; border-left:3px solid var(--coral); background:rgba(255,107,107,0.05); border-radius:0 10px 10px 0; font-family:var(--serif); font-size:16px; line-height:1.55; color:var(--ink); }
+      .pullquote { margin:18px 0; padding:14px 18px; border-left:3px solid var(--coral); background:rgba(255,107,107,0.05); border-radius:0 10px 10px 0; font-family:var(--sans); font-size:16px; line-height:1.55; color:var(--ink); }
       .pullquote .src { display:block; margin-top:8px; font-family:var(--sans); font-size:12.5px; color:var(--muted-strong); }
       .reps-row { background:rgba(255,107,107,0.06); }
     </style>
@@ -785,20 +842,55 @@
         <a href="/">Home</a> / <a href="/compare">Compare</a> / Remembering long-term
       </nav>
 
-      <span class="eyebrow">Honest comparison</span>
+      <span class="eyebrow-pill">Compare</span>
       <h1>The best apps for remembering things long-term (2026)</h1>
-      <p class="byline">By the REPS team. Updated July 2026.</p>
 
-      <div class="quick-answer">
-        <span class="qa-label">The short answer</span>
-        <p>
-          For depth and price, Anki is still the best spaced repetition app: free,
-          powerful, and endlessly customizable. Its cost is that you build every
-          card by hand. Readwise brings recall to your highlights. If you would
-          rather not make cards at all, REPS turns anything you read, watch, or
-          hear into recall you play like a game.
-        </p>
+      <div class="byline">
+        <img
+          src="/product/assets/app-icon.png"
+          alt=""
+          class="byline-mark"
+          width="28"
+          height="28"
+        />
+        <span
+          ><strong>By the REPS team</strong> · Updated July 2026 · 7 min read<br />
+          <span class="byline-cred"
+            >We build a spaced-repetition app and use these tools daily.</span
+          ></span
+        >
       </div>
+
+      <p class="lead">
+        For depth and price, Anki is still the best spaced repetition app: free,
+        powerful, and endlessly customizable. Its cost is that you build every
+        card by hand. Readwise brings recall to your highlights. If you would
+        rather not make cards at all, REPS turns anything you read, watch, or
+        hear into recall you play like a game.
+      </p>
+
+      <figure class="repsshot">
+        <video src="/beats/quiz-all-sped.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+        <figcaption class="cap">REPS: spaced repetition without building a single card</figcaption>
+      </figure>
+
+      <aside class="takeaways">
+        <div class="takeaways-h">Key takeaways</div>
+        <ul>
+          <li>
+            Anki is the deepest recall engine and free, but you build every card
+            by hand.
+          </li>
+          <li>
+            Readwise adds real recall through Mastery, but only on the highlights
+            you already made.
+          </li>
+          <li>
+            REPS gives you spaced repetition without the deck-building: save
+            anything and it makes the recall for you.
+          </li>
+        </ul>
+      </aside>
 
       <div class="prose">
         <p>
@@ -817,6 +909,7 @@
           sometimes wildly, about how much work they hand back to you.
         </p>
 
+        <span class="section-pill">At a glance</span>
         <h2>The apps, side by side</h2>
         <p class="table-note">
           Prices verified in July 2026. Confirm current pricing on each site
@@ -873,6 +966,7 @@
           </table>
         </div>
 
+        <span class="section-pill">The free power tool</span>
         <h2>Is Anki still the best spaced repetition app?</h2>
         <p>
           For a lot of people, honestly, yes. Nothing else in this category
@@ -900,6 +994,7 @@
           </div>
         </div>
 
+        <span class="section-pill">The highlight tool</span>
         <h2>Where Readwise fits</h2>
         <p>
           Readwise is the strongest highlight tool in the category, and it does
@@ -926,6 +1021,7 @@
           </div>
         </div>
 
+        <span class="section-pill">Wrong job</span>
         <h2>Matter and Notion: great tools, wrong job</h2>
         <p>
           We include these two because people land on them expecting memory help,
@@ -950,6 +1046,7 @@
           </div>
         </div>
 
+        <span class="section-pill">Done for you</span>
         <h2>Where REPS comes in</h2>
         <p>
           We built REPS for the person who believes in spaced repetition and still
@@ -974,14 +1071,11 @@
           inbox. What it does that neither does: no card-making, built from what you
           read, watch, and hear, played instead of reviewed.
         </p>
-        <figure class="repsshot">
-          <video src="/beats/quiz-all-sped.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
-          <figcaption class="cap">REPS: spaced repetition without building a single card</figcaption>
-        </figure>
       </div>
 
+      <span class="section-pill">From the community</span>
       <div class="reddit">
-        <h2 style="font-family: var(--serif); color: var(--ink); font-weight: 600; font-size: clamp(23px, 3.6vw, 30px); margin: 0 0 6px;">
+        <h2 style="font-family: var(--display); color: var(--ink); font-weight: 700; font-size: clamp(24px, 3.4vw, 34px); line-height: 1.12; letter-spacing: -0.015em; margin: 0 0 6px;">
           What people on Reddit actually recommend
         </h2>
         <div class="prose">
@@ -1037,8 +1131,9 @@
         </ul>
       </div>
 
+      <span class="section-pill">FAQ</span>
       <section class="faq" aria-label="Frequently asked questions">
-        <h2 style="font-family: var(--serif); color: var(--ink); font-weight: 600; font-size: clamp(23px, 3.6vw, 30px); margin: 0 0 10px;">
+        <h2 style="font-family: var(--display); color: var(--ink); font-weight: 700; font-size: clamp(24px, 3.4vw, 34px); line-height: 1.12; letter-spacing: -0.015em; margin: 0 0 10px;">
           Frequently asked questions
         </h2>
         <details>
@@ -1103,8 +1198,9 @@
         </details>
       </section>
 
+      <span class="section-pill">The verdict</span>
       <section class="choose" aria-label="How to choose">
-        <h2 style="font-family: var(--serif); color: var(--ink); font-weight: 600; font-size: clamp(23px, 3.6vw, 30px); margin: 0 0 4px;">
+        <h2 style="font-family: var(--display); color: var(--ink); font-weight: 700; font-size: clamp(24px, 3.4vw, 34px); line-height: 1.12; letter-spacing: -0.015em; margin: 0 0 4px;">
           How to choose
         </h2>
         <ul>

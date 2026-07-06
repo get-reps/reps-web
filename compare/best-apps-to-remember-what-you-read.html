@@ -51,7 +51,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
 
@@ -179,7 +179,6 @@
         --hairline: rgba(33, 26, 20, 0.09);
         --galaxy: #040409;
         --display: "Space Grotesk", system-ui, -apple-system, sans-serif;
-        --serif: "Lora", Georgia, "Times New Roman", serif;
         --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
       }
       *,
@@ -263,7 +262,7 @@
 
       /* ── Article frame ── */
       .wrap {
-        max-width: 760px;
+        max-width: 720px;
         margin: 0 auto;
         padding: 52px 24px 40px;
       }
@@ -282,57 +281,142 @@
       .crumb a:hover {
         color: var(--coral);
       }
-      .eyebrow {
+
+      /* ── Confident type scale (v3) ── */
+      h1 {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: clamp(34px, 5.2vw, 54px);
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+        color: var(--ink);
+        text-wrap: balance;
+      }
+
+      /* ── Hero (v3) ── */
+      .eyebrow-pill {
         display: inline-block;
         font-family: var(--display);
-        font-size: 12px;
         font-weight: 600;
-        letter-spacing: 0.16em;
+        font-size: 12px;
+        letter-spacing: 0.14em;
         text-transform: uppercase;
         color: var(--coral);
-        margin-bottom: 14px;
-      }
-      h1 {
-        font-family: var(--serif);
-        color: var(--ink);
-        font-weight: 600;
-        font-size: clamp(30px, 6vw, 47px);
-        line-height: 1.1;
-        letter-spacing: -0.015em;
-        text-wrap: balance;
+        background: rgba(255, 107, 107, 0.08);
+        border: 1px solid rgba(255, 107, 107, 0.18);
+        border-radius: 999px;
+        padding: 4px 12px;
         margin-bottom: 18px;
       }
       .byline {
-        font-family: var(--display);
-        font-size: 13px;
-        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        margin: 18px 0 24px;
+        font-family: var(--sans);
+        font-size: 14px;
+        color: var(--muted-strong);
+      }
+      .byline-mark {
+        border-radius: 7px;
+        box-shadow: 0 1px 4px rgba(33, 26, 20, 0.14);
+      }
+      .byline strong {
+        color: var(--ink);
+      }
+      .byline-cred {
         color: var(--muted);
-        margin-bottom: 26px;
+        font-size: 13px;
+      }
+      .lead {
+        font-family: var(--sans);
+        font-size: clamp(18px, 2.1vw, 20px);
+        line-height: 1.55;
+        color: var(--ink);
+        font-weight: 500;
+        border-left: 3px solid var(--coral);
+        padding-left: 18px;
+        margin: 22px 0;
       }
 
-      /* Article prose = Lora */
-      .prose h2 {
-        font-family: var(--serif);
+      /* ── Key takeaways callout (v3) ── */
+      .takeaways {
+        margin: 28px 0;
+        padding: 20px 22px;
+        background: rgba(255, 107, 107, 0.045);
+        border: 1px solid rgba(255, 107, 107, 0.16);
+        border-radius: 16px;
+      }
+      .takeaways-h {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--coral);
+        margin-bottom: 12px;
+      }
+      .takeaways ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .takeaways li {
+        font-family: var(--sans);
+        font-size: 15.5px;
+        line-height: 1.5;
         color: var(--ink);
+        padding-left: 28px;
+        position: relative;
+        margin: 10px 0;
+      }
+      .takeaways li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        top: 0;
+        color: var(--coral);
+        font-weight: 700;
+      }
+
+      /* ── Section-label pill (v3) ── */
+      .section-pill {
+        display: inline-block;
+        font-family: var(--display);
         font-weight: 600;
-        font-size: clamp(23px, 3.4vw, 30px);
-        line-height: 1.18;
-        letter-spacing: -0.01em;
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted-strong);
+        background: rgba(33, 26, 20, 0.05);
+        border-radius: 999px;
+        padding: 3px 11px;
+        margin-bottom: 12px;
+      }
+
+      /* Article prose = sans */
+      .prose h2 {
+        font-family: var(--display);
+        color: var(--ink);
+        font-weight: 700;
+        font-size: clamp(24px, 3.4vw, 34px);
+        line-height: 1.12;
+        letter-spacing: -0.015em;
         text-wrap: balance;
-        margin: 48px 0 14px;
+        margin: 40px 0 14px;
       }
       .prose h3 {
-        font-family: var(--serif);
+        font-family: var(--display);
         color: var(--ink);
         font-weight: 600;
-        font-size: clamp(19px, 2.6vw, 23px);
+        font-size: clamp(18px, 2vw, 22px);
         line-height: 1.25;
-        margin: 34px 0 10px;
+        margin: 30px 0 8px;
       }
       .prose p {
-        font-family: var(--serif);
-        font-size: 17.5px;
-        line-height: 1.68;
+        font-family: var(--sans);
+        font-size: 17px;
+        line-height: 1.7;
         color: var(--body);
         margin-bottom: 18px;
       }
@@ -346,7 +430,7 @@
         padding: 0;
       }
       .prose ul li {
-        font-family: var(--serif);
+        font-family: var(--sans);
         font-size: 17px;
         line-height: 1.6;
         color: var(--body);
@@ -366,40 +450,12 @@
       }
       .prose a.inline-link {
         color: var(--coral);
-        font-weight: 500;
+        font-weight: 600;
         text-decoration: none;
         border-bottom: 1.5px solid rgba(255, 107, 107, 0.32);
       }
       .prose a.inline-link:hover {
         border-bottom-color: var(--coral);
-      }
-
-      /* ── Quick answer card ── */
-      .quick-answer {
-        margin: 6px 0 8px;
-        padding: 20px 24px;
-        background: #fff;
-        border-left: 4px solid var(--coral);
-        border-radius: 0 14px 14px 0;
-        box-shadow:
-          0 1px 3px rgba(33, 26, 20, 0.04),
-          0 6px 20px rgba(33, 26, 20, 0.035);
-      }
-      .quick-answer .qa-label {
-        font-family: var(--display);
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        color: var(--coral);
-        margin-bottom: 8px;
-      }
-      .quick-answer p {
-        font-family: var(--serif);
-        font-size: 17.5px;
-        line-height: 1.6;
-        color: var(--ink);
-        margin: 0;
       }
 
       /* ── Comparison table (sans) ── */
@@ -502,7 +558,7 @@
         margin: 0;
       }
       .choose ul li {
-        font-family: var(--serif);
+        font-family: var(--sans);
       }
       .choose ul li b {
         font-family: var(--display);
@@ -547,9 +603,9 @@
         content: "\2013";
       }
       .faq details p {
-        font-family: var(--serif);
-        font-size: 16.5px;
-        line-height: 1.62;
+        font-family: var(--sans);
+        font-size: 16px;
+        line-height: 1.65;
         color: var(--body);
         padding: 0 8px 16px 0;
         margin: 0;
@@ -571,18 +627,18 @@
           0 12px 40px rgba(33, 26, 20, 0.05);
       }
       .cta h2 {
-        font-family: var(--serif);
+        font-family: var(--display);
         color: var(--ink);
-        font-weight: 600;
-        font-size: clamp(24px, 4vw, 32px);
-        line-height: 1.14;
+        font-weight: 700;
+        font-size: clamp(24px, 4vw, 34px);
+        line-height: 1.15;
         letter-spacing: -0.015em;
         margin-bottom: 10px;
         text-wrap: balance;
       }
       .cta-sub {
-        font-family: var(--serif);
-        font-size: 16.5px;
+        font-family: var(--sans);
+        font-size: 17px;
         line-height: 1.55;
         color: var(--body);
         max-width: 44ch;
@@ -727,7 +783,7 @@
       .proofshot .shot img { display:block; width:100%; height:auto; }
       .proofshot .cap { font-family:var(--sans); font-size:12.5px; color:var(--muted-strong); padding:10px 14px; border-top:1px solid var(--hairline); }
       .proofshot .cap a, .pullquote .src a { color:var(--coral); font-weight:600; text-decoration:none; }
-      .pullquote { margin:18px 0; padding:14px 18px; border-left:3px solid var(--coral); background:rgba(255,107,107,0.05); border-radius:0 10px 10px 0; font-family:var(--serif); font-size:16px; line-height:1.55; color:var(--ink); }
+      .pullquote { margin:18px 0; padding:14px 18px; border-left:3px solid var(--coral); background:rgba(255,107,107,0.05); border-radius:0 10px 10px 0; font-family:var(--sans); font-size:16px; line-height:1.55; color:var(--ink); }
       .pullquote .src { display:block; margin-top:8px; font-family:var(--sans); font-size:12.5px; color:var(--muted-strong); }
       .reps-row { background:rgba(255,107,107,0.06); }
     </style>
@@ -755,21 +811,65 @@
       </nav>
 
       <article class="prose">
-        <span class="eyebrow">The honest roundup</span>
+        <span class="eyebrow-pill">Compare</span>
         <h1>The best apps to actually remember what you read (2026)</h1>
-        <p class="byline">Written by the REPS team. Updated July 2026.</p>
 
-        <div class="quick-answer">
-          <div class="qa-label">The short answer</div>
-          <p>
-            For depth and a zero price, Anki wins if you will build your own
-            cards. Readwise (with Reader) is the best all-in-one for people who
-            highlight as they go. Matter has the best free tier and audio.
-            Notion organizes but never tests you. REPS is for people who want to
-            save anything and have the remembering handled for them, as a daily
-            game.
-          </p>
+        <div class="byline">
+          <img
+            src="/product/assets/app-icon.png"
+            alt=""
+            class="byline-mark"
+            width="28"
+            height="28"
+          />
+          <span
+            ><strong>By the REPS team</strong> · Updated July 2026 · 7 min read<br />
+            <span class="byline-cred"
+              >We build a spaced-repetition app and use these tools daily.</span
+            ></span
+          >
         </div>
+
+        <p class="lead">
+          For depth and a zero price, Anki wins if you will build your own
+          cards. Readwise (with Reader) is the best all-in-one for people who
+          highlight as they go. Matter has the best free tier and audio. Notion
+          organizes but never tests you. REPS is for people who want to save
+          anything and have the remembering handled for them, as a daily game.
+        </p>
+
+        <figure class="repsshot">
+          <video
+            src="/beats/quiz-all-sped.mp4"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            aria-hidden="true"
+          ></video>
+          <figcaption class="cap">
+            REPS: a quick daily game built from what you saved
+          </figcaption>
+        </figure>
+
+        <aside class="takeaways">
+          <div class="takeaways-h">Key takeaways</div>
+          <ul>
+            <li>
+              Readwise with Reader is the best all-in-one for people who
+              highlight as they go, and it does test recall through Mastery.
+            </li>
+            <li>
+              Anki is the deepest free power tool if you will build cards; Matter
+              is the best free tier and audio; Notion files but never tests you.
+            </li>
+            <li>
+              REPS is for people who want it done for them: save anything, and
+              the remembering comes back as a quick daily game.
+            </li>
+          </ul>
+        </aside>
 
         <p>
           Here is the frustrating thing about reading apps: nearly all of them
@@ -788,6 +888,7 @@
           not mind doing the work, we will point you straight at Anki.
         </p>
 
+        <span class="section-pill">At a glance</span>
         <h2>At a glance: five apps, four questions that matter</h2>
         <p>
           The only questions worth asking of a "remember what you read" app:
@@ -856,6 +957,7 @@
           Prices are approximate and move around. Check each app before you buy.
         </p>
 
+        <span class="section-pill">The science</span>
         <h2>Why do you forget most of what you read?</h2>
         <p>
           Not because you are a bad reader. Reading something once files it in
@@ -873,6 +975,7 @@
           make you retrieve it, or does it just keep it neatly on a shelf?
         </p>
 
+        <span class="section-pill">The alternatives</span>
         <h2>The apps, honestly compared</h2>
 
         <div class="app-block">
@@ -1001,12 +1104,9 @@
             and you want it to be fun,
             <a class="inline-link" href="#join">get on the early-access list</a>.
           </p>
-          <figure class="repsshot">
-            <video src="/beats/quiz-all-sped.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
-            <figcaption class="cap">REPS: a quick daily game built from what you saved</figcaption>
-          </figure>
         </div>
 
+        <span class="section-pill">From the community</span>
         <h2>What people on Reddit actually recommend</h2>
         <p>
           We read the threads so you can too. A few patterns come up again and
@@ -1068,6 +1168,7 @@
           drift of the conversations, not quoting anyone as a testimonial.
         </p>
 
+        <span class="section-pill">The verdict</span>
         <h2>How to choose</h2>
         <div class="choose">
           <ul>
@@ -1098,6 +1199,7 @@
           </ul>
         </div>
 
+        <span class="section-pill">FAQ</span>
         <h2>Frequently asked</h2>
         <div class="faq">
           <details>
