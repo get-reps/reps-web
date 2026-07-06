@@ -693,6 +693,20 @@
           transition: none;
         }
       }
+
+      /* ── v2 visual upgrade ── */
+      .chip { display:inline-flex; align-items:center; font-family:var(--display); font-weight:600; font-size:12px; color:var(--ink); background:rgba(33,26,20,0.05); border:1px solid var(--hairline); border-radius:999px; padding:3px 10px; white-space:nowrap; }
+      .repsshot { margin:24px 0; border-radius:16px; overflow:hidden; border:1px solid var(--hairline); background:var(--galaxy); box-shadow:0 2px 10px rgba(33,26,20,0.06),0 16px 36px -18px rgba(33,26,20,0.30); }
+      .repsshot video, .repsshot img { display:block; width:100%; height:auto; }
+      .repsshot .cap { font-family:var(--sans); font-size:12.5px; color:var(--muted); padding:9px 13px; background:var(--cream); border-top:1px solid var(--hairline); }
+      .proofshot { margin:22px 0; border:1px solid var(--hairline); border-radius:14px; overflow:hidden; background:#fff; box-shadow:0 1px 3px rgba(33,26,20,0.05),0 10px 24px -14px rgba(33,26,20,0.22); }
+      .proofshot .shot { max-height:480px; overflow:hidden; }
+      .proofshot .shot img { display:block; width:100%; height:auto; }
+      .proofshot .cap { font-family:var(--sans); font-size:12.5px; color:var(--muted-strong); padding:10px 14px; border-top:1px solid var(--hairline); }
+      .proofshot .cap a, .pullquote .src a { color:var(--coral); font-weight:600; text-decoration:none; }
+      .pullquote { margin:18px 0; padding:14px 18px; border-left:3px solid var(--coral); background:rgba(255,107,107,0.05); border-radius:0 10px 10px 0; font-family:var(--serif); font-size:16px; line-height:1.55; color:var(--ink); }
+      .pullquote .src { display:block; margin-top:8px; font-family:var(--sans); font-size:12.5px; color:var(--muted-strong); }
+      .reps-row { background:rgba(255,107,107,0.06); }
     </style>
   </head>
   <body>
@@ -766,35 +780,35 @@
             </thead>
             <tbody>
               <tr>
-                <th scope="row">Anki</th>
+                <th scope="row"><span class="chip">Anki</span></th>
                 <td>Algorithm depth, free decks</td>
                 <td>Free (iOS app one-time paid)</td>
                 <td class="cell-yes">Yes</td>
                 <td class="cell-no">No, you build every card</td>
               </tr>
               <tr>
-                <th scope="row">Readwise</th>
+                <th scope="row"><span class="chip">Readwise</span></th>
                 <td>Highlight sync plus recall</td>
                 <td>From about $5.59/mo</td>
                 <td class="cell-yes">Yes (Mastery)</td>
                 <td class="cell-no">From highlights you make</td>
               </tr>
               <tr>
-                <th scope="row">Matter</th>
+                <th scope="row"><span class="chip">Matter</span></th>
                 <td>Reading plus audio</td>
                 <td>Free tier, Premium about $8/mo</td>
                 <td class="cell-no">No</td>
                 <td class="cell-no">No</td>
               </tr>
               <tr>
-                <th scope="row">Notion</th>
+                <th scope="row"><span class="chip">Notion</span></th>
                 <td>Organizing everything</td>
                 <td>Free tier, paid plans available</td>
                 <td class="cell-no">No</td>
                 <td class="cell-no">No</td>
               </tr>
               <tr class="reps-row">
-                <th scope="row">REPS</th>
+                <th scope="row"><span class="chip">REPS</span></th>
                 <td>Remembering, played as a game</td>
                 <td>Early access</td>
                 <td class="cell-yes">Yes</td>
@@ -919,6 +933,10 @@
             what you want, Anki is still your app. If you want to save anything
             and simply remember it, without the work, that is us.
           </p>
+          <figure class="repsshot">
+            <video src="/beats/game-crossword.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+            <figcaption class="cap">REPS: recall as a crossword built from your own saves</figcaption>
+          </figure>
         </div>
 
         <h2>What people on Reddit actually recommend</h2>
@@ -932,12 +950,38 @@
           about Anki before jumping ship, because the algorithm is rarely the
           problem.
         </p>
+        <blockquote class="pullquote">
+          Work out what actually bothers you about Anki before you switch, because
+          the scheduling is rarely the problem; the pain is the manual
+          card-making and the learning curve.
+          <span class="src"
+            >Paraphrased consensus from
+            <a
+              href="https://www.reddit.com/r/Anki/comments/1g0h2l4/anki_alternatives_autumn_2024/"
+              rel="nofollow"
+              >r/Anki</a
+            ></span
+          >
+        </blockquote>
         <p>
           There is also a large, upvoted camp that simply wants permission rather
           than another system: read to learn now, and trust that what matters
           will stay. If that is you, the fear-based framing most of these apps
           lean on will not land, and that is fair. Read the threads yourself:
         </p>
+        <blockquote class="pullquote">
+          A lot of readers just want permission to read for its own sake and trust
+          that what truly matters will stick, rather than turning every book into
+          another system to maintain.
+          <span class="src"
+            >Paraphrased consensus from
+            <a
+              href="https://www.reddit.com/r/books/comments/189u586/how_to_retain_what_youve_read_for_longer_durations/"
+              rel="nofollow"
+              >r/books</a
+            ></span
+          >
+        </blockquote>
         <ul class="thread-list">
           <li>
             <a

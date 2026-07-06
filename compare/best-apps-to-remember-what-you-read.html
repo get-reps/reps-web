@@ -716,6 +716,20 @@
       footer a {
         text-decoration: underline;
       }
+
+      /* ── v2 visual upgrade ── */
+      .chip { display:inline-flex; align-items:center; font-family:var(--display); font-weight:600; font-size:12px; color:var(--ink); background:rgba(33,26,20,0.05); border:1px solid var(--hairline); border-radius:999px; padding:3px 10px; white-space:nowrap; }
+      .repsshot { margin:24px 0; border-radius:16px; overflow:hidden; border:1px solid var(--hairline); background:var(--galaxy); box-shadow:0 2px 10px rgba(33,26,20,0.06),0 16px 36px -18px rgba(33,26,20,0.30); }
+      .repsshot video, .repsshot img { display:block; width:100%; height:auto; }
+      .repsshot .cap { font-family:var(--sans); font-size:12.5px; color:var(--muted); padding:9px 13px; background:var(--cream); border-top:1px solid var(--hairline); }
+      .proofshot { margin:22px 0; border:1px solid var(--hairline); border-radius:14px; overflow:hidden; background:#fff; box-shadow:0 1px 3px rgba(33,26,20,0.05),0 10px 24px -14px rgba(33,26,20,0.22); }
+      .proofshot .shot { max-height:480px; overflow:hidden; }
+      .proofshot .shot img { display:block; width:100%; height:auto; }
+      .proofshot .cap { font-family:var(--sans); font-size:12.5px; color:var(--muted-strong); padding:10px 14px; border-top:1px solid var(--hairline); }
+      .proofshot .cap a, .pullquote .src a { color:var(--coral); font-weight:600; text-decoration:none; }
+      .pullquote { margin:18px 0; padding:14px 18px; border-left:3px solid var(--coral); background:rgba(255,107,107,0.05); border-radius:0 10px 10px 0; font-family:var(--serif); font-size:16px; line-height:1.55; color:var(--ink); }
+      .pullquote .src { display:block; margin-top:8px; font-family:var(--sans); font-size:12.5px; color:var(--muted-strong); }
+      .reps-row { background:rgba(255,107,107,0.06); }
     </style>
   </head>
   <body>
@@ -796,7 +810,7 @@
             </thead>
             <tbody>
               <tr>
-                <th scope="row">Anki</th>
+                <th scope="row"><span class="chip">Anki</span></th>
                 <td>Deep, free spaced-repetition engine</td>
                 <td>Free; one-time purchase on iOS</td>
                 <td>Yes, if you build the cards</td>
@@ -804,7 +818,7 @@
                 <td>Desktop, Android, iOS, web</td>
               </tr>
               <tr>
-                <th scope="row">Readwise + Reader</th>
+                <th scope="row"><span class="chip">Readwise + Reader</span></th>
                 <td>All-in-one reading and highlight sync</td>
                 <td>Around $8 to $10 a month</td>
                 <td>Yes, via the Mastery feature</td>
@@ -812,7 +826,7 @@
                 <td>iOS, Android, web, browser</td>
               </tr>
               <tr>
-                <th scope="row">Matter</th>
+                <th scope="row"><span class="chip">Matter</span></th>
                 <td>Reading plus best-in-class audio</td>
                 <td>Generous free tier; paid upgrade</td>
                 <td>No</td>
@@ -820,15 +834,15 @@
                 <td>iPhone, iPad, web</td>
               </tr>
               <tr>
-                <th scope="row">Notion</th>
+                <th scope="row"><span class="chip">Notion</span></th>
                 <td>Organizing and filing anything</td>
                 <td>Free tier; paid plans per user</td>
                 <td>No</td>
                 <td>No</td>
                 <td>Desktop, mobile, web</td>
               </tr>
-              <tr class="is-reps">
-                <th scope="row">REPS</th>
+              <tr class="is-reps reps-row">
+                <th scope="row"><span class="chip">REPS</span></th>
                 <td>Save anything, remember it as a game</td>
                 <td>Invite-only early access</td>
                 <td>Yes, generated for you</td>
@@ -987,6 +1001,10 @@
             and you want it to be fun,
             <a class="inline-link" href="#join">get on the early-access list</a>.
           </p>
+          <figure class="repsshot">
+            <video src="/beats/quiz-all-sped.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+            <figcaption class="cap">REPS: a quick daily game built from what you saved</figcaption>
+          </figure>
         </div>
 
         <h2>What people on Reddit actually recommend</h2>
@@ -995,38 +1013,35 @@
           again when real people talk about remembering what they read, and they
           line up with the honest verdicts above.
         </p>
-        <ul>
-          <li>
-            On Anki, the consensus is respect with a caveat: the ecosystem and
-            the price are the moat, and the manual card-making is the wound. The
-            line that keeps recurring is some version of "I spend more time
-            making cards than learning." See
+        <blockquote class="pullquote">
+          On Anki, the recurring line is some version of "I spend more time
+          making cards than actually learning." Respect for the engine and the
+          price, with card-making named as the wound.
+          <span class="src">Paraphrased consensus from
             <a
-              class="inline-link"
               href="https://www.reddit.com/r/Anki/comments/1g0h2l4/anki_alternatives_autumn_2024/"
               rel="nofollow"
               >r/Anki, "Anki alternatives? (Autumn 2024)"</a
             >
             and
             <a
-              class="inline-link"
               href="https://www.reddit.com/r/languagelearning/comments/zwe62d/which_one_is_the_best_free_alternative_for_anki/"
               rel="nofollow"
-              >r/languagelearning on the best free Anki alternative</a
-            >.
-          </li>
-          <li>
-            On Readwise, people genuinely rate it and still hesitate at the
-            price. The
+              >r/languagelearning</a
+            ></span>
+        </blockquote>
+        <blockquote class="pullquote">
+          On Readwise, people genuinely rate it and still hesitate at the price:
+          best all-in-one, but is it worth roughly $120 a year. The debate is the
+          whole thread title.
+          <span class="src">Paraphrased consensus from
             <a
-              class="inline-link"
               href="https://www.reddit.com/r/readwise/comments/1oblyn1/convince_me_to_stay_with_paid_readwise_reader/"
               rel="nofollow"
-              >"convince me to stay with paid Readwise Reader"</a
-            >
-            thread is the whole debate in one title: best all-in-one, but is it
-            worth it.
-          </li>
+              >r/readwise, "convince me to stay with paid Readwise Reader"</a
+            ></span>
+        </blockquote>
+        <ul>
           <li>
             And there is a large, honest camp that pushes back on the whole
             premise, the crowd who say retention is overrated and the real stuff

@@ -724,6 +724,20 @@
       footer a {
         text-decoration: underline;
       }
+
+      /* ── v2 visual upgrade ── */
+      .chip { display:inline-flex; align-items:center; font-family:var(--display); font-weight:600; font-size:12px; color:var(--ink); background:rgba(33,26,20,0.05); border:1px solid var(--hairline); border-radius:999px; padding:3px 10px; white-space:nowrap; }
+      .repsshot { margin:24px 0; border-radius:16px; overflow:hidden; border:1px solid var(--hairline); background:var(--galaxy); box-shadow:0 2px 10px rgba(33,26,20,0.06),0 16px 36px -18px rgba(33,26,20,0.30); }
+      .repsshot video, .repsshot img { display:block; width:100%; height:auto; }
+      .repsshot .cap { font-family:var(--sans); font-size:12.5px; color:var(--muted); padding:9px 13px; background:var(--cream); border-top:1px solid var(--hairline); }
+      .proofshot { margin:22px 0; border:1px solid var(--hairline); border-radius:14px; overflow:hidden; background:#fff; box-shadow:0 1px 3px rgba(33,26,20,0.05),0 10px 24px -14px rgba(33,26,20,0.22); }
+      .proofshot .shot { max-height:480px; overflow:hidden; }
+      .proofshot .shot img { display:block; width:100%; height:auto; }
+      .proofshot .cap { font-family:var(--sans); font-size:12.5px; color:var(--muted-strong); padding:10px 14px; border-top:1px solid var(--hairline); }
+      .proofshot .cap a, .pullquote .src a { color:var(--coral); font-weight:600; text-decoration:none; }
+      .pullquote { margin:18px 0; padding:14px 18px; border-left:3px solid var(--coral); background:rgba(255,107,107,0.05); border-radius:0 10px 10px 0; font-family:var(--serif); font-size:16px; line-height:1.55; color:var(--ink); }
+      .pullquote .src { display:block; margin-top:8px; font-family:var(--sans); font-size:12.5px; color:var(--muted-strong); }
+      .reps-row { background:rgba(255,107,107,0.06); }
     </style>
   </head>
   <body>
@@ -795,35 +809,35 @@
             </thead>
             <tbody>
               <tr>
-                <th scope="row">Readwise + Reader</th>
+                <th scope="row"><span class="chip">Readwise + Reader</span></th>
                 <td>All-in-one reading and recall on your highlights</td>
                 <td>~$120/yr (Full); Lite from ~$5.59/mo</td>
                 <td>Yes, via Mastery (opt-in)</td>
                 <td>Partly. You highlight; it resurfaces</td>
               </tr>
               <tr>
-                <th scope="row">Matter</th>
+                <th scope="row"><span class="chip">Matter</span></th>
                 <td>Reading and listening, best audio</td>
                 <td>Free tier; premium ~$8/mo or ~$60/yr</td>
                 <td>No</td>
                 <td>No</td>
               </tr>
               <tr>
-                <th scope="row">Notion</th>
+                <th scope="row"><span class="chip">Notion</span></th>
                 <td>Organizing and filing everything</td>
                 <td>Free; paid from ~$10/member/mo</td>
                 <td>No</td>
                 <td>No, you build the system</td>
               </tr>
               <tr>
-                <th scope="row">Anki</th>
+                <th scope="row"><span class="chip">Anki</span></th>
                 <td>Deep scheduling and control, free</td>
                 <td>Free (iOS app is a one-time purchase)</td>
                 <td>Yes</td>
                 <td>No, you make every card</td>
               </tr>
               <tr class="reps-row">
-                <th scope="row">REPS</th>
+                <th scope="row"><span class="chip">REPS</span></th>
                 <td>Save anything and play to remember it</td>
                 <td>Early access</td>
                 <td>Yes, as a daily game</td>
@@ -938,6 +952,10 @@
             highlights to maintain, no cards to build, no system to design. Save
             anything, and REPS does the rest.
           </p>
+          <figure class="repsshot">
+            <video src="/beats/discover-combo.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+            <figcaption class="cap">REPS: a feed worth remembering, plus daily recall</figcaption>
+          </figure>
           <p>
             The remembering is the part we care about most, and we made it feel
             like play instead of homework. Instead of a review queue you dread,
@@ -969,6 +987,10 @@
             about Anki?", followed by honest talk about its learning curve and
             manual card-making.
           </p>
+          <blockquote class="pullquote">The recurring question is whether Reader is the best all-in-one but still hard to justify at around $120 a year.
+            <span class="src">Paraphrased consensus from <a href="https://www.reddit.com/r/readwise/comments/1oblyn1/convince_me_to_stay_with_paid_readwise_reader/" rel="nofollow noopener" target="_blank">r/readwise</a></span></blockquote>
+          <blockquote class="pullquote">Before recommending an alternative, the Anki community asks what specifically you dislike about Anki, then talks honestly about its learning curve and manual card-making.
+            <span class="src">Paraphrased consensus from <a href="https://www.reddit.com/r/Anki/comments/1g0h2l4/anki_alternatives_autumn_2024/" rel="nofollow noopener" target="_blank">r/Anki</a></span></blockquote>
           <p>
             There is also a large, upvoted camp that pushes back on the whole
             premise: read to learn now, they say, and stop stressing about
@@ -1006,6 +1028,10 @@
               <span>r/Anki, the honest alternatives discussion</span>
             </li>
           </ul>
+          <figure class="proofshot">
+            <div class="shot"><img src="/compare/assets/readwise-120-reddit.png" alt="A real r/readwise post questioning whether Readwise Reader is worth $120 a year" loading="lazy" /></div>
+            <figcaption class="cap">A real r/readwise thread: is Reader worth around $120 a year? <a href="https://www.reddit.com/r/readwise/comments/1oblyn1/convince_me_to_stay_with_paid_readwise_reader/" target="_blank" rel="nofollow noopener">View thread</a></figcaption>
+          </figure>
           <p class="table-note" style="margin: 0 2px 4px">
             We link these so you can judge the consensus yourself. We have not
             pulled quotes from them, because a comparison page is not the place
