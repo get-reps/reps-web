@@ -1,0 +1,340 @@
+<!doctype html>
+<!-- REPS Blog index — GEO/SEO content surface scaffold (2026-07-06)
+     Empty-but-indexable landing for future editorial posts. The ranking content
+     lives under /compare; this is stood up now so the entity + internal-link
+     structure exists early. Individual posts are added later.
+
+     BRAND-RULE NOTE FOR FUTURE EDITORS (do not strip): clinical keywords
+     ("spaced repetition", "active recall", "flashcards", "study", "retention")
+     are ALLOWED in body/meta/FAQ/JSON-LD for search + AI-answer reach, but are
+     BANNED from H1s and positioning lines. This composes with the ad-headline
+     ban in DESIGN_DECISIONS.md — it does not conflict with it. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>The REPS Blog · Remembering what you read</title>
+    <meta
+      name="description"
+      content="Notes from the team at REPS on remembering what you read, watch, and hear: how memory actually works, honest tool comparisons, and getting more out of everything you save."
+    />
+    <link rel="canonical" href="https://getreps.io/blog" />
+    <meta property="og:title" content="The REPS Blog" />
+    <meta
+      property="og:description"
+      content="Notes on remembering what you read, watch, and hear."
+    />
+    <meta property="og:url" content="https://getreps.io/blog" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://www.getreps.io/og-card-v3.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:image"
+      content="https://www.getreps.io/og-card-v3.png"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "@id": "https://getreps.io/blog#blog",
+        "name": "The REPS Blog",
+        "description": "Notes on remembering what you read, watch, and hear.",
+        "url": "https://getreps.io/blog",
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://getreps.io/#organization",
+          "name": "REPS",
+          "url": "https://getreps.io/",
+          "logo": "https://www.getreps.io/og-card-v3.png"
+        }
+      }
+    </script>
+    <style>
+      :root {
+        --cream: #fffaf7;
+        --coral: #ff6b6b;
+        --peach: #ff8e53;
+        --ink: #211a14;
+        --body: rgba(33, 26, 20, 0.72);
+        --muted: rgba(33, 26, 20, 0.52);
+        --muted-strong: rgba(33, 26, 20, 0.62);
+        --hairline: rgba(33, 26, 20, 0.09);
+        --galaxy: #040409;
+        --display: "Space Grotesk", system-ui, -apple-system, sans-serif;
+        --serif: "Lora", Georgia, "Times New Roman", serif;
+        --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        background: var(--cream);
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--cream);
+        color: var(--body);
+        font-family: var(--sans);
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.5;
+        overflow-x: hidden;
+      }
+      img {
+        display: block;
+        max-width: 100%;
+      }
+      a {
+        color: inherit;
+      }
+
+      /* ── Nav (shared shell — matches homepage) ── */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 200;
+        background: var(--cream);
+        border-bottom: 1px solid var(--hairline);
+        padding: 14px 24px;
+      }
+      .nav-inner {
+        max-width: 1120px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .wordmark {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 18px;
+        letter-spacing: 0.04em;
+        color: var(--ink);
+      }
+      .wordmark img {
+        width: 26px;
+        height: 26px;
+        border-radius: 6px;
+        box-shadow: 0 1px 4px rgba(33, 26, 20, 0.12);
+      }
+      .nav-cta {
+        font-size: 14px;
+        font-weight: 600;
+        color: #fff;
+        text-decoration: none;
+        display: inline-block;
+        background: linear-gradient(135deg, var(--coral), var(--peach));
+        padding: 9px 20px;
+        border-radius: 999px;
+        box-shadow: 0 2px 10px -3px rgba(255, 107, 107, 0.38);
+        transition:
+          opacity 0.14s,
+          transform 0.14s;
+      }
+      .nav-cta:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+      }
+
+      /* ── Editorial page frame ── */
+      .wrap {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 56px 24px 40px;
+      }
+      .eyebrow {
+        display: inline-block;
+        font-family: var(--display);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--coral);
+        margin-bottom: 14px;
+      }
+      h1 {
+        font-family: var(--serif);
+        color: var(--ink);
+        font-weight: 600;
+        font-size: clamp(30px, 6vw, 46px);
+        line-height: 1.1;
+        letter-spacing: -0.015em;
+        text-wrap: balance;
+        margin-bottom: 16px;
+      }
+      .standfirst {
+        font-family: var(--serif);
+        font-size: clamp(17px, 2.2vw, 20px);
+        line-height: 1.55;
+        color: var(--body);
+        max-width: 60ch;
+      }
+
+      /* ── Empty state ── */
+      .empty {
+        margin-top: 44px;
+        padding: 32px 28px;
+        border: 1px solid var(--hairline);
+        border-radius: 18px;
+        background: #fff;
+        box-shadow:
+          0 1px 3px rgba(33, 26, 20, 0.04),
+          0 4px 14px rgba(33, 26, 20, 0.03);
+      }
+      .empty h2 {
+        font-family: var(--serif);
+        color: var(--ink);
+        font-weight: 600;
+        font-size: 21px;
+        margin-bottom: 8px;
+      }
+      .empty p {
+        font-family: var(--serif);
+        font-size: 16px;
+        line-height: 1.6;
+        color: var(--body);
+      }
+      .empty p + p {
+        margin-top: 12px;
+      }
+      .inline-link {
+        color: var(--coral);
+        font-weight: 600;
+        text-decoration: none;
+        border-bottom: 1.5px solid rgba(255, 107, 107, 0.32);
+      }
+      .inline-link:hover {
+        border-bottom-color: var(--coral);
+      }
+
+      /* ── Footer (shared shell) ── */
+      footer {
+        padding: 32px 24px 48px;
+        border-top: 1px solid var(--hairline);
+        text-align: center;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      footer .motto {
+        display: block;
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 13px;
+        letter-spacing: 0.04em;
+        color: var(--ink);
+        margin-bottom: 6px;
+      }
+      footer a {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="nav-inner">
+        <a class="wordmark" href="/">
+          <img
+            src="/product/assets/app-icon.png"
+            alt="REPS"
+            width="26"
+            height="26"
+          />
+          REPS
+        </a>
+        <a class="nav-cta" href="/">Get early access</a>
+      </div>
+    </nav>
+
+    <main class="wrap">
+      <span class="eyebrow">The REPS Blog</span>
+      <h1>Notes on remembering what you read.</h1>
+      <p class="standfirst">
+        Short, honest writing on how memory actually works, how to get more out
+        of everything you save, and where the tools we all use fall short.
+      </p>
+
+      <section class="empty" aria-label="Coming soon">
+        <h2>We are just getting started.</h2>
+        <p>
+          The first pieces are being written. In the meantime, our honest,
+          side-by-side breakdowns of the apps people use to remember what they
+          read live on the
+          <a class="inline-link" href="/compare">compare page</a>.
+        </p>
+        <p>
+          Want the writing in your inbox as it lands?
+          <a class="inline-link" href="/">Get early access to REPS</a> and you
+          will be the first to see it.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <span class="motto">Save. Play. Remember.</span>
+      REPS · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
+    </footer>
+
+    <!-- PostHog — analytics + raw-referrer AI-engine classification (GEO attribution) -->
+    <script>
+      !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+
+      /* GEO attribution — classify the raw referrer so AI-engine visits are visible.
+         AI answer engines (ChatGPT, Perplexity, Gemini, Copilot) send real referrer
+         hosts; built-in analytics channel badges under-count them. Registered as
+         super-properties so they attach to pageview + every later event. */
+      function repsClassifyReferrer(ref) {
+        if (!ref) return { category: "direct", host: "" };
+        var host;
+        try { host = new URL(ref).hostname.replace(/^www\./, ""); }
+        catch (e) { return { category: "other", host: "" }; }
+        var AI = ["chatgpt.com","chat.openai.com","openai.com","perplexity.ai","gemini.google.com","copilot.microsoft.com","claude.ai","you.com","poe.com","phind.com","bing.com/chat"];
+        var SEARCH = ["google.com","bing.com","duckduckgo.com","ecosia.org","search.brave.com","yahoo.com","yandex.com","startpage.com"];
+        var SOCIAL = ["reddit.com","x.com","twitter.com","t.co","facebook.com","instagram.com","linkedin.com","youtube.com","tiktok.com","news.ycombinator.com"];
+        function match(list) { for (var i=0;i<list.length;i++){ var d=list[i]; if (host===d||host.endsWith("."+d)) return true; } return false; }
+        if (match(AI)) return { category: "ai_engine", host: host };
+        if (match(SEARCH)) return { category: "search", host: host };
+        if (match(SOCIAL)) return { category: "social", host: host };
+        return { category: "referral", host: host };
+      }
+
+      posthog.init("phc_gTI0FJoXiGPjdACbgVyunpDSl0mPs2HEYtmzUtK3SyE", {
+        api_host: "https://us.i.posthog.com",
+        ui_host: "https://us.posthog.com",
+        defaults: "2025-05-24",
+        persistence: "localStorage+cookie",
+        capture_pageview: true,
+        capture_pageleave: true,
+        autocapture: true,
+        disable_session_recording: false,
+        loaded: function (ph) {
+          var r = repsClassifyReferrer(document.referrer);
+          ph.register({
+            lp_variant: "blog_index",
+            referrer_raw: document.referrer || "",
+            referrer_host: r.host,
+            referrer_category: r.category,
+            landing_path: location.pathname
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

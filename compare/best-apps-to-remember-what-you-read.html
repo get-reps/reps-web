@@ -1,0 +1,1274 @@
+<!doctype html>
+<!-- REPS /compare — Best apps to remember what you read (2026-07-06)
+     Flagship roundup page. GEO/SEO content surface for reps-web (static, Vercel, cleanUrls).
+
+     BRAND-RULE NOTE FOR FUTURE EDITORS (do not strip): clinical keywords
+     ("spaced repetition", "active recall", "flashcards", "study", "retention")
+     are ALLOWED in body/meta/FAQ/JSON-LD for search + AI-answer reach, but are
+     BANNED from H1s and positioning lines. This composes with the ad-headline
+     ban in DESIGN_DECISIONS.md — it does not conflict with it.
+
+     Competitor set is BIG PLATFORMS ONLY (Anki, Readwise + Reader, Notion,
+     Matter). Never name Recall or any small app. Facts sourced only from
+     work/geo-seo/competitor-seo-teardown.md; "verify"-flagged numbers softened. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Best Apps to Remember What You Read (2026) · REPS</title>
+    <meta
+      name="description"
+      content="An honest 2026 roundup of the best apps to remember what you read: Anki, Readwise, Reader, Matter, and Notion, judged on active recall and spaced repetition. Where each wins, and where REPS fits."
+    />
+    <link
+      rel="canonical"
+      href="https://getreps.io/compare/best-apps-to-remember-what-you-read"
+    />
+    <meta
+      property="og:title"
+      content="Best Apps to Remember What You Read (2026)"
+    />
+    <meta
+      property="og:description"
+      content="An honest roundup of the apps that help you remember what you read, not just save it. Anki, Readwise, Reader, Matter, Notion, and where REPS fits."
+    />
+    <meta
+      property="og:url"
+      content="https://getreps.io/compare/best-apps-to-remember-what-you-read"
+    />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="https://www.getreps.io/og-card-v3.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:image"
+      content="https://www.getreps.io/og-card-v3.png"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- ── JSON-LD spine: Organization + WebSite + BreadcrumbList + BlogPosting + FAQPage ── -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "@id": "https://getreps.io/#organization",
+        "name": "REPS",
+        "url": "https://getreps.io/",
+        "logo": "https://www.getreps.io/og-card-v3.png",
+        "description": "REPS turns what you read, watch, and hear into quick games that make it stick."
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "@id": "https://getreps.io/#website",
+        "name": "REPS",
+        "url": "https://getreps.io/",
+        "publisher": { "@id": "https://getreps.io/#organization" }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://getreps.io/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Compare",
+            "item": "https://getreps.io/compare"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Best apps to remember what you read",
+            "item": "https://getreps.io/compare/best-apps-to-remember-what-you-read"
+          }
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "@id": "https://getreps.io/compare/best-apps-to-remember-what-you-read#article",
+        "headline": "Best Apps to Remember What You Read (2026)",
+        "description": "An honest 2026 roundup of the best apps to remember what you read: Anki, Readwise, Reader, Matter, and Notion, judged on active recall and spaced repetition. Where each wins, and where REPS fits.",
+        "datePublished": "2026-07-06",
+        "dateModified": "2026-07-06",
+        "author": { "@type": "Organization", "@id": "https://getreps.io/#organization" },
+        "publisher": { "@type": "Organization", "@id": "https://getreps.io/#organization" },
+        "mainEntityOfPage": "https://getreps.io/compare/best-apps-to-remember-what-you-read",
+        "image": "https://www.getreps.io/og-card-v3.png"
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why do I forget most of what I read?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Reading once puts something in short-term memory, and the forgetting curve pulls most of it back out within days. What holds knowledge in place is active recall (pulling the idea back out of your head) on a spaced schedule (revisiting it right before you would forget). Highlighting and note-taking feel productive but skip the recall step, which is the part that actually makes it stick. Apps that only save and organize your reading do not close that loop; apps that test you on it do."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the best free app to remember what you read?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Anki is the strongest free option if you are willing to build your own flashcards; it is free on desktop and Android with a genuinely deep spaced-repetition engine. Matter has a generous free tier for saving and listening to articles, though it does not test recall. REPS is invite-only early access right now and is built so you never make a single card by hand."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the best app if I hate making flashcards?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "If card-making is the part you dread, Readwise turns highlights you already made into active-recall questions through its Mastery feature, so you skip most of the manual work. REPS goes further: you save an article, video, or podcast and it generates the recall for you, then serves it back as a quick daily game. Neither asks you to sit down and author cards."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does REPS work with articles, YouTube, and podcasts?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. REPS is built to save anything you read, watch, or hear: articles and web pages, YouTube videos, PDFs and documents, images, and audio. It turns each into recall you can play through, and links everything into your Second Brain, a graph of what you know. Bring your own content instead of working through someone else's course."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is spaced repetition actually worth the effort?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Spaced repetition is one of the most reliable ways to move something into long-term memory, because it schedules each review for the moment a memory is about to fade. The catch has always been the effort: classic tools make you build and maintain the schedule yourself. The apps worth your time in 2026 are the ones that handle the scheduling for you so all you have to do is show up for a couple of minutes."
+            }
+          }
+        ]
+      }
+    </script>
+
+    <style>
+      :root {
+        --cream: #fffaf7;
+        --coral: #ff6b6b;
+        --peach: #ff8e53;
+        --ink: #211a14;
+        --body: rgba(33, 26, 20, 0.72);
+        --muted: rgba(33, 26, 20, 0.52);
+        --muted-strong: rgba(33, 26, 20, 0.62);
+        --hairline: rgba(33, 26, 20, 0.09);
+        --galaxy: #040409;
+        --display: "Space Grotesk", system-ui, -apple-system, sans-serif;
+        --serif: "Lora", Georgia, "Times New Roman", serif;
+        --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        background: var(--cream);
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--cream);
+        color: var(--body);
+        font-family: var(--sans);
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.5;
+        overflow-x: hidden;
+      }
+      img {
+        display: block;
+        max-width: 100%;
+      }
+      a {
+        color: inherit;
+      }
+
+      /* ── Nav (shared shell — matches homepage) ── */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 200;
+        background: var(--cream);
+        border-bottom: 1px solid var(--hairline);
+        padding: 14px 24px;
+      }
+      .nav-inner {
+        max-width: 1120px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .wordmark {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 18px;
+        letter-spacing: 0.04em;
+        color: var(--ink);
+      }
+      .wordmark img {
+        width: 26px;
+        height: 26px;
+        border-radius: 6px;
+        box-shadow: 0 1px 4px rgba(33, 26, 20, 0.12);
+      }
+      .nav-cta {
+        font-size: 14px;
+        font-weight: 600;
+        color: #fff;
+        text-decoration: none;
+        display: inline-block;
+        background: linear-gradient(135deg, var(--coral), var(--peach));
+        padding: 9px 20px;
+        border-radius: 999px;
+        box-shadow: 0 2px 10px -3px rgba(255, 107, 107, 0.38);
+        transition:
+          opacity 0.14s,
+          transform 0.14s;
+      }
+      .nav-cta:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+      }
+
+      /* ── Article frame ── */
+      .wrap {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 52px 24px 40px;
+      }
+      .crumb {
+        font-family: var(--display);
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.02em;
+        color: var(--muted);
+        margin-bottom: 22px;
+      }
+      .crumb a {
+        text-decoration: none;
+        color: var(--muted-strong);
+      }
+      .crumb a:hover {
+        color: var(--coral);
+      }
+      .eyebrow {
+        display: inline-block;
+        font-family: var(--display);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--coral);
+        margin-bottom: 14px;
+      }
+      h1 {
+        font-family: var(--serif);
+        color: var(--ink);
+        font-weight: 600;
+        font-size: clamp(30px, 6vw, 47px);
+        line-height: 1.1;
+        letter-spacing: -0.015em;
+        text-wrap: balance;
+        margin-bottom: 18px;
+      }
+      .byline {
+        font-family: var(--display);
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--muted);
+        margin-bottom: 26px;
+      }
+
+      /* Article prose = Lora */
+      .prose h2 {
+        font-family: var(--serif);
+        color: var(--ink);
+        font-weight: 600;
+        font-size: clamp(23px, 3.4vw, 30px);
+        line-height: 1.18;
+        letter-spacing: -0.01em;
+        text-wrap: balance;
+        margin: 48px 0 14px;
+      }
+      .prose h3 {
+        font-family: var(--serif);
+        color: var(--ink);
+        font-weight: 600;
+        font-size: clamp(19px, 2.6vw, 23px);
+        line-height: 1.25;
+        margin: 34px 0 10px;
+      }
+      .prose p {
+        font-family: var(--serif);
+        font-size: 17.5px;
+        line-height: 1.68;
+        color: var(--body);
+        margin-bottom: 18px;
+      }
+      .prose p strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .prose ul {
+        list-style: none;
+        margin: 0 0 22px;
+        padding: 0;
+      }
+      .prose ul li {
+        font-family: var(--serif);
+        font-size: 17px;
+        line-height: 1.6;
+        color: var(--body);
+        padding-left: 24px;
+        position: relative;
+        margin-bottom: 12px;
+      }
+      .prose ul li::before {
+        content: "";
+        position: absolute;
+        left: 4px;
+        top: 11px;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--coral);
+      }
+      .prose a.inline-link {
+        color: var(--coral);
+        font-weight: 500;
+        text-decoration: none;
+        border-bottom: 1.5px solid rgba(255, 107, 107, 0.32);
+      }
+      .prose a.inline-link:hover {
+        border-bottom-color: var(--coral);
+      }
+
+      /* ── Quick answer card ── */
+      .quick-answer {
+        margin: 6px 0 8px;
+        padding: 20px 24px;
+        background: #fff;
+        border-left: 4px solid var(--coral);
+        border-radius: 0 14px 14px 0;
+        box-shadow:
+          0 1px 3px rgba(33, 26, 20, 0.04),
+          0 6px 20px rgba(33, 26, 20, 0.035);
+      }
+      .quick-answer .qa-label {
+        font-family: var(--display);
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--coral);
+        margin-bottom: 8px;
+      }
+      .quick-answer p {
+        font-family: var(--serif);
+        font-size: 17.5px;
+        line-height: 1.6;
+        color: var(--ink);
+        margin: 0;
+      }
+
+      /* ── Comparison table (sans) ── */
+      .table-scroll {
+        overflow-x: auto;
+        margin: 26px 0 8px;
+        -webkit-overflow-scrolling: touch;
+        border-radius: 14px;
+        border: 1px solid var(--hairline);
+        box-shadow: 0 4px 18px rgba(33, 26, 20, 0.04);
+      }
+      table.compare {
+        border-collapse: collapse;
+        width: 100%;
+        min-width: 640px;
+        background: #fff;
+        font-family: var(--sans);
+      }
+      table.compare th,
+      table.compare td {
+        text-align: left;
+        padding: 13px 16px;
+        border-bottom: 1px solid var(--hairline);
+        font-size: 14px;
+        vertical-align: top;
+      }
+      table.compare thead th {
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 12px;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        color: var(--muted-strong);
+        background: #fff7f3;
+        position: sticky;
+        top: 0;
+      }
+      table.compare tbody th {
+        font-family: var(--display);
+        font-weight: 600;
+        color: var(--ink);
+        font-size: 14px;
+        white-space: nowrap;
+      }
+      table.compare tbody tr:last-child td,
+      table.compare tbody tr:last-child th {
+        border-bottom: none;
+      }
+      table.compare tr.is-reps th,
+      table.compare tr.is-reps td {
+        background: linear-gradient(
+          90deg,
+          rgba(255, 107, 107, 0.07),
+          rgba(255, 142, 83, 0.05)
+        );
+      }
+      table.compare tr.is-reps th {
+        color: var(--coral);
+      }
+      .table-note {
+        font-family: var(--sans);
+        font-size: 12.5px;
+        color: var(--muted);
+        margin: 10px 2px 0;
+      }
+
+      /* ── App block ── */
+      .app-block {
+        margin-top: 34px;
+        padding-top: 6px;
+      }
+      .app-tag {
+        display: inline-block;
+        font-family: var(--display);
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted-strong);
+        background: #fff;
+        border: 1px solid var(--hairline);
+        border-radius: 999px;
+        padding: 4px 12px;
+        margin-bottom: 6px;
+      }
+      .app-block h3 {
+        margin-top: 6px;
+      }
+
+      /* ── How to choose ── */
+      .choose {
+        margin: 30px 0 8px;
+        padding: 26px 26px 12px;
+        background: #fff;
+        border: 1px solid var(--hairline);
+        border-radius: 18px;
+        box-shadow: 0 4px 18px rgba(33, 26, 20, 0.035);
+      }
+      .choose ul {
+        margin: 0;
+      }
+      .choose ul li {
+        font-family: var(--serif);
+      }
+      .choose ul li b {
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 14px;
+        color: var(--ink);
+        letter-spacing: 0.01em;
+      }
+
+      /* ── FAQ ── */
+      .faq {
+        margin-top: 12px;
+      }
+      .faq details {
+        border-bottom: 1px solid var(--hairline);
+        padding: 6px 0;
+      }
+      .faq summary {
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 16.5px;
+        color: var(--ink);
+        cursor: pointer;
+        list-style: none;
+        padding: 14px 34px 14px 0;
+        position: relative;
+      }
+      .faq summary::-webkit-details-marker {
+        display: none;
+      }
+      .faq summary::after {
+        content: "+";
+        position: absolute;
+        right: 4px;
+        top: 12px;
+        font-size: 22px;
+        font-weight: 500;
+        color: var(--coral);
+        transition: transform 0.18s;
+      }
+      .faq details[open] summary::after {
+        content: "\2013";
+      }
+      .faq details p {
+        font-family: var(--serif);
+        font-size: 16.5px;
+        line-height: 1.62;
+        color: var(--body);
+        padding: 0 8px 16px 0;
+        margin: 0;
+      }
+
+      /* ── CTA (waitlist) ── */
+      .cta {
+        margin: 56px 24px 8px;
+        max-width: 620px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        padding: 44px 28px;
+        background: #fff;
+        border: 1px solid var(--hairline);
+        border-radius: 22px;
+        box-shadow:
+          0 1px 3px rgba(33, 26, 20, 0.04),
+          0 12px 40px rgba(33, 26, 20, 0.05);
+      }
+      .cta h2 {
+        font-family: var(--serif);
+        color: var(--ink);
+        font-weight: 600;
+        font-size: clamp(24px, 4vw, 32px);
+        line-height: 1.14;
+        letter-spacing: -0.015em;
+        margin-bottom: 10px;
+        text-wrap: balance;
+      }
+      .cta-sub {
+        font-family: var(--serif);
+        font-size: 16.5px;
+        line-height: 1.55;
+        color: var(--body);
+        max-width: 44ch;
+        margin: 0 auto 26px;
+      }
+      .form-zone {
+        max-width: 460px;
+        margin: 0 auto;
+      }
+      .signup {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+      }
+      .signup input[type="email"] {
+        flex: 1 1 auto;
+        min-width: 0;
+        height: 52px;
+        border: 1.5px solid rgba(33, 26, 20, 0.22);
+        border-radius: 12px;
+        background: #fff;
+        padding: 0 16px;
+        font-family: var(--sans);
+        font-size: 16px;
+        color: var(--ink);
+        outline: none;
+        box-shadow: 0 2px 12px -4px rgba(33, 26, 20, 0.16);
+        transition:
+          border-color 0.14s,
+          box-shadow 0.14s;
+      }
+      .signup input:hover {
+        border-color: rgba(33, 26, 20, 0.34);
+      }
+      .signup input:focus {
+        border-color: var(--coral);
+        box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.16);
+      }
+      .signup input::placeholder {
+        color: var(--muted-strong);
+      }
+      .signup button {
+        flex: 0 0 auto;
+        white-space: nowrap;
+        height: 52px;
+        padding: 0 22px;
+        border: 0;
+        border-radius: 12px;
+        cursor: pointer;
+        background: linear-gradient(135deg, var(--coral), var(--peach));
+        color: #fff;
+        font-family: var(--sans);
+        font-weight: 600;
+        font-size: 16px;
+        box-shadow: 0 4px 16px -5px rgba(255, 107, 107, 0.32);
+        transition:
+          opacity 0.12s,
+          transform 0.12s;
+      }
+      .signup button:hover {
+        opacity: 0.92;
+        transform: translateY(-1px);
+      }
+      .signup button:active {
+        transform: translateY(0);
+      }
+      .signup button:disabled {
+        opacity: 0.6;
+        cursor: default;
+        transform: none;
+      }
+      .reassure {
+        font-size: 13px;
+        color: var(--muted-strong);
+        text-align: center;
+        margin-top: 10px;
+      }
+      .err {
+        font-size: 13px;
+        color: #c0392b;
+        text-align: center;
+        min-height: 16px;
+        margin-top: 4px;
+      }
+      .success {
+        display: none;
+        align-items: center;
+        gap: 14px;
+        padding: 16px 18px;
+        border-radius: 14px;
+        background: #fff;
+        border: 1.5px solid rgba(78, 205, 196, 0.42);
+        color: var(--ink);
+        font-weight: 600;
+        font-size: 15px;
+        text-align: left;
+      }
+      .success img {
+        width: 40px;
+        height: 36px;
+        flex: none;
+        object-fit: contain;
+      }
+      .form-done .signup {
+        display: none;
+      }
+      .form-done .reassure {
+        display: none;
+      }
+      .form-done .success {
+        display: flex;
+      }
+
+      /* ── Footer (shared shell) ── */
+      footer {
+        padding: 32px 24px 48px;
+        border-top: 1px solid var(--hairline);
+        text-align: center;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      footer .motto {
+        display: block;
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 13px;
+        letter-spacing: 0.04em;
+        color: var(--ink);
+        margin-bottom: 6px;
+      }
+      footer a {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="nav-inner">
+        <a class="wordmark" href="/">
+          <img
+            src="/product/assets/app-icon.png"
+            alt="REPS"
+            width="26"
+            height="26"
+          />
+          REPS
+        </a>
+        <a class="nav-cta" href="#join">Get early access</a>
+      </div>
+    </nav>
+
+    <main class="wrap">
+      <nav class="crumb" aria-label="Breadcrumb">
+        <a href="/">Home</a> / <a href="/compare">Compare</a> / Remember what you
+        read
+      </nav>
+
+      <article class="prose">
+        <span class="eyebrow">The honest roundup</span>
+        <h1>The best apps to actually remember what you read (2026)</h1>
+        <p class="byline">Written by the REPS team. Updated July 2026.</p>
+
+        <div class="quick-answer">
+          <div class="qa-label">The short answer</div>
+          <p>
+            For depth and a zero price, Anki wins if you will build your own
+            cards. Readwise (with Reader) is the best all-in-one for people who
+            highlight as they go. Matter has the best free tier and audio.
+            Notion organizes but never tests you. REPS is for people who want to
+            save anything and have the remembering handled for them, as a daily
+            game.
+          </p>
+        </div>
+
+        <p>
+          Here is the frustrating thing about reading apps: nearly all of them
+          are built to help you <em>consume</em> more, and almost none of them
+          help you <em>keep</em> any of it. You save the article. You highlight
+          the good bit. You feel productive. Two weeks later you could not
+          reconstruct the argument if your job depended on it.
+        </p>
+        <p>
+          We built REPS because that gap drove us a little crazy, so this roundup
+          is not neutral. But it is honest. Below we name where each of the big
+          apps genuinely wins before we say where it falls short, and we send you
+          elsewhere when another tool is the better fit. If you want an app that
+          organizes what you save and then quietly makes sure you remember it,
+          keep reading. If you want the deepest algorithm on the market and do
+          not mind doing the work, we will point you straight at Anki.
+        </p>
+
+        <h2>At a glance: five apps, four questions that matter</h2>
+        <p>
+          The only questions worth asking of a "remember what you read" app:
+          what is it actually best at, what does it cost, does it test your
+          recall or just store your notes, and how much of the work does it do
+          for you.
+        </p>
+
+        <div class="table-scroll">
+          <table class="compare">
+            <thead>
+              <tr>
+                <th scope="col">App</th>
+                <th scope="col">Best at</th>
+                <th scope="col">Price</th>
+                <th scope="col">Tests recall?</th>
+                <th scope="col">Does it for you?</th>
+                <th scope="col">Platforms</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Anki</th>
+                <td>Deep, free spaced-repetition engine</td>
+                <td>Free; one-time purchase on iOS</td>
+                <td>Yes, if you build the cards</td>
+                <td>No, you make every card</td>
+                <td>Desktop, Android, iOS, web</td>
+              </tr>
+              <tr>
+                <th scope="row">Readwise + Reader</th>
+                <td>All-in-one reading and highlight sync</td>
+                <td>Around $8 to $10 a month</td>
+                <td>Yes, via the Mastery feature</td>
+                <td>Partly, from your highlights</td>
+                <td>iOS, Android, web, browser</td>
+              </tr>
+              <tr>
+                <th scope="row">Matter</th>
+                <td>Reading plus best-in-class audio</td>
+                <td>Generous free tier; paid upgrade</td>
+                <td>No</td>
+                <td>No</td>
+                <td>iPhone, iPad, web</td>
+              </tr>
+              <tr>
+                <th scope="row">Notion</th>
+                <td>Organizing and filing anything</td>
+                <td>Free tier; paid plans per user</td>
+                <td>No</td>
+                <td>No</td>
+                <td>Desktop, mobile, web</td>
+              </tr>
+              <tr class="is-reps">
+                <th scope="row">REPS</th>
+                <td>Save anything, remember it as a game</td>
+                <td>Invite-only early access</td>
+                <td>Yes, generated for you</td>
+                <td>Yes, no cards to build</td>
+                <td>iOS (early access)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-note">
+          Prices are approximate and move around. Check each app before you buy.
+        </p>
+
+        <h2>Why do you forget most of what you read?</h2>
+        <p>
+          Not because you are a bad reader. Reading something once files it in
+          short-term memory, and short-term memory leaks. The two things that
+          actually hold knowledge in place are active recall, meaning you pull
+          the idea back out of your own head rather than re-reading it, and
+          spaced repetition, meaning you do that pulling on a schedule that hits
+          right before the memory would fade.
+        </p>
+        <p>
+          Highlighting and note-taking feel like remembering, but they are still
+          just saving. The recall step is the one that does the work, and it is
+          the exact step most reading apps quietly skip. So the honest test for
+          any app on this list is simple: after you save something, does it ever
+          make you retrieve it, or does it just keep it neatly on a shelf?
+        </p>
+
+        <h2>The apps, honestly compared</h2>
+
+        <div class="app-block">
+          <span class="app-tag">The power tool</span>
+          <h3>Anki: unbeatable depth, if you do the building</h3>
+          <p>
+            <strong>Where Anki genuinely wins:</strong> it is the deepest
+            spaced-repetition engine you can get, and it is free. The scheduler
+            (classic SM-2, plus a modern machine-learning option that models your
+            personal forgetting curve) is more sophisticated than anything else
+            here, it is free on desktop and Android, it handles enormous
+            collections without flinching, and there is a huge community
+            ecosystem of shared decks and add-ons. For medical students and
+            language learners in particular, Anki is often still the correct
+            answer, and we will happily say so.
+          </p>
+          <p>
+            <strong>Where it falls short for our use case:</strong> you build
+            every card by hand. Anki does not ingest what you read, watch, or
+            hear, so nothing turns this morning's article into cards for you.
+            The setup is steep and the interface has aged. The most common
+            complaint we hear echoes across the internet:
+            <em>I spend more time making cards than actually learning.</em> If
+            the making is the friction that stops you, Anki does not remove it,
+            it hands it to you.
+          </p>
+        </div>
+
+        <div class="app-block">
+          <span class="app-tag">The all-in-one</span>
+          <h3>Readwise and Reader: the best pipeline for highlighters</h3>
+          <p>
+            <strong>Where Readwise genuinely wins:</strong> nothing pulls
+            highlights together like it. It syncs from Kindle, Apple Books,
+            articles, PDFs, and more into one place, and it exports out to
+            Notion, Obsidian, and the rest, so it sits at the center of a serious
+            reading setup. Its companion app, Reader, is a legitimately excellent
+            all-in-one inbox for articles, newsletters, RSS, PDFs, and even
+            YouTube transcripts. And crucially, Readwise
+            <strong>does test recall</strong>: its Mastery feature turns your
+            highlights into active-recall questions on a spaced schedule. Anyone
+            who tells you Readwise "only resurfaces highlights" has not used it.
+          </p>
+          <p>
+            <strong>Where it falls short for our use case:</strong> the default
+            daily experience is passive resurfacing of quotes, and the real
+            recall testing (Mastery) is an opt-in layer you set up yourself on
+            highlights you already made. It works on what you highlighted, so it
+            will not generate questions from a video or a source you did not mark
+            up, and it is not a game you look forward to. It is also the priciest
+            option here. The recurring gripe online is exactly that: people love
+            it and still ask whether it is really worth roughly $120 a year, and
+            whether the highlight-import setup is worth the fiddling.
+          </p>
+        </div>
+
+        <div class="app-block">
+          <span class="app-tag">The listener's pick</span>
+          <h3>Matter: the nicest way to read and, especially, to listen</h3>
+          <p>
+            <strong>Where Matter genuinely wins:</strong> the free tier is
+            generous, the design is lovely, and its audio is the best of this
+            group. It turns articles and newsletters into a listenable playlist
+            with natural text-to-speech, which is a genuinely different way to
+            get through your reading list on a walk or a commute. If you consume
+            a lot by ear, Matter is a joy.
+          </p>
+          <p>
+            <strong>Where it falls short for our use case:</strong> it is a
+            read-and-listen app, not a remember app. There is no recall testing,
+            no quizzing, no scheduling built in, so what you listen to fades on
+            the same curve as everything else. It has also historically lived on
+            iPhone, iPad, and web, so Android users are out of luck. Beautiful
+            for consuming; it does not close the loop.
+          </p>
+        </div>
+
+        <div class="app-block">
+          <span class="app-tag">The filing cabinet</span>
+          <h3>Notion: brilliant for organizing, silent on remembering</h3>
+          <p>
+            <strong>Where Notion genuinely wins:</strong> flexibility. It bends
+            into whatever shape you want, the free tier is generous, and plenty
+            of people run a whole "second brain" of notes and databases inside
+            it. As a place to store and structure what you save, it is
+            excellent.
+          </p>
+          <p>
+            <strong>Where it falls short for our use case:</strong> Notion
+            stores; it does not make you remember. There is no spaced
+            repetition, no recall engine, no quizzing. It is a filing cabinet,
+            and you are the librarian. A beautifully organized archive you never
+            revisit is still an archive you have forgotten. Use Notion as the
+            "organize" half of the problem, and pair it with something that
+            handles the "remember" half.
+          </p>
+        </div>
+
+        <div class="app-block">
+          <span class="app-tag">Our pick for the loop</span>
+          <h3>REPS: save anything, and the remembering is a daily game</h3>
+          <p>
+            Here is where we come in, and here is the honest wedge. The apps
+            above make you choose: build cards yourself (Anki), highlight
+            everything yourself (Readwise), or organize everything yourself
+            (Notion). REPS removes the yourself. You save an article, a YouTube
+            video, a podcast, a PDF, and REPS does the rest. It pulls out what is
+            worth keeping and builds the recall for you. No cards, no folders, no
+            schedule to maintain.
+          </p>
+          <p>
+            Then the part we care about most: remembering does not feel like
+            homework. What you saved comes back as quick daily games and
+            challenges, timed to the moment you would otherwise forget, so the
+            good ideas stick without a chore. Everything you save also links into
+            your Second Brain, a living map of what you know that grows as you
+            do. It works across what you read, watch, and hear, using your own
+            content, not someone else's course. The goal is not just better
+            memory. It is walking into the room as the person who remembers.
+          </p>
+          <p>
+            We will be straight about the tradeoff: REPS is in invite-only early
+            access and iOS-first today, so if you need Anki's decades of
+            algorithm tuning or Readwise's mature sync-everywhere pipeline right
+            now, those are the mature picks. If you want the loop closed for you
+            and you want it to be fun,
+            <a class="inline-link" href="#join">get on the early-access list</a>.
+          </p>
+        </div>
+
+        <h2>What people on Reddit actually recommend</h2>
+        <p>
+          We read the threads so you can too. A few patterns come up again and
+          again when real people talk about remembering what they read, and they
+          line up with the honest verdicts above.
+        </p>
+        <ul>
+          <li>
+            On Anki, the consensus is respect with a caveat: the ecosystem and
+            the price are the moat, and the manual card-making is the wound. The
+            line that keeps recurring is some version of "I spend more time
+            making cards than learning." See
+            <a
+              class="inline-link"
+              href="https://www.reddit.com/r/Anki/comments/1g0h2l4/anki_alternatives_autumn_2024/"
+              rel="nofollow"
+              >r/Anki, "Anki alternatives? (Autumn 2024)"</a
+            >
+            and
+            <a
+              class="inline-link"
+              href="https://www.reddit.com/r/languagelearning/comments/zwe62d/which_one_is_the_best_free_alternative_for_anki/"
+              rel="nofollow"
+              >r/languagelearning on the best free Anki alternative</a
+            >.
+          </li>
+          <li>
+            On Readwise, people genuinely rate it and still hesitate at the
+            price. The
+            <a
+              class="inline-link"
+              href="https://www.reddit.com/r/readwise/comments/1oblyn1/convince_me_to_stay_with_paid_readwise_reader/"
+              rel="nofollow"
+              >"convince me to stay with paid Readwise Reader"</a
+            >
+            thread is the whole debate in one title: best all-in-one, but is it
+            worth it.
+          </li>
+          <li>
+            And there is a large, honest camp that pushes back on the whole
+            premise, the crowd who say retention is overrated and the real stuff
+            sticks anyway. You see it in
+            <a
+              class="inline-link"
+              href="https://www.reddit.com/r/productivity/comments/1n4ijv7/you_wont_remember_over_90_you_read_in_your/"
+              rel="nofollow"
+              >r/productivity's "you won't remember over 90% of what you read"</a
+            >
+            and
+            <a
+              class="inline-link"
+              href="https://www.reddit.com/r/books/comments/189u586/how_to_retain_what_youve_read_for_longer_durations/"
+              rel="nofollow"
+              >r/books on retaining what you read</a
+            >. We are with them on one thing: guilt is a terrible reason to open
+            an app. That is exactly why REPS is a game you want to play, not a
+            debt you owe.
+          </li>
+        </ul>
+        <p>
+          These are real threads worth reading in full. We are summarizing the
+          drift of the conversations, not quoting anyone as a testimonial.
+        </p>
+
+        <h2>How to choose</h2>
+        <div class="choose">
+          <ul>
+            <li>
+              <b>If you want the deepest engine and free, and you do not mind
+              building cards:</b>
+              use Anki. It is the power tool and it earns the reputation.
+            </li>
+            <li>
+              <b>If you highlight everything and want one mature reading hub:</b>
+              use Readwise with Reader, and turn on Mastery so it actually tests
+              you.
+            </li>
+            <li>
+              <b>If you mostly want to listen, on a generous free tier:</b> use
+              Matter. Best audio of the bunch.
+            </li>
+            <li>
+              <b>If you just need to file and organize:</b> use Notion, and pair
+              it with something that handles the remembering.
+            </li>
+            <li>
+              <b>If you want to save anything and have the remembering done for
+              you, as a daily game:</b>
+              that is what we built REPS for.
+              <a class="inline-link" href="#join">Get early access.</a>
+            </li>
+          </ul>
+        </div>
+
+        <h2>Frequently asked</h2>
+        <div class="faq">
+          <details>
+            <summary>Why do I forget most of what I read?</summary>
+            <p>
+              Reading once puts something in short-term memory, and the
+              forgetting curve pulls most of it back out within days. What holds
+              knowledge in place is active recall (pulling the idea back out of
+              your head) on a spaced schedule (revisiting it right before you
+              would forget). Highlighting and note-taking feel productive but
+              skip the recall step, which is the part that actually makes it
+              stick. Apps that only save and organize your reading do not close
+              that loop; apps that test you on it do.
+            </p>
+          </details>
+          <details>
+            <summary>What is the best free app to remember what you read?</summary>
+            <p>
+              Anki is the strongest free option if you are willing to build your
+              own flashcards; it is free on desktop and Android with a genuinely
+              deep spaced-repetition engine. Matter has a generous free tier for
+              saving and listening to articles, though it does not test recall.
+              REPS is invite-only early access right now and is built so you never
+              make a single card by hand.
+            </p>
+          </details>
+          <details>
+            <summary>What is the best app if I hate making flashcards?</summary>
+            <p>
+              If card-making is the part you dread, Readwise turns highlights you
+              already made into active-recall questions through its Mastery
+              feature, so you skip most of the manual work. REPS goes further:
+              you save an article, video, or podcast and it generates the recall
+              for you, then serves it back as a quick daily game. Neither asks
+              you to sit down and author cards.
+            </p>
+          </details>
+          <details>
+            <summary>Does REPS work with articles, YouTube, and podcasts?</summary>
+            <p>
+              Yes. REPS is built to save anything you read, watch, or hear:
+              articles and web pages, YouTube videos, PDFs and documents, images,
+              and audio. It turns each into recall you can play through, and links
+              everything into your Second Brain, a graph of what you know. Bring
+              your own content instead of working through someone else's course.
+            </p>
+          </details>
+          <details>
+            <summary>Is spaced repetition actually worth the effort?</summary>
+            <p>
+              Spaced repetition is one of the most reliable ways to move
+              something into long-term memory, because it schedules each review
+              for the moment a memory is about to fade. The catch has always been
+              the effort: classic tools make you build and maintain the schedule
+              yourself. The apps worth your time in 2026 are the ones that handle
+              the scheduling for you so all you have to do is show up for a couple
+              of minutes.
+            </p>
+          </details>
+        </div>
+      </article>
+    </main>
+
+    <section class="cta" id="join">
+      <h2>Start remembering what you read.</h2>
+      <p class="cta-sub">
+        Save anything. REPS turns it into quick games that make it stick. Join
+        the waitlist and we will email your invite.
+      </p>
+      <div class="form-zone" id="join-zone">
+        <form class="signup" id="join-form" novalidate>
+          <input
+            type="email"
+            id="join-email"
+            name="email"
+            inputmode="email"
+            autocomplete="email"
+            autocapitalize="off"
+            spellcheck="false"
+            placeholder="Enter your email"
+            required
+            aria-label="Email address"
+          />
+          <button type="submit">Get early access</button>
+        </form>
+        <p class="err" id="join-err" role="alert"></p>
+        <p class="reassure">
+          Invite-only early access. One email when your invite is ready. No spam.
+        </p>
+        <div class="success" id="join-success">
+          <img src="/get/assets/echo.png" alt="" aria-hidden="true" />
+          <span
+            >You are a Founding Member, one of the first 100. New features reach
+            you first, and we will email your invite when it is ready.</span
+          >
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <span class="motto">Save. Play. Remember.</span>
+      REPS · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
+    </footer>
+
+    <!-- Waitlist form wiring (copied from live homepage) -->
+    <script>
+      var WL = "https://waitlister.me/s/1IFflE5ASXo6";
+      var WL_REF = new URLSearchParams(location.search).get("ref");
+      (function () {
+        var form = document.getElementById("join-form");
+        if (!form) return;
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          var email = document.getElementById("join-email").value.trim();
+          var errEl = document.getElementById("join-err");
+          errEl.textContent = "";
+          if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            errEl.textContent = "Please enter a valid email address.";
+            return;
+          }
+          var btn = form.querySelector("button");
+          btn.disabled = true;
+          btn.textContent = "Joining...";
+          fetch(WL, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+            body: JSON.stringify(
+              WL_REF ? { email: email, referredBy: WL_REF } : { email: email }
+            ),
+          })
+            .then(function () {
+              document.getElementById("join-zone").classList.add("form-done");
+            })
+            .catch(function () {
+              document.getElementById("join-zone").classList.add("form-done");
+            });
+        });
+      })();
+    </script>
+
+    <!-- PostHog — analytics + raw-referrer AI-engine classification (GEO attribution) -->
+    <script>
+      !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+
+      /* GEO attribution — classify the raw referrer so AI-engine visits are visible.
+         AI answer engines (ChatGPT, Perplexity, Gemini, Copilot) send real referrer
+         hosts; built-in analytics channel badges under-count them. Registered as
+         super-properties so they attach to pageview + every later event. */
+      function repsClassifyReferrer(ref) {
+        if (!ref) return { category: "direct", host: "" };
+        var host;
+        try { host = new URL(ref).hostname.replace(/^www\./, ""); }
+        catch (e) { return { category: "other", host: "" }; }
+        var AI = ["chatgpt.com","chat.openai.com","openai.com","perplexity.ai","gemini.google.com","copilot.microsoft.com","claude.ai","you.com","poe.com","phind.com","bing.com/chat"];
+        var SEARCH = ["google.com","bing.com","duckduckgo.com","ecosia.org","search.brave.com","yahoo.com","yandex.com","startpage.com"];
+        var SOCIAL = ["reddit.com","x.com","twitter.com","t.co","facebook.com","instagram.com","linkedin.com","youtube.com","tiktok.com","news.ycombinator.com"];
+        function match(list) { for (var i=0;i<list.length;i++){ var d=list[i]; if (host===d||host.endsWith("."+d)) return true; } return false; }
+        if (match(AI)) return { category: "ai_engine", host: host };
+        if (match(SEARCH)) return { category: "search", host: host };
+        if (match(SOCIAL)) return { category: "social", host: host };
+        return { category: "referral", host: host };
+      }
+
+      posthog.init("phc_gTI0FJoXiGPjdACbgVyunpDSl0mPs2HEYtmzUtK3SyE", {
+        api_host: "https://us.i.posthog.com",
+        ui_host: "https://us.posthog.com",
+        defaults: "2025-05-24",
+        persistence: "localStorage+cookie",
+        capture_pageview: true,
+        capture_pageleave: true,
+        autocapture: true,
+        disable_session_recording: false,
+        loaded: function (ph) {
+          var r = repsClassifyReferrer(document.referrer);
+          ph.register({
+            lp_variant: "compare_remember_what_you_read",
+            referrer_raw: document.referrer || "",
+            referrer_host: r.host,
+            referrer_category: r.category,
+            landing_path: location.pathname
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
