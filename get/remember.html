@@ -1492,11 +1492,33 @@
         var ref = WL_PARAMS.get("ref"); if (ref) d.referredBy = ref; // referral attribution
         return d;
       }
+      function wlReadCookie(name) {
+        var m = document.cookie.match(new RegExp("(?:^|; )" + name + "=([^;]*)"));
+        return m ? decodeURIComponent(m[1]) : "";
+      }
+      function wlEventId() {
+        try { if (window.crypto && crypto.randomUUID) return crypto.randomUUID(); } catch (e) { /* noop */ }
+        return "lead_" + Date.now() + "_" + Math.random().toString(16).slice(2);
+      }
       // Single conversion choke point — every success route lands here, exactly once per signup.
-      function wlCapture() {
+      function wlCapture(email) {
         if (window.posthog && typeof posthog.capture === "function") posthog.capture("waitlist_submitted", wlAttribution());
         if (window.ttq && typeof ttq.track === "function") ttq.track("SubmitForm");
-        if (window.fbq && typeof fbq === "function") fbq('track', 'Lead');
+        // Browser Lead + server CAPI Lead (G6) share one eventID so Meta dedupes the pair.
+        var eventId = wlEventId();
+        if (window.fbq && typeof fbq === "function") fbq('track', 'Lead', {}, { eventID: eventId });
+        if (email) {
+          var fbc = wlReadCookie("_fbc");
+          if (!fbc) { var fbclid = WL_PARAMS.get("fbclid"); if (fbclid) fbc = "fb.1." + Date.now() + "." + fbclid; }
+          try {
+            fetch("/api/meta-lead", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ event_id: eventId, email: email, event_source_url: location.href, fbp: wlReadCookie("_fbp"), fbc: fbc }),
+              keepalive: true,
+            }).catch(function () { /* best-effort */ });
+          } catch (e) { /* noop */ }
+        }
         if (window.gtag) gtag('event', 'conversion', { send_to: 'AW-18248405404/GlWKCPeVssEcEJyjwv1D', value: 1.0, currency: 'GBP' });
       }
       function wlFallback(email) {
@@ -1529,7 +1551,7 @@
             if (done) return;
             done = true;
             document.getElementById(zoneId).classList.add("form-done");
-            wlCapture();
+            wlCapture(email);
           }
           // form-encoded body is a "simple" CORS request → the POST reaches Waitlister even though
           // the 302→thank-you redirect read is CORS-blocked. The iframe fallback is the backup.
