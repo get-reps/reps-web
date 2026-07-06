@@ -35,6 +35,8 @@ const DEFAULT_URLS = [
   `https://${HOST}/compare/best-spaced-repetition-apps`,
   `https://${HOST}/compare/best-anki-alternatives`,
   `https://${HOST}/compare/reps-vs-readwise`,
+  `https://${HOST}/compare/best-pocket-alternatives`,
+  `https://${HOST}/compare/best-obsidian-alternatives`,
   `https://${HOST}/blog`,
 ];
 
