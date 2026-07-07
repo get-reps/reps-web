@@ -4,85 +4,85 @@
      Clean URLs (no .html) to match vercel.json cleanUrls:true. Referenced from robots.txt. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://getreps.io/</loc>
+    <loc>https://www.getreps.io/</loc>
     <lastmod>2026-07-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://getreps.io/compare</loc>
+    <loc>https://www.getreps.io/compare</loc>
     <lastmod>2026-07-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://getreps.io/compare/best-apps-to-remember-what-you-read</loc>
+    <loc>https://www.getreps.io/compare/best-apps-to-remember-what-you-read</loc>
     <lastmod>2026-07-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://getreps.io/compare/best-readwise-alternatives</loc>
+    <loc>https://www.getreps.io/compare/best-readwise-alternatives</loc>
     <lastmod>2026-07-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://getreps.io/compare/best-spaced-repetition-apps</loc>
+    <loc>https://www.getreps.io/compare/best-spaced-repetition-apps</loc>
     <lastmod>2026-07-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://getreps.io/compare/best-anki-alternatives</loc>
+    <loc>https://www.getreps.io/compare/best-anki-alternatives</loc>
     <lastmod>2026-07-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://getreps.io/compare/reps-vs-readwise</loc>
+    <loc>https://www.getreps.io/compare/reps-vs-readwise</loc>
     <lastmod>2026-07-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://getreps.io/compare/best-pocket-alternatives</loc>
+    <loc>https://www.getreps.io/compare/best-pocket-alternatives</loc>
     <lastmod>2026-07-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://getreps.io/compare/best-obsidian-alternatives</loc>
+    <loc>https://www.getreps.io/compare/best-obsidian-alternatives</loc>
     <lastmod>2026-07-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://getreps.io/compare/best-quizlet-alternatives</loc>
+    <loc>https://www.getreps.io/compare/best-quizlet-alternatives</loc>
     <lastmod>2026-07-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://getreps.io/features/active-recall</loc>
+    <loc>https://www.getreps.io/features/active-recall</loc>
     <lastmod>2026-07-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://getreps.io/features/second-brain</loc>
+    <loc>https://www.getreps.io/features/second-brain</loc>
     <lastmod>2026-07-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://getreps.io/features/read-it-later</loc>
+    <loc>https://www.getreps.io/features/read-it-later</loc>
     <lastmod>2026-07-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://getreps.io/blog</loc>
+    <loc>https://www.getreps.io/blog</loc>
     <lastmod>2026-07-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>

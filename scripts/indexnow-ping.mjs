@@ -24,7 +24,7 @@
  */
 
 const KEY = "a3f9c1e7b28d4f6a9c05e1b7d84f2a60";
-const HOST = "getreps.io";
+const HOST = "www.getreps.io";
 const KEY_LOCATION = `https://${HOST}/${KEY}.txt`;
 const ENDPOINT = "https://api.indexnow.org/indexnow";
 

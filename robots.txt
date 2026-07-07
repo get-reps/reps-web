@@ -3,4 +3,4 @@ Disallow: /product-2026/
 Disallow: /investor-2026/
 Disallow: /get
 
-Sitemap: https://getreps.io/sitemap.xml
+Sitemap: https://www.getreps.io/sitemap.xml
