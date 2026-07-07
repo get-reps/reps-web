@@ -37,6 +37,10 @@ const DEFAULT_URLS = [
   `https://${HOST}/compare/reps-vs-readwise`,
   `https://${HOST}/compare/best-pocket-alternatives`,
   `https://${HOST}/compare/best-obsidian-alternatives`,
+  `https://${HOST}/compare/best-quizlet-alternatives`,
+  `https://${HOST}/features/active-recall`,
+  `https://${HOST}/features/second-brain`,
+  `https://${HOST}/features/read-it-later`,
   `https://${HOST}/blog`,
 ];
 
