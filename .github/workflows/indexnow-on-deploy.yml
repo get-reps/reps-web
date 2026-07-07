@@ -1,0 +1,97 @@
+name: IndexNow on deploy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "compare/**"
+      - "features/**"
+      - "blog/**"
+      - "*.html"
+      - "sitemap.xml"
+
+jobs:
+  ping-indexnow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Derive changed canonical URLs
+        id: urls
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          BEFORE="${{ github.event.before }}"
+          AFTER="${{ github.sha }}"
+          if [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+            BEFORE="$(git rev-parse "$AFTER^")"
+          fi
+
+          mapfile -t FILES < <(git diff --name-only "$BEFORE" "$AFTER" -- 'compare/**' 'features/**' 'blog/**' '*.html' 'sitemap.xml')
+          urls=()
+          for file in "${FILES[@]}"; do
+            case "$file" in
+              sitemap.xml) continue ;;
+              v3c.html) urls+=("https://www.getreps.io/") ;;
+              *.html)
+                clean="${file%.html}"
+                clean="${clean%/index}"
+                urls+=("https://www.getreps.io/${clean}")
+                ;;
+            esac
+          done
+
+          mapfile -t unique_urls < <(printf '%s\n' "${urls[@]}" | sed '/^$/d' | sort -u)
+          if [ "${#unique_urls[@]}" -eq 0 ]; then
+            echo "No canonical HTML URLs derived from changed files."
+            exit 1
+          fi
+
+          printf '%s\n' "${unique_urls[@]}" > /tmp/indexnow-urls.txt
+          echo "urls<<EOF" >> "$GITHUB_OUTPUT"
+          cat /tmp/indexnow-urls.txt >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Wait for changed URLs to be live
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Read URLs from the file as an array. Never word-split a variable and
+          # never interpolate filename-derived data into a run script via an
+          # Actions expression (a crafted filename could run command substitution
+          # at assignment time). The file is the safe channel.
+          mapfile -t URLS < /tmp/indexnow-urls.txt
+
+          for url in "${URLS[@]}"; do
+            ok=0
+            for attempt in $(seq 1 30); do
+              status="$(curl -L -s -o /dev/null -w '%{http_code}' "$url" || true)"
+              if [ "$status" -ge 200 ] && [ "$status" -lt 400 ]; then
+                ok=1
+                break
+              fi
+              sleep 20
+            done
+            if [ "$ok" -ne 1 ]; then
+              echo "URL was not live after bounded retries: $url"
+              echo "Manual retry: run scripts/indexnow-ping.mjs against these URLs:"
+              cat /tmp/indexnow-urls.txt
+              exit 1
+            fi
+          done
+
+      - name: Ping IndexNow
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t URLS < /tmp/indexnow-urls.txt
+          # Pass URLs as separate argv, never as a re-executed command string, so
+          # a filename with shell metacharacters can never be executed.
+          node scripts/indexnow-ping.mjs "${URLS[@]}"
