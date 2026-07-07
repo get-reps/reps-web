@@ -70,6 +70,19 @@
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
+        "@type": "Person",
+        "@id": "https://getreps.io/#mike",
+        "name": "Mike McGraw",
+        "url": "https://getreps.io/",
+        "image": "https://www.getreps.io/compare/assets/mike-mcgraw.jpg",
+        "jobTitle": "Founder",
+        "worksFor": { "@id": "https://getreps.io/#organization" },
+        "description": "Founder of REPS. Builds and uses spaced-repetition and read-it-later tools daily."
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
         "@type": "WebSite",
         "@id": "https://getreps.io/#website",
         "name": "REPS",
@@ -112,7 +125,7 @@
         "description": "Pocket shut down and Mozilla deleted saved data on November 12, 2025. Here are the honest 2026 replacements: Instapaper, Readwise Reader, Matter, Notion, and REPS compared on price, whether they are still maintained, and whether they help you remember what you save.",
         "datePublished": "2026-07-06",
         "dateModified": "2026-07-06",
-        "author": { "@type": "Organization", "@id": "https://getreps.io/#organization" },
+        "author": { "@type": "Person", "@id": "https://getreps.io/#mike" },
         "publisher": { "@type": "Organization", "@id": "https://getreps.io/#organization" },
         "mainEntityOfPage": "https://getreps.io/compare/best-pocket-alternatives",
         "image": "https://www.getreps.io/og-card-v3.png"
@@ -504,6 +517,36 @@
       .app-block {
         margin-top: 8px;
       }
+      .app-tag {
+        display: inline-block;
+        font-family: var(--display);
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted-strong);
+        background: #f4ede8;
+        padding: 4px 10px;
+        border-radius: 999px;
+        margin-bottom: 12px;
+      }
+      .app-block.reps {
+        border: 1px solid rgba(255, 107, 107, 0.34);
+        border-radius: 16px;
+        background: linear-gradient(180deg, #fff 0%, #fff6f2 100%);
+        padding: 24px 26px 8px;
+        margin: 22px 0;
+        box-shadow:
+          0 1px 3px rgba(33, 26, 20, 0.04),
+          0 4px 14px rgba(33, 26, 20, 0.03);
+      }
+      .app-block.reps h3 {
+        margin-top: 0;
+      }
+      .app-block.reps .app-tag {
+        color: #fff;
+        background: linear-gradient(135deg, var(--coral), var(--peach));
+      }
       .wedge {
         font-family: var(--sans);
         font-size: 13px;
@@ -780,6 +823,173 @@
         }
       }
 
+      /* ── Logo-grid hero banner (v5) ── */
+      .logobanner {
+        margin: 24px 0 8px;
+        padding: 28px 22px 26px;
+        border-radius: 22px;
+        background:
+          radial-gradient(120% 90% at 50% 0%, rgba(255, 107, 107, 0.12), rgba(4, 4, 9, 0) 60%),
+          linear-gradient(180deg, #101d18 0%, #040409 82%);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        box-shadow:
+          0 2px 10px rgba(33, 26, 20, 0.08),
+          0 26px 52px -24px rgba(33, 26, 20, 0.36);
+      }
+      .lb-title {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: clamp(19px, 3vw, 25px);
+        letter-spacing: -0.01em;
+        color: #fff;
+        text-align: center;
+        margin-bottom: 22px;
+      }
+      .lb-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 13px;
+      }
+      .lb-app {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        width: 104px;
+        padding: 16px 8px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .lb-app img {
+        width: 52px;
+        height: 52px;
+        border-radius: 12px;
+        object-fit: contain;
+      }
+      .lb-app span {
+        font-family: var(--sans);
+        font-size: 13px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.82);
+      }
+      .lb-app.reps {
+        background: rgba(255, 107, 107, 0.13);
+        border-color: rgba(255, 107, 107, 0.42);
+      }
+      .lb-app.reps span {
+        color: #fff;
+        font-weight: 700;
+      }
+
+      /* ── REPS product demo (framed phone, inside the Our-pick block) ── */
+      .repsdemo {
+        margin: 18px 0 4px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .repsdemo .cap {
+        margin-top: 13px;
+        font-family: var(--sans);
+        font-size: 12.5px;
+        color: var(--muted);
+        text-align: center;
+      }
+      .cmp-phone {
+        width: clamp(210px, 58vw, 250px);
+        padding: 5px;
+        background: #0a0a10;
+        border-radius: 30px;
+        position: relative;
+        box-shadow:
+          0 2px 8px rgba(0, 0, 0, 0.42),
+          0 22px 44px -16px rgba(0, 0, 0, 0.5);
+      }
+      .cmp-phone::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 30px;
+        pointer-events: none;
+        box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.08);
+      }
+      .cmp-phone .screen {
+        width: 100%;
+        aspect-ratio: 540 / 1170;
+        border-radius: 25px;
+        overflow: hidden;
+        background: #040409;
+      }
+      .cmp-phone .screen video,
+      .cmp-phone .screen img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      /* ── Author: round byline avatar + About-the-author card (v4) ── */
+      .byline-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex: none;
+        box-shadow: 0 1px 4px rgba(33, 26, 20, 0.2);
+      }
+      .authorcard {
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+        margin: 44px 0 8px;
+        padding: 20px 22px;
+        background: #fff;
+        border: 1px solid var(--hairline);
+        border-radius: 16px;
+        box-shadow:
+          0 1px 3px rgba(33, 26, 20, 0.05),
+          0 10px 24px -16px rgba(33, 26, 20, 0.18);
+      }
+      .authorcard img {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex: none;
+        box-shadow: 0 1px 4px rgba(33, 26, 20, 0.18);
+      }
+      .authorcard .abt-h {
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted-strong);
+        margin-bottom: 8px;
+      }
+      .authorcard .who {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 16px;
+        color: var(--ink);
+      }
+      .authorcard .role {
+        font-family: var(--sans);
+        font-size: 13px;
+        color: var(--coral);
+        font-weight: 600;
+        margin-bottom: 7px;
+      }
+      .authorcard p {
+        font-family: var(--sans);
+        font-size: 14.5px;
+        line-height: 1.6;
+        color: var(--body);
+        margin: 0;
+      }
+
       /* ── v2 visual upgrade ── */
       .chip { display:inline-flex; align-items:center; font-family:var(--display); font-weight:600; font-size:12px; color:var(--ink); background:rgba(33,26,20,0.05); border:1px solid var(--hairline); border-radius:999px; padding:3px 10px; white-space:nowrap; }
       .repsshot { margin:24px 0; border-radius:16px; overflow:hidden; border:1px solid var(--hairline); background:var(--galaxy); box-shadow:0 2px 10px rgba(33,26,20,0.06),0 16px 36px -18px rgba(33,26,20,0.30); }
@@ -817,58 +1027,79 @@
 
       <div class="byline">
         <img
-          src="/product/assets/app-icon.png"
-          alt=""
-          class="byline-mark"
-          width="28"
-          height="28"
+          src="/compare/assets/mike-mcgraw.jpg"
+          alt="Mike McGraw, founder of REPS"
+          class="byline-avatar"
+          width="40"
+          height="40"
         />
         <span
-          ><strong>By the REPS team</strong> · Updated July 2026 · 7 min read<br />
+          ><strong>By Mike McGraw</strong>, founder of REPS · Updated July 2026 ·
+          7 min read<br />
           <span class="byline-cred"
-            >We build a spaced-repetition app and use these tools daily.</span
+            >I use every app on this list. This is the honest rundown I wish I
+            had.</span
           ></span
         >
       </div>
 
       <p class="lead">
-        Pocket shut down and Mozilla deleted saved data on November 12, 2025,
-        without recommending a replacement. The closest classic swap is
-        Instapaper, still independently run with a free tier and $5.99/mo
-        Premium. Readwise Reader is the powerful all-in-one, Matter is the best
-        free reader with audio, and Notion files without testing you. REPS is
-        the one that makes you actually remember what you save.
+        Pocket is gone: Mozilla deleted saved data on November 12, 2025, without
+        recommending a replacement. If you want to actually remember what you
+        save, not just store it somewhere new, REPS is our pick: you save
+        anything and it builds the recall for you, then serves it back as a quick
+        daily game. From there, position the readers honestly. Instapaper is the
+        closest classic swap, still independently run with a free tier and
+        $5.99/mo Premium. Readwise Reader is the powerful all-in-one inbox for
+        heavy savers, Matter is the cheapest read-and-listen option with the best
+        audio, and Notion is best for filing, not remembering.
       </p>
 
-      <figure class="repsshot">
-        <video
-          src="/beats/discovery-home.mp4"
-          autoplay
-          muted
-          loop
-          playsinline
-          preload="metadata"
-          aria-hidden="true"
-        ></video>
-        <figcaption class="cap">
-          REPS: save anything, then actually remember it
-        </figcaption>
+      <figure class="logobanner">
+        <div class="lb-title">The apps we compared</div>
+        <div class="lb-grid">
+          <div class="lb-app reps">
+            <img src="/product/assets/app-icon.png" alt="REPS" width="52" height="52" />
+            <span>REPS</span>
+          </div>
+          <div class="lb-app">
+            <img src="/compare/assets/logos/pocket.png" alt="Pocket" width="52" height="52" loading="lazy" />
+            <span>Pocket</span>
+          </div>
+          <div class="lb-app">
+            <img src="/compare/assets/logos/instapaper.png" alt="Instapaper" width="52" height="52" loading="lazy" />
+            <span>Instapaper</span>
+          </div>
+          <div class="lb-app">
+            <img src="/compare/assets/logos/matter.png" alt="Matter" width="52" height="52" loading="lazy" />
+            <span>Matter</span>
+          </div>
+          <div class="lb-app">
+            <img src="/compare/assets/logos/notion.png" alt="Notion" width="52" height="52" loading="lazy" />
+            <span>Notion</span>
+          </div>
+          <div class="lb-app">
+            <img src="/compare/assets/logos/readwise.png" alt="Readwise Reader" width="52" height="52" loading="lazy" />
+            <span>Readwise</span>
+          </div>
+        </div>
       </figure>
 
       <aside class="takeaways">
         <div class="takeaways-h">Key takeaways</div>
         <ul>
           <li>
+            REPS is our pick if you want it done for you: save anything and it
+            builds the recall, then serves it back as a daily game so you
+            actually remember what you kept.
+          </li>
+          <li>
             Pocket is gone; Mozilla permanently deleted saved data on November
             12, 2025, and recommended no replacement.
           </li>
           <li>
             Instapaper is the closest classic swap; Matter is the best free
-            reader with audio.
-          </li>
-          <li>
-            Readwise Reader is the all-in-one power inbox; REPS is the one that
-            makes you save it and actually remember it.
+            reader with audio; Readwise Reader is the all-in-one power inbox.
           </li>
         </ul>
       </aside>
@@ -908,6 +1139,14 @@
               </tr>
             </thead>
             <tbody>
+              <tr class="reps-row">
+                <th scope="row"><span class="chip">REPS</span></th>
+                <td>Remembering, played as a game</td>
+                <td>Early access</td>
+                <td class="cell-yes">Yes</td>
+                <td class="cell-yes">Yes</td>
+                <td class="cell-yes">Yes, from your saves</td>
+              </tr>
               <tr class="dead-row">
                 <th scope="row"><span class="chip">Pocket</span></th>
                 <td>Nothing now, it is gone</td>
@@ -948,14 +1187,6 @@
                 <td class="cell-no">No</td>
                 <td class="cell-no">No</td>
               </tr>
-              <tr class="reps-row">
-                <th scope="row"><span class="chip">REPS</span></th>
-                <td>Remembering, played as a game</td>
-                <td>Early access</td>
-                <td class="cell-yes">Yes</td>
-                <td class="cell-yes">Yes</td>
-                <td class="cell-yes">Yes, from your saves</td>
-              </tr>
             </tbody>
           </table>
         </div>
@@ -988,6 +1219,56 @@
           <div class="shot"><img src="/compare/assets/pocket-shutdown-mozilla.png" alt="Mozilla's official notice that Pocket shut down on July 8 2025 and deleted user data on November 12 2025" loading="lazy" /></div>
           <figcaption class="cap">Mozilla's official notice: Pocket shut down July 8 2025; data deleted Nov 12 2025. <a href="https://support.mozilla.org/en-US/kb/future-of-pocket" target="_blank" rel="nofollow noopener">Source</a></figcaption>
         </figure>
+
+        <p>
+          We will start with REPS, since it is what we built and our pick for
+          this use case, then go through every alternative and name exactly where
+          it beats us.
+        </p>
+
+        <div class="app-block reps">
+          <span class="app-tag">Our pick, done for you</span>
+          <h3>REPS: the one that makes you remember</h3>
+          <p>
+            Here is our bias, stated plainly. We did not build REPS to be a better
+            place to hoard links. We built it for the thing Pocket never did:
+            actually remembering what you save. You save the whole thing, an
+            article, a YouTube video, or a podcast, and REPS
+            <strong>builds the cards for you</strong> and does the rest. It pulls
+            out what matters and brings it back to you on a spaced schedule as a
+            quick daily game, so the good stuff sticks instead of vanishing into
+            an archive. No highlighting discipline required, no decks to make by
+            hand, no notes to file. You save; REPS makes the cards and does the
+            rest.
+          </p>
+          <p>
+            Everything you keep also grows into your Second Brain, a living map of
+            what you know across everything you read, watch, and listen to. To be
+            fair: REPS is in early access, and it is not a drop-in Pocket-clone
+            reader with a decade of polish, that is what Instapaper is for. If all
+            you want is a quiet place to save and read, pick one of the readers
+            below. If you are tired of saving things you never see again, that is
+            exactly why we exist.
+          </p>
+          <figure class="repsdemo">
+            <div class="cmp-phone">
+              <div class="screen">
+                <video
+                  src="/beats/save-composite.mp4"
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  preload="metadata"
+                  aria-hidden="true"
+                ></video>
+              </div>
+            </div>
+            <figcaption class="cap">
+              Save an article, video, or book. REPS builds the recall for you.
+            </figcaption>
+          </figure>
+        </div>
 
         <div class="app-block">
           <h3>Instapaper: the closest thing to old Pocket</h3>
@@ -1083,30 +1364,6 @@
           </p>
         </div>
 
-        <div class="app-block">
-          <h3>REPS: the one that makes you remember</h3>
-          <span class="wedge">Where it fits</span>
-          <p>
-            Here is our bias, stated plainly. We did not build REPS to be a better
-            place to hoard links. We built it for the thing Pocket never did:
-            actually remembering what you save. You share in an article, a YouTube
-            video, or a podcast, and REPS does the rest. It pulls out what matters
-            and brings it back to you on a spaced schedule as a quick daily game,
-            so the good stuff sticks instead of vanishing into an archive. No
-            highlighting discipline required, no notes to file. Save anything, and
-            it turns into something you play, not a pile you feel guilty about.
-          </p>
-          <p>
-            Everything you keep also grows into your Second Brain, a living map of
-            what you know across everything you read, watch, and listen to. The
-            honest tradeoff: REPS is in early access, and it is not a
-            drop-in-Pocket-clone reader with a decade of polish, that is what
-            Instapaper is for. If all you want is a quiet place to save and read,
-            pick one of the readers above. If you are tired of saving things you
-            never see again, that is exactly why we exist.
-          </p>
-        </div>
-
         <span class="section-pill">From the community</span>
         <h2>What people on Reddit actually recommend</h2>
         <p>
@@ -1117,10 +1374,14 @@
           most expensive. A large budget-minded camp does what people always do
           and cobbles free tools together instead of paying for anything.
         </p>
-        <blockquote class="pullquote">Readwise Reader is the one people call the most capable, and the one they keep questioning at roughly $120 a year.
-          <span class="src">Paraphrased consensus from <a href="https://www.reddit.com/r/readwise/comments/1oblyn1/convince_me_to_stay_with_paid_readwise_reader/" rel="nofollow noopener" target="_blank">r/readwise</a></span></blockquote>
-        <blockquote class="pullquote">The quiet part said out loud: people do not actually reread their saves, and no read-later app has ever fixed that.
-          <span class="src">Paraphrased consensus from <a href="https://www.reddit.com/r/productivity/comments/1n4ijv7/you_wont_remember_over_90_you_read_in_your/" rel="nofollow noopener" target="_blank">r/productivity</a></span></blockquote>
+        <figure class="proofshot">
+          <div class="shot"><img src="/compare/assets/readwise-120-reddit.png" alt="A real r/readwise post from a paid Reader user saying $120 a year is hard to justify" loading="lazy" /></div>
+          <figcaption class="cap">Real thread, r/readwise: a paid Reader user says $120 a year is hard to justify. <a href="https://www.reddit.com/r/readwise/comments/1oblyn1/convince_me_to_stay_with_paid_readwise_reader/" target="_blank" rel="nofollow noopener">View thread</a></figcaption>
+        </figure>
+        <figure class="proofshot">
+          <div class="shot"><img src="/compare/assets/reddit-productivity.png" alt="A real r/productivity post, 9.7k upvotes, on forgetting over 90 percent of what you read" loading="lazy" /></div>
+          <figcaption class="cap">Real thread, r/productivity: 9.7k upvotes on the fact that you forget over 90% of what you read. <a href="https://www.reddit.com/r/productivity/comments/1n4ijv7/you_wont_remember_over_90_you_read_in_your/" target="_blank" rel="nofollow noopener">View thread</a></figcaption>
+        </figure>
         <p>
           But the thread that matters most for this page is a different one. There
           is a big, upvoted group that keeps saying the quiet part out loud: they
@@ -1156,6 +1417,10 @@
             <span class="thread-sub">· r/readwise</span>
           </li>
         </ul>
+        <p class="table-note" style="margin: 4px 2px 0">
+          These are real, unedited threads. We screenshot them and link them so
+          you can read the full discussion and judge the consensus yourself.
+        </p>
 
         <span class="section-pill">The real lesson</span>
         <h2>Why another read-later app will not fix this</h2>
@@ -1273,6 +1538,26 @@
             <strong>Pick REPS</strong> if you are done saving things you never see
             again, and you want to actually remember what you read, watch, and
             listen to, through a quick daily game.
+          </div>
+        </div>
+
+        <div class="authorcard">
+          <img
+            src="/compare/assets/mike-mcgraw.jpg"
+            alt="Mike McGraw, founder of REPS"
+            width="64"
+            height="64"
+            loading="lazy"
+          />
+          <div>
+            <div class="abt-h">About the author</div>
+            <div class="who">Mike McGraw</div>
+            <div class="role">Founder, REPS</div>
+            <p>
+              I started building REPS after realizing I could not remember most
+              of what I read. I use the apps on this list myself, and I write
+              these comparisons to be the honest rundown I wish I had had.
+            </p>
           </div>
         </div>
       </div>

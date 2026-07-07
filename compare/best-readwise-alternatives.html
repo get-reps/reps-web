@@ -66,6 +66,19 @@
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
+        "@type": "Person",
+        "@id": "https://getreps.io/#mike",
+        "name": "Mike McGraw",
+        "url": "https://getreps.io/",
+        "image": "https://www.getreps.io/compare/assets/mike-mcgraw.jpg",
+        "jobTitle": "Founder",
+        "worksFor": { "@id": "https://getreps.io/#organization" },
+        "description": "Founder of REPS. Builds and uses spaced-repetition and read-it-later tools daily."
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
         "@type": "WebSite",
         "@id": "https://getreps.io/#website",
         "name": "REPS",
@@ -108,7 +121,7 @@
         "description": "An honest look at the best Readwise alternatives in 2026: Matter, Notion, Anki, and REPS. Where Readwise still wins, where it does not, and how spaced repetition and active recall actually help you remember what you read.",
         "datePublished": "2026-07-06",
         "dateModified": "2026-07-06",
-        "author": { "@type": "Organization", "@id": "https://getreps.io/#organization" },
+        "author": { "@type": "Person", "@id": "https://getreps.io/#mike" },
         "publisher": { "@type": "Organization", "@id": "https://getreps.io/#organization" },
         "mainEntityOfPage": "https://getreps.io/compare/best-readwise-alternatives",
         "image": "https://www.getreps.io/og-card-v3.png"
@@ -332,6 +345,173 @@
         border-left: 3px solid var(--coral);
         padding-left: 18px;
         margin: 22px 0;
+      }
+
+      /* ── Logo-grid hero banner (v5) ── */
+      .logobanner {
+        margin: 24px 0 8px;
+        padding: 28px 22px 26px;
+        border-radius: 22px;
+        background:
+          radial-gradient(120% 90% at 50% 0%, rgba(255, 107, 107, 0.12), rgba(4, 4, 9, 0) 60%),
+          linear-gradient(180deg, #101d18 0%, #040409 82%);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        box-shadow:
+          0 2px 10px rgba(33, 26, 20, 0.08),
+          0 26px 52px -24px rgba(33, 26, 20, 0.36);
+      }
+      .lb-title {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: clamp(19px, 3vw, 25px);
+        letter-spacing: -0.01em;
+        color: #fff;
+        text-align: center;
+        margin-bottom: 22px;
+      }
+      .lb-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 13px;
+      }
+      .lb-app {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        width: 104px;
+        padding: 16px 8px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .lb-app img {
+        width: 52px;
+        height: 52px;
+        border-radius: 12px;
+        object-fit: contain;
+      }
+      .lb-app span {
+        font-family: var(--sans);
+        font-size: 13px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.82);
+      }
+      .lb-app.reps {
+        background: rgba(255, 107, 107, 0.13);
+        border-color: rgba(255, 107, 107, 0.42);
+      }
+      .lb-app.reps span {
+        color: #fff;
+        font-weight: 700;
+      }
+
+      /* ── REPS product demo (framed phone, inside the Our-pick block) ── */
+      .repsdemo {
+        margin: 18px 0 4px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .repsdemo .cap {
+        margin-top: 13px;
+        font-family: var(--sans);
+        font-size: 12.5px;
+        color: var(--muted);
+        text-align: center;
+      }
+      .cmp-phone {
+        width: clamp(210px, 58vw, 250px);
+        padding: 5px;
+        background: #0a0a10;
+        border-radius: 30px;
+        position: relative;
+        box-shadow:
+          0 2px 8px rgba(0, 0, 0, 0.42),
+          0 22px 44px -16px rgba(0, 0, 0, 0.5);
+      }
+      .cmp-phone::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 30px;
+        pointer-events: none;
+        box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.08);
+      }
+      .cmp-phone .screen {
+        width: 100%;
+        aspect-ratio: 540 / 1170;
+        border-radius: 25px;
+        overflow: hidden;
+        background: #040409;
+      }
+      .cmp-phone .screen video,
+      .cmp-phone .screen img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      /* ── Author: round byline avatar + About-the-author card (v4) ── */
+      .byline-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex: none;
+        box-shadow: 0 1px 4px rgba(33, 26, 20, 0.2);
+      }
+      .authorcard {
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+        margin: 44px 0 8px;
+        padding: 20px 22px;
+        background: #fff;
+        border: 1px solid var(--hairline);
+        border-radius: 16px;
+        box-shadow:
+          0 1px 3px rgba(33, 26, 20, 0.05),
+          0 10px 24px -16px rgba(33, 26, 20, 0.18);
+      }
+      .authorcard img {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex: none;
+        box-shadow: 0 1px 4px rgba(33, 26, 20, 0.18);
+      }
+      .authorcard .abt-h {
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted-strong);
+        margin-bottom: 8px;
+      }
+      .authorcard .who {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 16px;
+        color: var(--ink);
+      }
+      .authorcard .role {
+        font-family: var(--sans);
+        font-size: 13px;
+        color: var(--coral);
+        font-weight: 600;
+        margin-bottom: 7px;
+      }
+      .authorcard p {
+        font-family: var(--sans);
+        font-size: 14.5px;
+        line-height: 1.6;
+        color: var(--body);
+        margin: 0;
       }
 
       /* ── Key takeaways callout (v3) ── */
@@ -830,57 +1010,73 @@
 
       <div class="byline">
         <img
-          src="/product/assets/app-icon.png"
-          alt=""
-          class="byline-mark"
-          width="28"
-          height="28"
+          src="/compare/assets/mike-mcgraw.jpg"
+          alt="Mike McGraw, founder of REPS"
+          class="byline-avatar"
+          width="40"
+          height="40"
         />
         <span
-          ><strong>By the REPS team</strong> · Updated July 2026 · 7 min read<br />
+          ><strong>By Mike McGraw</strong>, founder of REPS · Updated July 2026 ·
+          7 min read<br />
           <span class="byline-cred"
-            >We build a spaced-repetition app and use these tools daily.</span
+            >I use every app on this list. This is the honest rundown I wish I
+            had.</span
           ></span
         >
       </div>
 
       <p class="lead">
-        Readwise is the best all-in-one reading and recall app, and it earns its
-        price for heavy highlighters. If it feels too expensive, Matter is the
-        cheaper read-and-listen pick, Notion is best for filing, and Anki is the
-        free power tool if you will build cards. REPS is for people who want it
-        done for them and remembering to feel like a game.
+        If you want to actually remember what you read without the work, REPS is
+        our pick: you save anything and it builds the recall for you, then serves
+        it back as a quick daily game. Readwise is the more established
+        all-in-one and still the strongest choice if you highlight heavily and
+        want every source in one inbox. Matter is the cheaper read-and-listen
+        option, Notion is best for filing, and Anki is the free power tool if you
+        will build your own cards.
       </p>
 
-      <figure class="repsshot">
-        <video
-          src="/beats/discover-combo.mp4"
-          autoplay
-          muted
-          loop
-          playsinline
-          preload="metadata"
-          aria-hidden="true"
-        ></video>
-        <figcaption class="cap">
-          REPS: a feed worth remembering, plus daily recall
-        </figcaption>
+      <figure class="logobanner">
+        <div class="lb-title">The apps we compared</div>
+        <div class="lb-grid">
+          <div class="lb-app reps">
+            <img src="/product/assets/app-icon.png" alt="REPS" width="52" height="52" />
+            <span>REPS</span>
+          </div>
+          <div class="lb-app">
+            <img src="/compare/assets/logos/readwise.png" alt="Readwise" width="52" height="52" loading="lazy" />
+            <span>Readwise</span>
+          </div>
+          <div class="lb-app">
+            <img src="/compare/assets/logos/matter.png" alt="Matter" width="52" height="52" loading="lazy" />
+            <span>Matter</span>
+          </div>
+          <div class="lb-app">
+            <img src="/compare/assets/logos/notion.png" alt="Notion" width="52" height="52" loading="lazy" />
+            <span>Notion</span>
+          </div>
+          <div class="lb-app">
+            <img src="/compare/assets/logos/anki.png" alt="Anki" width="52" height="52" loading="lazy" />
+            <span>Anki</span>
+          </div>
+        </div>
       </figure>
 
       <aside class="takeaways">
         <div class="takeaways-h">Key takeaways</div>
         <ul>
           <li>
-            Readwise is the deepest all-in-one and worth it for heavy
-            highlighters, at roughly $120 a year.
+            REPS is the pick if you want it done for you: save anything and it
+            builds the recall, then serves it back as a daily game.
+          </li>
+          <li>
+            Readwise is the deepest all-in-one and worth it if you highlight
+            heavily, at roughly $120 a year.
           </li>
           <li>
             Matter is the cheaper read-and-listen pick; Notion is best for
-            filing, not remembering.
-          </li>
-          <li>
-            Anki is the free power tool if you will build cards; REPS is for
-            people who want it done for them.
+            filing, not remembering; Anki is the free power tool if you will
+            build your own cards.
           </li>
         </ul>
       </aside>
@@ -888,8 +1084,8 @@
       <div class="prose">
         <p>
           We built REPS, so read this knowing we have a horse in the race. We
-          are also long-time Readwise users, and we think it is genuinely one of
-          the best products in this whole category. This is not a hit piece.
+          are also long-time Readwise users, and we rate it a genuinely good
+          product. This is not a hit piece.
           Most "alternatives" roundups pretend the incumbent is secretly bad so
           the writer's pick can win. Readwise is not bad. It is very good, and
           for a lot of people it is the right answer.
@@ -918,6 +1114,13 @@
               </tr>
             </thead>
             <tbody>
+              <tr class="reps-row">
+                <th scope="row"><span class="chip">REPS</span></th>
+                <td>Save anything and play to remember it</td>
+                <td>Early access</td>
+                <td>Yes, as a daily game</td>
+                <td>Yes. Save it, REPS does the rest</td>
+              </tr>
               <tr>
                 <th scope="row"><span class="chip">Readwise + Reader</span></th>
                 <td>All-in-one reading and recall on your highlights</td>
@@ -945,13 +1148,6 @@
                 <td>Free (iOS app is a one-time purchase)</td>
                 <td>Yes</td>
                 <td>No, you make every card</td>
-              </tr>
-              <tr class="reps-row">
-                <th scope="row"><span class="chip">REPS</span></th>
-                <td>Save anything and play to remember it</td>
-                <td>Early access</td>
-                <td>Yes, as a daily game</td>
-                <td>Yes. Save it, REPS does the rest</td>
               </tr>
             </tbody>
           </table>
@@ -986,7 +1182,61 @@
         </p>
 
         <span class="section-pill">The alternatives</span>
-        <h2>The honest alternatives, one by one</h2>
+        <h2>Our pick, and the honest alternatives</h2>
+        <p>
+          We will start with REPS, since it is what we built and our pick for
+          this use case, then go through every alternative and name exactly where
+          it beats us.
+        </p>
+
+        <div class="app-block reps">
+          <span class="app-tag">Our pick, done for you</span>
+          <h3>REPS</h3>
+          <p>
+            <strong>Where REPS fits:</strong> REPS is for the person who wants
+            Readwise's outcome, actually remembering what they read, without the
+            highlighting discipline or the deck-building. You save the whole
+            thing: an article, a YouTube video, a podcast, a book. REPS pulls out
+            what is worth keeping and <strong>builds the cards for you</strong>,
+            then serves them back as quick daily games. No highlighting to keep
+            up, no decks to make by hand, no system to design. You save; REPS
+            makes the cards and does the rest.
+          </p>
+          <p>
+            The remembering is the part we care about most, and we made it feel
+            like play instead of homework. Instead of a review queue you dread,
+            you get short daily rounds, crosswords, and recall challenges built
+            from your own saved content. Everything you save also grows into a
+            <strong>Second Brain</strong>, a visual map of what you know and how
+            it connects. It works across what you read, watch, and listen to,
+            because remembering should not care where the idea came from.
+          </p>
+          <p>
+            To be fair to the rest of this list: REPS does not have Reader's
+            all-in-one inbox, and we do not sync the huge range of highlight
+            sources Readwise does. If your workflow is built on Kindle highlights
+            flowing into Obsidian, stay where you are. REPS is the better pick
+            when you want less work, not more control.
+          </p>
+          <figure class="repsdemo">
+            <div class="cmp-phone">
+              <div class="screen">
+                <video
+                  src="/beats/save-composite.mp4"
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  preload="metadata"
+                  aria-hidden="true"
+                ></video>
+              </div>
+            </div>
+            <figcaption class="cap">
+              Save an article, video, or book. REPS builds the recall for you.
+            </figcaption>
+          </figure>
+        </div>
 
         <div class="app-block">
           <span class="app-tag">Cheaper, best for audio</span>
@@ -1052,36 +1302,6 @@
           </p>
         </div>
 
-        <div class="app-block reps">
-          <span class="app-tag">Done for you, played as a game</span>
-          <h3>REPS</h3>
-          <p>
-            <strong>Where REPS fits:</strong> REPS is for the person who wants
-            Readwise's outcome, actually remembering what they read, without the
-            highlighting discipline or the deck-building. You save the whole
-            thing: an article, a YouTube video, a podcast, a book. REPS pulls out
-            what is worth keeping and turns it into quick daily games. No
-            highlights to maintain, no cards to build, no system to design. Save
-            anything, and REPS does the rest.
-          </p>
-          <p>
-            The remembering is the part we care about most, and we made it feel
-            like play instead of homework. Instead of a review queue you dread,
-            you get short daily rounds, crosswords, and recall challenges built
-            from your own saved content. Everything you save also grows into a
-            <strong>Second Brain</strong>, a visual map of what you know and how
-            it connects. It works across what you read, watch, and listen to,
-            because remembering should not care where the idea came from.
-          </p>
-          <p>
-            To be fair to Readwise: REPS does not have Reader's all-in-one
-            inbox, and we do not sync the huge range of highlight sources
-            Readwise does. If your workflow is built on Kindle highlights flowing
-            into Obsidian, stay where you are. REPS is the better pick when you
-            want less work, not more control.
-          </p>
-        </div>
-
         <span class="section-pill">From the community</span>
         <h2>What people on Reddit actually recommend</h2>
         <div class="reddit">
@@ -1090,16 +1310,20 @@
             more grounded. The recurring Readwise question is bluntly about
             price: threads titled around "convince me to stay with paid Readwise
             Reader" and "is it really worth $120 a year?" show up regularly, and
-            the usual verdict is that Reader is the best all-in-one but hard to
-            justify at full price. On the Anki side, the community reflex to
+            the usual verdict is that Reader is polished but hard to justify at
+            full price. On the Anki side, the community reflex to
             anyone asking for an alternative is "what specifically don't you like
             about Anki?", followed by honest talk about its learning curve and
             manual card-making.
           </p>
-          <blockquote class="pullquote">The recurring question is whether Reader is the best all-in-one but still hard to justify at around $120 a year.
-            <span class="src">Paraphrased consensus from <a href="https://www.reddit.com/r/readwise/comments/1oblyn1/convince_me_to_stay_with_paid_readwise_reader/" rel="nofollow noopener" target="_blank">r/readwise</a></span></blockquote>
-          <blockquote class="pullquote">Before recommending an alternative, the Anki community asks what specifically you dislike about Anki, then talks honestly about its learning curve and manual card-making.
-            <span class="src">Paraphrased consensus from <a href="https://www.reddit.com/r/Anki/comments/1g0h2l4/anki_alternatives_autumn_2024/" rel="nofollow noopener" target="_blank">r/Anki</a></span></blockquote>
+          <figure class="proofshot">
+            <div class="shot"><img src="/compare/assets/readwise-120-reddit.png" alt="A real r/readwise post from a paid Reader user saying $120 a year is hard to justify" loading="lazy" /></div>
+            <figcaption class="cap">Real thread, r/readwise: a paid Reader user says $120 a year is hard to justify. <a href="https://www.reddit.com/r/readwise/comments/1oblyn1/convince_me_to_stay_with_paid_readwise_reader/" target="_blank" rel="nofollow noopener">View thread</a></figcaption>
+          </figure>
+          <figure class="proofshot">
+            <div class="shot"><img src="/compare/assets/reddit-anki-alternatives.png" alt="A real r/Anki post asking about alternatives and AI tools that generate flashcards for you" loading="lazy" /></div>
+            <figcaption class="cap">Real thread, r/Anki: a longtime user asks for a slicker alternative, and about AI tools that build the cards for you. <a href="https://www.reddit.com/r/Anki/comments/1g0h2l4/anki_alternatives_autumn_2024/" target="_blank" rel="nofollow noopener">View thread</a></figcaption>
+          </figure>
           <p>
             There is also a large, upvoted camp that pushes back on the whole
             premise: read to learn now, they say, and stop stressing about
@@ -1137,14 +1361,9 @@
               <span>r/Anki, the honest alternatives discussion</span>
             </li>
           </ul>
-          <figure class="proofshot">
-            <div class="shot"><img src="/compare/assets/readwise-120-reddit.png" alt="A real r/readwise post questioning whether Readwise Reader is worth $120 a year" loading="lazy" /></div>
-            <figcaption class="cap">A real r/readwise thread: is Reader worth around $120 a year? <a href="https://www.reddit.com/r/readwise/comments/1oblyn1/convince_me_to_stay_with_paid_readwise_reader/" target="_blank" rel="nofollow noopener">View thread</a></figcaption>
-          </figure>
           <p class="table-note" style="margin: 0 2px 4px">
-            We link these so you can judge the consensus yourself. We have not
-            pulled quotes from them, because a comparison page is not the place
-            for testimonials someone cannot verify.
+            These are real, unedited threads. We screenshot them and link them so
+            you can read the full discussion and judge the consensus yourself.
           </p>
         </div>
 
@@ -1219,7 +1438,7 @@
             <span class="pick neutral">Stay on Readwise</span>
             <p class="chip-text">
               if you highlight constantly and want the widest sync plus the
-              all-in-one Reader inbox. <b>It is still the best of its kind.</b>
+              all-in-one Reader inbox. <b>Nothing else here syncs as widely.</b>
             </p>
           </div>
           <div class="chip-row">
@@ -1249,6 +1468,26 @@
               if you want to save anything you read, watch, or hear, skip the
               busywork, and make remembering a daily game.
               <b>Save it, never lose it.</b>
+            </p>
+          </div>
+        </div>
+
+        <div class="authorcard">
+          <img
+            src="/compare/assets/mike-mcgraw.jpg"
+            alt="Mike McGraw, founder of REPS"
+            width="64"
+            height="64"
+            loading="lazy"
+          />
+          <div>
+            <div class="abt-h">About the author</div>
+            <div class="who">Mike McGraw</div>
+            <div class="role">Founder, REPS</div>
+            <p>
+              I started building REPS after realizing I could not remember most
+              of what I read. I use the apps on this list myself, and I write
+              these comparisons to be the honest rundown I wish I had had.
             </p>
           </div>
         </div>

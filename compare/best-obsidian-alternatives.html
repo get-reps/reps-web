@@ -71,6 +71,19 @@
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
+        "@type": "Person",
+        "@id": "https://getreps.io/#mike",
+        "name": "Mike McGraw",
+        "url": "https://getreps.io/",
+        "image": "https://www.getreps.io/compare/assets/mike-mcgraw.jpg",
+        "jobTitle": "Founder",
+        "worksFor": { "@id": "https://getreps.io/#organization" },
+        "description": "Founder of REPS. Builds and uses spaced-repetition and read-it-later tools daily."
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
         "@type": "WebSite",
         "@id": "https://getreps.io/#website",
         "name": "REPS",
@@ -113,7 +126,7 @@
         "description": "Honest 2026 Obsidian alternatives for people who want less setup and no manual upkeep. Obsidian, Notion, Anki, Readwise, and REPS compared on price, local-first storage, built-in recall, and setup effort.",
         "datePublished": "2026-07-06",
         "dateModified": "2026-07-06",
-        "author": { "@type": "Organization", "@id": "https://getreps.io/#organization" },
+        "author": { "@type": "Person", "@id": "https://getreps.io/#mike" },
         "publisher": { "@type": "Organization", "@id": "https://getreps.io/#organization" },
         "mainEntityOfPage": "https://getreps.io/compare/best-obsidian-alternatives",
         "image": "https://www.getreps.io/og-card-v3.png"
@@ -161,7 +174,7 @@
             "name": "What if I just want it to remember things for me?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Then a note app is the wrong shape. Obsidian and Notion organize; they do not bring information back before you forget it. REPS is built for exactly this: you save an article, a video, or a podcast, and it writes the recall for you and schedules it as a short daily game. Same idea as spaced repetition, none of the vault-building or card-writing. Obsidian makes you the librarian. REPS is the librarian."
+              "text": "Then a note app is the wrong shape. Obsidian and Notion organize; they do not bring information back before you forget it. REPS is built for exactly this: you save an article, a video, or a podcast, and it builds the cards for you and schedules them as a short daily game. Same idea as spaced repetition, but you do not build the vault or write the cards by hand. Obsidian makes you the librarian. REPS is the librarian."
             }
           }
         ]
@@ -517,6 +530,32 @@
         display: inline-block;
         margin: 2px 0 6px;
       }
+      .app-block.reps {
+        border: 1px solid rgba(255, 107, 107, 0.34);
+        border-radius: 16px;
+        background: linear-gradient(180deg, #fff 0%, #fff6f2 100%);
+        padding: 24px 26px 8px;
+        margin: 22px 0 8px;
+        box-shadow:
+          0 1px 3px rgba(33, 26, 20, 0.04),
+          0 4px 14px rgba(33, 26, 20, 0.03);
+      }
+      .app-block.reps h3 {
+        margin-top: 8px;
+      }
+      .app-tag {
+        display: inline-block;
+        font-family: var(--display);
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #fff;
+        background: linear-gradient(135deg, var(--coral), var(--peach));
+        padding: 4px 10px;
+        border-radius: 999px;
+        margin-bottom: 4px;
+      }
 
       /* Reddit consensus list */
       .thread-list {
@@ -783,6 +822,173 @@
         }
       }
 
+      /* ── Logo-grid hero banner (v5) ── */
+      .logobanner {
+        margin: 24px 0 8px;
+        padding: 28px 22px 26px;
+        border-radius: 22px;
+        background:
+          radial-gradient(120% 90% at 50% 0%, rgba(255, 107, 107, 0.12), rgba(4, 4, 9, 0) 60%),
+          linear-gradient(180deg, #101d18 0%, #040409 82%);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        box-shadow:
+          0 2px 10px rgba(33, 26, 20, 0.08),
+          0 26px 52px -24px rgba(33, 26, 20, 0.36);
+      }
+      .lb-title {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: clamp(19px, 3vw, 25px);
+        letter-spacing: -0.01em;
+        color: #fff;
+        text-align: center;
+        margin-bottom: 22px;
+      }
+      .lb-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 13px;
+      }
+      .lb-app {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        width: 104px;
+        padding: 16px 8px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .lb-app img {
+        width: 52px;
+        height: 52px;
+        border-radius: 12px;
+        object-fit: contain;
+      }
+      .lb-app span {
+        font-family: var(--sans);
+        font-size: 13px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.82);
+      }
+      .lb-app.reps {
+        background: rgba(255, 107, 107, 0.13);
+        border-color: rgba(255, 107, 107, 0.42);
+      }
+      .lb-app.reps span {
+        color: #fff;
+        font-weight: 700;
+      }
+
+      /* ── REPS product demo (framed phone, inside the Our-pick block) ── */
+      .repsdemo {
+        margin: 18px 0 4px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .repsdemo .cap {
+        margin-top: 13px;
+        font-family: var(--sans);
+        font-size: 12.5px;
+        color: var(--muted);
+        text-align: center;
+      }
+      .cmp-phone {
+        width: clamp(210px, 58vw, 250px);
+        padding: 5px;
+        background: #0a0a10;
+        border-radius: 30px;
+        position: relative;
+        box-shadow:
+          0 2px 8px rgba(0, 0, 0, 0.42),
+          0 22px 44px -16px rgba(0, 0, 0, 0.5);
+      }
+      .cmp-phone::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 30px;
+        pointer-events: none;
+        box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.08);
+      }
+      .cmp-phone .screen {
+        width: 100%;
+        aspect-ratio: 540 / 1170;
+        border-radius: 25px;
+        overflow: hidden;
+        background: #040409;
+      }
+      .cmp-phone .screen video,
+      .cmp-phone .screen img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      /* ── Author: round byline avatar + About-the-author card (v4) ── */
+      .byline-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex: none;
+        box-shadow: 0 1px 4px rgba(33, 26, 20, 0.2);
+      }
+      .authorcard {
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+        margin: 44px 0 8px;
+        padding: 20px 22px;
+        background: #fff;
+        border: 1px solid var(--hairline);
+        border-radius: 16px;
+        box-shadow:
+          0 1px 3px rgba(33, 26, 20, 0.05),
+          0 10px 24px -16px rgba(33, 26, 20, 0.18);
+      }
+      .authorcard img {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex: none;
+        box-shadow: 0 1px 4px rgba(33, 26, 20, 0.18);
+      }
+      .authorcard .abt-h {
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted-strong);
+        margin-bottom: 8px;
+      }
+      .authorcard .who {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 16px;
+        color: var(--ink);
+      }
+      .authorcard .role {
+        font-family: var(--sans);
+        font-size: 13px;
+        color: var(--coral);
+        font-weight: 600;
+        margin-bottom: 7px;
+      }
+      .authorcard p {
+        font-family: var(--sans);
+        font-size: 14.5px;
+        line-height: 1.6;
+        color: var(--body);
+        margin: 0;
+      }
+
       /* ── v2 visual upgrade ── */
       .chip { display:inline-flex; align-items:center; font-family:var(--display); font-weight:600; font-size:12px; color:var(--ink); background:rgba(33,26,20,0.05); border:1px solid var(--hairline); border-radius:999px; padding:3px 10px; white-space:nowrap; }
       .repsshot { margin:24px 0; border-radius:16px; overflow:hidden; border:1px solid var(--hairline); background:var(--galaxy); box-shadow:0 2px 10px rgba(33,26,20,0.06),0 16px 36px -18px rgba(33,26,20,0.30); }
@@ -825,48 +1031,65 @@
 
       <div class="byline">
         <img
-          src="/product/assets/app-icon.png"
-          alt=""
-          class="byline-mark"
-          width="28"
-          height="28"
+          src="/compare/assets/mike-mcgraw.jpg"
+          alt="Mike McGraw, founder of REPS"
+          class="byline-avatar"
+          width="40"
+          height="40"
         />
         <span
-          ><strong>By the REPS team</strong> · Updated July 2026 · 7 min read<br />
+          ><strong>By Mike McGraw</strong>, founder of REPS · Updated July 2026 ·
+          7 min read<br />
           <span class="byline-cred"
-            >We build a spaced-repetition app and use these tools daily.</span
+            >I use every app on this list. This is the honest rundown I wish I
+            had.</span
           ></span
         >
       </div>
 
       <p class="lead">
-        If you love owning your files and tinkering with a system, stay on
-        Obsidian: it is local-first, free for personal use, and endlessly
-        extensible. If you want something gentler, Notion is the easier
-        workspace, and Anki is the deepest free way to drill facts. But all
-        three leave the remembering to you. REPS is the one that does it for
-        you: save anything and it writes and schedules the recall as a daily
-        game.
+        If you want to actually remember what you read and watch, REPS is our
+        pick: you save anything and it builds the recall for you, then serves it
+        back as a quick daily game. Obsidian is still the strongest choice if you
+        love owning your files and tinkering with a system, since it is
+        local-first, free for personal use, and endlessly extensible. Notion is
+        the easier workspace for filing, and Anki is the deepest free way to
+        drill facts. But those three all leave the remembering to you.
       </p>
 
-      <figure class="repsshot">
-        <video
-          src="/beats/constellation.mp4"
-          autoplay
-          muted
-          loop
-          playsinline
-          preload="metadata"
-          aria-hidden="true"
-        ></video>
-        <figcaption class="cap">
-          REPS: your Second Brain graph, built automatically
-        </figcaption>
+      <figure class="logobanner">
+        <div class="lb-title">The apps we compared</div>
+        <div class="lb-grid">
+          <div class="lb-app reps">
+            <img src="/product/assets/app-icon.png" alt="REPS" width="52" height="52" />
+            <span>REPS</span>
+          </div>
+          <div class="lb-app">
+            <img src="/compare/assets/logos/obsidian.svg" alt="Obsidian" width="52" height="52" loading="lazy" />
+            <span>Obsidian</span>
+          </div>
+          <div class="lb-app">
+            <img src="/compare/assets/logos/notion.png" alt="Notion" width="52" height="52" loading="lazy" />
+            <span>Notion</span>
+          </div>
+          <div class="lb-app">
+            <img src="/compare/assets/logos/anki.png" alt="Anki" width="52" height="52" loading="lazy" />
+            <span>Anki</span>
+          </div>
+          <div class="lb-app">
+            <img src="/compare/assets/logos/readwise.png" alt="Readwise" width="52" height="52" loading="lazy" />
+            <span>Readwise</span>
+          </div>
+        </div>
       </figure>
 
       <aside class="takeaways">
         <div class="takeaways-h">Key takeaways</div>
         <ul>
+          <li>
+            REPS is the pick if you want it done for you: save anything and it
+            builds the recall, then serves it back as a daily game.
+          </li>
           <li>
             Obsidian is local-first, free for personal use, and endlessly
             extensible, but you are the librarian and there is no built-in
@@ -875,10 +1098,6 @@
           <li>
             Notion is the easier workspace for filing; Anki is the free power
             tool if you will build every card by hand.
-          </li>
-          <li>
-            REPS is for people who want it done for them: save anything and it
-            writes and schedules the recall as a daily game.
           </li>
         </ul>
       </aside>
@@ -927,6 +1146,14 @@
               </tr>
             </thead>
             <tbody>
+              <tr class="reps-row">
+                <th scope="row"><span class="chip">REPS</span></th>
+                <td>Remembering, played as a game</td>
+                <td>Early access</td>
+                <td class="cell-no">No (cloud)</td>
+                <td class="cell-yes">Yes, done for you</td>
+                <td>Low</td>
+              </tr>
               <tr>
                 <th scope="row"><span class="chip">Obsidian</span></th>
                 <td>Owning your notes, plugins</td>
@@ -959,14 +1186,6 @@
                 <td class="cell-yes">Yes (Mastery)</td>
                 <td>Medium</td>
               </tr>
-              <tr class="reps-row">
-                <th scope="row"><span class="chip">REPS</span></th>
-                <td>Remembering, played as a game</td>
-                <td>Early access</td>
-                <td class="cell-no">No (cloud)</td>
-                <td class="cell-yes">Yes, done for you</td>
-                <td>Low</td>
-              </tr>
             </tbody>
           </table>
         </div>
@@ -982,9 +1201,53 @@
         <p>
           The right answer depends on what pushed you off Obsidian. If it was
           the setup, you want something gentler. If it was that your notes never
-          did anything, you want something that tests you. Here is where each
-          app lands, strengths first.
+          did anything, you want something that tests you. We will start with
+          REPS, since it is what we built and our pick for this use case, then go
+          through every alternative and name exactly where it beats us.
         </p>
+
+        <div class="app-block reps">
+          <span class="app-tag">Our pick, done for you</span>
+          <h3>REPS: no system to maintain, and remembering feels like a game</h3>
+          <span class="wedge">Where it fits</span>
+          <p>
+            We built REPS for the person who liked the idea of a second brain but
+            not the upkeep. You save an article, a YouTube video, or a podcast,
+            and REPS does the rest: it
+            <strong>builds the recall cards for you</strong> from the source,
+            then brings them back on a spaced schedule as a quick daily game
+            rather than a review pile. There is no vault to structure, no decks
+            to make by hand, no plugins to wire together. You save; REPS makes
+            the cards, organizes, connects, and remembers for you.
+          </p>
+          <p>
+            Everything you save also grows into your Second Brain, a living map
+            of what you know, with the graph view Obsidian fans love, built
+            automatically instead of by hand. To be fair to the rest of this
+            list: REPS is not local-first, and it is not a blank canvas you can
+            tinker with forever. If owning your raw files and building the system
+            yourself is the whole point for you, stay on Obsidian. REPS is the
+            better pick when you want less work, not more control.
+          </p>
+          <figure class="repsdemo">
+            <div class="cmp-phone">
+              <div class="screen">
+                <video
+                  src="/beats/save-composite.mp4"
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  preload="metadata"
+                  aria-hidden="true"
+                ></video>
+              </div>
+            </div>
+            <figcaption class="cap">
+              Save an article, video, or book. REPS builds the recall for you.
+            </figcaption>
+          </figure>
+        </div>
 
         <div class="app-block">
           <h3>Obsidian: still the best if you want to own the system</h3>
@@ -1079,30 +1342,6 @@
           </p>
         </div>
 
-        <div class="app-block">
-          <h3>REPS: no system to maintain, and remembering feels like a game</h3>
-          <span class="wedge">Where it fits</span>
-          <p>
-            We built REPS for the person who liked the idea of a second brain but
-            not the upkeep. You save an article, a YouTube video, or a podcast,
-            and REPS does the rest: it writes the recall for you from the source,
-            then brings it back on a spaced schedule as a quick daily game rather
-            than a review pile. There is no vault to structure, no cards to write,
-            no plugins to wire together. You save; it organizes, connects, and
-            remembers for you.
-          </p>
-          <p>
-            Everything you save also grows into your Second Brain, a living map
-            of what you know, with the graph view Obsidian fans love, built
-            automatically instead of by hand. The honest tradeoff: REPS is not
-            local-first, and it is not a blank canvas you can tinker with
-            forever. If owning your raw files and building the system yourself is
-            the whole point for you, stay on Obsidian. If you would rather save
-            anything and simply remember it, without becoming the librarian,
-            that is us.
-          </p>
-        </div>
-
         <span class="section-pill">From the community</span>
         <h2>What people on Reddit actually recommend</h2>
         <p>
@@ -1120,31 +1359,14 @@
           will stick. If that is you, the fear-based framing most of these apps
           lean on will not land, and that is fair. Read the threads yourself:
         </p>
-        <blockquote class="pullquote">
-          The honest replies keep coming back to active recall and spaced
-          repetition, not more note-taking, because filing something is not the
-          same as remembering it.
-          <span class="src"
-            >Paraphrased consensus from
-            <a
-              href="https://www.reddit.com/r/books/comments/189u586/how_to_retain_what_youve_read_for_longer_durations/"
-              rel="nofollow"
-              >r/books</a
-            ></span
-          >
-        </blockquote>
-        <blockquote class="pullquote">
-          A large, upvoted camp just wants permission rather than another system:
-          read to learn now, and trust that what matters will stick.
-          <span class="src"
-            >Paraphrased consensus from
-            <a
-              href="https://www.reddit.com/r/productivity/comments/1n4ijv7/you_wont_remember_over_90_you_read_in_your/"
-              rel="nofollow"
-              >r/productivity</a
-            ></span
-          >
-        </blockquote>
+        <figure class="proofshot">
+          <div class="shot"><img src="/compare/assets/reddit-books.png" alt="A real r/books thread from a reader who cannot recall anything from books read a year ago" loading="lazy" /></div>
+          <figcaption class="cap">Real thread, r/books: a reader who cannot recall anything from books read a year ago. <a href="https://www.reddit.com/r/books/comments/189u586/how_to_retain_what_youve_read_for_longer_durations/" target="_blank" rel="nofollow noopener">View thread</a></figcaption>
+        </figure>
+        <figure class="proofshot">
+          <div class="shot"><img src="/compare/assets/reddit-productivity.png" alt="A real r/productivity thread with 9.7k upvotes on the fact that you forget over 90% of what you read" loading="lazy" /></div>
+          <figcaption class="cap">Real thread, r/productivity: 9.7k upvotes on the fact that you forget over 90% of what you read. <a href="https://www.reddit.com/r/productivity/comments/1n4ijv7/you_wont_remember_over_90_you_read_in_your/" target="_blank" rel="nofollow noopener">View thread</a></figcaption>
+        </figure>
         <ul class="thread-list">
           <li>
             <a
@@ -1171,6 +1393,10 @@
             <span class="thread-sub">· r/Anki</span>
           </li>
         </ul>
+        <p class="table-note" style="margin: 0 2px 4px">
+          These are real, unedited threads. We screenshot them and link them so
+          you can read the full discussion and judge the consensus yourself.
+        </p>
 
         <span class="section-pill">FAQ</span>
         <h2>Frequently asked questions</h2>
@@ -1228,10 +1454,10 @@
               Then a note app is the wrong shape. Obsidian and Notion organize;
               they do not bring information back before you forget it. REPS is
               built for exactly this: you save an article, a video, or a podcast,
-              and it writes the recall for you and schedules it as a short daily
-              game. Same idea as spaced repetition, none of the vault-building or
-              card-writing. Obsidian makes you the librarian. REPS is the
-              librarian.
+              and it builds the cards for you and schedules them as a short daily
+              game. Same idea as spaced repetition, but you do not build the
+              vault or write the cards by hand. Obsidian makes you the librarian.
+              REPS is the librarian.
             </p>
           </details>
         </div>
@@ -1262,6 +1488,26 @@
             <strong>Pick REPS</strong> if you want to save anything you read,
             watch, or listen to, skip the setup entirely, and remember it through
             a quick daily game.
+          </div>
+        </div>
+
+        <div class="authorcard">
+          <img
+            src="/compare/assets/mike-mcgraw.jpg"
+            alt="Mike McGraw, founder of REPS"
+            width="64"
+            height="64"
+            loading="lazy"
+          />
+          <div>
+            <div class="abt-h">About the author</div>
+            <div class="who">Mike McGraw</div>
+            <div class="role">Founder, REPS</div>
+            <p>
+              I started building REPS after realizing I could not remember most
+              of what I read. I use the apps on this list myself, and I write
+              these comparisons to be the honest rundown I wish I had had.
+            </p>
           </div>
         </div>
       </div>
