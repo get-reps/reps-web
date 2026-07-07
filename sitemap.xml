@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- REPS sitemap. Lists the indexable homepage + the new /compare content surface + the /blog index.
+<!-- REPS sitemap. Lists the indexable homepage + the /compare content surface + the /features landing pages + the /blog index.
      The paid LPs (/get, /get/remember, /watch) are intentionally OMITTED — they are noindex.
      Clean URLs (no .html) to match vercel.json cleanUrls:true. Referenced from robots.txt. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -59,6 +59,24 @@
   </url>
   <url>
     <loc>https://getreps.io/compare/best-quizlet-alternatives</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://getreps.io/features/active-recall</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://getreps.io/features/second-brain</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://getreps.io/features/read-it-later</loc>
     <lastmod>2026-07-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

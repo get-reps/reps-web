@@ -1,0 +1,1629 @@
+<!doctype html>
+<!-- REPS Feature: Active Recall (2026-07-07)
+     GEO/SEO premium feature landing page. lp_variant: feature_active_recall.
+     Targets: "active recall flashcards", "active recall app", "how to do active recall".
+
+     BRAND-RULE NOTE FOR FUTURE EDITORS (do not strip):
+     - Clinical keywords ("active recall", "spaced repetition", "flashcards",
+       "study", "retention") are ALLOWED in body/meta/H2/FAQ/JSON-LD for search +
+       AI-answer reach, but are BANNED from the H1 and the hero positioning line.
+       This composes with the ad-headline ban in DESIGN_DECISIONS.md.
+     - NO em dashes anywhere. "doomscrolling" is one word; "bloom scrolling" two.
+     - Voice: done-for-you ("REPS builds the cards FOR you", never "no cards"),
+       identity payoff, play-not-homework, bloom-not-doom, bookmark++.
+     - Contrast: eyebrows/labels in warm-ink or DARKENED coral only, never
+       #ff6b6b on cream at small sizes; secondary text >= 4.5:1 on cream.
+     - Register: sans (Space Grotesk display + system-sans body), NOT serif
+       (per decision #1149, feature/comparison surfaces are product-voice). -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>The active recall app that builds the cards · REPS</title>
+    <meta
+      name="description"
+      content="Active recall is the fastest way to remember what you learn: test yourself instead of re-reading. REPS is the active recall app that builds the recall cards for you from anything you save, then serves them back as a quick daily game. Compared honestly with Anki and Quizlet."
+    />
+    <link rel="canonical" href="https://getreps.io/features/active-recall" />
+    <meta
+      property="og:title"
+      content="Active recall, done for you (the app that builds the cards)"
+    />
+    <meta
+      property="og:description"
+      content="Active recall works: test yourself instead of re-reading. REPS builds the recall for you from anything you save, then serves it as a quick daily game. No decks to build by hand."
+    />
+    <meta property="og:url" content="https://getreps.io/features/active-recall" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://www.getreps.io/og-card-v3.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://www.getreps.io/og-card-v3.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" /></noscript>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "@id": "https://getreps.io/#organization",
+        "name": "REPS",
+        "url": "https://getreps.io/",
+        "logo": "https://www.getreps.io/og-card-v3.png",
+        "description": "REPS turns what you read, watch, and hear into quick games that make it stick."
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "@id": "https://getreps.io/#mike",
+        "name": "Mike McGraw",
+        "url": "https://getreps.io/",
+        "image": "https://www.getreps.io/compare/assets/mike-mcgraw.jpg",
+        "jobTitle": "Founder",
+        "worksFor": { "@id": "https://getreps.io/#organization" },
+        "description": "Founder of REPS. Builds and uses spaced-repetition and read-it-later tools daily."
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "@id": "https://getreps.io/#website",
+        "name": "REPS",
+        "url": "https://getreps.io/",
+        "publisher": { "@id": "https://getreps.io/#organization" }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://getreps.io/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Features",
+            "item": "https://getreps.io/features"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Active Recall",
+            "item": "https://getreps.io/features/active-recall"
+          }
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is active recall?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Active recall is the practice of pulling information out of your memory instead of putting it back in. Rather than re-reading an article or highlighting a page again, you close it and try to answer a question about it. That act of retrieval is what strengthens the memory. It is the single most reliable way to remember something long-term, and it is the engine underneath every good flashcard app."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the best active recall app?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It depends on how much work you want to do. Anki is the deepest and it is free, but you build every card by hand. Quizlet is great for student decks you or your classmates create. REPS is the pick if you want the recall built for you: you save an article, video, or podcast and REPS writes the recall questions from the source, then brings them back on a spaced schedule as a quick daily game. Same proven idea, none of the deck-building."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do I have to make flashcards to do active recall?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Not anymore. Traditional active recall means writing your own flashcards, which is why most people quit: making the cards is the chore. REPS builds the recall cards for you from whatever you save, so you get the retrieval practice without the setup. You can still make your own in Anki or Quizlet if you prefer full control, but you no longer have to."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is active recall better than re-reading?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, and it is not close. Re-reading feels productive because the material gets familiar, but familiarity is not memory. Decades of research on the testing effect show that retrieving an answer from memory, even when you get it wrong, builds far stronger long-term recall than passively reviewing the same text. Testing yourself is the work that sticks."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I start doing active recall?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Pick something you actually want to remember, then test yourself on it instead of re-reading it. The friction is turning your source into questions. With REPS you skip that step: save the article, video, or podcast, and it generates the recall for you and schedules a short daily game so the practice happens on its own. That removes the two reasons people abandon active recall, the card-making and the discipline."
+            }
+          }
+        ]
+      }
+    </script>
+
+    <style>
+      :root {
+        --cream: #fffaf7;
+        --coral: #ff6b6b;
+        --coral-ink: #ad3a28; /* deep coral; verified WCAG-AA ≥5.1:1 on cream, white, all beat tints, and the hero peach wash */
+        --peach: #ff8e53;
+        --ink: #211a14;
+        --body: #4f4740; /* ~7:1 on cream */
+        --muted: #5a5249; /* >= 4.5:1 on cream */
+        --muted-strong: #4a433c;
+        --hairline: rgba(33, 26, 20, 0.09);
+        --galaxy: #040409;
+        --gold: #d4a24e;
+        --teal: #2d8377;
+        --display: "Space Grotesk", system-ui, -apple-system, sans-serif;
+        --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        background: var(--cream);
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--cream);
+        color: var(--body);
+        font-family: var(--sans);
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.5;
+        overflow-x: hidden;
+      }
+      img {
+        display: block;
+        max-width: 100%;
+      }
+      a {
+        color: inherit;
+      }
+
+      /* ── Nav (shared shell) ── */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 200;
+        background: rgba(255, 250, 247, 0.86);
+        backdrop-filter: saturate(1.4) blur(10px);
+        -webkit-backdrop-filter: saturate(1.4) blur(10px);
+        border-bottom: 1px solid var(--hairline);
+        padding: 14px 24px;
+      }
+      .nav-inner {
+        max-width: 1120px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .wordmark {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 18px;
+        letter-spacing: 0.04em;
+        color: var(--ink);
+      }
+      .wordmark img {
+        width: 26px;
+        height: 26px;
+        border-radius: 6px;
+        box-shadow: 0 1px 4px rgba(33, 26, 20, 0.12);
+      }
+      .nav-cta {
+        font-size: 14px;
+        font-weight: 600;
+        color: #fff;
+        text-decoration: none;
+        display: inline-block;
+        background: linear-gradient(135deg, var(--coral), var(--peach));
+        padding: 9px 20px;
+        border-radius: 999px;
+        box-shadow: 0 2px 10px -3px rgba(255, 107, 107, 0.38);
+        transition:
+          opacity 0.14s,
+          transform 0.14s;
+      }
+      .nav-cta:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+      }
+
+      /* ── Shared layout rhythm (Oura-informed: generous vertical breathing) ── */
+      .container {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+      /* Reading-width guard: long-form prose stays a readable measure even in the
+         wider container (Oura pattern: wide media, narrow text). */
+      .prose {
+        max-width: 62ch;
+      }
+      /* Text-only blocks (quick-answer, section intros, FAQ intro, final CTA copy)
+         are centered in the wide 1120px container to kill the lopsided empty right
+         gutter that appeared when the shell widened. Centering lives on each block
+         (.quickanswer, .sec-head, .final-cta) rather than a shared helper. Does NOT
+         touch the hero, the 2-col beats, the dark galaxy section, or related grid. */
+      /* Gradient key-word emphasis for the H1 (coral -> peach, background-clip
+         text). Large bold display text only; a brand-emphasis treatment. */
+      .grad {
+        background: linear-gradient(135deg, var(--coral), var(--peach));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+      }
+      section {
+        padding: 60px 0;
+      }
+      @media (min-width: 720px) {
+        section {
+          padding: 84px 0;
+        }
+      }
+
+      /* ── Type scale ── */
+      h1 {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: clamp(38px, 6.2vw, 62px);
+        line-height: 1.02;
+        letter-spacing: -0.025em;
+        color: var(--ink);
+        text-wrap: balance;
+      }
+      h2 {
+        font-family: var(--display);
+        color: var(--ink);
+        font-weight: 700;
+        font-size: clamp(26px, 3.8vw, 38px);
+        line-height: 1.1;
+        letter-spacing: -0.018em;
+        text-wrap: balance;
+      }
+      h3 {
+        font-family: var(--display);
+        color: var(--ink);
+        font-weight: 600;
+        font-size: clamp(19px, 2.2vw, 23px);
+        line-height: 1.22;
+        letter-spacing: -0.008em;
+      }
+      p {
+        font-family: var(--sans);
+        font-size: 17px;
+        line-height: 1.7;
+        color: var(--body);
+      }
+      p strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      /* ── Eyebrow (small-caps, contrast-safe) ── */
+      .eyebrow {
+        display: inline-block;
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 12.5px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--coral-ink);
+      }
+      .eyebrow.on-dark {
+        color: #ffb59a;
+      }
+
+      /* ── CTA pill (coral -> peach, the only gradient) ── */
+      .pill-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--sans);
+        font-size: 16px;
+        font-weight: 600;
+        color: #fff;
+        text-decoration: none;
+        background: linear-gradient(135deg, var(--coral), var(--peach));
+        padding: 15px 30px;
+        border-radius: 999px;
+        box-shadow: 0 6px 22px -8px rgba(255, 107, 107, 0.55);
+        transition:
+          opacity 0.14s,
+          transform 0.14s;
+      }
+      .pill-cta:hover {
+        opacity: 0.94;
+        transform: translateY(-1px);
+      }
+      .pill-cta .arrow {
+        transition: transform 0.16s;
+      }
+      .pill-cta:hover .arrow {
+        transform: translateX(3px);
+      }
+
+      /* ── Hero ── */
+      .hero {
+        position: relative;
+        overflow: hidden;
+        padding-top: 56px;
+        padding-bottom: 40px;
+        background:
+          radial-gradient(80% 55% at 72% 8%, rgba(255, 142, 83, 0.16), rgba(255, 250, 247, 0) 62%),
+          radial-gradient(90% 60% at 12% 0%, rgba(255, 107, 107, 0.13), rgba(255, 250, 247, 0) 58%),
+          linear-gradient(180deg, #fff4ee 0%, var(--cream) 74%);
+      }
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 40px;
+        align-items: center;
+      }
+      @media (min-width: 860px) {
+        .hero-grid {
+          grid-template-columns: 1.08fr 0.92fr;
+          gap: 48px;
+        }
+      }
+      .hero h1 {
+        margin: 16px 0 0;
+      }
+      .hero-sub {
+        font-family: var(--sans);
+        font-size: clamp(17px, 2.1vw, 20px);
+        line-height: 1.55;
+        color: var(--muted-strong);
+        margin: 20px 0 30px;
+        max-width: 30ch;
+      }
+      .hero-cta-row {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        flex-wrap: wrap;
+      }
+      .hero-reassure {
+        font-family: var(--sans);
+        font-size: 13.5px;
+        color: var(--muted);
+      }
+      .hero-visual {
+        display: flex;
+        justify-content: center;
+      }
+
+      /* ── Framed phone ── */
+      .cmp-phone {
+        width: clamp(228px, 62vw, 340px);
+        padding: 6px;
+        background: #0a0a10;
+        border-radius: 36px;
+        position: relative;
+        box-shadow:
+          0 2px 8px rgba(0, 0, 0, 0.42),
+          0 30px 60px -22px rgba(33, 26, 20, 0.42);
+      }
+      .cmp-phone::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 36px;
+        pointer-events: none;
+        box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.09);
+      }
+      .cmp-phone .screen {
+        width: 100%;
+        aspect-ratio: 540 / 1170;
+        border-radius: 30px;
+        overflow: hidden;
+        background: #040409;
+      }
+      .cmp-phone .screen video,
+      .cmp-phone .screen img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      /* ── Quick-answer citation block ── */
+      /* Centered in the wide container (see .centered-block). A symmetric top
+         accent replaces the former left border so it reads intentional centered. */
+      .quickanswer {
+        border-top: 3px solid var(--coral);
+        background: rgba(255, 107, 107, 0.05);
+        border-radius: 16px;
+        padding: 26px 28px;
+        max-width: 720px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      .quickanswer .qa-label {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--coral-ink);
+        margin-bottom: 10px;
+      }
+      .quickanswer p {
+        font-size: 18px;
+        line-height: 1.62;
+        color: var(--ink);
+        font-weight: 500;
+      }
+
+      /* ── Section head ── */
+      /* Centered in the wide container (see .centered-block) so the intro text
+         no longer floats left with a big empty right gutter at 1120px+. */
+      .sec-head {
+        margin: 0 auto 40px;
+        max-width: 720px;
+        text-align: center;
+      }
+      .sec-head h2 {
+        margin-top: 10px;
+      }
+      .sec-head p {
+        margin: 14px auto 0;
+        max-width: 54ch;
+      }
+
+      /* ── How-it-works beats (Oura full-width media blocks, clean cream cards) ── */
+      .beat {
+        border-radius: 26px;
+        overflow: hidden;
+        margin-bottom: 24px;
+        border: 1px solid var(--hairline);
+        background: #fff;
+        box-shadow:
+          0 1px 3px rgba(33, 26, 20, 0.04),
+          0 22px 44px -30px rgba(33, 26, 20, 0.3);
+      }
+      .beat:last-child {
+        margin-bottom: 0;
+      }
+      .beat-body {
+        padding: 30px 30px 32px;
+      }
+      /* 2-column alternating layout at desktop widths (media one side, copy the
+         other, sides swap per beat). Media stays 16:9, copy vertically centered. */
+      @media (min-width: 860px) {
+        .beat {
+          display: grid;
+          grid-template-columns: 1.02fr 0.98fr;
+          align-items: center;
+        }
+        .beat-body {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          padding: 40px 44px;
+        }
+        /* Alternate sides: beat 1 media-left, beat 2 media-right, beat 3 media-left.
+           Uses the stable per-beat class hooks (tint-* classes retained as markers
+           only; their fill styles were removed). Media is DOM-first, so the default
+           grid order gives media-left; the middle beat swaps via order. */
+        .beat.tint-blush .beat-media {
+          order: 2;
+        }
+        .beat.tint-blush .beat-body {
+          order: 1;
+        }
+      }
+      .beat-num {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 14px;
+        color: var(--ink);
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px solid var(--hairline);
+        margin-bottom: 14px;
+      }
+      .beat h3 {
+        margin-bottom: 8px;
+      }
+      .beat p {
+        max-width: 46ch;
+      }
+      .beat-media {
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        background: #fff6f2;
+      }
+      .beat-media video,
+      .beat-media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      /* Beat tint fills removed (2026-07-07): the flat peach/blush/sand-beige
+         gradients created a hard colored band. Beats now sit on a clean, uniform
+         cream/white card (see .beat background above) with border + soft shadow
+         only. The tint-* classes remain in markup as per-beat layout hooks. */
+      .learn-more {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 16px;
+        font-family: var(--sans);
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--coral-ink);
+        text-decoration: none;
+        border-bottom: 1.5px solid rgba(201, 79, 67, 0.32);
+        padding-bottom: 1px;
+      }
+      .learn-more:hover {
+        border-bottom-color: var(--coral-ink);
+      }
+
+      /* ── Galaxy Black section ── */
+      .galaxy-sec {
+        background:
+          radial-gradient(90% 70% at 50% 0%, rgba(255, 107, 107, 0.14), rgba(4, 4, 9, 0) 60%),
+          var(--galaxy);
+        color: rgba(255, 255, 255, 0.82);
+      }
+      .galaxy-sec h2 {
+        color: #fff;
+      }
+      .galaxy-sec p {
+        color: rgba(255, 255, 255, 0.74);
+        max-width: 56ch;
+      }
+      .galaxy-inner {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 40px;
+        align-items: center;
+      }
+      @media (min-width: 860px) {
+        .galaxy-inner {
+          grid-template-columns: 1fr 0.86fr;
+          gap: 52px;
+        }
+      }
+      .galaxy-sec .cmp-phone {
+        box-shadow:
+          0 2px 8px rgba(0, 0, 0, 0.6),
+          0 34px 64px -22px rgba(0, 0, 0, 0.72),
+          0 0 0 1px rgba(255, 255, 255, 0.05);
+      }
+      .galaxy-sec .hero-visual {
+        order: -1;
+      }
+      @media (min-width: 860px) {
+        .galaxy-sec .hero-visual {
+          order: 0;
+        }
+      }
+      .galaxy-caption {
+        font-family: var(--sans);
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.55);
+        margin-top: 18px;
+      }
+
+      /* ── Honest comparison (per-app blocks) ── */
+      .app-block {
+        border: 1px solid var(--hairline);
+        border-radius: 18px;
+        background: #fff;
+        padding: 26px 28px;
+        margin-bottom: 20px;
+        box-shadow:
+          0 1px 3px rgba(33, 26, 20, 0.04),
+          0 12px 26px -18px rgba(33, 26, 20, 0.22);
+      }
+      .app-block:last-child {
+        margin-bottom: 0;
+      }
+      .app-block.reps {
+        border-color: rgba(255, 107, 107, 0.34);
+        background: linear-gradient(180deg, #fff 0%, #fff6f2 100%);
+      }
+      .app-head {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        margin-bottom: 14px;
+      }
+      .app-logo {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        object-fit: contain;
+        flex: none;
+        background: #fbf6f2;
+        border: 1px solid var(--hairline);
+        padding: 5px;
+      }
+      .app-block.reps .app-logo {
+        background: #fff;
+      }
+      .app-tag {
+        display: inline-block;
+        font-family: var(--display);
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted-strong);
+        background: #f4ede8;
+        padding: 4px 10px;
+        border-radius: 999px;
+        margin-bottom: 12px;
+      }
+      .app-block.reps .app-tag {
+        color: #fff;
+        background: linear-gradient(135deg, var(--coral), var(--peach));
+      }
+      .wedge {
+        font-family: var(--sans);
+        font-size: 12.5px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        color: var(--coral-ink);
+        text-transform: uppercase;
+        display: block;
+        margin: 16px 0 6px;
+      }
+      .app-block p {
+        font-size: 16px;
+        max-width: 62ch;
+      }
+      .app-block p + p {
+        margin-top: 10px;
+      }
+      .xlink {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 16px;
+        font-family: var(--sans);
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--coral-ink);
+        text-decoration: none;
+        border-bottom: 1.5px solid rgba(201, 79, 67, 0.3);
+        padding-bottom: 1px;
+      }
+      .xlink:hover {
+        border-bottom-color: var(--coral-ink);
+      }
+
+      /* ── FAQ ── */
+      .faq {
+        max-width: 760px;
+      }
+      .faq details {
+        border-bottom: 1px solid var(--hairline);
+        padding: 6px 0;
+      }
+      .faq details:first-of-type {
+        border-top: 1px solid var(--hairline);
+      }
+      .faq summary {
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 18px;
+        color: var(--ink);
+        cursor: pointer;
+        list-style: none;
+        padding: 18px 32px 18px 0;
+        position: relative;
+      }
+      .faq summary::-webkit-details-marker {
+        display: none;
+      }
+      .faq summary::after {
+        content: "+";
+        position: absolute;
+        right: 4px;
+        top: 15px;
+        font-size: 22px;
+        color: var(--coral-ink);
+        font-weight: 400;
+        transition: transform 0.18s;
+      }
+      .faq details[open] summary::after {
+        transform: rotate(45deg);
+      }
+      .faq details p {
+        font-size: 16px;
+        line-height: 1.65;
+        color: var(--body);
+        padding: 0 0 18px;
+        max-width: 62ch;
+      }
+
+      /* ── Related pages grid ── */
+      .related-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      @media (min-width: 620px) {
+        .related-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      .related-card {
+        display: block;
+        text-decoration: none;
+        border: 1px solid var(--hairline);
+        border-radius: 16px;
+        background: #fff;
+        padding: 22px 24px;
+        box-shadow:
+          0 1px 3px rgba(33, 26, 20, 0.04),
+          0 10px 22px -18px rgba(33, 26, 20, 0.2);
+        transition:
+          transform 0.14s,
+          box-shadow 0.14s;
+      }
+      .related-card:hover {
+        transform: translateY(-2px);
+        box-shadow:
+          0 1px 3px rgba(33, 26, 20, 0.05),
+          0 18px 34px -18px rgba(33, 26, 20, 0.28);
+      }
+      .related-kicker {
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted-strong);
+        margin-bottom: 8px;
+      }
+      .related-card h3 {
+        font-size: 19px;
+        margin-bottom: 6px;
+      }
+      .related-card p {
+        font-size: 14.5px;
+        line-height: 1.5;
+        color: var(--muted);
+        margin: 0;
+      }
+      .related-card .go {
+        display: inline-block;
+        margin-top: 12px;
+        font-family: var(--sans);
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--coral-ink);
+      }
+
+      /* ── Author card ── */
+      .authorcard {
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+        max-width: 760px;
+        margin-top: 44px;
+        padding: 22px 24px;
+        background: #fff;
+        border: 1px solid var(--hairline);
+        border-radius: 16px;
+        box-shadow:
+          0 1px 3px rgba(33, 26, 20, 0.05),
+          0 10px 24px -16px rgba(33, 26, 20, 0.18);
+      }
+      .authorcard img {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex: none;
+        box-shadow: 0 1px 4px rgba(33, 26, 20, 0.18);
+      }
+      .authorcard .abt-h {
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted-strong);
+        margin-bottom: 8px;
+      }
+      .authorcard .who {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 16px;
+        color: var(--ink);
+      }
+      .authorcard .role {
+        font-family: var(--sans);
+        font-size: 13px;
+        color: var(--coral-ink);
+        font-weight: 600;
+        margin-bottom: 7px;
+      }
+      .authorcard p {
+        font-size: 14.5px;
+        line-height: 1.6;
+        color: var(--body);
+        margin: 0;
+        max-width: 62ch;
+      }
+
+      /* ── Final CTA ── */
+      .final-cta {
+        text-align: center;
+        background:
+          radial-gradient(70% 90% at 50% 0%, rgba(255, 142, 83, 0.14), rgba(255, 250, 247, 0) 60%),
+          var(--cream);
+      }
+      .final-cta h2 {
+        margin-bottom: 14px;
+      }
+      .final-cta p {
+        max-width: 44ch;
+        margin: 0 auto 30px;
+        color: var(--muted-strong);
+      }
+      .form-zone {
+        max-width: 460px;
+        margin: 0 auto;
+      }
+      .signup {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+      }
+      .signup input[type="email"] {
+        flex: 1 1 auto;
+        min-width: 0;
+        height: 54px;
+        border: 1.5px solid rgba(33, 26, 20, 0.22);
+        border-radius: 13px;
+        background: #fff;
+        padding: 0 16px;
+        font-family: var(--sans);
+        font-size: 16px;
+        color: var(--ink);
+        outline: none;
+        box-shadow: 0 2px 12px -4px rgba(33, 26, 20, 0.16);
+        transition:
+          border-color 0.14s,
+          box-shadow 0.14s;
+      }
+      .signup input:hover {
+        border-color: rgba(33, 26, 20, 0.34);
+      }
+      .signup input:focus {
+        border-color: var(--coral);
+        box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.16);
+      }
+      .signup input::placeholder {
+        color: var(--muted);
+      }
+      .signup button {
+        flex: 0 0 auto;
+        white-space: nowrap;
+        height: 54px;
+        padding: 0 24px;
+        border: 0;
+        border-radius: 13px;
+        cursor: pointer;
+        background: linear-gradient(135deg, var(--coral), var(--peach));
+        color: #fff;
+        font-family: var(--sans);
+        font-weight: 600;
+        font-size: 16px;
+        box-shadow: 0 4px 16px -5px rgba(255, 107, 107, 0.4);
+        transition:
+          opacity 0.12s,
+          transform 0.12s;
+      }
+      .signup button:hover {
+        opacity: 0.92;
+        transform: translateY(-1px);
+      }
+      .signup button:active {
+        transform: translateY(0);
+      }
+      .signup button:disabled {
+        opacity: 0.6;
+        cursor: default;
+        transform: none;
+      }
+      @media (max-width: 480px) {
+        .signup {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .signup input,
+        .signup button {
+          width: 100%;
+        }
+      }
+      .reassure {
+        font-family: var(--sans);
+        font-size: 13px;
+        color: var(--muted);
+        text-align: center;
+        margin-top: 10px;
+      }
+      .err {
+        font-family: var(--sans);
+        font-size: 13px;
+        color: #c0392b;
+        text-align: center;
+        min-height: 16px;
+        margin-top: 4px;
+      }
+      .success {
+        display: none;
+        align-items: center;
+        gap: 14px;
+        padding: 16px 18px;
+        border-radius: 14px;
+        background: #fff;
+        border: 1.5px solid rgba(78, 205, 196, 0.42);
+        color: var(--ink);
+        font-family: var(--sans);
+        font-weight: 600;
+        font-size: 15px;
+        text-align: left;
+      }
+      .success img {
+        width: 40px;
+        height: 36px;
+        flex: none;
+        object-fit: contain;
+      }
+      .form-done .signup {
+        display: none;
+      }
+      .form-done .reassure {
+        display: none;
+      }
+      .form-done .success {
+        display: flex;
+      }
+
+      /* ── Footer (shared shell) ── */
+      footer {
+        padding: 44px 24px 52px;
+        border-top: 1px solid var(--hairline);
+        text-align: center;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      footer .motto {
+        display: block;
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 13px;
+        letter-spacing: 0.04em;
+        color: var(--ink);
+        margin-bottom: 6px;
+      }
+      footer a {
+        text-decoration: underline;
+      }
+      footer nav.footlinks {
+        position: static;
+        background: none;
+        border: none;
+        padding: 0;
+        margin-top: 6px;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        .faq summary::after,
+        .pill-cta .arrow,
+        .related-card {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="nav-inner">
+        <a class="wordmark" href="/">
+          <img
+            src="/product/assets/app-icon.png"
+            alt="REPS"
+            width="26"
+            height="26"
+          />
+          REPS
+        </a>
+        <a class="nav-cta" href="#join">Get early access</a>
+      </div>
+    </nav>
+
+    <!-- ── Hero ── -->
+    <header class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div>
+            <span class="eyebrow">Active recall, done for you</span>
+            <h1><span class="grad">Remember</span> what you learn. Without the work.</h1>
+            <p class="hero-sub">
+              Save an article, a video, or a podcast. REPS turns it into a quick
+              daily game that makes it stick, so what you learn stops slipping
+              away.
+            </p>
+            <div class="hero-cta-row">
+              <a class="pill-cta" href="#join"
+                >Get early access <span class="arrow" aria-hidden="true">&rarr;</span></a
+              >
+              <span class="hero-reassure">Invite-only. One email when your invite is ready.</span>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <div class="cmp-phone">
+              <div class="screen">
+                <video
+                  src="/beats/quiz-all-sped.mp4"
+                  poster="/beats/quiz-all-sped-poster.jpg"
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  preload="metadata"
+                  aria-hidden="true"
+                ></video>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── Quick-answer citation block ── -->
+    <section aria-label="Quick answer">
+      <div class="container">
+        <div class="quickanswer">
+          <div class="qa-label">The short answer</div>
+          <p>
+            Active recall means testing yourself instead of re-reading. Pulling
+            an answer out of memory is what makes it stick. The catch has always
+            been making the questions. REPS is the active recall app that builds
+            the recall cards for you from anything you save, then serves them
+            back as a short daily game.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── How it works ── -->
+    <section>
+      <div class="container">
+        <div class="sec-head">
+          <span class="eyebrow">How it works</span>
+          <h2>Three steps between saving and remembering.</h2>
+          <p>
+            The science of active recall is settled. The reason people quit is
+            everything around it: the card-making, the setup, the discipline.
+            REPS does that part for you.
+          </p>
+        </div>
+
+        <div class="beat tint-peach">
+          <div class="beat-media">
+            <video
+              src="/beats/save-composite.mp4"
+              poster="/beats/save-composite-poster.jpg"
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              autoplay
+              aria-hidden="true"
+            ></video>
+          </div>
+          <div class="beat-body">
+            <span class="beat-num">1</span>
+            <h3>Save anything you read, watch, or hear.</h3>
+            <p>
+              An article, a YouTube video, a podcast, a page from a book. Share
+              it to REPS in two taps and get on with your day. This is the
+              bookmark that actually keeps what is inside.
+            </p>
+          </div>
+        </div>
+
+        <div class="beat tint-blush">
+          <div class="beat-media">
+            <video
+              src="/beats/quiz-single.mp4"
+              poster="/beats/quiz-single-poster.jpg"
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              autoplay
+              aria-hidden="true"
+            ></video>
+          </div>
+          <div class="beat-body">
+            <span class="beat-num">2</span>
+            <h3>REPS builds the recall cards for you.</h3>
+            <p>
+              REPS reads the source and writes the questions from it, then
+              schedules them so each one comes back just before you would forget
+              it. No decks to build, no blank cards to fill in. You save; REPS
+              does the rest.
+            </p>
+          </div>
+        </div>
+
+        <div class="beat tint-sand">
+          <div class="beat-media">
+            <video
+              src="/beats/game-crossword.mp4"
+              poster="/beats/game-crossword-poster.jpg"
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              autoplay
+              aria-hidden="true"
+            ></video>
+          </div>
+          <div class="beat-body">
+            <span class="beat-num">3</span>
+            <h3>You remember, in a two-minute game.</h3>
+            <p>
+              Each day, a handful of quick rounds bring your saved knowledge
+              back. It feels like play, not homework, and everything you keep
+              grows into your Second Brain, a living map of what you know.
+            </p>
+            <a class="learn-more" href="/features/second-brain"
+              >See your Second Brain <span aria-hidden="true">&rarr;</span></a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Galaxy Black moment ── -->
+    <section class="galaxy-sec">
+      <div class="container">
+        <div class="galaxy-inner">
+          <div>
+            <span class="eyebrow on-dark">Recall, played daily</span>
+            <h2>This is the practice that sticks.</h2>
+            <p>
+              Retrieving an answer from memory, even a near-miss, builds far
+              stronger recall than reading the same paragraph twice. REPS turns
+              that proven idea into a calm daily game: a few rounds, a little
+              bloom scrolling, and the things you cared about stay with you.
+            </p>
+            <p class="galaxy-caption">
+              A live look at your Second Brain taking shape in REPS.
+            </p>
+          </div>
+          <div class="hero-visual">
+            <div class="cmp-phone">
+              <div class="screen">
+                <video
+                  src="/beats/constellation.mp4"
+                  poster="/beats/constellation-poster.jpg"
+                  muted
+                  loop
+                  playsinline
+                  preload="metadata"
+                  autoplay
+                  aria-hidden="true"
+                ></video>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Honest comparison ── -->
+    <section>
+      <div class="container">
+        <div class="sec-head">
+          <span class="eyebrow">Where the alternatives stop</span>
+          <h2>The honest rundown of active recall apps.</h2>
+          <p>
+            I use all of these. Here is where each one genuinely wins, and the
+            catch for anyone who mostly wants to remember what they save without
+            turning it into a second job.
+          </p>
+        </div>
+
+        <div class="app-block reps">
+          <div class="app-head">
+            <img
+              class="app-logo"
+              src="/product/assets/app-icon.png"
+              alt="REPS app icon"
+              width="40"
+              height="40"
+            />
+            <div>
+              <span class="app-tag">Our pick, done for you</span>
+              <h3>REPS: the cards get built for you.</h3>
+            </div>
+          </div>
+          <p>
+            We built REPS for the person searching this page: someone who
+            respects the method but is done making cards. You save an article, a
+            video, or a podcast, and REPS <strong>writes the recall for you</strong>
+            from the source, then brings it back on a spaced schedule as a quick
+            daily game. Same proven idea as the classic tools, none of the
+            deck-building, and it works across everything you read, watch, and
+            listen to.
+          </p>
+          <p>
+            To be fair to the rest of this list: REPS is not a free, endlessly
+            tweakable scheduler with a decade of community decks. If that is what
+            you want, Anki is below. If you want to save anything and simply
+            remember it, that is REPS.
+          </p>
+        </div>
+
+        <div class="app-block">
+          <div class="app-head">
+            <img
+              class="app-logo"
+              src="/compare/assets/logos/anki.png"
+              alt="Anki app icon"
+              width="40"
+              height="40"
+              loading="lazy"
+            />
+            <div>
+              <span class="app-tag">The power tool</span>
+              <h3>Anki: the deepest, if you build the cards.</h3>
+            </div>
+          </div>
+          <span class="wedge">Where it wins</span>
+          <p>
+            Anki's scheduling is the gold standard, and it is free on desktop and
+            Android. It handles enormous decks, has the newer FSRS model built
+            in, and gives you the largest library of shared decks and add-ons
+            anywhere. For a medical student running tens of thousands of cards,
+            nothing matches it for raw control and price.
+          </p>
+          <span class="wedge">The honest catch</span>
+          <p>
+            You make every card yourself, and the setup is genuinely steep. Anki
+            does not read your article or video for you, so the card-making is
+            always on you. If your bottleneck is time and patience rather than
+            algorithm depth, that is the exact gap REPS fills.
+          </p>
+          <a class="xlink" href="/compare/best-anki-alternatives"
+            >Read the full Anki comparison <span aria-hidden="true">&rarr;</span></a
+          >
+        </div>
+
+        <div class="app-block">
+          <div class="app-head">
+            <img
+              class="app-logo"
+              src="/compare/assets/logos/quizlet.png"
+              alt="Quizlet app icon"
+              width="40"
+              height="40"
+              loading="lazy"
+            />
+            <div>
+              <span class="app-tag">The student favorite</span>
+              <h3>Quizlet: great decks, if someone made them.</h3>
+            </div>
+          </div>
+          <span class="wedge">Where it wins</span>
+          <p>
+            Quizlet is the friendliest way into flashcards, and its real
+            advantage is scale: millions of ready-made student sets, so for a
+            popular course or exam the deck you need may already exist. The
+            interface is approachable and the game modes are genuinely fun.
+          </p>
+          <span class="wedge">The honest catch</span>
+          <p>
+            It is built around student decks that you or a classmate create, so
+            nothing turns the article you just read into a set. The making is
+            still the work, and the material is a curriculum, not your own.
+          </p>
+          <a class="xlink" href="/compare/best-quizlet-alternatives"
+            >Read the full Quizlet comparison <span aria-hidden="true">&rarr;</span></a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FAQ ── -->
+    <section>
+      <div class="container">
+        <div class="sec-head">
+          <span class="eyebrow">Good questions</span>
+          <h2>Active recall, answered plainly.</h2>
+        </div>
+        <div class="faq">
+          <details open>
+            <summary>What is active recall?</summary>
+            <p>
+              Active recall is the practice of pulling information out of your
+              memory instead of putting it back in. Rather than re-reading an
+              article or highlighting a page again, you close it and try to
+              answer a question about it. That act of retrieval is what
+              strengthens the memory. It is the single most reliable way to
+              remember something long-term, and it is the engine underneath every
+              good flashcard app.
+            </p>
+          </details>
+          <details>
+            <summary>What is the best active recall app?</summary>
+            <p>
+              It depends on how much work you want to do. Anki is the deepest and
+              it is free, but you build every card by hand. Quizlet is great for
+              student decks you or your classmates create. REPS is the pick if you
+              want the recall built for you: you save an article, video, or
+              podcast and REPS writes the recall questions from the source, then
+              brings them back on a spaced schedule as a quick daily game. Same
+              proven idea, none of the deck-building.
+            </p>
+          </details>
+          <details>
+            <summary>Do I have to make flashcards to do active recall?</summary>
+            <p>
+              Not anymore. Traditional active recall means writing your own
+              flashcards, which is why most people quit: making the cards is the
+              chore. REPS builds the recall cards for you from whatever you save,
+              so you get the retrieval practice without the setup. You can still
+              make your own in Anki or Quizlet if you prefer full control, but you
+              no longer have to.
+            </p>
+          </details>
+          <details>
+            <summary>Is active recall better than re-reading?</summary>
+            <p>
+              Yes, and it is not close. Re-reading feels productive because the
+              material gets familiar, but familiarity is not memory. Decades of
+              research on the testing effect show that retrieving an answer from
+              memory, even when you get it wrong, builds far stronger long-term
+              recall than passively reviewing the same text. Testing yourself is
+              the work that sticks.
+            </p>
+          </details>
+          <details>
+            <summary>How do I start doing active recall?</summary>
+            <p>
+              Pick something you actually want to remember, then test yourself on
+              it instead of re-reading it. The friction is turning your source
+              into questions. With REPS you skip that step: save the article,
+              video, or podcast, and it generates the recall for you and schedules
+              a short daily game so the practice happens on its own. That removes
+              the two reasons people abandon active recall, the card-making and
+              the discipline.
+            </p>
+          </details>
+        </div>
+
+        <div class="authorcard">
+          <img
+            src="/compare/assets/mike-mcgraw.jpg"
+            alt="Mike McGraw, founder of REPS"
+            width="64"
+            height="64"
+            loading="lazy"
+          />
+          <div>
+            <div class="abt-h">About the author</div>
+            <div class="who">Mike McGraw</div>
+            <div class="role">Founder, REPS</div>
+            <p>
+              I started building REPS after realizing I could not remember most
+              of what I read. I use every app on this page myself, and I write
+              these the way I wish someone had written them for me.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Related pages grid ── -->
+    <section>
+      <div class="container">
+        <div class="sec-head">
+          <span class="eyebrow">Keep exploring</span>
+          <h2>Related reading.</h2>
+        </div>
+        <div class="related-grid">
+          <a class="related-card" href="/features/second-brain">
+            <div class="related-kicker">Feature</div>
+            <h3>Your Second Brain, built for you</h3>
+            <p>
+              Everything you save grows into a living map of what you know. See
+              how it comes together.
+            </p>
+            <span class="go">Explore &rarr;</span>
+          </a>
+          <a class="related-card" href="/features/read-it-later">
+            <div class="related-kicker">Feature</div>
+            <h3>The read-it-later app you will remember</h3>
+            <p>
+              Most read-later apps are where good articles go to be forgotten.
+              This one brings them back.
+            </p>
+            <span class="go">Explore &rarr;</span>
+          </a>
+          <a class="related-card" href="/compare/best-anki-alternatives">
+            <div class="related-kicker">Compare</div>
+            <h3>The best Anki alternatives</h3>
+            <p>
+              Anki is the free power tool. Here is where the other apps win for
+              people done making cards by hand.
+            </p>
+            <span class="go">Compare &rarr;</span>
+          </a>
+          <a class="related-card" href="/compare/best-quizlet-alternatives">
+            <div class="related-kicker">Compare</div>
+            <h3>The best Quizlet alternatives</h3>
+            <p>
+              Quizlet is built for student decks. Here is what to use when you
+              want to remember your own material.
+            </p>
+            <span class="go">Compare &rarr;</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Final CTA ── -->
+    <section class="final-cta" id="join">
+      <div class="container">
+        <h2>Start remembering what you learn.</h2>
+        <p>
+          Save anything. REPS builds the recall for you and turns it into quick
+          games that make it stick. Join the waitlist and we will email your
+          invite.
+        </p>
+        <div class="form-zone" id="join-zone">
+          <form class="signup" id="join-form" novalidate>
+            <input
+              type="email"
+              id="join-email"
+              name="email"
+              inputmode="email"
+              autocomplete="email"
+              autocapitalize="off"
+              spellcheck="false"
+              placeholder="Enter your email"
+              required
+              aria-label="Email address"
+            />
+            <button type="submit">Get early access</button>
+          </form>
+          <p class="err" id="join-err" role="alert"></p>
+          <p class="reassure">
+            Invite-only early access. One email when your invite is ready. No spam.
+          </p>
+          <div class="success" id="join-success">
+            <img src="/get/assets/echo.png" alt="" aria-hidden="true" />
+            <span
+              >You are a Founding Member, one of the first 100. New features reach
+              you first, and we will email your invite when it is ready.</span
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <span class="motto">Save. Play. Remember.</span>
+      <nav class="footlinks">
+        REPS · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
+      </nav>
+    </footer>
+
+    <!-- PostHog: analytics + raw-referrer AI-engine classification (GEO attribution) -->
+    <script>
+      !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+
+      /* GEO attribution: classify the raw referrer so AI-engine visits are visible. */
+      function repsClassifyReferrer(ref) {
+        if (!ref) return { category: "direct", host: "" };
+        var host;
+        try { host = new URL(ref).hostname.replace(/^www\./, ""); }
+        catch (e) { return { category: "other", host: "" }; }
+        var AI = ["chatgpt.com","chat.openai.com","openai.com","perplexity.ai","gemini.google.com","copilot.microsoft.com","claude.ai","you.com","poe.com","phind.com","bing.com/chat"];
+        var SEARCH = ["google.com","bing.com","duckduckgo.com","ecosia.org","search.brave.com","yahoo.com","yandex.com","startpage.com"];
+        var SOCIAL = ["reddit.com","x.com","twitter.com","t.co","facebook.com","instagram.com","linkedin.com","youtube.com","tiktok.com","news.ycombinator.com"];
+        function match(list) { for (var i=0;i<list.length;i++){ var d=list[i]; if (host===d||host.endsWith("."+d)) return true; } return false; }
+        if (match(AI)) return { category: "ai_engine", host: host };
+        if (match(SEARCH)) return { category: "search", host: host };
+        if (match(SOCIAL)) return { category: "social", host: host };
+        return { category: "referral", host: host };
+      }
+
+      posthog.init("phc_gTI0FJoXiGPjdACbgVyunpDSl0mPs2HEYtmzUtK3SyE", {
+        api_host: "https://us.i.posthog.com",
+        ui_host: "https://us.posthog.com",
+        defaults: "2025-05-24",
+        persistence: "localStorage+cookie",
+        capture_pageview: true,
+        capture_pageleave: true,
+        autocapture: true,
+        disable_session_recording: false,
+        loaded: function (ph) {
+          var r = repsClassifyReferrer(document.referrer);
+          ph.register({
+            lp_variant: "feature_active_recall",
+            referrer_raw: document.referrer || "",
+            referrer_host: r.host,
+            referrer_category: r.category,
+            landing_path: location.pathname
+          });
+        }
+      });
+    </script>
+
+    <!-- Waitlist form wiring (copied from live homepage; do not reimplement) -->
+    <script>
+      var WL = "https://waitlister.me/s/1IFflE5ASXo6";
+      var WL_REF = new URLSearchParams(location.search).get("ref");
+      (function () {
+        var form = document.getElementById("join-form");
+        if (!form) return;
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          var email = document.getElementById("join-email").value.trim();
+          var errEl = document.getElementById("join-err");
+          errEl.textContent = "";
+          if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errEl.textContent = "Please enter a valid email address."; return; }
+          var btn = form.querySelector("button");
+          btn.disabled = true; btn.textContent = "Joining...";
+          fetch(WL, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" },
+            body: JSON.stringify(WL_REF ? { email: email, referredBy: WL_REF } : { email: email }) })
+            .then(function () { document.getElementById("join-zone").classList.add("form-done"); })
+            .catch(function () { document.getElementById("join-zone").classList.add("form-done"); });
+        });
+      })();
+    </script>
+  </body>
+</html>
