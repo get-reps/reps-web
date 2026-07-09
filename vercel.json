@@ -4,14 +4,13 @@
     {
       "source": "/",
       "destination": "/v3c"
+    },
+    {
+      "source": "/r/:slug",
+      "destination": "/api/resolve?slug=:slug"
     }
   ],
   "redirects": [
-    {
-      "source": "/r/:code",
-      "destination": "/?ref=:code",
-      "statusCode": 302
-    },
     {
       "source": "/product",
       "destination": "/",
