@@ -7,178 +7,283 @@
   <title>Share REPS</title>
   <meta property="og:title" content="REPS - Supercharge your memory" />
   <meta property="og:description" content="Save anything. Remember everything." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
       --cream: #FFFAF7;
+      --card: #FFFFFF;
       --ink: #211A14;
-      --muted: #6B6B6B;
+      --muted: #6E655C;
+      --faint: #9A9089;
       --coral: #FF6B6B;
       --peach: #FF8E53;
-      --border: #EDE8E3;
+      --gold: #D4A24E;
+      --border: #ECE5DF;
       --tint: #FFF1EC;
+      --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      --display: "Space Grotesk", var(--sans);
     }
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     html, body { margin: 0; padding: 0; }
     body {
-      background: var(--cream);
+      font-family: var(--sans);
       color: var(--ink);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      background:
+        radial-gradient(130% 70% at 50% -8%, #FFEDE4 0%, rgba(255,237,228,0) 52%),
+        radial-gradient(90% 50% at 100% 105%, #FFF3EC 0%, rgba(255,243,236,0) 60%),
+        var(--cream);
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 24px;
+      padding: 28px 20px;
     }
+
     .card {
       width: 100%;
-      max-width: 400px;
+      max-width: 452px;
+      background: var(--card);
+      border: 1px solid rgba(33,26,20,0.05);
+      border-radius: 30px;
+      padding: 40px 34px 30px;
       text-align: center;
+      box-shadow:
+        0 32px 70px -30px rgba(60,38,22,0.30),
+        0 6px 18px -10px rgba(60,38,22,0.14),
+        0 1px 0 rgba(255,255,255,0.7) inset;
+      animation: rise 0.6s cubic-bezier(0.16,0.84,0.28,1) both;
     }
+    @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
     .wordmark {
-      font-weight: 800;
-      font-size: 22px;
-      letter-spacing: 0.08em;
-      color: var(--ink);
-      margin-bottom: 28px;
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 0.22em;
+      color: var(--faint);
+      margin: 0 0 26px;
     }
+
+    /* Hero: app icon on a soft coral glow */
+    .hero { position: relative; display: inline-block; margin-bottom: 22px; }
+    .hero .glow {
+      position: absolute; inset: -34px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,107,107,0.32) 0%, rgba(255,142,83,0.16) 40%, rgba(255,142,83,0) 70%);
+      filter: blur(6px);
+      animation: pulse 4.4s ease-in-out infinite;
+      z-index: 0;
+    }
+    @keyframes pulse { 0%,100% { transform: scale(0.94); opacity: 0.85; } 50% { transform: scale(1.06); opacity: 1; } }
+    .hero img {
+      position: relative; z-index: 1;
+      width: 84px; height: 84px; border-radius: 21px; display: block;
+      box-shadow: 0 14px 30px -12px rgba(60,38,22,0.5);
+    }
+
     h1 {
+      font-family: var(--display);
+      font-weight: 700;
       font-size: 27px;
-      line-height: 1.2;
+      line-height: 1.18;
       letter-spacing: -0.02em;
-      margin: 0 0 10px;
+      margin: 0 0 9px;
     }
     .sub {
-      font-size: 16px;
-      line-height: 1.5;
+      font-size: 15.5px;
+      line-height: 1.55;
       color: var(--muted);
-      margin: 0 0 30px;
+      margin: 0 auto 26px;
+      max-width: 300px;
     }
-    .btn {
-      display: block;
+
+    /* Primary share button */
+    .share-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
       width: 100%;
-      border: 0;
-      cursor: pointer;
-      font-size: 17px;
-      font-weight: 700;
-      font-family: inherit;
-      color: #fff;
-      background: var(--coral);
+      border: 0; cursor: pointer;
+      font-family: var(--sans); font-size: 16.5px; font-weight: 700; color: #fff;
       background-image: linear-gradient(135deg, var(--coral), var(--peach));
-      padding: 17px 24px;
-      border-radius: 100px;
-      text-decoration: none;
-      box-shadow: 0 12px 28px -12px rgba(255, 107, 107, 0.6);
+      padding: 16px 24px; border-radius: 100px;
+      box-shadow: 0 14px 30px -12px rgba(255,107,107,0.66);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
-    .btn:active { transform: translateY(1px); }
-    .fallbacks {
-      margin-top: 18px;
-      display: none;
-      flex-direction: column;
-      gap: 10px;
+    .share-btn:hover { transform: translateY(-1px); box-shadow: 0 18px 36px -12px rgba(255,107,107,0.7); }
+    .share-btn:active { transform: translateY(0); }
+    .share-btn svg { width: 19px; height: 19px; }
+
+    /* Divider */
+    .divider {
+      display: flex; align-items: center; gap: 14px;
+      margin: 24px 2px 20px;
+      color: var(--faint); font-size: 12.5px; font-weight: 600; letter-spacing: 0.04em;
+      text-transform: uppercase;
     }
-    .fallbacks.show { display: flex; }
-    .btn-secondary {
-      display: block;
-      width: 100%;
-      border: 1px solid var(--border);
-      background: #fff;
+    .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+
+    /* Direct-share icon row */
+    .targets { display: flex; justify-content: center; gap: 16px; margin-bottom: 24px; }
+    .target { display: flex; flex-direction: column; align-items: center; gap: 7px; text-decoration: none; cursor: pointer; }
+    .target .ring {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: var(--card); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
       color: var(--ink);
-      font-size: 15px;
-      font-weight: 600;
-      font-family: inherit;
-      cursor: pointer;
-      padding: 14px 20px;
-      border-radius: 100px;
-      text-decoration: none;
+      transition: transform 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
     }
-    .toast {
-      position: fixed;
-      left: 50%;
-      bottom: 32px;
-      transform: translateX(-50%) translateY(20px);
-      background: var(--ink);
-      color: #fff;
-      font-size: 14px;
-      font-weight: 600;
-      padding: 12px 20px;
-      border-radius: 100px;
-      opacity: 0;
-      transition: opacity 0.2s, transform 0.2s;
-      pointer-events: none;
+    .target:hover .ring { transform: translateY(-2px); border-color: var(--coral); color: var(--coral); box-shadow: 0 10px 22px -12px rgba(255,107,107,0.5); }
+    .target .ring svg { width: 23px; height: 23px; }
+    .target span { font-size: 11.5px; font-weight: 600; color: var(--muted); }
+
+    /* Copy-link field (URL + button) */
+    .copy-row {
+      display: flex; align-items: center;
+      border: 1px solid var(--border); background: var(--cream);
+      border-radius: 14px; padding: 5px 5px 5px 15px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
-    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-    .foot { margin-top: 34px; font-size: 12px; color: var(--muted); }
-    .foot a { color: var(--muted); }
+    .copy-row.copied { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212,162,78,0.14); }
+    .copy-url {
+      flex: 1; min-width: 0;
+      font-size: 13.5px; color: var(--muted); text-align: left;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      font-family: var(--sans);
+    }
+    .copy-btn {
+      flex: none; display: inline-flex; align-items: center; gap: 6px;
+      border: 0; cursor: pointer;
+      font-family: var(--sans); font-size: 13.5px; font-weight: 700; color: #fff;
+      background: var(--ink); padding: 10px 16px; border-radius: 10px;
+      transition: background 0.2s ease;
+    }
+    .copy-btn:hover { background: #3a2e23; }
+    .copy-btn.done { background: var(--gold); }
+    .copy-btn svg { width: 15px; height: 15px; }
+
+    .foot { margin-top: 26px; font-size: 12px; color: var(--faint); }
+    .foot a { color: var(--faint); text-decoration: none; }
+    .foot a:hover { color: var(--muted); }
+
+    @media (max-width: 380px) {
+      .card { padding: 34px 22px 26px; border-radius: 26px; }
+      .targets { gap: 12px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .card { animation: none; }
+      .hero .glow { animation: none; }
+      .share-btn, .target .ring { transition: none; }
+    }
   </style>
 </head>
 <body>
-  <div class="card">
-    <div class="wordmark">REPS</div>
-    <h1>Share REPS with a friend</h1>
-    <p class="sub">One good word from you beats any ad. Send it to someone who would love it.</p>
+  <main class="card" role="main">
+    <p class="wordmark">REPS</p>
 
-    <button class="btn" id="share-btn" type="button">Share REPS</button>
-
-    <div class="fallbacks" id="fallbacks">
-      <a class="btn-secondary" id="wa" href="#" target="_blank" rel="noopener">Share on WhatsApp</a>
-      <button class="btn-secondary" id="copy" type="button">Copy link</button>
-      <a class="btn-secondary" id="mail" href="#">Share by email</a>
+    <div class="hero">
+      <div class="glow" aria-hidden="true"></div>
+      <img src="https://getreps.io/logo.png" width="84" height="84" alt="REPS app icon" />
     </div>
 
-    <div class="foot"><a href="https://getreps.io">getreps.io</a></div>
-  </div>
+    <h1>Share REPS with a friend</h1>
+    <p class="sub">Give someone a better way to remember what they read.</p>
 
-  <div class="toast" id="toast">Link copied</div>
+    <button class="share-btn" id="share-btn" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5 15.4 17.5M15.4 6.5 8.6 10.5"/></svg>
+      <span>Share REPS</span>
+    </button>
+
+    <div class="divider" id="divider"><span>or share directly</span></div>
+
+    <div class="targets" id="targets">
+      <a class="target" id="t-whatsapp" href="#" target="_blank" rel="noopener" aria-label="Share on WhatsApp">
+        <span class="ring"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.86 9.86 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.15h-.01a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.11.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.82c0 4.54-3.69 8.23-8.24 8.23Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.79.97-.14.16-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.48-1.38-1.72-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.16.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.84-.2-.48-.4-.42-.56-.43h-.48c-.16 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.14-1.18-.06-.11-.22-.17-.47-.29Z"/></svg></span>
+        <span>WhatsApp</span>
+      </a>
+      <a class="target" id="t-x" href="#" target="_blank" rel="noopener" aria-label="Share on X">
+        <span class="ring"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z"/></svg></span>
+        <span>X</span>
+      </a>
+      <a class="target" id="t-mail" href="#" aria-label="Share by email">
+        <span class="ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7.5 8 5.5 8-5.5"/></svg></span>
+        <span>Email</span>
+      </a>
+    </div>
+
+    <div class="copy-row" id="copy-row">
+      <span class="copy-url" id="copy-url">apps.apple.com/app/reps</span>
+      <button class="copy-btn" id="copy-btn" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>
+        <span id="copy-label">Copy</span>
+      </button>
+    </div>
+
+    <p class="foot"><a href="https://getreps.io">getreps.io</a></p>
+  </main>
 
   <script>
     (function () {
-      // What the friend receives, and the message that goes with it.
       var URL_TO_SHARE = "https://apps.apple.com/app/id6759216018";
+      var DISPLAY = "apps.apple.com/app/reps";
       var TITLE = "REPS";
       var TEXT = "I've been using REPS to actually remember what I read and watch. Thought you'd like it:";
 
       var shareBtn = document.getElementById("share-btn");
-      var fallbacks = document.getElementById("fallbacks");
-      var toast = document.getElementById("toast");
+      var divider = document.getElementById("divider");
+      var copyRow = document.getElementById("copy-row");
+      var copyBtn = document.getElementById("copy-btn");
+      var copyLabel = document.getElementById("copy-label");
+      document.getElementById("copy-url").textContent = DISPLAY;
 
-      // Wire up the fallback links up front.
-      var waMsg = encodeURIComponent(TEXT + " " + URL_TO_SHARE);
-      document.getElementById("wa").href = "https://wa.me/?text=" + waMsg;
-      document.getElementById("mail").href =
-        "mailto:?subject=" + encodeURIComponent("You should try REPS") +
-        "&body=" + encodeURIComponent(TEXT + "\n\n" + URL_TO_SHARE);
+      var enc = encodeURIComponent;
+      document.getElementById("t-whatsapp").href = "https://wa.me/?text=" + enc(TEXT + " " + URL_TO_SHARE);
+      document.getElementById("t-x").href = "https://twitter.com/intent/tweet?text=" + enc(TEXT) + "&url=" + enc(URL_TO_SHARE);
+      document.getElementById("t-mail").href = "mailto:?subject=" + enc("You should try REPS") + "&body=" + enc(TEXT + "\n\n" + URL_TO_SHARE);
 
-      function showToast(msg) {
-        toast.textContent = msg;
-        toast.classList.add("show");
-        setTimeout(function () { toast.classList.remove("show"); }, 1800);
-      }
-
-      function copyLink() {
-        var payload = URL_TO_SHARE;
+      // Copy-link: works on desktop and mobile.
+      var revertTimer;
+      function doCopy() {
+        function done() {
+          copyRow.classList.add("copied");
+          copyBtn.classList.add("done");
+          copyLabel.textContent = "Copied";
+          clearTimeout(revertTimer);
+          revertTimer = setTimeout(function () {
+            copyRow.classList.remove("copied");
+            copyBtn.classList.remove("done");
+            copyLabel.textContent = "Copy";
+          }, 2000);
+        }
         if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(payload).then(
-            function () { showToast("Link copied"); },
-            function () { showToast("Copy failed, long-press the link"); }
-          );
+          navigator.clipboard.writeText(URL_TO_SHARE).then(done, legacyCopy);
         } else {
-          showToast("Long-press to copy: " + payload);
+          legacyCopy();
+        }
+        function legacyCopy() {
+          try {
+            var ta = document.createElement("textarea");
+            ta.value = URL_TO_SHARE;
+            ta.style.position = "fixed"; ta.style.opacity = "0";
+            document.body.appendChild(ta); ta.select();
+            document.execCommand("copy");
+            document.body.removeChild(ta);
+            done();
+          } catch (e) {
+            copyLabel.textContent = "Select + copy";
+          }
         }
       }
-      document.getElementById("copy").addEventListener("click", copyLink);
+      copyBtn.addEventListener("click", doCopy);
 
-      // Primary button: native share sheet where supported, fallbacks otherwise.
+      // Primary button: native share sheet on mobile; on desktop (no Web Share) hide it
+      // and let the direct icons + copy field lead.
       if (navigator.share) {
         shareBtn.addEventListener("click", function () {
-          navigator.share({ title: TITLE, text: TEXT, url: URL_TO_SHARE }).catch(function () {
-            // User cancelled or share failed: reveal the fallbacks as a backup.
-            fallbacks.classList.add("show");
-          });
+          navigator.share({ title: TITLE, text: TEXT, url: URL_TO_SHARE }).catch(function () {});
         });
       } else {
-        // No Web Share API (most desktop browsers): swap the primary for the fallback set.
         shareBtn.style.display = "none";
-        fallbacks.classList.add("show");
+        divider.querySelector("span").textContent = "share it directly";
       }
     })();
   </script>
