@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Android is coming — REPS</title>
+<meta name="description" content="REPS is on iPhone today. Android is in the works, and you're on the list." />
+<!-- Email-only destination: this page is linked from the founding-member email,
+     so everyone who lands here IS on the waitlist and "you're on the list" is
+     true. noindex keeps it that way — a cold visitor from search would be told
+     something false. -->
+<meta name="robots" content="noindex, nofollow" />
+<link rel="icon" href="/favicon.ico" />
+<style>
+  :root {
+    --galaxy:#040409; --cream:#FFFAF7; --mist:#C7BEB4;
+    --coral:#FF6B6B; --gold:#D4A24E; --gold-lit:#F0C877; --teal:#4ECDC4;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:var(--galaxy)}
+  body{font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow:hidden}
+  #galaxy{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0}
+  .vignette{position:fixed;inset:0;z-index:1;pointer-events:none;
+    background:radial-gradient(120% 90% at 50% 44%,transparent 42%,rgba(4,4,9,.55) 78%,rgba(4,4,9,.9) 100%),
+      linear-gradient(to bottom,rgba(4,4,9,.35),transparent 22%,transparent 74%,rgba(4,4,9,.6))}
+  .grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.5;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E")}
+  .stage{position:relative;z-index:3;min-height:100%;height:100%;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;padding:40px 24px;text-align:center}
+  .content{max-width:620px;width:100%}
+  .wordmark{font-weight:800;letter-spacing:6px;font-size:15px;color:#EFE7DF;opacity:0;animation:rise .9s cubic-bezier(.2,.7,.2,1) .05s both}
+  .wordmark .d{color:var(--coral)}
+  .pill{display:inline-flex;align-items:center;gap:9px;margin:34px 0 0;padding:8px 17px 8px 11px;border-radius:999px;
+    border:1px solid rgba(78,205,196,.34);background:rgba(78,205,196,.09);
+    backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+    font-size:11.5px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--teal);
+    opacity:0;animation:rise .9s cubic-bezier(.2,.7,.2,1) .16s both}
+  .pill .check{width:18px;height:18px;border-radius:50%;background:var(--teal);color:#04201d;
+    display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;
+    box-shadow:0 0 14px 1px rgba(78,205,196,.6)}
+  h1{margin:26px 0 0;font-weight:800;letter-spacing:-.025em;color:var(--cream);
+    font-size:clamp(42px,8.6vw,72px);line-height:1.02;text-wrap:balance;
+    text-shadow:0 2px 40px rgba(255,107,107,.22);opacity:0;animation:rise 1s cubic-bezier(.2,.7,.2,1) .26s both}
+  h1 .grad{background:linear-gradient(100deg,var(--gold-lit),var(--gold) 55%,#FF8E53);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--gold)}
+  .sub{margin:22px auto 0;max-width:44ch;font-size:17px;line-height:1.62;color:var(--mist);
+    opacity:0;animation:rise 1s cubic-bezier(.2,.7,.2,1) .36s both}
+  .sub b{color:var(--cream);font-weight:650}
+  .status-row{display:inline-flex;align-items:center;gap:0;margin:30px auto 0;
+    border:1px solid rgba(255,255,255,.10);border-radius:14px;overflow:hidden;
+    background:rgba(255,255,255,.03);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    opacity:0;animation:rise 1s cubic-bezier(.2,.7,.2,1) .46s both}
+  .st{display:flex;align-items:center;gap:9px;padding:13px 22px}
+  .st+.st{border-left:1px solid rgba(255,255,255,.10)}
+  .st .lbl{font-size:13px;font-weight:650;color:var(--cream);letter-spacing:.2px}
+  .st .state{font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase}
+  .dot{width:8px;height:8px;border-radius:50%}
+  .st.live .dot{background:var(--teal);box-shadow:0 0 12px 1px rgba(78,205,196,.75)}
+  .st.live .state{color:var(--teal)}
+  .st.wip .dot{background:var(--gold);box-shadow:0 0 12px 1px rgba(212,162,78,.7);animation:blink 2.4s ease-in-out infinite}
+  .st.wip .state{color:var(--gold-lit)}
+  .actions{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px 22px;margin:40px 0 0;
+    opacity:0;animation:rise 1s cubic-bezier(.2,.7,.2,1) .56s both}
+  .appstore{display:inline-flex;align-items:center;gap:9px;text-decoration:none;
+    background:rgba(255,255,255,.05);color:var(--cream);border:1px solid rgba(255,255,255,.16);
+    border-radius:11px;padding:10px 17px;font-size:14px;font-weight:600;letter-spacing:.2px;
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    transition:border-color .16s ease,background .16s ease}
+  .appstore:hover{border-color:rgba(255,255,255,.38);background:rgba(255,255,255,.09)}
+  .appstore svg{width:16px;height:16px;opacity:.92}
+  .ghost{font-size:14px;font-weight:600;color:var(--mist);text-decoration:none;
+    border-bottom:1.5px solid rgba(212,162,78,.7);padding-bottom:2px}
+  .ghost:hover{color:var(--cream)}
+  .foot{position:fixed;left:0;right:0;bottom:0;z-index:3;text-align:center;padding:22px;
+    font-size:10.5px;font-weight:800;letter-spacing:3.4px;text-transform:uppercase;
+    color:rgba(212,162,78,.75);opacity:0;animation:fadein 1.2s ease .8s both}
+  @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  @keyframes fadein{from{opacity:0}to{opacity:1}}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+  @media (prefers-reduced-motion:reduce){
+    .wordmark,.pill,h1,.sub,.status-row,.actions,.foot{animation:none;opacity:1}
+    .st.wip .dot{animation:none}
+  }
+  @media (max-width:520px){
+    .status-row{flex-direction:column;align-items:stretch}
+    .st+.st{border-left:0;border-top:1px solid rgba(255,255,255,.10)}
+    .foot{position:static;margin-top:30px}
+    .stage{height:auto;min-height:100%}
+  }
+  a:focus-visible{outline:2px solid var(--coral);outline-offset:3px;border-radius:8px}
+</style>
+</head>
+<body>
+<canvas id="galaxy" aria-hidden="true"></canvas>
+<div class="vignette"></div>
+<div class="grain"></div>
+
+<main class="stage">
+  <div class="content">
+    <div class="wordmark">REPS<span class="d">.</span></div>
+    <div class="pill"><span class="check">&#10003;</span> You&#39;re on the Android list</div>
+    <h1>Android is <span class="grad">coming</span>.</h1>
+    <p class="sub">REPS is on iPhone today. You&#39;re locked in for the moment it lands on Android. <b>We&#39;ll email you the day it&#39;s ready.</b> Nothing else to do.</p>
+
+    <div class="status-row">
+      <div class="st live"><span class="dot"></span><span class="lbl">iOS</span><span class="state">Live now</span></div>
+      <div class="st wip"><span class="dot"></span><span class="lbl">Android</span><span class="state">In the works</span></div>
+    </div>
+
+    <div class="actions">
+      <a class="appstore" href="https://apps.apple.com/app/id6759216018">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#EFE7DF" d="M17.05 12.04c-.03-2.53 2.07-3.74 2.16-3.8-1.18-1.72-3.01-1.96-3.66-1.98-1.56-.16-3.04.92-3.83.92-.79 0-2-.9-3.29-.87-1.69.02-3.25.98-4.12 2.49-1.76 3.05-.45 7.56 1.26 10.03.84 1.21 1.84 2.57 3.15 2.52 1.26-.05 1.74-.81 3.27-.81 1.52 0 1.96.81 3.29.79 1.36-.03 2.22-1.24 3.05-2.45.96-1.4 1.36-2.76 1.38-2.83-.03-.01-2.65-1.02-2.68-4.04zM14.53 4.9c.7-.85 1.17-2.02 1.04-3.2-1.01.04-2.23.67-2.95 1.52-.65.75-1.22 1.95-1.07 3.1 1.13.09 2.28-.57 2.98-1.42z"/></svg>
+        <span>Get REPS on iPhone</span>
+      </a>
+      <a class="ghost" href="https://getreps.io">Back to getreps.io</a>
+    </div>
+  </div>
+</main>
+
+<div class="foot">Save. Play. Remember.</div>
+
+<script>
+(function () {
+  var canvas = document.getElementById('galaxy');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+  var rnd = mulberry32(70726);
+  var W=0,H=0,dpr=Math.min(window.devicePixelRatio||1,2),nodes=[],px=0,py=0,tx=0,ty=0;
+  function build(){
+    nodes=[];
+    var count=Math.max(46,Math.min(120,Math.round(W*H/13000)));
+    for(var i=0;i<count;i++){
+      var z=0.35+rnd()*0.65, roll=rnd(), kind='star';
+      if(roll<0.11)kind='bloom'; else if(roll<0.20)kind='gold';
+      nodes.push({x:rnd()*W,y:rnd()*H,z:z,vx:(rnd()-0.5)*0.10*z,vy:(rnd()-0.5)*0.10*z,
+        r:(0.7+z*2.0)*(kind==='bloom'?1.7:1),ph:rnd()*Math.PI*2,sp:0.5+rnd()*0.9,kind:kind});
+    }
+  }
+  function resize(){
+    W=window.innerWidth;H=window.innerHeight;
+    canvas.width=Math.round(W*dpr);canvas.height=Math.round(H*dpr);
+    canvas.style.width=W+'px';canvas.style.height=H+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);build();
+  }
+  function nebula(t){
+    var blobs=[{x:.30,y:.40,r:.55,c:[255,107,107],a:.16},{x:.72,y:.34,r:.5,c:[255,142,83],a:.11},{x:.55,y:.72,r:.6,c:[92,110,190],a:.12}];
+    for(var i=0;i<blobs.length;i++){
+      var b=blobs[i];var br=reduce?1:(0.9+0.1*Math.sin(t*0.0005+i));var R=b.r*Math.max(W,H)*br;
+      var g=ctx.createRadialGradient(b.x*W,b.y*H,0,b.x*W,b.y*H,R);
+      g.addColorStop(0,'rgba('+b.c[0]+','+b.c[1]+','+b.c[2]+','+(b.a*br).toFixed(3)+')');
+      g.addColorStop(1,'rgba('+b.c[0]+','+b.c[1]+','+b.c[2]+',0)');
+      ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+    }
+  }
+  function frame(t){
+    px+=(tx-px)*0.05;py+=(ty-py)*0.05;
+    ctx.clearRect(0,0,W,H);
+    ctx.globalCompositeOperation='lighter';nebula(t);ctx.globalCompositeOperation='source-over';
+    var pts=[];
+    for(var i=0;i<nodes.length;i++){
+      var n=nodes[i];
+      if(!reduce){n.x+=n.vx;n.y+=n.vy;
+        if(n.x<-20)n.x=W+20;if(n.x>W+20)n.x=-20;if(n.y<-20)n.y=H+20;if(n.y>H+20)n.y=-20;}
+      pts.push({x:n.x+px*n.z*26,y:n.y+py*n.z*26,n:n});
+    }
+    var thresh=132;
+    for(var a=0;a<pts.length;a++){
+      for(var b=a+1;b<pts.length;b++){
+        var dx=pts[a].x-pts[b].x,dy=pts[a].y-pts[b].y,d=Math.sqrt(dx*dx+dy*dy);
+        if(d<thresh){
+          var al=(1-d/thresh)*0.22*Math.min(pts[a].n.z,pts[b].n.z);
+          ctx.strokeStyle='rgba(200,196,235,'+al.toFixed(3)+')';ctx.lineWidth=1;
+          ctx.beginPath();ctx.moveTo(pts[a].x,pts[a].y);ctx.lineTo(pts[b].x,pts[b].y);ctx.stroke();
+        }
+      }
+    }
+    for(var k=0;k<pts.length;k++){
+      var p=pts[k],n2=p.n;
+      var tw=reduce?1:(0.75+0.25*Math.sin(t*0.001*n2.sp+n2.ph));
+      var r=n2.r*tw;
+      if(n2.kind==='bloom'){
+        var h=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,r*6);
+        h.addColorStop(0,'rgba(255,107,107,'+(0.5*tw).toFixed(3)+')');
+        h.addColorStop(1,'rgba(255,107,107,0)');
+        ctx.fillStyle=h;ctx.beginPath();ctx.arc(p.x,p.y,r*6,0,Math.PI*2);ctx.fill();
+        ctx.fillStyle='rgba(255,180,150,0.95)';
+      } else if(n2.kind==='gold'){
+        ctx.fillStyle='rgba(240,200,119,'+(0.85*tw).toFixed(3)+')';
+      } else {
+        ctx.fillStyle='rgba(233,231,223,'+(0.5*n2.z*tw).toFixed(3)+')';
+      }
+      ctx.beginPath();ctx.arc(p.x,p.y,r,0,Math.PI*2);ctx.fill();
+    }
+    if(!reduce) requestAnimationFrame(frame);
+  }
+  window.addEventListener('pointermove',function(e){tx=(e.clientX/W-0.5);ty=(e.clientY/H-0.5);});
+  var rt;window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){resize();if(reduce)frame(0);},150);});
+  resize();
+  if(reduce)frame(0); else requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
