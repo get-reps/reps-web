@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="referrer" content="no-referrer" />
+<title>Log in to REPS</title>
+<style>
+  :root {
+    --cream: #FFFAF7;
+    --charcoal: #2A2320;
+    --muted: #6B625E;
+    --coral: #FF6B6B;
+    --peach: #FF8E53;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--cream);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: var(--charcoal);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .card { max-width: 420px; width: 100%; text-align: center; }
+  .wordmark {
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.3em;
+    color: var(--coral);
+    margin-bottom: 36px;
+  }
+  h1 { font-size: 30px; line-height: 1.15; letter-spacing: -0.015em; margin-bottom: 14px; }
+  p.lede { font-size: 16px; line-height: 1.6; color: var(--muted); margin-bottom: 30px; }
+  .cta {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--coral), var(--peach));
+    color: #fff;
+    font-size: 17px;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 17px 44px;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(255, 107, 107, 0.35);
+  }
+  .fallback { margin-top: 40px; font-size: 14px; line-height: 1.6; color: var(--muted); }
+  .fallback a { color: var(--coral); font-weight: 600; text-decoration: none; }
+  .hint { margin-top: 14px; font-size: 13px; line-height: 1.6; color: var(--muted); }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="wordmark">REPS</div>
+
+  <div id="state-open">
+    <h1>One tap to get in</h1>
+    <p class="lede">Your account is ready. Open REPS and Echo will meet you there.</p>
+    <a id="open-app" class="cta" href="#">Open REPS</a>
+    <p class="hint">This works on your iPhone with REPS installed.</p>
+  </div>
+
+  <div id="state-invalid" class="hidden">
+    <h1>This link looks incomplete</h1>
+    <p class="lede">Open the latest email from REPS and tap the login button again &mdash; or open the app and log in with your email and password.</p>
+  </div>
+
+  <div class="fallback">
+    Don't have the app yet?
+    <a href="https://apps.apple.com/app/id6759216018">Download REPS on the App Store</a>
+    <p class="hint">If the button doesn't open REPS, open the app and log in with the email and password from your welcome email.</p>
+  </div>
+</div>
+
+<script>
+  // The login token travels in the URL FRAGMENT so it never reaches any server
+  // log (this page loads no analytics for the same reason). We only forward it
+  // into the app's own scheme; it is never sent anywhere else.
+  (function () {
+    var params = new URLSearchParams(location.hash.replace(/^#/, ""));
+    var tokenHash = params.get("token_hash") || "";
+    var type = params.get("type") || "magiclink";
+    var valid = /^[A-Za-z0-9._-]{6,512}$/.test(tokenHash) && /^[a-z]{3,32}$/.test(type);
+
+    if (!valid) {
+      document.getElementById("state-open").classList.add("hidden");
+      document.getElementById("state-invalid").classList.remove("hidden");
+      return;
+    }
+
+    var deepLink =
+      "reps://auth/callback?token_hash=" + encodeURIComponent(tokenHash) +
+      "&type=" + encodeURIComponent(type);
+    document.getElementById("open-app").setAttribute("href", deepLink);
+
+    // Best-effort auto-open; iOS Safari may require the explicit tap above.
+    setTimeout(function () { location.href = deepLink; }, 450);
+  })();
+</script>
+</body>
+</html>
