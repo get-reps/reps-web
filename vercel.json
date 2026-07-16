@@ -36,5 +36,11 @@
       "destination": "/product-2026/:path*",
       "statusCode": 301
     }
+  ],
+  "headers": [
+    {
+      "source": "/.well-known/apple-app-site-association",
+      "headers": [{ "key": "Content-Type", "value": "application/json" }]
+    }
   ]
 }
