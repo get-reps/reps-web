@@ -57,21 +57,21 @@
   <div class="wordmark">REPS</div>
 
   <div id="state-open">
-    <h1>One tap to get in</h1>
-    <p class="lede">Your account is ready. Open REPS and Echo will meet you there.</p>
+    <h1 id="open-headline">One tap to get in</h1>
+    <p id="open-lede" class="lede">Your account is ready. Open REPS and Echo will meet you there.</p>
     <a id="open-app" class="cta" href="#">Open REPS</a>
     <p class="hint">This works on your iPhone with REPS installed.</p>
   </div>
 
   <div id="state-invalid" class="hidden">
     <h1>This link looks incomplete</h1>
-    <p class="lede">Open the latest email from REPS and tap the login button again &mdash; or open the app and log in with your email and password.</p>
+    <p class="lede">Open the latest email from REPS and tap the login button again. You can also open the app and log in with your email and password.</p>
   </div>
 
   <div class="fallback">
     Don't have the app yet?
     <a href="https://apps.apple.com/app/id6759216018">Download REPS on the App Store</a>
-    <p class="hint">If the button doesn't open REPS, open the app and log in with the email and password from your welcome email.</p>
+    <p class="hint">If the button doesn't open REPS, make sure it's installed, then tap Open REPS again.</p>
   </div>
 </div>
 
@@ -84,6 +84,14 @@
     var tokenHash = params.get("token_hash") || "";
     var type = params.get("type") || "magiclink";
     var valid = /^[A-Za-z0-9._-]{6,512}$/.test(tokenHash) && /^[a-z]{3,32}$/.test(type);
+
+    if (type === "recovery") {
+      document.getElementById("open-headline").textContent = "Set a new password";
+      document.getElementById("open-lede").textContent = "Open REPS and you'll set your new password right in the app.";
+    } else if (type === "loginrecovery") {
+      document.getElementById("open-headline").textContent = "One tap to get in";
+      document.getElementById("open-lede").textContent = "Open REPS and Echo will meet you there.";
+    }
 
     if (!valid) {
       document.getElementById("state-open").classList.add("hidden");
