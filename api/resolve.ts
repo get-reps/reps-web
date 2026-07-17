@@ -63,6 +63,12 @@ function normalizeCountry(c: string | null): string | null {
   return /^[A-Z]{2}$/.test(up) ? up : null;
 }
 
+function normalizeRef(value: string | null): string | null {
+  if (!value || !/^(0|[1-9]\d{0,9})$/.test(value)) return null;
+  const parsed = Number(value);
+  return parsed <= 2_147_483_647 ? String(parsed) : null;
+}
+
 // Treat the jsonb destination as untrusted; enforce https + host allowlist.
 function resolveDestination(destination: unknown, platform: Platform): string {
   if (!destination || typeof destination !== "object") return HOME;
@@ -89,7 +95,9 @@ async function handle(request: Request, log: boolean): Promise<Response> {
     return redirectHome();
   }
 
-  const slug = (new URL(request.url).searchParams.get("slug") || "").trim();
+  const requestUrl = new URL(request.url);
+  const slug = (requestUrl.searchParams.get("slug") || "").trim();
+  const ref = normalizeRef(requestUrl.searchParams.get("u"));
   if (!slug) return redirectHome();
 
   const supabase = createClient(supabaseUrl, serviceRoleKey, {
@@ -127,14 +135,16 @@ async function handle(request: Request, log: boolean): Promise<Response> {
       const ipHash = await hashIp(request.headers.get("x-forwarded-for"));
       const referrer = (request.headers.get("referer") ?? "").slice(0, 1024) || null;
       const country = normalizeCountry(request.headers.get("x-vercel-ip-country"));
-      await supabase.from("link_scans").insert({
+      const { error } = await supabase.from("link_scans").insert({
         link_id: link.id,
         ip_hash: ipHash,
         user_agent: ua ? ua.slice(0, 512) : null,
         referrer,
         country,
         platform,
+        ref,
       });
+      if (error) console.error("resolve: scan log failed", error);
     } catch (e) {
       console.error("resolve: scan log failed", e);
     }
