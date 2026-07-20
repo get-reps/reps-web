@@ -13,7 +13,7 @@
     <title>REPS · Remember everything you read, watch, and hear</title>
     <meta
       name="description"
-      content="REPS turns what you read, watch, and hear into quick games that make it stick. Get early access."
+      content="REPS turns what you read, watch, and hear into quick games that make it stick. Download free on the App Store."
     />
     <link rel="canonical" href="https://www.getreps.io/" />
     <meta property="og:title" content="REPS · Supercharge your memory" />
@@ -112,6 +112,8 @@
         box-shadow: 0 1px 4px rgba(33, 26, 20, 0.12);
       }
       .nav-cta {
+        display: inline-block;
+        text-decoration: none;
         font-size: 14px;
         font-weight: 600;
         color: #fff;
@@ -433,6 +435,58 @@
       }
       .form-done .success {
         display: flex;
+      }
+
+      /* ── App Store install badge (canonical black) ── */
+      .appstore-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 11px;
+        min-height: 56px;
+        padding: 0 22px;
+        border-radius: 13px;
+        text-decoration: none;
+        background: #000;
+        color: #fff;
+        box-shadow: 0 8px 22px -10px rgba(33, 26, 20, 0.5);
+        transition:
+          transform 0.14s,
+          box-shadow 0.14s;
+      }
+      .appstore-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 12px 26px -10px rgba(33, 26, 20, 0.55);
+      }
+      .appstore-btn:active {
+        transform: translateY(0);
+      }
+      .appstore-btn svg {
+        width: 25px;
+        height: 30px;
+        flex: none;
+      }
+      .appstore-label {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        line-height: 1;
+        text-align: left;
+        /* SF on Apple devices → matches the real badge */
+        font-family: -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI",
+          sans-serif;
+      }
+      .appstore-label .small {
+        font-size: 11px;
+        font-weight: 400;
+        letter-spacing: 0.01em;
+        margin-bottom: 2px;
+      }
+      .appstore-label .big {
+        font-size: 21px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        line-height: 1;
       }
 
       /* ── Proof — auto-scrolling marquee of quote cards ── */
@@ -860,7 +914,13 @@
           />
           REPS
         </a>
-        <button class="nav-cta" id="nav-cta">Join the waitlist</button>
+        <a
+          class="nav-cta"
+          href="https://apps.apple.com/app/id6759216018"
+          target="_blank"
+          rel="noopener"
+          >Get the app</a
+        >
       </div>
     </nav>
 
@@ -904,32 +964,24 @@
         <p class="tagline">A quick daily game makes it stick.</p>
 
         <div class="form-zone" id="hero-zone">
-          <form class="signup" id="hero-form" novalidate>
-            <input
-              type="email"
-              id="hero-email"
-              name="email"
-              inputmode="email"
-              autocomplete="email"
-              autocapitalize="off"
-              spellcheck="false"
-              placeholder="Enter your email"
-              required
-              aria-label="Email address"
-            />
-            <button type="submit">Get early access</button>
-          </form>
-          <p class="err" id="hero-err" role="alert"></p>
-          <p class="reassure">
-            Invite-only early access. One email when your invite's ready. No
-            spam.
-          </p>
-          <div class="success" id="hero-success">
-            <img src="get/assets/echo.png" alt="" aria-hidden="true" />
-            <span
-              >You're a Founding Member, one of the first 100. New features reach you first, and we'll email your invite when it's ready.</span
-            >
-          </div>
+          <a
+            class="appstore-btn"
+            href="https://apps.apple.com/app/id6759216018"
+            target="_blank"
+            rel="noopener"
+            aria-label="Download REPS on the App Store"
+          >
+            <svg viewBox="0 0 384 512" fill="currentColor" aria-hidden="true">
+              <path
+                d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"
+              />
+            </svg>
+            <span class="appstore-label">
+              <span class="small">Download on the</span>
+              <span class="big">App Store</span>
+            </span>
+          </a>
+          <p class="reassure">Free on the App Store.</p>
         </div>
       </section>
 
@@ -1254,38 +1306,28 @@
           <span class="grad">REPS compounds it.</span>
         </h2>
         <p class="cta-sub">
-          Join the waitlist. One email when your invite's ready.
+          Download REPS and remember everything you read, watch, and hear.
         </p>
 
         <div class="form-zone-cta" id="cta-zone">
-          <form class="signup" id="cta-form" novalidate>
-            <input
-              type="email"
-              id="cta-email"
-              name="email"
-              inputmode="email"
-              autocomplete="email"
-              autocapitalize="off"
-              spellcheck="false"
-              placeholder="Enter your email"
-              required
-              aria-label="Email address"
-            />
-            <button type="submit">Get early access</button>
-          </form>
-          <p class="err" id="cta-err" role="alert"></p>
-          <p class="reassure">
-            No spam, ever. One email when your invite lands.
-          </p>
-          <div class="success" id="cta-success">
-            <img src="get/assets/echo.png" alt="" aria-hidden="true" />
-            <span
-              >You're a Founding Member, one of the first 100. New features reach you first, and we'll email your invite when it's ready.</span
-            >
-          </div>
+          <a
+            class="appstore-btn"
+            href="https://apps.apple.com/app/id6759216018"
+            target="_blank"
+            rel="noopener"
+            aria-label="Download REPS on the App Store"
+          >
+            <svg viewBox="0 0 384 512" fill="currentColor" aria-hidden="true">
+              <path
+                d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"
+              />
+            </svg>
+            <span class="appstore-label">
+              <span class="small">Download on the</span>
+              <span class="big">App Store</span>
+            </span>
+          </a>
         </div>
-
-        <p class="referral">The list moves. Bring friends and skip ahead.</p>
         <p class="manifesto">
           Stop <s>doomscrolling</s>. Start
           <span class="grad">bloom scrolling.</span>
@@ -1320,18 +1362,6 @@
     </script>
 
     <script>
-      /* ─── Nav CTA → bring the signup form to a comfortable height + focus ─── */
-      document.getElementById("nav-cta").addEventListener("click", function () {
-        var el = document.getElementById("hero-email");
-        // Center the email field so the form lands mid-viewport (video above,
-        // reassure below) instead of overshooting down into the testimonials.
-        el.scrollIntoView({ behavior: "smooth", block: "center" });
-        // preventScroll so focusing doesn't yank the page to a different spot.
-        setTimeout(function () {
-          el.focus({ preventScroll: true });
-        }, 420);
-      });
-
       /* ─── Hero demo video (device-switched, muted autoplay + sound toggle) ─── */
       var heroVid = document.getElementById("hero-vid");
       var heroSound = document.getElementById("hero-sound");
@@ -1441,48 +1471,6 @@
       window.addEventListener("scroll", onStackScroll, { passive: true });
       window.addEventListener("resize", updateStack);
       updateStack(); // Initial state
-
-      /* ─── Waitlist form wiring ─── */
-      var WL = "https://waitlister.me/s/1IFflE5ASXo6";
-      // Referral attribution: carry ?ref= through to Waitlister (field name: referredBy)
-      var WL_REF = new URLSearchParams(location.search).get("ref");
-
-      function wireForm(formId, emailId, errId, zoneId) {
-        var form = document.getElementById(formId);
-        if (!form) return;
-        form.addEventListener("submit", function (e) {
-          e.preventDefault();
-          var email = document.getElementById(emailId).value.trim();
-          var errEl = document.getElementById(errId);
-          errEl.textContent = "";
-          if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            errEl.textContent = "Please enter a valid email address.";
-            return;
-          }
-          var btn = form.querySelector("button");
-          btn.disabled = true;
-          btn.textContent = "Joining…";
-          fetch(WL, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-            },
-            body: JSON.stringify(
-              WL_REF ? { email: email, referredBy: WL_REF } : { email: email }
-            ),
-          })
-            .then(function () {
-              document.getElementById(zoneId).classList.add("form-done");
-            })
-            .catch(function () {
-              document.getElementById(zoneId).classList.add("form-done");
-            });
-        });
-      }
-
-      wireForm("hero-form", "hero-email", "hero-err", "hero-zone");
-      wireForm("cta-form", "cta-email", "cta-err", "cta-zone");
     </script>
   </body>
 </html>

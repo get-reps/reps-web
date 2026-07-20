@@ -266,6 +266,59 @@
         line-height: 1.4;
         color: #fff;
       }
+      /* ── App Store install badge (canonical black) ── */
+      .appstore-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 11px;
+        min-height: 54px;
+        padding: 0 22px;
+        border-radius: 13px;
+        text-decoration: none;
+        background: #000;
+        color: #fff;
+        /* hairline so the black badge reads against the galaxy-black page */
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.8);
+        transition:
+          transform 0.15s,
+          border-color 0.15s;
+      }
+      .appstore-btn:hover {
+        transform: translateY(-1px);
+        border-color: rgba(255, 255, 255, 0.5);
+      }
+      .appstore-btn:active {
+        transform: translateY(0);
+      }
+      .appstore-btn svg {
+        width: 25px;
+        height: 30px;
+        flex: none;
+      }
+      .appstore-label {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        line-height: 1;
+        text-align: left;
+        /* SF on Apple devices → matches the real badge */
+        font-family: -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI",
+          sans-serif;
+      }
+      .appstore-label .small {
+        font-size: 11px;
+        font-weight: 400;
+        letter-spacing: 0.01em;
+        margin-bottom: 2px;
+      }
+      .appstore-label .big {
+        font-size: 21px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        line-height: 1;
+      }
       @media (prefers-reduced-motion: reduce) {
         .sound.muted {
           animation: none;
@@ -304,26 +357,23 @@
       </main>
 
       <footer>
-        <form class="wl" id="wl-form" novalidate>
-          <input
-            type="email"
-            id="wl-email"
-            name="email"
-            inputmode="email"
-            autocomplete="email"
-            autocapitalize="off"
-            spellcheck="false"
-            placeholder="Enter your email"
-            required
-            aria-label="Email address"
-          />
-          <button type="submit">Get early access</button>
-        </form>
-        <p class="wl-msg" id="wl-msg" role="alert"></p>
-        <div class="wl-success" id="wl-success" hidden>
-          You're a Founding Member — one of the first 100. We'll email your
-          invite when it's ready.
-        </div>
+        <a
+          class="appstore-btn"
+          href="https://apps.apple.com/app/id6759216018"
+          target="_blank"
+          rel="noopener"
+          aria-label="Download REPS on the App Store"
+        >
+          <svg viewBox="0 0 384 512" fill="currentColor" aria-hidden="true">
+            <path
+              d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"
+            />
+          </svg>
+          <span class="appstore-label">
+            <span class="small">Download on the</span>
+            <span class="big">App Store</span>
+          </span>
+        </a>
       </footer>
     </div>
 
@@ -365,47 +415,6 @@
         // If the user turns sound on via the native controls instead, dismiss too.
         vid.addEventListener("volumechange", function () {
           if (!vid.muted) dismissSound();
-        });
-
-        // ── Inline waitlist capture (no navigation — submit right here) ──
-        // Same Waitlister endpoint + submit pattern as the homepage: the POST
-        // delivers even though the browser can't read the CORS-blocked redirect,
-        // so both then/catch show the success state.
-        var WL = "https://waitlister.me/s/1IFflE5ASXo6";
-        var WL_REF = new URLSearchParams(location.search).get("ref");
-        var wlForm = document.getElementById("wl-form");
-        var wlEmail = document.getElementById("wl-email");
-        var wlMsg = document.getElementById("wl-msg");
-        var wlSuccess = document.getElementById("wl-success");
-
-        wlForm.addEventListener("submit", function (e) {
-          e.preventDefault();
-          var email = wlEmail.value.trim();
-          wlMsg.textContent = "";
-          if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            wlMsg.textContent = "Please enter a valid email address.";
-            return;
-          }
-          var btn = wlForm.querySelector("button");
-          btn.disabled = true;
-          btn.textContent = "Joining…";
-          function done() {
-            wlForm.style.display = "none";
-            wlMsg.style.display = "none";
-            wlSuccess.hidden = false;
-          }
-          fetch(WL, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-            },
-            body: JSON.stringify(
-              WL_REF ? { email: email, referredBy: WL_REF } : { email: email },
-            ),
-          })
-            .then(done)
-            .catch(done);
         });
       })();
     </script>
