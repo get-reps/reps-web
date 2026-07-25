@@ -50,6 +50,25 @@
   .fallback a { color: var(--coral); font-weight: 600; text-decoration: none; }
   .hint { margin-top: 14px; font-size: 13px; line-height: 1.6; color: var(--muted); }
   .hidden { display: none; }
+
+  /* Resend. Login links expire (72h), and a user whose link has died otherwise has no way
+     forward from this page — it previously offered only an App Store link. */
+  .resend { margin-top: 34px; padding-top: 26px; border-top: 1px solid rgba(42, 35, 32, 0.08); }
+  .resend-title { font-size: 14px; font-weight: 700; color: var(--charcoal); margin-bottom: 6px; }
+  .resend-sub { font-size: 13px; line-height: 1.6; color: var(--muted); margin-bottom: 14px; }
+  .resend-row { display: flex; gap: 8px; }
+  .resend-row input {
+    flex: 1 1 auto; min-width: 0; font: inherit; font-size: 15px; color: var(--charcoal);
+    background: #fff; border: 1px solid rgba(42, 35, 32, 0.14); border-radius: 12px; padding: 13px 14px;
+  }
+  .resend-row input:focus { outline: none; border-color: var(--coral); }
+  .resend-row button {
+    flex: 0 0 auto; font: inherit; font-size: 15px; font-weight: 700; color: #fff; cursor: pointer;
+    background: linear-gradient(135deg, var(--coral), var(--peach));
+    border: 0; border-radius: 12px; padding: 13px 18px;
+  }
+  .resend-row button:disabled { opacity: 0.55; cursor: default; }
+  .resend-status { margin-top: 12px; font-size: 13px; line-height: 1.6; min-height: 20px; color: var(--muted); }
 </style>
 </head>
 <body>
@@ -64,8 +83,19 @@
   </div>
 
   <div id="state-invalid" class="hidden">
-    <h1>This link looks incomplete</h1>
-    <p class="lede">Open the latest email from REPS and tap the login button again. You can also open the app and log in with your email and password.</p>
+    <h1>This link has expired</h1>
+    <p class="lede">Login links last 72 hours. Pop your email in below and we'll send you a fresh one.</p>
+  </div>
+
+  <div class="resend">
+    <div class="resend-title">Need a new link?</div>
+    <div class="resend-sub">If your link expired or isn't working, we'll email you another.</div>
+    <form class="resend-row" id="resend-form" novalidate>
+      <input id="resend-email" type="email" inputmode="email" autocomplete="email"
+             autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="you@email.com" aria-label="Your email" />
+      <button id="resend-button" type="submit">Send</button>
+    </form>
+    <p class="resend-status" id="resend-status" role="status" aria-live="polite"></p>
   </div>
 
   <div class="fallback">
@@ -106,6 +136,61 @@
 
     // Best-effort auto-open; iOS Safari may require the explicit tap above.
     setTimeout(function () { location.href = deepLink; }, 450);
+  })();
+
+  // Resend a login link. Sends ONLY the email the user types — the token in the fragment is
+  // never read here and never leaves the browser. `login_link` is a recovery intent, so the
+  // edge function requires no Turnstile token (index.ts gates Turnstile on !isRecoveryIntent).
+  (function () {
+    var ENDPOINT = "https://vciosaulrfvddcenblmo.supabase.co/functions/v1/web-account-create";
+    var form = document.getElementById("resend-form");
+    var input = document.getElementById("resend-email");
+    var button = document.getElementById("resend-button");
+    var status = document.getElementById("resend-status");
+    var sending = false;
+
+    function say(message) { status.textContent = message; }
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      if (sending) return;
+
+      var email = (input.value || "").trim().toLowerCase();
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        say("Please enter a valid email address.");
+        input.focus();
+        return;
+      }
+
+      sending = true;
+      button.disabled = true;
+      say("Sending...");
+
+      fetch(ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          schemaVersion: 1,
+          email: email,
+          answers: {},
+          attribution: {},
+          intent: "login_link",
+          requestId: (window.crypto && window.crypto.randomUUID)
+            ? window.crypto.randomUUID()
+            : String(Date.now()) + "-" + Math.random().toString(16).slice(2)
+        })
+      }).then(function (response) {
+        if (!response.ok) throw new Error("not accepted");
+        // Deliberately identical wording whether or not an account exists: the endpoint does
+        // not reveal account existence, and neither should this page.
+        say("Sent. Check your email, including spam and promotions.");
+        button.textContent = "Sent";
+      }).catch(function () {
+        say("That didn't go through. Wait a moment and try again, or email support@getreps.io.");
+        button.disabled = false;
+        sending = false;
+      });
+    });
   })();
 </script>
 </body>
