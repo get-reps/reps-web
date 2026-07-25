@@ -84,10 +84,14 @@
 
   <div id="state-invalid" class="hidden">
     <h1>This link has expired</h1>
+    <!-- SOURCE OF TRUTH for "72 hours" is the Supabase auth setting `mailer_otp_exp` (259200s,
+         set 2026-07-25 and read back to confirm). It is NOT a number to adjust by feel: if it
+         changes, change it here in the same commit, or this page starts lying about how long a
+         credential lasts. It has moved twice already (3600 -> 86400 -> 259200). -->
     <p class="lede">Login links last 72 hours. Pop your email in below and we'll send you a fresh one.</p>
   </div>
 
-  <div class="resend">
+  <div class="resend hidden" id="resend-block">
     <div class="resend-title">Need a new link?</div>
     <div class="resend-sub">If your link expired or isn't working, we'll email you another.</div>
     <form class="resend-row" id="resend-form" novalidate>
@@ -123,11 +127,19 @@
       document.getElementById("open-lede").textContent = "Open REPS and Echo will meet you there.";
     }
 
+    var resendBlock = document.getElementById("resend-block");
+
     if (!valid) {
       document.getElementById("state-open").classList.add("hidden");
       document.getElementById("state-invalid").classList.remove("hidden");
+      resendBlock.classList.remove("hidden");
       return;
     }
+
+    // On the happy path the resend offer is withheld until the auto-open has had time to work.
+    // Showing "Need a new link?" immediately, above the fold, next to a link that is about to work
+    // fine, seeds doubt at the exact moment we want confidence.
+    setTimeout(function () { resendBlock.classList.remove("hidden"); }, 8000);
 
     var deepLink =
       "reps://auth/callback?token_hash=" + encodeURIComponent(tokenHash) +
@@ -151,6 +163,27 @@
 
     function say(message) { status.textContent = message; }
 
+    // The edge contract validates `requestId` as a UUID (z.string().uuid()). The previous fallback
+    // was `Date.now() + "-" + Math.random()`, which is NOT a UUID — so on any browser without
+    // crypto.randomUUID (Safari < 15.4, older in-app webviews, any non-secure context) this
+    // recovery path failed schema validation and returned the generic 429. The page shipped to fix
+    // a dead end while being a dead end itself on exactly the older browsers most likely to need
+    // it. RFC 4122 v4 from getRandomValues; null when no secure randomness exists at all.
+    function newRequestId() {
+      if (window.crypto && typeof window.crypto.randomUUID === "function") {
+        return window.crypto.randomUUID();
+      }
+      if (!window.crypto || typeof window.crypto.getRandomValues !== "function") return null;
+      var bytes = new Uint8Array(16);
+      window.crypto.getRandomValues(bytes);
+      bytes[6] = (bytes[6] & 0x0f) | 0x40; // version 4
+      bytes[8] = (bytes[8] & 0x3f) | 0x80; // variant 10xx
+      var hex = [];
+      for (var i = 0; i < 16; i++) hex.push((bytes[i] + 0x100).toString(16).slice(1));
+      return hex.slice(0, 4).join("") + "-" + hex.slice(4, 6).join("") + "-" +
+        hex.slice(6, 8).join("") + "-" + hex.slice(8, 10).join("") + "-" + hex.slice(10, 16).join("");
+    }
+
     form.addEventListener("submit", function (event) {
       event.preventDefault();
       if (sending) return;
@@ -166,6 +199,16 @@
       button.disabled = true;
       say("Sending...");
 
+      var requestId = newRequestId();
+      if (!requestId) {
+        // The contract requires a UUID. Sending a non-UUID guarantees a schema rejection and an
+        // opaque 429, so say so plainly instead of pretending to send.
+        say("Your browser is missing a feature we need. Please email support@getreps.io.");
+        button.disabled = false;
+        sending = false;
+        return;
+      }
+
       fetch(ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -175,9 +218,7 @@
           answers: {},
           attribution: {},
           intent: "login_link",
-          requestId: (window.crypto && window.crypto.randomUUID)
-            ? window.crypto.randomUUID()
-            : String(Date.now()) + "-" + Math.random().toString(16).slice(2)
+          requestId: requestId
         })
       }).then(function (response) {
         if (!response.ok) throw new Error("not accepted");
