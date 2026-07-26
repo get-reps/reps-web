@@ -8,12 +8,17 @@ import { createClient } from "@supabase/supabase-js";
 export const runtime = "edge";
 
 const HOME = "https://getreps.io";
+// AppsFlyer OneLink. Permanent subdomain for REPS (template yW0c); an ordinary
+// https host that 301s on to the App Store, so it is safe to redirect into and
+// it is what gives an install real attribution instead of a bare store link.
+const ONELINK_HOST = "repsapp.onelink.me";
 const ALLOWED_HOSTS = new Set([
   "getreps.io",
   "www.getreps.io",
   "testflight.apple.com",
   "apps.apple.com",
   "play.google.com",
+  ONELINK_HOST,
 ]);
 
 type Platform = "ios" | "android" | "fallback";
@@ -87,6 +92,23 @@ function resolveDestination(destination: unknown, platform: Platform): string {
   return HOME;
 }
 
+// Carry the gateway's own ?u=<ref> through to AppsFlyer as af_sub1, so an install
+// attributes to the individual recipient and not just to the campaign. Deliberately
+// scoped to the OneLink host: no other destination understands af_sub*, and blindly
+// appending a param to an arbitrary destination risks colliding with its own query
+// string. `ref` is already normalized to a bounded integer before it reaches here.
+function withAttribution(dest: string, ref: string | null): string {
+  if (!ref) return dest;
+  try {
+    const u = new URL(dest);
+    if (u.hostname.toLowerCase() !== ONELINK_HOST) return dest;
+    u.searchParams.set("af_sub1", ref);
+    return u.toString();
+  } catch {
+    return dest;
+  }
+}
+
 async function handle(request: Request, log: boolean): Promise<Response> {
   const supabaseUrl = process.env.SUPABASE_URL;
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -127,7 +149,7 @@ async function handle(request: Request, log: boolean): Promise<Response> {
 
   const ua = request.headers.get("user-agent");
   const platform = platformFromUA(ua);
-  const dest = resolveDestination(link.destination, platform);
+  const dest = withAttribution(resolveDestination(link.destination, platform), ref);
 
   if (log) {
     // Best-effort scan logging; a failure here must never block the redirect.
