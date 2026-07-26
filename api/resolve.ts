@@ -15,6 +15,12 @@ const ONELINK_HOST = "repsapp.onelink.me";
 const ALLOWED_HOSTS = new Set([
   "getreps.io",
   "www.getreps.io",
+  // Web funnel (funnel-deploy Vercel project). A destination host that is NOT
+  // listed here does not fail loudly — resolveDestination() silently falls back
+  // to HOME, so a links row pointing at an unlisted host 302s every visitor to
+  // the homepage with nothing to flag it. Add the host here and deploy BEFORE
+  // pointing a links row at it, never the other way round.
+  "start.getreps.io",
   "testflight.apple.com",
   "apps.apple.com",
   "play.google.com",
