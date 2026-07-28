@@ -436,6 +436,19 @@
         min-height: 16px;
         margin-top: 4px;
       }
+      /* "Did you mean name@gmail.com?" — an offer, styled as a link, not a second CTA. */
+      .email-suggest {
+        font: inherit;
+        color: inherit;
+        background: none;
+        border: 0;
+        padding: 0;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .email-suggest:hover { opacity: 0.75; }
       .success {
         display: none;
         align-items: center;
@@ -874,6 +887,7 @@
         }
       }
     </style>
+    <script src="/get/assets/email-validate.js" defer></script>
   </head>
   <body>
     <nav>
@@ -1531,19 +1545,57 @@
         document.body.appendChild(f); f.submit();
       }
 
+      // Typo gate. Falls back to the original regex if the asset fails to load, so a
+      // 404 on email-validate.js can never block a signup.
+      function wlCheckEmail(email) {
+        if (typeof window.repsValidateEmail === "function") return window.repsValidateEmail(email);
+        return {
+          ok: Boolean(email) && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email),
+          reason: "Please enter a valid email address.",
+          suggestion: null,
+        };
+      }
+
       function wireForm(formId, emailId, errId, zoneId) {
         var form = document.getElementById(formId);
         if (!form) return;
         var done = false;
         form.addEventListener("submit", function (e) {
           e.preventDefault();
-          var email = (document.getElementById(emailId).value || "").trim();
+          var input = document.getElementById(emailId);
+          var email = (input.value || "").trim();
           var errEl = document.getElementById(errId);
           errEl.textContent = "";
-          if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            errEl.textContent = "Please enter a valid email address.";
+
+          var check = wlCheckEmail(email);
+          if (!check.ok) {
+            if (check.suggestion) {
+              // Offer, never auto-apply — silently "correcting" an address sends to the wrong person.
+              errEl.textContent = "Did you mean ";
+              var fix = document.createElement("button");
+              fix.type = "button";
+              fix.className = "email-suggest";
+              fix.textContent = check.suggestion;
+              fix.addEventListener("click", function () {
+                input.value = check.suggestion;
+                errEl.textContent = "";
+                if (window.posthog && typeof posthog.capture === "function") {
+                  posthog.capture("waitlist_email_typo_corrected", { corrected_to: check.suggestion.split("@")[1] });
+                }
+                form.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }));
+              });
+              errEl.appendChild(fix);
+              errEl.appendChild(document.createTextNode("?"));
+              if (window.posthog && typeof posthog.capture === "function") {
+                posthog.capture("waitlist_email_typo_suggested", { suggested: check.suggestion.split("@")[1] });
+              }
+            } else {
+              errEl.textContent = check.reason || "Please enter a valid email address.";
+            }
             return;
           }
+          if (check.normalized) email = check.normalized;
+
           var btn = form.querySelector("button");
           btn.disabled = true;
           btn.textContent = "Joining…";
