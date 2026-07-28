@@ -51,6 +51,14 @@
   .hint { margin-top: 14px; font-size: 13px; line-height: 1.6; color: var(--muted); }
   .hidden { display: none; }
 
+  /* The other path, offered plainly rather than buried. In install-first mode this carries
+     "Already installed? Log in", which is the ONLY route for a user who does have the app;
+     in the default mode it carries the App Store route. Either way it must stay legible —
+     the pre-2026-07-28 page hid the App Store route in 14px muted text 40px below the CTA,
+     which is why the no-app cohort dead-ended. */
+  .alt { margin-top: 18px; font-size: 15px; line-height: 1.6; color: var(--muted); }
+  .alt a { color: var(--coral); font-weight: 700; text-decoration: none; }
+
   /* Resend. Login links expire (72h), and a user whose link has died otherwise has no way
      forward from this page — it previously offered only an App Store link. */
   .resend { margin-top: 34px; padding-top: 26px; border-top: 1px solid rgba(42, 35, 32, 0.08); }
@@ -79,7 +87,8 @@
     <h1 id="open-headline">One tap to get in</h1>
     <p id="open-lede" class="lede">Your account is ready. Open REPS and Echo will meet you there.</p>
     <a id="open-app" class="cta" href="#">Open REPS</a>
-    <p class="hint">This works on your iPhone with REPS installed.</p>
+    <p class="hint" id="open-hint">This works on your iPhone with REPS installed.</p>
+    <p class="alt hidden" id="alt-row"><a id="alt-link" href="#"></a></p>
   </div>
 
   <div id="state-invalid" class="hidden">
@@ -102,22 +111,75 @@
     <p class="resend-status" id="resend-status" role="status" aria-live="polite"></p>
   </div>
 
-  <div class="fallback">
+  <div class="fallback" id="fallback-block">
     Don't have the app yet?
-    <a href="https://apps.apple.com/app/id6759216018">Download REPS on the App Store</a>
+    <a id="store-link" href="https://apps.apple.com/app/id6759216018?ct=web_welcome&amp;mt=8">Download REPS on the App Store</a>
     <p class="hint">If the button doesn't open REPS, make sure it's installed, then tap Open REPS again.</p>
   </div>
 </div>
 
 <script>
-  // The login token travels in the URL FRAGMENT so it never reaches any server
-  // log (this page loads no analytics for the same reason). We only forward it
-  // into the app's own scheme; it is never sent anywhere else.
+  // Telemetry, added 2026-07-28. This page previously loaded NO analytics at all, on the
+  // correct instinct that the login token lives in the URL fragment and must never reach a
+  // server. The consequence was that we were blind at the exact step where the web-funnel
+  // cohort was failing: 10 of 11 signups never became a session and nothing recorded it.
+  //
+  // The instinct is preserved; only the blanket ban is lifted. TWO rules make that safe, and
+  // both are load-bearing:
+  //   1. NEVER load the PostHog SDK here. Its autocapture sends `$current_url`, which on this
+  //      page CONTAINS THE LOGIN TOKEN. A hand-built beacon with explicit properties cannot
+  //      leak a field nobody wrote.
+  //   2. Nothing below may read location.href, location.hash, or document.URL. Every property
+  //      sent is a literal or a derived boolean/enum. Adding a property is a security change:
+  //      if you find yourself reaching for the URL here, stop.
+  var track = (function () {
+    var KEY = "phc_gTI0FJoXiGPjdACbgVyunpDSl0mPs2HEYtmzUtK3SyE";
+    var HOST = "https://us.i.posthog.com";
+    var id = null;
+    function anonId() {
+      if (id) return id;
+      try { id = localStorage.getItem("reps_hop_id"); } catch (e) { /* private mode */ }
+      if (!id) {
+        id = "hop_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 10);
+        try { localStorage.setItem("reps_hop_id", id); } catch (e) { /* noop */ }
+      }
+      return id;
+    }
+    return function (event, props) {
+      try {
+        var properties = { page: "/login", $lib: "reps-login-hop" };
+        if (props) for (var k in props) if (Object.prototype.hasOwnProperty.call(props, k)) properties[k] = props[k];
+        fetch(HOST + "/i/v0/e/", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ api_key: KEY, event: event, distinct_id: anonId(), properties: properties }),
+          keepalive: true,
+        }).catch(function () { /* telemetry must never break the login path */ });
+      } catch (e) { /* noop */ }
+    };
+  })();
+
+  // The login token travels in the URL FRAGMENT so it never reaches any server log. We only
+  // forward it into the app's own scheme; it is never sent anywhere else.
   (function () {
     var params = new URLSearchParams(location.hash.replace(/^#/, ""));
     var tokenHash = params.get("token_hash") || "";
     var type = params.get("type") || "magiclink";
+    // `new=1` is set by the welcome/nudge emails, whose recipients signed up on the WEB and
+    // therefore almost certainly do not have the app. It is a cohort hint, not a credential.
+    var isNew = params.get("new") === "1";
     var valid = /^[A-Za-z0-9._-]{6,512}$/.test(tokenHash) && /^[a-z]{3,32}$/.test(type);
+
+    // ct= is Apple's App Store Connect campaign token: it makes these installs visible as
+    // their own channel instead of landing in unattributed traffic.
+    var APP_STORE = "https://apps.apple.com/app/id6759216018?ct=web_welcome&mt=8";
+    var storeLink = document.getElementById("store-link");
+    if (storeLink) {
+      storeLink.setAttribute("href", APP_STORE);
+      storeLink.addEventListener("click", function () {
+        track("web_login_appstore_clicked", { placement: "fallback", link_type: type });
+      });
+    }
 
     if (type === "recovery") {
       document.getElementById("open-headline").textContent = "Set a new password";
@@ -133,18 +195,68 @@
       document.getElementById("state-open").classList.add("hidden");
       document.getElementById("state-invalid").classList.remove("hidden");
       resendBlock.classList.remove("hidden");
+      track("web_login_hop_viewed", { link_state: "invalid", link_type: type, is_new: isNew });
       return;
     }
-
-    // On the happy path the resend offer is withheld until the auto-open has had time to work.
-    // Showing "Need a new link?" immediately, above the fold, next to a link that is about to work
-    // fine, seeds doubt at the exact moment we want confidence.
-    setTimeout(function () { resendBlock.classList.remove("hidden"); }, 8000);
 
     var deepLink =
       "reps://auth/callback?token_hash=" + encodeURIComponent(tokenHash) +
       "&type=" + encodeURIComponent(type);
-    document.getElementById("open-app").setAttribute("href", deepLink);
+    var openApp = document.getElementById("open-app");
+    var altRow = document.getElementById("alt-row");
+    var altLink = document.getElementById("alt-link");
+
+    if (isNew) {
+      // INSTALL-FIRST. Deliberately does NOT auto-fire the deep link: with no app installed
+      // that produces an immediate "Safari cannot open the page" error as the user's first
+      // experience of REPS. Install leads, log-in follows — and the 72h token life (Supabase
+      // `mailer_otp_exp` = 259200) is what makes "install, then come back" actually work.
+      document.getElementById("open-headline").textContent = "Your account is ready";
+      document.getElementById("open-lede").textContent =
+        "Get the app, then come back here and tap Log in. Your link stays good for 72 hours.";
+      openApp.textContent = "Get REPS";
+      openApp.setAttribute("href", APP_STORE);
+      openApp.addEventListener("click", function () {
+        track("web_login_appstore_clicked", { placement: "primary", link_type: type });
+      });
+      document.getElementById("open-hint").textContent = "Free to download on the App Store.";
+      altLink.textContent = "Already installed? Log in";
+      altLink.setAttribute("href", deepLink);
+      altLink.addEventListener("click", function () {
+        track("web_login_open_app_clicked", { placement: "secondary", link_type: type });
+      });
+      altRow.classList.remove("hidden");
+      // The bottom block would now just repeat the primary CTA, and its hint ("make sure it's
+      // installed, then tap Open REPS again") is wrong for someone who has not installed yet.
+      var fb = document.getElementById("fallback-block");
+      if (fb) fb.classList.add("hidden");
+      // The resend offer stays hidden here. This user's link is NOT broken, and offering a
+      // fresh one sends them round the identical dead end with more confidence than before.
+      track("web_login_hop_viewed", { link_state: "valid", link_type: type, is_new: true, mode: "install_first" });
+      return;
+    }
+
+    openApp.setAttribute("href", deepLink);
+    openApp.addEventListener("click", function () {
+      track("web_login_open_app_clicked", { placement: "primary", link_type: type });
+    });
+    altLink.textContent = "Don't have the app yet? Get REPS";
+    altLink.setAttribute("href", APP_STORE);
+    altLink.addEventListener("click", function () {
+      track("web_login_appstore_clicked", { placement: "secondary", link_type: type });
+    });
+    altRow.classList.remove("hidden");
+
+    // On the happy path the resend offer is withheld until the auto-open has had time to work.
+    // Showing "Need a new link?" immediately, above the fold, next to a link that is about to work
+    // fine, seeds doubt at the exact moment we want confidence.
+    setTimeout(function () {
+      resendBlock.classList.remove("hidden");
+      // Still here after 8s means the deep link did not take. That is the failure we were blind to.
+      track("web_login_app_did_not_open", { link_type: type, is_new: false });
+    }, 8000);
+
+    track("web_login_hop_viewed", { link_state: "valid", link_type: type, is_new: false, mode: "auto_open" });
 
     // Best-effort auto-open; iOS Safari may require the explicit tap above.
     setTimeout(function () { location.href = deepLink; }, 450);
@@ -198,6 +310,9 @@
       sending = true;
       button.disabled = true;
       say("Sending...");
+      // Only that a resend was asked for. Never the address — this page's whole design premise
+      // is that credentials do not leave the browser.
+      track("web_login_resend_requested", {});
 
       var requestId = newRequestId();
       if (!requestId) {
