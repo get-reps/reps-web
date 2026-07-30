@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>You've been invited to REPS</title>
+  <meta name="description" content="A friend invited you to REPS. Save anything you read, watch or listen to - and actually remember it.">
+  <meta property="og:title" content="REPS - save anything, remember everything">
+  <meta property="og:description" content="A friend invited you to REPS. Save anything you read, watch or listen to - and actually remember it.">
+  <meta property="og:type" content="website">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #FFFAF7;
+      color: #1F2937;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .card { text-align: center; max-width: 400px; width: 100%; }
+    .emoji { font-size: 64px; margin-bottom: 16px; }
+    h1 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+    .subtitle { font-size: 16px; color: #6B7280; margin-bottom: 32px; line-height: 1.5; }
+    .open-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+      color: white;
+      font-size: 17px;
+      font-weight: 700;
+      padding: 16px 48px;
+      border-radius: 16px;
+      text-decoration: none;
+      transition: transform 0.15s;
+    }
+    .open-btn:active { transform: scale(0.97); }
+    .fallback { font-size: 13px; color: #9CA3AF; margin-top: 24px; line-height: 1.6; }
+    .fallback a { color: #FF6B6B; text-decoration: none; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="emoji">&#128171;</div>
+    <h1>You've been invited to REPS</h1>
+    <p class="subtitle">Save anything you read, watch or listen to. REPS makes sure you actually remember it.</p>
+    <a id="open-link" class="open-btn" href="https://apps.apple.com/app/id6759216018">Open or get REPS</a>
+    <p class="fallback">
+      Already have the app?<br>
+      <a id="app-link" href="#">Open it directly</a>
+    </p>
+  </div>
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var code = (params.get('code') || '').trim().toUpperCase();
+      var source = (params.get('source') || '').trim().toLowerCase();
+
+      // Same bounded GENERIC grammar the RPC uses, deliberately not a two-value whitelist:
+      // adding a third consumer surface must not require a web deploy. The app's own
+      // InviteSurface union is the tight gate.
+      var CODE_RE = /^[A-HJ-NP-Z2-9]{8}$/;      // generate_referral_code()'s alphabet (no I/O/0/1)
+      var SURFACE_RE = /^[a-z][a-z0-9_]{0,31}$/;
+
+      if (!CODE_RE.test(code)) return;          // leave both CTAs at their safe defaults
+      if (!SURFACE_RE.test(source)) source = '';
+
+      // PRIMARY CTA: OneLink. This page's audience is by definition people who do NOT have
+      // the app, and AppsFlyer picks the installed-app-vs-store destination itself while
+      // preserving deep_link_sub1/sub2 through the store round-trip for deferred delivery.
+      //
+      // `1zdF` is the live `organic_social` template on repsapp.onelink.me, used in its
+      // established long-form query-param mode. It is a NATIVE App-Store-mode template (no
+      // baked-in ct=), so AppsFlyer attribution applies cleanly and no new template is needed.
+      // NOTE: repsapp.onelink.me - `reps.onelink.me` belongs to a different AppsFlyer customer.
+      var oneLink =
+        'https://repsapp.onelink.me/1zdF' +
+        '?pid=organic_social' +
+        '&c=referral_v1' +
+        '&deep_link_value=invite' +
+        '&deep_link_sub1=' + encodeURIComponent(code) +
+        (source ? '&deep_link_sub2=' + encodeURIComponent(source) : '');
+      document.getElementById('open-link').href = oneLink;
+
+      // SECONDARY, explicit-tap only. There is deliberately NO page-load auto-redirect to the
+      // custom scheme: for the no-app-installed majority that surfaces a raw browser error.
+      var deepLink =
+        'reps://invite?code=' + encodeURIComponent(code) +
+        (source ? '&source=' + encodeURIComponent(source) : '');
+      document.getElementById('app-link').href = deepLink;
+    })();
+  </script>
+</body>
+</html>

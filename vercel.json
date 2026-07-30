@@ -8,6 +8,10 @@
     {
       "source": "/r/:slug",
       "destination": "/api/resolve?slug=:slug"
+    },
+    {
+      "source": "/i/:code",
+      "destination": "/invite.html?code=:code"
     }
   ],
   "redirects": [
