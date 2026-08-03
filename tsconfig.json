@@ -5,6 +5,9 @@
     "moduleResolution": "bundler",
     "strict": true,
     "noEmit": true,
+    // The test harness runs the TypeScript directly (`tsx --test`), so its imports
+    // carry the real `.ts` extension. Safe here because nothing is ever emitted.
+    "allowImportingTsExtensions": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "lib": ["ES2022", "DOM", "DOM.Iterable"],

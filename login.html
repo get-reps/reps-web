@@ -113,7 +113,11 @@
 
   <div class="fallback" id="fallback-block">
     Don't have the app yet?
-    <a id="store-link" href="https://apps.apple.com/app/id6759216018?ct=web_welcome&amp;mt=8">Download REPS on the App Store</a>
+    <!-- Gateway slug, not a bare store URL. The JS below overwrites this href on
+         every JS-enabled load, so this value is what no-JS, prefetch and email-scanner
+         clients get — it looks correct in any browser test and diverges only for them.
+         Defaults to the recovery slug because a no-JS client cannot be classified. -->
+    <a id="store-link" href="https://www.getreps.io/r/web-recovery">Download REPS on the App Store</a>
     <p class="hint">If the button doesn't open REPS, make sure it's installed, then tap Open REPS again.</p>
   </div>
 </div>
@@ -170,9 +174,15 @@
     var isNew = params.get("new") === "1";
     var valid = /^[A-Za-z0-9._-]{6,512}$/.test(tokenHash) && /^[a-z]{3,32}$/.test(type);
 
-    // ct= is Apple's App Store Connect campaign token: it makes these installs visible as
-    // their own channel instead of landing in unattributed traffic.
-    var APP_STORE = "https://apps.apple.com/app/id6759216018?ct=web_welcome&mt=8";
+    // Route every App Store CTA through the /r/ gateway rather than a bare store URL.
+    // The gateway logs one link_scans row per tap — a click signal that needs no Apple
+    // reporting threshold and no app SDK — and then 302s to the AppsFlyer OneLink whose
+    // baked destination carries Apple's provider (pt) and campaign (ct) tokens. The two
+    // slugs stay distinct so an install driven by the welcome email is separable from one
+    // driven by a recovery/login email.
+    var APP_STORE = isNew
+      ? "https://www.getreps.io/r/web-welcome"
+      : "https://www.getreps.io/r/web-recovery";
     var storeLink = document.getElementById("store-link");
     if (storeLink) {
       storeLink.setAttribute("href", APP_STORE);
@@ -216,9 +226,6 @@
         "Get the app, then come back here and tap Log in. Your link stays good for 72 hours.";
       openApp.textContent = "Get REPS";
       openApp.setAttribute("href", APP_STORE);
-      openApp.addEventListener("click", function () {
-        track("web_login_appstore_clicked", { placement: "primary", link_type: type });
-      });
       document.getElementById("open-hint").textContent = "Free to download on the App Store.";
       altLink.textContent = "Already installed? Log in";
       altLink.setAttribute("href", deepLink);
@@ -232,6 +239,86 @@
       if (fb) fb.classList.add("hidden");
       // The resend offer stays hidden here. This user's link is NOT broken, and offering a
       // fresh one sends them round the identical dead end with more confidence than before.
+
+      // ── RETURN STATE ──────────────────────────────────────────────────────────
+      // After tapping "Get REPS" the user leaves for the App Store, installs, and
+      // their most likely route back is Safari-back to THIS tab. Until now the page
+      // was byte-identical to how they left it: still saying "Get the app", still
+      // leading with a store button they no longer need. So the tab that holds their
+      // 72-hour login link looked like a dead end, and the second inbox trip that
+      // most of them never made was the only way in.
+      //
+      // The marker is persisted, not just held in memory: Safari can evict this page
+      // while the user is in the App Store, and an in-memory flag would be gone on
+      // return with nothing left to reconstruct the tap from. sessionStorage is
+      // best-effort and idempotent — a private-mode throw just means the page behaves
+      // exactly as it did before this change.
+      var RETURN_MARKER_KEY = "reps_hop_store_tapped";
+      var returnStateActive = false;
+      var returnStateShownTracked = false;
+
+      function hasStoreTapMarker() {
+        try { return sessionStorage.getItem(RETURN_MARKER_KEY) === "1"; } catch (e) { return false; }
+      }
+
+      function persistStoreTap() {
+        try { sessionStorage.setItem(RETURN_MARKER_KEY, "1"); } catch (e) { /* private mode */ }
+      }
+
+      // Repaints the page for someone who has been to the store. Emits NOTHING —
+      // the "shown" event belongs to the return, not to the outbound tap.
+      function activateReturnState() {
+        if (returnStateActive) return;
+        returnStateActive = true;
+        document.getElementById("open-headline").textContent = "Installed? Tap to log in";
+        document.getElementById("open-lede").textContent =
+          "Your link is still good. Tap below and REPS will open you straight in.";
+        openApp.textContent = "Log in";
+        openApp.setAttribute("href", deepLink);
+        document.getElementById("open-hint").textContent =
+          "Nothing to type — this link signs you in.";
+        // The store stays reachable as the secondary. Flipping the page must never
+        // remove the user's only route forward, in either direction.
+        altLink.textContent = "Don't have the app yet? Get REPS";
+        altLink.setAttribute("href", APP_STORE);
+        altRow.classList.remove("hidden");
+      }
+
+      function showReturnStateOnce() {
+        if (!hasStoreTapMarker()) return;
+        activateReturnState();
+        if (returnStateShownTracked) return;
+        if (document.visibilityState !== "visible") return;
+        returnStateShownTracked = true;
+        track("web_login_return_state_shown", { link_type: type });
+      }
+
+      // ONE named handler owns the primary button across both of its jobs. An extra
+      // anonymous listener left attached after the anchor changes purpose would fire
+      // `web_login_appstore_clicked` on every return-login tap too, so install intent
+      // would appear to climb while the return path stayed invisible — the exact
+      // inversion of what this change is measured on.
+      function handlePrimaryClick() {
+        if (returnStateActive) {
+          track("web_login_return_login_clicked", { link_type: type });
+          return;
+        }
+        persistStoreTap();
+        track("web_login_appstore_clicked", { placement: "primary", link_type: type });
+        // Repaint only AFTER the browser has taken the outbound navigation. Mutating
+        // this anchor's href synchronously inside its own click handler would send the
+        // user to the deep link instead of to the App Store.
+        setTimeout(activateReturnState, 0);
+      }
+      openApp.addEventListener("click", handlePrimaryClick);
+
+      // Three ways back into a live tab: a fresh load, a bfcache restore, and a
+      // foreground after the App Store was on top. All three can fire for a single
+      // return, which is why the emit is guarded rather than the listeners trimmed.
+      window.addEventListener("pageshow", showReturnStateOnce);
+      document.addEventListener("visibilitychange", showReturnStateOnce);
+      showReturnStateOnce();
+
       track("web_login_hop_viewed", { link_state: "valid", link_type: type, is_new: true, mode: "install_first" });
       return;
     }

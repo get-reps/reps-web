@@ -80,22 +80,72 @@ function normalizeRef(value: string | null): string | null {
   return parsed <= 2_147_483_647 ? String(parsed) : null;
 }
 
+// Why a configured destination was refused. Bounded on purpose: each value implies
+// a different fix, and none of them is derived from the request.
+export type RejectionReason =
+  | "destination_missing"
+  | "invalid_url"
+  | "non_https"
+  | "host_not_allowed";
+
+export type DestinationResolution = {
+  destination: string;
+  rejection: RejectionReason | null;
+};
+
 // Treat the jsonb destination as untrusted; enforce https + host allowlist.
-function resolveDestination(destination: unknown, platform: Platform): string {
-  if (!destination || typeof destination !== "object") return HOME;
+//
+// This function FAILS OPEN — a refused destination still delivers HOME rather than
+// an error page, which is right for a public gateway and wrong to leave silent. A
+// links row pointing at an unlisted host would 302 every visitor to the homepage
+// with nothing anywhere to say so (CLAUDE.md §21: a path that tolerates imperfect
+// input must log delivered-vs-requested at that boundary). The caller logs the
+// reason; this returns it.
+export function resolveDestination(
+  destination: unknown,
+  platform: Platform,
+): DestinationResolution {
+  if (!destination || typeof destination !== "object") {
+    return { destination: HOME, rejection: "destination_missing" };
+  }
   const d = destination as Record<string, unknown>;
   const pick = (v: unknown) =>
     typeof v === "string" && v.trim() ? v.trim() : null;
-  const chosen = pick(d[platform]) ?? pick(d.fallback) ?? HOME;
+  const chosen = pick(d[platform]) ?? pick(d.fallback);
+  if (!chosen) return { destination: HOME, rejection: "destination_missing" };
+
+  let u: URL;
   try {
-    const u = new URL(chosen);
-    if (u.protocol === "https:" && ALLOWED_HOSTS.has(u.hostname.toLowerCase())) {
-      return chosen;
-    }
+    u = new URL(chosen);
   } catch {
-    /* fall through to home */
+    return { destination: HOME, rejection: "invalid_url" };
   }
-  return HOME;
+  if (u.protocol !== "https:") {
+    return { destination: HOME, rejection: "non_https" };
+  }
+  if (!ALLOWED_HOSTS.has(u.hostname.toLowerCase())) {
+    return { destination: HOME, rejection: "host_not_allowed" };
+  }
+  return { destination: chosen, rejection: null };
+}
+
+// The ONLY three things that may appear in this log line: the bounded reason, the
+// platform enum, and the literal delivery outcome. Never the slug, the configured
+// destination, the submitted `?u=` identifier, or anything derived from a URL —
+// this is the single unauthenticated public entry point for every gateway click,
+// and its logs must stay free of routing inputs.
+export function logRejectedDestination(
+  rejection: RejectionReason,
+  platform: Platform,
+): void {
+  console.error(
+    JSON.stringify({
+      event: "resolve_destination_rejected",
+      reason: rejection,
+      platform,
+      delivered: "home",
+    }),
+  );
 }
 
 // Carry the gateway's own ?u=<ref> through to AppsFlyer as af_sub1, so an install
@@ -155,7 +205,9 @@ async function handle(request: Request, log: boolean): Promise<Response> {
 
   const ua = request.headers.get("user-agent");
   const platform = platformFromUA(ua);
-  const dest = withAttribution(resolveDestination(link.destination, platform), ref);
+  const resolved = resolveDestination(link.destination, platform);
+  if (resolved.rejection) logRejectedDestination(resolved.rejection, platform);
+  const dest = withAttribution(resolved.destination, ref);
 
   if (log) {
     // Best-effort scan logging; a failure here must never block the redirect.
