@@ -218,7 +218,7 @@
 
       <h2>3. How Saved Content Is Used</h2>
 
-      <p>The URLs, page titles, and text selections you save are sent over HTTPS to the REPS ingest pipeline (<code>getreps.app.n8n.cloud</code>) and stored in your REPS account. From there, they go through the same spaced-repetition processing pipeline as anything you add through the mobile app: extraction (for URLs and videos), concept generation, and rep creation.</p>
+      <p>The URLs, page titles, and text selections you save are sent over HTTPS to the REPS ingest service (a Supabase Edge Function on <code>vciosaulrfvddcenblmo.supabase.co</code>) and stored in your REPS account. From there, they go through the same spaced-repetition processing pipeline as anything you add through the mobile app: extraction (for URLs and videos), concept generation, and rep creation.</p>
 
       <p>Saved content is used <strong>solely</strong> to power your learning experience inside your own REPS account. It is not sold, not shared with advertisers, and not used to train AI models outside the normal processing pipeline described in the <a href="/privacy">main Privacy Policy</a>.</p>
 
@@ -251,7 +251,7 @@
 
       <ul>
         <li><strong>Disconnect this browser from local access</strong> by uninstalling the extension from <code>chrome://extensions</code> or by clearing the extension's local storage. This removes the device token from this browser.</li>
-        <li><strong>Server-side token revocation</strong> (centrally invalidating a paired browser from your REPS account) is not yet available in this version of the extension. It will ship in a future release. For now, if you lose access to a browser and need its pairing revoked before that release lands, contact <a href="mailto:privacy@getreps.io">privacy@getreps.io</a>.</li>
+        <li><strong>Server-side token revocation</strong> is available in the REPS app: open Settings &rarr; Connected browsers and disconnect the browser. This centrally invalidates the pairing so that browser can no longer save to your account, whether or not you still have access to it.</li>
         <li><strong>Archive content you've saved</strong> inside the REPS mobile app — the same archive controls apply to content from any ingest source, including the Chrome extension. Archived content is excluded from your training sessions and is no longer visible to you. For permanent deletion of specific content, contact <a href="mailto:privacy@getreps.io">privacy@getreps.io</a>.</li>
         <li><strong>Request account deletion</strong> by emailing <a href="mailto:privacy@getreps.io">privacy@getreps.io</a>, as described in our <a href="/privacy#your-privacy-rights">main Privacy Policy</a>. We will delete or anonymise your personal information within 30 days of your request, including everything you've saved through the extension.</li>
       </ul>
