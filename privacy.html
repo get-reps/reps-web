@@ -165,7 +165,7 @@
 
     <main>
       <h1>Privacy Policy</h1>
-      <p class="effective-date">Effective: June 17, 2026</p>
+      <p class="effective-date">Effective: August 9, 2026</p>
 
       <p class="intro">
         At REPS, we are committed to protecting and respecting your privacy. This Privacy Policy explains how we collect, use, and share your personal information when you use our mobile application ("App"), our website at getreps.io ("Website"), and any related services (collectively, our "Platform").
@@ -185,6 +185,7 @@
         <li><strong>Content you submit.</strong> When you share articles, URLs, or text with REPS for processing, we collect those URLs and any text you provide. We store the learning sets, concepts, and flashcards generated from your content. You can also add knowledge by uploading a screenshot, photographing a page or your bookshelf, or importing a PDF or document. In those cases the image or file is uploaded to our servers and sent to our AI provider to extract its content for your learning sets. One exception is book-page highlighting, where the text is recognised on your device and the photo itself is not uploaded.</li>
         <li><strong>Learning activity.</strong> We collect information about your training sessions, including which questions you answered, whether your answers were correct, your mastery levels, streaks, and IQ points earned.</li>
         <li><strong>Voice training.</strong> If you use voice training, your microphone audio is streamed in real time to our voice AI provider so Echo can converse with you and assess your answers. We store a text transcript of your responses to power grading and your learning history. We do not keep the audio recording.</li>
+        <li><strong>Echo chat.</strong> If you chat with Echo to explore a topic, we store the conversation (your messages and Echo's replies) to power the feature and, in future, let you revisit past conversations. Chat conversations are deleted when you delete your account.</li>
         <li><strong>Social information.</strong> If you use our social features, we collect your friend connections, activity shared with friends, and any sets you choose to make public or share. To help you find friends already on REPS, we can match your device contacts: the email addresses and phone numbers in your address book are hashed on your device, and only the resulting one-way hashes are sent to us for matching. Your raw contact details are never uploaded.</li>
         <li><strong>Communications.</strong> When you contact us for support or send us feedback, we collect your email address and the content of your message.</li>
       </ul>
@@ -226,6 +227,7 @@
         <li><strong>Cloud infrastructure and database providers.</strong> We use Supabase (built on PostgreSQL) to store your account data, learning content, and activity. Supabase processes your data on our behalf in accordance with their privacy practices.</li>
         <li><strong>Authentication providers.</strong> If you sign in with Google or Apple, those providers receive confirmation of your authentication. We encourage you to review <a href="https://policies.google.com/privacy">Google's Privacy Policy</a> and <a href="https://www.apple.com/legal/privacy/">Apple's Privacy Policy</a>.</li>
         <li><strong>AI processing providers.</strong> We use Anthropic's Claude API to generate learning content (concepts and flashcards) from the articles and text you submit. The content you submit is sent to Anthropic for processing. We encourage you to review <a href="https://www.anthropic.com/privacy">Anthropic's Privacy Policy</a>.</li>
+        <li><strong>Search-grounded AI provider.</strong> Some features — including book recaps and chatting with Echo — use Perplexity, a search-grounded AI provider, to research and generate answers. The topic or question you submit (and, for chat, your conversation with Echo) is sent to Perplexity for processing. We encourage you to review <a href="https://www.perplexity.ai/hub/legal/privacy-policy">Perplexity's Privacy Policy</a>.</li>
         <li><strong>Content extraction providers.</strong> When you share a URL, we use third-party services (such as Firecrawl and Jina) to extract the text content of the article for processing. Only the URL is shared with these providers.</li>
         <li><strong>Workflow automation.</strong> We use Trigger.dev to orchestrate our content processing pipeline. It processes data on our behalf as part of our backend infrastructure.</li>
         <li><strong>Analytics providers.</strong> We use PostHog to collect product-usage events and diagnostics, which helps us understand engagement and fix problems. This usage data is associated with your account.</li>
@@ -270,9 +272,9 @@
       <h2>7. AI and Content Processing</h2>
       <p>REPS uses artificial intelligence to generate learning content from articles and text you submit. Here is how that works:</p>
       <ul>
-        <li><strong>What is processed.</strong> When you share a URL or text with REPS, the extracted article content is sent to an AI model (Anthropic's Claude) to generate concepts and flashcards. Screenshots, photos, and documents you upload are also sent to Anthropic's Claude, including its image (vision) capability, so we can extract their content.</li>
+        <li><strong>What is processed.</strong> When you share a URL or text with REPS, the extracted article content is sent to an AI model (Anthropic's Claude) to generate concepts and flashcards. Screenshots, photos, and documents you upload are also sent to Anthropic's Claude, including its image (vision) capability, so we can extract their content. When you chat with Echo or request a book recap, the topic, your questions, and the conversation are sent to Perplexity to research and generate the answers.</li>
         <li><strong>How it is used.</strong> The AI-generated content is stored in your account and used solely to power your learning experience. We do not use your submitted content to train AI models.</li>
-        <li><strong>Third-party AI providers.</strong> Our AI processing is performed by Anthropic. Content you submit is sent to Anthropic's API for processing and is subject to <a href="https://www.anthropic.com/policies">Anthropic's usage policies</a>. Anthropic does not use API inputs to train their models.</li>
+        <li><strong>Third-party AI providers.</strong> Our AI processing is performed by Anthropic and, for search-grounded features (book recaps and Echo chat), by Perplexity. Content you submit is sent to the relevant provider's API for processing and is subject to <a href="https://www.anthropic.com/policies">Anthropic's usage policies</a> and <a href="https://www.perplexity.ai/hub/legal/privacy-policy">Perplexity's privacy policy</a>. Anthropic does not use API inputs to train their models.</li>
       </ul>
 
       <hr class="divider" />
