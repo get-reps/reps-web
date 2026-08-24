@@ -1644,9 +1644,13 @@ class SlidePresentation {
 
   setupTouchNav(){
     let x0 = null;
-    window.addEventListener('touchstart', e => x0 = e.touches[0].clientX, {passive:true});
+    window.addEventListener('touchstart', e => {
+      /* a second finger means zoom, not navigation */
+      x0 = e.touches.length > 1 ? null : e.touches[0].clientX;
+    }, {passive:true});
     window.addEventListener('touchend', e => {
       if (x0 === null) return;
+      if (e.touches.length > 0) { x0 = null; return; }
       const dx = e.changedTouches[0].clientX - x0;
       if (Math.abs(dx) > 55) dx < 0 ? this.next() : this.prev();
       x0 = null;
@@ -1917,6 +1921,33 @@ setupFounderFilm();
   @media (max-width:520px){#deckGate .gcard{padding:32px 20px;}#deckGate .gtitle{font-size:28px;}
     #deckGate .gmark{width:72px;height:72px;}}
 
+  /* -- rotate nudge -------------------------------------------------------
+     The deck is one fixed 1920x1080 canvas scaled to fit. Measured on an
+     iPhone 15 Pro: upright it uses 26% of the screen and body text renders at
+     3.3px; sideways it is 6px. Neither is comfortable, but sideways is nearly
+     twice as good and uses the whole screen, so the least we can do is ask.
+
+     Deliberately NOT a hard block. It also names the pinch, because zoom is the
+     only thing that genuinely makes the text readable on a phone -- and the
+     build now stops a pinch being mistaken for a swipe.
+     --------------------------------------------------------------------- */
+  #deckRotate{position:fixed;inset:0;z-index:2147482800;background:#040409;display:none;
+    flex-direction:column;align-items:center;justify-content:center;gap:13px;padding:32px 26px;
+    text-align:center;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;}
+  #deckRotate.on{display:flex;}
+  #deckRotate .rot{width:50px;height:76px;border:2.5px solid rgba(255,255,255,.85);border-radius:9px;
+    position:relative;animation:rotTip 2.6s ease-in-out infinite;}
+  #deckRotate .rot::after{content:'';position:absolute;left:50%;bottom:6px;transform:translateX(-50%);
+    width:16px;height:2px;border-radius:2px;background:rgba(255,255,255,.6);}
+  @keyframes rotTip{0%,26%{transform:rotate(0deg)}54%,80%{transform:rotate(-90deg)}100%{transform:rotate(0deg)}}
+  #deckRotate .reyebrow{font-size:10.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+    color:#FF6B6B;margin-top:8px;}
+  #deckRotate .rtitle{font-family:'Lora',Georgia,serif;font-size:25px;font-weight:600;color:#fff;
+    line-height:1.2;}
+  #deckRotate .rsub{font-size:14px;color:rgba(255,255,255,.62);line-height:1.5;max-width:300px;}
+  #deckRotate .rgo{margin-top:6px;background:none;border:none;color:rgba(255,255,255,.45);
+    font:inherit;font-size:13px;text-decoration:underline;cursor:pointer;padding:8px;}
+
   /* ── notes ──────────────────────────────────────────────────────────────
      Deliberately quiet. The first cut used a 380px panel, a 21px serif heading,
      a three-line hint and three stacked full-width buttons — on a landscape
@@ -2037,6 +2068,14 @@ setupFounderFilm();
 
     <div class="gerr" id="gerr">&nbsp;</div>
   </div>
+</div>
+
+<div id="deckRotate" role="dialog" aria-label="Turn your phone sideways">
+  <div class="rot"></div>
+  <div class="reyebrow">REPS &middot; Angel round</div>
+  <div class="rtitle">Turn your phone sideways</div>
+  <div class="rsub">The deck is built wide. Sideways it fills the screen, and you can pinch to zoom in on anything.</div>
+  <button type="button" class="rgo" id="rotGo">Show it anyway</button>
 </div>
 
 <button id="ntLaunch" type="button">Notes <span class="ntcount zero" id="ntCount">0</span></button>
@@ -2246,6 +2285,7 @@ setupFounderFilm();
     track('deck_unlocked', {via: how});
     openDwell(currentIndex());
     notesBoot();
+    syncRotate();
   }
 
   function showStep2(email){
@@ -2332,6 +2372,37 @@ setupFounderFilm();
     }).catch(function(){
       setTimeout(function(){ emailI.focus(); }, 80);
     });
+  }
+
+  /* == 2b. the rotate nudge ========================================== */
+  var rotEl = document.getElementById('deckRotate');
+  var rotDismissed = false;
+
+  /* Only phones. A narrow desktop window is portrait too, and telling someone
+     sitting at a laptop to rotate their screen reads as broken. */
+  function isSmallPortrait(){
+    var portrait = window.innerHeight > window.innerWidth;
+    var phoneSized = Math.min(window.innerWidth, window.innerHeight) <= 560;
+    var touch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+    return portrait && phoneSized && touch;
+  }
+
+  function syncRotate(){
+    if (!rotEl) return;
+    var gateUp = !gate.classList.contains('gone');
+    rotEl.classList.toggle('on', !gateUp && !rotDismissed && isSmallPortrait());
+  }
+
+  if (rotEl) {
+    document.getElementById('rotGo').addEventListener('click', function(){
+      rotDismissed = true;
+      syncRotate();
+      track('deck_rotate_dismissed', {});
+    });
+    /* Turning the phone clears it by itself. Having to dismiss a prompt after
+       doing exactly what it asked is the classic version of this mistake. */
+    window.addEventListener('resize', syncRotate);
+    window.addEventListener('orientationchange', function(){ setTimeout(syncRotate, 120); });
   }
 
   /* ══ 3. notes ════════════════════════════════════════════════════════
