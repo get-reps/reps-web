@@ -5,6 +5,15 @@
    things, and presses Send once. This delivers the set to Slack (immediate) and
    to Mike's inbox (durable, readable on a phone, survives Slack scroll).
 
+   EVERY PINNED NOTE CARRIES A LINK BACK TO THE SPOT. The first version printed
+   the raw coordinate ("pinned at 88%, 67%"), which is a fine machine
+   representation and useless to a person — nobody can picture 88% of a slide, so
+   the one thing the pin existed to communicate did not survive the trip. Mike,
+   reading the first real notes email: "how can I review it after, knowing where
+   the pin was as a human?" The link opens the deck on that slide and draws the
+   pin exactly where the reviewer put it. Position travels IN the URL, so it needs
+   no storage and points at the REAL slide rather than a picture of one.
+
    Requires a session, so only someone who has been through the gate can post.
    ========================================================================== */
 import {
@@ -25,6 +34,7 @@ const MAX_COMMENTS = 200;
 const MAX_LEN = 2000;
 const TO = "mike@getreps.io";
 const FROM = "REPS deck <mike@getreps.io>";
+const DECK_URL = "https://www.getreps.io/angel";
 
 type Incoming = {
   slide?: unknown;
@@ -65,6 +75,12 @@ function groupBySlide(list: Clean[]): Array<{ slide: string; index: number; item
   return groups;
 }
 
+/** Opens the deck on that slide, with the pin drawn where the reviewer put it. */
+function linkFor(c: Clean): string {
+  if (c.x === null || c.y === null) return `${DECK_URL}#${c.index}`;
+  return `${DECK_URL}?pin=${c.index}:${c.x},${c.y}#${c.index}`;
+}
+
 function esc(s: string): string {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
@@ -74,14 +90,14 @@ function emailHtml(from: string, groups: ReturnType<typeof groupBySlide>, total:
     .map((g) => {
       const items = g.items
         .map((c) => {
-          const where =
-            c.x !== null && c.y !== null
-              ? `<span style="color:#8A7F76;font-size:12px;">pinned at ${c.x}%, ${c.y}%</span><br/>`
-              : `<span style="color:#8A7F76;font-size:12px;">whole slide</span><br/>`;
-          return `<li style="margin-bottom:12px;line-height:1.5;">${where}${esc(c.text).replace(/\n/g, "<br/>")}</li>`;
+          const label = c.x !== null && c.y !== null ? "Show me on the slide" : "Open this slide";
+          return `<li style="margin-bottom:16px;line-height:1.5;">
+            ${esc(c.text).replace(/\n/g, "<br/>")}<br/>
+            <a href="${linkFor(c)}" style="color:#D8443F;font-size:13px;text-decoration:none;font-weight:600;">${label} &rarr;</a>
+          </li>`;
         })
         .join("");
-      return `<tr><td style="padding-bottom:22px;">
+      return `<tr><td style="padding-bottom:24px;">
         <div style="font-family:Georgia,serif;font-size:19px;color:#211A14;padding-bottom:8px;">${g.index}. ${esc(g.slide)}</div>
         <ul style="margin:0;padding-left:18px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:15px;color:#4A423C;">${items}</ul>
       </td></tr>`;
@@ -93,7 +109,7 @@ function emailHtml(from: string, groups: ReturnType<typeof groupBySlide>, total:
 <tr><td align="center" style="padding:40px 20px;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;">
   <tr><td style="font-family:Georgia,serif;font-size:28px;color:#211A14;padding-bottom:6px;">${total} note${total === 1 ? "" : "s"} on the deck</td></tr>
-  <tr><td style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:15px;color:#8A7F76;padding-bottom:26px;">from ${esc(from)}</td></tr>
+  <tr><td style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:15px;color:#8A7F76;padding-bottom:26px;">from ${esc(from)} &middot; each link opens the deck with the pin on it</td></tr>
   ${body}
 </table></td></tr></table></body></html>`;
 }
@@ -138,7 +154,10 @@ export async function POST(request: Request): Promise<Response> {
           text:
             `*${g.index}. ${escapeSlack(g.slide)}*\n` +
             g.items
-              .map((c) => `> ${escapeSlack(c.text.slice(0, 500)).replace(/\n/g, "\n> ")}`)
+              .map(
+                (c) =>
+                  `> ${escapeSlack(c.text.slice(0, 500)).replace(/\n/g, "\n> ")}\n> <${linkFor(c)}|${c.x !== null ? "show me on the slide" : "open this slide"}>`,
+              )
               .join("\n"),
         },
       })),

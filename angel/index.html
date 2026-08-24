@@ -2033,6 +2033,17 @@ setupFounderFilm();
      panel so the deck re-centres in what is left. */
   .deck-viewport{transition:transform .24s cubic-bezier(.4,0,.2,1);}
 
+  /* A pin arriving from a notes email. Distinct from a reviewer's own numbered
+     pins: this one is a target the reader is being POINTED AT, so it pulses
+     until it has been noticed and then settles rather than blinking forever. */
+  .ntpin-ref{position:absolute;z-index:950;width:26px;height:26px;margin:-13px 0 0 -13px;
+    border-radius:999px;background:rgba(255,107,107,.9);border:2px solid #fff;
+    box-shadow:0 2px 10px rgba(0,0,0,.35);transform:scale(var(--ntpin-inv,1));
+    transform-origin:center;pointer-events:none;}
+  .ntpin-ref::after{content:'';position:absolute;inset:-11px;border-radius:999px;
+    border:2px solid rgba(255,107,107,.85);animation:pinPulse 1.5s ease-out 6;}
+  @keyframes pinPulse{0%{transform:scale(.55);opacity:1}100%{transform:scale(2.1);opacity:0}}
+
   body.nt-arming, body.nt-arming .slide.active{cursor:crosshair;}
   .ntpin{position:absolute;z-index:900;width:20px;height:20px;margin:-10px 0 0 -10px;
     border-radius:999px;background:#FF6B6B;color:#fff;border:2px solid #fff;
@@ -2286,6 +2297,7 @@ setupFounderFilm();
     openDwell(currentIndex());
     notesBoot();
     syncRotate();
+    showReferencedPin();
   }
 
   function showStep2(email){
@@ -2403,6 +2415,37 @@ setupFounderFilm();
        doing exactly what it asked is the classic version of this mistake. */
     window.addEventListener('resize', syncRotate);
     window.addEventListener('orientationchange', function(){ setTimeout(syncRotate, 120); });
+  }
+
+  /* == 2c. a pin arriving from a notes email ========================== */
+  /* ?pin=<slide>:<x>,<y> — the position travels in the URL, so this keeps
+     working with no storage and points at the REAL slide rather than a picture
+     of it. Runs for viewers as well as reviewers: Mike opens these links from
+     his inbox, and he is not in review mode. */
+  function showReferencedPin(){
+    var raw = qs.get('pin');
+    if (!raw) return;
+    var m = /^(\d+):(-?[\d.]+),(-?[\d.]+)$/.exec(raw.trim());
+    if (!m) return;
+    var idx = parseInt(m[1], 10) - 1;
+    var x = parseFloat(m[2]), y = parseFloat(m[3]);
+    if (!(idx >= 0 && idx < slides.length)) return;
+    if (!(x >= 0 && x <= 100 && y >= 0 && y <= 100)) return;
+
+    /* go to the slide first, then draw — the deck hides inactive slides, so a
+       marker placed before navigating would be invisible and never re-shown. */
+    location.hash = '#' + (idx + 1);
+    setTimeout(function(){
+      var host = slides[idx];
+      if (!host) return;
+      var dot = document.createElement('div');
+      dot.className = 'ntpin-ref';
+      dot.style.left = x + '%';
+      dot.style.top = y + '%';
+      host.appendChild(dot);
+      pinScale();
+      track('deck_pin_link_opened', {slide: slideName(idx), slide_index: idx + 1});
+    }, 260);
   }
 
   /* ══ 3. notes ════════════════════════════════════════════════════════
