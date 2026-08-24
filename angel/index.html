@@ -1569,7 +1569,7 @@ body.still .reveal,body.still .chrome-fade{opacity:1!important;transform:none!im
 </div>
 
 <div id="progress" style="width:7.69%"></div>
-<div class="deck-controls" id="deckControls">&larr; &rarr; to move &middot; S for sound &middot; P to print &middot; E to edit</div>
+<div class="deck-controls" id="deckControls">&larr; &rarr; to move &middot; S for sound</div>
 <!-- edit hotzone removed for web -->
 <button class="edit-toggle" id="editToggle" title="Edit mode (E)">Edit text</button>
 <!-- editor export button removed for web -->
@@ -2582,11 +2582,15 @@ setupFounderFilm();
     pinBtn.classList.toggle('armed', on);
     document.body.classList.toggle('nt-arming', on);
     pinBtn.textContent = on ? 'Click the slide…' : 'Pin a spot';
-    if (on) closePanel();
+    /* The panel STAYS OPEN. It used to close here, which made sense only while
+       the panel covered the deck; now the deck scales aside and the whole slide
+       is visible with it open, so closing it just threw away the reviewer's
+       place in their own notes. */
   }
 
   function onStageClick(ev){
     if (!armed) return;
+    if (panel.contains(ev.target) || launch.contains(ev.target)) return;
     var r = stage.getBoundingClientRect();
     if (!r.width || !r.height) return;
     var x = ((ev.clientX - r.left) / r.width) * 100;
