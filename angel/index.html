@@ -1917,53 +1917,95 @@ setupFounderFilm();
   @media (max-width:520px){#deckGate .gcard{padding:32px 20px;}#deckGate .gtitle{font-size:28px;}
     #deckGate .gmark{width:72px;height:72px;}}
 
-  /* ── notes ──────────────────────────────────────────────────────────── */
-  #ntLaunch{position:fixed;right:18px;bottom:18px;z-index:2147482000;display:none;gap:8px;
-    align-items:center;padding:11px 17px;border-radius:999px;border:none;cursor:pointer;
-    background:#211A14;color:#fff;font-size:13px;font-weight:600;
+  /* ── notes ──────────────────────────────────────────────────────────────
+     Deliberately quiet. The first cut used a 380px panel, a 21px serif heading,
+     a three-line hint and three stacked full-width buttons — on a landscape
+     phone that chrome covered more than half the screen and read as an app
+     bolted onto the deck. Mike: "WAY too busy... needs to look simple,
+     intuitive, and non-obtrusive."
+
+     So: the NOTES are the content, everything else recedes. Small type, ghost
+     buttons on one row, no headline, and the explanatory line appears only when
+     there is nothing to read yet. On a small screen the panel stops being a
+     sidebar and becomes a short bottom sheet, so it never competes with the
+     slide for width.
+     ─────────────────────────────────────────────────────────────────────── */
+  #ntLaunch{position:fixed;right:14px;bottom:14px;z-index:2147482000;display:none;gap:6px;
+    align-items:center;padding:7px 13px;border-radius:999px;border:none;cursor:pointer;
+    background:rgba(33,26,20,.82);color:rgba(255,255,255,.92);font-size:11.5px;font-weight:600;
+    letter-spacing:.03em;backdrop-filter:blur(6px);
     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
-    box-shadow:0 6px 22px rgba(0,0,0,.28);}
+    box-shadow:0 2px 10px rgba(0,0,0,.22);transition:background .18s;}
+  #ntLaunch:hover{background:rgba(33,26,20,.95);}
   #ntLaunch.on{display:flex;}
-  #ntLaunch .ntcount{background:#FF6B6B;border-radius:999px;padding:1px 7px;font-size:11px;}
-  #ntPanel{position:fixed;top:0;right:0;bottom:0;width:380px;max-width:92vw;z-index:2147482500;
-    background:#FFFAF7;box-shadow:-8px 0 40px rgba(0,0,0,.18);transform:translateX(100%);
-    transition:transform .28s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;
+  #ntLaunch .ntcount{background:#FF6B6B;color:#fff;border-radius:999px;min-width:15px;
+    padding:0 4px;font-size:10px;line-height:15px;text-align:center;}
+  #ntLaunch .ntcount.zero{display:none;}
+
+  #ntPanel{position:fixed;top:0;right:0;bottom:0;width:300px;max-width:88vw;z-index:2147482500;
+    background:#FFFCFA;border-left:1px solid #EADFD6;box-shadow:-4px 0 24px rgba(0,0,0,.10);
+    transform:translateX(101%);transition:transform .24s cubic-bezier(.4,0,.2,1);
+    display:flex;flex-direction:column;
     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;}
   #ntPanel.on{transform:translateX(0);}
-  #ntPanel header{padding:20px 20px 14px;border-bottom:1px solid #EADFD6;}
-  #ntPanel h2{margin:0 0 4px;font-family:'Lora',Georgia,serif;font-size:21px;font-weight:600;
-    color:#211A14;}
-  #ntPanel .nthint{font-size:12.5px;color:#8A7F76;line-height:1.45;}
-  #ntBody{flex:1;overflow-y:auto;padding:14px 20px 20px;}
-  #ntBody .ntempty{font-size:13.5px;color:#8A7F76;line-height:1.55;padding:14px 0;}
-  .ntgroup{margin-bottom:18px;}
-  .ntgroup h3{margin:0 0 7px;font-family:'Lora',Georgia,serif;font-size:14.5px;font-weight:600;
-    color:#211A14;}
-  .ntitem{position:relative;margin-bottom:8px;}
-  .ntitem textarea{width:100%;box-sizing:border-box;min-height:62px;resize:vertical;padding:10px 30px 10px 11px;
-    border:1px solid #EADFD6;border-radius:10px;background:#fff;font:inherit;font-size:13.5px;
-    line-height:1.45;color:#211A14;outline:none;}
+
+  #ntPanel header{display:flex;align-items:center;justify-content:space-between;
+    padding:11px 14px;border-bottom:1px solid #F0E7DF;}
+  #ntPanel .nthead{font-size:10.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+    color:#8A7F76;}
+  #ntClose{border:none;background:none;font-size:17px;line-height:1;color:#B8ABA1;cursor:pointer;
+    padding:2px 4px;}
+  #ntClose:hover{color:#211A14;}
+
+  #ntBody{flex:1;overflow-y:auto;padding:10px 14px 14px;}
+  #ntBody .ntempty{font-size:12px;color:#9C918A;line-height:1.5;padding:10px 0 0;}
+  .ntgroup{margin-bottom:13px;}
+  .ntgroup h3{margin:0 0 5px;font-size:11px;font-weight:600;color:#8A7F76;letter-spacing:.02em;}
+  .ntitem{position:relative;margin-bottom:6px;}
+  .ntitem textarea{width:100%;box-sizing:border-box;min-height:50px;resize:vertical;
+    padding:7px 22px 7px 9px;border:1px solid #EADFD6;border-radius:7px;background:#fff;
+    font:inherit;font-size:12.5px;line-height:1.42;color:#211A14;outline:none;}
   .ntitem textarea:focus{border-color:#FF6B6B;}
-  .ntitem .ntwhere{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:#8A7F76;
-    margin-bottom:4px;}
-  .ntitem .ntdel{position:absolute;top:24px;right:7px;border:none;background:none;cursor:pointer;
-    color:#B8ABA1;font-size:16px;line-height:1;padding:3px;}
+  .ntitem .ntwhere{font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:#B8ABA1;
+    margin-bottom:2px;}
+  .ntitem .ntdel{position:absolute;top:17px;right:4px;border:none;background:none;cursor:pointer;
+    color:#CFC4BA;font-size:13px;line-height:1;padding:2px;}
   .ntitem .ntdel:hover{color:#FF6B6B;}
-  #ntPanel footer{padding:14px 20px 18px;border-top:1px solid #EADFD6;display:flex;
-    flex-direction:column;gap:9px;}
-  #ntSend{padding:13px;border:none;border-radius:999px;cursor:pointer;font:inherit;font-size:14px;
-    font-weight:600;color:#fff;background:linear-gradient(135deg,#FF6B6B,#FF8E53);}
-  #ntSend[disabled]{opacity:.5;cursor:default;}
-  #ntPin{padding:11px;border:1px solid #EADFD6;border-radius:999px;cursor:pointer;font:inherit;
-    font-size:13px;font-weight:600;color:#211A14;background:#fff;}
+
+  #ntPanel footer{padding:9px 14px 11px;border-top:1px solid #F0E7DF;
+    display:flex;flex-direction:column;gap:7px;}
+  #ntAdd{display:flex;gap:6px;}
+  #ntAdd button{flex:1;padding:6px 8px;border:1px solid #EADFD6;border-radius:6px;background:#fff;
+    cursor:pointer;font:inherit;font-size:11.5px;font-weight:600;color:#5C534C;}
+  #ntAdd button:hover{border-color:#CFC4BA;color:#211A14;}
   #ntPin.armed{background:#211A14;color:#fff;border-color:#211A14;}
-  #ntStatus{font-size:12.5px;color:#8A7F76;text-align:center;min-height:16px;line-height:1.4;}
-  #ntClose{position:absolute;top:16px;right:16px;border:none;background:none;font-size:22px;
-    line-height:1;color:#B8ABA1;cursor:pointer;}
+  #ntSend{padding:7px;border:none;border-radius:6px;cursor:pointer;font:inherit;font-size:12px;
+    font-weight:600;color:#fff;background:#FF6B6B;}
+  #ntSend:hover{background:#F25F5F;}
+  #ntSend[disabled]{background:#E7DDD5;color:#A99E96;cursor:default;}
+  #ntStatus{font-size:11px;color:#9C918A;text-align:center;line-height:1.35;}
+  #ntStatus:empty{display:none;}
+
+  /* On a phone the sidebar becomes a short sheet: a 300px rail would eat most
+     of a landscape screen, which is the whole complaint this replaces. */
+  @media (max-width:760px){
+    #ntPanel{top:auto;left:0;width:auto;max-width:none;height:46vh;border-left:none;
+      border-top:1px solid #EADFD6;border-radius:14px 14px 0 0;
+      transform:translateY(101%);box-shadow:0 -4px 24px rgba(0,0,0,.14);}
+    #ntPanel.on{transform:translateY(0);}
+    #ntLaunch{right:10px;bottom:10px;padding:6px 11px;font-size:11px;}
+  }
+
+  /* Move the deck aside rather than covering it. Commenting on something you
+     cannot see is the obvious failure of a review tool, and the panel is exactly
+     as wide as the part of the slide it would otherwise hide. Shift by half the
+     panel so the deck re-centres in what is left. */
+  .deck-viewport{transition:transform .24s cubic-bezier(.4,0,.2,1);}
+
   body.nt-arming, body.nt-arming .slide.active{cursor:crosshair;}
-  .ntpin{position:absolute;z-index:900;width:26px;height:26px;margin:-13px 0 0 -13px;
+  .ntpin{position:absolute;z-index:900;width:20px;height:20px;margin:-10px 0 0 -10px;
     border-radius:999px;background:#FF6B6B;color:#fff;border:2px solid #fff;
-    box-shadow:0 3px 10px rgba(0,0,0,.3);font:600 12px/22px -apple-system,BlinkMacSystemFont,
+    box-shadow:0 2px 7px rgba(0,0,0,.28);font:600 10px/17px -apple-system,BlinkMacSystemFont,
     'Segoe UI',Helvetica,Arial,sans-serif;text-align:center;cursor:pointer;
     transform:scale(var(--ntpin-inv,1));transform-origin:center;}
   @media print{#deckGate,#ntLaunch,#ntPanel,.ntpin{display:none!important;}}
@@ -1997,18 +2039,19 @@ setupFounderFilm();
   </div>
 </div>
 
-<button id="ntLaunch" type="button">Notes <span class="ntcount" id="ntCount">0</span></button>
+<button id="ntLaunch" type="button">Notes <span class="ntcount zero" id="ntCount">0</span></button>
 
 <aside id="ntPanel" aria-label="Your notes on the deck">
   <header>
+    <span class="nthead">Notes</span>
     <button id="ntClose" type="button" aria-label="Close notes">&times;</button>
-    <h2>Your notes</h2>
-    <div class="nthint">Pin a note to something specific, or just write about the slide
-      you&rsquo;re on. Saved as you type. Send them all when you&rsquo;re done.</div>
   </header>
   <div id="ntBody"></div>
   <footer>
-    <button id="ntPin" type="button">Pin a note to this slide</button>
+    <div id="ntAdd">
+      <button id="ntQuick" type="button">This slide</button>
+      <button id="ntPin" type="button">Pin a spot</button>
+    </div>
     <button id="ntSend" type="button">Send to Mike</button>
     <div id="ntStatus"></div>
   </footer>
@@ -2321,14 +2364,19 @@ setupFounderFilm();
   function refreshCount(){
     var n = filled().length;
     countEl.textContent = n;
+    countEl.classList.toggle('zero', n === 0);
     sendBtn.disabled = n === 0;
   }
 
   /* Pins live INSIDE the slide, so they ride the deck's stage transform and stay
      glued to whatever they were pinned to at any window size. They are then
      counter-scaled so the dot itself stays a constant size on screen. */
+  /* Measure the stage rather than re-deriving its scale from the window: once
+     the panel shrinks the deck there are TWO scales composed, and a formula that
+     knows about only one of them sizes every pin wrong. */
   function pinScale(){
-    var f = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    var r = stage ? stage.getBoundingClientRect() : null;
+    var f = (r && r.width) ? (r.width / 1920) : 1;
     document.documentElement.style.setProperty('--ntpin-inv', f > 0 ? (1 / f) : 1);
   }
   window.addEventListener('resize', pinScale);
@@ -2364,7 +2412,7 @@ setupFounderFilm();
     if (!notes.length) {
       var p = document.createElement('div');
       p.className = 'ntempty';
-      p.textContent = 'No notes yet. Press “Pin a note to this slide” and click whatever you want to comment on — or just start typing about the slide you are on.';
+      p.textContent = 'Pin a spot on the slide, or write about the slide as a whole. Saved as you type.';
       bodyEl.appendChild(p);
     }
     var order = notes.slice().sort(function(a, b){ return a.index - b.index; });
@@ -2423,14 +2471,46 @@ setupFounderFilm();
     return n;
   }
 
-  function openPanel(){ panel.classList.add('on'); }
-  function closePanel(){ panel.classList.remove('on'); }
+  /* Shrink the deck into the space the panel leaves, rather than letting the
+     panel sit on top of it. Translating alone cannot work: the deck already
+     fills the viewport, so sliding it merely moves which part is hidden.
+     Measured from the panel's real width so it stays correct at the bottom-sheet
+     breakpoint and at any window size. */
+  var viewport = document.querySelector('.deck-viewport');
+  function fitDeck(open){
+    if (!viewport) return;
+    if (!open){
+      viewport.style.transform = ''; viewport.style.transformOrigin = '';
+      setTimeout(pinScale, 260);
+      return;
+    }
+    var r = panel.getBoundingClientRect();
+    var sheet = window.innerWidth <= 760;
+    var k = sheet
+      ? Math.max(0.45, (window.innerHeight - r.height) / window.innerHeight)
+      : Math.max(0.45, (window.innerWidth - r.width) / window.innerWidth);
+    viewport.style.transformOrigin = sheet ? 'center top' : 'left center';
+    viewport.style.transform = 'scale(' + k + ')';
+    setTimeout(pinScale, 260);   /* after the .deck-viewport transition settles */
+  }
+  function openPanel(){
+    panel.classList.add('on'); document.body.classList.add('nt-open');
+    /* after the panel's own transition has settled, so the measurement is real */
+    setTimeout(function(){ fitDeck(true); }, 20);
+  }
+  function closePanel(){
+    panel.classList.remove('on'); document.body.classList.remove('nt-open');
+    fitDeck(false);
+  }
+  window.addEventListener('resize', function(){
+    if (panel.classList.contains('on')) fitDeck(true);
+  });
 
   function arm(on){
     armed = on;
     pinBtn.classList.toggle('armed', on);
     document.body.classList.toggle('nt-arming', on);
-    pinBtn.textContent = on ? 'Click the slide… (Esc to cancel)' : 'Pin a note to this slide';
+    pinBtn.textContent = on ? 'Click the slide…' : 'Pin a spot';
     if (on) closePanel();
   }
 
@@ -2456,7 +2536,7 @@ setupFounderFilm();
     post('/api/deck-comments', {comments: payload}).then(function(r){
       sendBtn.textContent = 'Send to Mike';
       if (r && r.ok) {
-        statEl.textContent = 'Sent. Thank you — your notes stay here if you want to add more.';
+        statEl.textContent = 'Sent — thank you. Your notes stay here.';
         track('deck_notes_sent', {count: payload.length});
         sendBtn.disabled = false;
         return;
@@ -2485,14 +2565,10 @@ setupFounderFilm();
     document.addEventListener('keydown', function(e){
       if (e.key === 'Escape' && armed) { arm(false); e.stopPropagation(); }
     }, {capture: true});
-    /* A note about the slide you are looking at, with no pinning step. */
-    var quick = document.createElement('button');
-    quick.type = 'button'; quick.id = 'ntQuick';
-    quick.textContent = 'Add a note about this slide';
-    quick.style.cssText = 'padding:11px;border:1px solid #EADFD6;border-radius:999px;cursor:pointer;'
-      + 'font:inherit;font-size:13px;font-weight:600;color:#211A14;background:#fff;';
-    quick.addEventListener('click', function(){ addNote(currentIndex(), null, null); });
-    pinBtn.parentNode.insertBefore(quick, pinBtn);
+    /* A note about the slide you are on, with no pinning step. */
+    document.getElementById('ntQuick').addEventListener('click', function(){
+      addNote(currentIndex(), null, null);
+    });
     ['keydown','wheel'].forEach(function(t){
       panel.addEventListener(t, function(ev){ ev.stopPropagation(); });
     });
