@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test api/*.test.ts"
+    "test": "tsx --test api/*.test.ts lib/*.test.ts"
   },
   "dependencies": {
     "@slack/web-api": "^7.15.1",

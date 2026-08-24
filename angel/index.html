@@ -1,0 +1,2507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex,nofollow,noarchive" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REPS — Angel round</title>
+
+<!-- Fonts: Lora (editorial serif, REPS canonical) + Archivo (grotesque for chrome/body) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+
+<style>
+/* ===========================================================================
+   REPS DECK — "COVER STORY" DESIGN SYSTEM  (v5, round 3 — built from Mike's
+   hand-drawn mock-ups of 2026-08-21)
+   Two grounds (Galaxy Black / REPS cream), one accent (coral -> peach),
+   two typefaces (Lora headlines, Archivo chrome + body).
+   Change :root below to restyle the whole deck.
+   =========================================================================== */
+
+/* ===========================================
+   FIXED 16:9 STAGE: MANDATORY BASE STYLES
+   =========================================== */
+html,body{width:100%;height:100%;margin:0;overflow:hidden;background:var(--stage-bg,#000);}
+.deck-viewport{position:fixed;inset:0;overflow:hidden;background:var(--stage-bg,#000);}
+.deck-stage{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;transform-origin:0 0;background:var(--slide-bg,#fff);}
+.slide{position:absolute;inset:0;width:1920px;height:1080px;overflow:hidden;display:block;visibility:hidden;opacity:0;pointer-events:none;background:var(--slide-bg,#fff);}
+.slide.active,.slide.visible{visibility:visible;opacity:1;pointer-events:auto;z-index:1;}
+img,video,canvas,svg{max-width:100%;max-height:100%;}
+.deck-controls{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:1000;}
+@media print{
+  html,body{width:1920px;height:auto;overflow:visible;background:#fff;}
+  .deck-viewport{position:static;overflow:visible;background:#fff;}
+  .deck-stage{position:static;width:auto;height:auto;transform:none!important;background:none;}
+  .slide{position:relative;display:block!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important;width:1920px;height:1080px;break-after:page;page-break-after:always;}
+  .slide:last-child{break-after:auto;page-break-after:auto;}
+  .deck-controls{display:none!important;}
+}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.2s!important;}}
+
+/* === THEME TOKENS === */
+:root{
+  --night:#040409; --night-2:#0a0a14;
+  --paper:#FFFAF7; --paper-2:#F6EFE9;
+  --ink:#211A14; --ink-soft:rgba(33,26,20,.64); --ink-faint:rgba(33,26,20,.42); --ink-hair:rgba(33,26,20,.14);
+  --cream:#FFFAF7; --cream-soft:rgba(255,250,247,.70); --cream-faint:rgba(255,250,247,.40); --cream-hair:rgba(255,250,247,.15);
+  --coral:#FF6B6B; --peach:#FF8E53;
+  --coral-ink:#D8443F;                 /* legible coral as TYPE on cream */
+  --teal-ink:#2D8377;                  /* the right-answer token, legible on cream */
+  --hot:linear-gradient(96deg,var(--coral) 8%,var(--peach) 92%);
+  --serif:'Lora',Georgia,serif;
+  --sans:'Archivo',system-ui,sans-serif;
+  --ease:cubic-bezier(.19,.72,.3,1);
+  --stage-bg:#040409;
+  --slide-bg:var(--night);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+
+/* === GROUND VARIANTS === */
+.slide.night{
+  background:
+    radial-gradient(58% 46% at 10% 94%, rgba(255,107,107,.17) 0%, rgba(255,142,83,.06) 42%, rgba(4,4,9,0) 74%),
+    radial-gradient(46% 40% at 97% 4%, rgba(255,142,83,.09) 0%, rgba(4,4,9,0) 68%),
+    linear-gradient(172deg,var(--night-2) 0%, var(--night) 55%, #06060d 100%);
+  --fg:var(--cream); --fg-soft:var(--cream-soft); --fg-faint:var(--cream-faint);
+  --hair:var(--cream-hair); --accent-type:var(--coral); --plate:rgba(255,250,247,.04);
+}
+.slide.paper{
+  background:
+    radial-gradient(52% 44% at 92% 6%, rgba(255,142,83,.10) 0%, rgba(255,250,247,0) 66%),
+    radial-gradient(46% 40% at 4% 96%, rgba(255,107,107,.07) 0%, rgba(255,250,247,0) 62%),
+    linear-gradient(178deg,#FFFCFA 0%, var(--paper) 46%, var(--paper-2) 100%);
+  --fg:var(--ink); --fg-soft:var(--ink-soft); --fg-faint:var(--ink-faint);
+  --hair:var(--ink-hair); --accent-type:var(--coral-ink); --plate:rgba(33,26,20,.035);
+}
+.slide::after{
+  content:"";position:absolute;inset:0;pointer-events:none;z-index:1;
+  background-image:repeating-linear-gradient(115deg, rgba(255,250,247,.020) 0 1px, transparent 1px 4px);
+  opacity:.55;mix-blend-mode:overlay;
+}
+.slide.paper::after{
+  background-image:repeating-linear-gradient(115deg, rgba(33,26,20,.016) 0 1px, transparent 1px 4px);
+  mix-blend-mode:multiply;opacity:.7;
+}
+
+/* === CHROME === */
+.masthead{position:absolute;left:0;right:0;top:0;height:120px;z-index:6;
+  display:flex;align-items:center;justify-content:space-between;padding:0 96px;border-bottom:1px solid var(--hair);}
+.brandlock{display:flex;align-items:center;gap:18px;}
+.brandlock img{display:block;width:44px;height:44px;border-radius:11px;}
+.wordmark{font-family:var(--sans);font-weight:600;font-size:27px;letter-spacing:.5em;color:var(--fg);}
+.masthead-meta{font-family:var(--sans);font-weight:400;font-size:15px;letter-spacing:.28em;text-transform:uppercase;color:var(--fg-faint);}
+.footrule{position:absolute;left:96px;right:96px;bottom:0;height:110px;z-index:6;
+  border-top:1px solid var(--hair);display:flex;align-items:center;justify-content:space-between;
+  font-family:var(--sans);font-size:15px;letter-spacing:.26em;text-transform:uppercase;color:var(--fg-faint);}
+.folio{color:var(--fg);letter-spacing:.2em;font-weight:600;}
+.folio span{color:var(--fg-faint);font-weight:400;}
+.canvas{position:absolute;left:96px;right:96px;top:120px;bottom:110px;z-index:3;
+  display:flex;flex-direction:column;justify-content:center;padding:40px 0;}
+.canvas.has-source{bottom:168px;}
+.source{position:absolute;left:96px;right:96px;bottom:114px;z-index:5;
+  font-family:var(--sans);font-size:14.5px;line-height:1.5;color:var(--fg-faint);max-width:1600px;}
+
+/* === SHARED === */
+.kicker{display:inline-flex;align-items:center;gap:20px;font-family:var(--sans);font-weight:500;font-size:18px;
+  letter-spacing:.32em;text-transform:uppercase;color:var(--accent-type);}
+.kicker::before{content:"";width:74px;height:2px;flex:none;background:var(--hot);}
+.lead{font-family:var(--serif);font-weight:500;font-size:62px;line-height:1.1;letter-spacing:-.018em;color:var(--fg);}
+.lead.sm{font-size:50px;}
+.lead.xs{font-size:44px;}
+.dek{font-family:var(--sans);font-weight:400;font-size:29px;line-height:1.5;color:var(--fg-soft);}
+.dek b{font-weight:600;color:var(--fg);}
+.label{font-family:var(--sans);font-weight:600;font-size:16px;letter-spacing:.22em;text-transform:uppercase;color:var(--fg-faint);}
+.hot{background:var(--hot);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.slide.paper .hot{background:none;color:var(--coral-ink);}
+.tag{font-family:var(--sans);font-weight:600;font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent-type);}
+.notyet{display:inline-block;font-family:var(--sans);font-weight:600;font-size:11.5px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--accent-type);border:1px solid var(--accent-type);
+  border-radius:999px;padding:4px 11px;margin-left:12px;vertical-align:middle;}
+
+/* === 01 COVER === */
+.s1-hed{font-family:var(--serif);font-weight:500;font-size:126px;line-height:1.03;letter-spacing:-.022em;color:var(--fg);max-width:1560px;}
+
+/* === 02 TWO FORCES ===
+   Two blocks, one chart under each, one sentence centred beneath. The point
+   of the slide is the pair, so nothing else competes with the two charts. */
+.forces{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-top:28px;align-items:start;}
+.force h3{font-family:var(--serif);font-weight:600;font-size:32px;line-height:1.15;color:var(--fg);margin:12px 0 6px;}
+.force p{font-family:var(--sans);font-size:18px;line-height:1.45;color:var(--fg-soft);}
+.force .fig{margin-top:16px;height:500px;border:1px solid var(--hair);border-radius:4px;overflow:hidden;background:#FFFAF7;
+  display:flex;align-items:center;justify-content:center;}
+.force .fig img{display:block;height:100%;width:auto;max-width:none;}
+/* the line chart's twin of .aichart, so both figures are titled panels in the
+   same type rather than one panel and one captioned picture */
+.linechart{width:100%;height:100%;padding:22px 30px 16px;display:flex;flex-direction:column;
+  font-family:var(--sans);color:#211A14;}
+.linechart .t{font-weight:700;font-size:21px;line-height:1.2;letter-spacing:-.01em;}
+.linechart img{flex:1;min-height:0;width:100%;height:auto;max-width:100%;object-fit:contain;
+  object-position:center bottom;margin-top:12px;}
+/* The AI chart is hand-built so it reads as the sibling of the FT-style PNG beside it:
+   two diverging bars around the no-AI baseline. */
+.aichart{width:100%;height:100%;padding:22px 30px 16px;display:flex;flex-direction:column;font-family:var(--sans);color:#211A14;}
+.aichart .t{font-weight:700;font-size:21px;line-height:1.2;letter-spacing:-.01em;}
+.aichart .s{font-size:14px;color:rgba(33,26,20,.6);margin-top:5px;}
+/* One measure, one axis: the share of consultants who reached the right
+   answer. The three columns are the study's own randomised arms, so they are
+   comparable by construction. The old diverging pair mixed two different
+   units on one axis; this does not. */
+/* the band has to hold the tallest bar plus its number, so it grows with the
+   bars rather than letting them spill through the baseline */
+.aichart .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;align-items:end;
+  height:222px;margin-top:22px;padding:0 8px;border-bottom:1.5px solid rgba(33,26,20,.4);}
+.aichart .cb{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;width:100%;}
+.aichart .cb b{font-family:var(--serif);font-weight:600;font-size:30px;line-height:1;margin-bottom:8px;color:#211A14;}
+.aichart .cb i{display:block;width:82%;background:#C9C0B8;border-radius:4px 4px 0 0;}
+.aichart .cb.bad b{color:var(--coral-ink);}
+.aichart .cb.bad i{background:var(--coral);}
+.aichart .keys{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;padding:9px 8px 0;}
+.aichart .keys span{font-size:13px;line-height:1.25;color:rgba(33,26,20,.7);text-align:center;}
+.aichart .fn{font-size:12.5px;color:rgba(33,26,20,.6);margin-top:auto;padding-top:10px;}
+.aichart .src{font-size:12px;color:rgba(33,26,20,.5);margin-top:4px;}
+.threat{margin-top:30px;text-align:center;font-family:var(--serif);font-weight:500;font-size:40px;line-height:1.2;letter-spacing:-.01em;color:var(--fg);}
+
+/* === 03 THE PUBLIC IS WAKING UP === */
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:52px;margin-top:34px;align-items:start;}
+.three .col-label{font-family:var(--sans);font-weight:600;font-size:13.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent-type);margin-bottom:18px;}
+.three h3{font-family:var(--serif);font-weight:600;font-size:28px;line-height:1.2;color:var(--fg);margin-bottom:12px;}
+.three p{font-family:var(--sans);font-size:17.5px;line-height:1.5;color:var(--fg-soft);}
+.three .media{margin-bottom:20px;height:350px;display:flex;align-items:flex-start;gap:12px;}
+.three .media img{display:block;height:100%;width:auto;border-radius:3px;box-shadow:0 18px 40px rgba(0,0,0,.45);}
+/* anchored top: the Meta sign is at the top of the capture and the body
+   copy at the bottom, and the picture is the part worth keeping */
+.three .media.clip img{height:auto;width:100%;max-height:350px;object-fit:cover;object-position:center top;}
+.three .duo{height:350px;display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
+.three .duo img{display:block;width:100%;height:350px;object-fit:cover;border-radius:3px;}
+.three .caption{font-family:var(--sans);font-size:13.5px;color:var(--fg-faint);margin-top:10px;line-height:1.4;}
+.three .stat{font-family:var(--serif);font-weight:500;font-size:38px;line-height:1;color:var(--accent-type);margin:14px 0 6px;}
+
+/* === 04 THE PRODUCT (vertical demo) === */
+.s4{display:grid;grid-template-columns:1fr 470px;gap:80px;align-items:center;height:100%;}
+.s4-claim{font-family:var(--serif);font-weight:500;font-size:64px;line-height:1.08;letter-spacing:-.02em;color:var(--fg);margin-top:32px;}
+.s4-support{margin-top:38px;padding-top:26px;border-top:1px solid var(--hair);
+  font-family:var(--sans);font-size:22px;line-height:1.55;color:var(--fg-soft);max-width:52ch;}
+.vphone{width:420px;margin:0 auto;position:relative;border-radius:26px;overflow:visible;}
+.vphone .screen{border-radius:26px;overflow:hidden;background:#000;line-height:0;
+  box-shadow:0 50px 100px rgba(0,0,0,.62), 0 0 0 1px rgba(255,250,247,.10);}
+.vphone video{width:100%;height:auto;display:block;}
+.sound-btn{position:absolute;right:-16px;top:-16px;z-index:4;border:none;cursor:pointer;
+  width:64px;height:64px;border-radius:50%;background:var(--hot);color:#fff;
+  font-family:var(--sans);font-size:25px;line-height:1;box-shadow:0 12px 30px rgba(255,107,107,.42);}
+.sound-hint{font-family:var(--sans);font-size:13.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--fg-faint);text-align:center;margin-top:20px;}
+
+/* === 05 COMPETITIVE MAP === */
+.map{display:grid;grid-template-columns:560px 1fr;gap:64px;margin-top:24px;align-items:start;}
+.map-list{display:grid;}
+.map-row{display:grid;grid-template-columns:44px 1fr;gap:16px;padding:13px 0;border-top:1px solid var(--hair);}
+.map-row:last-child{border-bottom:1px solid var(--hair);}
+.map-row .n{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--fg-faint);display:flex;align-items:center;justify-content:center;
+  font-family:var(--sans);font-weight:600;font-size:13px;color:var(--fg-soft);margin-top:2px;}
+/* REPS is not item six. It sits below a teal rule as the answer to the five
+   above, with our mark where the numbers are, so the eye reads "these five, then
+   this". Teal rather than coral because coral was marking BOTH the criticism
+   ("generic", "less") and the answer on the same slide. */
+.map-row.us{border-top:1.5px solid var(--teal-ink);margin-top:9px;padding-top:16px;}
+.map-row.us .mk{width:30px;height:30px;border-radius:50%;background:var(--teal-ink);
+  display:flex;align-items:center;justify-content:center;margin-top:2px;}
+.map-row.us .mk img{width:21px;height:21px;display:block;}
+.map-row h4{font-family:var(--serif);font-weight:600;font-size:21px;line-height:1.2;color:var(--fg);}
+.map-row p{font-family:var(--sans);font-size:16px;line-height:1.4;color:var(--fg-soft);margin-top:3px;}
+.map-row.us h4{color:var(--teal-ink);}
+.map-plot{position:relative;height:560px;}
+.map-plot svg{width:100%;height:100%;display:block;overflow:visible;}
+.map-plot .ax{font-family:var(--sans);font-weight:600;font-size:13px;letter-spacing:.24em;text-transform:uppercase;fill:var(--ink-faint);}
+.map-plot .ax.hi{fill:var(--coral-ink);}
+/* Every pill is transparent with a dotted edge (Mike, round 5). Dashed used to
+   be what separated reference points from competitors, so that job moves to
+   WEIGHT: .faint pills sit back at 45%, and the source line names them. */
+.map-plot .pill{fill:none;stroke:rgba(33,26,20,.34);stroke-width:1.3;stroke-dasharray:2 4;stroke-linecap:round;}
+.map-plot .pill.faint{stroke:rgba(33,26,20,.16);}
+.map-plot .lgi{opacity:.84;}
+.map-plot g:has(.pill.faint){opacity:.55;}
+.map-plot .pill.us{fill:var(--teal-ink);stroke:var(--teal-ink);stroke-dasharray:none;}
+.map-plot .pt{font-family:var(--serif);font-weight:600;font-size:19px;fill:#211A14;}
+.map-plot .pt.small{font-family:var(--sans);font-weight:500;font-style:italic;font-size:14px;fill:rgba(33,26,20,.58);}
+.map-plot .pt.us{fill:#fff;font-size:24px;}
+.map-plot .num{font-family:var(--sans);font-weight:700;font-size:16px;fill:rgba(33,26,20,.5);}
+.map-plot .num.us{fill:#fff;}
+
+/* === 06 KNOWLEDGE ATHLETES ===
+   Mike's four named segments, on a curve (his call, 2026-08-21, after seeing
+   the measured alternative). The curve is a MODEL and the slide says so on its
+   face: no survey counts people by how hard they try to remember, so the axis
+   cannot be sourced. What IS sourced sits beside it — the three facts in
+   .flanks all survived adversarial verification against primary sources. */
+.athletes{margin-top:52px;}
+/* The curve is capped so the slide FITS. Measured: the canvas gives 712px of
+   inner height, the kicker + headline + buffer take 141, so the drawing can be
+   541 tall -- at the viewBox's own 2.55 aspect that is 1380 wide, centred.
+   Left at width:100% it renders 1728x678 and the slide overflows by ~107px,
+   which is why the kicker was sitting on the masthead rule and the axis labels
+   on the source line. That overflow predates this round; it arrived when the
+   svg went from a fixed 590px height to height:auto. */
+.curve{margin:0 auto;max-width:1380px;}
+/* height:auto so the viewBox ratio drives it — a fixed height letterboxes the
+   chart inside its column and leaves dead space either side. */
+.curve-t{font-family:var(--sans);font-weight:600;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--fg-faint);margin-bottom:10px;}
+.curve svg{width:100%;height:auto;display:block;overflow:visible;}
+.curve .sg-n{font-family:var(--sans);font-weight:600;font-size:13px;letter-spacing:.22em;text-transform:uppercase;fill:rgba(255,250,247,.42);}
+.curve .sg-n.hi{fill:#FF6B6B;}
+.curve .sg-t{font-family:var(--serif);font-weight:600;font-size:23px;fill:#FFFAF7;}
+.curve .sg-t.hi{font-size:29px;}
+.curve .sg-p{font-family:var(--sans);font-size:14px;fill:rgba(255,250,247,.55);}
+.curve .sg-pct{font-family:var(--serif);font-weight:600;font-size:22px;fill:rgba(255,250,247,.72);}
+.curve .sg-pct.hi{fill:#FF6B6B;font-size:27px;}
+.curve .sg-ax{font-family:var(--sans);font-size:14px;fill:rgba(255,250,247,.34);}
+.curve-note{font-family:var(--sans);font-size:15px;line-height:1.45;color:var(--fg-faint);margin-top:6px;max-width:70ch;}
+.flanks{display:grid;gap:0;}
+.flank{padding:15px 0;border-top:1px solid var(--hair);}
+.flank:last-of-type{border-bottom:1px solid var(--hair);}
+.flank .tag{margin-bottom:7px;}
+.flank .tag.mute{color:var(--fg-faint);}
+.flank h4{font-family:var(--serif);font-weight:600;font-size:22px;line-height:1.22;color:var(--fg);margin-bottom:5px;}
+.flank p{font-family:var(--sans);font-size:16px;line-height:1.42;color:var(--fg-soft);}
+.personas{display:grid;grid-template-columns:1fr 1fr;gap:36px;margin-top:18px;padding-top:16px;border-top:1px solid var(--hair);}
+.persona{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;}
+.persona .tag{margin-top:5px;white-space:nowrap;}
+.persona h4{font-family:var(--serif);font-weight:600;font-size:21px;line-height:1.2;color:var(--fg);margin-bottom:3px;}
+.persona p{font-family:var(--sans);font-size:15.5px;line-height:1.4;color:var(--fg-soft);}
+
+
+/* Icons: one hidden sprite, every use inherits currentColor. */
+.lg{fill:currentColor;stroke:none;}
+.ico{width:1em;height:1em;display:inline-block;vertical-align:-.12em;fill:none;
+  stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+.jig-cell .ico{display:block;font-size:34px;color:var(--accent-type);margin-bottom:10px;}
+.opp h5 .ico{font-size:23px;color:var(--accent-type);margin-right:10px;}
+.nfx-row .num .ico{display:block;font-size:33px;color:var(--accent-type);}
+.nfx-row .num i{font-family:var(--sans);font-style:normal;font-weight:600;font-size:12.5px;
+  letter-spacing:.2em;color:var(--fg-faint);}
+
+/* === 07 PUZZLE PRODUCT === */
+.pz{display:grid;grid-template-columns:560px 1fr;gap:76px;margin-top:26px;align-items:start;}
+.jig{position:relative;width:560px;height:560px;}
+.jig > svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;}   /* direct child only: the icons inside .jig-cell must not be caught */
+.jig .piece{fill:#fff;stroke:rgba(33,26,20,.18);stroke-width:1.4;}
+.jig .piece.a{fill:#FFF1EC;} .jig .piece.b{fill:#FFF7F1;} .jig .piece.c{fill:#FBF3EE;} .jig .piece.d{fill:#FFF4EA;}
+.jig-grid{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;}
+.jig-cell{padding:46px 48px;}
+.jig-cell .tag{margin-bottom:8px;}
+.jig-cell h4{font-family:var(--serif);font-weight:600;font-size:34px;line-height:1.1;color:var(--fg);margin-bottom:8px;}
+.jig-cell p{font-family:var(--sans);font-size:15.5px;line-height:1.4;color:var(--fg-soft);max-width:21ch;}
+.opps{padding-top:4px;}
+.opps .label{margin-bottom:22px;}
+.opp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:36px;margin-top:6px;}
+.opp h5{font-family:var(--serif);font-weight:600;font-size:25px;line-height:1.2;color:var(--fg);padding-bottom:12px;margin-bottom:14px;border-bottom:1px solid var(--hair);}
+.opp ul{list-style:none;}
+.opp li{font-family:var(--sans);font-size:18.5px;line-height:1.42;color:var(--fg-soft);padding:10px 0 10px 24px;position:relative;}
+.opp li::before{content:"";position:absolute;left:0;top:19px;width:9px;height:9px;border-radius:50%;background:var(--hot);}
+.opps-note{margin-top:34px;padding-top:22px;border-top:1px solid var(--hair);font-family:var(--serif);font-weight:500;font-size:25px;line-height:1.35;color:var(--fg);max-width:40ch;}
+.opps-note .hot{color:var(--coral-ink);}
+
+/* === 08 NETWORK EFFECTS === */
+.nfx{display:grid;grid-template-columns:1fr 56px 520px;gap:40px;margin-top:22px;align-items:start;}
+.nfx-row{display:grid;grid-template-columns:44px 1fr;gap:20px;padding:13px 0;border-top:1px solid var(--hair);}
+.nfx-row:last-child{border-bottom:1px solid var(--hair);}
+.nfx-row .num{font-family:var(--serif);font-size:30px;line-height:1.1;font-weight:500;color:var(--accent-type);}
+/* Two headings replace five numerals: the sequence now MEANS something (live
+   today, then at scale) instead of being an arbitrary order rendered as a list. */
+.nfx-group{font-family:var(--sans);font-weight:600;font-size:12.5px;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--accent-type);padding-bottom:7px;}
+.nfx-group.later{color:var(--fg-faint);margin-top:26px;}
+.nfx-row h4{font-family:var(--serif);font-weight:600;font-size:23px;line-height:1.2;color:var(--fg);margin-bottom:4px;}
+.nfx-row p{font-family:var(--sans);font-size:16.5px;line-height:1.42;color:var(--fg-soft);}
+/* the arrow leaves the marketplace row, which is now last */
+.nfx-arrow{align-self:end;justify-self:center;width:56px;height:56px;margin-bottom:30px;}
+.nfx-arrow svg{width:56px;height:56px;display:block;}
+/* The panel is end-aligned, so it grows UPWARD. The negative top margin takes
+   that growth out of the grid row's height, which lets the panel overhang into
+   the band beside the headline -- dead space in every earlier round, and the
+   space Mike circled. Without it the row grows by the full height of the mocks
+   and the slide overflows its canvas. */
+.nfx-side{align-self:end;border:1px solid var(--hair);padding:28px 32px;background:var(--plate);
+  margin-top:-136px;}
+.nfx-side .label{margin-bottom:16px;color:var(--accent-type);}
+.nfx-side h4{font-family:var(--serif);font-weight:600;font-size:21px;line-height:1.25;color:var(--fg);margin-bottom:4px;}
+.nfx-side p{font-family:var(--sans);font-size:16px;line-height:1.42;color:var(--fg-soft);}
+.nfx-side .it{padding:13px 0;border-top:1px solid var(--hair);}
+.nfx-side .it:first-of-type{border-top:none;padding-top:0;}
+
+/* --- what the marketplace looks like on the supplier's own surface --- */
+.supply-mocks{display:grid;grid-template-columns:292px 148px;gap:16px;
+  margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--hair);align-items:stretch;}
+.supply-mocks .cap{grid-column:1 / -1;margin-bottom:2px;font-family:var(--sans);font-weight:600;
+  font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--fg-faint);}
+
+/* the article: real crops of a real page, at this deck's scale */
+.mk-art{background:#fff;border-radius:4px;overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:0 14px 34px rgba(0,0,0,.45);}
+.mk-art .mk-head{height:44px;display:flex;align-items:center;justify-content:center;
+  border-bottom:1px solid #E6E6E6;}
+.mk-art .mk-head img{height:26px;width:auto;display:block;}
+.mk-art .mk-photo{width:100%;height:78px;object-fit:cover;display:block;filter:saturate(.9);}
+.mk-art .mk-body{padding:11px 13px 12px;display:flex;flex-direction:column;flex:1;}
+.mk-art h5{font-family:Georgia,var(--serif);font-weight:700;font-size:14px;line-height:1.22;
+  color:#111;margin:0 0 5px;letter-spacing:-.01em;}
+.mk-art .mk-by{font-family:var(--sans);font-size:9.5px;line-height:1.3;color:#6B6B6B;
+  margin-bottom:11px;}
+.mk-art .mk-share{margin-top:auto;display:flex;align-items:center;gap:13px;}
+.mk-art .mk-share > img{height:17px;width:auto;display:block;opacity:.88;}
+/* Ours sits in their row in their register -- one more monochrome glyph. The
+   coral belongs to the ANNOTATION, not to the page: a coral pill inside their
+   share row reads as something National Geographic shipped. */
+.mk-brain{display:inline-flex;width:19px;height:19px;}
+.mk-brain img{width:19px;height:19px;display:block;}
+/* the label lives in the row's own spare width, to the RIGHT of our glyph,
+   with a drawn arrow pointing back at it -- an annotation gesture, in coral, so
+   it never reads as part of National Geographic's page */
+.mk-note{display:inline-flex;align-items:center;gap:5px;margin-left:2px;
+  font-family:var(--sans);font-weight:700;font-size:9px;letter-spacing:.13em;
+  text-transform:uppercase;color:#FF6B6B;white-space:nowrap;}
+.mk-note .arw{width:22px;height:11px;display:block;flex:none;}
+
+/* the back of a book: our words only, the blurb deliberately unreadable */
+.mk-book{position:relative;background:#EFE9E1;border-radius:3px;overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;padding:14px 12px 11px;
+  box-shadow:0 14px 34px rgba(0,0,0,.45);}
+.mk-book::before{content:"";position:absolute;left:0;top:0;bottom:0;width:9px;
+  background:linear-gradient(90deg,rgba(0,0,0,.22),rgba(0,0,0,0));}
+.mk-book .blurb{width:100%;padding-left:6px;margin-bottom:12px;}
+.mk-book .blurb i{display:block;height:3px;border-radius:2px;background:rgba(33,26,20,.20);
+  margin-bottom:6px;}
+.mk-book .blurb i:first-child{width:58%;height:5px;background:rgba(33,26,20,.34);margin-bottom:10px;}
+.mk-book .blurb i:nth-child(3){width:82%;}
+.mk-book .blurb i:nth-child(6){width:64%;}
+/* a real back cover carries a small code beside the barcode, not a poster of
+   one in the middle of the page */
+.mk-book .qr-row{margin-top:auto;display:flex;align-items:center;gap:8px;width:100%;padding-left:6px;}
+.mk-book .qr{width:44px;height:44px;display:block;flex:none;}
+.mk-book .qr-l{font-family:var(--sans);font-weight:600;font-size:7.5px;
+  letter-spacing:.1em;text-transform:uppercase;color:#5A5049;line-height:1.4;}
+.mk-book .isbn{margin-top:10px;width:100%;height:22px;display:flex;gap:1.5px;align-items:stretch;
+  padding-left:6px;opacity:.55;}
+.mk-book .isbn u{display:block;background:#211A14;text-decoration:none;}
+.evidence-note{margin-top:18px;font-family:var(--sans);font-size:16.5px;line-height:1.5;color:var(--fg-faint);}
+.evidence-note b{color:var(--fg-soft);font-weight:600;}
+
+/* === 09 GTM ENGINE === */
+.gtm{position:relative;margin-top:26px;}
+.gtm-cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:30px;align-items:stretch;}
+/* the band carries the stage name AND what we are working on, so the funnel
+   is the argument rather than a row of labels. Vertical padding clears the
+   clip-path taper (up to 28% of the height on the third column). */
+.gtm-band{height:196px;display:flex;flex-direction:column;justify-content:center;
+  padding:44px 32px;text-align:center;
+  background:linear-gradient(90deg,rgba(255,107,107,.16),rgba(255,142,83,.10));border:1px solid rgba(216,68,63,.28);}
+.gtm-band p{font-family:var(--sans);font-size:16.5px;line-height:1.46;color:var(--fg);margin-top:12px;}
+.gtm-col:nth-child(1) .gtm-band{clip-path:polygon(0 0,100% 8%,100% 92%,0 100%);}
+.gtm-col:nth-child(2) .gtm-band{clip-path:polygon(0 8%,100% 18%,100% 82%,0 92%);}
+.gtm-col:nth-child(3) .gtm-band{clip-path:polygon(0 18%,100% 28%,100% 72%,0 82%);}
+.gtm-band span{font-family:var(--sans);font-weight:600;font-size:15px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent-type);}
+.gtm-v{font-family:var(--serif);font-weight:500;font-size:78px;line-height:1;letter-spacing:-.03em;color:var(--fg);margin:22px 0 6px;}
+.gtm-cap{font-family:var(--sans);font-size:17.5px;line-height:1.4;color:var(--fg);min-height:48px;}
+.gtm-items{margin-top:14px;padding-top:12px;border-top:1px solid var(--hair);display:grid;gap:7px;}
+.gtm-items div{display:flex;justify-content:space-between;gap:12px;font-family:var(--sans);font-size:15.5px;color:var(--fg-soft);}
+.gtm-items small{font-weight:600;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-type);white-space:nowrap;}
+.gtm-items small.next{color:var(--fg-faint);}
+
+/* Slide 9 blocks: the KPI is a supporting sentence inside the story now, not
+   an 78px hero number. Mike, round-3 board: "The KPIs should be supporting
+   arguments to our work, not the hero visuals." */
+.gtm-block{padding:13px 0;border-top:1px solid var(--hair);}
+.gtm-block:first-of-type{border-top:none;}
+.gtm-h{font-family:var(--sans);font-weight:600;font-size:11.5px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--fg-faint);margin-bottom:5px;}
+.gtm-block.next .gtm-h{color:var(--accent-type);}
+.gtm-block p{font-family:var(--sans);font-size:16.5px;line-height:1.45;color:var(--fg-soft);}
+.gtm-block p b{font-family:var(--serif);font-weight:600;font-size:21px;color:var(--fg);letter-spacing:-.01em;}
+/* three labelled blocks per stage: what we are working on, what has come back
+   so far, and what is still running */
+.gtm-blk{padding:15px 0;border-top:1px solid var(--hair);}
+.gtm-blk:first-of-type{border-top:none;padding-top:17px;}
+.gtm-blk > span{display:block;font-family:var(--sans);font-weight:600;font-size:11px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--accent-type);margin-bottom:7px;}
+.gtm-blk p{font-family:var(--sans);font-size:16px;line-height:1.45;color:var(--fg-soft);}
+.gtm-blk.sig p{color:var(--fg);}
+.gtm-blk.sig b{font-family:var(--serif);font-weight:600;font-size:32px;line-height:1;
+  letter-spacing:-.02em;margin-right:6px;}
+.gtm-blk.ongoing p{color:var(--fg-soft);font-size:16.5px;}
+.gtm-blk.ongoing{margin-top:auto;}
+.gtm-foot{display:grid;grid-template-columns:1fr 1fr 1fr;gap:30px;margin-top:26px;align-items:start;}
+.gtm-quote{grid-column:3;}
+.gtm-quote img{display:block;width:auto;max-width:100%;max-height:212px;border-radius:5px;
+  border:1px solid var(--hair);box-shadow:0 10px 26px rgba(33,26,20,.13);}
+.gtm-col{display:flex;flex-direction:column;}
+/* the live creative reads better as one wide strip than as a thumbnail inside
+   one of three columns -- and it lets the other two columns breathe */
+.gtm-ads{grid-column:1 / span 2;display:flex;gap:14px;justify-content:flex-start;}
+.gtm-ads img{height:212px;width:auto;border-radius:5px;box-shadow:0 12px 30px rgba(33,26,20,.18);border:1px solid var(--hair);}
+.gtm-viz{margin-top:14px;height:150px;}
+.ads{display:flex;gap:10px;height:150px;}
+.ads img{height:150px;width:auto;border-radius:4px;box-shadow:0 10px 26px rgba(33,26,20,.16);border:1px solid var(--hair);}
+.mini{display:flex;align-items:flex-end;gap:22px;height:150px;padding:0 8px;}
+.mini .mb{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;}
+.mini .mb i{display:block;width:100%;border-radius:4px 4px 0 0;background:rgba(33,26,20,.12);}
+.mini .mb.hi i{background:var(--hot);}
+.mini .mb b{font-family:var(--serif);font-weight:600;font-size:21px;color:var(--fg);margin-bottom:6px;}
+.mini .mb span{font-family:var(--sans);font-size:12.5px;color:var(--fg-faint);margin-top:8px;letter-spacing:.04em;}
+.gtm-loop{margin-top:14px;height:64px;position:relative;}
+.gtm-loop svg{width:100%;height:64px;display:block;overflow:visible;}
+.gtm-loop .lt{font-family:var(--sans);font-weight:600;font-size:13px;letter-spacing:.22em;text-transform:uppercase;fill:var(--coral-ink);}
+
+/* === 10 FREEMIUM === */
+.tiers{display:grid;grid-template-columns:1fr 500px;gap:64px;margin-top:22px;align-items:start;}
+.tt{width:100%;border-collapse:collapse;}
+.tt th,.tt td{text-align:left;vertical-align:top;padding:15px 18px;border-bottom:1px solid var(--hair);font-family:var(--sans);}
+.tt th{font-weight:600;font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:var(--fg-faint);padding-top:0;}
+.tt th.pro,.tt th.master{color:var(--accent-type);}
+.tt td{font-size:17px;line-height:1.4;color:var(--fg-soft);}
+.tt td.row{font-family:var(--serif);font-weight:600;font-size:21px;color:var(--fg);width:150px;}
+.tt tr:last-child td{border-bottom:none;}
+.tt td.pro,.tt td.master{background:var(--plate);}
+.tt td.dash{color:var(--fg-faint);}
+.tt-also{margin-top:30px;font-family:var(--sans);font-size:16px;color:var(--fg-faint);}
+.tt-also b{color:var(--fg-soft);font-weight:600;}
+.cogs{border:1px solid var(--hair);padding:30px 34px;background:var(--plate);}
+.cogs .label{color:var(--accent-type);}
+.cogs .big{font-family:var(--serif);font-weight:500;font-size:74px;line-height:1;letter-spacing:-.03em;color:var(--fg);margin:14px 0 4px;}
+.cogs .big small{font-family:var(--sans);font-size:18px;letter-spacing:0;color:var(--fg-soft);margin-left:10px;}
+.stack{display:flex;height:46px;gap:3px;margin:22px 0 10px;}
+.stack div{display:flex;align-items:center;justify-content:center;font-family:var(--sans);font-weight:600;font-size:15px;color:#fff;border-radius:3px;}
+.stack .a{flex:11;background:var(--hot);}
+.stack .b{flex:4;background:rgba(255,250,247,.22);color:var(--fg);}
+.stack-l{display:flex;justify-content:space-between;font-family:var(--sans);font-size:14px;color:var(--fg-faint);}
+.cogs ul{list-style:none;margin-top:20px;padding-top:16px;border-top:1px solid var(--hair);display:grid;gap:10px;}
+.cogs li{font-family:var(--sans);font-size:16.5px;line-height:1.45;color:var(--fg-soft);padding-left:22px;position:relative;}
+.cogs li::before{content:"";position:absolute;left:0;top:10px;width:9px;height:9px;border-radius:50%;background:var(--hot);}
+
+
+/* Slide 10: the tier table was false precision (Mike, round-3 board). What
+   replaces it is the shape of the offer, not its price list. */
+.prem-h{font-family:var(--sans);font-weight:600;font-size:12.5px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--accent-type);margin-bottom:14px;}
+.prem-row{padding:15px 0;border-top:1px solid var(--hair);}
+.prem-row:first-of-type{border-top:none;padding-top:0;}
+.prem-row h4{font-family:var(--serif);font-weight:600;font-size:26px;line-height:1.2;color:var(--fg);margin-bottom:5px;}
+.prem-row p{font-family:var(--sans);font-size:18px;line-height:1.5;color:var(--fg-soft);max-width:60ch;}
+.prem-free{margin-top:26px;padding:20px 24px;border-left:2px solid var(--accent-type);background:var(--plate);}
+.prem-free p{font-family:var(--sans);font-size:17.5px;line-height:1.5;color:var(--fg-soft);max-width:64ch;}
+
+
+
+/* Slide 10: Mike said the middle felt empty. A three-rung ladder, widest at the
+   free tier, so the shape carries the argument: the habit is the base. */
+.ladder{display:grid;gap:30px;margin-top:22px;}
+.rung{position:relative;padding:30px 36px;border-radius:6px;border:1px solid var(--hair);}
+.rung-l{font-family:var(--sans);font-weight:600;font-size:12px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--fg-faint);margin-bottom:9px;}
+.rung-b{font-family:var(--serif);font-weight:600;font-size:24px;line-height:1.42;color:var(--fg);}
+.rung-n{font-family:var(--sans);font-size:15.5px;line-height:1.45;color:var(--fg-faint);margin-top:12px;}
+.rung.free{background:linear-gradient(90deg,rgba(255,250,247,.10),rgba(255,250,247,.02));}
+.rung.free .rung-l{color:var(--fg-soft);}
+.rung.paid{background:linear-gradient(90deg,rgba(255,107,107,.20),rgba(255,142,83,.05));
+  border-color:rgba(255,107,107,.42);margin-left:36px;}
+.rung.paid .rung-l{color:var(--accent-type);}
+.rung.part{margin-left:72px;border-style:dashed;}
+
+/* === 11 AI-NATIVE ORG ===
+   Round 4: Mike said the role table was "text text text" and that the old diagram's
+   visual energy was the thing worth keeping. So the argument is now a picture: ten
+   seats, one filled, four held, five with something already running in them. The
+   pulse that used to travel the wires now runs around the filled seat. */
+.org3{display:grid;grid-template-columns:1fr 900px;gap:76px;align-items:center;height:100%;}
+.org-lede{font-family:var(--sans);font-size:21px;line-height:1.55;color:var(--fg-soft);
+  margin-top:28px;padding-top:24px;border-top:1px solid var(--hair);max-width:40ch;}
+.org-rules{margin-top:30px;display:grid;gap:10px;}
+.org-rules div{font-family:var(--sans);font-size:16.5px;color:var(--fg-faint);}
+.org-note{margin-top:26px;padding-top:18px;border-top:1px solid var(--hair);
+  font-family:var(--sans);font-size:16px;line-height:1.5;color:var(--fg-faint);max-width:46ch;}
+.org-rules i{font-style:normal;font-weight:600;font-size:12px;letter-spacing:.2em;
+  color:var(--accent-type);margin-right:12px;}
+.seatboard{}
+.seat-grid2{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;}
+.st{position:relative;aspect-ratio:1;border-radius:6px;padding:16px 14px;display:flex;
+  flex-direction:column;justify-content:flex-end;border:1px solid var(--hair);}
+.st span{font-family:var(--serif);font-weight:600;font-size:19px;line-height:1.18;color:var(--fg-faint);}
+.st small{font-family:var(--sans);font-size:12.5px;line-height:1.35;color:var(--fg-faint);margin-top:5px;}
+.st.filled{border:1px solid var(--coral);background:linear-gradient(160deg,rgba(255,107,107,.24),rgba(255,142,83,.06));}
+.st.filled span{color:#fff;font-size:23px;}
+.st.filled small{color:var(--coral);}
+.st.filled::after{content:"";position:absolute;inset:-3px;border-radius:8px;
+  border:1px solid rgba(255,107,107,.55);animation:seatpulse 2.6s ease-in-out infinite;animation-play-state:paused;}
+.slide.active .st.filled::after{animation-play-state:running;}
+@keyframes seatpulse{0%,100%{opacity:.15;transform:scale(1)}50%{opacity:.8;transform:scale(1.02)}}
+body.still .st.filled::after{opacity:.5;animation:none;}
+.st.res{border-style:dashed;}
+.st.res small{color:var(--accent-type);letter-spacing:.16em;text-transform:uppercase;font-size:11px;}
+.st.cov{background:var(--plate);}
+.st.cov span{color:rgba(255,250,247,.34);}
+.st.cov small{color:var(--fg-soft);}
+.seats-note{margin-top:20px;padding-top:16px;border-top:1px solid var(--hair);
+  font-family:var(--sans);font-size:16px;line-height:1.5;color:var(--fg-faint);}
+
+
+/* === 11 THE FACULTY DIAGRAM ===
+   One 900x560 coordinate space shared by the SVG wires and the absolutely
+   positioned boxes, so a wire always meets a box edge exactly. */
+.orgmap{position:relative;width:900px;height:604px;}
+.orgmap .wires{position:absolute;inset:0;width:900px;height:604px;overflow:visible;}
+.orgmap .wires path{fill:none;stroke:rgba(255,250,247,.22);stroke-width:1.3;}
+.orgmap .wires path.back{stroke:rgba(255,107,107,.34);stroke-dasharray:3 5;}
+.orgmap .node{position:absolute;border-radius:7px;border:1px solid var(--hair);
+  background:rgba(255,250,247,.035);padding:13px 18px;}
+.orgmap .node h5{font-family:var(--serif);font-weight:600;font-size:19px;line-height:1.15;color:var(--fg);}
+.orgmap .node p{font-family:var(--sans);font-size:13px;line-height:1.35;color:var(--fg-faint);margin-top:5px;}
+.orgmap .node .chip{display:block;margin-bottom:7px;font-family:var(--sans);font-weight:600;
+  font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-type);}
+
+.orgmap .human{border-color:var(--coral);background:linear-gradient(160deg,rgba(255,107,107,.26),rgba(255,142,83,.05));
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
+.orgmap .human h5{font-size:24px;color:#fff;}
+.orgmap .human p{color:var(--coral);margin-top:4px;}
+.orgmap .human::after{content:"";position:absolute;inset:-4px;border-radius:11px;
+  border:1px solid rgba(255,107,107,.5);animation:seatpulse 2.6s ease-in-out infinite;animation-play-state:paused;}
+.slide.active .orgmap .human::after{animation-play-state:running;}
+body.still .orgmap .human::after{opacity:.45;animation:none;}
+
+.orgmap .surface{background:rgba(255,250,247,.07);border-color:rgba(255,250,247,.22);
+  display:flex;align-items:center;justify-content:space-between;gap:24px;}
+.orgmap .surface p{margin-top:0;font-size:14px;}
+.orgmap .plan{border-style:dashed;background:none;}
+.orgmap .plan h5{color:var(--fg-faint);}
+.orgmap .plan .chip{color:rgba(255,250,247,.3);}
+/* an open role is a person we have not hired, so it reads like the human tile
+   in shape and like a placeholder in weight */
+.orgmap .hire{border-style:dashed;border-color:rgba(255,107,107,.34);background:none;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
+.orgmap .hire h5{color:rgba(255,250,247,.62);}
+.orgmap .hire .chip{position:static;margin-bottom:5px;color:rgba(255,107,107,.55);}
+.orgmap .human .chip{position:static;margin-bottom:4px;color:var(--coral);}
+.orgmap .bucket{background:rgba(255,250,247,.05);padding:20px 20px 18px;}
+.orgmap .bucket .chip{margin-bottom:10px;}
+.orgmap .bucket b{display:block;font-family:var(--serif);font-weight:500;font-size:54px;line-height:1;
+  letter-spacing:-.03em;color:#fff;margin-bottom:12px;}
+.orgmap .bucket p{font-size:13px;line-height:1.4;}
+.orgmap .provrow{flex-direction:column;align-items:stretch;justify-content:center;gap:14px;}
+.orgmap .provlab h5{font-size:18px;}
+.orgmap .provlab p{margin-top:3px;font-size:13px;}
+.orgmap .provmarks{display:flex;align-items:center;gap:22px;justify-content:space-between;}
+.orgmap .pv{width:24px;height:24px;fill:rgba(255,250,247,.62);flex:none;}
+/* the foundation twin of the providers row: same height, same register, but it
+   still has to carry a count, so the number sits beside the sentence instead of
+   above it the way the taller buckets do */
+.orgmap .found{display:flex;flex-direction:column;justify-content:center;}
+.orgmap .found .row{display:flex;align-items:center;gap:14px;}
+.orgmap .found b{font-family:var(--serif);font-weight:500;font-size:40px;line-height:1;
+  letter-spacing:-.03em;color:#fff;flex:none;}
+.orgmap .found p{margin-top:0;font-size:12.5px;line-height:1.32;}
+
+/* the moving glow: one class, six paths, six delays */
+.orgmap .flow{position:absolute;left:0;top:0;width:8px;height:8px;border-radius:50%;
+  background:#FF8E53;box-shadow:0 0 10px 2px rgba(255,142,83,.75);
+  animation:flowmove 4.2s linear infinite;animation-play-state:paused;}
+.slide.active .orgmap .flow{animation-play-state:running;}
+body.still .orgmap .flow{animation:none;offset-distance:62%;opacity:.9;}
+@keyframes flowmove{
+  0%{offset-distance:0%;opacity:0}
+  14%{opacity:1}
+  86%{opacity:1}
+  100%{offset-distance:100%;opacity:0}
+}
+.orgmap .f1{offset-path:path("M105 76 V104 H450 V124");animation-duration:2.6s;animation-delay:0s;}
+.orgmap .f2{offset-path:path("M795 76 V104 H450 V124");animation-duration:2.6s;animation-delay:1.3s;}
+.orgmap .f3{offset-path:path("M450 196 V226 H143 V250");animation-duration:3.2s;animation-delay:.4s;}
+.orgmap .f4{offset-path:path("M450 196 V226 H757 V250");animation-duration:3.2s;animation-delay:1.7s;}
+.orgmap .f5{offset-path:path("M757 450 V476 H603 V500");animation-duration:2.8s;animation-delay:.9s;}
+.orgmap .f6{offset-path:path("M0 343 H-30 V160 H0");animation-duration:5.4s;animation-delay:.5s;}
+.orgmap .f7{offset-path:path("M450 450 V476 H143 V500");animation-duration:2.8s;animation-delay:2.1s;}
+
+/* === COVER === */
+.cover{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
+.cover .mark{width:156px;height:156px;border-radius:39px;display:block;
+  box-shadow:0 34px 90px rgba(0,0,0,.55), 0 0 0 1px rgba(255,250,247,.07);}
+.cover .name{font-family:var(--sans);font-weight:600;font-size:104px;letter-spacing:.34em;
+  color:var(--fg);margin:76px 0 0 .34em;line-height:1;}
+.cover .line{font-family:var(--serif);font-weight:500;font-size:38px;line-height:1.3;
+  color:var(--fg-soft);margin-top:40px;}
+.cover .round{margin-top:118px;padding-top:34px;border-top:1px solid var(--hair);
+  display:flex;gap:38px;align-items:baseline;
+  font-family:var(--sans);font-size:16px;letter-spacing:.3em;text-transform:uppercase;color:var(--fg-faint);}
+.cover .round b{font-weight:600;color:var(--coral);letter-spacing:.3em;}
+/* Confidential belongs in the corner, not on the centre line with the round */
+.cover-foot{position:absolute;right:96px;bottom:64px;
+  font-family:var(--sans);font-size:14px;letter-spacing:.3em;text-transform:uppercase;color:var(--fg-faint);}
+
+/* === FINALE === */
+.finale{position:absolute;inset:0;display:grid;grid-template-columns:1fr 2fr;}
+.finale .panel{background:#000;display:flex;flex-direction:column;justify-content:center;padding:0 76px;}
+.finale blockquote{font-family:var(--serif);font-weight:500;font-size:38px;line-height:1.32;
+  letter-spacing:-.01em;color:#FFFAF7;}
+.finale blockquote .hot{color:var(--coral);}
+.finale cite{display:block;margin-top:34px;font-family:var(--sans);font-style:normal;font-size:16px;
+  letter-spacing:.3em;text-transform:uppercase;color:var(--fg-faint);}
+.finale .shot{position:relative;overflow:hidden;background:#000;}
+.finale .shot img{width:100%;height:100%;object-fit:cover;object-position:center;
+  filter:saturate(.7) contrast(1.03) brightness(.96);}
+
+/* === 12 ADVISORS === */
+/* 2x2 rather than a row of four: four across left each advisor 387px, which is
+   why one title wrapped and the others did not. Two columns give 819px, so each
+   card turns on its side -- portrait left, words right. */
+.people{display:grid;grid-template-columns:1fr 1fr;gap:64px 90px;margin-top:48px;}
+.person{display:grid;grid-template-columns:190px 1fr;gap:34px;align-items:center;}
+.person .av{width:190px;height:190px;border-radius:50%;overflow:hidden;margin-bottom:0;
+  box-shadow:0 18px 44px rgba(33,26,20,.20), 0 0 0 1px rgba(33,26,20,.07);}
+.person .av img{width:100%;height:100%;object-fit:cover;max-width:none;max-height:none;}
+.person h3{font-family:var(--serif);font-weight:600;font-size:33px;line-height:1.15;color:var(--fg);}
+.person .role{font-family:var(--sans);font-weight:500;font-size:17px;line-height:1.4;color:var(--accent-type);margin:9px 0 14px;}
+.person p{font-family:var(--sans);font-size:20px;line-height:1.5;color:var(--fg-soft);}
+
+/* === 12 THE FOUNDER === */
+.founder-cap{margin-top:15px;font-family:var(--sans);font-size:14px;line-height:1.4;color:var(--fg-faint);}
+.founder-cap b{display:block;font-family:var(--serif);font-weight:600;font-size:24px;
+  line-height:1.15;color:var(--fg);margin-bottom:3px;}
+
+/* the film. NOT autoplay-loop like the product demo on slide 5: that one is four
+   seconds, this is eighty-three with a voice track, so autoplaying it drops you
+   into the middle of Mike's story with the sound off. Poster until asked. */
+.film{position:relative;width:300px;height:533px;border-radius:5px;overflow:hidden;
+  background:#0B0B0F;box-shadow:0 26px 60px rgba(33,26,20,.28), 0 0 0 1px rgba(33,26,20,.08);}
+.film video{width:100%;height:100%;object-fit:cover;display:block;}
+.film-play{position:absolute;left:18px;bottom:18px;width:62px;height:62px;
+  border:none;border-radius:50%;cursor:pointer;padding:0;
+  background:linear-gradient(140deg,#FF6B6B,#FF8E53);
+  box-shadow:0 12px 34px rgba(0,0,0,.42), 0 0 0 8px rgba(255,107,107,.16);
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .22s ease, transform .22s ease;}
+.film-play svg{width:25px;height:25px;fill:#fff;margin-left:3px;}
+.film-play:hover{transform:scale(1.05);}
+.film.playing .film-play{opacity:0;pointer-events:none;}
+.film-len{position:absolute;right:11px;bottom:10px;padding:3px 8px;border-radius:4px;
+  background:rgba(0,0,0,.55);font-family:var(--sans);font-weight:600;font-size:11px;
+  letter-spacing:.1em;color:rgba(255,250,247,.9);}
+.film.playing .film-len{opacity:0;transition:opacity .22s ease;}
+
+/* the career as a drawing rather than four paragraphs of resume */
+.fc{display:grid;grid-template-columns:300px 1fr;gap:62px;align-items:start;margin-top:22px;}
+.spine{position:relative;padding-left:26px;}
+.spine .rail{position:absolute;left:5px;top:9px;bottom:9px;width:1px;background:var(--hair);}
+.spine .stop{position:relative;display:grid;grid-template-columns:52px 158px 1fr 92px;gap:16px;
+  align-items:baseline;padding:17px 0;border-bottom:1px solid var(--hair);}
+.spine .stop u{font-family:var(--sans);font-weight:600;font-size:13px;letter-spacing:.06em;
+  text-decoration:none;color:var(--fg-faint);}
+.spine .stop.out u{color:var(--coral);}
+.spine .stop:first-of-type{border-top:1px solid var(--hair);}
+.spine .stop i{position:absolute;left:-26px;top:26px;width:11px;height:11px;border-radius:50%;
+  background:var(--paper);border:1.5px solid rgba(33,26,20,.28);}
+.spine .stop.out i{background:var(--coral);border-color:var(--coral);
+  box-shadow:0 0 0 5px rgba(255,107,107,.16);}
+.spine .stop b{font-family:var(--serif);font-weight:600;font-size:23px;line-height:1.15;color:var(--fg);}
+.spine .stop.out b{color:var(--coral);}
+.spine .stop span{font-family:var(--sans);font-size:16px;line-height:1.4;color:var(--fg-soft);}
+.spine .stop em{font-family:var(--sans);font-style:normal;font-weight:600;font-size:11px;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--fg-faint);text-align:right;}
+.fc-two{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:42px;}
+.fc-two h5{font-family:var(--serif);font-weight:600;font-size:20px;line-height:1.2;
+  color:var(--fg);margin-bottom:5px;}
+.fc-two p{font-family:var(--sans);font-size:16px;line-height:1.45;color:var(--fg-soft);}
+
+/* === 13 THE RAISE === */
+.ask{display:grid;grid-template-columns:640px 1fr;gap:120px;align-items:center;margin-top:18px;}
+.unlocks-h{font-family:var(--serif);font-weight:600;font-size:34px;line-height:1.15;color:var(--fg);margin-bottom:4px;}
+.ring{position:relative;width:470px;height:470px;margin:10px auto 0;}
+.ring svg{width:470px;height:470px;display:block;transform:rotate(-90deg);}
+.ring .track{fill:none;stroke:rgba(255,250,247,.08);stroke-width:36;}
+.ring .seg{fill:none;stroke-width:36;stroke-linecap:butt;}
+.ring .centre{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
+.ring .fig{font-family:var(--serif);font-weight:500;font-size:64px;line-height:1;letter-spacing:-.03em;white-space:nowrap;
+  background:var(--hot);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.ring .terms{font-family:var(--sans);font-size:17px;letter-spacing:.3em;text-transform:uppercase;color:var(--fg-soft);margin-top:10px;}
+.buys{margin-top:22px;display:grid;gap:0;}
+.buys .b{display:grid;grid-template-columns:120px 1fr;gap:24px;padding:24px 0;border-top:1px solid var(--hair);align-items:start;}
+.buys .b:last-child{border-bottom:1px solid var(--hair);}
+.buys .pct{font-family:var(--serif);font-weight:500;font-size:54px;line-height:1;letter-spacing:-.03em;}
+.buys .pct.p1{color:#FF6B6B;} .buys .pct.p2{color:rgba(255,250,247,.82);} .buys .pct.p3{color:rgba(255,250,247,.42);}
+.buys h4{font-family:var(--serif);font-weight:600;font-size:27px;line-height:1.2;color:var(--fg);margin-bottom:6px;}
+.buys p{font-family:var(--sans);font-size:18px;line-height:1.45;color:var(--fg-soft);}
+
+
+.ring .call{position:absolute;text-align:left;width:190px;}
+.ring .call b{display:block;font-family:var(--serif);font-weight:500;font-size:40px;line-height:1;letter-spacing:-.02em;}
+.ring .call span{display:block;font-family:var(--sans);font-size:14px;line-height:1.35;color:var(--fg-faint);margin-top:5px;}
+.ring .call{width:168px;}
+.ring .call.c1{left:492px;top:198px;} .ring .call.c1 b{color:#FF6B6B;}
+.ring .call.c2{left:74px;top:474px;} .ring .call.c2 b{color:rgba(255,250,247,.82);}
+.ring .call.c3{left:-152px;top:128px;text-align:right;} .ring .call.c3 b{color:rgba(255,250,247,.5);}
+.buys .b2{padding:22px 0;border-top:1px solid var(--hair);}
+.buys .b2:last-child{border-bottom:1px solid var(--hair);}
+.buys .b2 h4{font-family:var(--serif);font-weight:600;font-size:27px;line-height:1.2;color:var(--fg);margin-bottom:6px;}
+.buys .b2 p{font-family:var(--sans);font-size:18px;line-height:1.45;color:var(--fg-soft);max-width:46ch;}
+
+/* === ANIMATIONS === */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .85s var(--ease), transform .85s var(--ease);}
+.slide.visible .reveal{opacity:1;transform:translateY(0);}
+.slide.visible .reveal.r1{transition-delay:.10s}
+.slide.visible .reveal.r2{transition-delay:.24s}
+.slide.visible .reveal.r3{transition-delay:.38s}
+.slide.visible .reveal.r4{transition-delay:.52s}
+.slide.visible .reveal.r5{transition-delay:.66s}
+.slide.visible .reveal.r6{transition-delay:.80s}
+.chrome-fade{opacity:0;transition:opacity 1s ease .05s;}
+.slide.visible .chrome-fade{opacity:1;}
+/* Reveals key off .visible, which only ever sits on ONE slide. Print renders
+   all slides at once, so without this every other slide prints blank. */
+@media print{.reveal,.chrome-fade{opacity:1!important;transform:none!important;transition:none!important;}}
+body.still .reveal,body.still .chrome-fade{opacity:1!important;transform:none!important;transition:none!important;}
+
+/* === DECK CONTROLS (outside the stage) === */
+.deck-controls{display:flex;align-items:center;gap:16px;font-family:var(--sans);font-size:12px;
+  letter-spacing:.2em;text-transform:uppercase;color:rgba(255,250,247,.34);
+  background:rgba(4,4,9,.55);padding:9px 18px;border-radius:999px;backdrop-filter:blur(8px);transition:opacity .4s ease;}
+.deck-controls.idle{opacity:0;}
+#progress{position:fixed;left:0;bottom:0;height:2px;background:var(--hot);z-index:1001;transition:width .45s var(--ease);}
+.edit-hotzone{position:fixed;top:0;left:0;width:80px;height:80px;z-index:10000;cursor:pointer;}
+.edit-toggle{position:fixed;top:16px;left:16px;z-index:10001;opacity:0;pointer-events:none;
+  transition:opacity .3s ease;border:none;border-radius:999px;padding:9px 15px;cursor:pointer;
+  background:rgba(255,250,247,.92);color:#211A14;font-family:var(--sans);font-size:13px;font-weight:600;}
+.edit-toggle.show,.edit-toggle.active{opacity:1;pointer-events:auto;}
+/* sits beside the edit toggle, visible only while editing -- it is the way
+   an edit made in one browser gets back into the file */
+.edit-toggle.export{left:132px;background:rgba(255,250,247,.72);}
+.edit-toggle.active{background:var(--coral);color:#fff;}
+[contenteditable="true"]{outline:1px dashed rgba(255,107,107,.6);outline-offset:5px;border-radius:2px;}
+@media print{.edit-hotzone,.edit-toggle,#progress{display:none!important;}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-explore" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></symbol>
+  <symbol id="i-save" viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4.5L6 21z"/></symbol>
+  <symbol id="i-remember" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 5v6h-6"/><circle cx="12" cy="12" r="2.2"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="11" rx="4"/><path d="M7.5 11v3M6 12.5h3M15.5 12h.01M18 14h.01"/></symbol>
+  <symbol id="i-think" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5.9 1.2.9 2h5.2c0-.8.3-1.5.9-2A6 6 0 0 0 12 3z"/></symbol>
+  <symbol id="i-ingest" viewBox="0 0 24 24"><path d="M12 3v11M8 10.5l4 3.5 4-3.5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></symbol>
+  <symbol id="i-trust" viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-market" viewBox="0 0 24 24"><path d="M3 8h13M12.5 4.5L16 8l-3.5 3.5"/><path d="M21 16H8M11.5 12.5L8 16l3.5 3.5"/></symbol>
+  <symbol id="i-data" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></symbol>
+  <symbol id="i-feed" viewBox="0 0 24 24"><path d="M4 6h10M4 11h10M4 16h7"/><path d="M18.5 5.5l1.4 2.9 3.1.4-2.3 2.2.6 3.1-2.8-1.5-2.8 1.5.6-3.1L14 8.8l3.1-.4z"/></symbol>
+  <symbol id="i-network" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2.4"/><circle cx="5" cy="18" r="2.4"/><circle cx="19" cy="18" r="2.4"/><path d="M10.4 6.9L6.4 15.8M13.6 6.9l4 8.9M7.4 18h9.2"/></symbol>
+  <symbol id="i-cheap" viewBox="0 0 24 24"><path d="M3 8l6.5 6.5 4-4L21 18"/><path d="M21 13v5h-5"/><circle cx="9.5" cy="14.5" r="0.1"/></symbol>
+  <symbol id="lg-newyorktimes" viewBox="0 0 24 24"><path d="M21.272,14.815h-0.098c-0.747,2.049-2.335,3.681-4.363,4.483v-4.483l2.444-2.182l-2.444-2.182V7.397 c2.138,0.006,3.885-1.703,3.927-3.84c0-2.629-2.509-3.556-3.927-3.556c-0.367-0.007-0.734,0.033-1.091,0.12v0.131h0.556 c0.801-0.141,1.565,0.394,1.706,1.195C17.99,1.491,17.996,1.537,18,1.583c-0.033,0.789-0.7,1.401-1.488,1.367 c-0.02-0.001-0.041-0.002-0.061-0.004c-2.444,0-5.323-1.985-8.454-1.985C5.547,0.83,3.448,2.692,3.284,5.139 C3.208,6.671,4.258,8.031,5.76,8.346v-0.12C5.301,7.931,5.041,7.407,5.084,6.862c0.074-1.015,0.957-1.779,1.973-1.705 C7.068,5.159,7.08,5.16,7.091,5.161c2.629,0,6.872,2.182,9.501,2.182h0.098v3.142l-2.444,2.182l2.444,2.182v4.549 c-0.978,0.322-2.003,0.481-3.033,0.469c-1.673,0.084-3.318-0.456-4.614-1.516l4.429-1.985V7.451l-6.196,2.727 c0.592-1.75,1.895-3.168,3.589-3.905V6.175c-4.516,1.004-8.138,4.243-8.138,8.705c0,5.193,4.025,9.12,9.818,9.12 c6.011,0,8.727-4.363,8.727-8.814V14.815z M8.858,18.186c-1.363-1.362-2.091-3.235-2.007-5.16c-0.016-0.88,0.109-1.756,0.371-2.596 l2.051-0.938v8.476L8.858,18.186z"/></symbol>
+  <symbol id="lg-notion" viewBox="0 0 24 24"><path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.933-.748-.887l-15.177.887c-.56.047-.747.327-.747.933zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933zM1.936 1.035l13.31-.98c1.634-.14 2.055-.047 3.082.7l4.249 2.986c.7.513.934.653.934 1.213v16.378c0 1.026-.373 1.634-1.68 1.726l-15.458.934c-.98.047-1.448-.093-1.962-.747l-3.129-4.06c-.56-.747-.793-1.306-.793-1.96V2.667c0-.839.374-1.54 1.447-1.632z"/></symbol>
+  <symbol id="lg-obsidian" viewBox="0 0 24 24"><path d="M19.355 18.538a68.967 68.959 0 0 0 1.858-2.954.81.81 0 0 0-.062-.9c-.516-.685-1.504-2.075-2.042-3.362-.553-1.321-.636-3.375-.64-4.377a1.707 1.707 0 0 0-.358-1.05l-3.198-4.064a3.744 3.744 0 0 1-.076.543c-.106.503-.307 1.004-.536 1.5-.134.29-.29.6-.446.914l-.31.626c-.516 1.068-.997 2.227-1.132 3.59-.124 1.26.046 2.73.815 4.481.128.011.257.025.386.044a6.363 6.363 0 0 1 3.326 1.505c.916.79 1.744 1.922 2.415 3.5zM8.199 22.569c.073.012.146.02.22.02.78.024 2.095.092 3.16.29.87.16 2.593.64 4.01 1.055 1.083.316 2.198-.548 2.355-1.664.114-.814.33-1.735.725-2.58l-.01.005c-.67-1.87-1.522-3.078-2.416-3.849a5.295 5.295 0 0 0-2.778-1.257c-1.54-.216-2.952.19-3.84.45.532 2.218.368 4.829-1.425 7.531zM5.533 9.938c-.023.1-.056.197-.098.29L2.82 16.059a1.602 1.602 0 0 0 .313 1.772l4.116 4.24c2.103-3.101 1.796-6.02.836-8.3-.728-1.73-1.832-3.081-2.55-3.831zM9.32 14.01c.615-.183 1.606-.465 2.745-.534-.683-1.725-.848-3.233-.716-4.577.154-1.552.7-2.847 1.235-3.95.113-.235.223-.454.328-.664.149-.297.288-.577.419-.86.217-.47.379-.885.46-1.27.08-.38.08-.72-.014-1.043-.095-.325-.297-.675-.68-1.06a1.6 1.6 0 0 0-1.475.36l-4.95 4.452a1.602 1.602 0 0 0-.513.952l-.427 2.83c.672.59 2.328 2.316 3.335 4.711.09.21.175.43.253.653z"/></symbol>
+  <symbol id="lg-duolingo" viewBox="0 0 24 24"><path d="M14.484 18.213c1.142 1.033 2.657 1.662 4.316 1.662l.294-.001c1.985-.038 3.749-.976 4.905-2.422v1.98c0 2.522-2.043 4.568-4.567 4.568H4.569C2.045 23.998.002 21.954.002 19.43v-1.92c1.181 1.443 2.976 2.365 4.985 2.365l.35-.001c1.61-.027 3.076-.646 4.191-1.648.555.764 1.456 1.26 2.473 1.26 1.023 0 1.928-.502 2.483-1.273zm-5.349-.996c-.989 1.022-2.375 1.658-3.909 1.658h-.239c-2.229 0-4.146-1.343-4.987-3.262v-7.16c.281-.64.68-1.216 1.169-1.699-.035-.731.132-1.469.511-2.128.256-.44.867-.504 1.21-.124l.766.851c.007-.003.014-.003.021-.005-.098-.78.037-1.587.419-2.308.24-.45.757-.53 1.114-.164 0 0 3.939 3.979 4.035 4.084 1.542 1.348 4.066 1.287 5.686-.18.002-.003.007-.005.009-.007.042-.042 3.855-3.9 3.855-3.9.3361-.3451.8619-.3101 1.113.164.385.724.518 1.535.417 2.32.002.001.003.001.004.002l.007.002c.001 0 .002 0 .003.001l.776-.86c.342-.38.954-.316 1.207.124.387.673.553 1.427.509 2.173.496.501.897 1.099 1.169 1.762v6.941c-.816 1.978-2.761 3.373-5.032 3.373H18.8c-1.547 0-2.945-.648-3.936-1.686a.8386.8386 0 0 0-.009-.067c.313-.017.528-.162.688-.33.152-.16.299-.397.299-.776 0 0-.022-.312-.024-.324.693.767 1.696 1.249 2.811 1.249 2.092 0 3.787-1.696 3.787-3.787v-2.243c0-2.092-1.697-3.787-3.787-3.787-2.093 0-3.787 1.695-3.787 3.787v2.243c0 .266.027.526.079.776-.712-.784-1.744-1.278-2.842-1.278-1.239 0-2.339.523-3.064 1.355.063-.274.097-.56.097-.853v-2.243c0-2.092-1.697-3.787-3.788-3.787-2.09 0-3.787 1.695-3.787 3.787v2.243c0 2.093 1.697 3.787 3.787 3.787 1.151 0 2.182-.513 2.876-1.322-.008.035-.039.395-.039.395 0 .378.147.616.298.775.16.168.374.312.688.331a.7783.7783 0 0 0-.012.097zm.997.073c.729.131 1.733.305 1.792.305h.157c.059 0 1.789-.303 1.789-.303-.327.705-1.041 1.194-1.869 1.194-.829 0-1.543-.49-1.869-1.196zm-.971-1.379c.246-1.313 1.462-2.259 2.918-2.259 1.324 0 2.521.97 2.763 2.259v.105c0 .082-.029.115-.103.106l-2.658.473h-.157l-2.66-.476c-.075.01-.103-.023-.103-.105Zm8.023-6.392c.255-.14.549-.22.861-.22.992 0 1.798.804 1.798 1.798v1.919c0 .991-.804 1.797-1.798 1.797-.991 0-1.797-.803-1.797-1.797v-1.542c.034.003.068.005.103.005.64 0 1.16-.518 1.16-1.156 0-.312-.125-.596-.327-.804zM5.162 9.461c.227-.104.48-.162.746-.162.991 0 1.798.804 1.798 1.798v1.919c0 .991-.804 1.797-1.798 1.797-.991 0-1.797-.803-1.797-1.797v-1.571c.089.022.182.034.278.034.641 0 1.16-.518 1.16-1.156 0-.342-.149-.65-.387-.862ZM.002 6.554V4.568C.002 2.044 2.045 0 4.569 0h14.865c2.522 0 4.565 2.044 4.565 4.568v2.041a5.1847 5.1847 0 0 0-.164-.197 4.8592 4.8592 0 0 0-.646-2.284c-.433-.754-1.315-1.037-2.07-.786a4.785 4.785 0 0 0-.327-.774h-.001c-.287-.54-.758-.835-1.248-.908-.493-.073-1.033.072-1.464.515l-3.82 3.864c-1.226 1.11-3.127 1.199-4.313.205-.103-.109-4.025-4.071-4.025-4.071-.427-.438-.966-.584-1.46-.51-.489.073-.961.367-1.248.907v.002c-.133.25-.241.508-.327.771-.753-.252-1.635.029-2.071.782 0 0-.001.001-.001.002-.4.694-.613 1.459-.645 2.23-.057.065-.113.13-.167.197z"/></symbol>
+  <symbol id="lg-strava" viewBox="0 0 24 24"><path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169"/></symbol>
+  <!-- PROVIDER_MARKS:START -->
+  <symbol id="pv-anthropic" viewBox="0 0 24 24"><title>Anthropic</title><path d="M17.3041 3.541h-3.6718l6.696 16.918H24Zm-10.6082 0L0 20.459h3.7442l1.3693-3.5527h7.0052l1.3693 3.5528h3.7442L10.5363 3.5409Zm-.3712 10.2232 2.2914-5.9456 2.2914 5.9456Z"/></symbol>
+  <symbol id="pv-openai" viewBox="0 0 24 24"><title>OpenAI</title><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"/></symbol>
+  <symbol id="pv-elevenlabs" viewBox="0 0 24 24"><title>ElevenLabs</title><path d="M4.6035 0v24h4.9317V0zm9.8613 0v24h4.9317V0z"/></symbol>
+  <symbol id="pv-supabase" viewBox="0 0 24 24"><title>Supabase</title><path d="M11.9 1.036c-.015-.986-1.26-1.41-1.874-.637L.764 12.05C-.33 13.427.65 15.455 2.409 15.455h9.579l.113 7.51c.014.985 1.259 1.408 1.873.636l9.262-11.653c1.093-1.375.113-3.403-1.645-3.403h-9.642z"/></symbol>
+  <symbol id="pv-posthog" viewBox="0 0 24 24"><title>PostHog</title><path d="M9.854 14.5 5 9.647.854 5.5A.5.5 0 0 0 0 5.854V8.44a.5.5 0 0 0 .146.353L5 13.647l.147.146L9.854 18.5l.146.147v-.049c.065.03.134.049.207.049h2.586a.5.5 0 0 0 .353-.854L9.854 14.5zm0-5-4-4a.487.487 0 0 0-.409-.144.515.515 0 0 0-.356.21.493.493 0 0 0-.089.288V8.44a.5.5 0 0 0 .147.353l9 9a.5.5 0 0 0 .853-.354v-2.585a.5.5 0 0 0-.146-.354l-5-5zm1-4a.5.5 0 0 0-.854.354V8.44a.5.5 0 0 0 .147.353l4 4a.5.5 0 0 0 .853-.354V9.854a.5.5 0 0 0-.146-.354l-4-4zm12.647 11.515a3.863 3.863 0 0 1-2.232-1.1l-4.708-4.707a.5.5 0 0 0-.854.354v6.585a.5.5 0 0 0 .5.5H23.5a.5.5 0 0 0 .5-.5v-.6c0-.276-.225-.497-.499-.532zm-5.394.032a.8.8 0 1 1 0-1.6.8.8 0 0 1 0 1.6zM.854 15.5a.5.5 0 0 0-.854.354v2.293a.5.5 0 0 0 .5.5h2.293c.222 0 .39-.135.462-.309a.493.493 0 0 0-.109-.545L.854 15.501zM5 14.647.854 10.5a.5.5 0 0 0-.854.353v2.586a.5.5 0 0 0 .146.353L4.854 18.5l.146.147h2.793a.5.5 0 0 0 .353-.854L5 14.647z"/></symbol>
+  <symbol id="pv-linear" viewBox="0 0 24 24"><title>Linear</title><path d="M2.886 4.18A11.982 11.982 0 0 1 11.99 0C18.624 0 24 5.376 24 12.009c0 3.64-1.62 6.903-4.18 9.105L2.887 4.18ZM1.817 5.626l16.556 16.556c-.524.33-1.075.62-1.65.866L.951 7.277c.247-.575.537-1.126.866-1.65ZM.322 9.163l14.515 14.515c-.71.172-1.443.282-2.195.322L0 11.358a12 12 0 0 1 .322-2.195Zm-.17 4.862 9.823 9.824a12.02 12.02 0 0 1-9.824-9.824Z"/></symbol>
+  <symbol id="pv-meta" viewBox="0 0 24 24"><title>Meta</title><path d="M6.915 4.03c-1.968 0-3.683 1.28-4.871 3.113C.704 9.208 0 11.883 0 14.449c0 .706.07 1.369.21 1.973a6.624 6.624 0 0 0 .265.86 5.297 5.297 0 0 0 .371.761c.696 1.159 1.818 1.927 3.593 1.927 1.497 0 2.633-.671 3.965-2.444.76-1.012 1.144-1.626 2.663-4.32l.756-1.339.186-.325c.061.1.121.196.183.3l2.152 3.595c.724 1.21 1.665 2.556 2.47 3.314 1.046.987 1.992 1.22 3.06 1.22 1.075 0 1.876-.355 2.455-.843a3.743 3.743 0 0 0 .81-.973c.542-.939.861-2.127.861-3.745 0-2.72-.681-5.357-2.084-7.45-1.282-1.912-2.957-2.93-4.716-2.93-1.047 0-2.088.467-3.053 1.308-.652.57-1.257 1.29-1.82 2.05-.69-.875-1.335-1.547-1.958-2.056-1.182-.966-2.315-1.303-3.454-1.303zm10.16 2.053c1.147 0 2.188.758 2.992 1.999 1.132 1.748 1.647 4.195 1.647 6.4 0 1.548-.368 2.9-1.839 2.9-.58 0-1.027-.23-1.664-1.004-.496-.601-1.343-1.878-2.832-4.358l-.617-1.028a44.908 44.908 0 0 0-1.255-1.98c.07-.109.141-.224.211-.327 1.12-1.667 2.118-2.602 3.358-2.602zm-10.201.553c1.265 0 2.058.791 2.675 1.446.307.327.737.871 1.234 1.579l-1.02 1.566c-.757 1.163-1.882 3.017-2.837 4.338-1.191 1.649-1.81 1.817-2.486 1.817-.524 0-1.038-.237-1.383-.794-.263-.426-.464-1.13-.464-2.046 0-2.221.63-4.535 1.66-6.088.454-.687.964-1.226 1.533-1.533a2.264 2.264 0 0 1 1.088-.285z"/></symbol>
+  <symbol id="pv-google" viewBox="0 0 24 24"><title>Google</title><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/></symbol>
+  <symbol id="pv-slack" viewBox="0 0 24 24"><title>Slack</title><path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"/></symbol>
+  <symbol id="pv-notion" viewBox="0 0 24 24"><title>Notion</title><path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.933-.748-.887l-15.177.887c-.56.047-.747.327-.747.933zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933zM1.936 1.035l13.31-.98c1.634-.14 2.055-.047 3.082.7l4.249 2.986c.7.513.934.653.934 1.213v16.378c0 1.026-.373 1.634-1.68 1.726l-15.458.934c-.98.047-1.448-.093-1.962-.747l-3.129-4.06c-.56-.747-.793-1.306-.793-1.96V2.667c0-.839.374-1.54 1.447-1.632z"/></symbol>
+  <symbol id="pv-github" viewBox="0 0 24 24"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></symbol>
+  <symbol id="pv-vercel" viewBox="0 0 24 24"><title>Vercel</title><path d="m12 1.608 12 20.784H0Z"/></symbol>
+  <!-- PROVIDER_MARKS:END -->
+  <symbol id="lg-apple" viewBox="0 0 24 24"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></symbol>
+  <symbol id="lg-pocket" viewBox="0 0 24 24"><path d="M18.813 10.259l-5.646 5.419c-.32.305-.73.458-1.141.458-.41 0-.821-.153-1.141-.458l-5.646-5.419c-.657-.628-.677-1.671-.049-2.326.63-.657 1.671-.679 2.325-.05l4.511 4.322 4.517-4.322c.66-.631 1.697-.607 2.326.049.631.645.615 1.695-.045 2.326l-.011.001zm5.083-7.546c-.299-.858-1.125-1.436-2.041-1.436H2.179c-.9 0-1.717.564-2.037 1.405-.094.25-.142.511-.142.774v7.245l.084 1.441c.348 3.277 2.047 6.142 4.682 8.139.045.036.094.07.143.105l.03.023c1.411 1.03 2.989 1.728 4.694 2.072.786.158 1.591.24 2.389.24.739 0 1.481-.067 2.209-.204.088-.029.176-.045.264-.06.023 0 .049-.015.074-.029 1.633-.36 3.148-1.036 4.508-2.025l.029-.031.135-.105c2.627-1.995 4.324-4.862 4.686-8.148L24 10.678V3.445c0-.251-.031-.5-.121-.742l.017.01z"/></symbol>
+  <symbol id="lg-instapaper" viewBox="0 0 24 24"><path d="M14.766 20.259c0 1.819.271 2.089 2.934 2.292V24H6.301v-1.449c2.666-.203 2.934-.473 2.934-2.292V3.708c0-1.784-.27-2.089-2.934-2.292V0h11.398v1.416c-2.662.203-2.934.506-2.934 2.292v16.551z"/></symbol>
+</defs></svg>
+<div class="deck-viewport">
+<main class="deck-stage" id="deckStage">
+
+<!-- ============ 01 — THE TEST · night ============ -->
+<!-- ============ 00 — COVER · night ============
+     No masthead and no folio: the thirteen content slides keep their own
+     numbering, and a cover is not page one of the argument. -->
+<section class="slide night active visible" aria-label="Cover">
+  <div class="canvas">
+    <div class="cover">
+      <img class="mark reveal r1" src="/angel/assets/logos/app-mark.png" alt="REPS" />
+      <div class="name reveal r2">REPS</div>
+      <p class="line reveal r3">Your attention, worth keeping.</p>
+      <div class="round reveal r4"><b>Angel round</b><span>September 2026</span></div>
+    </div>
+    <div class="cover-foot reveal r5">Confidential</div>
+  </div>
+</section>
+
+<section class="slide night" aria-label="The test">
+  <header class="masthead chrome-fade">
+    <div class="brandlock"><img src="/angel/assets/logos/app-mark.png" alt="" /><div class="wordmark">REPS</div></div>
+    <div class="masthead-meta">Angel round &middot; September 2026</div>
+  </header>
+  <div class="canvas">
+    <p class="kicker reveal r1">Before we start</p>
+    <h1 class="s1-hed reveal r3" style="margin-top:40px">Name <span class="hot">three facts</span> from an interesting article you read last month.</h1>
+    <p class="dek reveal r5" style="margin-top:52px;font-size:33px;max-width:940px">Take a moment. <b>Most people can't get past one.</b></p>
+  </div>
+  <footer class="footrule chrome-fade">
+    <span>Your attention, worth keeping.</span>
+    <span class="folio">01 <span>/ 14</span></span>
+  </footer>
+</section>
+
+<!-- ============ 02 — TWO FORCES · paper ============
+     Mike's mock-up: two blocks, one chart under each, one sentence centred
+     beneath. The "results" row from round 2 is gone on purpose. -->
+<section class="slide paper" aria-label="Two forces">
+  <header class="masthead chrome-fade">
+    <div class="brandlock"><img src="/angel/assets/logos/app-mark.png" alt="" /><div class="wordmark">REPS</div></div>
+    <div class="masthead-meta">The problem</div>
+  </header>
+  <div class="canvas has-source">
+    <p class="kicker reveal r1">It's not just you</p>
+    <h2 class="lead sm reveal r2" style="margin-top:16px;max-width:64ch">Our attention has been hacked, and our thinking is next.</h2>
+
+    <div class="forces">
+      <div class="force reveal r3">
+        <div class="tag">The attention economy</div>
+        <h3>Social media compressed our attention.</h3>
+        <div class="fig">
+          <div class="linechart">
+            <div class="t">Share of US 18-year-olds who report difficulty thinking or concentrating</div>
+            <img src="/angel/assets/chart-thinking-2000.png" alt="2000 to 2023, rising to nearly one in four after smartphones go mainstream" />
+          </div>
+        </div>
+      </div>
+      <div class="force reveal r4">
+        <div class="tag">And now AI</div>
+        <h3>AI is taking over our thinking.</h3>
+        <div class="fig">
+          <div class="aichart" id="aiChart">
+            <div class="t">Who reached the right answer on a task the AI got wrong</div>
+            <div class="s">Pre-registered trial, 758 consultants at Boston Consulting Group</div>
+            <div class="cols">
+              <div class="cb"><b>85%</b><i style="height:170px"></i></div>
+              <div class="cb bad"><b>71%</b><i style="height:142px"></i></div>
+              <div class="cb bad"><b>60%</b><i style="height:120px"></i></div>
+            </div>
+            <div class="keys"><span>No AI</span><span>With GPT-4</span><span>With GPT-4 and prompt training</span></div>
+            <div class="fn">On the 18 tasks the AI could do, the same consultants completed 12.2% more of them, 25.1% faster, at significantly higher quality.</div>
+            <div class="src">Source: Dell&rsquo;Acqua et al., Organization Science 37(2), 2026</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="source">Left: Monitoring the Future survey, FT analysis by John Burn-Murdoch. Right: Dell&rsquo;Acqua et al., Organization Science 37(2), 2026.</div>
+  <footer class="footrule chrome-fade">
+    <span>Your attention, worth keeping.</span>
+    <span class="folio">02 <span>/ 14</span></span>
+  </footer>
+</section>
+
+<!-- ============ 03 — WAKING UP AND PUSHING BACK · night ============
+     Awareness, action, consequences. Whole images, nothing cropped through a face. -->
+<section class="slide night" aria-label="The public is waking up and pushing back">
+  <header class="masthead chrome-fade">
+    <div class="brandlock"><img src="/angel/assets/logos/app-mark.png" alt="" /><div class="wordmark">REPS</div></div>
+    <div class="masthead-meta">Why now</div>
+  </header>
+  <div class="canvas has-source">
+    <p class="kicker reveal r1">And the turn is already happening</p>
+    <h2 class="lead reveal r2" style="margin-top:14px;max-width:46ch">The public is waking up and <span class="hot">pushing back</span>.</h2>
+
+    <div class="three" style="margin-top:56px">
+      <div class="reveal r3">
+        <div class="col-label">01 &middot; Awareness</div>
+        <div class="media"><img src="/angel/assets/sourced/atlantic-aug2026-cover-fullres.jpg" alt="The Atlantic, August 2026 cover: The Age of Reading Is Over" /></div>
+        <h3>Literacy is a cover story now.</h3>
+        <p>A third of US adults can no longer paraphrase a page of text.</p>
+        <div class="caption">The Atlantic &middot; August 2026 print cover</div>
+      </div>
+
+      <div class="reveal r4">
+        <div class="col-label">02 &middot; Action</div>
+        <div class="duo">
+          <img src="/angel/assets/sourced/dua-lipa-service95-bookclub-aug2026-frame0.jpg" alt="Dua Lipa, Service95 book club" style="object-position:center 30%" />
+          <img src="/angel/assets/sourced/reese-witherspoon-reesesbookclub-official.jpg" alt="Reese Witherspoon, Reese's Book Club" style="object-position:center 15%" />
+        </div>
+        <h3>A counterculture is emerging.</h3>
+        <p>Book clubs went mainstream with the likes of Dua Lipa and Reese Witherspoon launching their own. Independent book store numbers are surging across the US.&nbsp;</p>
+        
+      </div>
+
+      <div class="reveal r5">
+        <div class="col-label">03 &middot; Consequences</div>
+        <div class="media clip"><img src="/angel/assets/sourced/economist-big-tech-big-tobacco-2026-08-18-crop.png" alt="The Economist, 18 August 2026: Is big tech the new big tobacco?" /></div>
+        <h3>And now the courts.</h3>
+        <p>Meta is on trial in Oakland: 29 states, and a claim of $193bn. New Mexico has just won $950m. Regulations emerging worldwide to ban social media for children.&nbsp;</p>
+      </div>
+    </div>
+  </div>
+  <div class="source">The Atlantic, Rose Horowitch, 8 Jul 2026 &middot; The Economist, 18 Aug 2026: &ldquo;Is big tech the new big tobacco?&rdquo; and &ldquo;Meta's blockbuster trial draws parallels to big tobacco&rdquo; &middot; American Booksellers Association</div>
+  <footer class="footrule chrome-fade">
+    <span>Your attention, worth keeping.</span>
+    <span class="folio">03 <span>/ 14</span></span>
+  </footer>
+</section>
+
+<!-- ============ 04 — WHAT REPS IS · night, with the vertical demo ============ -->
+<section class="slide paper" aria-label="The competitive map">
+  <header class="masthead chrome-fade">
+    <div class="brandlock"><img src="/angel/assets/logos/app-mark.png" alt="" /><div class="wordmark">REPS</div></div>
+    <div class="masthead-meta">The gap</div>
+  </header>
+  <div class="canvas has-source">
+    <p class="kicker reveal r1">But few sustainable alternatives exist</p>
+    <h2 class="lead sm reveal r2" style="margin-top:14px;max-width:62ch">Brain health alternatives are <span class="hot">generic</span>, or a version of <span class="hot">less</span>.</h2>
+
+    <div class="map">
+      <div class="map-list reveal r3">
+        <div class="map-row"><div class="n">1</div><div><h4>Micro-learning apps</h4><p>Someone else's summary of someone else's book. Feel-good but surface level.</p></div></div>
+        <div class="map-row"><div class="n">2</div><div><h4>Publisher games</h4><p>NYT, The Atlantic, The Economist. A proven daily habit, locked to one publisher's content. Show huge demand for stimulating phone time.&nbsp;</p></div></div>
+        <div class="map-row"><div class="n">3</div><div><h4>Saving apps</h4><p>Bookmark graveyards. Limited utility once the tab is closed.</p></div></div>
+        <div class="map-row"><div class="n">4</div><div><h4>Second-brain apps</h4><p>Transactional. Your content, your labour. You are the librarian.</p></div></div>
+        <div class="map-row"><div class="n">5</div><div><h4>Time-limit apps</h4><p>Opal, Brick, BePresent, Screen Time. The stick: less of something. People eventually route around them.</p></div></div>
+        <!-- out of the numbered list on purpose: it is not a sixth alternative,
+             it is the answer to the five above -->
+        <div class="map-row us"><div class="mk"><img src="/angel/assets/logos/reps.png" alt="" /></div><div><h4>Bring your own content</h4><p>High singleplayer value with multiplayer retention. Good for you, fun, and uniquely personal.</p></div></div>
+      </div>
+
+      <div class="map-plot reveal r4">
+        <svg viewBox="0 0 1080 560" aria-hidden="true">
+          <defs>
+            <marker id="axhead" markerWidth="10" markerHeight="10" refX="6" refY="5" orient="auto"><path d="M0,1 L8,5 L0,9 Z" fill="rgba(33,26,20,.35)"/></marker>
+          </defs>
+          <rect x="560" y="30" width="500" height="250" fill="rgba(45,131,119,.055)"/>
+          <line x1="20" y1="280" x2="1060" y2="280" stroke="rgba(33,26,20,.35)" stroke-width="1.4" marker-end="url(#axhead)"/>
+          <line x1="540" y1="540" x2="540" y2="20" stroke="rgba(33,26,20,.35)" stroke-width="1.4" marker-end="url(#axhead)"/>
+          <text class="ax" x="540" y="10" text-anchor="middle">Brain growth &amp; health</text>
+          <text class="ax" x="540" y="558" text-anchor="middle">Transactional utility</text>
+          <text class="ax" x="22" y="302">Generic</text>
+          <text class="ax hi" x="1058" y="302" text-anchor="end">Personalised</text>
+          <g transform="translate(330,92)"><rect class="pill" x="-110.35" y="-27" width="220.7" height="54" rx="27"/><text class="num" x="-89.35" y="6">1</text><image class="lgi" href="/angel/assets/logos/blinkist.png" x="-59.35" y="-16" width="33.8" height="32" preserveAspectRatio="xMidYMid meet"/><image class="lgi" href="/angel/assets/logos/headway.png" x="-15.55" y="-16" width="22" height="32" preserveAspectRatio="xMidYMid meet"/><image class="lgi" href="/angel/assets/logos/deepstash.png" x="16.45" y="-16" width="26.5" height="32" preserveAspectRatio="xMidYMid meet"/><image class="lgi" href="/angel/assets/logos/shortform.png" x="52.95" y="-16" width="36.4" height="32" preserveAspectRatio="xMidYMid meet"/></g>
+          <g transform="translate(688,44)"><rect class="pill faint" x="-74" y="-27" width="148" height="54" rx="27"/><use class="lg" href="#lg-duolingo" x="-53" y="-16" width="32" height="32" style="color:rgba(33,26,20,.82)"/><text class="pt small" x="-11" y="5">languages</text></g>
+          <g transform="translate(252,196)"><rect class="pill" x="-84.55" y="-27" width="169.1" height="54" rx="27"/><text class="num" x="-63.55" y="6">2</text><use class="lg" href="#lg-newyorktimes" x="-33.55" y="-16" width="32" height="32" style="color:rgba(33,26,20,.82)"/><image class="lgi" href="/angel/assets/logos/atlantic.png" x="8.45" y="-16" width="21.1" height="32" preserveAspectRatio="xMidYMid meet"/><image class="lgi" href="/angel/assets/logos/economist.png" x="39.55" y="-16" width="24" height="32" preserveAspectRatio="xMidYMid meet"/></g>
+          <g transform="translate(716,282)"><rect class="pill" x="-93.8" y="-27" width="187.6" height="54" rx="27"/><text class="num" x="-72.8" y="6">3</text><use class="lg" href="#lg-pocket" x="-42.8" y="-16" width="32" height="32" style="color:rgba(33,26,20,.82)"/><use class="lg" href="#lg-instapaper" x="-0.8" y="-16" width="32" height="32" style="color:rgba(33,26,20,.82)"/><image class="lgi" href="/angel/assets/logos/readwise.png" x="41.2" y="-16" width="31.6" height="32" preserveAspectRatio="xMidYMid meet"/></g>
+          <g transform="translate(898,428)"><rect class="pill" x="-102" y="-27" width="204" height="54" rx="27"/><text class="num" x="-81" y="6">4</text><use class="lg" href="#lg-obsidian" x="-51" y="-16" width="32" height="32" style="color:rgba(33,26,20,.82)"/><use class="lg" href="#lg-notion" x="-9" y="-16" width="32" height="32" style="color:rgba(33,26,20,.82)"/><!-- Recall is capped at 48, i.e. 1.5x Notion's 32 (Mike, round 14). Its own aspect is 2.07, so inside a 48x32 box it renders 48 by 23, centred. --><image class="lgi" href="/angel/assets/logos/recall.png" x="33" y="-16" width="48" height="32" preserveAspectRatio="xMidYMid meet"/></g>
+          <g transform="translate(560,494)"><rect class="pill" x="-132.3" y="-27" width="264.6" height="54" rx="27"/><text class="num" x="-111.3" y="6">5</text><image class="lgi" href="/angel/assets/logos/opal.png" x="-81.3" y="-16" width="32" height="32" preserveAspectRatio="xMidYMid meet"/><image class="lgi" href="/angel/assets/logos/brick.png" x="-39.3" y="-16" width="32" height="32" preserveAspectRatio="xMidYMid meet"/><image class="lgi" href="/angel/assets/logos/bepresent.png" x="2.7" y="-16" width="66.6" height="32" preserveAspectRatio="xMidYMid meet"/><use class="lg" href="#lg-apple" x="79.3" y="-16" width="32" height="32" style="color:rgba(33,26,20,.82)"/></g>
+          <g transform="translate(250,486)"><rect class="pill faint" x="-61" y="-27" width="122" height="54" rx="27"/><text class="pt small" x="-40" y="5">Screen Time</text></g>
+          <g transform="translate(806,158)"><rect class="pill faint" x="-66" y="-27" width="132" height="54" rx="27"/><use class="lg" href="#lg-strava" x="-45" y="-16" width="32" height="32" style="color:rgba(33,26,20,.82)"/><text class="pt small" x="-3" y="5">fitness</text></g>
+          <g transform="translate(928,100)"><rect class="pill us" x="-99" y="-40" width="198" height="80" rx="40"/><image href="/angel/assets/logos/reps.png" x="-73" y="-26" width="52" height="52" preserveAspectRatio="xMidYMid meet"/><text class="pt us" x="-5" y="9">REPS</text></g>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <div class="source">Brand marks are the companies' own, taken from their published icons and rendered monochrome. The faded markers are reference points from other categories, not competitors: Duolingo and Strava prove the top half of the map builds daily habits; Screen Time is the stick built into every iPhone. Duolingo reported 140.6 million monthly users and 12.7 million paying subscribers for the quarter to 30 June 2026 (SEC Form 8-K, 5 Aug 2026) &mdash; a daily habit game at scale, in a category nobody found exciting either.</div>
+  <footer class="footrule chrome-fade">
+    <span>Your attention, worth keeping.</span>
+    <span class="folio">04 <span>/ 14</span></span>
+  </footer>
+</section>
+
+<!-- ============ 05 — THE COMPETITIVE MAP · paper ============
+     Mike's 2x2: carrot/stick against generic/personalised. REPS alone top-right.
+     Grey dashed markers are reference points from other categories, not rivals. -->
+<section class="slide night" aria-label="What REPS is">
+  <header class="masthead chrome-fade">
+    <div class="brandlock"><img src="/angel/assets/logos/app-mark.png" alt="" /><div class="wordmark">REPS</div></div>
+    <div class="masthead-meta">The product</div>
+  </header>
+  <div class="canvas">
+    <div class="s4">
+      <div>
+        <p class="kicker reveal r1">So we pointed it the other way</p>
+        <h2 class="s4-claim reveal r2">REPS: Gamifying the knowledge <span class="hot">you</span> care about. A social alternative to doomscrolling.</h2>
+        <p class="s4-support reveal r4">The technology behind the attention economy is genuinely brilliant: personalisation, streaks, daily hooks, social loops. It is simply aimed at the wrong target. We pointed the same machinery at the things you already chose to read without incentives to break your attention.</p>
+      </div>
+      <div class="reveal r3">
+        <div class="vphone">
+          <button class="sound-btn" id="soundBtn" title="Turn sound on (S)" aria-label="Turn sound on">&#128263;</button>
+          <div class="screen">
+            <video id="demoVertical" src="https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/angel/demo-vertical-v9.mp4" poster="/angel/assets/demo-vertical-poster.jpg" autoplay muted loop playsinline></video>
+          </div>
+        </div>
+        <div class="sound-hint" id="soundHint">Tap the speaker, or press S, for sound</div>
+      </div>
+    </div>
+  </div>
+  <footer class="footrule chrome-fade">
+    <span>Your attention, worth keeping.</span>
+    <span class="folio">05 <span>/ 14</span></span>
+  </footer>
+</section>
+
+<!-- ============ 06 — KNOWLEDGE ATHLETES · night ============
+     The bell curve from Mike's mock-up. Schematic: the segments are a way of
+     seeing the market, not a survey, and the source line says so. -->
+<section class="slide paper" aria-label="A holistic social knowledge experience">
+  <header class="masthead chrome-fade">
+    <div class="brandlock"><img src="/angel/assets/logos/app-mark.png" alt="" /><div class="wordmark">REPS</div></div>
+    <div class="masthead-meta">Today, and next</div>
+  </header>
+  <div class="canvas has-source">
+    <p class="kicker reveal r1">four piece, ONE HOLISTIC EXPERIENCE</p>
+    <h2 class="lead xs reveal r2" style="margin-top:14px;max-width:44ch">A social knowledge experience that wasn't possible before AI</h2>
+
+    <div class="pz">
+      <div class="jig reveal r3">
+        <svg viewBox="0 0 500 500" aria-hidden="true">
+          <path class="piece a" d="M0 0 H250 V97 A28 28 0 1 1 250 153 V250 H153 A28 28 0 1 0 97 250 H0 Z"/>
+          <path class="piece b" d="M250 0 H500 V250 H403 A28 28 0 1 1 347 250 H250 V153 A28 28 0 1 0 250 97 Z"/>
+          <path class="piece c" d="M0 250 H97 A28 28 0 1 1 153 250 H250 V347 A28 28 0 1 0 250 403 V500 H0 Z"/>
+          <path class="piece d" d="M250 250 H347 A28 28 0 1 0 403 250 H500 V500 H250 V403 A28 28 0 1 1 250 347 Z"/>
+        </svg>
+        <div class="jig-grid">
+          <div class="jig-cell"><svg class="ico"><use href="#i-explore"/></svg><h4>Explore</h4><p>A curated feed of content worth remembering.&nbsp;</p></div>
+          <div class="jig-cell"><svg class="ico"><use href="#i-save"/></svg><h4>Save</h4><p>From any analog or digital source in seconds. REPS does the rest.&nbsp;</p></div>
+          <div class="jig-cell"><svg class="ico"><use href="#i-remember"/></svg><h4>Remember</h4><p>Spaced repetition, your Second Brain as a live graph, Ask Echo.</p></div>
+          <div class="jig-cell"><svg class="ico"><use href="#i-play"/></svg><h4>Play</h4><p>A daily trivia session (UI or voice) plus various games based on your saved knowledge.&nbsp;</p></div>
+        </div>
+      </div>
+
+      <div class="opps reveal r4">
+        <div class="label">Countless opportunities unlocked by AI <span class="notyet">Roadmap</span></div>
+        <div class="opp-grid">
+          <div class="opp">
+            <h5><svg class="ico"><use href="#i-think"/></svg>Sharper thinking</h5>
+            <ul>
+              <li>Fact-checking what you save</li>
+              <li>A devil's advocate that argues the other side of your own library. Breaking your echo chamber</li>
+              <li>A brain coach that recommends new content and knows what you forget</li>
+              <li>Curated journeys through a subject</li>
+            </ul>
+          </div>
+          <div class="opp">
+            <h5><svg class="ico"><use href="#i-ingest"/></svg>Seamless ingestion</h5>
+            <ul>
+              <li>Native integrations with the apps people already live in (spotify, kindle, etc.)</li>
+              <li>Continuous ingestion, so saving stops being a step</li>
+              <li>Publisher subscriptions, Apple News model</li>
+            </ul>
+          </div>
+          <div class="opp">
+            <h5><svg class="ico"><use href="#i-trust"/></svg>People, and trust</h5>
+            <ul>
+              <li>Meeting people through what they have retained</li>
+              <li>Security and privacy as a feature people pay for</li>
+            </ul>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="source">The four pieces are live on the App Store today. Everything on the right is roadmap: none of it is built, and none of it is being sold.</div>
+  <footer class="footrule chrome-fade">
+    <span>Your attention, worth keeping.</span>
+    <span class="folio">06 <span>/ 14</span></span>
+  </footer>
+</section>
+
+<!-- ============ 07 — THE PRODUCT, WHOLE · paper ============
+     Mike's jigsaw: the four verbs as pieces, and the AI opportunities beside
+     it grouped into three buckets. Right side is roadmap and badged as such. -->
+<section class="slide night" aria-label="Knowledge keepers">
+  <header class="masthead chrome-fade">
+    <div class="brandlock"><img src="/angel/assets/logos/app-mark.png" alt="" /><div class="wordmark">REPS</div></div>
+    <div class="masthead-meta">Who it's for</div>
+  </header>
+  <div class="canvas has-source">
+    <p class="kicker reveal r1">Who it's for</p>
+    <h2 class="lead sm reveal r2" style="margin-top:14px;max-width:74ch">Build for <span class="hot">Knowledge Keepers:</span> actively curious, poorly equipped.</h2>
+
+    <div class="athletes reveal r3">
+      <div class="curve">
+        <div class="curve-t">Our model of the market &mdash; four ways people handle what they consume</div>
+        <svg viewBox="0 0 1020 400" aria-hidden="true">
+          <defs>
+            <linearGradient id="curveHot" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#FF6B6B" stop-opacity=".62"/>
+              <stop offset="100%" stop-color="#FF8E53" stop-opacity=".03"/>
+            </linearGradient>
+            <clipPath id="repsClip"><rect x="418" y="0" width="446" height="340"/></clipPath>
+          </defs>
+
+          <!-- baseline -->
+          <line x1="30" y1="340" x2="1000" y2="340" stroke="rgba(255,250,247,.24)" stroke-width="1.2"/>
+
+          <!-- the curve -->
+          <path d="M30 215 C 180 210, 330 197, 430 179 C 500 166, 545 150, 590 150 C 660 150, 720 191, 800 227 C 880 259, 950 269, 1000 272"
+                fill="none" stroke="#FFFAF7" stroke-width="2.4"/>
+          <path d="M30 215 C 180 210, 330 197, 430 179 C 500 166, 545 150, 590 150 C 660 150, 720 191, 800 227 C 880 259, 950 269, 1000 272 L1000 340 L30 340 Z"
+                fill="url(#curveHot)" clip-path="url(#repsClip)"/>
+
+
+          <!-- segment dividers -->
+          <line x1="272" y1="124" x2="272" y2="340" stroke="rgba(255,250,247,.22)" stroke-width="1.2" stroke-dasharray="5 8"/>
+          <line x1="418" y1="118" x2="418" y2="340" stroke="rgba(255,107,107,.72)" stroke-width="1.6" stroke-dasharray="5 8"/>
+          <line x1="864" y1="118" x2="864" y2="340" stroke="rgba(255,107,107,.72)" stroke-width="1.6" stroke-dasharray="5 8"/>
+
+          <!-- segment labels -->
+          <text class="sg-t" x="151" y="52" text-anchor="middle">TikTok-</text>
+          <text class="sg-t" x="151" y="80" text-anchor="middle">land</text>
+          <text class="sg-p" x="151" y="106" text-anchor="middle">Consume, forget, repeat.</text>
+          <text class="sg-t" x="345" y="52" text-anchor="middle">Micro-</text>
+          <text class="sg-t" x="345" y="80" text-anchor="middle">learners</text>
+          <text class="sg-p" x="345" y="106" text-anchor="middle">Limited depth and</text>
+          <text class="sg-p" x="345" y="125" text-anchor="middle">headspace.</text>
+          <text class="sg-t hi" x="641" y="52" text-anchor="middle">Knowledge</text>
+          <text class="sg-t hi" x="641" y="80" text-anchor="middle">keepers</text>
+          <text class="sg-p" x="641" y="106" text-anchor="middle">Want to keep what they read.</text>
+          <text class="sg-p" x="641" y="125" text-anchor="middle">Won't build a system to do it.</text>
+          <text class="sg-t" x="932" y="52" text-anchor="middle">Productivity</text>
+          <text class="sg-t" x="932" y="80" text-anchor="middle">zealots</text>
+          <text class="sg-p" x="932" y="106" text-anchor="middle">Vibe code their own</text>
+          <text class="sg-p" x="932" y="125" text-anchor="middle">systems.</text>
+          <!-- axis -->
+          <text class="sg-ax" x="30" y="372">Reads less &middot; less effort spent keeping it</text>
+          <text class="sg-ax" x="1000" y="372" text-anchor="end">Reads more &middot; more effort</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <div class="source">The curve&rsquo;s height is Pew&rsquo;s measured reading distribution, 8,046 US adults, October 2025. Where the four segments sit along it is our model, not Pew&rsquo;s.</div>
+  <footer class="footrule chrome-fade">
+    <span>Your attention, worth keeping.</span>
+    <span class="folio">07 <span>/ 14</span></span>
+  </footer>
+</section>
+
+<!-- ============ 08 — AI-PROOF NETWORK EFFECTS · night ============
+     Framed at scale, as Mike asked. Five effects on the left, the reason a
+     knowledge supplier says yes on the right. -->
+<section class="slide night" aria-label="AI-proof network effects">
+  <header class="masthead chrome-fade">
+    <div class="brandlock"><img src="/angel/assets/logos/app-mark.png" alt="" /><div class="wordmark">REPS</div></div>
+    <div class="masthead-meta">The moat</div>
+  </header>
+  <div class="canvas has-source">
+    <p class="kicker reveal r1">What compounds at scale &middot; the NFX framework</p>
+    <h2 class="lead sm reveal r2" style="margin-top:14px;max-width:22ch"><span class="hot">AI-proof</span> network effects.</h2>
+
+    <div class="nfx">
+      <div class="reveal r3">
+        <div class="nfx-group">Running today</div>
+        <div class="nfx-row"><div class="num"><svg class="ico"><use href="#i-network"/></svg></div><div><h4>A personal network</h4><p>Connect with people over genuine interests. Play with friends and grow together.</p></div></div>
+        <div class="nfx-row"><div class="num"><svg class="ico"><use href="#i-data"/></svg></div><div><h4>Data nobody can scrape</h4><p>Which concepts people actually care about and remember is the one thing no model release commoditises.</p></div></div>
+        <div class="nfx-row"><div class="num"><svg class="ico"><use href="#i-cheap"/></svg></div><div><h4>Cheaper with every save</h4><p>The second person to save an article costs nothing to serve, and a partnered source returns instantly.</p></div></div>
+        <div class="nfx-group later">As we scale</div>
+        <div class="nfx-row"><div class="num"><svg class="ico"><use href="#i-feed"/></svg></div><div><h4>A feed ranked by what sticks</h4><p>Discover ranks by what turned out to be worth remembering, not clickbait. Only REPS finds out, weeks later.</p></div></div>
+        <div class="nfx-row"><div class="num"><svg class="ico"><use href="#i-market"/></svg></div><div><h4>A two-sided marketplace</h4><p>Publishers, authors and creators on one side, readers on the other. An &ldquo;Add to REPS&rdquo; button on every article, and each side makes the other worth joining.</p></div></div>
+      </div>
+
+      <div class="nfx-arrow reveal r4">
+        <svg viewBox="0 0 56 56" aria-hidden="true"><path d="M8 28 H44 M30 14 L44 28 L30 42" fill="none" stroke="#FF6B6B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+
+      <div class="nfx-side reveal r5">
+        <div class="supply-mocks">
+          <div class="cap">What it looks like on their surface</div>
+          <!-- Every element here is cropped from a real National Geographic
+               page (assets/mocks/build-natgeo-mock.py). The only addition is
+               our button. Mike approved the mock in-turn, 2026-08-23. -->
+          <figure class="mk-art">
+            <div class="mk-head"><img src="/angel/assets/mocks/natgeo-masthead.png" alt="National Geographic" /></div>
+            <img class="mk-photo" src="/angel/assets/mocks/natgeo-photo.png" alt="" />
+            <div class="mk-body">
+              <h5>What a &lsquo;Super&rsquo; El Ni&ntilde;o Means for the Planet</h5>
+              <div class="mk-by">By Ruby Mellen &middot; 20 August 2026</div>
+              <div class="mk-share">
+                <img src="/angel/assets/mocks/natgeo-share.png" alt="Share" />
+                <span class="mk-brain"><img src="/angel/assets/mocks/reps-brain-black.png" alt="REPS" /></span>
+                <span class="mk-note">
+                  <svg class="arw" viewBox="0 0 34 16" aria-hidden="true">
+                    <path d="M33 8 H3 M9 2.5 L3 8 L9 13.5" fill="none" stroke="#FF6B6B"
+                          stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>Add to REPS</span>
+              </div>
+            </div>
+          </figure>
+          <figure class="mk-book">
+            <div class="blurb"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="qr-row">
+              <img class="qr" src="/angel/assets/mocks/reps-qr.png" alt="QR code" />
+              <div class="qr-l">Save this<br />book to REPS</div>
+            </div>
+            <div class="isbn">
+              <u style="width:3px"></u><u style="width:1px"></u><u style="width:2px"></u><u style="width:1px"></u><u style="width:4px"></u><u style="width:1px"></u><u style="width:2px"></u><u style="width:3px"></u><u style="width:1px"></u><u style="width:2px"></u><u style="width:1px"></u><u style="width:3px"></u><u style="width:2px"></u><u style="width:1px"></u><u style="width:4px"></u><u style="width:1px"></u><u style="width:2px"></u><u style="width:1px"></u><u style="width:3px"></u><u style="width:1px"></u><u style="width:2px"></u><u style="width:4px"></u><u style="width:1px"></u><u style="width:2px"></u><u style="width:1px"></u><u style="width:3px"></u><u style="width:2px"></u>
+            </div>
+          </figure>
+        </div>
+        <div class="label">Why a knowledge supplier says yes</div>
+        <div class="it"><h4>A new signal</h4><p>A save is much more personal than a post, and it's a commitment to its content.&nbsp;</p></div>
+        <div class="it"><h4>Editorial insight</h4><p>Which of your concepts readers care about most. Nobody has ever been able to tell a publisher that.</p></div>
+        <div class="it"><h4>A new engagement vector</h4><p>Your material comes back to your reader forever, through spaced repetition, with your name on it.</p></div>
+      </div>
+    </div>
+
+    <p class="evidence-note reveal r6"><b>The mechanic is proven at scale:</b> the social loop turned Strava from a tracking app into a daily habit for tens of millions. Its co-founder, Mark Gainey, advises us.</p>
+  </div>
+  <div class="source">Framework: NFX, the Network Effects Manual. The split is ours and it is deliberately strict: &ldquo;running today&rdquo; means the mechanic is live in the product now, not that it is finished. Publisher partnerships are conversations, not contracts, which is why the marketplace sits under &ldquo;as we scale&rdquo;.</div>
+  <footer class="footrule chrome-fade">
+    <span>Your attention, worth keeping.</span>
+    <span class="folio">08 <span>/ 14</span></span>
+  </footer>
+</section>
+
+<!-- ============ 09 — A SCALABLE GTM ENGINE · paper ============
+     Acquisition, activation, retention, and the loop back. Each stage keeps its
+     own evidence; the real ads sit under acquisition. -->
+<section class="slide paper" aria-label="Building a scalable GTM engine">
+  <header class="masthead chrome-fade">
+    <div class="brandlock"><img src="/angel/assets/logos/app-mark.png" alt="" /><div class="wordmark">REPS</div></div>
+    <div class="masthead-meta">Go to market</div>
+  </header>
+  <div class="canvas has-source">
+    <p class="kicker reveal r1">Early marketing is showing strong demand</p>
+    <h2 class="lead sm reveal r2" style="margin-top:14px;max-width:30ch">Building a <span class="hot">scalable</span> GTM engine.</h2>
+
+    <div class="gtm">
+      <div class="gtm-cols">
+        <div class="gtm-col reveal r3">
+          <div class="gtm-band"><span>Acquisition</span><p>Finding the messages that lands with knowledge keepers and building an autonomous content engine.</p></div>
+          <div class="gtm-blk sig"><span>Early signals</span><p><b>5-10%</b> click-through, against Meta’s 1.5% average. Messaging around "remember everything you read" and the attention crisis.&nbsp;</p></div>
+          <div class="gtm-blk ongoing"><span>Ongoing</span><p>Influencer outreach and partnerships. Organic strategies.&nbsp;</p></div>
+        </div>
+
+        <div class="gtm-col reveal r4">
+          <div class="gtm-band"><span>Activation</span><p>Building the habit in week one. REPS is a new way to handle what you already read, so the first session has to teach as well as work.</p></div>
+          <div class="gtm-blk sig"><span>Early signals</span><p><b>1.7&times;</b> activation once onboarding started with a book instead of a blank library.</p></div>
+          <div class="gtm-blk ongoing"><span>Ongoing</span><p>Fast onboarding flow A/B testing to reduce drop-off points.&nbsp;</p></div>
+        </div>
+
+        <div class="gtm-col reveal r5">
+          <div class="gtm-band"><span>Retention</span><p>Finding the leading indicators of return, then building the product around them - ie. our version of Facebook’s 7&nbsp; friends in 10 days.</p></div>
+          <div class="gtm-blk sig"><span>Early signals</span><p><b>14&times;</b> return rate from one answer on day one. Saving without answering predicts nothing.</p></div>
+          <div class="gtm-blk ongoing"><span>Ongoing</span><p>Data gathering from the first 4-6 weeks of cold users.&nbsp;</p></div>
+        </div>
+      </div>
+
+      <div class="gtm-foot reveal r6">
+      <div class="gtm-ads">
+        <img src="/angel/assets/ads/m12-bookcover-linen.jpg" alt="Live ad: How to remember everything you read" />
+        <img src="/angel/assets/ads/live-founder-iquit-fb.png" alt="Live ad in the Facebook feed: the founder film, I Quit" />
+        <img src="/angel/assets/ads/live-founder-oneineight-ig.png" alt="Live ad on Instagram: the founder on the attention chart" />
+      </div>
+      <figure class="gtm-quote"><img src="/angel/assets/sourced/testimonial-karen-2026-08-23.png" alt="Email from a user: what you have created is BRILLIANT" /></figure>
+      </div>
+    </div>
+  </div>
+  <div class="source">Click-through: 30 days to 21 Aug 2026. Activation: before and after the 6 Aug onboarding change. Retention: week-one questions answered against still training in weeks two and three.&nbsp;</div>
+  <footer class="footrule chrome-fade">
+    <span>Your attention, worth keeping.</span>
+    <span class="folio">09 <span>/ 14</span></span>
+  </footer>
+</section>
+
+<!-- ============ 10 — A GENEROUS FREEMIUM MODEL · night ============
+     Mike's tier table, no prices (his call, 2026-08-19), plus the cost of a set. -->
+<section class="slide night" aria-label="A generous freemium model">
+  <header class="masthead chrome-fade">
+    <div class="brandlock"><img src="/angel/assets/logos/app-mark.png" alt="" /><div class="wordmark">REPS</div></div>
+    <div class="masthead-meta">The model</div>
+  </header>
+  <div class="canvas has-source">
+    <p class="kicker reveal r1">Prioritising adoption and engagement</p>
+    <h2 class="lead sm reveal r2" style="margin-top:14px;max-width:34ch">A <span class="hot">generous free tier</span>, and plenty of value-driven monetization opportunities</h2>
+
+    <div class="tiers">
+      <div class="reveal r3">
+        <div class="ladder">
+          <div class="rung free">
+            <div class="rung-l">Free, and genuinely generous</div>
+            <div class="rung-b"><span>Save anything &middot; the daily session &middot; the core games &middot; the feed</span></div>
+            <div class="rung-n">Everyone. The habit is the asset.</div>
+          </div>
+          <div class="rung paid">
+            <div class="rung-l">Premium &middot; depth, not access</div>
+            <div class="rung-b"><span>Voice at length &middot; Synapse &middot; multi-modal &middot; fact-check &middot; brain coach &middot; leagues and clubs</span></div>
+            <div class="rung-n">Primary objective is to encourage engagement. Monetization at scale can come from value-add knowledge features.</div>
+          </div>
+          <div class="rung part">
+            <div class="rung-l">Supply-side monetization</div>
+            <div class="rung-b"><span>Bundled publisher subscriptions (Apple News model) &middot; Paid surveys &middot; Ads</span></div>
+            <div class="rung-n">Non-intrusive by design.</div>
+          </div>
+        </div>
+        <p class="tt-also"><br></p>
+      </div>
+
+      <div class="cogs reveal r4">
+        <div class="label">What one saved set costs us</div>
+        <div class="big">$0.15<small>per set, all in</small></div>
+        <div class="stack"><div class="a">$0.11</div><div class="b">$0.04</div></div>
+        <div class="stack-l"><span>Save + reps</span><span>Games</span></div>
+        <ul>
+          <li>Not yet optimised. Model spend at list price.</li>
+          <li>UX over margins in the short term.</li>
+          <li>Cost scales with saves, not with seats.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="source"><br></div>
+  <footer class="footrule chrome-fade">
+    <span>Your attention, worth keeping.</span>
+    <span class="folio">10 <span>/ 14</span></span>
+  </footer>
+</section>
+
+<!-- ============ 11 — AN AI-NATIVE ORGANIZATION · night ============
+     Mike's architecture sketch, structured: the human interface on top, three
+     agent stacks, shared memory, then models and tools. Glows flow along the
+     wires while the slide is on screen. The walkthrough video, when it lands,
+     plays over this diagram. -->
+<section class="slide night" aria-label="An AI-native organization">
+  <header class="masthead chrome-fade">
+    <div class="brandlock"><img src="/angel/assets/logos/app-mark.png" alt="" /><div class="wordmark">REPS</div></div>
+    <div class="masthead-meta">How it's built</div>
+  </header>
+  <div class="canvas has-source">
+    <div class="org3">
+      <div>
+        <p class="kicker reveal r1">An AI-native organization</p>
+        <h2 class="lead reveal r2" style="margin-top:20px;max-width:15ch">Truly<span class="hot">&nbsp;AI-native&nbsp;</span>from day one.&nbsp;</h2>
+        <p class="org-lede reveal r3">Not one person doing everything. A handful of human experts, each multiplied by a faculty of agents, all working through one OS.</p>
+        <div class="org-rules reveal r5">
+          <div><i>01</i> Track everything</div>
+          <div><i>02</i> Automate up to the judgement point</div>
+          <div><i>03</i> Self-learning loops</div>
+          <div><i>04</i> One human-intensive job: knowledge suppliers</div>
+        </div>
+        <p class="org-note reveal r6">Automating how the product gets built does not automate taste, acumen or partnerships. That is what we hire for, and why the plan is small rather than zero.</p>
+      </div>
+
+      <div class="orgmap reveal r3">
+        <svg class="wires" viewBox="0 0 900 604" aria-hidden="true"><path d="M105 76 V104"/><path d="M335 76 V104"/><path d="M565 76 V104"/><path d="M795 76 V104"/><path d="M105 104 H795"/><path d="M450 104 V124"/><path d="M450 196 V226 H143 V250"/><path d="M450 196 V250"/><path d="M450 196 V226 H757 V250"/><path d="M143 450 V476"/><path d="M450 450 V476"/><path d="M757 450 V476"/><path d="M143 476 H757"/><path d="M143 476 V500"/><path d="M603 476 V500"/><path class="back" d="M0 343 H-30 V160 H0"/></svg>
+        <div class="node human" style="left:0px;top:0px;width:210px;height:76px"><span class="chip">Founder</span><h5>Mike</h5></div>
+        <div class="node hire" style="left:230px;top:0px;width:210px;height:76px"><span class="chip">Future hire</span><h5>Growth</h5></div>
+        <div class="node hire" style="left:460px;top:0px;width:210px;height:76px"><span class="chip">Future hire</span><h5>Partnerships</h5></div>
+        <div class="node hire" style="left:690px;top:0px;width:210px;height:76px"><span class="chip">Future hire</span><h5>Product&nbsp;</h5></div>
+        <div class="node surface" style="left:0;top:124px;width:900px;height:72px"><h5>The Faculty</h5><p>One surface. Access to all AI model, approvals, the daily digest, and the schedule every job reports into</p></div>
+        <div class="node bucket" style="left:0px;top:250px;width:286px;height:200px"><span class="chip">Skills</span><b>62</b><p>Anything we do twice is written down once, then runs the same way every time without a person in it.</p></div>
+        <div class="node bucket" style="left:307px;top:250px;width:286px;height:200px"><span class="chip">Subagents</span><b>44</b><p>Ten specialists can work a problem at once, so review and research cost time rather than headcount.</p></div>
+        <div class="node bucket" style="left:614px;top:250px;width:286px;height:200px"><span class="chip">Watched jobs</span><b>91</b><p>Nothing fails quietly. Every job names an owner and how you find out it stopped, so silence is not mistaken for health.</p></div>
+        <div class="node bucket found" style="left:0px;top:500px;width:286px;height:104px"><span class="chip">Shared memory</span><div class="row"><b>41</b><p>Nobody relearns what the company already worked out, and a decision made once stays made.</p></div></div>
+        <div class="node surface provrow" style="left:307px;top:500px;width:593px;height:104px"><div class="provlab"><h5>Providers</h5><p>Reached through an API or MCP, never a person in a browser</p></div><div class="provmarks"><svg class="pv" viewBox="0 0 24 24"><use href="#pv-anthropic"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-openai"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-elevenlabs"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-supabase"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-posthog"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-linear"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-meta"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-google"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-slack"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-notion"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-github"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-vercel"/></svg></div></div>
+        <i class="flow f1"></i>
+        <i class="flow f2"></i>
+        <i class="flow f3"></i>
+        <i class="flow f4"></i>
+        <i class="flow f5"></i>
+        <i class="flow f6"></i>
+        <i class="flow f7"></i>
+      </div>
+    </div>
+  </div>
+  <div class="source"><br></div>
+  <footer class="footrule chrome-fade">
+    <span>Your attention, worth keeping.</span>
+    <span class="folio">11 <span>/ 14</span></span>
+  </footer>
+</section>
+
+<!-- ============ 12 — THE FOUNDER · paper ============
+     Cream, like Advisors: the deck's two human pages are its light ones.
+     Every claim is sourced -- career facts from Mike directly, the family, the
+     Instagram deletion and the leaving date from PERSONAL_STORY.md threads
+     1, 2, 6, 10 and 15. The photograph is a crop, never an expansion. -->
+<!-- ============ 12 — THE FOUNDER · paper ============
+     Cream, like Advisors: the deck's two human pages are its light ones.
+     Hero is the 83-second intro film, which opens on the LPEA panel still.
+     Career facts are Mike's own; the family, the Instagram deletion and the
+     30 June 2026 leaving date are PERSONAL_STORY.md threads 1, 2, 6, 10, 15. -->
+<section class="slide paper" aria-label="The founder">
+  <header class="masthead chrome-fade">
+    <div class="brandlock"><img src="/angel/assets/logos/app-mark.png" alt="" /><div class="wordmark">REPS</div></div>
+    <div class="masthead-meta">The founder</div>
+  </header>
+  <div class="canvas has-source">
+    <p class="kicker reveal r1">Who is building it</p>
+    <h2 class="lead sm reveal r2" style="margin-top:14px;max-width:44ch">Twelve years backing consumer founders, and <span class="hot">one problem I could not put down</span>.</h2>
+
+    <div class="fc">
+      <div class="fc-left reveal r3">
+        <div class="film">
+          <video id="founderFilm" src="https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/angel/intro-film.mp4"
+                 poster="/angel/assets/founder/intro-film-poster.jpg" playsinline preload="none"></video>
+          <button class="film-play" id="filmPlay" aria-label="Play the founder film" title="Play (space)">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.6 L18.4 12 L8 18.4 Z"/></svg>
+          </button>
+          <div class="film-len">1:23</div>
+        </div>
+        <div class="founder-cap"><b>Michael Mc Graw</b>Founder &middot; hear it in his own words</div>
+      </div>
+
+      <div class="fc-right">
+        <div class="spine reveal r4">
+          <div class="rail"></div>
+          <div class="stop"><i></i><u>2014</u><b>PSP</b><span>A natural-resources investment team, newly formed when I joined</span><em>Montreal</em></div>
+          <div class="stop"><i></i><u>2016</u><b>CDPQ</b><span>Helped launch the technology investment team</span><em>Montreal</em></div>
+          <div class="stop"><i></i><u>2017</u><b>Hopper</b><span>Three months seconded in on special projects</span><em>Operator</em></div>
+          <div class="stop"><i></i><u>2018</u><b>Inovia Capital</b><span>Opened the London office. Consumer and SMB, mostly</span><em>London</em></div>
+          <div class="stop"><i></i><u>2025</u><b>SalesAPE</b><span>Nine months seconded in as Chief of Staff, VP Ops &amp; Finance</span><em>Operator</em></div>
+          <div class="stop out"><i></i><u>2026</u><b>REPS</b><span>Left Inovia on 30 June 2026, my thirty-fourth birthday</span><em>Full time</em></div>
+        </div>
+        <div class="fc-two reveal r5">
+          <div><h5>Born to it, at both ends</h5><p>My mother has run her wellness magazine for twenty-five years. My father&rsquo;s graph database startup went bankrupt while I was at university, and I paid my own way from there. REPS is the combination of both their endeavors.</p></div>
+          <div><h5>And I lived the problem</h5><p>I quit social media and news apps in 2025 and revamped my own cognitive diet. That&rsquo;s when I started realizing how troublesome the societal trends are.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="source"><br></div>
+  <footer class="footrule chrome-fade">
+    <span>Your attention, worth keeping.</span>
+    <span class="folio">12 <span>/ 14</span></span>
+  </footer>
+</section>
+
+<!-- ============ 13 — ADVISORS · paper ============ -->
+<section class="slide paper" aria-label="Advisors">
+  <header class="masthead chrome-fade">
+    <div class="brandlock"><img src="/angel/assets/logos/app-mark.png" alt="" /><div class="wordmark">REPS</div></div>
+    <div class="masthead-meta">Advisors</div>
+  </header>
+  <div class="canvas has-source">
+    <p class="kicker reveal r1">ADVISORS</p>
+    <div class="people">
+      <div class="person reveal r2">
+        <div class="av"><img src="/angel/assets/sourced/mark-gainey-final.jpg" alt="Mark Gainey" /></div>
+        <div><h3>Mark Gainey</h3>
+        <div class="role">Co-founder, Strava</div>
+        <p>Built the daily-habit category from zero.&nbsp;</p></div>
+      </div>
+      <div class="person reveal r3">
+        <div class="av"><img src="/angel/assets/sourced/patrick-pichette-inovia.png" alt="Patrick Pichette" /></div>
+        <div><h3>Patrick Pichette</h3>
+        <div class="role">Former CFO, Google &middot; former Chair, Twitter</div>
+        <p>Always sought the 1B+ user outcomes.&nbsp;</p></div>
+      </div>
+      <div class="person reveal r4">
+        <div class="av"><img src="/angel/assets/sourced/kendra-rogers-headshot-2023.jpg" alt="Kendra Rogers" /></div>
+        <div><h3>Kendra Rogers</h3>
+        <div class="role">Chief Communications &amp; Marketing Officer, Featurespace (acquired by Visa)</div>
+        <p>Voracious polymath and creative brand-builder.&nbsp;</p></div>
+      </div>
+      <!-- Photograph sourced, not generated; provenance in assets/sourced/SOURCES.txt.
+           No install figure on the card on purpose: the public aggregators give
+           37m, 120m and 260m for roughly the same period. -->
+      <div class="person reveal r5">
+        <div class="av"><img src="/angel/assets/sourced/dakota-smith-hopper.jpg" alt="Dakota Smith" /></div>
+        <div><h3>Dakota Smith</h3>
+        <div class="role">Co-founder, Hopper &middot; CEO, Hopper Technology Solutions</div>
+        <p>120M downloads on the app, then a B2B arm powering multinationals such as Uber, Capital One and Air Canada.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="source">Hopper app downloads: Hopper&rsquo;s own company page. HTS partners and Dakota Smith&rsquo;s title: HTS (Hopper Technology Solutions) Summer 2026 Platform Update, 11 August 2026.</div>
+  <footer class="footrule chrome-fade">
+    <span>Your attention, worth keeping.</span>
+    <span class="folio">13 <span>/ 14</span></span>
+  </footer>
+</section>
+
+<!-- ============ 13 — THE RAISE · night ============
+     Single figure, a use-of-funds ring, and what it buys. The split is the
+     proposal Mike accepted on 2026-08-21 (45 / 35 / 20); he corrects it on the board. -->
+<section class="slide night" aria-label="The raise">
+  <header class="masthead chrome-fade">
+    <div class="brandlock"><img src="/angel/assets/logos/app-mark.png" alt="" /><div class="wordmark">REPS</div></div>
+    <div class="masthead-meta">The ask</div>
+  </header>
+  <div class="canvas">
+    <p class="kicker reveal r1">Where it goes</p>
+    <h2 class="lead reveal r2" style="margin-top:14px">The raise.</h2>
+
+    <div class="ask">
+      <div class="reveal r2">
+        <div class="ring">
+          <svg viewBox="0 0 470 470" aria-hidden="true">
+            <defs>
+              <linearGradient id="ringhot" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FF6B6B"/><stop offset="100%" stop-color="#FF8E53"/></linearGradient>
+            </defs>
+            <circle class="track" cx="235" cy="235" r="200"/>
+            <circle class="seg" cx="235" cy="235" r="200" stroke="url(#ringhot)" stroke-dasharray="622.32 634.32" stroke-dashoffset="-0.0"/>
+            <circle class="seg" cx="235" cy="235" r="200" stroke="rgba(255,250,247,.62)" stroke-dasharray="308.16 948.48" stroke-dashoffset="-628.32"/>
+            <circle class="seg" cx="235" cy="235" r="200" stroke="rgba(255,250,247,.22)" stroke-dasharray="308.16 948.48" stroke-dashoffset="-942.48"/>
+          </svg>
+          <div class="centre">
+            <div class="fig">&pound;300&ndash;400K</div>
+            <div class="terms">SAFE</div>
+          </div>
+          <div class="call c1"><b>50%</b><span>Sales &amp; marketing</span></div>
+          <div class="call c2"><b>25%</b><span>AI R&amp;D &amp; operations</span></div>
+          <div class="call c3"><b>25%</b><span>Salaries &amp; advisors</span></div>
+        </div>
+      </div>
+      <div>
+        <h3 class="unlocks-h reveal r3">What it unlocks</h3>
+        <div class="buys">
+          <div class="b2 reveal r3"><h4>ICP and PMF, proven at scale</h4><p>Confirmation of hypotheses around the pain points that resonate most (ie. memory, attention, brain health) and that drive long term retention</p></div>
+          <div class="b2 reveal r4"><h4>A growth engine that scales</h4><p>Ability to deploy significant resources to acquire users at scale based on internal data, market intelligence and agentic systems.&nbsp;</p></div>
+          <div class="b2 reveal r5"><h4>The first partnership conversations</h4><p>Close conversation with knowledge suppliers, from large suppliers to small and medium-sized creators.&nbsp;&nbsp;</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="footrule chrome-fade">
+    <span>Your attention, worth keeping.</span>
+    <span class="folio">14 <span>/ 14</span></span>
+  </footer>
+</section>
+
+
+<!-- ============ 14 — FINALE · night ============
+     Quote panel on a third, photograph on two thirds. The photograph is
+     generated (nano_banana_pro); the book is deliberately blank, because a
+     fabricated cover is the case DESIGN_DECISIONS bans by name. -->
+<section class="slide night" aria-label="Finale">
+  <div class="finale">
+    <div class="panel">
+      <blockquote class="reveal r2">The only way to deal with an unfree world is to become <span class="hot">so absolutely free</span> that your very existence is an act of rebellion.</blockquote>
+      <cite class="reveal r3">Albert Camus</cite>
+    </div>
+    <div class="shot reveal r1"><img src="/angel/assets/generated/tube-reader.jpg" alt="A woman reading a book on the underground while every other passenger looks at a phone" /></div>
+  </div>
+</section>
+
+</main>
+</div>
+
+<div id="progress" style="width:7.69%"></div>
+<div class="deck-controls" id="deckControls">&larr; &rarr; to move &middot; S for sound &middot; P to print &middot; E to edit</div>
+<!-- edit hotzone removed for web -->
+<button class="edit-toggle" id="editToggle" title="Edit mode (E)">Edit text</button>
+<!-- editor export button removed for web -->
+
+<script>
+/* ============ SLIDE PRESENTATION CONTROLLER ============ */
+class SlidePresentation {
+  constructor(){
+    this.slides   = Array.from(document.querySelectorAll('.slide'));
+    this.stage    = document.getElementById('deckStage');
+    this.progress = document.getElementById('progress');
+    this.controls = document.getElementById('deckControls');
+    this.current  = 0;
+    this.setupStageScale();
+    this.setupKeyboardNav();
+    this.setupWheelNav();
+    this.setupTouchNav();
+    this.setupIdleChrome();
+    const fromHash = parseInt((location.hash || '').replace('#',''), 10);
+    this.show(Number.isFinite(fromHash) && fromHash > 0 ? fromHash - 1 : 0);
+    window.addEventListener('hashchange', () => {
+      const n = parseInt((location.hash || '').replace('#',''), 10);
+      if (Number.isFinite(n) && n > 0 && n - 1 !== this.current) this.show(n - 1);
+    });
+  }
+
+  /* Scale the WHOLE 1920x1080 stage to fit the window. Never reflow slides. */
+  setupStageScale(){
+    /* Renders must be byte-comparable between runs. Headless Chrome reports a
+       different innerHeight from launch to launch (measured: the same slide came
+       back at five different zooms in one 15-slide pass), so in still mode the
+       stage is pinned 1:1 and the window is trusted to be 1920x1080. */
+    if (document.body.classList.contains('still')) {
+      this.stage.style.transform = 'none';
+      return;
+    }
+    const scale = () => {
+      const f = Math.min(window.innerWidth/1920, window.innerHeight/1080);
+      const x = (window.innerWidth  - 1920*f)/2;
+      const y = (window.innerHeight - 1080*f)/2;
+      this.stage.style.transform = 'translate(' + x + 'px,' + y + 'px) scale(' + f + ')';
+    };
+    scale();
+    window.addEventListener('resize', scale);
+    /* The first call can land before the viewport has settled, which pins the
+       stage at a stale (too small) scale for the life of the page -- resize
+       never fires afterwards, so nothing corrects it. Visible as a letterboxed
+       deck on open, and as renders that come out at different zooms from one
+       run to the next. Re-measuring after load costs nothing. */
+    window.addEventListener('load', scale);
+  }
+
+  setupKeyboardNav(){
+    document.addEventListener('keydown', (e) => {
+      if (e.target.getAttribute && e.target.getAttribute('contenteditable') === 'true') return;
+      if (['ArrowRight','ArrowDown',' ','PageDown'].includes(e.key)){ e.preventDefault(); this.next(); }
+      if (['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){ e.preventDefault(); this.prev(); }
+      if (e.key === 'Home'){ this.show(0); }
+      if (e.key === 'End'){ this.show(this.slides.length - 1); }
+      if (e.key === 'p' || e.key === 'P'){ window.print(); }
+    });
+  }
+
+  setupWheelNav(){
+    let lock = false;
+    window.addEventListener('wheel', (e) => {
+      if (lock || Math.abs(e.deltaY) < 24) return;
+      lock = true; setTimeout(() => lock = false, 650);
+      e.deltaY > 0 ? this.next() : this.prev();
+    }, {passive:true});
+  }
+
+  setupTouchNav(){
+    let x0 = null;
+    window.addEventListener('touchstart', e => x0 = e.touches[0].clientX, {passive:true});
+    window.addEventListener('touchend', e => {
+      if (x0 === null) return;
+      const dx = e.changedTouches[0].clientX - x0;
+      if (Math.abs(dx) > 55) dx < 0 ? this.next() : this.prev();
+      x0 = null;
+    }, {passive:true});
+  }
+
+  setupIdleChrome(){
+    let t;
+    const wake = () => {
+      this.controls.classList.remove('idle');
+      clearTimeout(t);
+      t = setTimeout(() => this.controls.classList.add('idle'), 3200);
+    };
+    ['mousemove','keydown','touchstart'].forEach(ev => window.addEventListener(ev, wake, {passive:true}));
+    wake();
+  }
+
+  next(){ this.show(this.current + 1); }
+  prev(){ this.show(this.current - 1); }
+
+  show(i){
+    this.current = Math.max(0, Math.min(i, this.slides.length - 1));
+    this.slides.forEach((s, n) => {
+      s.classList.toggle('active',  n === this.current);
+      s.classList.toggle('visible', n === this.current);
+    });
+    this.progress.style.width = ((this.current + 1) / this.slides.length * 100) + '%';
+    if (history.replaceState) history.replaceState(null, '', '#' + (this.current + 1));
+    /* Leaving a slide always pauses its video, so no audio carries over.
+       ARRIVING on one only starts the video if the video ASKED to be started --
+       i.e. it carries an autoplay attribute. This used to say "every video",
+       which was correct while the only video was the four-second muted product
+       loop on slide 5, and became an autoplaying 83-second founder film with a
+       voice track the moment slide 12 gained one. The markup declares the
+       intent; this loop only honours it. */
+    if (document.body.classList.contains('still')) return;
+    this.slides.forEach((s, n) => {
+      const v = s.querySelector('video');
+      if (!v) return;
+      if (n !== this.current){ v.pause(); return; }
+      if (v.hasAttribute('autoplay')){ v.currentTime = 0; v.play().catch(() => {}); }
+    });
+  }
+}
+
+/* ============ DEMO SOUND ============
+   Browsers block autoplay WITH audio, so the demo starts muted and one tap
+   (or the S key) turns it on. The control reflects the real state. */
+/* The founder film plays on request only -- the play control, or a click on the
+   frame. Space was bound to it here for one round and that was wrong: space is
+   how a presenter advances a deck without looking, so binding it meant the film
+   appeared to start itself the moment Mike tried to move on. Sound comes on with
+   the click, and leaving the slide stops the voice track. */
+function setupFounderFilm(){
+  var v = document.getElementById('founderFilm');
+  var btn = document.getElementById('filmPlay');
+  if (!v || !btn) return;
+  var wrap = v.closest('.film');
+  function play(){
+    v.muted = false; v.volume = 1;
+    v.play().then(function(){ wrap.classList.add('playing'); }).catch(function(){});
+  }
+  function toggle(){ if (v.paused) play(); else { v.pause(); wrap.classList.remove('playing'); } }
+  btn.addEventListener('click', function(e){ e.stopPropagation(); toggle(); });
+  v.addEventListener('click', function(e){ e.stopPropagation(); toggle(); });
+  v.addEventListener('pause', function(){ wrap.classList.remove('playing'); });
+  v.addEventListener('ended', function(){ wrap.classList.remove('playing'); v.currentTime = 0; });
+  /* leaving the slide stops the voice track rather than letting it play on
+     underneath the next argument */
+  document.addEventListener('keydown', function(){
+    var slide = v.closest('.slide');
+    if (slide && !slide.classList.contains('active') && !v.paused) v.pause();
+  });
+}
+
+function setupSound(){
+  var v = document.getElementById('demoVertical');
+  var btn = document.getElementById('soundBtn');
+  var hint = document.getElementById('soundHint');
+  if (!v || !btn) return;
+  function paint(){
+    btn.innerHTML = v.muted ? '&#128263;' : '&#128266;';
+    btn.title = v.muted ? 'Turn sound on (S)' : 'Mute (S)';
+    if (hint) hint.textContent = v.muted ? 'Tap the speaker, or press S, for sound' : 'Sound on';
+  }
+  function toggle(){
+    v.muted = !v.muted;
+    if (!v.muted){ v.volume = 1; v.play().catch(function(){}); }
+    paint();
+  }
+  btn.addEventListener('click', function(e){ e.stopPropagation(); toggle(); });
+  document.addEventListener('keydown', function(e){
+    if ((e.key === 's' || e.key === 'S') && e.target.getAttribute && e.target.getAttribute('contenteditable') !== 'true') toggle();
+  });
+  paint();
+}
+
+/* ============ INLINE TEXT EDITING ============ */
+class InlineEditor {
+  /* v6 = aria-label keys. The v5 blob in any browser is index-keyed and its
+     edits are already committed to this file, so it is never read again. */
+  static KEY = 'reps-deck-v6';
+  /* Edits live in ONE browser and never reach the file. Recovering the last
+     batch meant copying a Chrome profile and decoding leveldb; this button is
+     the cheap version of that. */
+  exportEdits(){
+    const blob = localStorage.getItem(InlineEditor.KEY) || '{}';
+    navigator.clipboard.writeText(blob).catch(function(){});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([blob], {type:'application/json'}));
+    a.download = 'reps-deck-edits.json';
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 800);
+  }
+  constructor(){
+    this.isActive = false;
+    this.btn = document.getElementById('editToggle');
+    this.selector = 'h1,h2,h3,h4,h5,p,li,td,th,div.caption,div.idx,div.gtm-v,div.gtm-cap,div.fig,div.terms,div.pct,div.role,div.masthead-meta,div.source,div.stat,div.tag,div.big,div.t,div.s,div.fn,div.lab,div.val';
+    this.captureBase();
+    this.restore();
+  }
+  toggle(){
+    this.isActive = !this.isActive;
+    this.btn.classList.toggle('active', this.isActive);
+    this.btn.classList.toggle('show',   this.isActive);
+    const ex = document.getElementById('editExport');
+    if (ex) ex.classList.toggle('show', this.isActive);
+    this.btn.textContent = this.isActive ? 'Done editing' : 'Edit text';
+    document.querySelectorAll(this.selector).forEach(el => {
+      el.setAttribute('contenteditable', this.isActive ? 'true' : 'false');
+      if (this.isActive) el.addEventListener('blur', () => this.save(), {once:true});
+    });
+    if (!this.isActive) this.save();
+  }
+  /* The file text as loaded, captured BEFORE any stored edit is applied. An
+     edit is only replayed while the file still says what it said when the edit
+     was made; after that the file wins. */
+  captureBase(){
+    this.base = new Map();
+    document.querySelectorAll(this.selector).forEach(el => {
+      this.base.set(this.key(el), el.innerHTML.trim());
+    });
+  }
+  key(el){
+    const slide = el.closest('.slide');
+    if (!slide) return '';
+    /* Keyed by the slide's aria-label, NOT its index. Index keys silently
+       re-target every stored edit the moment a slide is inserted -- adding the
+       cover shifted all thirteen -- and the damage is invisible until someone
+       reads the wrong sentence on the wrong slide. */
+    const name = slide.getAttribute('aria-label') || 'slide';
+    const peers = Array.from(slide.querySelectorAll(el.tagName.toLowerCase()));
+    return name + '|' + el.tagName + '|' + peers.indexOf(el);
+  }
+  /* Store EDITS, never a snapshot. Writing every matched element (what this
+     did until 2026-08-23) froze the whole deck into one browser the first time
+     edit mode was used, and that browser then replayed the frozen copy over
+     every later version of the file. */
+  save(){
+    const store = {};
+    document.querySelectorAll(this.selector).forEach(el => {
+      const k = this.key(el);
+      const base = this.base.get(k);
+      const now = el.innerHTML.trim();
+      if (base === undefined || now === base) return;
+      store[k] = {base: base, v: now};
+    });
+    try { localStorage.setItem(InlineEditor.KEY, JSON.stringify(store)); } catch(e){}
+  }
+  restore(){
+    let store; try { store = JSON.parse(localStorage.getItem(InlineEditor.KEY) || '{}'); } catch(e){ return; }
+    const kept = {};
+    let dropped = 0;
+    document.querySelectorAll(this.selector).forEach(el => {
+      const k = this.key(el);
+      const entry = store[k];
+      if (!entry) return;
+      /* Legacy shape: a bare string with no record of what it was edited from,
+         so it cannot be checked. Dropped rather than trusted -- every edit made
+         before this change is already in the file. */
+      if (typeof entry !== 'object' || typeof entry.v !== 'string') { dropped++; return; }
+      if (entry.base !== this.base.get(k)) { dropped++; return; }
+      el.innerHTML = entry.v;
+      kept[k] = entry;
+    });
+    if (dropped) {
+      try { localStorage.setItem(InlineEditor.KEY, JSON.stringify(kept)); } catch(e){}
+      console.info('[deck] dropped ' + dropped + ' saved edit(s) the file has since moved past');
+    }
+  }
+}
+
+if (/[?&]still/.test(location.search)){
+  document.body.classList.add('still');
+  /* Still renders (the feedback board, print) should show the poster frame,
+     not a half-decoded first frame. */
+  document.querySelectorAll('video').forEach(function(v){ v.removeAttribute('autoplay'); v.preload = 'none'; v.pause(); });
+}
+
+const deck   = new SlidePresentation();
+/* Inline editor disabled on the web build: a viewer pressing "E" must not be
+   able to rewrite the deck. Stubbed rather than deleted so every later
+   reference stays valid. */
+const editor = { isActive: false, toggle(){}, save(){}, exportEdits(){}, apply(){} };
+setupSound();
+setupFounderFilm();
+
+/* editor hotzone bindings removed for web */
+</script>
+<!-- ============================================================================
+     REPS Angel deck — web layer (gate + telemetry + notes)
+     ----------------------------------------------------------------------------
+     Injected before </body> by build-web.mjs. Never loaded when the deck is opened
+     from disk, so Mike's local copy stays exactly as it is.
+
+     Three things live here:
+       1. THE GATE     — email, then a six-character code (or one click from the
+                         emailed link). Verified server-side; the deck stays
+                         covered until it passes.
+       2. TELEMETRY    — per-slide dwell time to PostHog. A deck is one page, so
+                         page analytics say nothing; time-per-slide is the whole
+                         signal.
+       3. NOTES        — review-circle markup. Pin a note to a spot on a slide or
+                         write about the slide as a whole, edit later, send the
+                         lot to Mike in one press. Only present with ?review=1.
+     ========================================================================== -->
+<style>
+  /* ── gate ───────────────────────────────────────────────────────────── */
+  #deckGate{position:fixed;inset:0;z-index:2147483000;background:#040409;display:flex;
+    align-items:center;justify-content:center;
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;}
+  #deckGate.gone{display:none;}
+  #deckGate .gcard{display:flex;flex-direction:column;align-items:center;gap:12px;padding:48px;
+    max-width:460px;width:90%;text-align:center;}
+  #deckGate .gmark{width:96px;height:96px;border-radius:22.37%;
+    filter:drop-shadow(0 0 60px rgba(255,107,107,.18));margin-bottom:12px;user-select:none;}
+  #deckGate .geyebrow{font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+    color:#FF6B6B;}
+  #deckGate .gtitle{font-family:'Lora',Georgia,serif;font-size:36px;font-weight:600;color:#fff;
+    line-height:1.1;}
+  #deckGate .gsub{font-size:15px;color:rgba(255,255,255,.65);margin-bottom:12px;max-width:380px;
+    line-height:1.45;}
+  #deckGate form{display:flex;flex-direction:column;gap:10px;width:100%;max-width:420px;}
+  #deckGate input{width:100%;padding:14px 18px;background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.18);border-radius:999px;color:#fff;font-size:15px;
+    font-family:inherit;outline:none;box-sizing:border-box;text-align:center;}
+  #deckGate input::placeholder{color:rgba(255,255,255,.4);}
+  #deckGate input:focus{border-color:#FF6B6B;background:rgba(255,255,255,.12);}
+  #deckGate input.bad{border-color:rgba(255,107,107,.6);}
+  #deckGate #gcode{letter-spacing:.34em;font-size:20px;font-weight:600;text-transform:uppercase;
+    padding-left:calc(18px + .34em);}
+  #deckGate button.gprimary{padding:14px 22px;background:linear-gradient(135deg,#FF6B6B,#FF8E53);
+    color:#fff;border:none;border-radius:999px;font-weight:600;font-size:14px;cursor:pointer;
+    font-family:inherit;letter-spacing:.02em;margin-top:4px;}
+  #deckGate button.gprimary:hover{filter:brightness(1.05);}
+  #deckGate button.gprimary[disabled]{opacity:.55;cursor:default;filter:none;}
+  #deckGate .glink{background:none;border:none;color:rgba(255,255,255,.5);font-size:13px;
+    font-family:inherit;cursor:pointer;text-decoration:underline;padding:6px;}
+  #deckGate .glink:hover{color:rgba(255,255,255,.8);}
+  #deckGate .gerr{font-size:13px;color:rgba(255,107,107,.95);min-height:18px;opacity:0;
+    transition:opacity .2s;margin-top:4px;line-height:1.4;}
+  #deckGate .gerr.on{opacity:1;}
+  #deckGate .gstep{display:none;flex-direction:column;gap:10px;width:100%;}
+  #deckGate .gstep.on{display:flex;}
+  @keyframes gshake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}
+    40%{transform:translateX(8px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+  #deckGate .gcard.shake{animation:gshake .4s;}
+  @media (max-width:520px){#deckGate .gcard{padding:32px 20px;}#deckGate .gtitle{font-size:28px;}
+    #deckGate .gmark{width:72px;height:72px;}}
+
+  /* ── notes ──────────────────────────────────────────────────────────── */
+  #ntLaunch{position:fixed;right:18px;bottom:18px;z-index:2147482000;display:none;gap:8px;
+    align-items:center;padding:11px 17px;border-radius:999px;border:none;cursor:pointer;
+    background:#211A14;color:#fff;font-size:13px;font-weight:600;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+    box-shadow:0 6px 22px rgba(0,0,0,.28);}
+  #ntLaunch.on{display:flex;}
+  #ntLaunch .ntcount{background:#FF6B6B;border-radius:999px;padding:1px 7px;font-size:11px;}
+  #ntPanel{position:fixed;top:0;right:0;bottom:0;width:380px;max-width:92vw;z-index:2147482500;
+    background:#FFFAF7;box-shadow:-8px 0 40px rgba(0,0,0,.18);transform:translateX(100%);
+    transition:transform .28s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;}
+  #ntPanel.on{transform:translateX(0);}
+  #ntPanel header{padding:20px 20px 14px;border-bottom:1px solid #EADFD6;}
+  #ntPanel h2{margin:0 0 4px;font-family:'Lora',Georgia,serif;font-size:21px;font-weight:600;
+    color:#211A14;}
+  #ntPanel .nthint{font-size:12.5px;color:#8A7F76;line-height:1.45;}
+  #ntBody{flex:1;overflow-y:auto;padding:14px 20px 20px;}
+  #ntBody .ntempty{font-size:13.5px;color:#8A7F76;line-height:1.55;padding:14px 0;}
+  .ntgroup{margin-bottom:18px;}
+  .ntgroup h3{margin:0 0 7px;font-family:'Lora',Georgia,serif;font-size:14.5px;font-weight:600;
+    color:#211A14;}
+  .ntitem{position:relative;margin-bottom:8px;}
+  .ntitem textarea{width:100%;box-sizing:border-box;min-height:62px;resize:vertical;padding:10px 30px 10px 11px;
+    border:1px solid #EADFD6;border-radius:10px;background:#fff;font:inherit;font-size:13.5px;
+    line-height:1.45;color:#211A14;outline:none;}
+  .ntitem textarea:focus{border-color:#FF6B6B;}
+  .ntitem .ntwhere{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:#8A7F76;
+    margin-bottom:4px;}
+  .ntitem .ntdel{position:absolute;top:24px;right:7px;border:none;background:none;cursor:pointer;
+    color:#B8ABA1;font-size:16px;line-height:1;padding:3px;}
+  .ntitem .ntdel:hover{color:#FF6B6B;}
+  #ntPanel footer{padding:14px 20px 18px;border-top:1px solid #EADFD6;display:flex;
+    flex-direction:column;gap:9px;}
+  #ntSend{padding:13px;border:none;border-radius:999px;cursor:pointer;font:inherit;font-size:14px;
+    font-weight:600;color:#fff;background:linear-gradient(135deg,#FF6B6B,#FF8E53);}
+  #ntSend[disabled]{opacity:.5;cursor:default;}
+  #ntPin{padding:11px;border:1px solid #EADFD6;border-radius:999px;cursor:pointer;font:inherit;
+    font-size:13px;font-weight:600;color:#211A14;background:#fff;}
+  #ntPin.armed{background:#211A14;color:#fff;border-color:#211A14;}
+  #ntStatus{font-size:12.5px;color:#8A7F76;text-align:center;min-height:16px;line-height:1.4;}
+  #ntClose{position:absolute;top:16px;right:16px;border:none;background:none;font-size:22px;
+    line-height:1;color:#B8ABA1;cursor:pointer;}
+  body.nt-arming, body.nt-arming .slide.active{cursor:crosshair;}
+  .ntpin{position:absolute;z-index:900;width:26px;height:26px;margin:-13px 0 0 -13px;
+    border-radius:999px;background:#FF6B6B;color:#fff;border:2px solid #fff;
+    box-shadow:0 3px 10px rgba(0,0,0,.3);font:600 12px/22px -apple-system,BlinkMacSystemFont,
+    'Segoe UI',Helvetica,Arial,sans-serif;text-align:center;cursor:pointer;
+    transform:scale(var(--ntpin-inv,1));transform-origin:center;}
+  @media print{#deckGate,#ntLaunch,#ntPanel,.ntpin{display:none!important;}}
+</style>
+
+<div id="deckGate" role="dialog" aria-modal="true" aria-label="Access the REPS deck">
+  <div class="gcard">
+    <img src="/angel/assets/logos/app-mark.png" class="gmark" alt="REPS" />
+    <div class="geyebrow">REPS &middot; Angel round</div>
+    <div class="gtitle">The deck</div>
+
+    <div class="gstep on" id="gstep1">
+      <div class="gsub">Enter your email and we&rsquo;ll send you a code.</div>
+      <form id="gform1" autocomplete="off" novalidate>
+        <input type="email" id="gemail" placeholder="Your email" autocomplete="email" required />
+        <button type="submit" class="gprimary" id="gsend">Send me a code</button>
+      </form>
+    </div>
+
+    <div class="gstep" id="gstep2">
+      <div class="gsub" id="gsent">Check your inbox.</div>
+      <form id="gform2" autocomplete="off" novalidate>
+        <input type="text" id="gcode" placeholder="CODE" maxlength="7" autocomplete="one-time-code"
+               inputmode="latin" spellcheck="false" />
+        <button type="submit" class="gprimary" id="gopen">Open the deck</button>
+      </form>
+      <button type="button" class="glink" id="gback">Use a different email</button>
+    </div>
+
+    <div class="gerr" id="gerr">&nbsp;</div>
+  </div>
+</div>
+
+<button id="ntLaunch" type="button">Notes <span class="ntcount" id="ntCount">0</span></button>
+
+<aside id="ntPanel" aria-label="Your notes on the deck">
+  <header>
+    <button id="ntClose" type="button" aria-label="Close notes">&times;</button>
+    <h2>Your notes</h2>
+    <div class="nthint">Pin a note to something specific, or just write about the slide
+      you&rsquo;re on. Saved as you type. Send them all when you&rsquo;re done.</div>
+  </header>
+  <div id="ntBody"></div>
+  <footer>
+    <button id="ntPin" type="button">Pin a note to this slide</button>
+    <button id="ntSend" type="button">Send to Mike</button>
+    <div id="ntStatus"></div>
+  </footer>
+</aside>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ══ shared ══════════════════════════════════════════════════════════ */
+  var stage  = document.getElementById('deckStage');
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var qs     = new URLSearchParams(location.search);
+
+  function slideName(i){
+    var s = slides[i];
+    return (s && s.getAttribute('aria-label')) || ('Slide ' + (i + 1));
+  }
+  function currentIndex(){
+    for (var i = 0; i < slides.length; i++) if (slides[i].classList.contains('active')) return i;
+    return 0;
+  }
+  function post(path, body){
+    return fetch(path, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      credentials: 'same-origin',
+      body: JSON.stringify(body || {})
+    }).then(function(r){
+      return r.json().catch(function(){ return {}; }).then(function(j){
+        j.__status = r.status; return j;
+      });
+    });
+  }
+
+  /* ══ 1. telemetry ════════════════════════════════════════════════════
+     A deck is one URL, so pageviews say nothing. What Mike asked for is where
+     people SPEND TIME, which means dwell per slide. Every slide already carries
+     an aria-label, so the event keys are the slide names he knows rather than
+     indexes he would have to decode.
+
+     Hooked with a MutationObserver on the .active class rather than by wrapping
+     the deck's own show(), so this layer stays independent of the deck's
+     internals and cannot break navigation if they change.
+     ═══════════════════════════════════════════════════════════════════ */
+  var phReady = false, viewerEmail = null;
+  var dwellFrom = Date.now(), dwellIndex = -1, deepest = 0, flushed = false;
+
+  function bootPostHog(){
+    try {
+      !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+      window.posthog.init('phc_gTI0FJoXiGPjdACbgVyunpDSl0mPs2HEYtmzUtK3SyE', {
+        api_host: 'https://us.i.posthog.com',
+        ui_host: 'https://us.posthog.com',
+        defaults: '2025-05-24',
+        persistence: 'localStorage+cookie',
+        capture_pageview: true,
+        capture_pageleave: true,
+        autocapture: true,
+        disable_session_recording: false,
+        loaded: function(p){ phReady = true; p.register({ surface: 'angel_deck' }); }
+      });
+      phReady = true;
+    } catch(e){ /* analytics must never break the deck */ }
+  }
+
+  /* Resolve window.posthog at CALL time, never cache it. The loader snippet
+     installs a stub synchronously and the real library REPLACES it on window a
+     moment later; a reference grabbed at boot points at the dead stub, so every
+     event goes nowhere. Caught only because the events were checked in a real
+     browser — the deck behaves identically either way, which is exactly what
+     makes this failure invisible. */
+  function track(name, props){
+    try {
+      var p = window.posthog;
+      if (phReady && p && typeof p.capture === 'function') p.capture(name, props || {});
+    } catch(e){}
+  }
+
+  function closeDwell(){
+    if (dwellIndex < 0) return;
+    var ms = Date.now() - dwellFrom;
+    /* Sub-second visits are someone holding the arrow key down, not reading.
+       Counting them would drag every average toward zero. */
+    if (ms >= 900) {
+      track('deck_slide_view', {
+        slide: slideName(dwellIndex),
+        slide_index: dwellIndex + 1,
+        dwell_ms: ms,
+        dwell_s: Math.round(ms / 100) / 10
+      });
+    }
+    dwellIndex = -1;
+  }
+
+  function openDwell(i){
+    dwellIndex = i; dwellFrom = Date.now();
+    if (i + 1 > deepest) deepest = i + 1;
+  }
+
+  function watchSlides(){
+    var obs = new MutationObserver(function(muts){
+      for (var i = 0; i < muts.length; i++) {
+        var el = muts[i].target;
+        if (el.classList && el.classList.contains('active')) {
+          var idx = slides.indexOf(el);
+          if (idx >= 0 && idx !== dwellIndex) { closeDwell(); openDwell(idx); }
+          return;
+        }
+      }
+    });
+    slides.forEach(function(s){ obs.observe(s, {attributes: true, attributeFilter: ['class']}); });
+
+    slides.forEach(function(s, i){
+      var v = s.querySelector('video');
+      if (!v) return;
+      v.addEventListener('play', function(){
+        track('deck_video_play', {slide: slideName(i), slide_index: i + 1});
+      });
+    });
+  }
+
+  function flush(){
+    if (flushed) return; flushed = true;
+    closeDwell();
+    track('deck_session_end', {
+      deepest_slide: deepest,
+      slide_count: slides.length,
+      reached_end: deepest >= slides.length
+    });
+  }
+  window.addEventListener('pagehide', flush);
+  document.addEventListener('visibilitychange', function(){
+    /* Backgrounding a tab is the common way a deck session ends on a phone, and
+       pagehide is not guaranteed there. Close the open slide's dwell so the time
+       is not lost, then let it reopen if they come back. */
+    if (document.visibilityState === 'hidden') { closeDwell(); }
+    else if (dwellIndex < 0) { openDwell(currentIndex()); }
+  });
+
+  /* ══ 2. the gate ═════════════════════════════════════════════════════
+     Starts CLOSED and only opens once the server says so. Deliberately the safe
+     direction: a returning viewer waits one round-trip, but the deck is never
+     briefly shown to someone who has not been through the gate.
+     ═══════════════════════════════════════════════════════════════════ */
+  var gate   = document.getElementById('deckGate');
+  var step1  = document.getElementById('gstep1');
+  var step2  = document.getElementById('gstep2');
+  var emailI = document.getElementById('gemail');
+  var codeI  = document.getElementById('gcode');
+  var sendB  = document.getElementById('gsend');
+  var openB  = document.getElementById('gopen');
+  var errEl  = document.getElementById('gerr');
+  var sentEl = document.getElementById('gsent');
+  var card   = gate.querySelector('.gcard');
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  function fail(msg, focus){
+    errEl.textContent = msg; errEl.classList.add('on');
+    card.classList.add('shake');
+    setTimeout(function(){ card.classList.remove('shake'); }, 400);
+    if (focus) { focus.classList.add('bad'); focus.focus(); }
+  }
+  function clearErr(){
+    errEl.classList.remove('on');
+    emailI.classList.remove('bad'); codeI.classList.remove('bad');
+  }
+
+  /* While the gate is up the deck must not respond to anything. Capture phase,
+     so this runs before the deck's own document-level handlers. */
+  function swallow(e){
+    if (gate.classList.contains('gone')) return;
+    if (e.type === 'keydown' && (e.key === 'Tab' || e.key === 'Enter')) return;
+    e.stopPropagation();
+  }
+  ['keydown','wheel','touchstart','touchmove'].forEach(function(t){
+    document.addEventListener(t, swallow, {capture: true});
+  });
+
+  function unlock(email, how){
+    viewerEmail = email || null;
+    gate.classList.add('gone');
+    if (viewerEmail) {
+      try { localStorage.setItem('reps_deck_email', viewerEmail); } catch(e){}
+      try {
+        var p = window.posthog;
+        if (p && typeof p.identify === 'function') {
+          p.identify(viewerEmail, {email: viewerEmail, surface: 'angel_deck'});
+        }
+      } catch(e){}
+    }
+    track('deck_unlocked', {via: how});
+    openDwell(currentIndex());
+    notesBoot();
+  }
+
+  function showStep2(email){
+    step1.classList.remove('on'); step2.classList.add('on');
+    sentEl.innerHTML = 'We sent a code to <strong>' + email.replace(/[<>&]/g, '') + '</strong>.';
+    setTimeout(function(){ codeI.focus(); }, 60);
+  }
+
+  document.getElementById('gform1').addEventListener('submit', function(e){
+    e.preventDefault(); clearErr();
+    var email = emailI.value.trim().toLowerCase();
+    if (!EMAIL_RE.test(email)) return fail('That does not look like an email address.', emailI);
+    sendB.disabled = true; sendB.textContent = 'Sending…';
+    post('/api/deck-access', {email: email}).then(function(r){
+      sendB.disabled = false; sendB.textContent = 'Send me a code';
+      if (r && r.ok) { showStep2(email); track('deck_code_requested', {}); return; }
+      if (r && r.error === 'too_many') return fail('Too many tries. Give it an hour, or reply to the email that sent you here.');
+      if (r && r.error === 'send_failed') return fail('We could not send that email. Reply to whoever sent you this link and we will let you straight in.');
+      fail('Something went wrong. Try again in a moment.');
+    }).catch(function(){
+      sendB.disabled = false; sendB.textContent = 'Send me a code';
+      fail('No connection. Check your network and try again.');
+    });
+  });
+
+  document.getElementById('gform2').addEventListener('submit', function(e){
+    e.preventDefault(); clearErr();
+    var email = emailI.value.trim().toLowerCase();
+    var code  = codeI.value.trim();
+    if (code.length < 6) return fail('The code is six characters.', codeI);
+    openB.disabled = true; openB.textContent = 'Checking…';
+    post('/api/deck-verify', {email: email, code: code}).then(function(r){
+      openB.disabled = false; openB.textContent = 'Open the deck';
+      if (r && r.ok) return unlock(r.email || email, 'code');
+      fail('That code is wrong or has expired. Ask for a new one.', codeI);
+    }).catch(function(){
+      openB.disabled = false; openB.textContent = 'Open the deck';
+      fail('No connection. Check your network and try again.');
+    });
+  });
+
+  document.getElementById('gback').addEventListener('click', function(){
+    clearErr(); codeI.value = '';
+    step2.classList.remove('on'); step1.classList.add('on');
+    emailI.focus();
+  });
+
+  /* Entry paths, in order of preference:
+       ?t=<token>  one click from the email, or a pre-authorised invite
+       cookie      they have been here before
+       otherwise   show the gate                                               */
+  function boot(){
+    bootPostHog();
+    watchSlides();
+
+    var token = qs.get('t');
+    if (token) {
+      post('/api/deck-verify', {token: token}).then(function(r){
+        /* Strip the token from the address bar either way: a link that is still
+           in the URL gets copied, pasted and forwarded, which quietly turns a
+           one-person invite into a public one. */
+        var clean = location.pathname + (qs.get('review') ? '?review=1' : '') + location.hash;
+        try { history.replaceState(null, '', clean); } catch(e){}
+        if (r && r.ok) return unlock(r.email, 'link');
+        knownCheck(true);
+      }).catch(function(){ knownCheck(true); });
+      return;
+    }
+    knownCheck(false);
+  }
+
+  /* Doubles as the beacon: the same call tells the server "someone is reading
+     it", which is where the forwarding signal (opened here, read there) comes
+     from. One round-trip does both jobs. */
+  function knownCheck(linkFailed){
+    post('/api/deck-open', {}).then(function(r){
+      if (r && r.known) {
+        var saved = null;
+        try { saved = localStorage.getItem('reps_deck_email'); } catch(e){}
+        return unlock(saved, 'returning');
+      }
+      if (linkFailed) fail('That link has expired. Enter your email and we will send you a fresh code.');
+      setTimeout(function(){ emailI.focus(); }, 80);
+    }).catch(function(){
+      setTimeout(function(){ emailI.focus(); }, 80);
+    });
+  }
+
+  /* ══ 3. notes ════════════════════════════════════════════════════════
+     Review-circle markup. Present only with ?review=1 — investors get a clean
+     deck, the people Mike asked to mark it up get the tool.
+     ═══════════════════════════════════════════════════════════════════ */
+  var REVIEW = qs.get('review') === '1';
+  var STORE  = 'reps_deck_notes_v1';
+  var notes  = [];
+  var armed  = false;
+  var launch = document.getElementById('ntLaunch');
+  var panel  = document.getElementById('ntPanel');
+  var bodyEl = document.getElementById('ntBody');
+  var countEl= document.getElementById('ntCount');
+  var pinBtn = document.getElementById('ntPin');
+  var sendBtn= document.getElementById('ntSend');
+  var statEl = document.getElementById('ntStatus');
+  var seq    = 0;
+
+  function load(){
+    try { notes = JSON.parse(localStorage.getItem(STORE) || '[]'); } catch(e){ notes = []; }
+    if (!Array.isArray(notes)) notes = [];
+    notes.forEach(function(n){ if (n.id >= seq) seq = n.id + 1; });
+  }
+  function save(){
+    try { localStorage.setItem(STORE, JSON.stringify(notes)); } catch(e){}
+  }
+  function filled(){ return notes.filter(function(n){ return (n.text || '').trim(); }); }
+
+  function refreshCount(){
+    var n = filled().length;
+    countEl.textContent = n;
+    sendBtn.disabled = n === 0;
+  }
+
+  /* Pins live INSIDE the slide, so they ride the deck's stage transform and stay
+     glued to whatever they were pinned to at any window size. They are then
+     counter-scaled so the dot itself stays a constant size on screen. */
+  function pinScale(){
+    var f = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    document.documentElement.style.setProperty('--ntpin-inv', f > 0 ? (1 / f) : 1);
+  }
+  window.addEventListener('resize', pinScale);
+
+  function drawPins(){
+    Array.prototype.slice.call(document.querySelectorAll('.ntpin')).forEach(function(p){
+      p.parentNode.removeChild(p);
+    });
+    notes.forEach(function(n, i){
+      if (n.x === null || n.x === undefined) return;
+      var host = slides[n.index];
+      if (!host) return;
+      var dot = document.createElement('div');
+      dot.className = 'ntpin';
+      dot.setAttribute('data-pin', n.id);
+      dot.style.left = n.x + '%';
+      dot.style.top  = n.y + '%';
+      dot.textContent = String(i + 1);
+      dot.title = n.text || 'Your note';
+      dot.addEventListener('click', function(ev){
+        ev.stopPropagation();
+        openPanel();
+        var ta = document.querySelector('[data-note="' + n.id + '"]');
+        if (ta) { ta.scrollIntoView({block: 'center'}); ta.focus(); }
+      });
+      host.appendChild(dot);
+    });
+    pinScale();
+  }
+
+  function render(){
+    bodyEl.innerHTML = '';
+    if (!notes.length) {
+      var p = document.createElement('div');
+      p.className = 'ntempty';
+      p.textContent = 'No notes yet. Press “Pin a note to this slide” and click whatever you want to comment on — or just start typing about the slide you are on.';
+      bodyEl.appendChild(p);
+    }
+    var order = notes.slice().sort(function(a, b){ return a.index - b.index; });
+    var lastIdx = -1, group = null;
+    order.forEach(function(n){
+      if (n.index !== lastIdx) {
+        lastIdx = n.index;
+        group = document.createElement('div');
+        group.className = 'ntgroup';
+        var h = document.createElement('h3');
+        h.textContent = (n.index + 1) + '. ' + slideName(n.index);
+        group.appendChild(h);
+        bodyEl.appendChild(group);
+      }
+      var item = document.createElement('div');
+      item.className = 'ntitem';
+      var where = document.createElement('div');
+      where.className = 'ntwhere';
+      where.textContent = (n.x === null || n.x === undefined) ? 'About this slide' : 'Pinned';
+      var ta = document.createElement('textarea');
+      ta.value = n.text || '';
+      ta.setAttribute('data-note', n.id);
+      ta.placeholder = 'What do you want to say?';
+      /* Never re-render on input — it steals focus mid-typing and drops the
+         caret. Update state, save, adjust the counter, and leave the DOM alone. */
+      ta.addEventListener('input', function(){
+        n.text = ta.value; save(); refreshCount();
+        var dot = document.querySelector('.ntpin[data-pin="' + n.id + '"]');
+        if (dot) dot.title = n.text || 'Your note';
+      });
+      /* The deck navigates on arrows, space and wheel. Without this, typing a
+         space in a note jumps to the next slide. */
+      ['keydown','keyup','wheel'].forEach(function(t){
+        ta.addEventListener(t, function(ev){ ev.stopPropagation(); });
+      });
+      var del = document.createElement('button');
+      del.className = 'ntdel'; del.type = 'button'; del.innerHTML = '&times;';
+      del.title = 'Delete this note';
+      del.addEventListener('click', function(){
+        notes = notes.filter(function(x){ return x.id !== n.id; });
+        save(); render(); drawPins(); refreshCount();
+      });
+      item.appendChild(where); item.appendChild(ta); item.appendChild(del);
+      (group || bodyEl).appendChild(item);
+    });
+    refreshCount();
+  }
+
+  function addNote(index, x, y, focus){
+    var n = {id: seq++, index: index, slide: slideName(index), x: x, y: y, text: ''};
+    notes.push(n); save(); render(); drawPins();
+    if (focus !== false) {
+      var ta = document.querySelector('[data-note="' + n.id + '"]');
+      if (ta) { openPanel(); ta.scrollIntoView({block: 'center'}); ta.focus(); }
+    }
+    return n;
+  }
+
+  function openPanel(){ panel.classList.add('on'); }
+  function closePanel(){ panel.classList.remove('on'); }
+
+  function arm(on){
+    armed = on;
+    pinBtn.classList.toggle('armed', on);
+    document.body.classList.toggle('nt-arming', on);
+    pinBtn.textContent = on ? 'Click the slide… (Esc to cancel)' : 'Pin a note to this slide';
+    if (on) closePanel();
+  }
+
+  function onStageClick(ev){
+    if (!armed) return;
+    var r = stage.getBoundingClientRect();
+    if (!r.width || !r.height) return;
+    var x = ((ev.clientX - r.left) / r.width) * 100;
+    var y = ((ev.clientY - r.top) / r.height) * 100;
+    if (x < 0 || x > 100 || y < 0 || y > 100) return;
+    ev.preventDefault(); ev.stopPropagation();
+    arm(false);
+    addNote(currentIndex(), Math.round(x * 10) / 10, Math.round(y * 10) / 10);
+  }
+
+  function sendNotes(){
+    var payload = filled().map(function(n){
+      return {slide: n.slide, slideIndex: n.index + 1, x: n.x, y: n.y, text: n.text};
+    });
+    if (!payload.length) return;
+    sendBtn.disabled = true; sendBtn.textContent = 'Sending…';
+    statEl.textContent = '';
+    post('/api/deck-comments', {comments: payload}).then(function(r){
+      sendBtn.textContent = 'Send to Mike';
+      if (r && r.ok) {
+        statEl.textContent = 'Sent. Thank you — your notes stay here if you want to add more.';
+        track('deck_notes_sent', {count: payload.length});
+        sendBtn.disabled = false;
+        return;
+      }
+      sendBtn.disabled = false;
+      statEl.textContent = (r && r.error === 'not_unlocked')
+        ? 'Your session expired. Reload the page and open the deck again.'
+        : 'That did not send. Try again in a moment.';
+    }).catch(function(){
+      sendBtn.textContent = 'Send to Mike'; sendBtn.disabled = false;
+      statEl.textContent = 'No connection. Your notes are saved here — try again when you are back online.';
+    });
+  }
+
+  function notesBoot(){
+    if (!REVIEW) return;
+    load(); render(); drawPins();
+    launch.classList.add('on');
+    launch.addEventListener('click', function(){
+      panel.classList.contains('on') ? closePanel() : openPanel();
+    });
+    document.getElementById('ntClose').addEventListener('click', closePanel);
+    pinBtn.addEventListener('click', function(){ arm(!armed); });
+    sendBtn.addEventListener('click', sendNotes);
+    document.addEventListener('click', onStageClick, {capture: true});
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && armed) { arm(false); e.stopPropagation(); }
+    }, {capture: true});
+    /* A note about the slide you are looking at, with no pinning step. */
+    var quick = document.createElement('button');
+    quick.type = 'button'; quick.id = 'ntQuick';
+    quick.textContent = 'Add a note about this slide';
+    quick.style.cssText = 'padding:11px;border:1px solid #EADFD6;border-radius:999px;cursor:pointer;'
+      + 'font:inherit;font-size:13px;font-weight:600;color:#211A14;background:#fff;';
+    quick.addEventListener('click', function(){ addNote(currentIndex(), null, null); });
+    pinBtn.parentNode.insertBefore(quick, pinBtn);
+    ['keydown','wheel'].forEach(function(t){
+      panel.addEventListener(t, function(ev){ ev.stopPropagation(); });
+    });
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+})();
+</script>
+
+</body>
+</html>

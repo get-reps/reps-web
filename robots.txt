@@ -2,5 +2,6 @@ User-agent: *
 Disallow: /product-2026/
 Disallow: /investor-2026/
 Disallow: /get
+Disallow: /angel
 
 Sitemap: https://www.getreps.io/sitemap.xml
