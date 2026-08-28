@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="robots" content="noindex" />
+    <title>Vote counted — REPS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;0,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --coral: #ff6b6b;
+        --coral-dark: #ff8e53;
+        --bg: #fffaf7;
+        --text: #1a1a1a;
+        --muted: #6b6b6b;
+        --border: #ede8e3;
+      }
+      html {
+        font-size: 17px;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Inter", sans-serif;
+        line-height: 1.65;
+        -webkit-font-smoothing: antialiased;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 32px;
+      }
+      .card {
+        max-width: 460px;
+        width: 100%;
+        text-align: center;
+      }
+      .wordmark {
+        font-family: "Lora", serif;
+        font-weight: 700;
+        font-size: 1.25rem;
+        letter-spacing: -0.02em;
+      }
+      .check {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        margin: 28px auto 24px;
+        background: var(--coral);
+        background-image: linear-gradient(
+          135deg,
+          var(--coral),
+          var(--coral-dark)
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .check svg {
+        width: 30px;
+        height: 30px;
+      }
+      h1 {
+        font-family: "Lora", serif;
+        font-weight: 700;
+        font-size: 2rem;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        margin-bottom: 14px;
+      }
+      .feature {
+        color: var(--coral);
+      }
+      p {
+        color: var(--muted);
+        font-size: 1rem;
+        margin-bottom: 8px;
+      }
+      .cta {
+        display: inline-block;
+        margin-top: 28px;
+        padding: 16px 30px;
+        border-radius: 100px;
+        background: var(--coral);
+        background-image: linear-gradient(
+          135deg,
+          var(--coral),
+          var(--coral-dark)
+        );
+        color: #fff;
+        font-weight: 600;
+        font-size: 1rem;
+        text-decoration: none;
+      }
+      .sub-note {
+        font-size: 0.82rem;
+        margin-top: 12px;
+      }
+      .home {
+        display: block;
+        margin-top: 28px;
+        color: var(--muted);
+        font-size: 0.85rem;
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="wordmark">REPS</div>
+      <div class="check">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M5 13l4 4L19 7"
+            stroke="#fff"
+            stroke-width="2.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
+      <h1>Got it. Thank&nbsp;you.</h1>
+      <p id="feature-line">
+        Your vote is in. It genuinely shapes what gets built next.
+      </p>
+      <a class="cta" href="https://testflight.apple.com/join/CESchuvz"
+        >Send REPS to a friend &rarr;</a
+      >
+      <p class="sub-note">
+        They'll get the latest build on TestFlight. Takes ten seconds.
+      </p>
+      <a class="home" href="https://getreps.io">Back to getreps.io</a>
+    </div>
+    <script>
+      var LABELS = {
+        voice: "Voice / audio reps",
+        media: "Picture &amp; video question types",
+        ai_search: "AI search of your saved knowledge",
+      };
+      var f = new URLSearchParams(location.search).get("f");
+      if (f && LABELS[f]) {
+        document.getElementById("feature-line").innerHTML =
+          'You voted for <span class="feature">' +
+          LABELS[f] +
+          "</span>. It genuinely shapes what gets built next.";
+      }
+    </script>
+  </body>
+</html>

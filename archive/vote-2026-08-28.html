@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="robots" content="noindex" />
+    <title>What should REPS build next? — REPS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;0,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --coral: #ff6b6b;
+        --coral-dark: #ff8e53;
+        --bg: #fffaf7;
+        --text: #1a1a1a;
+        --muted: #6b6b6b;
+        --border: #ede8e3;
+      }
+      html {
+        font-size: 17px;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Inter", sans-serif;
+        line-height: 1.65;
+        -webkit-font-smoothing: antialiased;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 32px;
+      }
+      .card {
+        max-width: 480px;
+        width: 100%;
+        text-align: center;
+      }
+      .wordmark {
+        font-family: "Lora", serif;
+        font-weight: 700;
+        font-size: 1.25rem;
+        letter-spacing: -0.02em;
+        margin-bottom: 28px;
+      }
+      h1 {
+        font-family: "Lora", serif;
+        font-weight: 700;
+        font-size: 1.9rem;
+        line-height: 1.18;
+        letter-spacing: -0.02em;
+        margin-bottom: 12px;
+      }
+      p.lead {
+        color: var(--muted);
+        font-size: 1rem;
+        margin-bottom: 24px;
+      }
+      textarea {
+        width: 100%;
+        min-height: 130px;
+        padding: 16px;
+        border-radius: 16px;
+        border: 1px solid var(--border);
+        background: #fff;
+        font-family: "Inter", sans-serif;
+        font-size: 1rem;
+        line-height: 1.6;
+        color: var(--text);
+        resize: vertical;
+      }
+      textarea:focus {
+        outline: none;
+        border-color: var(--coral);
+      }
+      .cta {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 16px 34px;
+        border-radius: 100px;
+        background: var(--coral);
+        background-image: linear-gradient(
+          135deg,
+          var(--coral),
+          var(--coral-dark)
+        );
+        color: #fff;
+        font-weight: 600;
+        font-size: 1rem;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+      }
+      .cta[disabled] {
+        opacity: 0.5;
+        cursor: default;
+      }
+      .home {
+        display: block;
+        margin-top: 28px;
+        color: var(--muted);
+        font-size: 0.85rem;
+        text-decoration: underline;
+      }
+      .check {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        margin: 8px auto 24px;
+        background: var(--coral);
+        background-image: linear-gradient(
+          135deg,
+          var(--coral),
+          var(--coral-dark)
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .check svg {
+        width: 30px;
+        height: 30px;
+      }
+      .hidden {
+        display: none;
+      }
+      .err {
+        color: var(--coral);
+        font-size: 0.85rem;
+        margin-top: 12px;
+        min-height: 1em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="wordmark">REPS</div>
+
+      <div id="form-state">
+        <h1>What should REPS build next?</h1>
+        <p class="lead">
+          You picked "something else." Tell me in your own words, I read every
+          one.
+        </p>
+        <textarea
+          id="text"
+          placeholder="The one thing that would make REPS indispensable for you is&hellip;"
+          maxlength="2000"
+        ></textarea>
+        <div class="err" id="err"></div>
+        <button class="cta" id="submit">Send it &rarr;</button>
+      </div>
+
+      <div id="done-state" class="hidden">
+        <div class="check">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M5 13l4 4L19 7"
+              stroke="#fff"
+              stroke-width="2.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+        <h1>Got it. Thank&nbsp;you.</h1>
+        <p class="lead">That goes straight to me. Genuinely appreciate it.</p>
+        <a class="cta" href="https://testflight.apple.com/join/CESchuvz"
+          >Send REPS to a friend &rarr;</a
+        >
+      </div>
+
+      <a class="home" href="https://getreps.io">Back to getreps.io</a>
+    </div>
+
+    <script>
+      var ENDPOINT =
+        "https://vciosaulrfvddcenblmo.supabase.co/functions/v1/survey-vote";
+      var ANON = "sb_publishable_WVmbxo4_qIF1a9IpqRG6EA_lTYz_MB9";
+      var token = new URLSearchParams(location.search).get("t") || "";
+      var btn = document.getElementById("submit");
+      var err = document.getElementById("err");
+
+      btn.addEventListener("click", function () {
+        var text = document.getElementById("text").value.trim();
+        err.textContent = "";
+        if (!text) {
+          err.textContent = "Write a few words first.";
+          return;
+        }
+        if (!token) {
+          err.textContent =
+            "This link is missing its token. Reply to the email instead.";
+          return;
+        }
+        btn.disabled = true;
+        btn.textContent = "Sending…";
+        fetch(ENDPOINT, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            apikey: ANON,
+            Authorization: "Bearer " + ANON,
+          },
+          body: JSON.stringify({ t: token, text: text }),
+        })
+          .then(function (r) {
+            return r.json().catch(function () {
+              return { ok: r.ok };
+            });
+          })
+          .then(function (j) {
+            if (j && j.ok) {
+              document.getElementById("form-state").classList.add("hidden");
+              document.getElementById("done-state").classList.remove("hidden");
+            } else {
+              throw new Error("failed");
+            }
+          })
+          .catch(function () {
+            btn.disabled = false;
+            btn.textContent = "Send it →";
+            err.textContent =
+              "Something went wrong. Reply to the email and I’ll catch it.";
+          });
+      });
+    </script>
+  </body>
+</html>
