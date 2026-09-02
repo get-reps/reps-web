@@ -9,7 +9,7 @@
 <!-- Fonts: Lora (editorial serif, REPS canonical) + Archivo (grotesque for chrome/body) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Caveat:wght@500;600&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
 
 <style>
 /* ===========================================================================
@@ -774,6 +774,807 @@ body.still .reveal,body.still .chrome-fade{opacity:1!important;transform:none!im
 .edit-toggle.active{background:var(--coral);color:#fff;}
 [contenteditable="true"]{outline:1px dashed rgba(255,107,107,.6);outline-offset:5px;border-radius:2px;}
 @media print{.edit-hotzone,.edit-toggle,#progress{display:none!important;}}
+
+/* ===========================================================================
+   v6 ADDITIONS (2026-08-25) — the Nicole draft. Everything above is v5's
+   "Cover Story" system, untouched; these rules only add the handful of new
+   shapes v6 needs. Each block names the slide it serves.
+   =========================================================================== */
+
+/* --- COVER: one plain line under the tagline (YC: say what you do first) --- */
+.cover .what{font-family:var(--sans);font-weight:400;font-size:24px;line-height:1.5;
+  color:var(--fg-soft);margin-top:26px;max-width:62ch;}
+.cover .round.v6{margin-top:88px;}
+
+/* --- 02 THE PROBLEM: the ladder as an editorial numbers spread. One rule
+   runs across the canvas with three station labels sitting on it; under
+   each, a hero-sized numeral, a one-line gloss and a source. No boxes, no
+   fills. Asymmetric on purpose (Gemini, round 1: "a timid, equal-weight
+   grid"): the ATTENTION station is the hero -- half again as wide, its
+   numeral nearly twice the size -- because the chain starts there; memory
+   is its collateral damage (Mike, 25 Aug). No REPS mark on this slide:
+   REPS answers all three, and the product slide says so. --- */
+.spread{display:grid;grid-template-columns:1.15fr 1fr;gap:0 96px;margin-top:36px;align-items:start;}
+.spread .rest{display:grid;gap:34px;}
+.station{position:relative;}
+.station .stop{display:flex;align-items:center;gap:18px;font-family:var(--sans);font-weight:600;font-size:14px;
+  letter-spacing:.3em;text-transform:uppercase;color:var(--fg-faint);}
+.station .stop i{flex:1;height:1px;background:rgba(33,26,20,.22);}
+.station.hero .stop{color:var(--coral-ink);}
+.station.hero .stop i{background:var(--coral-ink);opacity:.55;}
+.station .claim{font-family:var(--serif);font-weight:500;font-size:24px;line-height:1.2;color:var(--fg);margin-top:14px;}
+.station .num{font-family:var(--serif);font-weight:500;font-size:96px;line-height:.9;letter-spacing:-.045em;
+  color:var(--fg);margin-top:12px;white-space:nowrap;}
+.station .num small{font-family:var(--serif);font-weight:400;font-style:italic;font-size:32px;letter-spacing:-.01em;
+  color:var(--fg-soft);margin-left:8px;}
+.station.hero .claim{font-size:32px;margin-top:20px;}
+.station.hero .num{font-size:300px;color:var(--coral-ink);margin-top:6px;line-height:.86;}
+.station.hero .num small{font-size:84px;color:var(--coral-ink);opacity:.8;margin-left:14px;}
+.station p{font-family:var(--sans);font-size:17px;line-height:1.45;color:var(--fg-soft);margin-top:12px;max-width:44ch;}
+.station.hero p{font-size:19px;max-width:38ch;margin-top:16px;}
+.station .src{font-family:var(--sans);font-size:12.5px;line-height:1.4;color:var(--fg-faint);margin-top:8px;}
+.ladder-line{margin-top:26px;text-align:center;font-family:var(--serif);font-weight:500;font-size:33px;line-height:1.25;
+  letter-spacing:-.01em;color:var(--fg);}
+
+/* --- 03 WHY NOW: the same triptych, less of it --- */
+.three.v6{margin-top:26px;}
+.three.v6 .media,.three.v6 .duo{height:300px;}
+.three.v6 .duo img{height:300px;}
+.three.v6 .media.clip img{max-height:300px;}
+.three.v6 h3{font-size:27px;margin-bottom:6px;}
+.three.v6 .stat{margin:10px 0 4px;font-size:44px;}
+.three.v6 p{font-size:17px;}
+
+/* --- 04 THE PRODUCT: four plain lines of what it does, under a LIVE pill --- */
+.livepill{display:inline-flex;align-items:center;gap:9px;font-family:var(--sans);font-weight:700;font-size:11.5px;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--teal-ink);border:1px solid var(--teal-ink);
+  border-radius:999px;padding:5px 12px 5px 10px;vertical-align:middle;}
+.livepill::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--teal-ink);}
+.slide.night .livepill{color:#4ECDC4;border-color:rgba(78,205,196,.7);}
+.slide.night .livepill::before{background:#4ECDC4;}
+.s4-claim.v6{font-size:60px;margin-top:22px;}
+.live-list{margin-top:30px;padding-top:24px;border-top:1px solid var(--hair);}
+.live-list .livepill{margin-bottom:16px;}
+.live-list ul{list-style:none;display:grid;gap:11px;}
+.live-list li{position:relative;padding-left:26px;font-family:var(--sans);font-size:22px;line-height:1.4;color:var(--fg);}
+.live-list li::before{content:"";position:absolute;left:0;top:13px;width:9px;height:9px;border-radius:50%;background:var(--hot);}
+.live-list li b{font-weight:600;}
+.s4-support.v6{margin-top:28px;padding-top:22px;font-size:20px;color:var(--fg-soft);}
+
+/* --- 05 TODAY, AND NEXT: same puzzle, pills on both halves --- */
+.pz.v6{margin-top:22px;}
+.pz-live{margin-bottom:14px;}
+.opp.v6 li{font-size:19px;padding:9px 0 9px 24px;}
+.opp.v6 li::before{top:18px;}
+
+/* --- 06 THE GAP: a checklist, not a map --- */
+.mx{margin-top:26px;width:100%;border-collapse:collapse;}
+.mx th{font-family:var(--sans);font-weight:600;font-size:13px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--fg-faint);text-align:center;padding:0 12px 12px;vertical-align:bottom;}
+.mx th.who{text-align:left;padding-left:0;}
+.mx td{border-top:1px solid var(--hair);padding:0 12px;height:57px;vertical-align:middle;text-align:center;}
+.mx td.who{text-align:left;padding-left:0;width:560px;}
+.mx tr:last-child td{border-bottom:1px solid var(--hair);}
+.mx .who .n{display:flex;align-items:center;gap:16px;}
+.mx .who h4{font-family:var(--serif);font-weight:600;font-size:21px;line-height:1.15;color:var(--fg);white-space:nowrap;}
+.mx .who .marks{display:flex;align-items:center;gap:10px;color:rgba(33,26,20,.78);}
+.mx .who .marks img{height:22px;width:auto;display:block;opacity:.88;}
+.mx .who .marks svg{width:22px;height:22px;display:block;}
+.mx .who .eg{font-family:var(--sans);font-style:italic;font-size:14px;color:var(--fg-faint);white-space:nowrap;}
+.mx .cell{display:inline-flex;flex-direction:column;align-items:center;gap:4px;}
+.mx .cell i{display:block;width:26px;height:26px;border-radius:50%;}
+.mx .cell i.yes{background:var(--teal-ink);background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M6 12.5l4 4 8-9' fill='none' stroke='%23FFFAF7' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-size:18px 18px;background-position:center;background-repeat:no-repeat;}
+.mx .cell i.no{border:1.4px solid rgba(33,26,20,.22);
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M8 8l8 8M16 8l-8 8' fill='none' stroke='rgba(33,26,20,.38)' stroke-width='2' stroke-linecap='round'/></svg>");
+  background-size:15px 15px;background-position:center;background-repeat:no-repeat;}
+.mx .cell i.na{border:1.4px dashed rgba(33,26,20,.18);}
+.mx .cell span{font-family:var(--sans);font-size:13.5px;line-height:1.2;color:var(--fg-faint);white-space:nowrap;}
+/* REPS's mark is drawn for a dark ground, so on cream it sits in the teal
+   circle v5's map used -- the "right answer" token, never coral here */
+.mx tr.us .who .mk{width:36px;height:36px;border-radius:50%;background:var(--teal-ink);display:flex;align-items:center;justify-content:center;flex:none;}
+.mx tr.us .who .mk img{width:24px;height:24px;display:block;}
+/* still renders (feedback board, contact sheets) should not carry the on-screen hint */
+body.still .deck-controls{display:none!important;}
+.mx tr.ref td{opacity:.62;}
+.mx tr.ref .who h4{font-weight:500;font-style:italic;}
+.mx tr.us td{border-top:1.5px solid var(--teal-ink);height:64px;}
+.mx tr.us .who h4{color:var(--teal-ink);font-size:24px;}
+.mx tr.us .who .marks img{height:30px;opacity:1;}
+.mx-line{margin-top:22px;font-family:var(--serif);font-weight:500;font-size:24px;line-height:1.35;color:var(--fg);max-width:78ch;}
+.mx-line .hot{color:var(--coral-ink);}
+
+/* --- 07 WHO IT'S FOR: the curve, capped smaller, with four numbers under it --- */
+.curve.v6{max-width:1150px;}
+.kstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;margin-top:18px;padding-top:18px;border-top:1px solid var(--hair);}
+.kstrip .k b{display:block;font-family:var(--serif);font-weight:500;font-size:40px;line-height:1;letter-spacing:-.03em;color:var(--fg);}
+.kstrip .k span{display:block;font-family:var(--sans);font-size:14.5px;line-height:1.35;color:var(--fg-soft);margin-top:7px;max-width:30ch;}
+.kstrip .k.hi b{color:var(--coral);}
+
+/* --- 08 TRACTION: three signals and the App Store, side by side --- */
+.trac{display:grid;grid-template-columns:1fr 640px;gap:56px;margin-top:26px;align-items:start;}
+.sigs{display:grid;gap:0;}
+.sig{display:grid;grid-template-columns:200px 1fr;gap:22px;align-items:center;padding:19px 0;border-top:1px solid var(--hair);}
+.sig:last-child{border-bottom:1px solid var(--hair);}
+.sig b{font-family:var(--serif);font-weight:500;font-size:58px;line-height:1;letter-spacing:-.03em;color:var(--coral-ink);white-space:nowrap;}
+.sig p{font-family:var(--sans);font-size:18px;line-height:1.42;color:var(--fg);}
+.sig p small{display:block;font-size:14px;color:var(--fg-faint);margin-top:4px;}
+.gtm-ads.v6{grid-column:auto;margin-top:22px;}
+.gtm-ads.v6 img{height:236px;}
+.store{border:1px solid var(--hair);background:var(--plate);padding:26px 30px 22px;}
+.store .head{display:flex;align-items:baseline;gap:18px;padding-bottom:16px;border-bottom:1px solid var(--hair);}
+.store .head .label{color:var(--fg-faint);}
+.store .rating{font-family:var(--serif);font-weight:500;font-size:54px;line-height:1;letter-spacing:-.03em;color:var(--fg);}
+.store .rating em{font-style:normal;color:var(--coral-ink);margin-right:6px;font-size:40px;vertical-align:8px;}
+.store .meta{font-family:var(--sans);font-size:15px;line-height:1.4;color:var(--fg-soft);}
+.store .q{padding:15px 0 0;}
+.store .q p{font-family:var(--serif);font-weight:400;font-size:19px;line-height:1.42;color:var(--fg);}
+.store .q cite{display:block;margin-top:6px;font-family:var(--sans);font-style:normal;font-size:13px;letter-spacing:.06em;color:var(--fg-faint);}
+.store .q cite::before{content:"★★★★★  ";color:var(--coral-ink);letter-spacing:.02em;}
+
+/* --- 09 THE MOAT: headlines only --- */
+.nfx-row.v6{padding:11px 0;align-items:center;}
+.nfx-row.v6 h4{margin-bottom:0;font-size:24px;}
+.nfx-side .it.v6{padding:9px 0;}
+.nfx-side .it.v6 h4{margin-bottom:0;}
+
+/* --- 10 THE MODEL: revenue on the left, cost on the right --- */
+.model2{display:grid;grid-template-columns:1fr 500px;gap:64px;margin-top:22px;align-items:start;}
+.colhead{font-family:var(--sans);font-weight:600;font-size:12.5px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--accent-type);padding-bottom:12px;margin-bottom:6px;border-bottom:1px solid var(--hair);}
+.colhead.mute{color:var(--fg-faint);}
+.ladder.v6{gap:18px;margin-top:0;}
+.ladder.v6 .rung{padding:22px 30px;}
+.ladder.v6 .rung-b{font-size:22px;}
+.ladder.v6 .rung-n{margin-top:8px;font-size:15px;}
+.ladder.v6 .rung.paid{margin-left:28px;}
+.ladder.v6 .rung.part{margin-left:56px;padding:16px 30px;}
+.ladder.v6 .rung.part .rung-b{font-size:19px;color:var(--fg-soft);}
+.price-line{margin-top:18px;padding:16px 22px;border-left:2px solid var(--coral);background:var(--plate);
+  font-family:var(--sans);font-size:17px;line-height:1.5;color:var(--fg);}
+.price-line b{font-weight:600;}
+.cogs.v6{padding:26px 30px;}
+.cogs.v6 .big{font-size:66px;}
+
+/* --- 14 THE ASK: three short lines --- */
+.buys .b2.v6{padding:18px 0;}
+.buys .b2.v6 h4{margin-bottom:4px;}
+.buys .b2.v6 p{font-size:17px;}
+
+/* --- 06 THE GAP, round 2: typographic --- */
+.trio{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0 60px;margin-top:40px;align-items:start;}
+.ing .stop{display:flex;align-items:center;gap:18px;font-family:var(--sans);font-weight:600;font-size:14px;
+  letter-spacing:.3em;text-transform:uppercase;color:var(--fg-faint);white-space:nowrap;}
+.ing .stop i{flex:1;height:1px;background:rgba(33,26,20,.22);}
+.ing .has{font-family:var(--serif);font-weight:500;font-size:30px;line-height:1.2;color:var(--fg);margin-top:22px;}
+.ing .who{font-family:var(--serif);font-weight:400;font-style:italic;font-size:22px;line-height:1.3;color:var(--fg-soft);margin-top:10px;min-height:58px;}
+.ing .marks{display:flex;align-items:center;gap:14px;margin-top:16px;color:rgba(33,26,20,.78);}
+.ing .marks img{height:24px;width:auto;display:block;opacity:.88;}
+.ing .marks svg{width:24px;height:24px;display:block;}
+.ing .not{font-family:var(--sans);font-size:17px;line-height:1.45;color:var(--fg-soft);margin-top:18px;max-width:30ch;}
+.allthree{margin-top:46px;padding-top:30px;border-top:1px solid var(--hair);display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:start;}
+.allthree .mk{width:60px;height:60px;flex:none;margin-top:6px;}
+.allthree .mk img{width:60px;height:60px;border-radius:15px;display:block;box-shadow:0 10px 26px rgba(33,26,20,.18);}
+.allthree .line{font-family:var(--serif);font-weight:500;font-size:56px;line-height:1.05;letter-spacing:-.02em;color:var(--fg);}
+.allthree p{font-family:var(--sans);font-size:19px;line-height:1.5;color:var(--fg-soft);margin-top:12px;max-width:80ch;}
+
+/* --- 08 TRACTION, round 2: the App Store panel loses its box; the rating
+   becomes the slide's dominant figure --- */
+.store{border:none;background:none;padding:0;}
+.store .head{display:block;padding-bottom:14px;}
+.store .rating{font-size:128px;letter-spacing:-.045em;line-height:.9;}
+.store .rating em{font-size:56px;vertical-align:38px;margin-right:10px;}
+.store .meta{margin-top:12px;font-size:16px;}
+.store .q{padding:14px 0;border-top:1px solid var(--hair);}
+.store .q:last-child{border-bottom:1px solid var(--hair);}
+.store .q.hero{border-top:none;padding-top:18px;}
+.store .q.hero p{font-size:31px;line-height:1.28;letter-spacing:-.01em;}
+.store .q p{font-size:18px;}
+.store .q cite::before{content:none;}
+.store .q cite{margin-top:7px;}
+
+/* --- 10 THE MODEL, round 2: no boxes; hairlines and type carry the split --- */
+.ladder.v6{gap:0;}
+.ladder.v6 .rung,.ladder.v6 .rung.paid,.ladder.v6 .rung.part{border:none;border-top:1px solid var(--hair);border-radius:0;
+  background:none;padding:20px 0;margin-left:0;}
+.ladder.v6 .rung.paid .rung-l{color:var(--accent-type);}
+.ladder.v6 .rung.paid .rung-b{font-size:26px;}
+.ladder.v6 .rung.part .rung-b{font-size:20px;}
+.price-line{background:none;border-left:none;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);
+  padding:18px 0;margin-top:0;font-size:18px;}
+.cogs.v6{border:none;background:none;padding:0;}
+.cogs.v6 .big{font-size:96px;letter-spacing:-.04em;}
+.cogs.v6 .stack{gap:2px;} .cogs.v6 .stack div{border-radius:0;} .cogs.v6 .stack .a{background:var(--coral);}
+.cogs.v6 .stack .b{background:rgba(255,250,247,.16);}
+
+
+
+/* ===========================================================================
+   v6 ALTERNATIVES (2026-08-25, overnight) — five compositions each for the
+   problem slide, the gap slide and the product slide. Same shell, same
+   tokens; every block names the alternative it serves.
+   =========================================================================== */
+
+/* --- P2 · three lines, a staircase of type --- */
+.stair{margin-top:54px;display:grid;gap:44px;}
+.stair .step{display:grid;grid-template-columns:auto 1fr;gap:0 40px;align-items:baseline;}
+.stair .step b{font-family:var(--serif);font-weight:500;line-height:1.05;letter-spacing:-.025em;color:var(--fg);}
+.stair .step:nth-child(1) b{font-size:92px;color:var(--coral-ink);}
+.stair .step:nth-child(2){padding-left:150px;} .stair .step:nth-child(2) b{font-size:74px;}
+.stair .step:nth-child(3){padding-left:300px;} .stair .step:nth-child(3) b{font-size:60px;}
+.stair .step span{font-family:var(--sans);font-size:18px;line-height:1.45;color:var(--fg-soft);max-width:34ch;}
+
+/* --- P3 · one big chart --- */
+.bigchart{display:grid;grid-template-columns:1.25fr 1fr;gap:72px;margin-top:30px;align-items:start;}
+.bigchart .fig{height:520px;border:1px solid var(--hair);background:#FFFAF7;overflow:hidden;}
+.bigchart .rail{display:grid;gap:26px;padding-top:6px;}
+.bigchart .rail .station .num{font-size:78px;margin-top:8px;}
+.bigchart .rail .station .num small{font-size:26px;}
+.bigchart .rail .station .claim{font-size:22px;margin-top:10px;}
+.bigchart .rail .station p{font-size:16px;margin-top:8px;}
+.bigchart .rail .station.hero .stop{color:var(--coral-ink);}
+
+/* --- P4 · the cascade (night) --- */
+.cascade{position:relative;height:640px;margin-top:10px;}
+.cascade .word{position:absolute;font-family:var(--serif);font-weight:500;font-size:150px;line-height:.9;letter-spacing:-.04em;color:var(--fg);}
+.cascade .word.a{left:0;top:0;color:var(--coral);}
+.cascade .word.b{left:520px;top:210px;}
+.cascade .word.c{left:1040px;top:420px;color:var(--fg-soft);}
+.cascade .word small{display:block;margin-top:16px;font-family:var(--sans);font-size:18px;line-height:1.45;letter-spacing:0;color:var(--fg-soft);max-width:30ch;}
+.cascade .word small b{font-family:var(--serif);font-weight:500;font-size:30px;color:var(--fg);margin-right:8px;}
+
+/* --- P5 · the pull quote --- */
+.pull{margin-top:40px;}
+.pull .track{font-family:var(--sans);font-weight:600;font-size:14px;letter-spacing:.32em;text-transform:uppercase;color:var(--fg-faint);}
+.pull .track b{color:var(--coral-ink);font-weight:600;}
+.pull blockquote{margin-top:34px;font-family:var(--serif);font-weight:500;font-size:84px;line-height:1.1;letter-spacing:-.025em;color:var(--fg);max-width:22ch;}
+.pull blockquote .hot{color:var(--coral-ink);}
+.pull .foot{margin-top:44px;padding-top:22px;border-top:1px solid var(--hair);display:grid;grid-template-columns:repeat(3,1fr);gap:40px;}
+.pull .foot div{font-family:var(--sans);font-size:15.5px;line-height:1.45;color:var(--fg-soft);}
+.pull .foot div b{font-family:var(--serif);font-weight:500;font-size:30px;color:var(--fg);display:block;margin-bottom:4px;}
+
+/* --- G2 · the sentence --- */
+.sentence{margin-top:40px;}
+.sentence .l{display:grid;grid-template-columns:1fr 520px;gap:40px;align-items:baseline;padding:22px 0;border-top:1px solid var(--hair);}
+.sentence .l:first-child{border-top:none;padding-top:0;}
+.sentence .l b{font-family:var(--serif);font-weight:500;font-size:78px;line-height:1;letter-spacing:-.03em;color:var(--fg);}
+.sentence .l span{font-family:var(--sans);font-size:16.5px;line-height:1.45;color:var(--fg-faint);}
+.sentence .l span i{font-style:normal;color:var(--fg-soft);}
+.sentence .end{margin-top:34px;padding-top:26px;border-top:1px solid var(--hair);display:flex;align-items:center;gap:22px;
+  font-family:var(--serif);font-weight:500;font-size:46px;line-height:1.1;letter-spacing:-.02em;color:var(--fg);}
+.sentence .end img{width:56px;height:56px;border-radius:14px;display:block;box-shadow:0 10px 26px rgba(33,26,20,.18);}
+.sentence .end .hot{color:var(--coral-ink);}
+
+/* --- G3 · five verdicts --- */
+.verdicts{margin-top:28px;}
+.verdicts .v{display:grid;grid-template-columns:70px 1fr;gap:0 24px;align-items:baseline;padding:16px 0;border-top:1px solid var(--hair);}
+.verdicts .v u{text-decoration:none;font-family:var(--sans);font-weight:600;font-size:13px;letter-spacing:.24em;color:var(--fg-faint);}
+.verdicts .v b{font-family:var(--serif);font-weight:500;font-size:36px;line-height:1.15;letter-spacing:-.015em;color:var(--fg);}
+.verdicts .v b i{font-style:italic;font-weight:400;color:var(--coral-ink);}
+.verdicts .v span{display:block;font-family:var(--sans);font-size:15px;color:var(--fg-faint);margin-top:4px;}
+.verdicts .ans{margin-top:22px;padding-top:26px;border-top:1.5px solid var(--fg);display:grid;grid-template-columns:70px 1fr;gap:0 24px;align-items:center;}
+.verdicts .ans img{width:52px;height:52px;border-radius:13px;display:block;box-shadow:0 10px 26px rgba(33,26,20,.18);}
+.verdicts .ans b{font-family:var(--serif);font-weight:500;font-size:40px;line-height:1.1;letter-spacing:-.02em;color:var(--fg);}
+.verdicts .ans b .hot{color:var(--coral-ink);}
+
+/* --- G4 · the map, refined (v5's plot, full width, everyone at full weight) --- */
+.mapwide{margin-top:20px;display:grid;grid-template-columns:1fr 1180px;gap:60px;align-items:center;}
+.mapwide .map-plot{height:600px;}
+.mapwide .map-plot .pill.ref{stroke:rgba(33,26,20,.34);}
+.mapwide .aside{font-family:var(--sans);font-size:19px;line-height:1.55;color:var(--fg-soft);max-width:34ch;}
+.mapwide .aside b{display:block;font-family:var(--serif);font-weight:500;font-size:34px;line-height:1.15;color:var(--fg);margin-bottom:16px;}
+
+/* --- G5 · overlap, drawn with hairlines --- */
+.venn{margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;}
+.venn svg{width:100%;height:640px;display:block;overflow:visible;}
+.venn .ring{fill:none;stroke:rgba(33,26,20,.34);stroke-width:1.3;}
+.venn .lab{font-family:var(--sans);font-weight:600;font-size:13px;letter-spacing:.26em;text-transform:uppercase;fill:rgba(33,26,20,.5);}
+.venn .who{font-family:var(--serif);font-style:italic;font-size:17px;fill:rgba(33,26,20,.62);}
+.venn .core{font-family:var(--serif);font-weight:500;font-size:22px;fill:#211A14;}
+.venn .aside{font-family:var(--sans);font-size:19px;line-height:1.55;color:var(--fg-soft);max-width:34ch;}
+.venn .aside b{display:block;font-family:var(--serif);font-weight:500;font-size:34px;line-height:1.15;color:var(--fg);margin-bottom:16px;}
+
+/* --- V2 · headline only --- */
+.v2hed{font-family:var(--serif);font-weight:500;font-size:108px;line-height:1.02;letter-spacing:-.03em;color:var(--fg);max-width:12ch;}
+.v2hed .hot{color:var(--coral);}
+
+/* --- V3 · video hero (centred) --- */
+.vhero{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:34px;}
+.vhero h2{font-family:var(--serif);font-weight:500;font-size:56px;line-height:1.1;letter-spacing:-.02em;color:var(--fg);text-align:center;max-width:22ch;}
+.vhero .vphone{width:320px;}
+.vhero .vphone video{width:100%;display:block;}
+
+/* --- V4 · three verbs --- */
+.verbs{display:grid;gap:0;margin-top:10px;}
+.verbs b{display:block;font-family:var(--serif);font-weight:500;font-size:150px;line-height:.92;letter-spacing:-.04em;color:var(--fg);}
+.verbs b.hot{color:var(--coral);}
+.verbs p{margin-top:34px;font-family:var(--sans);font-size:22px;line-height:1.5;color:var(--fg-soft);max-width:42ch;}
+
+/* --- V5 · the bridge --- */
+.bridge{margin-top:30px;display:grid;gap:0;}
+.bridge .b{display:grid;grid-template-columns:150px 1fr;gap:22px;align-items:baseline;padding:16px 0;border-top:1px solid var(--hair);}
+.bridge .b:last-child{border-bottom:1px solid var(--hair);}
+.bridge .b u{text-decoration:none;font-family:var(--sans);font-weight:600;font-size:12.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--accent-type);}
+.bridge .b span{font-family:var(--serif);font-weight:400;font-size:26px;line-height:1.3;color:var(--fg);}
+
+/* alternative label in the masthead, so a still can be told apart */
+.altmeta{color:var(--accent-type);}
+
+
+/* ===========================================================================
+   v7 (2026-08-26, Mike's picks): the pull quote as the problem slide, the map
+   as the gap slide. Only what those two need beyond v6-alts.css.
+   =========================================================================== */
+
+/* 02 · the pull quote: one sentence per line, never wrapped */
+.pull.v7 blockquote{max-width:none;margin-top:38px;font-size:86px;line-height:1.14;}
+.pull.v7 blockquote span{display:block;white-space:nowrap;}
+.pull.v7 .foot{margin-top:52px;}
+
+/* 05 · the map under a two-line headline: a little shorter so it clears the source line */
+.mapwide.v7{margin-top:12px;grid-template-columns:1fr 1120px;}
+.mapwide.v7 .map-plot{height:540px;}
+.mapwide.v7 .aside b{font-size:30px;}
+
+/* the frozen product alternative (C1) and the wide C3 on the alternatives deck */
+.vhero.wide{gap:30px;}
+.vhero.wide h2{font-size:42px;max-width:52ch;}
+.vwide{width:1120px;border-radius:14px;overflow:hidden;background:#000;line-height:0;
+  box-shadow:0 40px 90px rgba(0,0,0,.6), 0 0 0 1px rgba(255,250,247,.08);}
+.vwide video{width:100%;height:auto;display:block;}
+
+
+/* ===========================================================================
+   v8 (2026-08-26, Mike's board feedback on v7). Only what v8 needs beyond
+   v6-extra.css, v6-alts.css and v7-extra.css. Loaded after all three.
+   =========================================================================== */
+
+/* 02 · the handwritten "REPS' wedge" note, in the margin to the right of the
+   memory line. Caveat (Google Fonts) for the hand; the arrow is one loose stroke. */
+.pull.v7 blockquote span .txt{position:relative;display:inline-block;}
+.wedge{position:absolute;left:calc(100% + 34px);top:0;width:440px;height:110px;pointer-events:none;}
+.wedge svg{position:absolute;left:0;top:0;width:440px;height:110px;overflow:visible;}
+.wedge svg path{fill:none;stroke:var(--coral-ink);stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round;}
+.wedge .hw{position:absolute;left:150px;top:14px;font-family:'Caveat',cursive;font-weight:600;font-size:54px;line-height:1;
+  color:var(--coral-ink);transform:rotate(-3deg);transform-origin:left center;white-space:nowrap;letter-spacing:.005em;}
+
+/* 05 · the map: a wider aside, both moved down, a slightly taller plot */
+.mapwide.v8{margin-top:44px;grid-template-columns:1fr 1100px;gap:52px;}
+.mapwide.v8 .map-plot{height:572px;}
+.mapwide.v8 .aside{max-width:none;font-size:20px;line-height:1.55;}
+.mapwide.v8 .aside b{font-size:33px;line-height:1.18;margin-bottom:18px;}
+
+/* 06 · who it's for: the persona blocks shared by K3, K4, K5 */
+.kper b{display:block;font-family:var(--serif);font-weight:600;font-size:27px;line-height:1.15;color:var(--fg);}
+.kper i{display:block;font-family:var(--serif);font-style:italic;font-weight:400;font-size:18px;line-height:1.3;color:var(--fg-faint);margin-top:4px;}
+.kper p{font-family:var(--sans);font-size:16.5px;line-height:1.45;color:var(--fg-soft);margin-top:9px;}
+.kper.hi b{color:var(--coral);}
+
+/* K3 · the chart left, taller; three personas right */
+.kp{display:grid;grid-template-columns:1090px 1fr;gap:60px;align-items:center;margin-top:18px;}
+.kp .curve{max-width:none;margin:0;}
+.kpers{display:grid;}
+.kpers .kper{padding:17px 0;border-top:1px solid var(--hair);}
+.kpers .kper:last-child{border-bottom:1px solid var(--hair);}
+.kpers .kper p{max-width:34ch;}
+
+/* K2 · one big chart, the characteristics under the curve */
+.curve.k2{max-width:1500px;}
+.curve.k2 .sg-t{font-size:16px;}
+.curve.k2 .sg-t.hi{font-size:20px;}
+.curve.k2 .sg-p{font-size:10px;}
+.curve.k2 .sg-ax{font-size:9.5px;}
+.curve.k2 .ch{font-family:var(--sans);font-size:10.5px;fill:rgba(255,250,247,.62);}
+.curve.k2 .ch.hi{fill:rgba(255,250,247,.9);}
+.curve.k2 .ch.hd{font-family:var(--serif);font-weight:600;font-size:12.5px;fill:#FFFAF7;}
+
+/* K4 · the triptych, no curve, the market in one sentence */
+.trip{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0 60px;margin-top:46px;align-items:start;}
+.trip .kper .stop{display:flex;align-items:center;gap:16px;font-family:var(--sans);font-weight:600;font-size:13px;
+  letter-spacing:.3em;text-transform:uppercase;color:var(--fg-faint);white-space:nowrap;margin-bottom:22px;}
+.trip .kper .stop i{display:block;flex:1;height:1px;background:rgba(255,250,247,.22);margin:0;}
+.trip .kper.hi .stop{color:var(--coral);}
+.trip .kper.hi .stop i{background:rgba(255,107,107,.6);}
+.trip .kper b{font-size:36px;line-height:1.1;}
+.trip .kper i{font-size:22px;margin-top:10px;}
+.trip .kper p{font-size:17px;margin-top:16px;max-width:32ch;}
+.kmarket{margin-top:50px;padding-top:24px;border-top:1px solid var(--hair);font-family:var(--serif);font-weight:500;
+  font-size:27px;line-height:1.35;letter-spacing:-.01em;color:var(--fg);max-width:64ch;}
+.kmarket .hot{color:var(--coral);background:none;}
+
+/* K5 · the curve as in v7, the stats strip replaced by a personas row */
+.prow{display:grid;grid-template-columns:repeat(3,1fr);gap:48px;margin-top:16px;padding-top:20px;border-top:1px solid var(--hair);}
+.prow .kper b{font-size:25px;}
+.prow .kper p{font-size:15.5px;margin-top:7px;}
+
+/* 07 · traction: three live ads */
+.gtm-ads.v8 img{height:224px;}
+
+/* 09 · the model, cost column gone: tiers + the price rail */
+.mtiers{display:grid;margin-top:16px;}
+.mtier{display:grid;grid-template-columns:230px 1fr;gap:28px;align-items:baseline;padding:21px 0;border-top:1px solid var(--hair);}
+.mtier:last-child{border-bottom:1px solid var(--hair);}
+.mtier .tl{font-family:var(--sans);font-weight:600;font-size:12.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--fg-faint);}
+.mtier.hi .tl{color:var(--accent-type);}
+.mtier .tb{font-family:var(--serif);font-weight:600;font-size:27px;line-height:1.3;color:var(--fg);}
+.mtier .tn{font-family:var(--sans);font-size:15.5px;line-height:1.45;color:var(--fg-faint);margin-top:6px;max-width:80ch;}
+.mtier .livepill{margin-left:14px;vertical-align:5px;}
+
+.prail{margin-top:34px;max-width:1200px;}
+.prail svg{width:100%;height:auto;display:block;overflow:visible;}
+.prail .ln{stroke:rgba(255,250,247,.26);stroke-width:1.4;}
+.prail .tk{stroke:rgba(255,250,247,.55);stroke-width:1.4;}
+.prail .nm{font-family:var(--serif);font-weight:600;font-size:15px;fill:#FFFAF7;}
+.prail .pr{font-family:var(--sans);font-size:11.5px;fill:rgba(255,250,247,.55);}
+.prail .end{font-family:var(--sans);font-size:10px;letter-spacing:.1em;fill:rgba(255,250,247,.34);}
+.prail .us{stroke:#FF6B6B;stroke-width:3;fill:none;stroke-linecap:round;}
+.prail .ust{font-family:var(--sans);font-weight:600;font-size:10.5px;letter-spacing:.26em;fill:#FF6B6B;}
+.prail .cap{font-family:var(--sans);font-size:12px;fill:rgba(255,250,247,.55);}
+
+/* M3 · the staircase */
+.mstair{margin-top:30px;display:grid;gap:0;}
+.mstair .step{display:grid;grid-template-columns:auto 1fr;gap:0 34px;align-items:baseline;padding:22px 0;border-top:1px solid var(--hair);}
+.mstair .step:nth-child(2){padding-left:150px;}
+.mstair .step:nth-child(3){padding-left:300px;border-bottom:1px solid var(--hair);}
+.mstair .step b{font-family:var(--serif);font-weight:500;font-size:46px;line-height:1.05;letter-spacing:-.02em;color:var(--fg);}
+.mstair .step:nth-child(2) b{color:var(--coral);}
+.mstair .step span{font-family:var(--sans);font-size:17px;line-height:1.45;color:var(--fg-soft);max-width:58ch;}
+
+/* M4 · three declaratives */
+.decl{margin-top:26px;display:grid;}
+.decl .row{display:grid;grid-template-columns:720px 1fr;gap:56px;align-items:baseline;padding:24px 0;border-top:1px solid var(--hair);}
+.decl .row:last-child{border-bottom:1px solid var(--hair);}
+.decl .row b{font-family:var(--serif);font-weight:500;font-size:54px;line-height:1.02;letter-spacing:-.025em;color:var(--fg);}
+.decl .row.hi b{color:var(--coral);}
+.decl .row p{font-family:var(--sans);font-size:18px;line-height:1.45;color:var(--fg-soft);max-width:44ch;}
+
+/* M5 · now, next, then */
+.mnow{position:relative;display:grid;grid-template-columns:1fr 1fr 1fr;gap:56px;margin-top:40px;padding-top:34px;}
+.mnow::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:var(--hair);}
+.mnow .mst{position:relative;}
+.mnow .mst::before{content:"";position:absolute;left:0;top:-40px;width:11px;height:11px;border-radius:50%;
+  background:var(--night);border:1.5px solid rgba(255,250,247,.4);}
+.mnow .mst.hi::before{background:var(--coral);border-color:var(--coral);box-shadow:0 0 0 5px rgba(255,107,107,.16);}
+.mnow .mst .tl{display:flex;align-items:center;gap:14px;font-family:var(--sans);font-weight:600;font-size:12.5px;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--fg-faint);}
+.mnow .mst.hi .tl{color:var(--coral);}
+.mnow .mst b{display:block;font-family:var(--serif);font-weight:600;font-size:29px;line-height:1.22;color:var(--fg);margin-top:16px;}
+.mnow .mst p{font-family:var(--sans);font-size:16px;line-height:1.45;color:var(--fg-soft);margin-top:12px;max-width:36ch;}
+.mnow .livepill{margin:0;}
+
+/* 11 · the founder: role eyebrows instead of cities, a wider column for them */
+.spine.v8 .stop{grid-template-columns:52px 158px 1fr 136px;}
+.spine.v8 .stop em{font-size:11px;letter-spacing:.16em;}
+
+
+/* ===========================================================================
+   v9 (2026-08-26, round 2 of Mike's board feedback). Only what v9 needs
+   beyond v6-extra.css, v6-alts.css, v7-extra.css and v8-extra.css.
+   =========================================================================== */
+
+/* 06 · named personas: a coral-gradient name+title line, three arrow bullets */
+.kper .kwho{font-family:var(--serif);font-weight:600;font-size:26px;line-height:1.2;}
+.kper .kbul{list-style:none;margin-top:12px;display:grid;gap:7px;}
+.kper .kbul li{position:relative;padding-left:19px;font-family:var(--sans);font-size:15px;line-height:1.42;color:var(--fg-soft);max-width:36ch;}
+.kper .kbul li::before{content:"\2192";position:absolute;left:0;top:0;color:var(--fg-faint);font-size:12.5px;}
+.kpers .kper{padding:16px 0;}
+
+/* 09 · the model, three new layouts for the same content (title, three rows,
+   no price band). M6 = the plain declaratives, updated. M7 = incumbents
+   (grey, muted) vs REPS (coral). M8 = the flywheel. */
+
+/* M7 — incumbents vs REPS */
+.vs{display:grid;grid-template-columns:380px 1fr;gap:0;margin-top:34px;align-items:start;}
+.vs-old{padding-right:40px;border-right:1px solid var(--hair);}
+.vs-old .vtag{font-family:var(--sans);font-weight:600;font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:var(--fg-faint);margin-bottom:28px;}
+.vs-old .vclaim{font-family:var(--serif);font-weight:500;font-size:42px;line-height:1.22;color:var(--fg-soft);opacity:.7;}
+.vs-old .vnote{margin-top:22px;font-family:var(--sans);font-size:16px;line-height:1.55;color:var(--fg-faint);max-width:25ch;opacity:.7;}
+.vs-new{padding-left:52px;}
+.vs-new .vtag{font-family:var(--sans);font-weight:700;font-size:14px;letter-spacing:.3em;margin-bottom:28px;color:var(--accent-type);}
+.vsrows{display:grid;}
+.vsrows .vrow{padding:26px 0;border-top:1px solid var(--hair);}
+.vsrows .vrow:last-child{border-bottom:1px solid var(--hair);}
+.vsrows .vrow b{display:block;font-family:var(--serif);font-weight:500;font-size:42px;line-height:1.15;letter-spacing:-.02em;color:var(--fg);}
+.vsrows .vrow.hi b{color:var(--coral);}
+.vsrows .vrow p{margin-top:9px;font-family:var(--sans);font-size:17px;line-height:1.5;color:var(--fg-soft);max-width:76ch;}
+
+/* M8 — the flywheel */
+.flywheel{margin-top:26px;width:880px;margin-left:auto;margin-right:auto;}
+.flywheel svg{width:100%;height:auto;display:block;overflow:visible;}
+.fw-n{font-family:var(--serif);font-weight:600;font-size:28px;fill:#FFFAF7;}
+.fw-n.hi{fill:#FF6B6B;}
+.fw-d{font-family:var(--sans);font-size:14px;fill:rgba(255,250,247,.55);}
+.fw-arc{fill:none;stroke:rgba(255,250,247,.32);stroke-width:1.6;}
+
+
+/* ===========================================================================
+   v10 (2026-08-26, round 3 of Mike's board feedback). Only what v10 needs
+   beyond v6/v7/v8/v9 extra CSS. Loaded last.
+   =========================================================================== */
+
+/* 05 · product: no change needed here -- the line-break is a text edit only */
+
+/* 06 · who it's for: let the persona bullets flow into the space that was
+   sitting empty on the right */
+.kper .kbul li{max-width:none;}
+.kpers{max-width:none;}
+
+/* 07 · traction: laurel wreath flanking the rating, the classic marketing
+   badge device -- thin coral-ink line art, matching the deck's hairline
+   register (no filled clip-art leaf, no emoji laurel) */
+.rating-wrap{display:flex;align-items:center;justify-content:center;gap:16px;}
+.laurel{width:88px;height:148px;flex:none;opacity:.62;}
+.laurel path,.laurel ellipse{fill:none;stroke:var(--coral-ink);stroke-width:2;stroke-linecap:round;}
+.laurel.r{transform:scaleX(-1);}
+.store .head.laureled{text-align:center;}
+
+/* 08 · the moat: a small return-arrow under the main arrow, showing the
+   publisher marketplace feeding new users back into the personal network */
+.nfx-arrow-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;}
+.nfx-return{width:118px;text-align:center;}
+.nfx-return svg{width:100%;height:56px;display:block;overflow:visible;}
+.nfx-return path{fill:none;stroke:var(--coral-ink);stroke-width:1.6;stroke-linecap:round;stroke-dasharray:3 4;}
+.nfx-return .cap{margin-top:6px;font-family:var(--sans);font-weight:600;font-size:10.5px;line-height:1.25;
+  letter-spacing:.02em;color:var(--coral-ink);}
+
+/* 09 · the model, rebuilt around SEQUENCING (Now / Next / At scale), not
+   three equal-weight pillars -- Codex + Gemini brainstorm, 26 Aug round 3 */
+.seq-support{margin-top:16px;font-family:var(--sans);font-size:19px;line-height:1.5;color:var(--fg-soft);max-width:70ch;}
+.seq{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;margin-top:36px;border-top:1px solid var(--hair);}
+.seq-col{padding:24px 40px 0 0;border-right:1px solid var(--hair);}
+.seq-col:last-child{border-right:none;padding-right:0;}
+.seq-stage{font-family:var(--sans);font-weight:700;font-size:12.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--coral);margin-bottom:16px;}
+.seq-name{font-family:var(--serif);font-weight:500;font-size:29px;line-height:1.18;letter-spacing:-.015em;color:var(--fg);}
+.seq-col.next .seq-name{font-size:34px;font-weight:600;}
+.seq-col.later .seq-name{color:var(--fg-soft);}
+.seq-body{margin-top:12px;font-family:var(--sans);font-size:15.5px;line-height:1.48;color:var(--fg-soft);}
+.seq-col.later .seq-body{color:var(--fg-faint);}
+.seq-close{margin-top:32px;padding-top:22px;border-top:1px solid var(--hair);font-family:var(--serif);font-weight:500;font-size:24px;line-height:1.3;color:var(--fg);}
+
+/* M10 -- the asymmetric 70/30 sibling */
+.split73{display:grid;grid-template-columns:7fr 3fr;gap:0;margin-top:34px;}
+.split73-main{padding-right:60px;}
+.split73-side{padding-left:52px;border-left:1px solid var(--hair);}
+.s73-tag{font-family:var(--sans);font-weight:600;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--fg-faint);margin-bottom:18px;}
+.s73-h{font-family:var(--serif);font-weight:500;font-size:52px;line-height:1.08;letter-spacing:-.02em;color:var(--fg);}
+.s73-h.sm{font-size:30px;color:var(--fg-soft);}
+.s73-p{margin-top:16px;font-family:var(--sans);font-size:19px;line-height:1.5;color:var(--fg-soft);max-width:52ch;}
+.s73-p.sm{font-size:15.5px;color:var(--fg-faint);max-width:30ch;}
+.s73-status{margin-top:22px;padding-top:16px;border-top:1px solid var(--hair);font-family:var(--sans);font-size:14px;line-height:1.45;color:var(--fg-faint);}
+.s73-status b{color:var(--fg-soft);font-weight:600;}
+
+
+/* ===========================================================================
+   v11 (2026-08-29, round 4 of Mike's board feedback -- direct edits, incl.
+   the keepers-slide persona rebuild and the model-slide monetization-
+   pathway rebuild). Only what v11 needs beyond v6-v10 extra CSS.
+   =========================================================================== */
+
+/* 06 · who it's for: the curve is gone -- three personas at full width, a
+   handwritten annotation pointing at the two that pull hardest, and a line
+   naming what they are NOT. Reuses .kper/.kwho/.kbul from v9-extra.css. */
+.kthree{margin-top:10px;}
+.kpers3{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:auto auto;column-gap:64px;}
+.kannot{grid-column:1/3;grid-row:1;position:relative;height:96px;}
+.kannot-label{position:absolute;left:50%;top:0;transform:translateX(-50%) rotate(-3deg);
+  font-family:'Caveat',cursive;font-weight:600;font-size:32px;color:var(--coral-ink);white-space:nowrap;}
+.kannot-arrows{position:absolute;left:0;top:30px;width:100%;height:66px;display:block;overflow:visible;}
+.kannot .ka{fill:none;stroke:var(--coral-ink);stroke-width:2;stroke-linecap:round;}
+.kpers3 .kper{grid-row:2;padding:0;}
+/* the legacy v8 rule ".kper b{display:block;font-size:27px;...}" targets ANY
+   bold inside .kper -- scope the in-bullet emphasis spans back to inline so
+   they don't get hijacked into block-level serif headlines. */
+.kbul li b.kx{display:inline;font-family:inherit;font-weight:700;font-size:inherit;line-height:inherit;color:var(--fg);}
+.kp-photo{width:152px;height:152px;border-radius:50%;overflow:hidden;margin-bottom:20px;
+  border:1.5px solid rgba(255,250,247,.22);}
+.kp-photo img{width:100%;height:100%;object-fit:cover;}
+.knot{margin-top:38px;padding-top:22px;border-top:1px solid var(--hair);font-family:var(--sans);
+  font-size:17px;line-height:1.5;color:var(--fg-faint);max-width:120ch;}
+
+/* 09 · the model, rebuilt around Mike's own three-step monetization pathway
+   (free to maximize engagement -> premium alongside value -> monetize the
+   network) -- a pipeline read: numbered stages + connecting arrows, weight
+   escalating on step 2 (the real near-term business), muted on step 3
+   (an option, not a plan). Round 4, 29 Aug 2026. */
+.mpath{display:flex;align-items:flex-start;margin-top:44px;}
+.mp-step{flex:1;}
+.mp-num{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--fg-faint);display:flex;align-items:center;justify-content:center;
+  font-family:var(--sans);font-weight:600;font-size:13px;color:var(--fg-soft);margin-bottom:20px;}
+.mp-step.hi .mp-num{border-color:var(--coral);color:var(--coral);background:rgba(255,107,107,.12);}
+.mp-step.mute .mp-num{border-color:var(--hair);color:var(--fg-faint);}
+.mp-body h3{font-family:var(--serif);font-weight:500;font-size:25px;line-height:1.22;letter-spacing:-.01em;color:var(--fg);max-width:23ch;}
+.mp-step.hi .mp-body h3{font-size:32px;font-weight:600;max-width:19ch;}
+.mp-step.mute .mp-body h3{color:var(--fg-soft);}
+.mp-body p{margin-top:14px;font-family:var(--sans);font-size:15.5px;line-height:1.5;color:var(--fg-soft);max-width:30ch;}
+.mp-step.mute .mp-body p{color:var(--fg-faint);}
+.mp-arrow{flex:none;width:52px;display:flex;align-items:center;justify-content:center;padding-top:17px;opacity:.4;}
+.mp-arrow svg{width:30px;height:18px;}
+
+
+/* ===========================================================================
+   v12 (2026-08-29, round 5 of Mike's board feedback). Only what v12 needs
+   beyond v6-v11 extra CSS.
+   =========================================================================== */
+
+/* 06 · who it's for, round 5: the annotation moves from ABOVE the photo row
+   to BETWEEN Karen's and Kendra's photos specifically (positioned off the
+   real photo geometry, not the grid columns -- see make-v12.py's comment
+   for the arithmetic). The not-line gets real visual weight and bolded
+   segment names instead of a faint one-liner. */
+.kthree{position:relative;}
+.kannot{position:absolute;left:0;top:0;width:65.3%;height:152px;pointer-events:none;}
+.kannot-label{position:absolute;left:33.1%;top:50%;transform:translate(-50%,-50%) rotate(-3deg);
+  font-family:'Caveat',cursive;font-weight:600;font-size:27px;line-height:1.16;color:var(--coral-ink);
+  text-align:center;white-space:nowrap;}
+.kannot-arrows{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;}
+.kannot .ka{fill:none;stroke:var(--coral-ink);stroke-width:2;stroke-linecap:round;}
+.knot{font-size:19.5px;color:var(--fg-soft);}
+.knot b{color:var(--fg);font-weight:600;}
+
+/* 09 · the model, round 5: "all 3 pieces are important" -- drop the hi/mute
+   weight differentiation, icon-in-ring instead of a plain number, short
+   bullet lists replace the single-sentence body copy under each step. */
+.mp-num{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--hair);display:flex;
+  align-items:center;justify-content:center;margin-bottom:18px;}
+.mp-num .ico{font-size:19px;color:var(--coral);}
+.mp-body h3{font-family:var(--serif);font-weight:500;font-size:25px;line-height:1.22;letter-spacing:-.01em;color:var(--fg);max-width:23ch;}
+.mp-bul{list-style:none;margin-top:15px;display:grid;gap:8px;}
+.mp-bul li{position:relative;padding-left:16px;font-family:var(--sans);font-size:15px;line-height:1.4;color:var(--fg-soft);}
+.mp-bul li::before{content:"";position:absolute;left:0;top:7px;width:5px;height:5px;border-radius:50%;background:var(--fg-faint);}
+
+
+/* ===========================================================================
+   v13 (2026-08-29, round 6 of Mike's board feedback). Only what v13 needs
+   beyond v6-v12 extra CSS.
+   =========================================================================== */
+
+/* 06 · who it's for, round 6: the annotation was too cramped in the photo
+   band and the arrows read as thin straight lines rather than a hand-drawn
+   gesture. First attempt at "move it out" (a bare -40px shift) collided
+   the label straight into the headline above, AND its 400x192 viewBox
+   under preserveAspectRatio="none" did not match the real box's aspect
+   ratio, so the non-uniform scale blew the arrowheads into huge chevrons
+   (a marker/stroke distortion, not a size choice). Fixed both: the
+   headline now gets real breathing room before the photo row starts, and
+   the annotation's viewBox height is set to match the real box's aspect
+   ratio so preserveAspectRatio="none" is a no-op (uniform scale either way). */
+.kthree{margin-top:56px;}
+.kannot{top:-46px;height:198px;}
+.kannot-label{top:20%;font-size:28px;}
+.kannot .ka{stroke-width:2.4;}
+
+
+/* ===========================================================================
+   v15 (2026-08-29, round 7 -- three fixes from the v12 board plus a
+   restructure of the model slide and the "not focused on" line).
+
+   Numbered v15, not v14: a parallel session was writing an independent
+   implementation of this same round-7 feedback to the v14 filenames at the
+   same time. See make-v15.py's header note.
+   =========================================================================== */
+
+/* 06 · who it's for: "not focused on" was one dropped-in paragraph -- now a
+   labeled 3-column grid mirroring the persona row above it. */
+.knot{margin-top:38px;padding-top:22px;border-top:1px solid var(--hair);}
+.knot-h{font-family:var(--sans);font-weight:600;font-size:12.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--fg-faint);margin-bottom:14px;}
+.knot-grid{display:grid;grid-template-columns:repeat(3,1fr);column-gap:64px;}
+.knot-item b{display:block;font-family:var(--serif);font-weight:600;font-size:18px;line-height:1.25;color:var(--fg);margin-bottom:6px;}
+.knot-item span{display:block;font-family:var(--sans);font-size:15px;line-height:1.44;color:var(--fg-soft);}
+
+/* 09 · the model, round 7: icons sit beside the header instead of stacked
+   above it; type is larger across the board; Premium carries more bullets
+   now that its features are spelled out instead of "value-aligned
+   pricing", which just restated the headline's own "value delivered". */
+.mp-head{display:flex;align-items:center;gap:16px;margin-bottom:18px;}
+.mp-num{width:38px;height:38px;margin-bottom:0;flex:none;}
+.mp-num .ico{font-size:20px;}
+.mp-head h3{font-family:var(--serif);font-weight:500;font-size:30px;line-height:1.16;letter-spacing:-.01em;color:var(--fg);max-width:22ch;}
+.mp-bul{margin-top:0;gap:10px;}
+.mp-bul li{font-size:17px;line-height:1.42;}
+
+
+/* ===========================================================================
+   v18 (2026-08-29) -- fix the "strongest signals" arrows: no more marker
+   (see make-v18.py header for the strokeWidth-multiplication root cause),
+   thinner genuinely hand-drawn stroke instead of a bold graphic-design one.
+   Overrides v13-extra.css's .kannot .ka rule by loading after it.
+   =========================================================================== */
+.kannot .ka{fill:none;stroke:var(--coral-ink);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+
+/* v19 (29 Aug) -- full-board review round */
+
+/* Slide 6 -- "not focused on": one row per item instead of a 3-column
+   grid. Header stays inline, subtext follows on the same line, separated
+   by a middle dot (matches the deck's own persona convention, e.g.
+   "Sam &middot; Lifelong learner"). Only display changes here -- font,
+   color and weight are inherited from v15-extra.css's .knot-item rules. */
+.knot-grid{display:flex;flex-direction:column;gap:14px;}
+.knot-item{display:block;}
+.knot-item b{display:inline;}
+.knot-item b::after{content:"\2002\00B7\2002";color:var(--fg-faint);font-weight:400;}
+.knot-item span{display:inline;}
+
+/* Slide 9 -- model bullets, larger per Mike's note (was 17px). */
+.mp-bul li{font-size:19.5px;line-height:1.46;}
+
+/* v21 (30 Aug) -- round-20 board response */
+
+/* Slide 4 -- product video play button. Same visual language as the
+   founder-film play button (.film-play), centered on the vertical phone
+   screen instead of bottom-left. Clicking it also turns sound on (JS in
+   index.html's setupSound()). */
+.demo-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:4;
+  width:72px;height:72px;border:none;border-radius:50%;cursor:pointer;padding:0;
+  background:linear-gradient(140deg,#FF6B6B,#FF8E53);
+  box-shadow:0 12px 34px rgba(0,0,0,.42), 0 0 0 10px rgba(255,107,107,.16);
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .22s ease, transform .22s ease;}
+.demo-play svg{width:28px;height:28px;fill:#fff;margin-left:3px;}
+.demo-play:hover{transform:translate(-50%,-50%) scale(1.05);}
+.vphone.playing .demo-play{opacity:0;pointer-events:none;}
+
+/* Slide 7 -- the three media examples, bigger now there's room below them. */
+.gtm-ads.v8 img{height:300px;}
+
+/* Slide 8 -- the arrow used align-self:end, pinning it to the bottom of
+   the taller column (now the enlarged NatGeo mock) rather than the last
+   row of the (now shorter, header-free) list -- measured at ~300px off.
+   Pinned instead to the list's own top edge with a fixed offset, computed
+   from the rendered row spacing (row centres 284/341/400/451/509 -> ~56px
+   row height; list top ~255px; last-row centre 509px -> offset 226px). */
+.nfx-arrow{align-self:start;margin-bottom:0;margin-top:226px;}
+
+/* Slide 8 -- one supplier mock instead of two, filling the column at
+   roughly 1.5x the old scale so it's actually easy to read. */
+.supply-mocks{grid-template-columns:1fr;}
+.mk-art .mk-head{height:64px;}
+.mk-art .mk-head img{height:38px;}
+.mk-art .mk-photo{height:190px;}
+.mk-art .mk-body{padding:20px 22px 20px;}
+.mk-art h5{font-size:21px;line-height:1.24;margin-bottom:8px;}
+.mk-art .mk-by{font-size:13px;margin-bottom:16px;}
+.mk-art .mk-share{gap:18px;}
+.mk-art .mk-share > img{height:24px;}
+.mk-brain{width:26px;height:26px;}
+.mk-brain img{width:26px;height:26px;}
+.mk-note{font-size:12px;letter-spacing:.14em;gap:7px;}
+.mk-note .arw{width:30px;height:15px;}
+
+/* Slide 8 -- "proven at scale" becomes a visible callout: a tinted plate
+   with a sideways coral triangle pointing at it, instead of a plain line
+   of small text at the bottom of the slide. */
+.proof-callout{display:flex;align-items:center;gap:16px;margin-top:20px;
+  padding:16px 24px;background:rgba(255,107,107,.07);
+  border:1px solid rgba(255,107,107,.22);border-radius:8px;}
+.proof-tri{flex:none;width:14px;height:18px;}
+.proof-callout .evidence-note{margin-top:0;}
+.proof-callout .evidence-note b{color:var(--fg);}
+
+/* Slide 9 -- two pathway steps instead of three means more room per
+   column; grow the font throughout as asked. */
+.mp-head h3{font-size:34px;line-height:1.18;max-width:34ch;}
+.mp-num{width:46px;height:46px;}
+.mp-num .ico{font-size:23px;}
+.mp-bul{gap:12px;}
+.mp-bul li{font-size:22px;line-height:1.46;}
+
+/* Slide 13 -- the two 20% labels, recomputed from the ring's actual arc
+   geometry (circumference 2*pi*200, rotate(-90deg) so 0% = 12 o'clock,
+   sweeping clockwise) instead of eyeballed. c2 (AI R&D, segment 216-286deg,
+   midpoint 251deg) and c3 (Salaries, segment 288-358deg, midpoint 323deg)
+   were sitting well off their own arcs -- c2 too far right/low, c3 too far
+   down. Recentred on each segment's midpoint at the ring's outer edge. */
+.ring .call.c2{left:-157px;top:268px;text-align:right;}
+.ring .call.c3{left:-82px;top:43px;text-align:right;}
+
+/* v23 (31 Aug) -- fixes the dropped "AI-native" slide request from the
+   round-20 board: a real stat, next to the existing rules list, matching
+   the deck's own big-number style (e.g. .stat on the why-now slide). */
+.org-stat{margin-top:22px;padding-top:18px;border-top:1px solid var(--hair);}
+.org-stat b{display:block;font-family:var(--serif);font-weight:500;font-size:40px;
+  line-height:1;letter-spacing:-.02em;color:var(--accent-type);margin-bottom:6px;}
+.org-stat p{font-family:var(--sans);font-size:16.5px;line-height:1.42;color:var(--fg-soft);}
+
 </style>
 </head>
 <body>
@@ -816,22 +1617,27 @@ body.still .reveal,body.still .chrome-fade{opacity:1!important;transform:none!im
 <div class="deck-viewport">
 <main class="deck-stage" id="deckStage">
 
-<!-- ============ 01 — THE TEST · night ============ -->
-<!-- ============ 00 — COVER · night ============
      No masthead and no folio: the thirteen content slides keep their own
      numbering, and a cover is not page one of the argument. -->
+<!-- ============ 00 — COVER · night ============
+     No masthead and no folio: the fourteen content slides keep their own
+     numbering, and a cover is not page one of the argument. The plain line
+     under the tagline is new in v6: YC's first rule is to say what you do
+     before anything else, in language a stranger repeats back correctly. -->
 <section class="slide night active visible" aria-label="Cover">
   <div class="canvas">
     <div class="cover">
       <img class="mark reveal r1" src="/angel/assets/logos/app-mark.png" alt="REPS" />
       <div class="name reveal r2">REPS</div>
       <p class="line reveal r3">Your attention, worth keeping.</p>
-      <div class="round reveal r4"><b>Angel round</b><span>September 2026</span></div>
+      <p class="what reveal r4">You save anything. REPS turns it into daily games that make it stick.</p>
+      <div class="round v6 reveal r5"><b>Angel round</b><span>September 2026</span></div>
     </div>
     <div class="cover-foot reveal r5">Confidential</div>
   </div>
 </section>
 
+<!-- ============ 01 — THE TEST · night ============ unchanged from v5 -->
 <section class="slide night" aria-label="The test">
   <header class="masthead chrome-fade">
     <div class="brandlock"><img src="/angel/assets/logos/app-mark.png" alt="" /><div class="wordmark">REPS</div></div>
@@ -844,163 +1650,87 @@ body.still .reveal,body.still .chrome-fade{opacity:1!important;transform:none!im
   </div>
   <footer class="footrule chrome-fade">
     <span>Your attention, worth keeping.</span>
-    <span class="folio">01 <span>/ 14</span></span>
+    <span class="folio">01 <span>/ 13</span></span>
   </footer>
 </section>
 
-<!-- ============ 02 — TWO FORCES · paper ============
-     Mike's mock-up: two blocks, one chart under each, one sentence centred
-     beneath. The "results" row from round 2 is gone on purpose. -->
-<section class="slide paper" aria-label="Two forces">
+<!-- ============ 02 — THE PROBLEM · paper ============
+     The crux slide. Nicole read v5 as two pitches (brain rot, then memory);
+     the ladder says they are one system with memory in the middle. Three
+     tiles, one real number each, the meaning written beside every number
+     (YC: never make an investor infer a chart). The word "health" appears
+     nowhere on it on purpose. -->
+<section class="slide paper" aria-label="The problem">
   <header class="masthead chrome-fade">
     <div class="brandlock"><img src="/angel/assets/logos/app-mark.png" alt="" /><div class="wordmark">REPS</div></div>
     <div class="masthead-meta">The problem</div>
   </header>
-  <div class="canvas has-source">
-    <p class="kicker reveal r1">It's not just you</p>
-    <h2 class="lead sm reveal r2" style="margin-top:16px;max-width:64ch">Our attention has been hacked, and our thinking is next.</h2>
-
-    <div class="forces">
-      <div class="force reveal r3">
-        <div class="tag">The attention economy</div>
-        <h3>Social media compressed our attention.</h3>
-        <div class="fig">
-          <div class="linechart">
-            <div class="t">Share of US 18-year-olds who report difficulty thinking or concentrating</div>
-            <img src="/angel/assets/chart-thinking-2000.png" alt="2000 to 2023, rising to nearly one in four after smartphones go mainstream" />
-          </div>
-        </div>
-      </div>
-      <div class="force reveal r4">
-        <div class="tag">And now AI</div>
-        <h3>AI is taking over our thinking.</h3>
-        <div class="fig">
-          <div class="aichart" id="aiChart">
-            <div class="t">Who reached the right answer on a task the AI got wrong</div>
-            <div class="s">Pre-registered trial, 758 consultants at Boston Consulting Group</div>
-            <div class="cols">
-              <div class="cb"><b>85%</b><i style="height:170px"></i></div>
-              <div class="cb bad"><b>71%</b><i style="height:142px"></i></div>
-              <div class="cb bad"><b>60%</b><i style="height:120px"></i></div>
-            </div>
-            <div class="keys"><span>No AI</span><span>With GPT-4</span><span>With GPT-4 and prompt training</span></div>
-            <div class="fn">On the 18 tasks the AI could do, the same consultants completed 12.2% more of them, 25.1% faster, at significantly higher quality.</div>
-            <div class="src">Source: Dell&rsquo;Acqua et al., Organization Science 37(2), 2026</div>
-          </div>
-        </div>
+  <div class="canvas">
+    <div class="pull v7">
+      <p class="kicker reveal r1">One system, three parts</p>
+      <blockquote class="reveal r2"><span>The feeds broke our attention.</span><span class="hot">Memory went with it.</span><span>AI is coming for our thinking.</span></blockquote>
+      <div class="foot">
+        <div class="reveal r3"><b>47 sec</b>on one screen before we switch. Down from 2.5 mins 20 years ago.</div>
+        <div class="reveal r4"><b>33%</b>reduced knowledge recall once people believed a computer had saved it. Saved somewhere is not remembered.</div>
+        <div class="reveal r5"><b>1 in 4</b>young adults report serious trouble concentrating. Up from 1 in 8 in 1990.</div>
       </div>
     </div>
   </div>
-  <div class="source">Left: Monitoring the Future survey, FT analysis by John Burn-Murdoch. Right: Dell&rsquo;Acqua et al., Organization Science 37(2), 2026.</div>
   <footer class="footrule chrome-fade">
     <span>Your attention, worth keeping.</span>
-    <span class="folio">02 <span>/ 14</span></span>
+    <span class="folio">02 <span>/ 13</span></span>
   </footer>
 </section>
 
-<!-- ============ 03 — WAKING UP AND PUSHING BACK · night ============
-     Awareness, action, consequences. Whole images, nothing cropped through a face. -->
-<section class="slide night" aria-label="The public is waking up and pushing back">
+<!-- ============ 03 — WHY NOW · night ============ v5's triptych, a third of the words -->
+<section class="slide night" aria-label="Why now">
   <header class="masthead chrome-fade">
     <div class="brandlock"><img src="/angel/assets/logos/app-mark.png" alt="" /><div class="wordmark">REPS</div></div>
     <div class="masthead-meta">Why now</div>
   </header>
-  <div class="canvas has-source">
+  <div class="canvas">
     <p class="kicker reveal r1">And the turn is already happening</p>
     <h2 class="lead reveal r2" style="margin-top:14px;max-width:46ch">The public is waking up and <span class="hot">pushing back</span>.</h2>
 
-    <div class="three" style="margin-top:56px">
+    <div class="three v6">
       <div class="reveal r3">
         <div class="col-label">01 &middot; Awareness</div>
         <div class="media"><img src="/angel/assets/sourced/atlantic-aug2026-cover-fullres.jpg" alt="The Atlantic, August 2026 cover: The Age of Reading Is Over" /></div>
-        <h3>Literacy is a cover story now.</h3>
-        <p>A third of US adults can no longer paraphrase a page of text.</p>
-        <div class="caption">The Atlantic &middot; August 2026 print cover</div>
+        <h3>Literacy is a cover story.</h3>
+        <div class="stat">28%</div>
+        <p>of US adults now read at the lowest literacy level. It was 19% in 2017.</p>
       </div>
 
       <div class="reveal r4">
         <div class="col-label">02 &middot; Action</div>
         <div class="duo">
           <img src="/angel/assets/sourced/dua-lipa-service95-bookclub-aug2026-frame0.jpg" alt="Dua Lipa, Service95 book club" style="object-position:center 30%" />
-          <img src="/angel/assets/sourced/reese-witherspoon-reesesbookclub-official.jpg" alt="Reese Witherspoon, Reese's Book Club" style="object-position:center 15%" />
+          <img src="/angel/assets/sourced/book-reader-littlefireseverywhere-aug2026.jpg" alt="A reader holding a copy of Little Fires Everywhere" style="object-position:center 22%" />
         </div>
         <h3>A counterculture is emerging.</h3>
-        <p>Book clubs went mainstream with the likes of Dua Lipa and Reese Witherspoon launching their own. Independent book store numbers are surging across the US.&nbsp;</p>
-        
+        <div class="stat">151%</div>
+        <p>growth in independent bookstore membership, 2020 to 2025. Book clubs went mainstream.</p>
       </div>
 
       <div class="reveal r5">
         <div class="col-label">03 &middot; Consequences</div>
         <div class="media clip"><img src="/angel/assets/sourced/economist-big-tech-big-tobacco-2026-08-18-crop.png" alt="The Economist, 18 August 2026: Is big tech the new big tobacco?" /></div>
         <h3>And now the courts.</h3>
-        <p>Meta is on trial in Oakland: 29 states, and a claim of $193bn. New Mexico has just won $950m. Regulations emerging worldwide to ban social media for children.&nbsp;</p>
+        <div class="stat">$17bn</div>
+        <p>Meta&rsquo;s settlement with 29 states over social media&rsquo;s harm to kids.</p>
       </div>
     </div>
   </div>
-  <div class="source">The Atlantic, Rose Horowitch, 8 Jul 2026 &middot; The Economist, 18 Aug 2026: &ldquo;Is big tech the new big tobacco?&rdquo; and &ldquo;Meta's blockbuster trial draws parallels to big tobacco&rdquo; &middot; American Booksellers Association</div>
   <footer class="footrule chrome-fade">
     <span>Your attention, worth keeping.</span>
-    <span class="folio">03 <span>/ 14</span></span>
+    <span class="folio">03 <span>/ 13</span></span>
   </footer>
 </section>
 
-<!-- ============ 04 — WHAT REPS IS · night, with the vertical demo ============ -->
-<section class="slide paper" aria-label="The competitive map">
-  <header class="masthead chrome-fade">
-    <div class="brandlock"><img src="/angel/assets/logos/app-mark.png" alt="" /><div class="wordmark">REPS</div></div>
-    <div class="masthead-meta">The gap</div>
-  </header>
-  <div class="canvas has-source">
-    <p class="kicker reveal r1">But few sustainable alternatives exist</p>
-    <h2 class="lead sm reveal r2" style="margin-top:14px;max-width:62ch">Brain health alternatives are <span class="hot">generic</span>, or a version of <span class="hot">less</span>.</h2>
-
-    <div class="map">
-      <div class="map-list reveal r3">
-        <div class="map-row"><div class="n">1</div><div><h4>Micro-learning apps</h4><p>Someone else's summary of someone else's book. Feel-good but surface level.</p></div></div>
-        <div class="map-row"><div class="n">2</div><div><h4>Publisher games</h4><p>NYT, The Atlantic, The Economist. A proven daily habit, locked to one publisher's content. Show huge demand for stimulating phone time.&nbsp;</p></div></div>
-        <div class="map-row"><div class="n">3</div><div><h4>Saving apps</h4><p>Bookmark graveyards. Limited utility once the tab is closed.</p></div></div>
-        <div class="map-row"><div class="n">4</div><div><h4>Second-brain apps</h4><p>Transactional. Your content, your labour. You are the librarian.</p></div></div>
-        <div class="map-row"><div class="n">5</div><div><h4>Time-limit apps</h4><p>Opal, Brick, BePresent, Screen Time. The stick: less of something. People eventually route around them.</p></div></div>
-        <!-- out of the numbered list on purpose: it is not a sixth alternative,
-             it is the answer to the five above -->
-        <div class="map-row us"><div class="mk"><img src="/angel/assets/logos/reps.png" alt="" /></div><div><h4>Bring your own content</h4><p>High singleplayer value with multiplayer retention. Good for you, fun, and uniquely personal.</p></div></div>
-      </div>
-
-      <div class="map-plot reveal r4">
-        <svg viewBox="0 0 1080 560" aria-hidden="true">
-          <defs>
-            <marker id="axhead" markerWidth="10" markerHeight="10" refX="6" refY="5" orient="auto"><path d="M0,1 L8,5 L0,9 Z" fill="rgba(33,26,20,.35)"/></marker>
-          </defs>
-          <rect x="560" y="30" width="500" height="250" fill="rgba(45,131,119,.055)"/>
-          <line x1="20" y1="280" x2="1060" y2="280" stroke="rgba(33,26,20,.35)" stroke-width="1.4" marker-end="url(#axhead)"/>
-          <line x1="540" y1="540" x2="540" y2="20" stroke="rgba(33,26,20,.35)" stroke-width="1.4" marker-end="url(#axhead)"/>
-          <text class="ax" x="540" y="10" text-anchor="middle">Brain growth &amp; health</text>
-          <text class="ax" x="540" y="558" text-anchor="middle">Transactional utility</text>
-          <text class="ax" x="22" y="302">Generic</text>
-          <text class="ax hi" x="1058" y="302" text-anchor="end">Personalised</text>
-          <g transform="translate(330,92)"><rect class="pill" x="-110.35" y="-27" width="220.7" height="54" rx="27"/><text class="num" x="-89.35" y="6">1</text><image class="lgi" href="/angel/assets/logos/blinkist.png" x="-59.35" y="-16" width="33.8" height="32" preserveAspectRatio="xMidYMid meet"/><image class="lgi" href="/angel/assets/logos/headway.png" x="-15.55" y="-16" width="22" height="32" preserveAspectRatio="xMidYMid meet"/><image class="lgi" href="/angel/assets/logos/deepstash.png" x="16.45" y="-16" width="26.5" height="32" preserveAspectRatio="xMidYMid meet"/><image class="lgi" href="/angel/assets/logos/shortform.png" x="52.95" y="-16" width="36.4" height="32" preserveAspectRatio="xMidYMid meet"/></g>
-          <g transform="translate(688,44)"><rect class="pill faint" x="-74" y="-27" width="148" height="54" rx="27"/><use class="lg" href="#lg-duolingo" x="-53" y="-16" width="32" height="32" style="color:rgba(33,26,20,.82)"/><text class="pt small" x="-11" y="5">languages</text></g>
-          <g transform="translate(252,196)"><rect class="pill" x="-84.55" y="-27" width="169.1" height="54" rx="27"/><text class="num" x="-63.55" y="6">2</text><use class="lg" href="#lg-newyorktimes" x="-33.55" y="-16" width="32" height="32" style="color:rgba(33,26,20,.82)"/><image class="lgi" href="/angel/assets/logos/atlantic.png" x="8.45" y="-16" width="21.1" height="32" preserveAspectRatio="xMidYMid meet"/><image class="lgi" href="/angel/assets/logos/economist.png" x="39.55" y="-16" width="24" height="32" preserveAspectRatio="xMidYMid meet"/></g>
-          <g transform="translate(716,282)"><rect class="pill" x="-93.8" y="-27" width="187.6" height="54" rx="27"/><text class="num" x="-72.8" y="6">3</text><use class="lg" href="#lg-pocket" x="-42.8" y="-16" width="32" height="32" style="color:rgba(33,26,20,.82)"/><use class="lg" href="#lg-instapaper" x="-0.8" y="-16" width="32" height="32" style="color:rgba(33,26,20,.82)"/><image class="lgi" href="/angel/assets/logos/readwise.png" x="41.2" y="-16" width="31.6" height="32" preserveAspectRatio="xMidYMid meet"/></g>
-          <g transform="translate(898,428)"><rect class="pill" x="-102" y="-27" width="204" height="54" rx="27"/><text class="num" x="-81" y="6">4</text><use class="lg" href="#lg-obsidian" x="-51" y="-16" width="32" height="32" style="color:rgba(33,26,20,.82)"/><use class="lg" href="#lg-notion" x="-9" y="-16" width="32" height="32" style="color:rgba(33,26,20,.82)"/><!-- Recall is capped at 48, i.e. 1.5x Notion's 32 (Mike, round 14). Its own aspect is 2.07, so inside a 48x32 box it renders 48 by 23, centred. --><image class="lgi" href="/angel/assets/logos/recall.png" x="33" y="-16" width="48" height="32" preserveAspectRatio="xMidYMid meet"/></g>
-          <g transform="translate(560,494)"><rect class="pill" x="-132.3" y="-27" width="264.6" height="54" rx="27"/><text class="num" x="-111.3" y="6">5</text><image class="lgi" href="/angel/assets/logos/opal.png" x="-81.3" y="-16" width="32" height="32" preserveAspectRatio="xMidYMid meet"/><image class="lgi" href="/angel/assets/logos/brick.png" x="-39.3" y="-16" width="32" height="32" preserveAspectRatio="xMidYMid meet"/><image class="lgi" href="/angel/assets/logos/bepresent.png" x="2.7" y="-16" width="66.6" height="32" preserveAspectRatio="xMidYMid meet"/><use class="lg" href="#lg-apple" x="79.3" y="-16" width="32" height="32" style="color:rgba(33,26,20,.82)"/></g>
-          <g transform="translate(250,486)"><rect class="pill faint" x="-61" y="-27" width="122" height="54" rx="27"/><text class="pt small" x="-40" y="5">Screen Time</text></g>
-          <g transform="translate(806,158)"><rect class="pill faint" x="-66" y="-27" width="132" height="54" rx="27"/><use class="lg" href="#lg-strava" x="-45" y="-16" width="32" height="32" style="color:rgba(33,26,20,.82)"/><text class="pt small" x="-3" y="5">fitness</text></g>
-          <g transform="translate(928,100)"><rect class="pill us" x="-99" y="-40" width="198" height="80" rx="40"/><image href="/angel/assets/logos/reps.png" x="-73" y="-26" width="52" height="52" preserveAspectRatio="xMidYMid meet"/><text class="pt us" x="-5" y="9">REPS</text></g>
-        </svg>
-      </div>
-    </div>
-  </div>
-  <div class="source">Brand marks are the companies' own, taken from their published icons and rendered monochrome. The faded markers are reference points from other categories, not competitors: Duolingo and Strava prove the top half of the map builds daily habits; Screen Time is the stick built into every iPhone. Duolingo reported 140.6 million monthly users and 12.7 million paying subscribers for the quarter to 30 June 2026 (SEC Form 8-K, 5 Aug 2026) &mdash; a daily habit game at scale, in a category nobody found exciting either.</div>
-  <footer class="footrule chrome-fade">
-    <span>Your attention, worth keeping.</span>
-    <span class="folio">04 <span>/ 14</span></span>
-  </footer>
-</section>
-
-<!-- ============ 05 — THE COMPETITIVE MAP · paper ============
-     Mike's 2x2: carrot/stick against generic/personalised. REPS alone top-right.
-     Grey dashed markers are reference points from other categories, not rivals. -->
+<!-- ============ 04 — THE PRODUCT · night, video ============
+     The video stays (proof it exists); four plain lines say what it does so a
+     reader who never presses play still gets it (Nicole: call out the core
+     features; Hale: a list of steps beats screenshots). -->
 <section class="slide night" aria-label="What REPS is">
   <header class="masthead chrome-fade">
     <div class="brandlock"><img src="/angel/assets/logos/app-mark.png" alt="" /><div class="wordmark">REPS</div></div>
@@ -1010,15 +1740,28 @@ body.still .reveal,body.still .chrome-fade{opacity:1!important;transform:none!im
     <div class="s4">
       <div>
         <p class="kicker reveal r1">So we pointed it the other way</p>
-        <h2 class="s4-claim reveal r2">REPS: Gamifying the knowledge <span class="hot">you</span> care about. A social alternative to doomscrolling.</h2>
-        <p class="s4-support reveal r4">The technology behind the attention economy is genuinely brilliant: personalisation, streaks, daily hooks, social loops. It is simply aimed at the wrong target. We pointed the same machinery at the things you already chose to read without incentives to break your attention.</p>
+        <h2 class="s4-claim v6 reveal r2">REPS: gamifying the knowledge you value<br />so it <span class="hot">stays forever</span>.</h2>
+        <div class="live-list reveal r3">
+          <span class="livepill">Live on the App Store</span>
+          <ul>
+            <li><b>Save from any app in seconds.</b> REPS does the rest.</li>
+            <li><b>A daily session,</b> solo or with a friend.</li>
+            <li><b>Discover curated content</b> from the community.</li>
+            <li><b>Your Second Brain:</b> see your knowledge grow in real time.</li>
+            <li><b>Ask Echo</b> anything about it, in text or out loud.</li>
+          </ul>
+        </div>
+        <p class="s4-support v6 reveal r4">One daily habit that works on all three: where your attention goes, what you keep, and how you think.</p>
       </div>
       <div class="reveal r3">
         <div class="vphone">
           <button class="sound-btn" id="soundBtn" title="Turn sound on (S)" aria-label="Turn sound on">&#128263;</button>
           <div class="screen">
-            <video id="demoVertical" src="https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/angel/demo-vertical-v9.mp4" poster="/angel/assets/demo-vertical-poster.jpg" autoplay muted loop playsinline></video>
+            <video id="demoVertical" src="https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/angel/demo-vertical-v9.mp4" poster="/angel/assets/demo-vertical-poster.jpg" muted loop playsinline></video>
           </div>
+          <button class="demo-play" id="demoPlay" aria-label="Play the product demo with sound" title="Play">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.6 L18.4 12 L8 18.4 Z"/></svg>
+          </button>
         </div>
         <div class="sound-hint" id="soundHint">Tap the speaker, or press S, for sound</div>
       </div>
@@ -1026,167 +1769,182 @@ body.still .reveal,body.still .chrome-fade{opacity:1!important;transform:none!im
   </div>
   <footer class="footrule chrome-fade">
     <span>Your attention, worth keeping.</span>
-    <span class="folio">05 <span>/ 14</span></span>
+    <span class="folio">04 <span>/ 13</span></span>
   </footer>
 </section>
 
-<!-- ============ 06 — KNOWLEDGE ATHLETES · night ============
-     The bell curve from Mike's mock-up. Schematic: the segments are a way of
-     seeing the market, not a survey, and the source line says so. -->
-<section class="slide paper" aria-label="A holistic social knowledge experience">
+<!-- ============ 06 — THE GAP · paper ============
+     Nicole's own reading of the gap, made explicit: the three ingredients
+     nobody has together. A checklist rather than the 2x2 map, because a map
+     is a diagram and YC's rule on diagrams is blunt. Duolingo and Strava are
+     a full-weight row, not faded reference marks. -->
+<section class="slide paper" aria-label="The gap">
   <header class="masthead chrome-fade">
     <div class="brandlock"><img src="/angel/assets/logos/app-mark.png" alt="" /><div class="wordmark">REPS</div></div>
-    <div class="masthead-meta">Today, and next</div>
+    <div class="masthead-meta">The gap</div>
   </header>
-  <div class="canvas has-source">
-    <p class="kicker reveal r1">four piece, ONE HOLISTIC EXPERIENCE</p>
-    <h2 class="lead xs reveal r2" style="margin-top:14px;max-width:44ch">A social knowledge experience that wasn't possible before AI</h2>
-
-    <div class="pz">
-      <div class="jig reveal r3">
-        <svg viewBox="0 0 500 500" aria-hidden="true">
-          <path class="piece a" d="M0 0 H250 V97 A28 28 0 1 1 250 153 V250 H153 A28 28 0 1 0 97 250 H0 Z"/>
-          <path class="piece b" d="M250 0 H500 V250 H403 A28 28 0 1 1 347 250 H250 V153 A28 28 0 1 0 250 97 Z"/>
-          <path class="piece c" d="M0 250 H97 A28 28 0 1 1 153 250 H250 V347 A28 28 0 1 0 250 403 V500 H0 Z"/>
-          <path class="piece d" d="M250 250 H347 A28 28 0 1 0 403 250 H500 V500 H250 V403 A28 28 0 1 1 250 347 Z"/>
+  <div class="canvas">
+    <p class="kicker reveal r1">What people reach for instead</p>
+    <h2 class="lead xs reveal r2" style="margin-top:12px;max-width:74ch"><span class="hot">Knowledge apps</span> were too generic or functional up until now.</h2>
+    <div class="mapwide v8">
+      <div class="aside reveal r3"><b>Over 250M+ word games and micro&#8209;learning app users prove the demand for stimulation, despite it being generic. Nobody offers it socially and gamified on your own content.</b>Saving and second-brain apps are personal but transactional: you do the work. Only possible now that AI does the organising.</div>
+      <div class="map-plot reveal r4">
+        <svg viewBox="0 0 1080 560" aria-hidden="true">
+          <defs><marker id="axhead2" markerWidth="10" markerHeight="10" refX="6" refY="5" orient="auto"><path d="M0,1 L8,5 L0,9 Z" fill="rgba(33,26,20,.35)"/></marker></defs>
+          <rect x="560" y="30" width="500" height="250" fill="rgba(216,68,63,.05)"/>
+          <line x1="20" y1="280" x2="1060" y2="280" stroke="rgba(33,26,20,.35)" stroke-width="1.4" marker-end="url(#axhead2)"/>
+          <line x1="540" y1="540" x2="540" y2="20" stroke="rgba(33,26,20,.35)" stroke-width="1.4" marker-end="url(#axhead2)"/>
+          <text class="ax" x="540" y="10" text-anchor="middle">A habit you return to</text>
+          <text class="ax" x="540" y="558" text-anchor="middle">A tool you use</text>
+          <text class="ax" x="22" y="302">Someone else's content</text>
+          <text class="ax hi" x="1058" y="302" text-anchor="end">Your own content</text>
+          <g transform="translate(330,92)"><rect class="pill" x="-110.35" y="-27" width="220.7" height="54" rx="27"/><image class="lgi" href="/angel/assets/logos/blinkist.png" x="-79.35" y="-16" width="33.8" height="32" preserveAspectRatio="xMidYMid meet"/><image class="lgi" href="/angel/assets/logos/headway.png" x="-35.55" y="-16" width="22" height="32" preserveAspectRatio="xMidYMid meet"/><image class="lgi" href="/angel/assets/logos/deepstash.png" x="-3.55" y="-16" width="26.5" height="32" preserveAspectRatio="xMidYMid meet"/><image class="lgi" href="/angel/assets/logos/shortform.png" x="32.95" y="-16" width="36.4" height="32" preserveAspectRatio="xMidYMid meet"/></g>
+          <g transform="translate(688,44)"><rect class="pill" x="-74" y="-27" width="148" height="54" rx="27"/><use class="lg" href="#lg-duolingo" x="-53" y="-16" width="32" height="32" style="color:rgba(33,26,20,.82)"/><text class="pt small" x="-11" y="5">languages</text></g>
+          <g transform="translate(252,196)"><rect class="pill" x="-84.55" y="-27" width="169.1" height="54" rx="27"/><use class="lg" href="#lg-newyorktimes" x="-53.55" y="-16" width="32" height="32" style="color:rgba(33,26,20,.82)"/><image class="lgi" href="/angel/assets/logos/atlantic.png" x="-11.55" y="-16" width="21.1" height="32" preserveAspectRatio="xMidYMid meet"/><image class="lgi" href="/angel/assets/logos/economist.png" x="19.55" y="-16" width="24" height="32" preserveAspectRatio="xMidYMid meet"/></g>
+          <g transform="translate(716,282)"><rect class="pill" x="-93.8" y="-27" width="187.6" height="54" rx="27"/><use class="lg" href="#lg-pocket" x="-62.8" y="-16" width="32" height="32" style="color:rgba(33,26,20,.82)"/><use class="lg" href="#lg-instapaper" x="-20.8" y="-16" width="32" height="32" style="color:rgba(33,26,20,.82)"/><image class="lgi" href="/angel/assets/logos/readwise.png" x="21.2" y="-16" width="31.6" height="32" preserveAspectRatio="xMidYMid meet"/></g>
+          <g transform="translate(898,428)"><rect class="pill" x="-102" y="-27" width="204" height="54" rx="27"/><use class="lg" href="#lg-obsidian" x="-71" y="-16" width="32" height="32" style="color:rgba(33,26,20,.82)"/><use class="lg" href="#lg-notion" x="-29" y="-16" width="32" height="32" style="color:rgba(33,26,20,.82)"/><image class="lgi" href="/angel/assets/logos/recall.png" x="13" y="-16" width="48" height="32" preserveAspectRatio="xMidYMid meet"/></g>
+          <g transform="translate(560,494)"><rect class="pill" x="-132.3" y="-27" width="264.6" height="54" rx="27"/><image class="lgi" href="/angel/assets/logos/opal.png" x="-101.3" y="-16" width="32" height="32" preserveAspectRatio="xMidYMid meet"/><image class="lgi" href="/angel/assets/logos/brick.png" x="-59.3" y="-16" width="32" height="32" preserveAspectRatio="xMidYMid meet"/><image class="lgi" href="/angel/assets/logos/bepresent.png" x="-17.3" y="-16" width="66.6" height="32" preserveAspectRatio="xMidYMid meet"/><use class="lg" href="#lg-apple" x="59.3" y="-16" width="32" height="32" style="color:rgba(33,26,20,.82)"/></g>
+          <g transform="translate(806,158)"><rect class="pill" x="-66" y="-27" width="132" height="54" rx="27"/><use class="lg" href="#lg-strava" x="-45" y="-16" width="32" height="32" style="color:rgba(33,26,20,.82)"/><text class="pt small" x="-3" y="5">fitness</text></g>
+          <g transform="translate(928,100)"><rect class="pill us" x="-99" y="-40" width="198" height="80" rx="40"/><image href="/angel/assets/logos/reps.png" x="-73" y="-26" width="52" height="52" preserveAspectRatio="xMidYMid meet"/><text class="pt us" x="-5" y="9">REPS</text></g>
         </svg>
-        <div class="jig-grid">
-          <div class="jig-cell"><svg class="ico"><use href="#i-explore"/></svg><h4>Explore</h4><p>A curated feed of content worth remembering.&nbsp;</p></div>
-          <div class="jig-cell"><svg class="ico"><use href="#i-save"/></svg><h4>Save</h4><p>From any analog or digital source in seconds. REPS does the rest.&nbsp;</p></div>
-          <div class="jig-cell"><svg class="ico"><use href="#i-remember"/></svg><h4>Remember</h4><p>Spaced repetition, your Second Brain as a live graph, Ask Echo.</p></div>
-          <div class="jig-cell"><svg class="ico"><use href="#i-play"/></svg><h4>Play</h4><p>A daily trivia session (UI or voice) plus various games based on your saved knowledge.&nbsp;</p></div>
-        </div>
-      </div>
-
-      <div class="opps reveal r4">
-        <div class="label">Countless opportunities unlocked by AI <span class="notyet">Roadmap</span></div>
-        <div class="opp-grid">
-          <div class="opp">
-            <h5><svg class="ico"><use href="#i-think"/></svg>Sharper thinking</h5>
-            <ul>
-              <li>Fact-checking what you save</li>
-              <li>A devil's advocate that argues the other side of your own library. Breaking your echo chamber</li>
-              <li>A brain coach that recommends new content and knows what you forget</li>
-              <li>Curated journeys through a subject</li>
-            </ul>
-          </div>
-          <div class="opp">
-            <h5><svg class="ico"><use href="#i-ingest"/></svg>Seamless ingestion</h5>
-            <ul>
-              <li>Native integrations with the apps people already live in (spotify, kindle, etc.)</li>
-              <li>Continuous ingestion, so saving stops being a step</li>
-              <li>Publisher subscriptions, Apple News model</li>
-            </ul>
-          </div>
-          <div class="opp">
-            <h5><svg class="ico"><use href="#i-trust"/></svg>People, and trust</h5>
-            <ul>
-              <li>Meeting people through what they have retained</li>
-              <li>Security and privacy as a feature people pay for</li>
-            </ul>
-          </div>
-        </div>
-        
       </div>
     </div>
   </div>
-  <div class="source">The four pieces are live on the App Store today. Everything on the right is roadmap: none of it is built, and none of it is being sold.</div>
-  <footer class="footrule chrome-fade">
-    <span>Your attention, worth keeping.</span>
-    <span class="folio">06 <span>/ 14</span></span>
-  </footer>
+  <footer class="footrule chrome-fade"><span>Your attention, worth keeping.</span><span class="folio">05 <span>/ 13</span></span></footer>
 </section>
 
-<!-- ============ 07 — THE PRODUCT, WHOLE · paper ============
-     Mike's jigsaw: the four verbs as pieces, and the AI opportunities beside
-     it grouped into three buckets. Right side is roadmap and badged as such. -->
+<!-- ============ 07 — WHO IT'S FOR · night ============
+     Mike's curve, kept. Each segment gets a one-line self-identification so
+     a reader can place herself (Nicole), and four sourced numbers sit under
+     the curve for "how many are there". -->
 <section class="slide night" aria-label="Knowledge keepers">
   <header class="masthead chrome-fade">
     <div class="brandlock"><img src="/angel/assets/logos/app-mark.png" alt="" /><div class="wordmark">REPS</div></div>
     <div class="masthead-meta">Who it's for</div>
   </header>
-  <div class="canvas has-source">
+  <div class="canvas">
     <p class="kicker reveal r1">Who it's for</p>
-    <h2 class="lead sm reveal r2" style="margin-top:14px;max-width:74ch">Build for <span class="hot">Knowledge Keepers:</span> actively curious, poorly equipped.</h2>
+    <h2 class="lead xs reveal r2" style="margin-top:12px;max-width:80ch"><span class="hot">Knowledge keepers:</span> cognitively active and poorly equipped to retain it.</h2>
 
-    <div class="athletes reveal r3">
-      <div class="curve">
-        <div class="curve-t">Our model of the market &mdash; four ways people handle what they consume</div>
-        <svg viewBox="0 0 1020 400" aria-hidden="true">
-          <defs>
-            <linearGradient id="curveHot" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#FF6B6B" stop-opacity=".62"/>
-              <stop offset="100%" stop-color="#FF8E53" stop-opacity=".03"/>
-            </linearGradient>
-            <clipPath id="repsClip"><rect x="418" y="0" width="446" height="340"/></clipPath>
-          </defs>
-
-          <!-- baseline -->
-          <line x1="30" y1="340" x2="1000" y2="340" stroke="rgba(255,250,247,.24)" stroke-width="1.2"/>
-
-          <!-- the curve -->
-          <path d="M30 215 C 180 210, 330 197, 430 179 C 500 166, 545 150, 590 150 C 660 150, 720 191, 800 227 C 880 259, 950 269, 1000 272"
-                fill="none" stroke="#FFFAF7" stroke-width="2.4"/>
-          <path d="M30 215 C 180 210, 330 197, 430 179 C 500 166, 545 150, 590 150 C 660 150, 720 191, 800 227 C 880 259, 950 269, 1000 272 L1000 340 L30 340 Z"
-                fill="url(#curveHot)" clip-path="url(#repsClip)"/>
-
-
-          <!-- segment dividers -->
-          <line x1="272" y1="124" x2="272" y2="340" stroke="rgba(255,250,247,.22)" stroke-width="1.2" stroke-dasharray="5 8"/>
-          <line x1="418" y1="118" x2="418" y2="340" stroke="rgba(255,107,107,.72)" stroke-width="1.6" stroke-dasharray="5 8"/>
-          <line x1="864" y1="118" x2="864" y2="340" stroke="rgba(255,107,107,.72)" stroke-width="1.6" stroke-dasharray="5 8"/>
-
-          <!-- segment labels -->
-          <text class="sg-t" x="151" y="52" text-anchor="middle">TikTok-</text>
-          <text class="sg-t" x="151" y="80" text-anchor="middle">land</text>
-          <text class="sg-p" x="151" y="106" text-anchor="middle">Consume, forget, repeat.</text>
-          <text class="sg-t" x="345" y="52" text-anchor="middle">Micro-</text>
-          <text class="sg-t" x="345" y="80" text-anchor="middle">learners</text>
-          <text class="sg-p" x="345" y="106" text-anchor="middle">Limited depth and</text>
-          <text class="sg-p" x="345" y="125" text-anchor="middle">headspace.</text>
-          <text class="sg-t hi" x="641" y="52" text-anchor="middle">Knowledge</text>
-          <text class="sg-t hi" x="641" y="80" text-anchor="middle">keepers</text>
-          <text class="sg-p" x="641" y="106" text-anchor="middle">Want to keep what they read.</text>
-          <text class="sg-p" x="641" y="125" text-anchor="middle">Won't build a system to do it.</text>
-          <text class="sg-t" x="932" y="52" text-anchor="middle">Productivity</text>
-          <text class="sg-t" x="932" y="80" text-anchor="middle">zealots</text>
-          <text class="sg-p" x="932" y="106" text-anchor="middle">Vibe code their own</text>
-          <text class="sg-p" x="932" y="125" text-anchor="middle">systems.</text>
-          <!-- axis -->
-          <text class="sg-ax" x="30" y="372">Reads less &middot; less effort spent keeping it</text>
-          <text class="sg-ax" x="1000" y="372" text-anchor="end">Reads more &middot; more effort</text>
+    <div class="kthree">
+      <div class="kannot" aria-hidden="true">
+        <svg class="kannot-arrows" viewBox="0 0 400 70" preserveAspectRatio="none">
+          <path class="ka" d="M108 20 C 88 28, 72 32, 60 34"/>
+          <path class="ka" d="M68 29 L60 34 L67 40"/>
+          <path class="ka" d="M158 20 C 178 28, 194 32, 206 34"/>
+          <path class="ka" d="M198 29 L206 34 L199 40"/>
         </svg>
+        <div class="kannot-label">Strongest signals<br />so far</div>
+      </div>
+      <div class="kpers3 reveal r3">
+        <div class="kper">
+          <div class="kp-photo"><img src="/angel/assets/personas/sam-portrait.png" alt="Sam" /></div>
+          <b class="kwho hot">Sam &middot; Lifelong learner</b>
+          <ul class="kbul">
+            <li>Retired, with <b class="kx">time on their hands</b> and a book club</li>
+            <li><b class="kx">Self-proclaimed nerd</b>, already plays NYT Games</li>
+            <li>Cares about <b class="kx">staying sharp</b> as the years go by</li>
+          </ul>
+        </div>
+        <div class="kper">
+          <div class="kp-photo"><img src="/angel/assets/personas/charlie-portrait.png" alt="Charlie" /></div>
+          <b class="kwho hot">Charlie &middot; Curious millennial</b>
+          <ul class="kbul">
+            <li>Lived the before and after of the smartphone, and <b class="kx">noticed what it took</b></li>
+            <li><b class="kx">Eclectic content consumption</b>, no single place for it all</li>
+            <li>Loves to <b class="kx">share their discoveries</b> IRL</li>
+          </ul>
+        </div>
+        <div class="kper">
+          <div class="kp-photo"><img src="/angel/assets/personas/jordan-portrait.png" alt="Jordan" /></div>
+          <b class="kwho hot">Jordan &middot; Skeptical Gen Z</b>
+          <ul class="kbul">
+            <li>Doesn&rsquo;t trust the feed, but <b class="kx">lacks a social alternative</b></li>
+            <li>Wants <b class="kx">friends around real interests</b>, not algorithms</li>
+            <li>Seeks an AI <b class="kx">built to help</b>, not replace their thinking</li>
+          </ul>
+        </div>
+      </div>
+      <div class="knot reveal r5">
+        <div class="knot-h">Not focused on</div>
+        <div class="knot-grid">
+          <div class="knot-item"><b>Casual content consumers</b><span>Consume, forget, repeat.</span></div>
+          <div class="knot-item"><b>Students</b><span>Overly crowded and transactional. Churn after school.</span></div>
+          <div class="knot-item"><b>Productivity zealots</b><span>Already built a second brain in Obsidian. High integration needs.</span></div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="source">The curve&rsquo;s height is Pew&rsquo;s measured reading distribution, 8,046 US adults, October 2025. Where the four segments sit along it is our model, not Pew&rsquo;s.</div>
   <footer class="footrule chrome-fade">
     <span>Your attention, worth keeping.</span>
-    <span class="folio">07 <span>/ 14</span></span>
+    <span class="folio">06 <span>/ 13</span></span>
   </footer>
 </section>
 
-<!-- ============ 08 — AI-PROOF NETWORK EFFECTS · night ============
-     Framed at scale, as Mike asked. Five effects on the left, the reason a
-     knowledge supplier says yes on the right. -->
+<!-- ============ 08 — TRACTION · paper ============
+     The three signals, and the App Store panel Nicole asked for. Every quote
+     is a real, attributable review from our own ledger, pulled 25 Aug 2026. -->
+<section class="slide paper" aria-label="Early signals">
+  <header class="masthead chrome-fade">
+    <div class="brandlock"><img src="/angel/assets/logos/app-mark.png" alt="" /><div class="wordmark">REPS</div></div>
+    <div class="masthead-meta">Traction</div>
+  </header>
+  <div class="canvas">
+    <p class="kicker reveal r1">Early signals</p>
+    <h2 class="lead sm reveal r2" style="margin-top:14px;max-width:60ch">Opened to beta users in July. <span class="hot">The message lands, and the habit forms.</span></h2>
+
+    <div class="trac">
+      <div class="reveal r3">
+        <div class="sigs">
+          <div class="sig"><b>5&ndash;10%</b><p>ad click-through, against Meta's 1.5% average<small>Messaging: remember what you read, and the attention crisis</small></p></div>
+          <div class="sig"><b>1.7&times;</b><p>jump in activation by introducing seamless content onboarding<small>Fewer taps between finding something and saving it to REPS</small></p></div>
+          <div class="sig"><b>14&times;</b><p>jump in return rate for users who start one daily training<small>Identifying our equivalent of Facebook&rsquo;s &ldquo;7 friends in 10 days&rdquo;</small></p></div>
+        </div>
+        <div class="gtm-ads v6 v8">
+          <img src="/angel/assets/ads/m12-bookcover-linen.jpg" alt="Live ad: How to remember everything you read" />
+          <img src="/angel/assets/ads/live-founder-iquit-fb.png" alt="Live ad in the Facebook feed: the founder film, I Quit" />
+          <img src="/angel/assets/ads/live-founder-oneineight-ig.png" alt="Live ad on Instagram: the founder on the attention chart" />
+        </div>
+      </div>
+
+      <div class="store reveal r4">
+        <div class="head laureled">
+          <div class="rating-wrap">
+            <svg class="laurel" viewBox="0 0 90 150" aria-hidden="true"><path d="M62 145 C 34 130, 18 92, 25 55 C 30 28, 47 8, 68 -4" /><g><ellipse cx="53" cy="118" rx="12" ry="4.6" transform="rotate(-32 53 118)"/><ellipse cx="41" cy="97" rx="12" ry="4.6" transform="rotate(-44 41 97)"/><ellipse cx="32" cy="74" rx="11" ry="4.3" transform="rotate(-56 32 74)"/><ellipse cx="28" cy="49" rx="10" ry="4" transform="rotate(-68 28 49)"/><ellipse cx="31" cy="25" rx="9" ry="3.8" transform="rotate(-80 31 25)"/><ellipse cx="44" cy="6" rx="8" ry="3.5" transform="rotate(-92 44 6)"/></g></svg>
+            <div class="rating"><em>&#9733;</em>4.8</div>
+            <svg class="laurel r" viewBox="0 0 90 150" aria-hidden="true"><path d="M62 145 C 34 130, 18 92, 25 55 C 30 28, 47 8, 68 -4" /><g><ellipse cx="53" cy="118" rx="12" ry="4.6" transform="rotate(-32 53 118)"/><ellipse cx="41" cy="97" rx="12" ry="4.6" transform="rotate(-44 41 97)"/><ellipse cx="32" cy="74" rx="11" ry="4.3" transform="rotate(-56 32 74)"/><ellipse cx="28" cy="49" rx="10" ry="4" transform="rotate(-68 28 49)"/><ellipse cx="31" cy="25" rx="9" ry="3.8" transform="rotate(-80 31 25)"/><ellipse cx="44" cy="6" rx="8" ry="3.5" transform="rotate(-92 44 6)"/></g></svg>
+          </div>
+          <div class="meta">52 ratings across four storefronts.<br />Every written review: five stars.</div>
+        </div>
+        <div class="q hero"><p>&ldquo;It's replaced scrolling Instagram on my phone&hellip; I am literally more interesting in conversation thanks to REPS.&rdquo;</p><cite>24601_London</cite></div>
+        <div class="q"><p>&ldquo;What you have created is BRILLIANT!! I am 5 days in and most impressed and excited about where this will go.&rdquo;</p><cite>Karen</cite></div>
+        <div class="q"><p>&ldquo;As a non techy over 60 year old, this app is simple and intuitive to navigate.&rdquo;</p><cite>Mooselake4</cite></div>
+      </div>
+    </div>
+  </div>
+  <footer class="footrule chrome-fade">
+    <span>Your attention, worth keeping.</span>
+    <span class="folio">07 <span>/ 13</span></span>
+  </footer>
+</section>
+
+<!-- ============ 09 — THE MOAT · night ============ headlines only (Nicole) -->
 <section class="slide night" aria-label="AI-proof network effects">
   <header class="masthead chrome-fade">
     <div class="brandlock"><img src="/angel/assets/logos/app-mark.png" alt="" /><div class="wordmark">REPS</div></div>
     <div class="masthead-meta">The moat</div>
   </header>
-  <div class="canvas has-source">
-    <p class="kicker reveal r1">What compounds at scale &middot; the NFX framework</p>
+  <div class="canvas">
+    <p class="kicker reveal r1">What compounds at scale</p>
     <h2 class="lead sm reveal r2" style="margin-top:14px;max-width:22ch"><span class="hot">AI-proof</span> network effects.</h2>
 
     <div class="nfx">
       <div class="reveal r3">
-        <div class="nfx-group">Running today</div>
-        <div class="nfx-row"><div class="num"><svg class="ico"><use href="#i-network"/></svg></div><div><h4>A personal network</h4><p>Connect with people over genuine interests. Play with friends and grow together.</p></div></div>
-        <div class="nfx-row"><div class="num"><svg class="ico"><use href="#i-data"/></svg></div><div><h4>Data nobody can scrape</h4><p>Which concepts people actually care about and remember is the one thing no model release commoditises.</p></div></div>
-        <div class="nfx-row"><div class="num"><svg class="ico"><use href="#i-cheap"/></svg></div><div><h4>Cheaper with every save</h4><p>The second person to save an article costs nothing to serve, and a partnered source returns instantly.</p></div></div>
-        <div class="nfx-group later">As we scale</div>
-        <div class="nfx-row"><div class="num"><svg class="ico"><use href="#i-feed"/></svg></div><div><h4>A feed ranked by what sticks</h4><p>Discover ranks by what turned out to be worth remembering, not clickbait. Only REPS finds out, weeks later.</p></div></div>
-        <div class="nfx-row"><div class="num"><svg class="ico"><use href="#i-market"/></svg></div><div><h4>A two-sided marketplace</h4><p>Publishers, authors and creators on one side, readers on the other. An &ldquo;Add to REPS&rdquo; button on every article, and each side makes the other worth joining.</p></div></div>
+        <div class="nfx-row v6"><div class="num"><svg class="ico"><use href="#i-network"/></svg></div><div><h4>A personal network</h4></div></div>
+        <div class="nfx-row v6"><div class="num"><svg class="ico"><use href="#i-data"/></svg></div><div><h4>Data nobody can scrape</h4></div></div>
+        <div class="nfx-row v6"><div class="num"><svg class="ico"><use href="#i-cheap"/></svg></div><div><h4>Cheaper with every save</h4></div></div>
+        <div class="nfx-row v6"><div class="num"><svg class="ico"><use href="#i-feed"/></svg></div><div><h4>A feed ranked by what sticks</h4></div></div>
+        <div class="nfx-row v6"><div class="num"><svg class="ico"><use href="#i-market"/></svg></div><div><h4>A two-sided network with knowledge suppliers</h4></div></div>
       </div>
 
       <div class="nfx-arrow reveal r4">
@@ -1198,7 +1956,9 @@ body.still .reveal,body.still .chrome-fade{opacity:1!important;transform:none!im
           <div class="cap">What it looks like on their surface</div>
           <!-- Every element here is cropped from a real National Geographic
                page (assets/mocks/build-natgeo-mock.py). The only addition is
-               our button. Mike approved the mock in-turn, 2026-08-23. -->
+               our button. Mike approved the mock in-turn, 2026-08-23. The
+               book-back-cover example was dropped 30 Aug -- one real example,
+               large enough to actually read, beats two small ones. -->
           <figure class="mk-art">
             <div class="mk-head"><img src="/angel/assets/mocks/natgeo-masthead.png" alt="National Geographic" /></div>
             <img class="mk-photo" src="/angel/assets/mocks/natgeo-photo.png" alt="" />
@@ -1216,159 +1976,92 @@ body.still .reveal,body.still .chrome-fade{opacity:1!important;transform:none!im
               </div>
             </div>
           </figure>
-          <figure class="mk-book">
-            <div class="blurb"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-            <div class="qr-row">
-              <img class="qr" src="/angel/assets/mocks/reps-qr.png" alt="QR code" />
-              <div class="qr-l">Save this<br />book to REPS</div>
-            </div>
-            <div class="isbn">
-              <u style="width:3px"></u><u style="width:1px"></u><u style="width:2px"></u><u style="width:1px"></u><u style="width:4px"></u><u style="width:1px"></u><u style="width:2px"></u><u style="width:3px"></u><u style="width:1px"></u><u style="width:2px"></u><u style="width:1px"></u><u style="width:3px"></u><u style="width:2px"></u><u style="width:1px"></u><u style="width:4px"></u><u style="width:1px"></u><u style="width:2px"></u><u style="width:1px"></u><u style="width:3px"></u><u style="width:1px"></u><u style="width:2px"></u><u style="width:4px"></u><u style="width:1px"></u><u style="width:2px"></u><u style="width:1px"></u><u style="width:3px"></u><u style="width:2px"></u>
-            </div>
-          </figure>
         </div>
-        <div class="label">Why a knowledge supplier says yes</div>
-        <div class="it"><h4>A new signal</h4><p>A save is much more personal than a post, and it's a commitment to its content.&nbsp;</p></div>
-        <div class="it"><h4>Editorial insight</h4><p>Which of your concepts readers care about most. Nobody has ever been able to tell a publisher that.</p></div>
-        <div class="it"><h4>A new engagement vector</h4><p>Your material comes back to your reader forever, through spaced repetition, with your name on it.</p></div>
+        <div class="label">Why publishers will distribute REPS</div>
+        <div class="it v6"><h4>A save is a stronger signal than a click</h4></div>
+        <div class="it v6"><h4>They learn which of their ideas readers keep</h4></div>
+        <div class="it v6"><h4>Their material comes back to the reader, forever, with their name on it</h4></div>
       </div>
     </div>
 
-    <p class="evidence-note reveal r6"><b>The mechanic is proven at scale:</b> the social loop turned Strava from a tracking app into a daily habit for tens of millions. Its co-founder, Mark Gainey, advises us.</p>
-  </div>
-  <div class="source">Framework: NFX, the Network Effects Manual. The split is ours and it is deliberately strict: &ldquo;running today&rdquo; means the mechanic is live in the product now, not that it is finished. Publisher partnerships are conversations, not contracts, which is why the marketplace sits under &ldquo;as we scale&rdquo;.</div>
-  <footer class="footrule chrome-fade">
-    <span>Your attention, worth keeping.</span>
-    <span class="folio">08 <span>/ 14</span></span>
-  </footer>
-</section>
-
-<!-- ============ 09 — A SCALABLE GTM ENGINE · paper ============
-     Acquisition, activation, retention, and the loop back. Each stage keeps its
-     own evidence; the real ads sit under acquisition. -->
-<section class="slide paper" aria-label="Building a scalable GTM engine">
-  <header class="masthead chrome-fade">
-    <div class="brandlock"><img src="/angel/assets/logos/app-mark.png" alt="" /><div class="wordmark">REPS</div></div>
-    <div class="masthead-meta">Go to market</div>
-  </header>
-  <div class="canvas has-source">
-    <p class="kicker reveal r1">Early marketing is showing strong demand</p>
-    <h2 class="lead sm reveal r2" style="margin-top:14px;max-width:30ch">Building a <span class="hot">scalable</span> GTM engine.</h2>
-
-    <div class="gtm">
-      <div class="gtm-cols">
-        <div class="gtm-col reveal r3">
-          <div class="gtm-band"><span>Acquisition</span><p>Finding the messages that lands with knowledge keepers and building an autonomous content engine.</p></div>
-          <div class="gtm-blk sig"><span>Early signals</span><p><b>5-10%</b> click-through, against Meta’s 1.5% average. Messaging around "remember everything you read" and the attention crisis.&nbsp;</p></div>
-          <div class="gtm-blk ongoing"><span>Ongoing</span><p>Influencer outreach and partnerships. Organic strategies.&nbsp;</p></div>
-        </div>
-
-        <div class="gtm-col reveal r4">
-          <div class="gtm-band"><span>Activation</span><p>Building the habit in week one. REPS is a new way to handle what you already read, so the first session has to teach as well as work.</p></div>
-          <div class="gtm-blk sig"><span>Early signals</span><p><b>1.7&times;</b> activation once onboarding started with a book instead of a blank library.</p></div>
-          <div class="gtm-blk ongoing"><span>Ongoing</span><p>Fast onboarding flow A/B testing to reduce drop-off points.&nbsp;</p></div>
-        </div>
-
-        <div class="gtm-col reveal r5">
-          <div class="gtm-band"><span>Retention</span><p>Finding the leading indicators of return, then building the product around them - ie. our version of Facebook’s 7&nbsp; friends in 10 days.</p></div>
-          <div class="gtm-blk sig"><span>Early signals</span><p><b>14&times;</b> return rate from one answer on day one. Saving without answering predicts nothing.</p></div>
-          <div class="gtm-blk ongoing"><span>Ongoing</span><p>Data gathering from the first 4-6 weeks of cold users.&nbsp;</p></div>
-        </div>
-      </div>
-
-      <div class="gtm-foot reveal r6">
-      <div class="gtm-ads">
-        <img src="/angel/assets/ads/m12-bookcover-linen.jpg" alt="Live ad: How to remember everything you read" />
-        <img src="/angel/assets/ads/live-founder-iquit-fb.png" alt="Live ad in the Facebook feed: the founder film, I Quit" />
-        <img src="/angel/assets/ads/live-founder-oneineight-ig.png" alt="Live ad on Instagram: the founder on the attention chart" />
-      </div>
-      <figure class="gtm-quote"><img src="/angel/assets/sourced/testimonial-karen-2026-08-23.png" alt="Email from a user: what you have created is BRILLIANT" /></figure>
-      </div>
+        <div class="proof-callout reveal r6">
+      <svg class="proof-tri" viewBox="0 0 16 20" aria-hidden="true"><path d="M0 0 L16 10 L0 20 Z" fill="#FF6B6B"/></svg>
+      <p class="evidence-note"><b>Proven at scale:</b> the social loop made Strava a weekly habit for tens of millions. <b>Its co-founder, Mark Gainey, advises us.</b></p>
     </div>
   </div>
-  <div class="source">Click-through: 30 days to 21 Aug 2026. Activation: before and after the 6 Aug onboarding change. Retention: week-one questions answered against still training in weeks two and three.&nbsp;</div>
   <footer class="footrule chrome-fade">
     <span>Your attention, worth keeping.</span>
-    <span class="folio">09 <span>/ 14</span></span>
+    <span class="folio">08 <span>/ 13</span></span>
   </footer>
 </section>
 
-<!-- ============ 10 — A GENEROUS FREEMIUM MODEL · night ============
-     Mike's tier table, no prices (his call, 2026-08-19), plus the cost of a set. -->
-<section class="slide night" aria-label="A generous freemium model">
+<!-- ============ 10 — THE MODEL · night ============
+     Revenue on the left, cost on the right (Nicole read $0.15 as the price).
+     Premium is named in the same plain words as slide 05's roadmap. The price
+     is a band with three comparables, not a number (Mike, 25 Aug). -->
+<section class="slide night" aria-label="The model">
   <header class="masthead chrome-fade">
     <div class="brandlock"><img src="/angel/assets/logos/app-mark.png" alt="" /><div class="wordmark">REPS</div></div>
     <div class="masthead-meta">The model</div>
   </header>
-  <div class="canvas has-source">
-    <p class="kicker reveal r1">Prioritising adoption and engagement</p>
-    <h2 class="lead sm reveal r2" style="margin-top:14px;max-width:34ch">A <span class="hot">generous free tier</span>, and plenty of value-driven monetization opportunities</h2>
+  <div class="canvas">
+    <p class="kicker reveal r1">MONETIZATION PATHWAYS</p>
+    <h2 class="lead sm reveal r2" style="margin-top:14px;max-width:50ch">Monetize on <span class="hot">value delivered</span>, not attention sold.</h2>
 
-    <div class="tiers">
-      <div class="reveal r3">
-        <div class="ladder">
-          <div class="rung free">
-            <div class="rung-l">Free, and genuinely generous</div>
-            <div class="rung-b"><span>Save anything &middot; the daily session &middot; the core games &middot; the feed</span></div>
-            <div class="rung-n">Everyone. The habit is the asset.</div>
-          </div>
-          <div class="rung paid">
-            <div class="rung-l">Premium &middot; depth, not access</div>
-            <div class="rung-b"><span>Voice at length &middot; Synapse &middot; multi-modal &middot; fact-check &middot; brain coach &middot; leagues and clubs</span></div>
-            <div class="rung-n">Primary objective is to encourage engagement. Monetization at scale can come from value-add knowledge features.</div>
-          </div>
-          <div class="rung part">
-            <div class="rung-l">Supply-side monetization</div>
-            <div class="rung-b"><span>Bundled publisher subscriptions (Apple News model) &middot; Paid surveys &middot; Ads</span></div>
-            <div class="rung-n">Non-intrusive by design.</div>
-          </div>
+    <div class="mpath reveal r3">
+      <div class="mp-step">
+        <div class="mp-head">
+          <div class="mp-num"><svg class="ico" viewBox="0 0 24 24"><use href="#i-think"/></svg></div>
+          <h3>Freemium anchored on features that support sharper thinking</h3>
         </div>
-        <p class="tt-also"><br></p>
+        <ul class="mp-bul">
+          <li>Generous free tier to grow the network</li>
+          <li>Charge for advanced features such as voice AI, new games, and enhanced security</li>
+        </ul>
       </div>
-
-      <div class="cogs reveal r4">
-        <div class="label">What one saved set costs us</div>
-        <div class="big">$0.15<small>per set, all in</small></div>
-        <div class="stack"><div class="a">$0.11</div><div class="b">$0.04</div></div>
-        <div class="stack-l"><span>Save + reps</span><span>Games</span></div>
-        <ul>
-          <li>Not yet optimised. Model spend at list price.</li>
-          <li>UX over margins in the short term.</li>
-          <li>Cost scales with saves, not with seats.</li>
+      <div class="mp-arrow"><svg viewBox="0 0 40 24" aria-hidden="true"><path d="M2 12 H34 M22 2 L34 12 L22 22" fill="none" stroke="var(--fg-faint)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="mp-step">
+        <div class="mp-head">
+          <div class="mp-num"><svg class="ico" viewBox="0 0 24 24"><use href="#i-network"/></svg></div>
+          <h3>Monetize the network</h3>
+        </div>
+        <ul class="mp-bul">
+          <li>Spotify / Apple News&#8209;style bundling</li>
+          <li>Book sales</li>
+          <li>Surveys</li>
         </ul>
       </div>
     </div>
   </div>
-  <div class="source"><br></div>
   <footer class="footrule chrome-fade">
     <span>Your attention, worth keeping.</span>
-    <span class="folio">10 <span>/ 14</span></span>
+    <span class="folio">09 <span>/ 13</span></span>
   </footer>
 </section>
 
-<!-- ============ 11 — AN AI-NATIVE ORGANIZATION · night ============
-     Mike's architecture sketch, structured: the human interface on top, three
-     agent stacks, shared memory, then models and tools. Glows flow along the
-     wires while the slide is on screen. The walkthrough video, when it lands,
-     plays over this diagram. -->
+<!-- ============ 11 — HOW IT'S BUILT · night ============ v5's diagram, the lede cut to one sentence -->
 <section class="slide night" aria-label="An AI-native organization">
   <header class="masthead chrome-fade">
     <div class="brandlock"><img src="/angel/assets/logos/app-mark.png" alt="" /><div class="wordmark">REPS</div></div>
     <div class="masthead-meta">How it's built</div>
   </header>
-  <div class="canvas has-source">
+  <div class="canvas">
     <div class="org3">
       <div>
-        <p class="kicker reveal r1">An AI-native organization</p>
-        <h2 class="lead reveal r2" style="margin-top:20px;max-width:15ch">Truly<span class="hot">&nbsp;AI-native&nbsp;</span>from day one.&nbsp;</h2>
-        <p class="org-lede reveal r3">Not one person doing everything. A handful of human experts, each multiplied by a faculty of agents, all working through one OS.</p>
+        <p class="kicker reveal r1">How REPS gets built</p>
+        <h2 class="lead reveal r2" style="margin-top:20px;max-width:20ch"><span class="hot">AI-native</span> org designed to scale at speed.</h2>
+        <p class="org-lede reveal r3">One human, a faculty of agents, one operating system.</p>
         <div class="org-rules reveal r5">
           <div><i>01</i> Track everything</div>
           <div><i>02</i> Automate up to the judgement point</div>
           <div><i>03</i> Self-learning loops</div>
           <div><i>04</i> One human-intensive job: knowledge suppliers</div>
         </div>
-        <p class="org-note reveal r6">Automating how the product gets built does not automate taste, acumen or partnerships. That is what we hire for, and why the plan is small rather than zero.</p>
+        <div class="org-stat reveal r5">
+          <b>1,400+</b>
+          <p>commits a week, across the whole company. Product, growth, finance: every function runs the same way.</p>
+        </div>
+        <p class="org-note reveal r6">Automating how the product gets built does not automate taste, acumen or partnerships. That is what the three hires are for.</p>
       </div>
 
       <div class="orgmap reveal r3">
@@ -1376,11 +2069,11 @@ body.still .reveal,body.still .chrome-fade{opacity:1!important;transform:none!im
         <div class="node human" style="left:0px;top:0px;width:210px;height:76px"><span class="chip">Founder</span><h5>Mike</h5></div>
         <div class="node hire" style="left:230px;top:0px;width:210px;height:76px"><span class="chip">Future hire</span><h5>Growth</h5></div>
         <div class="node hire" style="left:460px;top:0px;width:210px;height:76px"><span class="chip">Future hire</span><h5>Partnerships</h5></div>
-        <div class="node hire" style="left:690px;top:0px;width:210px;height:76px"><span class="chip">Future hire</span><h5>Product&nbsp;</h5></div>
-        <div class="node surface" style="left:0;top:124px;width:900px;height:72px"><h5>The Faculty</h5><p>One surface. Access to all AI model, approvals, the daily digest, and the schedule every job reports into</p></div>
+        <div class="node hire" style="left:690px;top:0px;width:210px;height:76px"><span class="chip">Future hire</span><h5>Product</h5></div>
+        <div class="node surface" style="left:0;top:124px;width:900px;height:72px"><h5>The Faculty</h5><p>One surface: every AI model, approvals, the daily digest, and the schedule every job reports into</p></div>
         <div class="node bucket" style="left:0px;top:250px;width:286px;height:200px"><span class="chip">Skills</span><b>62</b><p>Anything we do twice is written down once, then runs the same way every time without a person in it.</p></div>
         <div class="node bucket" style="left:307px;top:250px;width:286px;height:200px"><span class="chip">Subagents</span><b>44</b><p>Ten specialists can work a problem at once, so review and research cost time rather than headcount.</p></div>
-        <div class="node bucket" style="left:614px;top:250px;width:286px;height:200px"><span class="chip">Watched jobs</span><b>91</b><p>Nothing fails quietly. Every job names an owner and how you find out it stopped, so silence is not mistaken for health.</p></div>
+        <div class="node bucket" style="left:614px;top:250px;width:286px;height:200px"><span class="chip">Watched jobs</span><b>91</b><p>Nothing fails quietly. Every job names an owner and how you find out it stopped.</p></div>
         <div class="node bucket found" style="left:0px;top:500px;width:286px;height:104px"><span class="chip">Shared memory</span><div class="row"><b>41</b><p>Nobody relearns what the company already worked out, and a decision made once stays made.</p></div></div>
         <div class="node surface provrow" style="left:307px;top:500px;width:593px;height:104px"><div class="provlab"><h5>Providers</h5><p>Reached through an API or MCP, never a person in a browser</p></div><div class="provmarks"><svg class="pv" viewBox="0 0 24 24"><use href="#pv-anthropic"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-openai"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-elevenlabs"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-supabase"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-posthog"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-linear"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-meta"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-google"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-slack"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-notion"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-github"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-vercel"/></svg></div></div>
         <i class="flow f1"></i>
@@ -1393,29 +2086,19 @@ body.still .reveal,body.still .chrome-fade{opacity:1!important;transform:none!im
       </div>
     </div>
   </div>
-  <div class="source"><br></div>
   <footer class="footrule chrome-fade">
     <span>Your attention, worth keeping.</span>
-    <span class="folio">11 <span>/ 14</span></span>
+    <span class="folio">10 <span>/ 13</span></span>
   </footer>
 </section>
 
-<!-- ============ 12 — THE FOUNDER · paper ============
-     Cream, like Advisors: the deck's two human pages are its light ones.
-     Every claim is sourced -- career facts from Mike directly, the family, the
-     Instagram deletion and the leaving date from PERSONAL_STORY.md threads
-     1, 2, 6, 10 and 15. The photograph is a crop, never an expansion. -->
-<!-- ============ 12 — THE FOUNDER · paper ============
-     Cream, like Advisors: the deck's two human pages are its light ones.
-     Hero is the 83-second intro film, which opens on the LPEA panel still.
-     Career facts are Mike's own; the family, the Instagram deletion and the
-     30 June 2026 leaving date are PERSONAL_STORY.md threads 1, 2, 6, 10, 15. -->
+<!-- ============ 12 — THE FOUNDER · paper ============ Nicole: "love the founder page". Two paragraphs trimmed to a sentence each; nothing else moved. -->
 <section class="slide paper" aria-label="The founder">
   <header class="masthead chrome-fade">
     <div class="brandlock"><img src="/angel/assets/logos/app-mark.png" alt="" /><div class="wordmark">REPS</div></div>
     <div class="masthead-meta">The founder</div>
   </header>
-  <div class="canvas has-source">
+  <div class="canvas">
     <p class="kicker reveal r1">Who is building it</p>
     <h2 class="lead sm reveal r2" style="margin-top:14px;max-width:44ch">Twelve years backing consumer founders, and <span class="hot">one problem I could not put down</span>.</h2>
 
@@ -1424,7 +2107,7 @@ body.still .reveal,body.still .chrome-fade{opacity:1!important;transform:none!im
         <div class="film">
           <video id="founderFilm" src="https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/angel/intro-film.mp4"
                  poster="/angel/assets/founder/intro-film-poster.jpg" playsinline preload="none"></video>
-          <button class="film-play" id="filmPlay" aria-label="Play the founder film" title="Play (space)">
+          <button class="film-play" id="filmPlay" aria-label="Play the founder film" title="Play">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.6 L18.4 12 L8 18.4 Z"/></svg>
           </button>
           <div class="film-len">1:23</div>
@@ -1433,59 +2116,55 @@ body.still .reveal,body.still .chrome-fade{opacity:1!important;transform:none!im
       </div>
 
       <div class="fc-right">
-        <div class="spine reveal r4">
+        <div class="spine v8 reveal r4">
           <div class="rail"></div>
-          <div class="stop"><i></i><u>2014</u><b>PSP</b><span>A natural-resources investment team, newly formed when I joined</span><em>Montreal</em></div>
-          <div class="stop"><i></i><u>2016</u><b>CDPQ</b><span>Helped launch the technology investment team</span><em>Montreal</em></div>
+          <div class="stop"><i></i><u>2014</u><b>PSP</b><span>A natural-resources investment team, newly formed when I joined</span><em>Private equity</em></div>
+          <div class="stop"><i></i><u>2016</u><b>CDPQ</b><span>Helped launch the technology investment team</span><em>Full-stack VC</em></div>
           <div class="stop"><i></i><u>2017</u><b>Hopper</b><span>Three months seconded in on special projects</span><em>Operator</em></div>
-          <div class="stop"><i></i><u>2018</u><b>Inovia Capital</b><span>Opened the London office. Consumer and SMB, mostly</span><em>London</em></div>
+          <div class="stop"><i></i><u>2018</u><b>Inovia Capital</b><span>Opened the London office. Consumer and SMB, mostly</span><em>Growth equity</em></div>
           <div class="stop"><i></i><u>2025</u><b>SalesAPE</b><span>Nine months seconded in as Chief of Staff, VP Ops &amp; Finance</span><em>Operator</em></div>
-          <div class="stop out"><i></i><u>2026</u><b>REPS</b><span>Left Inovia on 30 June 2026, my thirty-fourth birthday</span><em>Full time</em></div>
+          <div class="stop out"><i></i><u>2026</u><b>REPS</b><span>Left Inovia on 30 June 2026, my thirty-fourth birthday</span><em>Founder</em></div>
         </div>
         <div class="fc-two reveal r5">
-          <div><h5>Born to it, at both ends</h5><p>My mother has run her wellness magazine for twenty-five years. My father&rsquo;s graph database startup went bankrupt while I was at university, and I paid my own way from there. REPS is the combination of both their endeavors.</p></div>
-          <div><h5>And I lived the problem</h5><p>I quit social media and news apps in 2025 and revamped my own cognitive diet. That&rsquo;s when I started realizing how troublesome the societal trends are.</p></div>
+          <div><h5>Born to it, at both ends</h5><p>My mother has run a wellness magazine for twenty-five years. My father&rsquo;s graph-database startup went bankrupt while I was at university. REPS is both.</p></div>
+          <div><h5>And I lived the problem</h5><p>I quit social media and news apps in 2025 and rebuilt my own cognitive diet. That is when the societal trend became personal.</p></div>
         </div>
       </div>
     </div>
   </div>
-  <div class="source"><br></div>
   <footer class="footrule chrome-fade">
     <span>Your attention, worth keeping.</span>
-    <span class="folio">12 <span>/ 14</span></span>
+    <span class="folio">11 <span>/ 13</span></span>
   </footer>
 </section>
 
-<!-- ============ 13 — ADVISORS · paper ============ -->
+<!-- ============ 13 — ADVISORS · paper ============ unchanged ("killer panel") -->
 <section class="slide paper" aria-label="Advisors">
   <header class="masthead chrome-fade">
     <div class="brandlock"><img src="/angel/assets/logos/app-mark.png" alt="" /><div class="wordmark">REPS</div></div>
     <div class="masthead-meta">Advisors</div>
   </header>
-  <div class="canvas has-source">
+  <div class="canvas">
     <p class="kicker reveal r1">ADVISORS</p>
     <div class="people">
       <div class="person reveal r2">
         <div class="av"><img src="/angel/assets/sourced/mark-gainey-final.jpg" alt="Mark Gainey" /></div>
         <div><h3>Mark Gainey</h3>
         <div class="role">Co-founder, Strava</div>
-        <p>Built the daily-habit category from zero.&nbsp;</p></div>
+        <p>Built the daily-habit category from zero.</p></div>
       </div>
       <div class="person reveal r3">
         <div class="av"><img src="/angel/assets/sourced/patrick-pichette-inovia.png" alt="Patrick Pichette" /></div>
         <div><h3>Patrick Pichette</h3>
         <div class="role">Former CFO, Google &middot; former Chair, Twitter</div>
-        <p>Always sought the 1B+ user outcomes.&nbsp;</p></div>
+        <p>Always sought the 1B+ user outcomes.</p></div>
       </div>
       <div class="person reveal r4">
         <div class="av"><img src="/angel/assets/sourced/kendra-rogers-headshot-2023.jpg" alt="Kendra Rogers" /></div>
         <div><h3>Kendra Rogers</h3>
         <div class="role">Chief Communications &amp; Marketing Officer, Featurespace (acquired by Visa)</div>
-        <p>Voracious polymath and creative brand-builder.&nbsp;</p></div>
+        <p>Voracious polymath and creative brand-builder.</p></div>
       </div>
-      <!-- Photograph sourced, not generated; provenance in assets/sourced/SOURCES.txt.
-           No install figure on the card on purpose: the public aggregators give
-           37m, 120m and 260m for roughly the same period. -->
       <div class="person reveal r5">
         <div class="av"><img src="/angel/assets/sourced/dakota-smith-hopper.jpg" alt="Dakota Smith" /></div>
         <div><h3>Dakota Smith</h3>
@@ -1494,16 +2173,13 @@ body.still .reveal,body.still .chrome-fade{opacity:1!important;transform:none!im
       </div>
     </div>
   </div>
-  <div class="source">Hopper app downloads: Hopper&rsquo;s own company page. HTS partners and Dakota Smith&rsquo;s title: HTS (Hopper Technology Solutions) Summer 2026 Platform Update, 11 August 2026.</div>
   <footer class="footrule chrome-fade">
     <span>Your attention, worth keeping.</span>
-    <span class="folio">13 <span>/ 14</span></span>
+    <span class="folio">12 <span>/ 13</span></span>
   </footer>
 </section>
 
-<!-- ============ 13 — THE RAISE · night ============
-     Single figure, a use-of-funds ring, and what it buys. The split is the
-     proposal Mike accepted on 2026-08-21 (45 / 35 / 20); he corrects it on the board. -->
+<!-- ============ 14 — THE ASK · night ============ 60/20/20 as built 24 Aug; "what it unlocks" cut to three short lines -->
 <section class="slide night" aria-label="The raise">
   <header class="masthead chrome-fade">
     <div class="brandlock"><img src="/angel/assets/logos/app-mark.png" alt="" /><div class="wordmark">REPS</div></div>
@@ -1518,10 +2194,10 @@ body.still .reveal,body.still .chrome-fade{opacity:1!important;transform:none!im
         <div class="ring">
           <svg viewBox="0 0 470 470" aria-hidden="true">
             <defs>
-              <linearGradient id="ringhot" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FF6B6B"/><stop offset="100%" stop-color="#FF8E53"/></linearGradient>
+              <linearGradient id="ringhot6" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FF6B6B"/><stop offset="100%" stop-color="#FF8E53"/></linearGradient>
             </defs>
             <circle class="track" cx="235" cy="235" r="200"/>
-            <circle class="seg" cx="235" cy="235" r="200" stroke="url(#ringhot)" stroke-dasharray="747.98 508.66" stroke-dashoffset="-0.0"/>
+            <circle class="seg" cx="235" cy="235" r="200" stroke="url(#ringhot6)" stroke-dasharray="747.98 508.66" stroke-dashoffset="-0.0"/>
             <circle class="seg" cx="235" cy="235" r="200" stroke="rgba(255,250,247,.62)" stroke-dasharray="245.33 1011.31" stroke-dashoffset="-753.98"/>
             <circle class="seg" cx="235" cy="235" r="200" stroke="rgba(255,250,247,.22)" stroke-dasharray="245.33 1011.31" stroke-dashoffset="-1005.31"/>
           </svg>
@@ -1537,24 +2213,20 @@ body.still .reveal,body.still .chrome-fade{opacity:1!important;transform:none!im
       <div>
         <h3 class="unlocks-h reveal r3">What it unlocks</h3>
         <div class="buys">
-          <div class="b2 reveal r3"><h4>ICP and PMF, proven at scale</h4><p>Confirmation of hypotheses around the pain points that resonate most (ie. memory, attention, brain health) and that drive long term retention</p></div>
-          <div class="b2 reveal r4"><h4>A growth engine that scales</h4><p>Ability to deploy significant resources to acquire users at scale based on internal data, market intelligence and agentic systems.&nbsp;</p></div>
-          <div class="b2 reveal r5"><h4>The first partnership conversations</h4><p>Close conversation with knowledge suppliers, from large suppliers to small and medium-sized creators.&nbsp;&nbsp;</p></div>
+          <div class="b2 v6 reveal r3"><h4>Proof of who it's for, at scale</h4><p>Which pains pull hardest: memory, attention, or a healthier mind. And which keep people coming back.</p></div>
+          <div class="b2 v6 reveal r4"><h4>A growth engine that scales</h4><p>Paid acquisition run on our own data, market intelligence and agents.</p></div>
+          <div class="b2 v6 reveal r5"><h4>The first publisher partnerships</h4><p>From the largest suppliers to individual creators.</p></div>
         </div>
       </div>
     </div>
   </div>
   <footer class="footrule chrome-fade">
     <span>Your attention, worth keeping.</span>
-    <span class="folio">14 <span>/ 14</span></span>
+    <span class="folio">13 <span>/ 13</span></span>
   </footer>
 </section>
 
-
-<!-- ============ 14 — FINALE · night ============
-     Quote panel on a third, photograph on two thirds. The photograph is
-     generated (nano_banana_pro); the book is deliberately blank, because a
-     fabricated cover is the case DESIGN_DECISIONS bans by name. -->
+<!-- ============ 15 — FINALE · night ============ unchanged -->
 <section class="slide night" aria-label="Finale">
   <div class="finale">
     <div class="panel">
@@ -1568,7 +2240,7 @@ body.still .reveal,body.still .chrome-fade{opacity:1!important;transform:none!im
 </main>
 </div>
 
-<div id="progress" style="width:7.69%"></div>
+<div id="progress" style="width:6.66%"></div>
 <div class="deck-controls" id="deckControls">&larr; &rarr; to move &middot; S for sound</div>
 <!-- edit hotzone removed for web -->
 <button class="edit-toggle" id="editToggle" title="Edit mode (E)">Edit text</button>
@@ -1726,10 +2398,17 @@ function setupFounderFilm(){
   });
 }
 
+/* 30 Aug: the demo used to autoplay muted the moment the slide loaded, so a
+   reader who arrived a beat late missed the start entirely. It now waits for
+   an explicit play -- same pattern as the founder film below -- and that one
+   click also turns the sound on, rather than making the reader find the
+   separate speaker button afterwards. */
 function setupSound(){
   var v = document.getElementById('demoVertical');
   var btn = document.getElementById('soundBtn');
   var hint = document.getElementById('soundHint');
+  var playBtn = document.getElementById('demoPlay');
+  var wrap = v ? v.closest('.vphone') : null;
   if (!v || !btn) return;
   function paint(){
     btn.innerHTML = v.muted ? '&#128263;' : '&#128266;';
@@ -1741,7 +2420,15 @@ function setupSound(){
     if (!v.muted){ v.volume = 1; v.play().catch(function(){}); }
     paint();
   }
+  function playWithSound(){
+    v.muted = false; v.volume = 1;
+    v.play().then(function(){ if (wrap) wrap.classList.add('playing'); }).catch(function(){});
+    paint();
+  }
   btn.addEventListener('click', function(e){ e.stopPropagation(); toggle(); });
+  if (playBtn) playBtn.addEventListener('click', function(e){ e.stopPropagation(); playWithSound(); });
+  v.addEventListener('pause', function(){ if (wrap) wrap.classList.remove('playing'); });
+  v.addEventListener('ended', function(){ if (wrap) wrap.classList.remove('playing'); });
   document.addEventListener('keydown', function(e){
     if ((e.key === 's' || e.key === 'S') && e.target.getAttribute && e.target.getAttribute('contenteditable') !== 'true') toggle();
   });
@@ -1752,7 +2439,7 @@ function setupSound(){
 class InlineEditor {
   /* v6 = aria-label keys. The v5 blob in any browser is index-keyed and its
      edits are already committed to this file, so it is never read again. */
-  static KEY = 'reps-deck-v6';
+  static KEY = 'reps-deck-v23';
   /* Edits live in ONE browser and never reach the file. Recovering the last
      batch meant copying a Chrome profile and decoding leveldb; this button is
      the cheap version of that. */
