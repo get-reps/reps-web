@@ -1712,6 +1712,15 @@ body.still .deck-controls{display:none!important;}
 .nfx-arrow{margin-top:477px;}
 .proof-callout{max-width:900px;align-self:flex-start;}
 
+/* === v28 round-4 board response ===
+
+   s08 "The moat": last round's 900px cap on the Mark Gainey callout was
+   53px short of what the text needs on one line (measured natural
+   width: 953.25px), so it wrapped to an awkward two-line widow. Widened
+   to 980px -- a little headroom over the measured minimum, still well
+   short of the original full 1728px banner. */
+.proof-callout{max-width:980px;}
+
 </style>
 </head>
 <body>
@@ -2585,7 +2594,7 @@ function setupSound(){
 class InlineEditor {
   /* v6 = aria-label keys. The v5 blob in any browser is index-keyed and its
      edits are already committed to this file, so it is never read again. */
-  static KEY = 'reps-deck-v27';
+  static KEY = 'reps-deck-v28';
   /* Edits live in ONE browser and never reach the file. Recovering the last
      batch meant copying a Chrome profile and decoding leveldb; this button is
      the cheap version of that. */
