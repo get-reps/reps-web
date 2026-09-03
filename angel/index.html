@@ -1599,8 +1599,16 @@ body.still .deck-controls{display:none!important;}
    Pushed both left labels further out and, for c3, higher up (where the
    ring's left edge sits further from center), verified by re-rendering. */
 
-/* --- s08: spread the 5 network-effect rows down the column --- */
-.nfx-row{padding:26px 0;}
+/* --- s08: spread the 5 network-effect rows down the column ---
+   MUST target .nfx-row.v6, not bare .nfx-row: the markup carries BOTH
+   classes on every row, and the base stylesheet already has a
+   .nfx-row.v6 rule (padding:11px 0) at higher specificity (two classes
+   vs one) that wins regardless of load order. The original bare-class
+   override here never took effect -- it silently lost to a rule that is
+   actually TIGHTER than the un-fixed 13px, so the live slide was worse
+   than before, not better. Caught only when Mike looked at the real
+   site, not from the rendered screenshot this was "verified" against. */
+.nfx-row.v6{padding:26px 0;}
 
 /* --- s10/11: smoother flow-dot motion --- */
 .orgmap .flow{animation-timing-function:ease-in-out;}
