@@ -1583,13 +1583,11 @@ body.still .deck-controls{display:none!important;}
    under the list. Widening each row's own padding spreads the same 5 rows
    across more of that height instead of leaving it empty.
 
-   s10/11 "How it's built": the flow dots moved along paths with sharp
-   90-degree corners (V/H turns), so a dot appeared to snap direction
-   instantly at every turn instead of gliding through it. Replaced with the
-   same paths rounded to a 14px-radius quarter-turn at every corner
-   (generated from the original corner points, not hand-typed), and the
-   base timing switched from linear to ease-in-out so each run also
-   accelerates/decelerates instead of moving at one constant speed.
+   s10/11 "How it's built": the first motion fix only traded each square
+   corner for a tight 14px quadratic elbow, then eased the entire route. The
+   dot still turned abruptly, while route-wide easing made every pulse visibly
+   accelerate and brake. The replacement below uses long, tangent cubic
+   transitions and equal arc-length speed instead.
 
    s13 "The raise": the two 20% call-outs' text was overlapping the donut
    ring itself -- confirmed by rendering the slide, not assumed from the
@@ -1610,15 +1608,23 @@ body.still .deck-controls{display:none!important;}
    site, not from the rendered screenshot this was "verified" against. */
 .nfx-row.v6{padding:26px 0;}
 
-/* --- s10/11: smoother flow-dot motion --- */
-.orgmap .flow{animation-timing-function:ease-in-out;}
-.orgmap .f1{offset-path:path("M105 76 L105 90 Q105 104 119 104 L436 104 Q450 104 450 118 L450 124");}
-.orgmap .f2{offset-path:path("M795 76 L795 90 Q795 104 781 104 L464 104 Q450 104 450 118 L450 124");}
-.orgmap .f3{offset-path:path("M450 196 L450 212 Q450 226 436 226 L157 226 Q143 226 143 240 L143 250");}
-.orgmap .f4{offset-path:path("M450 196 L450 212 Q450 226 464 226 L743 226 Q757 226 757 240 L757 250");}
-.orgmap .f5{offset-path:path("M757 450 L757 462 Q757 476 743 476 L617 476 Q603 476 603 490 L603 500");}
-.orgmap .f6{offset-path:path("M0 343 L-16 343 Q-30 343 -30 329 L-30 174 Q-30 160 -16 160 L0 160");}
-.orgmap .f7{offset-path:path("M450 450 L450 462 Q450 476 436 476 L157 476 Q143 476 143 490 L143 500");}
+/* --- s10/11: fluid flow-dot motion ---
+   Autonomous flow reads best at constant spatial speed: linear
+   offset-distance advances equal arc length in equal time, while the existing
+   opacity keyframes provide the soft entrance/exit. Each cubic leaves and
+   enters its straight tangent to that straight (C1 continuity), spreading a
+   turn across 30-60px instead of a 14px quarter-turn. Durations normalize the
+   seven measured paths to about 116px/s (within 1.5%), so connected routes no
+   longer lurch at different speeds. `backwards` also applies the transparent
+   0% keyframe during a positive delay, preventing a parked glow at a node. */
+.orgmap .flow{animation-timing-function:linear;animation-fill-mode:backwards;will-change:offset-distance,opacity;}
+.orgmap .f1{offset-path:path("M105 76 C105 93 116 104 133 104 L418 104 C438 104 450 110 450 124");animation-duration:3.2s;}
+.orgmap .f2{offset-path:path("M795 76 C795 93 784 104 767 104 L482 104 C462 104 450 110 450 124");animation-duration:3.2s;}
+.orgmap .f3{offset-path:path("M450 196 C450 214 440 226 420 226 L173 226 C154 226 143 235 143 250");animation-duration:2.9s;}
+.orgmap .f4{offset-path:path("M450 196 C450 214 460 226 480 226 L727 226 C746 226 757 235 757 250");animation-duration:2.9s;}
+.orgmap .f5{offset-path:path("M757 450 C757 466 748 476 731 476 L629 476 C612 476 603 485 603 500");animation-duration:1.6s;}
+.orgmap .f6{offset-path:path("M0 343 C-18 343 -30 334 -30 316 L-30 187 C-30 170 -19 160 0 160");animation-duration:1.9s;}
+.orgmap .f7{offset-path:path("M450 450 C450 466 440 476 423 476 L169 476 C152 476 143 485 143 500");animation-duration:2.9s;}
 
 /* --- s13: clear the ring --- */
 .ring .call.c2{left:-172px;top:270px;}
@@ -1651,6 +1657,34 @@ body.still .deck-controls{display:none!important;}
 .person h3{font-size:26px;}
 .person .role{font-size:15px;margin:7px 0 11px;}
 .person p{font-size:16.5px;line-height:1.42;}
+
+/* === v26 round-2 board response, spacing fixes only ===
+   (s10's flow-animation fix is Codex's, landing in v24-extra.css --
+   deliberately not touched here to avoid a concurrent edit collision.)
+
+   s06 "Who it's for": .canvas centers its content vertically
+   (justify-content:center), so the whole title+personas+callout block
+   floats as one group -- there's no separate "move the title up" lever
+   from "add space before personas": growing the gap between the title
+   and .kthree makes the block taller, and centering does the rest,
+   pushing the title up automatically. Mike asked for "a little", so this
+   is a moderate increase (56px -> 92px), not the 3x/50% scale of s08's
+   fix below.
+
+   s08 "The moat": the just-fixed 26px row padding and 22px title-to-grid
+   gap were both still too tight per Mike's direct re-read of the live
+   site. Applied exactly as specified: line spacing +50% (26px -> 39px),
+   title buffer >=3x (22px -> 70px, slightly over 3x for margin).
+
+   s12 "Advisors": more room both before the first row and between the
+   two rows. */
+
+.kthree{margin-top:92px;}
+
+.nfx{margin-top:70px;}
+.nfx-row.v6{padding:39px 0;}
+
+.people{margin-top:74px;gap:88px;}
 
 </style>
 </head>
@@ -1824,8 +1858,7 @@ body.still .deck-controls{display:none!important;}
             <li><b>Save from any app in seconds.</b> REPS does the rest.</li>
             <li><b>A daily session,</b> solo or with a friend.</li>
             <li><b>Discover curated content</b> from the community.</li>
-            <li><b>Your Second Brain:</b> see your knowledge grow in real time.</li>
-            <li><b>Ask Echo</b> anything about it, in text or out loud.</li>
+            <li><b>Ask Echo AI</b> anything about it, in text or out loud.</li>
           </ul>
         </div>
         <p class="s4-support v6 reveal r4">One daily habit that works on all three: where your attention goes, what you keep, and how you think.</p>
@@ -1862,7 +1895,7 @@ body.still .deck-controls{display:none!important;}
   </header>
   <div class="canvas">
     <p class="kicker reveal r1">What people reach for instead</p>
-    <h2 class="lead xs reveal r2" style="margin-top:12px;max-width:74ch"><span class="hot">Existing knowledge apps</span> are generic or utilitarian.</h2>
+    <h2 class="lead xs reveal r2" style="margin-top:12px;max-width:74ch">Existing knowledge apps are overly <span class="hot">generic or utilitarian</span>.</h2>
     <div class="mapwide v8">
       <div class="aside reveal r3"><b>Over 250M+ word games and micro&#8209;learning app users prove the demand for stimulation, despite it being generic. Nobody offers it socially and gamified on your own content.</b>Saving and second-brain apps are personal but transactional: you do the work. Only possible now that AI does the organising.</div>
       <div class="map-plot reveal r4">
@@ -2300,9 +2333,9 @@ body.still .deck-controls{display:none!important;}
       <div>
         <h3 class="unlocks-h reveal r3">What it unlocks</h3>
         <div class="buys">
-          <div class="b2 v6 reveal r3"><h4>Proof of who it's for, at scale</h4><p>Which pains pull hardest: memory, attention, or a healthier mind. And which keep people coming back.</p></div>
+          <div class="b2 v6 reveal r3"><h4>Demonstrate ideal customer profile, at scale</h4><p>Which pains pull hardest: memory, attention, or a healthier mind. And which keep people coming back.</p></div>
           <div class="b2 v6 reveal r4"><h4>A growth engine that scales</h4><p>Paid acquisition run on our own data, market intelligence and agents.</p></div>
-          <div class="b2 v6 reveal r5"><h4>The first publisher partnerships</h4><p>From the largest suppliers to individual creators.</p></div>
+          <div class="b2 v6 reveal r5"><h4>The first knowledge supplier partnerships</h4><p>From the largest suppliers to individual creators.</p></div>
         </div>
       </div>
     </div>
@@ -2526,7 +2559,7 @@ function setupSound(){
 class InlineEditor {
   /* v6 = aria-label keys. The v5 blob in any browser is index-keyed and its
      edits are already committed to this file, so it is never read again. */
-  static KEY = 'reps-deck-v25';
+  static KEY = 'reps-deck-v26';
   /* Edits live in ONE browser and never reach the file. Recovering the last
      batch meant copying a Chrome profile and decoding leveldb; this button is
      the cheap version of that. */
