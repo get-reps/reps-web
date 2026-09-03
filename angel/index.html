@@ -1575,6 +1575,75 @@ body.still .deck-controls{display:none!important;}
   line-height:1;letter-spacing:-.02em;color:var(--accent-type);margin-bottom:6px;}
 .org-stat p{font-family:var(--sans);font-size:16.5px;line-height:1.42;color:var(--fg-soft);}
 
+/* === v24 board response, layout-only fixes (no text changes here -- see
+   make-v24.py for the copy edits) ===
+
+   s08 "The moat": the 5-row list sat top-aligned in a grid whose right
+   column (the supplier mock + 3 bullets) runs taller, leaving dead space
+   under the list. Widening each row's own padding spreads the same 5 rows
+   across more of that height instead of leaving it empty.
+
+   s10/11 "How it's built": the flow dots moved along paths with sharp
+   90-degree corners (V/H turns), so a dot appeared to snap direction
+   instantly at every turn instead of gliding through it. Replaced with the
+   same paths rounded to a 14px-radius quarter-turn at every corner
+   (generated from the original corner points, not hand-typed), and the
+   base timing switched from linear to ease-in-out so each run also
+   accelerates/decelerates instead of moving at one constant speed.
+
+   s13 "The raise": the two 20% call-outs' text was overlapping the donut
+   ring itself -- confirmed by rendering the slide, not assumed from the
+   CSS. c3 ("Salaries & advisors", upper-left) was the worst offender: its
+   text-align:right box reached close enough to the ring that the label's
+   second line clipped the stroke as the ring curves in going downward.
+   Pushed both left labels further out and, for c3, higher up (where the
+   ring's left edge sits further from center), verified by re-rendering. */
+
+/* --- s08: spread the 5 network-effect rows down the column --- */
+.nfx-row{padding:26px 0;}
+
+/* --- s10/11: smoother flow-dot motion --- */
+.orgmap .flow{animation-timing-function:ease-in-out;}
+.orgmap .f1{offset-path:path("M105 76 L105 90 Q105 104 119 104 L436 104 Q450 104 450 118 L450 124");}
+.orgmap .f2{offset-path:path("M795 76 L795 90 Q795 104 781 104 L464 104 Q450 104 450 118 L450 124");}
+.orgmap .f3{offset-path:path("M450 196 L450 212 Q450 226 436 226 L157 226 Q143 226 143 240 L143 250");}
+.orgmap .f4{offset-path:path("M450 196 L450 212 Q450 226 464 226 L743 226 Q757 226 757 240 L757 250");}
+.orgmap .f5{offset-path:path("M757 450 L757 462 Q757 476 743 476 L617 476 Q603 476 603 490 L603 500");}
+.orgmap .f6{offset-path:path("M0 343 L-16 343 Q-30 343 -30 329 L-30 174 Q-30 160 -16 160 L0 160");}
+.orgmap .f7{offset-path:path("M450 450 L450 462 Q450 476 436 476 L157 476 Q143 476 143 490 L143 500");}
+
+/* --- s13: clear the ring --- */
+.ring .call.c2{left:-172px;top:270px;}
+.ring .call.c3{left:-118px;top:26px;}
+
+/* === v25: advisors slide moves from 2x2 to a 3-then-2 layout to fit
+   Matthew Lloyd-Thomas in on the requested line (Mark, Patrick, Matthew /
+   Kendra, Dakota). Proportions shrunk to keep 3 across readable at the
+   same canvas width the 2-column version used.
+
+   Row 2 is a SEPARATE flex row, not a continuation of row 1's grid, so it
+   can be centered as a pair rather than left-aligned under row 1's first
+   two columns (Mike, in-turn, after seeing the first v25 render). Each
+   card's width is computed the same way in both rows -- (100% - 2 gaps) /
+   3 -- so a card is the same size whether it's one of three or one of a
+   centered two; only row 2's flex justify-content pulls the pair to the
+   middle of the remaining space instead of anchoring it to the left. */
+.people{display:flex;flex-direction:column;gap:52px;margin-top:40px;}
+.people-row{display:flex;gap:40px;}
+.people-row.r2{justify-content:center;}
+.people-row .person{width:calc((100% - 80px)/3);flex:none;}
+
+/* align-items:start (not the base rule's center) -- a 2-line description
+   must grow DOWNWARD only. Centering made the whole text block (name
+   included) drift upward whenever a description wrapped to an extra
+   line, so names no longer shared a row baseline. Caught by an
+   independent reviewer, not by this fix's own author. */
+.person{grid-template-columns:132px 1fr;gap:20px;align-items:start;}
+.person .av{width:132px;height:132px;}
+.person h3{font-size:26px;}
+.person .role{font-size:15px;margin:7px 0 11px;}
+.person p{font-size:16.5px;line-height:1.42;}
+
 </style>
 </head>
 <body>
@@ -1785,7 +1854,7 @@ body.still .deck-controls{display:none!important;}
   </header>
   <div class="canvas">
     <p class="kicker reveal r1">What people reach for instead</p>
-    <h2 class="lead xs reveal r2" style="margin-top:12px;max-width:74ch"><span class="hot">Knowledge apps</span> were too generic or functional up until now.</h2>
+    <h2 class="lead xs reveal r2" style="margin-top:12px;max-width:74ch"><span class="hot">Existing knowledge apps</span> are generic or utilitarian.</h2>
     <div class="mapwide v8">
       <div class="aside reveal r3"><b>Over 250M+ word games and micro&#8209;learning app users prove the demand for stimulation, despite it being generic. Nobody offers it socially and gamified on your own content.</b>Saving and second-brain apps are personal but transactional: you do the work. Only possible now that AI does the organising.</div>
       <div class="map-plot reveal r4">
@@ -1857,7 +1926,7 @@ body.still .deck-controls{display:none!important;}
         </div>
         <div class="kper">
           <div class="kp-photo"><img src="/angel/assets/personas/jordan-portrait.png" alt="Jordan" /></div>
-          <b class="kwho hot">Jordan &middot; Skeptical Gen Z</b>
+          <b class="kwho hot">Jordan &middot; Informed Gen Z</b>
           <ul class="kbul">
             <li>Doesn&rsquo;t trust the feed, but <b class="kx">lacks a social alternative</b></li>
             <li>Wants <b class="kx">friends around real interests</b>, not algorithms</li>
@@ -1914,7 +1983,7 @@ body.still .deck-controls{display:none!important;}
             <div class="rating"><em>&#9733;</em>4.8</div>
             <svg class="laurel r" viewBox="0 0 90 150" aria-hidden="true"><path d="M62 145 C 34 130, 18 92, 25 55 C 30 28, 47 8, 68 -4" /><g><ellipse cx="53" cy="118" rx="12" ry="4.6" transform="rotate(-32 53 118)"/><ellipse cx="41" cy="97" rx="12" ry="4.6" transform="rotate(-44 41 97)"/><ellipse cx="32" cy="74" rx="11" ry="4.3" transform="rotate(-56 32 74)"/><ellipse cx="28" cy="49" rx="10" ry="4" transform="rotate(-68 28 49)"/><ellipse cx="31" cy="25" rx="9" ry="3.8" transform="rotate(-80 31 25)"/><ellipse cx="44" cy="6" rx="8" ry="3.5" transform="rotate(-92 44 6)"/></g></svg>
           </div>
-          <div class="meta">52 ratings across four storefronts.<br />Every written review: five stars.</div>
+          <div class="meta">67 ratings across four storefronts.<br />Every written review: five stars.</div>
         </div>
         <div class="q hero"><p>&ldquo;It's replaced scrolling Instagram on my phone&hellip; I am literally more interesting in conversation thanks to REPS.&rdquo;</p><cite>24601_London</cite></div>
         <div class="q"><p>&ldquo;What you have created is BRILLIANT!! I am 5 days in and most impressed and excited about where this will go.&rdquo;</p><cite>Karen</cite></div>
@@ -2016,7 +2085,7 @@ body.still .deck-controls{display:none!important;}
         </div>
         <ul class="mp-bul">
           <li>Generous free tier to grow the network</li>
-          <li>Charge for advanced features such as voice AI, new games, and enhanced security</li>
+          <li>Charge for advanced features such as voice AI, knowledge coach, advanced games, and enhanced security</li>
         </ul>
       </div>
       <div class="mp-arrow"><svg viewBox="0 0 40 24" aria-hidden="true"><path d="M2 12 H34 M22 2 L34 12 L22 22" fill="none" stroke="var(--fg-faint)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
@@ -2058,7 +2127,7 @@ body.still .deck-controls{display:none!important;}
           <div><i>04</i> One human-intensive job: knowledge suppliers</div>
         </div>
         <div class="org-stat reveal r5">
-          <b>1,400+</b>
+          <b>1,000+</b>
           <p>commits a week, across the whole company. Product, growth, finance: every function runs the same way.</p>
         </div>
         <p class="org-note reveal r6">Automating how the product gets built does not automate taste, acumen or partnerships. That is what the three hires are for.</p>
@@ -2147,6 +2216,7 @@ body.still .deck-controls{display:none!important;}
   <div class="canvas">
     <p class="kicker reveal r1">ADVISORS</p>
     <div class="people">
+      <div class="people-row r1">
       <div class="person reveal r2">
         <div class="av"><img src="/angel/assets/sourced/mark-gainey-final.jpg" alt="Mark Gainey" /></div>
         <div><h3>Mark Gainey</h3>
@@ -2160,16 +2230,25 @@ body.still .deck-controls{display:none!important;}
         <p>Always sought the 1B+ user outcomes.</p></div>
       </div>
       <div class="person reveal r4">
+        <div class="av"><img src="/angel/assets/sourced/matthew-lloyd-thomas-tcg.jpg" alt="Matthew Lloyd-Thomas" /></div>
+        <div><h3>Matthew Lloyd-Thomas</h3>
+        <div class="role">Former Exec Director, Corporate Development, NYT</div>
+        <p>Turned a viral word game into NYT Games&rsquo; cornerstone.</p></div>
+      </div>
+      </div>
+      <div class="people-row r2">
+      <div class="person reveal r5">
         <div class="av"><img src="/angel/assets/sourced/kendra-rogers-headshot-2023.jpg" alt="Kendra Rogers" /></div>
         <div><h3>Kendra Rogers</h3>
         <div class="role">Chief Communications &amp; Marketing Officer, Featurespace (acquired by Visa)</div>
         <p>Voracious polymath and creative brand-builder.</p></div>
       </div>
-      <div class="person reveal r5">
+      <div class="person reveal r6">
         <div class="av"><img src="/angel/assets/sourced/dakota-smith-hopper.jpg" alt="Dakota Smith" /></div>
         <div><h3>Dakota Smith</h3>
         <div class="role">Co-founder, Hopper &middot; CEO, Hopper Technology Solutions</div>
         <p>120M downloads on the app, then a B2B arm powering multinationals such as Uber, Capital One and Air Canada.</p></div>
+      </div>
       </div>
     </div>
   </div>
@@ -2439,7 +2518,7 @@ function setupSound(){
 class InlineEditor {
   /* v6 = aria-label keys. The v5 blob in any browser is index-keyed and its
      edits are already committed to this file, so it is never read again. */
-  static KEY = 'reps-deck-v23';
+  static KEY = 'reps-deck-v25';
   /* Edits live in ONE browser and never reach the file. Recovering the last
      batch meant copying a Chrome profile and decoding leveldb; this button is
      the cheap version of that. */
