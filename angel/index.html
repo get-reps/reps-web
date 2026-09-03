@@ -1686,6 +1686,32 @@ body.still .deck-controls{display:none!important;}
 
 .people{margin-top:74px;gap:88px;}
 
+/* === v27 round-3 board response ===
+
+   s08 "The moat": two fixes, both measured before being applied (not
+   eyeballed) -- got burned doing that once already on this exact slide.
+
+   1. The arrow used to sit level with row 3 ("Cheaper with every save"),
+      not the last row ("A two-sided network with knowledge suppliers")
+      it's meant to point out of. It's positioned via align-self:end +
+      margin-bottom inside the .nfx grid, and the row list got taller
+      across the last two rounds (padding, then more padding), so the
+      bottom-anchored offset drifted out of sync with row 5's actual
+      position. Measured the real gap via getComputedStyle/getBoundingClientRect
+      before touching anything: 250.5px. Moved by exactly that.
+
+   2. The "Mark Gainey / Strava" proof-callout stretched to the canvas's
+      full 1728px width by default (a block flex item in a column flex
+      container). Given a fixed max-width and left-aligned instead of
+      stretched, so it reads as a callout, not a footer-width banner. */
+
+/* v21-extra.css already overrode the base align-self:end rule to
+   align-self:start + margin-top:226px -- margin-bottom (tried first) does
+   nothing once that's in effect, confirmed empirically before landing on
+   this. margin-top is the real lever: 226px + the measured 250.5px gap. */
+.nfx-arrow{margin-top:477px;}
+.proof-callout{max-width:900px;align-self:flex-start;}
+
 </style>
 </head>
 <body>
@@ -2559,7 +2585,7 @@ function setupSound(){
 class InlineEditor {
   /* v6 = aria-label keys. The v5 blob in any browser is index-keyed and its
      edits are already committed to this file, so it is never read again. */
-  static KEY = 'reps-deck-v26';
+  static KEY = 'reps-deck-v27';
   /* Edits live in ONE browser and never reach the file. Recovering the last
      batch meant copying a Chrome profile and decoding leveldb; this button is
      the cheap version of that. */
