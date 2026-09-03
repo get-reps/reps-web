@@ -1732,6 +1732,143 @@ body.still .deck-controls{display:none!important;}
    would otherwise keep winning on specificity. */
 .finale blockquote .hot{color:transparent;background:var(--hot);-webkit-background-clip:text;background-clip:text;}
 
+/* ============================================================================
+   s10 "How it's built" -- flow-dot routes rebuilt with TRUE SVG elliptical
+   arcs (parallel attempt #4 of 5; do not edit index.html / v24-extra.css /
+   v26-sections.html -- this file is the entire deliverable, meant to be
+   linked in AFTER them so its rules win the cascade at equal selector
+   specificity, e.g. <link rel="stylesheet" href="v29-option4.css"> placed
+   last in the page's head section).
+
+   WHY EVERY PRIOR ATTEMPT LOOKED THE SAME: all three (two CSS `offset-path`
+   passes + Codex) rounded the corner with either a tiny 14px quadratic elbow
+   or a 30-60px CUBIC "transition zone" that leaves and re-enters its own
+   straight tangent -- see v24-extra.css's own comment above its s10/11 rule.
+   A cubic Bezier only APPROXIMATES constant curvature; it can still read as
+   a softened square rather than a real sweep, and BOTH attempts were capped
+   at ~30-60px because that's roughly how much straight "riser" pixel-length
+   actually exists between a node's edge and the horizontal/vertical bus
+   line it drops onto in this exact layout (see the geometry section below).
+   This attempt uses genuine `A rx ry 0 0 sweep x y` circular/elliptical-arc
+   commands -- constant curvature by construction, analytically tangent-
+   continuous, not an approximation -- and gets a MUCH bigger visual radius
+   than 14-60px by deliberately using an ELLIPSE, not a circle.
+
+   THE GEOMETRY THAT FORCES AN ELLIPSE (not a personal preference -- checked
+   against the actual .orgmap node rectangles in index.html):
+   Every one of the 7 flow routes is an offset "S" shape: a short straight
+   RISER connecting a node's edge to a shared horizontal/vertical BUS line,
+   then a long run along the bus, then another short riser into the next
+   node. The riser lengths, measured directly from the .fN path coordinates
+   against the .orgmap node top/bottom edges in index.html, are all in the
+   20-30px range:
+     f1: 76->104 (28px) and 104->124 (20px)      f5: 450->476 (26px), 476->500 (24px)
+     f2: same as f1, mirrored                     f6: two 30px horizontal legs (0->-30, -30->0)
+     f3: 196->226 (30px) and 226->250 (24px)      f7: 450->476 (26px), 476->500 (24px)
+     f4: same as f3, mirrored
+   A CIRCULAR arc's tangent-lead length is exactly its radius on BOTH sides
+   of the turn (a 90 degree corner needs the arc to start R px before the
+   corner and end R px after it, on each straight segment). With risers this
+   short, a uniform 60-90px CIRCLE is not geometrically possible without the
+   arc's start point sitting above/past the node's own edge -- it would have
+   to begin inside or above the box, which is exactly the overshoot this
+   brief says to avoid. That is why every prior attempt topped out well
+   under 60px: they were (correctly) bounded by this same constraint.
+   An ELLIPSE removes the false choice. `A rx ry 0 0 sweep x y` lets the two
+   axes carry different reach: rx governs how far the arc's tangent point
+   sits along whichever adjoining segment is HORIZONTAL, ry governs the
+   VERTICAL segment, independently. So every corner here uses:
+     - a GENEROUS 74-80px radius along the long bus-line direction (where
+       there is 150-345px of straight run to spend it in), and
+     - a radius matched to that corner's OWN actual riser (16-24px, ~80% of
+       the true available gap, leaving a few px of clearance margin) along
+       the short direction into the node.
+   f6 is the mirror case: its two short legs are HORIZONTAL (30px) and its
+   long run is VERTICAL (183px), so its rx/ry roles swap accordingly -- it
+   gets the full generous 80px along its long vertical run.
+   The result still reads as one continuous, unmistakable sweep (dominated
+   visually by the 74-80px axis) while never entering a node's rectangle.
+
+   VERIFIED, NOT EYEBALLED (a static screenshot can't show motion, so this
+   is what stands in for it -- script + output kept for the record):
+     - Reconstructed every arc's center analytically from rx, ry and which
+       adjoining segment is horizontal/vertical (unambiguous by construction
+       -- no curve-fitting), then computed the exact tangent direction at
+       both endpoints and compared to the known straight-segment directions.
+       Result: 0.000000 degrees of mismatch at all 14 corners (across all 7
+       routes) -- true C1 continuity, not an approximation.
+     - Every arc's start/end angle spans exactly 90.00 degrees (a real
+       quarter-turn, large-arc-flag=0 is correct, no reflex-arc risk).
+     - Sampled all 7 full routes (straight segments + 400-step-per-arc
+       polylines) and bbox-tested every arc segment against all 10 .orgmap
+       node rectangles from index.html/v26-sections.html: zero overlaps.
+     - Same sampling gives the arc-length totals used for speed below.
+
+   SPEED NORMALIZATION (reusing v24-extra.css's sound idea: equal px/s
+   across all 7 routes, computed from the REAL arc length including the
+   larger arcs, not the old straight-line M/V/H distance):
+     f1/f2  365.77px -> 3.181s   f5  176.12px -> 1.532s
+     f3/f4  331.05px -> 2.879s   f6  210.44px -> 1.830s
+     f7     328.58px -> 2.857s
+   All seven land within 0.05% of a single 115px/s target (mid-point of the
+   requested 110-120px/s band). animation-timing-function stays `linear`
+   (inherited from the base .orgmap .flow rule) so offset-distance advances
+   at truly constant arc-length speed -- no re-acceleration through the
+   corner, which is what made earlier eased/curved attempts look like they
+   sped up or braked at each turn.
+   animation-delay is intentionally left untouched (inherited from
+   index.html's own .orgmap .fN rules) -- the stagger between dots is a
+   choreography choice unrelated to route shape, no reason to touch it here.
+   ============================================================================ */
+
+.orgmap .flow{
+  animation-fill-mode:backwards; /* the real bug fix from the prior CSS pass, kept:
+    without it, a dot with a positive animation-delay renders however the browser
+    resolves its un-animated state during that delay instead of the keyframe's own
+    0% state (offset-distance:0%, opacity:0) -- i.e. it can flash into view sitting
+    on the path, fully visible, before its turn. `backwards` forces the 0% keyframe
+    to apply for the whole delay window, so every dot stays invisible at its route's
+    start point until its own animation actually begins. */
+  will-change:offset-distance,opacity;
+}
+
+.orgmap .f1{offset-path:path("M105 76 V82 A80 22 0 0 0 185 104 H370 A80 16 0 0 1 450 120 V124");animation-duration:3.181s;}
+.orgmap .f2{offset-path:path("M795 76 V82 A80 22 0 0 1 715 104 H530 A80 16 0 0 0 450 120 V124");animation-duration:3.181s;}
+.orgmap .f3{offset-path:path("M450 196 V202 A80 24 0 0 1 370 226 H223 A80 19 0 0 0 143 245 V250");animation-duration:2.879s;}
+.orgmap .f4{offset-path:path("M450 196 V202 A80 24 0 0 0 530 226 H677 A80 19 0 0 1 757 245 V250");animation-duration:2.879s;}
+.orgmap .f5{offset-path:path("M757 450 V455 A74 21 0 0 1 683 476 H677 A74 19 0 0 0 603 495 V500");animation-duration:1.532s;}
+.orgmap .f6{offset-path:path("M0 343 H-6 A24 80 0 0 1 -30 263 V240 A24 80 0 0 1 -6 160 H0");animation-duration:1.830s;}
+.orgmap .f7{offset-path:path("M450 450 V455 A80 21 0 0 1 370 476 H223 A80 19 0 0 0 143 495 V500");animation-duration:2.857s;}
+
+/* === v30: slide 10's animation, decided ===
+
+   Mike picked option 4 (v29-option4.css, already in the CSS chain) --
+   the original "dot flows box to box" idea, finally built on real
+   geometry: true elliptical arcs sized to each corner's actual measured
+   clearance (asymmetric radii, since the real gaps aren't uniform),
+   verified to 0.000000-degree tangent mismatch at all 14 corners, zero
+   collisions with the boxes. Full reasoning in v29-option4.css's own
+   header comment.
+
+   This file adds ONE more decision on top of that pick: the deck's
+   global accessibility rule (index.html, "@media
+   (prefers-reduced-motion: reduce){*{animation-duration:.01ms!
+   important}}") would otherwise silently freeze this animation for
+   anyone whose OS has "reduce motion" on -- which is exactly what made
+   every one of the 5 comparison options look broken on Mike's own
+   machine. Mike, in-turn: always play this one animation regardless of
+   that setting, scoped to just this diagram -- not a blanket override,
+   the rest of the deck's reveal animations still respect it normally.
+   Verified after: computed animation-duration matches the real
+   intended value whether or not reduced-motion is simulated on. */
+.orgmap .f1{animation-duration:3.181s!important;}
+.orgmap .f2{animation-duration:3.181s!important;}
+.orgmap .f3{animation-duration:2.879s!important;}
+.orgmap .f4{animation-duration:2.879s!important;}
+.orgmap .f5{animation-duration:1.532s!important;}
+.orgmap .f6{animation-duration:1.830s!important;}
+.orgmap .f7{animation-duration:2.857s!important;}
+
 </style>
 </head>
 <body>
@@ -2604,7 +2741,7 @@ function setupSound(){
 class InlineEditor {
   /* v6 = aria-label keys. The v5 blob in any browser is index-keyed and its
      edits are already committed to this file, so it is never read again. */
-  static KEY = 'reps-deck-v29';
+  static KEY = 'reps-deck-v30';
   /* Edits live in ONE browser and never reach the file. Recovering the last
      batch meant copying a Chrome profile and decoding leveldb; this button is
      the cheap version of that. */
