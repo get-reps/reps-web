@@ -1721,6 +1721,17 @@ body.still .deck-controls{display:none!important;}
    short of the original full 1728px banner. */
 .proof-callout{max-width:980px;}
 
+/* === v29 round-5 board response, CSS-only pieces ===
+
+   Finale: the highlighted phrase was rendering as flat coral
+   (color:var(--coral)), not the coral->peach gradient every other .hot
+   span on the deck uses -- a leftover override from when this slide's
+   dark background needed a readability tweak, never reconciled with the
+   base .hot treatment. Reinstated the actual gradient explicitly, since
+   .finale blockquote .hot's flat-color rule (same file, index.html)
+   would otherwise keep winning on specificity. */
+.finale blockquote .hot{color:transparent;background:var(--hot);-webkit-background-clip:text;background-clip:text;}
+
 </style>
 </head>
 <body>
@@ -1930,7 +1941,7 @@ body.still .deck-controls{display:none!important;}
   </header>
   <div class="canvas">
     <p class="kicker reveal r1">What people reach for instead</p>
-    <h2 class="lead xs reveal r2" style="margin-top:12px;max-width:74ch">Existing knowledge apps are overly <span class="hot">generic or utilitarian</span>.</h2>
+    <h2 class="lead reveal r2" style="margin-top:12px;max-width:74ch">Existing knowledge apps are overly <span class="hot">generic or utilitarian</span>.</h2>
     <div class="mapwide v8">
       <div class="aside reveal r3"><b>Over 250M+ word games and micro&#8209;learning app users prove the demand for stimulation, despite it being generic. Nobody offers it socially and gamified on your own content.</b>Saving and second-brain apps are personal but transactional: you do the work. Only possible now that AI does the organising.</div>
       <div class="map-plot reveal r4">
@@ -1941,15 +1952,14 @@ body.still .deck-controls{display:none!important;}
           <line x1="540" y1="540" x2="540" y2="20" stroke="rgba(33,26,20,.35)" stroke-width="1.4" marker-end="url(#axhead2)"/>
           <text class="ax" x="540" y="10" text-anchor="middle">A habit you return to</text>
           <text class="ax" x="540" y="558" text-anchor="middle">A tool you use</text>
-          <text class="ax" x="22" y="302">Someone else's content</text>
-          <text class="ax hi" x="1058" y="302" text-anchor="end">Your own content</text>
+          <text class="ax" x="22" y="302">Generic selection</text>
+          <text class="ax hi" x="1058" y="302" text-anchor="end">Your own curation</text>
           <g transform="translate(330,92)"><rect class="pill" x="-110.35" y="-27" width="220.7" height="54" rx="27"/><image class="lgi" href="/angel/assets/logos/blinkist.png" x="-79.35" y="-16" width="33.8" height="32" preserveAspectRatio="xMidYMid meet"/><image class="lgi" href="/angel/assets/logos/headway.png" x="-35.55" y="-16" width="22" height="32" preserveAspectRatio="xMidYMid meet"/><image class="lgi" href="/angel/assets/logos/deepstash.png" x="-3.55" y="-16" width="26.5" height="32" preserveAspectRatio="xMidYMid meet"/><image class="lgi" href="/angel/assets/logos/shortform.png" x="32.95" y="-16" width="36.4" height="32" preserveAspectRatio="xMidYMid meet"/></g>
           <g transform="translate(688,44)"><rect class="pill" x="-74" y="-27" width="148" height="54" rx="27"/><use class="lg" href="#lg-duolingo" x="-53" y="-16" width="32" height="32" style="color:rgba(33,26,20,.82)"/><text class="pt small" x="-11" y="5">languages</text></g>
           <g transform="translate(252,196)"><rect class="pill" x="-84.55" y="-27" width="169.1" height="54" rx="27"/><use class="lg" href="#lg-newyorktimes" x="-53.55" y="-16" width="32" height="32" style="color:rgba(33,26,20,.82)"/><image class="lgi" href="/angel/assets/logos/atlantic.png" x="-11.55" y="-16" width="21.1" height="32" preserveAspectRatio="xMidYMid meet"/><image class="lgi" href="/angel/assets/logos/economist.png" x="19.55" y="-16" width="24" height="32" preserveAspectRatio="xMidYMid meet"/></g>
           <g transform="translate(716,282)"><rect class="pill" x="-93.8" y="-27" width="187.6" height="54" rx="27"/><use class="lg" href="#lg-pocket" x="-62.8" y="-16" width="32" height="32" style="color:rgba(33,26,20,.82)"/><use class="lg" href="#lg-instapaper" x="-20.8" y="-16" width="32" height="32" style="color:rgba(33,26,20,.82)"/><image class="lgi" href="/angel/assets/logos/readwise.png" x="21.2" y="-16" width="31.6" height="32" preserveAspectRatio="xMidYMid meet"/></g>
           <g transform="translate(898,428)"><rect class="pill" x="-102" y="-27" width="204" height="54" rx="27"/><use class="lg" href="#lg-obsidian" x="-71" y="-16" width="32" height="32" style="color:rgba(33,26,20,.82)"/><use class="lg" href="#lg-notion" x="-29" y="-16" width="32" height="32" style="color:rgba(33,26,20,.82)"/><image class="lgi" href="/angel/assets/logos/recall.png" x="13" y="-16" width="48" height="32" preserveAspectRatio="xMidYMid meet"/></g>
           <g transform="translate(560,494)"><rect class="pill" x="-132.3" y="-27" width="264.6" height="54" rx="27"/><image class="lgi" href="/angel/assets/logos/opal.png" x="-101.3" y="-16" width="32" height="32" preserveAspectRatio="xMidYMid meet"/><image class="lgi" href="/angel/assets/logos/brick.png" x="-59.3" y="-16" width="32" height="32" preserveAspectRatio="xMidYMid meet"/><image class="lgi" href="/angel/assets/logos/bepresent.png" x="-17.3" y="-16" width="66.6" height="32" preserveAspectRatio="xMidYMid meet"/><use class="lg" href="#lg-apple" x="59.3" y="-16" width="32" height="32" style="color:rgba(33,26,20,.82)"/></g>
-          <g transform="translate(806,158)"><rect class="pill" x="-66" y="-27" width="132" height="54" rx="27"/><use class="lg" href="#lg-strava" x="-45" y="-16" width="32" height="32" style="color:rgba(33,26,20,.82)"/><text class="pt small" x="-3" y="5">fitness</text></g>
           <g transform="translate(928,100)"><rect class="pill us" x="-99" y="-40" width="198" height="80" rx="40"/><image href="/angel/assets/logos/reps.png" x="-73" y="-26" width="52" height="52" preserveAspectRatio="xMidYMid meet"/><text class="pt us" x="-5" y="9">REPS</text></g>
         </svg>
       </div>
@@ -1969,7 +1979,7 @@ body.still .deck-controls{display:none!important;}
   </header>
   <div class="canvas">
     <p class="kicker reveal r1">Who it's for</p>
-    <h2 class="lead xs reveal r2" style="margin-top:12px;max-width:80ch"><span class="hot">Knowledge keepers:</span> cognitively active and poorly equipped to retain it.</h2>
+    <h2 class="lead reveal r2" style="margin-top:12px;max-width:80ch"><span class="hot">Knowledge keepers:</span> cognitively active and poorly equipped to retain it.</h2>
 
     <div class="kthree">
       <div class="kannot" aria-hidden="true">
@@ -1993,7 +2003,7 @@ body.still .deck-controls{display:none!important;}
         </div>
         <div class="kper">
           <div class="kp-photo"><img src="/angel/assets/personas/charlie-portrait.png" alt="Charlie" /></div>
-          <b class="kwho hot">Charlie &middot; Curious millennial</b>
+          <b class="kwho hot">Charlie &middot; Curious professional</b>
           <ul class="kbul">
             <li>Lived the before and after of the smartphone, and <b class="kx">noticed what it took</b></li>
             <li><b class="kx">Eclectic content consumption</b>, no single place for it all</li>
@@ -2002,7 +2012,7 @@ body.still .deck-controls{display:none!important;}
         </div>
         <div class="kper">
           <div class="kp-photo"><img src="/angel/assets/personas/jordan-portrait.png" alt="Jordan" /></div>
-          <b class="kwho hot">Jordan &middot; Informed Gen Z</b>
+          <b class="kwho hot">Jordan &middot; Informed Young Adult</b>
           <ul class="kbul">
             <li>Doesn&rsquo;t trust the feed, but <b class="kx">lacks a social alternative</b></li>
             <li>Wants <b class="kx">friends around real interests</b>, not algorithms</li>
@@ -2036,7 +2046,7 @@ body.still .deck-controls{display:none!important;}
   </header>
   <div class="canvas">
     <p class="kicker reveal r1">Early signals</p>
-    <h2 class="lead sm reveal r2" style="margin-top:14px;max-width:60ch">Opened to beta users in July. <span class="hot">The message lands, and the habit forms.</span></h2>
+    <h2 class="lead reveal r2" style="margin-top:14px;max-width:60ch">Opened to beta users in July. <span class="hot">The message lands, and the habit forms.</span></h2>
 
     <div class="trac">
       <div class="reveal r3">
@@ -2081,7 +2091,7 @@ body.still .deck-controls{display:none!important;}
   </header>
   <div class="canvas">
     <p class="kicker reveal r1">What compounds at scale</p>
-    <h2 class="lead sm reveal r2" style="margin-top:14px;max-width:22ch"><span class="hot">AI-proof</span> network effects.</h2>
+    <h2 class="lead reveal r2" style="margin-top:14px;max-width:22ch"><span class="hot">AI-proof</span> network effects.</h2>
 
     <div class="nfx">
       <div class="reveal r3">
@@ -2151,7 +2161,7 @@ body.still .deck-controls{display:none!important;}
   </header>
   <div class="canvas">
     <p class="kicker reveal r1">MONETIZATION PATHWAYS</p>
-    <h2 class="lead sm reveal r2" style="margin-top:14px;max-width:50ch">Monetize on <span class="hot">value delivered</span>, not attention sold.</h2>
+    <h2 class="lead reveal r2" style="margin-top:14px;max-width:50ch">Monetize on <span class="hot">value delivered</span>, not attention sold.</h2>
 
     <div class="mpath reveal r3">
       <div class="mp-step">
@@ -2245,7 +2255,7 @@ body.still .deck-controls{display:none!important;}
   </header>
   <div class="canvas">
     <p class="kicker reveal r1">Who is building it</p>
-    <h2 class="lead sm reveal r2" style="margin-top:14px;max-width:44ch">Twelve years backing consumer founders, and <span class="hot">one problem I could not put down</span>.</h2>
+    <h2 class="lead reveal r2" style="margin-top:14px;max-width:44ch">Twelve years backing consumer founders, and <span class="hot">one problem I could not put down</span>.</h2>
 
     <div class="fc">
       <div class="fc-left reveal r3">
@@ -2266,7 +2276,7 @@ body.still .deck-controls{display:none!important;}
           <div class="stop"><i></i><u>2014</u><b>PSP</b><span>A natural-resources investment team, newly formed when I joined</span><em>Private equity</em></div>
           <div class="stop"><i></i><u>2016</u><b>CDPQ</b><span>Helped launch the technology investment team</span><em>Full-stack VC</em></div>
           <div class="stop"><i></i><u>2017</u><b>Hopper</b><span>Three months seconded in on special projects</span><em>Operator</em></div>
-          <div class="stop"><i></i><u>2018</u><b>Inovia Capital</b><span>Opened the London office. Consumer and SMB, mostly</span><em>Growth equity</em></div>
+          <div class="stop"><i></i><u>2018</u><b>Inovia Capital</b><span>Opened the London office. Mostly consumer and SMB investments</span><em>Growth equity</em></div>
           <div class="stop"><i></i><u>2025</u><b>SalesAPE</b><span>Nine months seconded in as Chief of Staff, VP Ops &amp; Finance</span><em>Operator</em></div>
           <div class="stop out"><i></i><u>2026</u><b>REPS</b><span>Left Inovia on 30 June 2026, my thirty-fourth birthday</span><em>Founder</em></div>
         </div>
@@ -2594,7 +2604,7 @@ function setupSound(){
 class InlineEditor {
   /* v6 = aria-label keys. The v5 blob in any browser is index-keyed and its
      edits are already committed to this file, so it is never read again. */
-  static KEY = 'reps-deck-v28';
+  static KEY = 'reps-deck-v29';
   /* Edits live in ONE browser and never reach the file. Recovering the last
      batch meant copying a Chrome profile and decoding leveldb; this button is
      the cheap version of that. */
