@@ -1,0 +1,660 @@
+<!doctype html>
+<!-- REPS — Planet pledge / tree-planting initiative page (2026-09-03)
+     Self-contained static page, matches v3c.html tokens/nav/footer.
+     Charity: JUST ONE Tree (justonetree.life), £1 = 1 tree. First donation £50 = 50 trees.
+     Cleared to go live by Mike (first donation made). Slug: /planet.
+     DRAFT v2 for final copy review before push (push = Vercel deploy). -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>REPS · Learn something. Grow something.</title>
+    <meta
+      name="description"
+      content="The AI that powers REPS uses a little energy. So we plant real trees for it, far more than we use, with JUST ONE Tree. Learn something, grow something."
+    />
+    <link rel="canonical" href="https://www.getreps.io/planet" />
+    <meta property="og:title" content="REPS · Learn something. Grow something." />
+    <meta
+      property="og:description"
+      content="We plant real trees, and mangroves, for the AI that powers REPS. Far more than we use."
+    />
+    <meta property="og:url" content="https://www.getreps.io/planet" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://www.getreps.io/og-card-v3.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://www.getreps.io/og-card-v3.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Lora:ital,wght@0,500;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --cream: #fffaf7;
+        --coral: #ff6b6b;
+        --peach: #ff8e53;
+        --ink: #211a14;
+        --body: rgba(33, 26, 20, 0.72);
+        --muted: rgba(33, 26, 20, 0.52);
+        --hairline: rgba(33, 26, 20, 0.09);
+        --teal: #2d8377;
+        --teal-deep: #1f5f56;
+        --teal-soft: rgba(45, 131, 119, 0.08);
+        --sky: #4a90a4;
+        --display: "Space Grotesk", system-ui, -apple-system, sans-serif;
+        --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        background: var(--cream);
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--cream);
+        color: var(--body);
+        font-family: var(--sans);
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+      img {
+        display: block;
+        max-width: 100%;
+      }
+      a {
+        color: inherit;
+      }
+      svg {
+        display: block;
+      }
+
+      /* ── Nav (matches homepage) ── */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 200;
+        background: var(--cream);
+        border-bottom: 1px solid var(--hairline);
+        padding: 14px 24px;
+      }
+      .nav-inner {
+        max-width: 1120px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .wordmark {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 18px;
+        letter-spacing: 0.04em;
+        color: var(--ink);
+      }
+      .wordmark img {
+        width: 26px;
+        height: 26px;
+        border-radius: 6px;
+        box-shadow: 0 1px 4px rgba(33, 26, 20, 0.12);
+      }
+      .nav-cta {
+        display: inline-block;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        color: #fff;
+        background: linear-gradient(135deg, var(--coral), var(--peach));
+        padding: 9px 20px;
+        border-radius: 999px;
+        box-shadow: 0 2px 10px -3px rgba(255, 107, 107, 0.38);
+        transition:
+          opacity 0.14s,
+          transform 0.14s;
+      }
+      .nav-cta:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+      }
+
+      .shell {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+      .eyebrow {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--teal);
+        margin-bottom: 14px;
+      }
+
+      /* ── Hero with decorative growth motif ── */
+      .hero {
+        position: relative;
+        text-align: center;
+        padding: 72px 24px 48px;
+        overflow: hidden;
+      }
+      .hero-art {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+      .hero-inner {
+        position: relative;
+        z-index: 1;
+        max-width: 620px;
+        margin: 0 auto;
+      }
+      .hero h1 {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: clamp(36px, 7.5vw, 60px);
+        line-height: 1.03;
+        letter-spacing: -0.02em;
+        color: var(--ink);
+      }
+      .hero h1 .grow {
+        color: var(--teal);
+      }
+      .hero .lede {
+        max-width: 540px;
+        margin: 22px auto 0;
+        font-size: clamp(16px, 2.4vw, 19px);
+        color: var(--body);
+      }
+      .sprout {
+        width: 46px;
+        height: 46px;
+        margin: 0 auto 20px;
+      }
+
+      /* ── Sections ── */
+      section {
+        padding: 44px 0;
+        border-top: 1px solid var(--hairline);
+      }
+      h2 {
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: clamp(24px, 4vw, 32px);
+        line-height: 1.15;
+        letter-spacing: -0.01em;
+        color: var(--ink);
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      h2 .leaf {
+        width: 24px;
+        height: 24px;
+        flex: none;
+      }
+      p + p {
+        margin-top: 14px;
+      }
+      .lead-note {
+        font-size: 17px;
+        color: var(--body);
+      }
+      strong {
+        color: var(--ink);
+      }
+
+      /* ── Two-number honest split ── */
+      .split {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-top: 24px;
+      }
+      .split .card {
+        background: var(--teal-soft);
+        border-radius: 18px;
+        padding: 24px 22px;
+      }
+      .split .num {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: clamp(30px, 6vw, 42px);
+        color: var(--teal);
+        line-height: 1;
+      }
+      .split .cap {
+        margin-top: 8px;
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 14px;
+        letter-spacing: 0.02em;
+        color: var(--teal-deep);
+      }
+      .split .desc {
+        margin-top: 8px;
+        font-size: 14px;
+        color: var(--muted);
+        line-height: 1.55;
+      }
+      @media (max-width: 560px) {
+        .split {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* ── Mangrove band ── */
+      .band {
+        margin: 44px 0;
+        background: linear-gradient(
+          160deg,
+          rgba(45, 131, 119, 0.1),
+          rgba(74, 144, 164, 0.12)
+        );
+        border-radius: 22px;
+        padding: 34px 30px;
+      }
+      .band h2 {
+        color: var(--teal-deep);
+      }
+
+      /* ── Honesty callout ── */
+      .honest {
+        background: #fff;
+        border: 1px solid var(--hairline);
+        border-radius: 18px;
+        padding: 28px 26px;
+        box-shadow: 0 8px 30px -18px rgba(33, 26, 20, 0.25);
+      }
+      .honest ul {
+        list-style: none;
+        margin-top: 8px;
+      }
+      .honest li {
+        position: relative;
+        padding-left: 26px;
+        margin-top: 12px;
+        font-size: 16px;
+      }
+      .honest li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 9px;
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--teal);
+      }
+
+      /* ── Charity partner block ── */
+      .partner {
+        text-align: center;
+        background: var(--cream);
+        border: 1px solid var(--hairline);
+        border-radius: 20px;
+        padding: 34px 28px;
+        margin-top: 8px;
+      }
+      .partner img {
+        height: 54px;
+        width: auto;
+        margin: 0 auto 18px;
+      }
+      .partner p {
+        max-width: 460px;
+        margin: 0 auto;
+      }
+      .partner-link {
+        display: inline-block;
+        margin-top: 18px;
+        text-decoration: none;
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 15px;
+        color: var(--teal-deep);
+        border: 1.5px solid var(--teal);
+        padding: 10px 22px;
+        border-radius: 999px;
+        transition:
+          background 0.14s,
+          color 0.14s;
+      }
+      .partner-link:hover {
+        background: var(--teal);
+        color: #fff;
+      }
+
+      /* ── CTA ── */
+      .cta {
+        text-align: center;
+        padding: 56px 24px 24px;
+      }
+      .cta h2 {
+        justify-content: center;
+        margin-bottom: 8px;
+      }
+      .cta .cta-sub {
+        max-width: 460px;
+        margin: 0 auto 22px;
+        color: var(--body);
+      }
+      .appstore-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        background: #000;
+        color: #fff;
+        padding: 12px 22px;
+        border-radius: 12px;
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 15px;
+      }
+      .cta .reassure {
+        margin-top: 12px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      /* ── Footer (matches homepage) ── */
+      footer {
+        padding: 24px 24px 48px;
+        border-top: 1px solid var(--hairline);
+        text-align: center;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      footer .motto {
+        display: block;
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 13px;
+        letter-spacing: 0.04em;
+        color: var(--ink);
+        margin-bottom: 6px;
+      }
+      footer a {
+        text-decoration: underline;
+      }
+      .fineprint {
+        max-width: 640px;
+        margin: 18px auto 0;
+        font-size: 11px;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="nav-inner">
+        <a class="wordmark" href="/">
+          <img
+            src="product/assets/app-icon.png"
+            alt="REPS"
+            width="26"
+            height="26"
+          />
+          REPS
+        </a>
+        <a
+          class="nav-cta"
+          href="https://apps.apple.com/app/id6759216018"
+          target="_blank"
+          rel="noopener"
+          >Get the app</a
+        >
+      </div>
+    </nav>
+
+    <header class="hero">
+      <!-- Decorative growth motif — abstract, not a depiction of a real place -->
+      <svg
+        class="hero-art"
+        viewBox="0 0 1200 460"
+        preserveAspectRatio="xMidYMid slice"
+        aria-hidden="true"
+      >
+        <defs>
+          <radialGradient id="glow" cx="50%" cy="18%" r="60%">
+            <stop offset="0%" stop-color="rgba(45,131,119,0.10)" />
+            <stop offset="100%" stop-color="rgba(255,250,247,0)" />
+          </radialGradient>
+        </defs>
+        <rect width="1200" height="460" fill="url(#glow)" />
+        <g fill="none" stroke="rgba(45,131,119,0.16)" stroke-width="2">
+          <path d="M140 470 C140 360 90 320 60 300 M140 400 C140 360 180 350 210 336" />
+          <path d="M1060 470 C1060 350 1110 320 1150 300 M1060 402 C1060 360 1015 352 986 340" />
+        </g>
+        <g fill="rgba(45,131,119,0.10)">
+          <ellipse cx="60" cy="300" rx="26" ry="12" transform="rotate(-32 60 300)" />
+          <ellipse cx="210" cy="336" rx="24" ry="11" transform="rotate(24 210 336)" />
+          <ellipse cx="1150" cy="300" rx="26" ry="12" transform="rotate(32 1150 300)" />
+          <ellipse cx="986" cy="340" rx="24" ry="11" transform="rotate(-24 986 340)" />
+        </g>
+      </svg>
+      <div class="hero-inner">
+        <!-- sprout mark -->
+        <svg class="sprout" viewBox="0 0 48 48" aria-hidden="true">
+          <path
+            d="M24 44 V24"
+            stroke="#1f5f56"
+            stroke-width="3"
+            stroke-linecap="round"
+          />
+          <path
+            d="M24 26 C24 16 16 12 8 12 C8 22 15 26 24 26 Z"
+            fill="#2d8377"
+          />
+          <path
+            d="M24 22 C24 13 31 9 40 9 C40 18 33 22 24 22 Z"
+            fill="#4a90a4"
+          />
+        </svg>
+        <span class="eyebrow">Our planet pledge</span>
+        <h1>Learn something.<br /><span class="grow">Grow something.</span></h1>
+        <p class="lede">
+          The AI that powers REPS uses a little energy. So for every month it
+          runs, we plant real trees for it, far more than we ever use.
+        </p>
+      </div>
+    </header>
+
+    <main class="shell">
+      <section style="border-top: none">
+        <h2>
+          <svg class="leaf" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M4 20 C4 10 12 3 21 3 C21 13 13 20 4 20 Z"
+              fill="#2d8377"
+            />
+            <path d="M6 18 L18 6" stroke="#fffaf7" stroke-width="1.6" />
+          </svg>
+          Why we do this
+        </h2>
+        <p class="lead-note">
+          REPS exists to turn scrolling into something worth keeping. It felt
+          right that growing your mind should grow something real in the world
+          too.
+        </p>
+        <p>
+          Every time you save something, a little AI reads it, pulls out the
+          ideas worth remembering, and turns them into your daily games. That
+          takes a small amount of energy. We could ignore it, honestly it is
+          tiny. Instead we turn it into something good. We plant real trees, in
+          real forests, for the people who use REPS.
+        </p>
+      </section>
+
+      <section>
+        <h2>
+          <svg class="leaf" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M4 20 C4 10 12 3 21 3 C21 13 13 20 4 20 Z"
+              fill="#2d8377"
+            />
+            <path d="M6 18 L18 6" stroke="#fffaf7" stroke-width="1.6" />
+          </svg>
+          What we actually do
+        </h2>
+        <p>
+          Every month we plant real, countable trees with
+          <strong>JUST ONE Tree</strong>, based on how much REPS was used that
+          month. One pound plants one tree. Real trees in the ground, not a
+          vague promise, and we can point to them. We have already started.
+        </p>
+
+        <div class="split">
+          <div class="card">
+            <div class="num">1 to 3x</div>
+            <div class="cap">In the early years</div>
+            <div class="desc">
+              A young tree is only getting started, so it soaks up carbon
+              slowly. Even so, what we plant each month absorbs a few times more
+              than REPS's AI produces.
+            </div>
+          </div>
+          <div class="card">
+            <div class="num">~100x</div>
+            <div class="cap">Over a tree's life</div>
+            <div class="desc">
+              As those trees grow, they pull out far more. Across everything we
+              plant, that comes to roughly a hundred times more carbon than we
+              produce.
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="shell">
+      <div class="band">
+        <h2>
+          <svg class="leaf" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M12 3 C7 8 5 13 5 17 C5 20 8 21 12 21 C16 21 19 20 19 17 C19 13 17 8 12 3 Z"
+              fill="#4a90a4"
+            />
+          </svg>
+          Mangroves, and bringing water back
+        </h2>
+        <p>
+          A big part of what drew us to JUST ONE Tree is mangroves. They plant
+          them on coastlines that have lost them, and they help regenerate the
+          oceans around them.
+        </p>
+        <p>
+          Mangroves do more than almost any forest. They lock away carbon
+          faster, they shield the coast from storms, and they bring water, fish,
+          and life back to places that had lost them. A tree planted here helps
+          bring a stretch of coastline back to life.
+        </p>
+      </div>
+    </div>
+
+    <main class="shell">
+      <section style="border-top: none">
+        <div class="honest">
+          <span class="eyebrow">The honest part</span>
+          <h2 style="font-size: clamp(20px, 3.4vw, 26px)">
+            We only say what is true
+          </h2>
+          <ul>
+            <li>
+              We measure what our own app uses precisely, and we plant far more
+              than that. A little more in the early years while the trees are
+              young, and on the order of a hundred times more over their lives.
+            </li>
+            <li>
+              We will not repeat the scary numbers you may have seen online. The
+              popular claim that AI drinks a bottle of water per question is a
+              myth that was traced back to a maths error. The real figure is a
+              few drops.
+            </li>
+            <li>
+              This is not damage control. We give back more than we take, on
+              purpose, because we think that is the right way
+              to build.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section style="border-top: none; padding-top: 0">
+        <div class="partner">
+          <img
+            src="justonetree-logo.png"
+            alt="JUST ONE Tree"
+            width="368"
+            height="100"
+          />
+          <p>
+            We plant with JUST ONE Tree, a UK social enterprise reforesting the
+            planet and regenerating its oceans, one pound at a time.
+          </p>
+          <a
+            class="partner-link"
+            href="https://www.justonetree.life/"
+            target="_blank"
+            rel="noopener"
+            >Visit JUST ONE Tree</a
+          >
+        </div>
+      </section>
+    </main>
+
+    <section class="cta">
+      <div class="shell">
+        <h2>Start growing your mind.</h2>
+        <p class="cta-sub">
+          Save anything you read, watch, or hear. REPS turns it into quick games
+          that help you remember it, and plants trees along the way.
+        </p>
+        <a
+          class="appstore-btn"
+          href="https://apps.apple.com/app/id6759216018"
+          target="_blank"
+          rel="noopener"
+          >Download on the App Store</a
+        >
+        <p class="reassure">Free on the App Store.</p>
+      </div>
+    </section>
+
+    <footer>
+      <span class="motto">Save. Play. Remember.</span>
+      <div style="margin: 10px 0 4px">
+        <a href="/features/active-recall">Active recall</a> ·
+        <a href="/features/second-brain">Second Brain</a> ·
+        <a href="/features/read-it-later">Read it later</a>
+      </div>
+      REPS · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
+      <p class="fineprint">
+        REPS plants trees through JUST ONE Tree, a UK Community Interest Company
+        (reg. 12067406). Carbon figures are REPS's own estimates, stated
+        conservatively.
+      </p>
+    </footer>
+  </body>
+</html>
