@@ -1,9 +1,14 @@
 <!doctype html>
-<!-- REPS — Planet pledge / tree-planting initiative page (2026-09-03)
-     Self-contained static page, matches v3c.html tokens/nav/footer.
-     Charity: JUST ONE Tree (justonetree.life), £1 = 1 tree. First donation £50 = 50 trees.
-     Cleared to go live by Mike (first donation made). Slug: /planet.
-     DRAFT v2 for final copy review before push (push = Vercel deploy). -->
+<!-- REPS — Planet pledge page (redesign v3, 2026-09-03).
+     Feedback applied: (1) hero "tree" no longer clips — replaced the clipped branch
+     decoration with ONE continuous growth stem that grows from a seed in the hero down
+     the page and "arrives" at the ocean/mangrove band; (2) removed the generic rounded
+     "AI" card containers (drop-shadow cards, tinted rounded boxes) — now editorial:
+     hairline rules, a FULL-BLEED ocean band, oversized type, generous whitespace.
+     String-seed direction (seed FuSwAX1mN4jerh0ZFhc0tOQWKKZFOn7oj3aG3Z6SLQ0W7thD) kept:
+     asymmetry, oversized numerals, letterspaced labels, one hard tonal break.
+     Brand rails: cream/coral/teal/ink, Space Grotesk + system sans, coral = CTA only,
+     no fabricated imagery. Charity: JUST ONE Tree (justonetree.life), £1 = 1 tree. -->
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -42,14 +47,16 @@
         --peach: #ff8e53;
         --ink: #211a14;
         --body: rgba(33, 26, 20, 0.72);
-        --muted: rgba(33, 26, 20, 0.52);
+        --muted: rgba(33, 26, 20, 0.5);
+        --rule: rgba(33, 26, 20, 0.14);
         --hairline: rgba(33, 26, 20, 0.09);
         --teal: #2d8377;
         --teal-deep: #1f5f56;
-        --teal-soft: rgba(45, 131, 119, 0.08);
-        --sky: #4a90a4;
+        --ocean: #103b3a;
+        --ocean-2: #09262c;
         --display: "Space Grotesk", system-ui, -apple-system, sans-serif;
         --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        --wrap: 940px;
       }
       *,
       *::before,
@@ -67,7 +74,7 @@
         color: var(--body);
         font-family: var(--sans);
         -webkit-font-smoothing: antialiased;
-        line-height: 1.6;
+        line-height: 1.62;
         overflow-x: hidden;
       }
       img {
@@ -80,18 +87,44 @@
       svg {
         display: block;
       }
+      .wrap {
+        max-width: var(--wrap);
+        margin: 0 auto;
+        padding: 0 28px;
+      }
+      .inline-link {
+        color: var(--teal-deep);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        text-decoration-thickness: 1.5px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .inline-link:hover {
+        color: var(--teal);
+      }
+      .label {
+        display: inline-block;
+        font-family: var(--display);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.26em;
+        text-transform: uppercase;
+        color: var(--teal);
+      }
 
-      /* ── Nav (matches homepage) ── */
+      /* ── Nav ── */
       nav {
         position: sticky;
         top: 0;
         z-index: 200;
-        background: var(--cream);
+        background: rgba(255, 250, 247, 0.85);
+        backdrop-filter: saturate(1.4) blur(10px);
         border-bottom: 1px solid var(--hairline);
-        padding: 14px 24px;
+        padding: 14px 28px;
       }
       .nav-inner {
-        max-width: 1120px;
+        max-width: var(--wrap);
         margin: 0 auto;
         display: flex;
         align-items: center;
@@ -112,7 +145,6 @@
         width: 26px;
         height: 26px;
         border-radius: 6px;
-        box-shadow: 0 1px 4px rgba(33, 26, 20, 0.12);
       }
       .nav-cta {
         display: inline-block;
@@ -123,7 +155,6 @@
         background: linear-gradient(135deg, var(--coral), var(--peach));
         padding: 9px 20px;
         border-radius: 999px;
-        box-shadow: 0 2px 10px -3px rgba(255, 107, 107, 0.38);
         transition:
           opacity 0.14s,
           transform 0.14s;
@@ -133,229 +164,277 @@
         transform: translateY(-1px);
       }
 
-      .shell {
-        max-width: 720px;
-        margin: 0 auto;
-        padding: 0 24px;
-      }
-      .eyebrow {
-        display: inline-block;
-        font-size: 12px;
-        font-weight: 600;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        color: var(--teal);
-        margin-bottom: 14px;
-      }
-
-      /* ── Hero with decorative growth motif ── */
+      /* ── Hero ── */
       .hero {
-        position: relative;
-        text-align: center;
-        padding: 72px 24px 48px;
-        overflow: hidden;
-      }
-      .hero-art {
-        position: absolute;
-        inset: 0;
-        z-index: 0;
-        pointer-events: none;
-      }
-      .hero-inner {
-        position: relative;
-        z-index: 1;
-        max-width: 620px;
+        max-width: var(--wrap);
         margin: 0 auto;
+        padding: 70px 28px 30px;
+      }
+      .seed {
+        width: 34px;
+        height: 34px;
+        margin-bottom: 22px;
       }
       .hero h1 {
         font-family: var(--display);
         font-weight: 700;
-        font-size: clamp(36px, 7.5vw, 60px);
-        line-height: 1.03;
-        letter-spacing: -0.02em;
+        font-size: clamp(42px, 9.5vw, 82px);
+        line-height: 0.96;
+        letter-spacing: -0.035em;
         color: var(--ink);
+        margin-top: 16px;
       }
       .hero h1 .grow {
         color: var(--teal);
       }
       .hero .lede {
         max-width: 540px;
-        margin: 22px auto 0;
-        font-size: clamp(16px, 2.4vw, 19px);
+        margin: 26px 0 0;
+        font-size: clamp(17px, 2.4vw, 21px);
         color: var(--body);
       }
-      .sprout {
-        width: 46px;
-        height: 46px;
-        margin: 0 auto 20px;
+
+      /* ── Growth stem: one continuous line down the light sections ── */
+      .grove {
+        position: relative;
+        max-width: var(--wrap);
+        margin: 0 auto;
+        padding: 0 28px;
+      }
+      .grove-inner {
+        position: relative;
+        margin-left: 40px;
+      }
+      .grove-inner::before {
+        content: "";
+        position: absolute;
+        left: -40px;
+        top: -18px;
+        bottom: -18px;
+        width: 2px;
+        background: linear-gradient(
+          to bottom,
+          rgba(45, 131, 119, 0) 0%,
+          rgba(45, 131, 119, 0.5) 6%,
+          rgba(45, 131, 119, 0.5) 94%,
+          rgba(45, 131, 119, 0) 100%
+        );
+      }
+      @media (max-width: 640px) {
+        .grove-inner {
+          margin-left: 26px;
+        }
+        .grove-inner::before {
+          left: -26px;
+        }
+      }
+      .block {
+        position: relative;
+        padding: 42px 0;
+      }
+      /* a real leaf shape on the stem, not a rounded dot */
+      .leafmark {
+        position: absolute;
+        left: -50px;
+        top: 44px;
+        width: 22px;
+        height: 22px;
+      }
+      @media (max-width: 640px) {
+        .leafmark {
+          left: -36px;
+        }
       }
 
-      /* ── Sections ── */
-      section {
-        padding: 44px 0;
-        border-top: 1px solid var(--hairline);
-      }
       h2 {
         font-family: var(--display);
         font-weight: 600;
-        font-size: clamp(24px, 4vw, 32px);
-        line-height: 1.15;
-        letter-spacing: -0.01em;
+        font-size: clamp(26px, 4.4vw, 36px);
+        line-height: 1.08;
+        letter-spacing: -0.015em;
         color: var(--ink);
-        margin-bottom: 16px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
+        margin: 12px 0 16px;
       }
-      h2 .leaf {
-        width: 24px;
-        height: 24px;
-        flex: none;
+      p {
+        max-width: 600px;
       }
       p + p {
         margin-top: 14px;
       }
       .lead-note {
-        font-size: 17px;
+        font-size: clamp(17px, 2.2vw, 20px);
         color: var(--body);
       }
       strong {
         color: var(--ink);
       }
 
-      /* ── Two-number honest split ── */
-      .split {
+      /* ── Oversized numerals, separated by a rule, no boxes ── */
+      .figures {
+        margin-top: 34px;
+        border-top: 1px solid var(--rule);
+      }
+      .figure {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 16px;
-        margin-top: 24px;
+        grid-template-columns: minmax(0, auto) 1fr;
+        align-items: center;
+        gap: 26px;
+        padding: 26px 0;
+        border-bottom: 1px solid var(--rule);
       }
-      .split .card {
-        background: var(--teal-soft);
-        border-radius: 18px;
-        padding: 24px 22px;
-      }
-      .split .num {
+      .figure .n {
         font-family: var(--display);
         font-weight: 700;
-        font-size: clamp(30px, 6vw, 42px);
+        font-size: clamp(52px, 12vw, 100px);
+        line-height: 0.8;
+        letter-spacing: -0.045em;
         color: var(--teal);
-        line-height: 1;
+        white-space: nowrap;
       }
-      .split .cap {
-        margin-top: 8px;
-        font-family: var(--display);
-        font-weight: 600;
-        font-size: 14px;
-        letter-spacing: 0.02em;
+      .figure .n .x {
+        font-size: 0.46em;
         color: var(--teal-deep);
       }
-      .split .desc {
-        margin-top: 8px;
-        font-size: 14px;
-        color: var(--muted);
-        line-height: 1.55;
+      .figure .meta .cap {
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 16px;
+        color: var(--ink);
       }
-      @media (max-width: 560px) {
-        .split {
+      .figure .meta .desc {
+        margin-top: 6px;
+        font-size: 15px;
+        color: var(--muted);
+        max-width: 400px;
+      }
+      @media (max-width: 640px) {
+        .figure {
           grid-template-columns: 1fr;
+          gap: 8px;
         }
       }
 
-      /* ── Mangrove band ── */
-      .band {
-        margin: 44px 0;
-        background: linear-gradient(
-          160deg,
-          rgba(45, 131, 119, 0.1),
-          rgba(74, 144, 164, 0.12)
-        );
-        border-radius: 22px;
-        padding: 34px 30px;
-      }
-      .band h2 {
-        color: var(--teal-deep);
-      }
-
-      /* ── Honesty callout ── */
-      .honest {
-        background: #fff;
-        border: 1px solid var(--hairline);
-        border-radius: 18px;
-        padding: 28px 26px;
-        box-shadow: 0 8px 30px -18px rgba(33, 26, 20, 0.25);
-      }
-      .honest ul {
-        list-style: none;
-        margin-top: 8px;
-      }
-      .honest li {
+      /* ── Mangrove ocean band — FULL BLEED, no rounded box ── */
+      .ocean {
         position: relative;
-        padding-left: 26px;
-        margin-top: 12px;
-        font-size: 16px;
+        margin: 56px 0 0;
+        background: linear-gradient(160deg, var(--ocean), var(--ocean-2));
+        color: rgba(255, 255, 255, 0.84);
+        padding: 74px 0 78px;
+        overflow: hidden;
       }
-      .honest li::before {
-        content: "";
+      .ocean-top,
+      .ocean-bottom {
         position: absolute;
         left: 0;
-        top: 9px;
-        width: 9px;
-        height: 9px;
-        border-radius: 50%;
-        background: var(--teal);
+        width: 100%;
+        height: 40px;
+        pointer-events: none;
+      }
+      .ocean-top {
+        top: -1px;
+      }
+      .ocean-bottom {
+        bottom: -1px;
+        transform: rotate(180deg);
+      }
+      .ocean .label {
+        color: #7fd3c4;
+      }
+      .ocean h2 {
+        color: #fff;
+        margin-top: 12px;
+        max-width: 640px;
+      }
+      .ocean p {
+        color: rgba(255, 255, 255, 0.8);
+        max-width: 620px;
+      }
+      .ocean .inline-link {
+        color: #9fe3d6;
       }
 
-      /* ── Charity partner block ── */
+      /* ── Editorial blocks (no cards): ruled sections ── */
+      .stripe {
+        border-top: 1px solid var(--rule);
+        padding: 48px 0;
+      }
+      .honest h2 {
+        font-size: clamp(22px, 3.8vw, 28px);
+      }
+      .honest .rows {
+        margin-top: 22px;
+        display: grid;
+        gap: 0;
+      }
+      .honest .row {
+        display: grid;
+        grid-template-columns: 40px 1fr;
+        gap: 8px;
+        padding: 20px 0;
+        border-top: 1px solid var(--hairline);
+        align-items: start;
+      }
+      .honest .row:first-child {
+        border-top: none;
+      }
+      .honest .row .idx {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 15px;
+        color: var(--teal);
+        letter-spacing: 0.02em;
+      }
+      .honest .row p {
+        margin: 0;
+        font-size: 16px;
+        max-width: 640px;
+      }
+
+      /* ── Partner — clean, centered, ruled, no card ── */
       .partner {
+        border-top: 1px solid var(--rule);
+        border-bottom: 1px solid var(--rule);
         text-align: center;
-        background: var(--cream);
-        border: 1px solid var(--hairline);
-        border-radius: 20px;
-        padding: 34px 28px;
-        margin-top: 8px;
+        padding: 48px 0;
       }
       .partner img {
-        height: 54px;
+        height: 58px;
         width: auto;
-        margin: 0 auto 18px;
+        margin: 0 auto 20px;
       }
       .partner p {
-        max-width: 460px;
+        max-width: 470px;
         margin: 0 auto;
       }
       .partner-link {
         display: inline-block;
-        margin-top: 18px;
+        margin-top: 22px;
         text-decoration: none;
         font-family: var(--display);
         font-weight: 600;
         font-size: 15px;
         color: var(--teal-deep);
-        border: 1.5px solid var(--teal);
-        padding: 10px 22px;
-        border-radius: 999px;
-        transition:
-          background 0.14s,
-          color 0.14s;
+        border-bottom: 2px solid var(--teal);
+        padding-bottom: 3px;
       }
       .partner-link:hover {
-        background: var(--teal);
-        color: #fff;
+        color: var(--teal);
       }
 
       /* ── CTA ── */
       .cta {
         text-align: center;
-        padding: 56px 24px 24px;
+        padding: 64px 28px 30px;
       }
       .cta h2 {
+        font-size: clamp(30px, 5.4vw, 44px);
+        margin-bottom: 12px;
         justify-content: center;
-        margin-bottom: 8px;
       }
       .cta .cta-sub {
         max-width: 460px;
-        margin: 0 auto 22px;
+        margin: 0 auto 26px;
         color: var(--body);
       }
       .appstore-btn {
@@ -365,7 +444,7 @@
         text-decoration: none;
         background: #000;
         color: #fff;
-        padding: 12px 22px;
+        padding: 13px 24px;
         border-radius: 12px;
         font-family: var(--display);
         font-weight: 600;
@@ -377,9 +456,9 @@
         color: var(--muted);
       }
 
-      /* ── Footer (matches homepage) ── */
+      /* ── Footer ── */
       footer {
-        padding: 24px 24px 48px;
+        padding: 26px 28px 48px;
         border-top: 1px solid var(--hairline);
         text-align: center;
         color: var(--muted);
@@ -429,217 +508,214 @@
     </nav>
 
     <header class="hero">
-      <!-- Decorative growth motif — abstract, not a depiction of a real place -->
-      <svg
-        class="hero-art"
-        viewBox="0 0 1200 460"
-        preserveAspectRatio="xMidYMid slice"
-        aria-hidden="true"
-      >
-        <defs>
-          <radialGradient id="glow" cx="50%" cy="18%" r="60%">
-            <stop offset="0%" stop-color="rgba(45,131,119,0.10)" />
-            <stop offset="100%" stop-color="rgba(255,250,247,0)" />
-          </radialGradient>
-        </defs>
-        <rect width="1200" height="460" fill="url(#glow)" />
-        <g fill="none" stroke="rgba(45,131,119,0.16)" stroke-width="2">
-          <path d="M140 470 C140 360 90 320 60 300 M140 400 C140 360 180 350 210 336" />
-          <path d="M1060 470 C1060 350 1110 320 1150 300 M1060 402 C1060 360 1015 352 986 340" />
-        </g>
-        <g fill="rgba(45,131,119,0.10)">
-          <ellipse cx="60" cy="300" rx="26" ry="12" transform="rotate(-32 60 300)" />
-          <ellipse cx="210" cy="336" rx="24" ry="11" transform="rotate(24 210 336)" />
-          <ellipse cx="1150" cy="300" rx="26" ry="12" transform="rotate(32 1150 300)" />
-          <ellipse cx="986" cy="340" rx="24" ry="11" transform="rotate(-24 986 340)" />
-        </g>
+      <!-- a single complete seed/sprout, fully contained (no clipping) -->
+      <svg class="seed" viewBox="0 0 34 34" fill="none" aria-hidden="true">
+        <path
+          d="M17 33 V17"
+          stroke="#1f5f56"
+          stroke-width="2.4"
+          stroke-linecap="round"
+        />
+        <path d="M17 20 C17 12 11 9 4 9 C4 17 10 20 17 20 Z" fill="#2d8377" />
+        <path d="M17 17 C17 10 23 7 30 7 C30 15 24 17 17 17 Z" fill="#4a90a4" />
+        <circle cx="17" cy="6" r="3.4" fill="#ff8e53" />
       </svg>
-      <div class="hero-inner">
-        <!-- sprout mark -->
-        <svg class="sprout" viewBox="0 0 48 48" aria-hidden="true">
-          <path
-            d="M24 44 V24"
-            stroke="#1f5f56"
-            stroke-width="3"
-            stroke-linecap="round"
-          />
-          <path
-            d="M24 26 C24 16 16 12 8 12 C8 22 15 26 24 26 Z"
-            fill="#2d8377"
-          />
-          <path
-            d="M24 22 C24 13 31 9 40 9 C40 18 33 22 24 22 Z"
-            fill="#4a90a4"
-          />
-        </svg>
-        <span class="eyebrow">Our planet pledge</span>
-        <h1>Learn something.<br /><span class="grow">Grow something.</span></h1>
-        <p class="lede">
-          The AI that powers REPS uses a little energy. So for every month it
-          runs, we plant real trees for it, far more than we ever use.
-        </p>
-      </div>
+      <span class="label">Our planet pledge</span>
+      <h1>Learn something.<br /><span class="grow">Grow something.</span></h1>
+      <p class="lede">
+        The AI that powers REPS uses a little energy. So for every month it runs,
+        we plant real trees for it, far more than we ever use.
+      </p>
     </header>
 
-    <main class="shell">
-      <section style="border-top: none">
-        <h2>
-          <svg class="leaf" viewBox="0 0 24 24" aria-hidden="true">
+    <div class="grove">
+      <div class="grove-inner">
+        <section class="block">
+          <svg class="leafmark" viewBox="0 0 22 22" fill="none" aria-hidden="true">
             <path
-              d="M4 20 C4 10 12 3 21 3 C21 13 13 20 4 20 Z"
+              d="M2 20 C2 10 10 2 20 2 C20 12 12 20 2 20 Z"
               fill="#2d8377"
             />
-            <path d="M6 18 L18 6" stroke="#fffaf7" stroke-width="1.6" />
+            <path d="M5 17 L16 6" stroke="#fffaf7" stroke-width="1.4" />
           </svg>
-          Why we do this
-        </h2>
-        <p class="lead-note">
-          REPS exists to turn scrolling into something worth keeping. It felt
-          right that growing your mind should grow something real in the world
-          too.
-        </p>
-        <p>
-          Every time you save something, a little AI reads it, pulls out the
-          ideas worth remembering, and turns them into your daily games. That
-          takes a small amount of energy. We could ignore it, honestly it is
-          tiny. Instead we turn it into something good. We plant real trees, in
-          real forests, for the people who use REPS.
-        </p>
-      </section>
+          <span class="label">Why we do this</span>
+          <h2>Growing your mind should grow something real</h2>
+          <p class="lead-note">
+            REPS exists to turn scrolling into something worth keeping. It felt
+            right that it should leave something behind in the world too.
+          </p>
+          <p>
+            Every time you save something, a little AI reads it, pulls out the
+            ideas worth remembering, and turns them into your daily games. That
+            takes a small amount of energy. We could ignore it, honestly it is
+            tiny. Instead we turn it into something good. We plant real trees, in
+            real forests, for the people who use REPS.
+          </p>
+        </section>
 
-      <section>
-        <h2>
-          <svg class="leaf" viewBox="0 0 24 24" aria-hidden="true">
+        <section class="block">
+          <svg class="leafmark" viewBox="0 0 22 22" fill="none" aria-hidden="true">
             <path
-              d="M4 20 C4 10 12 3 21 3 C21 13 13 20 4 20 Z"
+              d="M2 20 C2 10 10 2 20 2 C20 12 12 20 2 20 Z"
               fill="#2d8377"
             />
-            <path d="M6 18 L18 6" stroke="#fffaf7" stroke-width="1.6" />
+            <path d="M5 17 L16 6" stroke="#fffaf7" stroke-width="1.4" />
           </svg>
-          What we actually do
-        </h2>
-        <p>
-          Every month we plant real, countable trees with
-          <strong>JUST ONE Tree</strong>, based on how much REPS was used that
-          month. One pound plants one tree. Real trees in the ground, not a
-          vague promise, and we can point to them. We have already started.
-        </p>
+          <span class="label">What we actually do</span>
+          <h2>Real trees. Every month. Counted.</h2>
+          <p>
+            Every month we plant real, countable trees with
+            <a
+              class="inline-link"
+              href="https://www.justonetree.life/"
+              target="_blank"
+              rel="noopener"
+              >JUST ONE Tree</a
+            >, based on how much REPS was used that month. One pound plants one
+            tree. Real trees in the ground, not a vague promise, and we can point
+            to them. We have already started.
+          </p>
 
-        <div class="split">
-          <div class="card">
-            <div class="num">1 to 3x</div>
-            <div class="cap">In the early years</div>
-            <div class="desc">
-              A young tree is only getting started, so it soaks up carbon
-              slowly. Even so, what we plant each month absorbs a few times more
-              than REPS's AI produces.
+          <div class="figures">
+            <div class="figure">
+              <div class="n">1&ndash;3<span class="x">&times;</span></div>
+              <div class="meta">
+                <div class="cap">More than we use, in the early years</div>
+                <div class="desc">
+                  A young tree is only getting started, so it soaks up carbon
+                  slowly. Even so, what we plant each month absorbs a few times
+                  more than REPS's AI produces.
+                </div>
+              </div>
+            </div>
+            <div class="figure">
+              <div class="n">~100<span class="x">&times;</span></div>
+              <div class="meta">
+                <div class="cap">More than we use, over a tree's life</div>
+                <div class="desc">
+                  As those trees grow, they pull out far more. Across everything
+                  we plant, that comes to roughly a hundred times more carbon
+                  than we produce.
+                </div>
+              </div>
             </div>
           </div>
-          <div class="card">
-            <div class="num">~100x</div>
-            <div class="cap">Over a tree's life</div>
-            <div class="desc">
-              As those trees grow, they pull out far more. Across everything we
-              plant, that comes to roughly a hundred times more carbon than we
-              produce.
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
+        </section>
+      </div>
+    </div>
 
-    <div class="shell">
-      <div class="band">
-        <h2>
-          <svg class="leaf" viewBox="0 0 24 24" aria-hidden="true">
-            <path
-              d="M12 3 C7 8 5 13 5 17 C5 20 8 21 12 21 C16 21 19 20 19 17 C19 13 17 8 12 3 Z"
-              fill="#4a90a4"
-            />
-          </svg>
-          Mangroves, and bringing water back
-        </h2>
+    <!-- FULL-BLEED ocean band: the stem has grown down to the water -->
+    <section class="ocean">
+      <svg
+        class="ocean-top"
+        viewBox="0 0 1200 40"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <path
+          d="M0 40 C200 8 380 8 600 26 C820 44 1000 20 1200 8 L1200 0 L0 0 Z"
+          fill="#fffaf7"
+        />
+      </svg>
+      <div class="wrap">
+        <span class="label">Mangroves &amp; water</span>
+        <h2>We help bring water back, too</h2>
         <p>
-          A big part of what drew us to JUST ONE Tree is mangroves. They plant
-          them on coastlines that have lost them, and they help regenerate the
-          oceans around them.
+          A big part of what drew us to
+          <a
+            class="inline-link"
+            href="https://www.justonetree.life/"
+            target="_blank"
+            rel="noopener"
+            >JUST ONE Tree</a
+          >
+          is mangroves. They plant them on coastlines that have lost them, and
+          they help regenerate the oceans around them.
         </p>
-        <p>
+        <p style="margin-top: 16px">
           Mangroves do more than almost any forest. They lock away carbon
           faster, they shield the coast from storms, and they bring water, fish,
           and life back to places that had lost them. A tree planted here helps
           bring a stretch of coastline back to life.
         </p>
       </div>
-    </div>
+      <svg
+        class="ocean-bottom"
+        viewBox="0 0 1200 40"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <path
+          d="M0 40 C200 8 380 8 600 26 C820 44 1000 20 1200 8 L1200 0 L0 0 Z"
+          fill="#fffaf7"
+        />
+      </svg>
+    </section>
 
-    <main class="shell">
-      <section style="border-top: none">
-        <div class="honest">
-          <span class="eyebrow">The honest part</span>
-          <h2 style="font-size: clamp(20px, 3.4vw, 26px)">
-            We only say what is true
-          </h2>
-          <ul>
-            <li>
-              We measure what our own app uses precisely, and we plant far more
-              than that. A little more in the early years while the trees are
-              young, and on the order of a hundred times more over their lives.
-            </li>
-            <li>
-              We will not repeat the scary numbers you may have seen online. The
-              popular claim that AI drinks a bottle of water per question is a
-              myth that was traced back to a maths error. The real figure is a
-              few drops.
-            </li>
-            <li>
-              This is not damage control. We give back more than we take, on
-              purpose, because we think that is the right way
-              to build.
-            </li>
-          </ul>
+    <div class="wrap">
+      <section class="stripe honest">
+        <span class="label">Doing our part</span>
+        <h2>We plant more than we use</h2>
+        <div class="rows">
+          <div class="row">
+            <div class="idx">01</div>
+            <p>
+              We look at what our app uses and plant far more than that. A little
+              more while the trees are young, and many times more as they grow.
+            </p>
+          </div>
+          <div class="row">
+            <div class="idx">02</div>
+            <p>
+              Our footprint is small, and we would rather give back more than we
+              take. We do it because we think that is the right way to build.
+            </p>
+          </div>
         </div>
       </section>
 
-      <section style="border-top: none; padding-top: 0">
-        <div class="partner">
-          <img
-            src="justonetree-logo.png"
-            alt="JUST ONE Tree"
-            width="368"
-            height="100"
-          />
-          <p>
-            We plant with JUST ONE Tree, a UK social enterprise reforesting the
-            planet and regenerating its oceans, one pound at a time.
-          </p>
+      <section class="partner">
+        <img
+          src="justonetree-logo.png"
+          alt="JUST ONE Tree"
+          width="368"
+          height="100"
+        />
+        <p>
+          We plant with
           <a
-            class="partner-link"
+            class="inline-link"
             href="https://www.justonetree.life/"
             target="_blank"
             rel="noopener"
-            >Visit JUST ONE Tree</a
-          >
-        </div>
-      </section>
-    </main>
-
-    <section class="cta">
-      <div class="shell">
-        <h2>Start growing your mind.</h2>
-        <p class="cta-sub">
-          Save anything you read, watch, or hear. REPS turns it into quick games
-          that help you remember it, and plants trees along the way.
+            >JUST ONE Tree</a
+          >, a UK social enterprise reforesting the planet and regenerating its
+          oceans, one pound at a time.
         </p>
         <a
-          class="appstore-btn"
-          href="https://apps.apple.com/app/id6759216018"
+          class="partner-link"
+          href="https://www.justonetree.life/"
           target="_blank"
           rel="noopener"
-          >Download on the App Store</a
+          >Visit JUST ONE Tree</a
         >
-        <p class="reassure">Free on the App Store.</p>
-      </div>
+      </section>
+    </div>
+
+    <section class="cta">
+      <h2>Start growing your mind.</h2>
+      <p class="cta-sub">
+        Save anything you read, watch, or hear. REPS turns it into quick games
+        that help you remember it, and plants trees along the way.
+      </p>
+      <a
+        class="appstore-btn"
+        href="https://apps.apple.com/app/id6759216018"
+        target="_blank"
+        rel="noopener"
+        >Download on the App Store</a
+      >
+      <p class="reassure">Free on the App Store.</p>
     </section>
 
     <footer>
