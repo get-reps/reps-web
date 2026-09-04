@@ -3,5 +3,6 @@ Disallow: /product-2026/
 Disallow: /investor-2026/
 Disallow: /get
 Disallow: /angel
+Disallow: /play/
 
 Sitemap: https://www.getreps.io/sitemap.xml

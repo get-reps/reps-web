@@ -1,0 +1,2431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Verbatim · REPS</title>
+<link rel="stylesheet" href="harness/device-harness.css" />
+<style>
+:root {
+  --unquote: #8C3B4A;
+  --unquote-tint: rgba(140,59,74,0.12);
+  --key-success-bg: #14B8A6;
+  --key-success-text: #FFFFFF;
+  --key-absent-bg: #E5E7EB;
+  --key-absent-text: #6B7280;
+  --key-absent-border: #D1D5DB;
+  --caption-ink: #6F645C;
+  --coral-ink: #D8443F;
+  --rk-key-size: 38.2px;
+  --rk-key-height: 71px;
+  --rk-mid-inset: 19.1px;
+  --rk-action-width: 58px;
+  --rk-key-font: 22px;
+  --rk-tile-w: 24px;
+  --rk-tile-h: 30px;
+  --rk-tile-font: 15px;
+  --rk-word-gap: 20px;
+  --rk-row-gap: 15px;
+}
+.uq-view {
+  display: none;
+}
+.uq-view.active {
+  display: block;
+}
+#uq-screen {
+  background: var(--cream);
+}
+.uq-header {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+}
+.uq-header__side {
+  width: 56px;
+  display: flex;
+  align-items: center;
+}
+.uq-header__side--right {
+  justify-content: flex-end;
+}
+.uq-back {
+  padding: 8px;
+  margin-left: -8px;
+  cursor: pointer;
+}
+.uq-back span {
+  font-size: 22px;
+  color: #2C3E50;
+  font-weight: 300;
+  line-height: 1;
+}
+.uq-header__center {
+  flex: 1;
+  text-align: center;
+}
+.uq-header__title {
+  font-family: var(--font-interaction);
+  font-size: 18px;
+  font-weight: 700;
+  color: #1F2937;
+}
+.uq-wordmark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(2px, 1vw, 4px);
+  flex-wrap: nowrap;
+  vertical-align: middle;
+  letter-spacing: normal;
+  text-transform: none;
+}
+.uq-wordmark--compact {
+  gap: clamp(1.5px, 0.7vw, 3px);
+}
+.uq-wordmark__tile {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: var(--uq-wm-tile);
+  height: var(--uq-wm-tile);
+  border-radius: 22%;
+  background: #F7E7E9;
+  border: 1.5px solid var(--unquote);
+  box-shadow: 0 1px 0 rgba(140, 59, 74, 0.26), 0 3px 7px rgba(140, 59, 74, 0.13);
+  font-family: var(--font-interaction);
+  font-weight: 800;
+  line-height: 1;
+  font-size: calc(var(--uq-wm-tile) * 0.58);
+  color: var(--unquote);
+}
+.uq-wordmark__tile.uq-wordmark__tile--accent {
+  background: #FFE6E0;
+  border-color: var(--coral-ink);
+  color: var(--coral-ink);
+  font-family: var(--font-interaction);
+  font-style: normal;
+  font-weight: 800;
+  font-size: calc(var(--uq-wm-tile) * 0.82);
+}
+.uq-wordmark--home {
+  --uq-wm-tile: clamp(13.5px, 4.3vw, 20px);
+}
+.uq-wordmark--compact {
+  --uq-wm-tile: clamp(18px, 5.8vw, 24px);
+}
+.uq-home-header {
+  padding: 6px 20px 2px;
+}
+.uq-greeting {
+  font-family: var(--font-content);
+  font-weight: 600;
+  font-size: 23px;
+  line-height: 28px;
+  color: #1F2933;
+}
+.uq-greeting em {
+  font-style: italic;
+  color: var(--coral);
+}
+.uq-stats {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 4px 12px;
+  margin: 0 16px 4px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+.uq-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.uq-stat__value {
+  font-family: var(--font-interaction);
+  font-size: 16px;
+  font-weight: 700;
+  color: #2C3E50;
+}
+.uq-stat__label {
+  font-family: var(--font-interaction);
+  font-size: 12px;
+  font-weight: 600;
+  color: #9CA3AF;
+}
+.uq-section-title {
+  margin: 22px 20px 10px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(42, 35, 32, 0.09);
+  font-family: var(--font-interaction);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #2C3E50;
+}
+.uq-teaser {
+  display: flex;
+  align-items: stretch;
+  gap: 16px;
+  padding: 22px 20px;
+  min-height: 128px;
+  border-top: 1px solid rgba(42, 35, 32, 0.07);
+  border-bottom: 1px solid rgba(42, 35, 32, 0.07);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.uq-teaser:active {
+  background: rgba(140, 59, 74, 0.04);
+}
+.uq-teaser__tile {
+  flex: 0 0 auto;
+  width: 72px;
+  height: 72px;
+  border-radius: 16px;
+  background: var(--unquote-tint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.uq-teaser__tile svg {
+  width: 34px;
+  height: 34px;
+  color: var(--unquote);
+}
+.uq-teaser__col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.uq-teaser__eyebrow {
+  font-family: var(--font-interaction);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--unquote);
+}
+.uq-teaser__headline {
+  font-family: var(--font-content);
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  color: #2C3E50;
+}
+.uq-teaser__meta {
+  margin-top: auto;
+  font-family: var(--font-interaction);
+  font-size: 13px;
+  color: #999;
+}
+.uq-filler {
+  padding: 20px;
+}
+.uq-filler-row {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 14px 0;
+}
+.uq-filler-row__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(44, 62, 80, 0.18);
+  flex: 0 0 auto;
+}
+.uq-filler-row__text {
+  font-family: var(--font-interaction);
+  font-size: 13px;
+  color: #9CA3AF;
+}
+.uq-tabbar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 84px;
+  padding: 8px 8px 16px;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  background: rgba(255, 255, 255, 0.95);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+.uq-tab {
+  width: 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding-top: 6px;
+}
+.uq-tab svg {
+  width: 22px;
+  height: 22px;
+}
+.uq-tab span {
+  font-family: var(--font-interaction);
+  font-size: 10px;
+  font-weight: 500;
+  color: #6B7280;
+}
+.uq-tab--active svg {
+  stroke: var(--coral);
+}
+.uq-tab--active span {
+  color: var(--coral);
+}
+.uq-home-scroll {
+  padding-bottom: 100px;
+}
+.uq-round-prompt {
+  padding: 8px 20px 12px;
+  text-align: center;
+}
+.uq-round-prompt__text {
+  font-family: var(--font-interaction);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.1px;
+  color: var(--unquote);
+}
+.uq-round-prompt__slots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  margin-top: 8px;
+  min-height: 9px;
+}
+.uq-round-slot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1.5px solid var(--unquote);
+  background: #FFFFFF;
+  flex: 0 0 auto;
+  transition: background-color 150ms ease, transform 120ms ease;
+}
+.uq-round-slot--filled {
+  background: var(--unquote);
+  transform: scale(1.08);
+}
+.uq-author-byline {
+  text-align: right;
+  margin: 8px 22px 10px;
+  font-family: var(--font-content);
+  font-style: italic;
+  font-size: 13.5px;
+  color: var(--caption-ink);
+}
+.uq-quote-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--rk-row-gap, 15px) var(--rk-word-gap);
+  padding: 16px 22px 10px;
+  align-items: flex-end;
+}
+.uq-word {
+  display: flex;
+  gap: 4px;
+}
+.uq-word--wrap {
+  flex-wrap: wrap;
+  row-gap: 6px;
+}
+.uq-hyphen {
+  margin: 0 1px 4px 1px;
+}
+.uq-tile {
+  width: var(--rk-tile-w);
+  height: var(--rk-tile-h);
+  border-radius: 4px;
+  background: rgba(33, 26, 20, 0.05);
+  border-bottom: 2px solid rgba(33, 26, 20, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+.uq-tile__letter {
+  font-family: var(--font-interaction);
+  font-weight: 700;
+  font-size: var(--rk-tile-font);
+  color: #2C3E50;
+  visibility: hidden;
+}
+.uq-tile.hit {
+  background: var(--unquote-tint);
+  border-bottom-color: var(--unquote);
+}
+.uq-tile.hit .uq-tile__letter {
+  visibility: visible;
+  color: var(--unquote);
+}
+.uq-tile.revealed-final:not(.hit) {
+  background: rgba(33, 26, 20, 0.07);
+  border-bottom-color: rgba(33, 26, 20, 0.22);
+}
+.uq-tile.revealed-final .uq-tile__letter {
+  visibility: visible;
+}
+.uq-tile.guessing {
+  background: rgba(44, 62, 80, 0.07);
+  border-bottom-color: rgba(44, 62, 80, 0.32);
+}
+.uq-tile.guessing .uq-tile__letter {
+  visibility: visible;
+  color: #2C3E50;
+}
+@keyframes uq-tile-pop {
+  0% {
+    transform: scale(0.72);
+    opacity: 0.25;
+  }
+  55% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.uq-tile--pop {
+  animation: uq-tile-pop 260ms cubic-bezier(.34, 1.56, .64, 1) both;
+}
+@keyframes uq-tile-flip {
+  0% {
+    transform: perspective(420px) rotateX(0deg) scale(1);
+  }
+  42% {
+    transform: perspective(420px) rotateX(88deg) scale(1);
+  }
+  54% {
+    transform: perspective(420px) rotateX(92deg) scale(1.05);
+  }
+  78% {
+    transform: perspective(420px) rotateX(0deg) scale(1.06);
+  }
+  100% {
+    transform: perspective(420px) rotateX(0deg) scale(1);
+  }
+}
+.uq-tile--flip {
+  animation: uq-tile-flip 360ms cubic-bezier(.45, 0, .2, 1) both;
+  backface-visibility: hidden;
+}
+.uq-punct {
+  align-self: flex-end;
+  font-family: var(--font-interaction);
+  font-weight: 700;
+  font-size: 15px;
+  color: #2C3E50;
+  margin: 0 1px 4px -3px;
+}
+.uq-keyboard {
+  background: var(--cream);
+  padding: 8px 6px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.uq-kbrow {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+}
+.uq-kbrow--mid {
+  padding: 0 var(--rk-mid-inset);
+}
+.uq-key {
+  flex: 1;
+  min-width: 0;
+  max-width: var(--rk-key-size);
+  height: var(--rk-key-height);
+  border-radius: 6px;
+  border: 1px solid #E5E7EB;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: background-color 150ms ease, opacity 150ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.uq-key span {
+  font-family: var(--font-interaction);
+  font-size: var(--rk-key-font);
+  font-weight: 700;
+  color: #1F2937;
+}
+.uq-key--selected {
+  position: relative;
+  border: 2px solid transparent;
+  background-image: linear-gradient(#FFFFFF, #FFFFFF), var(--cta-gradient);
+  background-origin: padding-box, border-box;
+  background-clip: padding-box, border-box;
+}
+.uq-key--selected span {
+  color: var(--coral-ink);
+}
+.uq-key--waiting {
+  pointer-events: none;
+}
+.uq-key--hit {
+  background: var(--key-success-bg);
+  border-color: var(--key-success-bg);
+  pointer-events: none;
+}
+.uq-key--hit span {
+  color: var(--key-success-text);
+}
+.uq-keyboard--guessing .uq-key--hit {
+  pointer-events: auto;
+  cursor: pointer;
+}
+.uq-key--miss {
+  background: var(--key-absent-bg);
+  border-color: var(--key-absent-border);
+  pointer-events: none;
+}
+.uq-key--miss span {
+  color: var(--key-absent-text);
+}
+@keyframes uq-key-shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-3px);
+  }
+  50% {
+    transform: translateX(3px);
+  }
+  75% {
+    transform: translateX(-2px);
+  }
+}
+.uq-key--miss-flash {
+  animation: uq-key-shake 240ms ease;
+}
+.uq-key--special {
+  flex: 0 0 var(--rk-action-width);
+  max-width: var(--rk-action-width);
+  opacity: 0.32;
+  pointer-events: none;
+  color: #9CA3AF;
+  transition: opacity 150ms ease, color 150ms ease;
+}
+.uq-key--special svg {
+  width: 19px;
+  height: 19px;
+  display: block;
+}
+.uq-key--special.uq-key--guess-active {
+  opacity: 1;
+  pointer-events: auto;
+  color: var(--unquote);
+}
+.uq-actions {
+  padding: 12px 20px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.uq-normal-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.uq-normal-controls.hide {
+  display: none;
+}
+.uq-guess-toggle {
+  width: auto;
+  margin: 0 auto;
+  padding: 9px 22px;
+  border-radius: 999px;
+  border: 1.5px solid var(--unquote);
+  background: #FFFFFF;
+  color: var(--unquote);
+  font-family: var(--font-interaction);
+  font-weight: 700;
+  font-size: 13.5px;
+  letter-spacing: 0.15px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: none;
+  transition:
+    opacity 150ms ease,
+    transform 150ms ease,
+    background-color 150ms ease;
+}
+.uq-guess-toggle:active {
+  transform: scale(0.97);
+  background: var(--unquote-tint);
+}
+.uq-guess-toggle[disabled] {
+  opacity: 0.35;
+  pointer-events: none;
+  transform: none;
+}
+.uq-submit-round {
+  display: block;
+  width: 100%;
+}
+.uq-submit-round[disabled] {
+  background: #F2E7E1;
+  color: #6B5E57;
+  opacity: 1;
+  box-shadow: none;
+  pointer-events: none;
+}
+.uq-guess-hint {
+  display: none;
+  margin-top: -2px;
+  text-align: center;
+  font-family: var(--font-interaction);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--caption-ink);
+}
+.uq-guess-hint.show {
+  display: block;
+}
+.uq-guess-controls {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+}
+.uq-guess-controls.show {
+  display: flex;
+}
+.uq-guess-note {
+  text-align: center;
+  margin: 0;
+  font-family: var(--font-interaction);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--unquote);
+}
+.uq-guess-btn-row {
+  display: flex;
+  gap: 12px;
+}
+.uq-guess-controls__cancel {
+  flex: 1;
+  padding: 15px 16px;
+  border-radius: 14px;
+  border: 1.5px solid var(--unquote);
+  background: #FFFFFF;
+  color: var(--unquote);
+  font-family: var(--font-interaction);
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 150ms ease;
+}
+.uq-guess-controls__cancel:active {
+  opacity: 0.6;
+}
+.uq-guess-controls__submit {
+  flex: 1;
+  padding: 15px 16px;
+  border-radius: 14px;
+  border: none;
+  background: var(--cta-gradient);
+  color: #FFFFFF;
+  font-family: var(--font-interaction);
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: var(--shadow-accent);
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+.uq-guess-controls__submit:active {
+  transform: scale(0.98);
+}
+.uq-guess-controls__submit[disabled] {
+  opacity: 0.4;
+  pointer-events: none;
+  box-shadow: none;
+  transform: none;
+}
+.uq-give-up {
+  display: none;
+  margin-top: 2px;
+  text-align: center;
+  font-family: var(--font-interaction);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--caption-ink);
+  cursor: pointer;
+  padding: 6px;
+  -webkit-tap-highlight-color: transparent;
+}
+.uq-give-up.show {
+  display: block;
+}
+.uq-give-up:active {
+  opacity: 0.6;
+}
+.uq-win {
+  padding: 8px 24px 40px;
+  text-align: center;
+}
+.uq-win-echo {
+  display: flex;
+  justify-content: center;
+  margin: 2px 0 2px;
+  animation: uq-reveal-in 420ms cubic-bezier(.16, .84, .44, 1) both;
+}
+.uq-win-eyebrow {
+  font-family: var(--font-interaction);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--unquote);
+  margin-bottom: 6px;
+}
+.uq-win-headline {
+  font-family: var(--font-interaction);
+  font-size: 22px;
+  font-weight: 800;
+  color: #2C3E50;
+  margin-bottom: 6px;
+}
+.uq-loss-framing {
+  margin: 0 0 28px;
+}
+@keyframes uq-reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.uq-win--organic {
+  text-align: left;
+  padding-top: 34px;
+  padding-bottom: 52px;
+  background-color: var(--cream);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.13  0 0 0 0 0.10  0 0 0 0 0.08  0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+.uq-win-echo-quiet {
+  display: flex;
+  justify-content: center;
+  margin: 2px 0 22px;
+  opacity: 0.92;
+  animation: uq-reveal-in 420ms cubic-bezier(.16, .84, .44, 1) both;
+}
+.uq-organic-quote {
+  margin: 0 0 46px;
+  animation: uq-reveal-in 520ms 80ms cubic-bezier(.16, .84, .44, 1) both;
+}
+.uq-organic-quote__text {
+  font-family: var(--font-content);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 27px;
+  line-height: 36px;
+  color: var(--warm-ink);
+}
+.uq-organic-quote__author {
+  margin-top: 14px;
+  text-align: right;
+  font-family: var(--font-content);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 14.5px;
+  color: var(--unquote);
+}
+.uq-organic-context {
+  margin: 0 0 42px;
+  animation: uq-reveal-in 520ms 200ms cubic-bezier(.16, .84, .44, 1) both;
+}
+.uq-organic-context__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.uq-organic-context__echo {
+  flex: 0 0 auto;
+  opacity: 0.9;
+}
+.uq-organic-context__label {
+  font-family: var(--font-interaction);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--unquote);
+}
+.uq-organic-context__body {
+  margin: 0 0 20px;
+  font-family: var(--font-interaction);
+  font-size: 15px;
+  line-height: 26px;
+  color: #3A322C;
+}
+.uq-organic-context__question {
+  margin: 0;
+  font-family: var(--font-interaction);
+  font-style: italic;
+  font-size: 14.5px;
+  line-height: 23px;
+  font-weight: 600;
+  color: var(--unquote);
+}
+.uq-win-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 0 0 30px;
+}
+.uq-readmore-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 14px;
+  border-radius: 18px;
+  background: #FFFFFF;
+  border: 1px solid rgba(140, 59, 74, 0.16);
+  box-shadow: 0 2px 8px rgba(33, 26, 20, 0.04);
+  text-align: left;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 150ms ease;
+}
+.uq-readmore-card:active {
+  background: #FBF6F1;
+}
+.uq-readmore-card__thumb {
+  flex: 0 0 auto;
+  width: 52px;
+  height: 68px;
+  border-radius: 10px;
+  overflow: hidden;
+  background:
+    linear-gradient(
+      150deg,
+      var(--unquote) 0%,
+      #5A2A45 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.uq-readmore-card__thumb svg {
+  width: 22px;
+  height: 22px;
+}
+.uq-readmore-card__col {
+  flex: 1;
+  min-width: 0;
+}
+.uq-readmore-card__title {
+  font-family: var(--font-content);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 20px;
+  color: #2C3E50;
+  margin-bottom: 3px;
+}
+.uq-readmore-card__meta {
+  font-family: var(--font-interaction);
+  font-size: 12.5px;
+  color: var(--caption-ink);
+}
+.uq-readmore-card__chevron {
+  flex: 0 0 auto;
+  font-family: var(--font-interaction);
+  font-size: 17px;
+  color: #9CA3AF;
+}
+.uq-save-link {
+  text-align: center;
+  margin-top: -2px;
+  font-family: var(--font-interaction);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--caption-ink);
+  cursor: pointer;
+  padding: 8px;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 150ms ease;
+}
+.uq-save-link:active {
+  opacity: 0.55;
+}
+.uq-home-link {
+  text-align: center;
+  font-family: var(--font-interaction);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--caption-ink);
+  cursor: pointer;
+  padding: 6px;
+}
+.uq-setdetail {
+  padding: 4px 20px 44px;
+}
+.uq-setdetail-hero {
+  width: 100%;
+  height: 132px;
+  border-radius: 20px;
+  margin: 10px 0 22px;
+  background:
+    linear-gradient(
+      150deg,
+      var(--unquote) 0%,
+      #5A2A45 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 26px rgba(140, 59, 74, 0.22);
+}
+.uq-setdetail-hero svg {
+  width: 44px;
+  height: 44px;
+}
+.uq-setdetail-title {
+  font-family: var(--font-content);
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 29px;
+  color: #2C3E50;
+  margin-bottom: 6px;
+}
+.uq-setdetail-meta {
+  font-family: var(--font-interaction);
+  font-size: 13.5px;
+  color: var(--caption-ink);
+  margin-bottom: 28px;
+}
+.uq-setdetail-section {
+  font-family: var(--font-interaction);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--unquote);
+  margin-bottom: 12px;
+}
+.uq-concept-list {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 32px;
+}
+.uq-concept-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(42, 35, 32, 0.08);
+}
+.uq-concept-row:last-child {
+  border-bottom: none;
+}
+.uq-concept-row__index {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: var(--unquote-tint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-interaction);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--unquote);
+}
+.uq-concept-row__title {
+  font-family: var(--font-content);
+  font-weight: 600;
+  font-size: 15.5px;
+  color: #2C3E50;
+}
+.uq-intro-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 120;
+  background: var(--cream);
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms ease;
+}
+.uq-intro-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+.uq-intro-scroll {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 26px 22px;
+  text-align: center;
+}
+.uq-intro-echo {
+  margin-bottom: 12px;
+}
+.uq-intro-title {
+  font-family: var(--font-interaction);
+  font-size: 22px;
+  font-weight: 800;
+  color: #3A322C;
+  margin-bottom: 22px;
+}
+.uq-intro-rules {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 300px;
+  text-align: left;
+}
+.uq-intro-rule {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.uq-intro-rule__text {
+  flex: 1;
+  font-family: var(--font-interaction);
+  font-size: 14.5px;
+  line-height: 21px;
+  color: #3A322C;
+}
+.uq-intro-rule__visual {
+  flex: 0 0 68px;
+  width: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.uq-intro-example-tiles {
+  display: flex;
+  gap: 4px;
+}
+.uq-intro-example-tile {
+  width: 20px;
+  height: 28px;
+  border-radius: 5px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(140, 59, 74, 0.16) 0%,
+      rgba(140, 59, 74, 0.10) 100%);
+  border-bottom: 2px solid var(--unquote);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.uq-intro-example-tile span {
+  font-family: var(--font-interaction);
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--unquote);
+}
+.uq-intro-example-tile--blank {
+  background: rgba(33, 26, 20, 0.05);
+  border-bottom-color: rgba(33, 26, 20, 0.22);
+}
+.uq-intro-example-tile--blank span {
+  font-family: var(--font-interaction);
+  font-weight: 700;
+  font-size: 11px;
+  color: var(--unquote);
+  opacity: 0.32;
+}
+.uq-intro-rule__icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(140, 59, 74, 0.14) 0%,
+      rgba(140, 59, 74, 0.08) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.uq-intro-rule__icon svg {
+  width: 19px;
+  height: 19px;
+  color: var(--unquote);
+}
+.uq-intro-rule__icon span {
+  font-family: var(--font-interaction);
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--unquote);
+}
+.uq-intro-example-tiles--hidden .uq-intro-example-tile {
+  width: 16px;
+}
+.uq-intro-lit-tile {
+  width: 26px;
+  height: 32px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--unquote-tint);
+  border-bottom: 2px solid var(--unquote);
+  box-shadow: 0 0 0 4px rgba(140, 59, 74, 0.10);
+}
+.uq-intro-lit-tile span {
+  font-family: var(--font-interaction);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--unquote);
+}
+.uq-intro-example-tile--teal {
+  background: rgba(45, 131, 119, 0.16);
+  border-bottom-color: #2D8377;
+}
+.uq-intro-example-tile--teal span {
+  color: #2D8377;
+}
+.uq-intro-example-letters {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+}
+.uq-intro-example-letter {
+  width: 16px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-interaction);
+  font-weight: 700;
+  font-size: 13px;
+  color: #3A322C;
+}
+.uq-intro-countdown {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 28px;
+}
+.uq-intro-countdown span {
+  display: block;
+  width: 6px;
+  border-radius: 2px 2px 0 0;
+  background: var(--unquote);
+}
+.uq-intro-countdown span:nth-child(1) {
+  height: 28px;
+  opacity: 0.95;
+}
+.uq-intro-countdown span:nth-child(2) {
+  height: 22px;
+  opacity: 0.85;
+}
+.uq-intro-countdown span:nth-child(3) {
+  height: 16px;
+  opacity: 0.72;
+}
+.uq-intro-countdown span:nth-child(4) {
+  height: 11px;
+  opacity: 0.58;
+}
+.uq-intro-countdown span:nth-child(5) {
+  height: 6px;
+  opacity: 0.42;
+}
+.uq-intro-cta-wrap {
+  padding: 18px 24px calc(var(--safe-bottom, 34px) + 18px);
+}
+.uq-intro-signoff {
+  margin-top: 26px;
+  font-family: var(--font-interaction);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--caption-ink);
+}
+.uq-toast {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 112px;
+  z-index: 80;
+  padding: 13px 18px;
+  border-radius: 14px;
+  background: rgba(33, 26, 20, 0.92);
+  color: #fff;
+  font-family: var(--font-interaction);
+  font-size: 13.5px;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+.uq-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.uq-sheet-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 90;
+  background: rgba(20, 14, 10, 0.44);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms ease;
+}
+.uq-sheet-scrim.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+.uq-sheet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 91;
+  background: #F5F0EB;
+  border-radius: 22px 22px 0 0;
+  padding: 10px 20px calc(var(--safe-bottom, 34px) + 14px);
+  transform: translateY(102%);
+  transition: transform 280ms cubic-bezier(.16, .84, .44, 1);
+  box-shadow: 0 -10px 32px rgba(0, 0, 0, 0.20);
+}
+.uq-sheet.show {
+  transform: translateY(0);
+}
+.uq-sheet__handle {
+  width: 36px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(33, 26, 20, 0.18);
+  margin: 6px auto 16px;
+}
+.uq-sheet__title {
+  font-family: var(--font-interaction);
+  font-size: 16px;
+  font-weight: 800;
+  color: #2C3E50;
+  margin-bottom: 4px;
+}
+.uq-sheet__subtitle {
+  font-family: var(--font-interaction);
+  font-size: 12.5px;
+  line-height: 17px;
+  color: var(--caption-ink);
+  margin-bottom: 16px;
+}
+.uq-sheet__payload {
+  margin: 0 0 16px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  font-family:
+    "SF Mono",
+    "Menlo",
+    Consolas,
+    monospace;
+  font-size: 13px;
+  line-height: 20px;
+  color: #2C3E50;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.uq-sheet__link-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 12px;
+  border-radius: 12px;
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  margin-bottom: 16px;
+}
+.uq-sheet__link-icon {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  color: var(--unquote);
+  display: flex;
+}
+.uq-sheet__link-col {
+  min-width: 0;
+}
+.uq-sheet__link-url {
+  font-family: var(--font-interaction);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #2C3E50;
+}
+.uq-sheet__link-note {
+  margin-top: 2px;
+  font-family: var(--font-interaction);
+  font-size: 11.5px;
+  color: var(--caption-ink);
+  line-height: 15px;
+}
+.uq-sheet__actions {
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 14px;
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+.uq-sheet__action {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  background: none;
+  border: none;
+  text-align: left;
+}
+.uq-sheet__action:active {
+  background: rgba(0, 0, 0, 0.03);
+}
+.uq-sheet__action-icon {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2C3E50;
+  flex: 0 0 auto;
+}
+.uq-sheet__action-label {
+  font-family: var(--font-interaction);
+  font-size: 15px;
+  color: #2C3E50;
+}
+.uq-sheet__cancel {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  background: #FFFFFF;
+  color: #2C3E50;
+  font-family: var(--font-interaction);
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+#uq-confetti-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0;
+}
+
+</style>
+</head>
+<body class="harness-stage">
+  <div class="fit-device">
+  <div class="device">
+
+    <div class="screen" id="uq-screen">
+
+      <div class="uq-view" data-view="home">
+        <div class="uq-home-scroll">
+          <div class="uq-home-header">
+            <div class="uq-greeting">Good evening, <em>friend</em></div>
+          </div>
+          <div class="uq-stats">
+            <div class="uq-stat"><span class="uq-stat__value">🔥 12</span><span class="uq-stat__label">STREAK</span></div>
+            <div class="uq-stat"><span class="uq-stat__value">847</span><span class="uq-stat__label">CONCEPTS</span></div>
+            <div class="uq-stat"><span class="uq-stat__value">96%</span><span class="uq-stat__label">RETENTION</span></div>
+          </div>
+
+          <div class="uq-section-title">Today's Games</div>
+          <div class="uq-teaser" id="uq-home-teaser" role="button" aria-label="Play today's Verbatim">
+            <div class="uq-teaser__tile">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <g fill="currentColor">
+                  <circle cx="7" cy="10" r="3.2"/>
+                  <path d="M8.6 12.6c.3 2.6-1.1 4.8-3.6 5.8a1 1 0 0 0 .7 1.9c3.3-1.2 5.4-3.9 5.4-7.7a5 5 0 0 0-.15-1.2z"/>
+                  <circle cx="17" cy="10" r="3.2"/>
+                  <path d="M18.6 12.6c.3 2.6-1.1 4.8-3.6 5.8a1 1 0 0 0 .7 1.9c3.3-1.2 5.4-3.9 5.4-7.7a5 5 0 0 0-.15-1.2z"/>
+                </g>
+              </svg>
+            </div>
+            <div class="uq-teaser__col">
+              <div class="uq-teaser__eyebrow">Games ·&nbsp;<span class="uq-wordmark uq-wordmark--home" role="img" aria-label="Verbatim"><span class="uq-wordmark__tile" aria-hidden="true">V</span><span class="uq-wordmark__tile" aria-hidden="true">E</span><span class="uq-wordmark__tile" aria-hidden="true">R</span><span class="uq-wordmark__tile" aria-hidden="true">B</span><span class="uq-wordmark__tile" aria-hidden="true">A</span><span class="uq-wordmark__tile" aria-hidden="true">T</span><span class="uq-wordmark__tile" aria-hidden="true">I</span><span class="uq-wordmark__tile" aria-hidden="true">M</span></span></div>
+              <div class="uq-teaser__headline">Today’s quote: Thomas Edison</div>
+              <div class="uq-teaser__meta" id="uq-home-teaser-meta">Guess it, letter by letter · 5 rounds</div>
+            </div>
+          </div>
+
+          <div class="uq-filler">
+            <div class="uq-filler-row"><div class="uq-filler-row__dot"></div><div class="uq-filler-row__text">Your feed continues below with today's saves…</div></div>
+            <div class="uq-filler-row"><div class="uq-filler-row__dot"></div><div class="uq-filler-row__text">(this prototype focuses on Verbatim, the rest of Home is illustrative)</div></div>
+          </div>
+        </div>
+
+        <div class="uq-tabbar">
+          <div class="uq-tab uq-tab--active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9h5v-5h2v5h5v-9"/></svg>
+            <span>Home</span>
+          </div>
+          <div class="uq-tab">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="m15 9-2 6-6 2 2-6z"/></svg>
+            <span>Discover</span>
+          </div>
+          <div class="uq-tab">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8.5" cy="8" r="3"/><path d="M2.5 19c0-3 2.7-5.3 6-5.3s6 2.3 6 5.3"/><circle cx="17" cy="9.5" r="2.4"/><path d="M14.5 19c.3-2.3 2.2-4 4.4-4 2 0 3.7 1.2 4.3 3"/></svg>
+            <span>Social</span>
+          </div>
+          <div class="uq-tab">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c0-4 3.4-6.5 7.5-6.5s7.5 2.5 7.5 6.5"/></svg>
+            <span>Profile</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="uq-view active" data-view="game">
+        <div class="uq-header">
+          <div class="uq-header__side"><div class="uq-back" data-nav="home"><span>&lt;</span></div></div>
+          <div class="uq-header__center"><div class="uq-header__title"><span class="uq-wordmark uq-wordmark--compact" role="img" aria-label="Verbatim"><span class="uq-wordmark__tile" aria-hidden="true">V</span><span class="uq-wordmark__tile" aria-hidden="true">E</span><span class="uq-wordmark__tile" aria-hidden="true">R</span><span class="uq-wordmark__tile" aria-hidden="true">B</span><span class="uq-wordmark__tile" aria-hidden="true">A</span><span class="uq-wordmark__tile" aria-hidden="true">T</span><span class="uq-wordmark__tile" aria-hidden="true">I</span><span class="uq-wordmark__tile" aria-hidden="true">M</span></span></div></div>
+          <div class="uq-header__side uq-header__side--right"></div>
+        </div>
+
+        <div class="uq-round-prompt" id="uq-round-prompt">
+          <div class="uq-round-prompt__text" id="uq-round-prompt-text">Round 1 of 5 · pick 5 letters</div>
+          <div class="uq-round-prompt__slots" id="uq-round-prompt-slots"></div>
+        </div>
+
+        <div class="uq-quote-grid" id="uq-quote-grid"></div>
+        <div class="uq-author-byline" id="uq-author-byline">- Thomas Edison</div>
+
+        <div class="uq-keyboard" id="uq-keyboard"></div>
+
+        <div class="uq-actions">
+          <div class="uq-normal-controls" id="uq-normal-controls">
+            <button class="uq-guess-toggle" id="uq-guess-toggle" disabled>Blind guess</button>
+            <button class="cta uq-submit-round" id="uq-submit-round" disabled>Uncover letters</button>
+            <div class="uq-guess-hint" id="uq-guess-hint"></div>
+          </div>
+
+          <div class="uq-guess-controls" id="uq-guess-controls">
+            <div class="uq-guess-note" id="uq-guess-note">Round 1/5 - one guess this round</div>
+            <div class="uq-guess-btn-row">
+              <button class="uq-guess-controls__cancel" id="uq-guess-cancel-link">Cancel</button>
+              <button class="uq-guess-controls__submit" id="uq-guess-submit-btn" disabled>Submit guess</button>
+            </div>
+          </div>
+
+          <div class="uq-give-up" id="uq-give-up-link" role="button">Reveal the answer</div>
+        </div>
+      </div>
+
+      <div class="uq-view" data-view="win">
+        <div class="uq-header">
+          <div class="uq-header__side"><div class="uq-back" data-nav="home"><span>&lt;</span></div></div>
+          <div class="uq-header__center"><div class="uq-header__title"><span class="uq-wordmark uq-wordmark--compact" role="img" aria-label="Verbatim"><span class="uq-wordmark__tile" aria-hidden="true">V</span><span class="uq-wordmark__tile" aria-hidden="true">E</span><span class="uq-wordmark__tile" aria-hidden="true">R</span><span class="uq-wordmark__tile" aria-hidden="true">B</span><span class="uq-wordmark__tile" aria-hidden="true">A</span><span class="uq-wordmark__tile" aria-hidden="true">T</span><span class="uq-wordmark__tile" aria-hidden="true">I</span><span class="uq-wordmark__tile" aria-hidden="true">M</span></span></div></div>
+          <div class="uq-header__side uq-header__side--right"></div>
+        </div>
+        <div class="uq-win uq-win--organic">
+
+          <div class="uq-organic-quote">
+            <div class="uq-organic-quote__text">&ldquo;Genius is one percent inspiration, ninety-nine percent perspiration&rdquo;</div>
+            <div class="uq-organic-quote__author">- Thomas Edison</div>
+          </div>
+
+          <div class="uq-organic-context">
+            <div class="uq-organic-context__head">
+              <canvas class="uq-organic-context__echo" data-echo-perched data-pose="thinking" data-size="26"></canvas>
+              <div class="uq-organic-context__label">Echo's take</div>
+            </div>
+            <p class="uq-organic-context__body">On this day in 1882, Thomas Edison threw the switch on the first commercial power station and lit up lower Manhattan, the start of the electrical age. His most famous line is really about what that took: the spark of an idea counts for almost nothing next to the years of work that make it real.</p>
+            <p class="uq-organic-context__question">What are you waiting to feel inspired to do, when it really just needs the work?</p>
+          </div>
+
+          <div class="uq-win-actions">
+            <button class="cta" id="uq-win-share-btn">Share your result</button>
+
+            <a class="uq-readmore-card" id="uq-win-learn-more" href="https://www.nyhistory.org/blogs/edison-lit-manhattan" target="_blank" rel="noopener">
+              <div class="uq-readmore-card__thumb">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <g fill="rgba(255,255,255,0.85)">
+                    <circle cx="7" cy="10" r="3.2"/>
+                    <path d="M8.6 12.6c.3 2.6-1.1 4.8-3.6 5.8a1 1 0 0 0 .7 1.9c3.3-1.2 5.4-3.9 5.4-7.7a5 5 0 0 0-.15-1.2z"/>
+                    <circle cx="17" cy="10" r="3.2"/>
+                    <path d="M18.6 12.6c.3 2.6-1.1 4.8-3.6 5.8a1 1 0 0 0 .7 1.9c3.3-1.2 5.4-3.9 5.4-7.7a5 5 0 0 0-.15-1.2z"/>
+                  </g>
+                </svg>
+              </div>
+              <div class="uq-readmore-card__col">
+                <div class="uq-readmore-card__title">Edison Lights Up Manhattan</div>
+                <div class="uq-readmore-card__meta">A REPS set · 6 concepts</div>
+              </div>
+              <div class="uq-readmore-card__chevron" aria-hidden="true">&nearr;</div>
+            </a>
+
+            <div class="uq-save-link" id="uq-win-save" role="button">Save quote</div>
+          </div>
+
+          <div class="uq-home-link" data-nav="home">Back to Home</div>
+        </div>
+      </div>
+
+      <div class="uq-view" data-view="loss">
+        <div class="uq-header">
+          <div class="uq-header__side"><div class="uq-back" data-nav="home"><span>&lt;</span></div></div>
+          <div class="uq-header__center"><div class="uq-header__title"><span class="uq-wordmark uq-wordmark--compact" role="img" aria-label="Verbatim"><span class="uq-wordmark__tile" aria-hidden="true">V</span><span class="uq-wordmark__tile" aria-hidden="true">E</span><span class="uq-wordmark__tile" aria-hidden="true">R</span><span class="uq-wordmark__tile" aria-hidden="true">B</span><span class="uq-wordmark__tile" aria-hidden="true">A</span><span class="uq-wordmark__tile" aria-hidden="true">T</span><span class="uq-wordmark__tile" aria-hidden="true">I</span><span class="uq-wordmark__tile" aria-hidden="true">M</span></span></div></div>
+          <div class="uq-header__side uq-header__side--right"></div>
+        </div>
+        <div class="uq-win uq-win--organic">
+
+          <div class="uq-loss-framing">
+            <div class="uq-win-eyebrow">Today's quote got away</div>
+            <div class="uq-win-headline">You'll get the next one</div>
+          </div>
+
+          <div class="uq-organic-quote">
+            <div class="uq-organic-quote__text">&ldquo;Genius is one percent inspiration, ninety-nine percent perspiration&rdquo;</div>
+            <div class="uq-organic-quote__author">- Thomas Edison</div>
+          </div>
+
+          <div class="uq-organic-context">
+            <div class="uq-organic-context__head">
+              <canvas class="uq-organic-context__echo" data-echo-perched data-pose="sad" data-size="26"></canvas>
+              <div class="uq-organic-context__label">Echo's take</div>
+            </div>
+            <p class="uq-organic-context__body">On this day in 1882, Thomas Edison threw the switch on the first commercial power station and lit up lower Manhattan, the start of the electrical age. His most famous line is really about what that took: the spark of an idea counts for almost nothing next to the years of work that make it real.</p>
+            <p class="uq-organic-context__question">What are you waiting to feel inspired to do, when it really just needs the work?</p>
+          </div>
+
+          <div class="uq-win-actions">
+            <button class="cta" id="uq-loss-share-btn">Share your result</button>
+
+            <a class="uq-readmore-card" id="uq-loss-learn-more" href="https://www.nyhistory.org/blogs/edison-lit-manhattan" target="_blank" rel="noopener">
+              <div class="uq-readmore-card__thumb">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <g fill="rgba(255,255,255,0.85)">
+                    <circle cx="7" cy="10" r="3.2"/>
+                    <path d="M8.6 12.6c.3 2.6-1.1 4.8-3.6 5.8a1 1 0 0 0 .7 1.9c3.3-1.2 5.4-3.9 5.4-7.7a5 5 0 0 0-.15-1.2z"/>
+                    <circle cx="17" cy="10" r="3.2"/>
+                    <path d="M18.6 12.6c.3 2.6-1.1 4.8-3.6 5.8a1 1 0 0 0 .7 1.9c3.3-1.2 5.4-3.9 5.4-7.7a5 5 0 0 0-.15-1.2z"/>
+                  </g>
+                </svg>
+              </div>
+              <div class="uq-readmore-card__col">
+                <div class="uq-readmore-card__title">Edison Lights Up Manhattan</div>
+                <div class="uq-readmore-card__meta">A REPS set · 6 concepts</div>
+              </div>
+              <div class="uq-readmore-card__chevron" aria-hidden="true">&nearr;</div>
+            </a>
+
+            <div class="uq-save-link" id="uq-loss-save" role="button">Save quote</div>
+          </div>
+
+          <div class="uq-home-link" data-nav="home">Back to Home</div>
+        </div>
+      </div>
+
+      <div class="uq-view" data-view="set-detail">
+        <div class="uq-header">
+          <div class="uq-header__side"><div class="uq-back" id="uq-setdetail-back"><span>&lt;</span></div></div>
+          <div class="uq-header__center"><div class="uq-header__title">Edison Lights Up Manhattan</div></div>
+          <div class="uq-header__side uq-header__side--right"></div>
+        </div>
+        <div class="uq-setdetail">
+          <div class="uq-setdetail-hero">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <g fill="rgba(255,255,255,0.9)">
+                <circle cx="7" cy="10" r="3.2"/>
+                <path d="M8.6 12.6c.3 2.6-1.1 4.8-3.6 5.8a1 1 0 0 0 .7 1.9c3.3-1.2 5.4-3.9 5.4-7.7a5 5 0 0 0-.15-1.2z"/>
+                <circle cx="17" cy="10" r="3.2"/>
+                <path d="M18.6 12.6c.3 2.6-1.1 4.8-3.6 5.8a1 1 0 0 0 .7 1.9c3.3-1.2 5.4-3.9 5.4-7.7a5 5 0 0 0-.15-1.2z"/>
+              </g>
+            </svg>
+          </div>
+          <div class="uq-setdetail-title">Edison Lights Up Manhattan</div>
+          <div class="uq-setdetail-meta">A REPS set · 6 concepts</div>
+
+          <div class="uq-setdetail-section">Concepts</div>
+          <div class="uq-concept-list">
+            <div class="uq-concept-row"><div class="uq-concept-row__index">1</div><div class="uq-concept-row__title">The Wizard of Menlo Park</div></div>
+            <div class="uq-concept-row"><div class="uq-concept-row__index">2</div><div class="uq-concept-row__title">Inventing the Light Bulb</div></div>
+            <div class="uq-concept-row"><div class="uq-concept-row__index">3</div><div class="uq-concept-row__title">Building Pearl Street Station</div></div>
+            <div class="uq-concept-row"><div class="uq-concept-row__index">4</div><div class="uq-concept-row__title">Lighting Lower Manhattan</div></div>
+            <div class="uq-concept-row"><div class="uq-concept-row__index">5</div><div class="uq-concept-row__title">The War of the Currents</div></div>
+            <div class="uq-concept-row"><div class="uq-concept-row__index">6</div><div class="uq-concept-row__title">Edison's Lasting Legacy</div></div>
+          </div>
+
+          <button class="cta" id="uq-setdetail-train">Train this set</button>
+        </div>
+      </div>
+
+    </div>
+    <div class="uq-toast" id="uq-toast"></div>
+
+    <div class="uq-sheet-scrim" id="uq-sheet-scrim"></div>
+    <div class="uq-sheet" id="uq-share-sheet" role="dialog" aria-label="Share payload preview">
+      <div class="uq-sheet__handle"></div>
+      <div class="uq-sheet__title">This is what gets shared</div>
+      <div class="uq-sheet__subtitle">The exact message the native share sheet hands to Messages, WhatsApp, Mail, or anywhere else.</div>
+
+      <pre class="uq-sheet__payload" id="uq-sheet-payload"></pre>
+
+      <div class="uq-sheet__link-row">
+        <div class="uq-sheet__link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 15a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M15 9a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg></div>
+        <div class="uq-sheet__link-col">
+          <div class="uq-sheet__link-url">getreps.io/play/verbatim</div>
+          <div class="uq-sheet__link-note">Opens the REPS app if installed, or plays right in the browser</div>
+        </div>
+      </div>
+
+      <div class="uq-sheet__actions">
+        <button class="uq-sheet__action" type="button" id="uq-sheet-copy-action">
+          <span class="uq-sheet__action-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></span>
+          <span class="uq-sheet__action-label">Copy</span>
+        </button>
+      </div>
+      <button class="uq-sheet__cancel" type="button" id="uq-sheet-cancel">Done</button>
+    </div>
+
+    <div class="uq-intro-overlay" id="uq-intro-overlay" role="dialog" aria-label="How to play Verbatim">
+      <div class="uq-intro-scroll">
+        <canvas class="uq-intro-echo" data-echo-perched data-pose="wave" data-size="64"></canvas>
+        <div class="uq-intro-title">How to play</div>
+
+        <div class="uq-intro-rules">
+          <div class="uq-intro-rule">
+            <div class="uq-intro-rule__visual">
+              <div class="uq-intro-example-tiles uq-intro-example-tiles--hidden">
+                <div class="uq-intro-example-tile uq-intro-example-tile--blank"><span>?</span></div>
+                <div class="uq-intro-example-tile uq-intro-example-tile--blank"><span>?</span></div>
+                <div class="uq-intro-example-tile uq-intro-example-tile--blank"><span>?</span></div>
+              </div>
+            </div>
+            <div class="uq-intro-rule__text">A famous quote is waiting to be uncovered</div>
+          </div>
+
+          <div class="uq-intro-rule">
+            <div class="uq-intro-rule__visual">
+              <div class="uq-intro-example-letters" aria-hidden="true">
+                <div class="uq-intro-example-letter">T</div>
+                <div class="uq-intro-example-letter">B</div>
+                <div class="uq-intro-example-letter">E</div>
+              </div>
+            </div>
+            <div class="uq-intro-rule__text">Up to five rounds picking letters to reveal in the quote</div>
+          </div>
+
+          <div class="uq-intro-rule">
+            <div class="uq-intro-rule__visual">
+              <div class="uq-intro-example-tiles uq-intro-example-tiles--hidden" aria-hidden="true">
+                <div class="uq-intro-example-tile uq-intro-example-tile--teal"><span>B</span></div>
+                <div class="uq-intro-example-tile uq-intro-example-tile--blank"><span>?</span></div>
+                <div class="uq-intro-example-tile uq-intro-example-tile--teal"><span>T</span></div>
+              </div>
+            </div>
+            <div class="uq-intro-rule__text">Letters present are revealed in each round</div>
+          </div>
+
+          <div class="uq-intro-rule">
+            <div class="uq-intro-rule__visual">
+              <div class="uq-intro-countdown" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+            </div>
+            <div class="uq-intro-rule__text">Fewer picks as you go: 5, then 4, 3, 2, 1.</div>
+          </div>
+
+          <div class="uq-intro-rule">
+            <div class="uq-intro-rule__visual">
+              <div class="uq-intro-rule__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v5.4a5 5 0 0 1-10 0V4Z"/><path d="M17 5.6h2.6c0 2.6-1.2 4.1-3.1 4.5"/><path d="M7 5.6H4.4c0 2.6 1.2 4.1 3.1 4.5"/><path d="M12 14.4V18"/><path d="M8.4 20.4h7.2"/></svg></div>
+            </div>
+            <div class="uq-intro-rule__text">You can guess the quote once per round.</div>
+          </div>
+        </div>
+
+        <div class="uq-intro-signoff">Happy quoting <span aria-hidden="true">🙂</span></div>
+      </div>
+
+      <div class="uq-intro-cta-wrap">
+        <button class="cta" id="uq-intro-cta">Got it, let's play</button>
+      </div>
+    </div>
+
+    <canvas id="uq-confetti-canvas" aria-hidden="true"></canvas>
+
+  </div>
+  </div>
+
+  <script src="harness/echo.js"></script>
+  <script src="harness/echo-perched.js"></script>
+  <script>
+(function() {
+  "use strict";
+  var QUOTE_TEXT = "Genius is one percent inspiration, ninety-nine percent perspiration";
+  var ROUND_PICKS = [5, 4, 3, 2, 1];
+  function showView(name) {
+    document.querySelectorAll(".uq-view").forEach(function(v) {
+      v.classList.toggle("active", v.getAttribute("data-view") === name);
+    });
+    document.getElementById("uq-screen").scrollTop = 0;
+    if (name === "game" && typeof fitGameScreen === "function") fitGameScreen();
+  }
+  document.querySelectorAll("[data-nav]").forEach(function(el) {
+    el.addEventListener("click", function() {
+      showView(el.getAttribute("data-nav"));
+    });
+  });
+  document.getElementById("uq-home-teaser").addEventListener("click", function() {
+    var target = gameWon ? "win" : gameLost ? "loss" : "game";
+    showView(target);
+    if (target === "game") openIntro();
+  });
+  var toastTimer;
+  function showToast(msg) {
+    var el = document.getElementById("uq-toast");
+    el.textContent = msg;
+    el.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function() {
+      el.classList.remove("show");
+    }, 2200);
+  }
+  var lettersToTiles = {};
+  var quoteLetterSet = {};
+  (function buildGrid() {
+    var grid = document.getElementById("uq-quote-grid");
+    var words = QUOTE_TEXT.split(" ");
+    words.forEach(function(word) {
+      var wordEl = document.createElement("div");
+      wordEl.className = "uq-word";
+      for (var i = 0; i < word.length; i++) {
+        var ch = word[i];
+        if (/[A-Za-z]/.test(ch)) {
+          var upper = ch.toUpperCase();
+          var tile = document.createElement("div");
+          tile.className = "uq-tile";
+          tile.dataset.true = upper;
+          tile.innerHTML = '<span class="uq-tile__letter">' + upper + "</span>";
+          wordEl.appendChild(tile);
+          (lettersToTiles[upper] = lettersToTiles[upper] || []).push(tile);
+          quoteLetterSet[upper] = true;
+        } else {
+          var p = document.createElement("span");
+          p.className = "uq-punct";
+          p.textContent = ch;
+          wordEl.appendChild(p);
+        }
+      }
+      grid.appendChild(wordEl);
+    });
+  })();
+  var KB_ROWS = [
+    ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
+    ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
+    ["Z", "X", "C", "V", "B", "N", "M"]
+  ];
+  var keyEls = {};
+  (function buildKeyboard() {
+    var host = document.getElementById("uq-keyboard");
+    KB_ROWS.forEach(function(row, ri) {
+      var rowEl = document.createElement("div");
+      rowEl.className = "uq-kbrow" + (ri === 1 ? " uq-kbrow--mid" : "");
+      row.forEach(function(letter) {
+        var key = document.createElement("div");
+        key.className = "uq-key";
+        key.innerHTML = "<span>" + letter + "</span>";
+        key.addEventListener("click", function() {
+          tapLetter(letter);
+        });
+        keyEls[letter] = key;
+        rowEl.appendChild(key);
+      });
+      if (ri === 2) {
+        var bsKey = document.createElement("div");
+        bsKey.className = "uq-key uq-key--special";
+        bsKey.id = "uq-key-backspace";
+        bsKey.setAttribute("aria-label", "Backspace");
+        bsKey.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5H20a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H9l-6-7z"/><path d="M13 10l4 4M17 10l-4 4"/></svg>';
+        bsKey.addEventListener("click", function() {
+          handleGuessBackspace();
+        });
+        rowEl.appendChild(bsKey);
+      }
+      host.appendChild(rowEl);
+    });
+  })();
+  function applyResponsiveSizing(s) {
+    if (typeof s !== "number" || isNaN(s)) s = 1;
+    s = Math.max(0, Math.min(1, s));
+    var device = document.querySelector(".device");
+    var w = device && device.clientWidth || window.innerWidth || 390;
+    var root = document.documentElement.style;
+    var TILE_CAP_MAX = 24, TILE_CAP_MIN = 14;
+    var KEY_RATIO_MAX = 1.859, KEY_RATIO_MIN = 1.35;
+    var ROW_GAP_MAX = 15, ROW_GAP_MIN = 8;
+    var tileCap = TILE_CAP_MIN + (TILE_CAP_MAX - TILE_CAP_MIN) * s;
+    var keyRatio = KEY_RATIO_MIN + (KEY_RATIO_MAX - KEY_RATIO_MIN) * s;
+    var rowGap = ROW_GAP_MIN + (ROW_GAP_MAX - ROW_GAP_MIN) * s;
+    var KB_SIDE_PAD = 12;
+    var KB_GAP = 4;
+    var rowWidth = w - KB_SIDE_PAD;
+    var keySize = Math.min(40, (rowWidth - 9 * KB_GAP) / 10);
+    keySize = Math.max(keySize, 16);
+    var keyHeight = Math.round(keySize * keyRatio);
+    var midRowInset = keySize * 0.5;
+    var actionKeyWidth = Math.min(58, keySize * 1.55);
+    var keyFont = Math.max(11, Math.round(keySize * 0.576));
+    root.setProperty("--rk-key-size", keySize + "px");
+    root.setProperty("--rk-key-height", keyHeight + "px");
+    root.setProperty("--rk-mid-inset", midRowInset + "px");
+    root.setProperty("--rk-action-width", actionKeyWidth + "px");
+    root.setProperty("--rk-key-font", keyFont + "px");
+    root.setProperty("--rk-row-gap", rowGap + "px");
+    var gridEl = document.getElementById("uq-quote-grid");
+    var gridAvailable = gridEl ? gridEl.clientWidth - 44 : w - 44;
+    var LETTER_GAP = 4;
+    var longestWord = 1;
+    var wordEls = document.querySelectorAll(".uq-word");
+    wordEls.forEach(function(wordEl) {
+      var n = wordEl.querySelectorAll(".uq-tile").length;
+      if (n > longestWord) longestWord = n;
+    });
+    var maxTileForWord = (gridAvailable - (longestWord - 1) * LETTER_GAP) / longestWord;
+    var tileW = Math.min(tileCap, maxTileForWord);
+    tileW = Math.max(tileW, 14);
+    var tileH = Math.round(tileW * 1.25);
+    var tileFont = Math.max(10, Math.round(tileW * 0.625));
+    var wordGap = Math.max(10, Math.min(20, tileW * 0.83));
+    root.setProperty("--rk-tile-w", tileW + "px");
+    root.setProperty("--rk-tile-h", tileH + "px");
+    root.setProperty("--rk-tile-font", tileFont + "px");
+    root.setProperty("--rk-word-gap", wordGap + "px");
+    wordEls.forEach(function(wordEl) {
+      wordEl.querySelectorAll(".uq-hyphen").forEach(function(h) {
+        h.remove();
+      });
+      wordEl.classList.remove("uq-word--wrap");
+      wordEl.style.width = "";
+      var tiles = Array.prototype.slice.call(wordEl.querySelectorAll(".uq-tile"));
+      if (tiles.length === 0) return;
+      var naturalWidth = tiles.length * tileW + (tiles.length - 1) * LETTER_GAP;
+      if (naturalWidth <= gridAvailable + 0.5) return;
+      wordEl.classList.add("uq-word--wrap");
+      wordEl.style.width = gridAvailable + "px";
+      var hyphenW = Math.max(6, Math.round(tileW * 0.4));
+      var perLine = Math.max(1, Math.floor((gridAvailable - hyphenW + LETTER_GAP) / (tileW + LETTER_GAP)));
+      for (var i = perLine; i < tiles.length; i += perLine) {
+        var hy = document.createElement("span");
+        hy.className = "uq-punct uq-hyphen";
+        hy.textContent = "-";
+        hy.setAttribute("aria-hidden", "true");
+        wordEl.insertBefore(hy, tiles[i]);
+      }
+    });
+  }
+  function gameContentSpan() {
+    var gameView = document.querySelector('.uq-view[data-view="game"]');
+    if (!gameView) return 0;
+    var header = gameView.querySelector(".uq-header");
+    var actions = gameView.querySelector(".uq-actions");
+    if (!header || !actions) return 0;
+    return actions.getBoundingClientRect().bottom - header.getBoundingClientRect().top;
+  }
+  function fitGameScreen() {
+    var device = document.querySelector(".device");
+    var viewportH = device && device.clientHeight || window.innerHeight || 844;
+    var SAFE_BOTTOM = 34;
+    applyResponsiveSizing(1);
+    if (gameContentSpan() + SAFE_BOTTOM <= viewportH) return;
+    var lo = 0, hi = 1, best = 0;
+    for (var i = 0; i < 9; i++) {
+      var mid = (lo + hi) / 2;
+      applyResponsiveSizing(mid);
+      var fits = gameContentSpan() + SAFE_BOTTOM <= viewportH;
+      if (fits) {
+        best = mid;
+        lo = mid;
+      } else {
+        hi = mid;
+      }
+    }
+    applyResponsiveSizing(best);
+  }
+  var round = 1;
+  var requiredPicks = ROUND_PICKS[0];
+  var selectedLetters = [];
+  var usedLetters = {};
+  var roundResults = [];
+  var missLetters = {};
+  var gameWon = false;
+  var gameLost = false;
+  var roundsUsed = null;
+  var allRoundsSubmitted = false;
+  var revealing = false;
+  var guessUsedThisRound = false;
+  var anyLetterRevealed = false;
+  var guessMode = false;
+  var guessSlots = [];
+  var guessFilled = [];
+  var guessCursor = 0;
+  var guessEvaluating = false;
+  function tapLetter(letter) {
+    if (gameWon || gameLost || revealing) return;
+    if (guessMode) {
+      handleGuessLetterTap(letter);
+      return;
+    }
+    if (allRoundsSubmitted) return;
+    if (usedLetters[letter]) return;
+    var idx = selectedLetters.indexOf(letter);
+    if (idx !== -1) {
+      selectedLetters.splice(idx, 1);
+      keyEls[letter].classList.remove("uq-key--selected");
+    } else {
+      if (selectedLetters.length >= requiredPicks) return;
+      selectedLetters.push(letter);
+      keyEls[letter].classList.add("uq-key--selected");
+    }
+    renderRoundUI();
+  }
+  function guessIsAvailable() {
+    if (revealing) return false;
+    return allRoundsSubmitted || !guessUsedThisRound;
+  }
+  function renderRoundUI() {
+    var remaining = requiredPicks - selectedLetters.length;
+    var promptTextEl = document.getElementById("uq-round-prompt-text");
+    var promptSlotsEl = document.getElementById("uq-round-prompt-slots");
+    promptTextEl.textContent = guessMode ? "Fill in the quote: " + guessCursor + "/" + guessSlots.length : allRoundsSubmitted ? "All rounds used \xB7 guess anytime, no limit" : revealing ? "Revealing your picks\u2026" : selectedLetters.length === 0 ? "Round " + round + " of 5 \xB7 pick " + requiredPicks + " letter" + (requiredPicks === 1 ? "" : "s") : remaining > 0 ? "Pick " + remaining + " more letter" + (remaining === 1 ? "" : "s") : "All picked \xB7 tap Uncover letters";
+    promptSlotsEl.innerHTML = "";
+    if (!guessMode && !allRoundsSubmitted && !revealing) {
+      for (var slotIdx = 0; slotIdx < requiredPicks; slotIdx++) {
+        var slotEl = document.createElement("div");
+        slotEl.className = "uq-round-slot" + (slotIdx < selectedLetters.length ? " uq-round-slot--filled" : "");
+        promptSlotsEl.appendChild(slotEl);
+      }
+    }
+    Object.keys(keyEls).forEach(function(letter) {
+      var el = keyEls[letter];
+      if (usedLetters[letter]) return;
+      if (guessMode) {
+        el.classList.remove("uq-key--waiting");
+        el.classList.remove("uq-key--selected");
+        return;
+      }
+      if (selectedLetters.indexOf(letter) !== -1) {
+        el.classList.add("uq-key--selected");
+        el.classList.remove("uq-key--waiting");
+        return;
+      }
+      el.classList.toggle("uq-key--waiting", allRoundsSubmitted || revealing || selectedLetters.length >= requiredPicks);
+    });
+    var bsKey = document.getElementById("uq-key-backspace");
+    if (bsKey) bsKey.classList.toggle("uq-key--guess-active", guessMode);
+    document.getElementById("uq-keyboard").classList.toggle("uq-keyboard--guessing", guessMode);
+    var submitBtn = document.getElementById("uq-submit-round");
+    submitBtn.disabled = allRoundsSubmitted || revealing || guessMode || selectedLetters.length < requiredPicks;
+    submitBtn.textContent = allRoundsSubmitted ? "All Rounds Played" : round >= 5 ? "Uncover final letters" : "Uncover letters";
+    var guessAvailable = guessIsAvailable();
+    guessToggle.disabled = guessMode || !guessAvailable;
+    guessToggle.textContent = anyLetterRevealed ? "Take a guess" : "Blind guess";
+    normalControls.classList.toggle("hide", guessMode);
+    guessControls.classList.toggle("show", guessMode);
+    guessSubmitBtn.disabled = guessCursor < guessSlots.length;
+    var guessNoteEl = document.getElementById("uq-guess-note");
+    if (guessNoteEl) {
+      guessNoteEl.textContent = allRoundsSubmitted ? "Guessing - no limit" : "Round " + round + "/5 - one guess this round";
+    }
+    var hintEl = document.getElementById("uq-guess-hint");
+    var showHint = !allRoundsSubmitted && !revealing && !guessMode && guessUsedThisRound;
+    hintEl.classList.toggle("show", showHint);
+    hintEl.textContent = "Round " + round + "/5 - one guess used. Reveal more to try again.";
+    var giveUpEl = document.getElementById("uq-give-up-link");
+    giveUpEl.classList.toggle("show", allRoundsSubmitted && !guessMode && !gameWon && !gameLost);
+    document.getElementById("uq-home-teaser-meta").textContent = gameWon ? "Solved. Tap to see your result." : gameLost ? "Today\u2019s answer. Tap to see the quote." : roundResults.length > 0 || selectedLetters.length > 0 ? "In progress \xB7 Round " + round : "Guess it, letter by letter \xB7 5 rounds";
+  }
+  document.getElementById("uq-submit-round").addEventListener("click", function() {
+    if (gameWon || gameLost || allRoundsSubmitted || revealing || guessMode || selectedLetters.length < requiredPicks) return;
+    lockAndRevealRound();
+  });
+  function lockAndRevealRound() {
+    revealing = true;
+    renderRoundUI();
+    var letters = selectedLetters.slice();
+    selectedLetters = [];
+    var hits = new Array(letters.length);
+    var GROUP_GAP_MS = 280;
+    var TILE_STAGGER_MS = 85;
+    var TILE_FLIP_MS = 360;
+    var MISS_GROUP_MS = 260;
+    var t = 0;
+    letters.forEach(function(letter, i) {
+      var startAt = t;
+      var isHitPreview = !!quoteLetterSet[letter];
+      var tileCount = isHitPreview ? (lettersToTiles[letter] || []).length : 0;
+      var groupDuration = isHitPreview ? Math.max(0, tileCount - 1) * TILE_STAGGER_MS + TILE_FLIP_MS : MISS_GROUP_MS;
+      setTimeout(function() {
+        var isHit = !!quoteLetterSet[letter];
+        hits[i] = isHit;
+        usedLetters[letter] = true;
+        var keyEl = keyEls[letter];
+        keyEl.classList.remove("uq-key--selected");
+        if (isHit) {
+          var tiles = lettersToTiles[letter] || [];
+          tiles.forEach(function(tile, ti) {
+            setTimeout(function() {
+              tile.classList.add("uq-tile--flip");
+              setTimeout(function() {
+                tile.classList.add("hit");
+              }, Math.round(TILE_FLIP_MS * 0.5));
+            }, ti * TILE_STAGGER_MS);
+          });
+          keyEl.classList.add("uq-key--hit");
+          anyLetterRevealed = true;
+        } else {
+          missLetters[letter] = true;
+          keyEl.classList.add("uq-key--miss", "uq-key--miss-flash");
+          setTimeout(function() {
+            keyEl.classList.remove("uq-key--miss-flash");
+          }, 260);
+        }
+        if (i === letters.length - 1) {
+          setTimeout(function() {
+            finalizeRound(hits);
+          }, groupDuration + 160);
+        }
+      }, startAt);
+      t += groupDuration + GROUP_GAP_MS;
+    });
+  }
+  function finalizeRound(hits) {
+    roundResults.push(hits);
+    revealing = false;
+    guessUsedThisRound = false;
+    if (round < 5) {
+      round++;
+      requiredPicks = ROUND_PICKS[round - 1];
+      renderRoundUI();
+    } else {
+      allRoundsSubmitted = true;
+      renderRoundUI();
+    }
+  }
+  var guessToggle = document.getElementById("uq-guess-toggle");
+  var guessCancelLink = document.getElementById("uq-guess-cancel-link");
+  var guessSubmitBtn = document.getElementById("uq-guess-submit-btn");
+  var normalControls = document.getElementById("uq-normal-controls");
+  var guessControls = document.getElementById("uq-guess-controls");
+  function enterGuessMode() {
+    if (guessToggle.disabled || guessMode || gameWon || gameLost) return;
+    guessMode = true;
+    guessSlots = Array.prototype.slice.call(document.querySelectorAll(".uq-tile:not(.hit):not(.revealed-final)"));
+    guessFilled = new Array(guessSlots.length).fill(null);
+    guessCursor = 0;
+    if (guessSlots.length === 0) {
+      guessMode = false;
+      winGame();
+      return;
+    }
+    renderRoundUI();
+  }
+  function exitGuessMode(clearTiles) {
+    if (clearTiles) {
+      guessSlots.forEach(function(tile) {
+        resetGuessTile(tile);
+      });
+    }
+    guessMode = false;
+    guessSlots = [];
+    guessFilled = [];
+    guessCursor = 0;
+    renderRoundUI();
+  }
+  function resetGuessTile(tile) {
+    tile.classList.remove("guessing", "uq-tile--pop");
+    var span = tile.querySelector(".uq-tile__letter");
+    if (span) span.textContent = tile.dataset.true;
+  }
+  function handleGuessLetterTap(letter) {
+    if (!guessMode || guessEvaluating) return;
+    if (missLetters[letter]) return;
+    if (guessCursor >= guessSlots.length) return;
+    var tile = guessSlots[guessCursor];
+    var span = tile.querySelector(".uq-tile__letter");
+    guessFilled[guessCursor] = letter;
+    span.textContent = letter;
+    tile.classList.remove("uq-tile--pop");
+    tile.classList.add("guessing", "uq-tile--pop");
+    guessCursor++;
+    renderRoundUI();
+  }
+  function handleGuessBackspace() {
+    if (!guessMode || guessEvaluating) return;
+    if (guessCursor <= 0) return;
+    guessCursor--;
+    var tile = guessSlots[guessCursor];
+    guessFilled[guessCursor] = null;
+    resetGuessTile(tile);
+    renderRoundUI();
+  }
+  function evaluateGuess() {
+    if (!guessMode || guessEvaluating) return;
+    if (guessCursor < guessSlots.length) return;
+    guessEvaluating = true;
+    var allCorrect = guessSlots.every(function(tile, i) {
+      return guessFilled[i] === tile.dataset.true;
+    });
+    if (allCorrect) {
+      guessSlots.forEach(function(tile) {
+        tile.classList.remove("guessing", "uq-tile--pop");
+      });
+      guessMode = false;
+      guessSlots = [];
+      guessFilled = [];
+      guessCursor = 0;
+      guessEvaluating = false;
+      winGame();
+      return;
+    }
+    var stayOpen = allRoundsSubmitted;
+    guessSlots.forEach(function(tile) {
+      resetGuessTile(tile);
+    });
+    guessFilled = new Array(guessSlots.length).fill(null);
+    guessCursor = 0;
+    guessEvaluating = false;
+    showToast("Not quite, keep going!");
+    if (!stayOpen) {
+      guessUsedThisRound = true;
+      guessMode = false;
+      guessSlots = [];
+    }
+    renderRoundUI();
+  }
+  guessToggle.addEventListener("click", function() {
+    enterGuessMode();
+  });
+  guessCancelLink.addEventListener("click", function() {
+    if (!guessMode) return;
+    exitGuessMode(true);
+  });
+  guessSubmitBtn.addEventListener("click", function() {
+    if (!guessMode || guessCursor < guessSlots.length || guessEvaluating) return;
+    evaluateGuess();
+  });
+  document.addEventListener("keydown", function(e) {
+    if (!guessMode) return;
+    if (e.key === "Backspace") {
+      e.preventDefault();
+      handleGuessBackspace();
+    } else if (e.key === "Enter") {
+      if (guessCursor >= guessSlots.length) evaluateGuess();
+    } else if (/^[a-zA-Z]$/.test(e.key)) {
+      handleGuessLetterTap(e.key.toUpperCase());
+    }
+  });
+  var shareData = {};
+  var activeSharePrefix = null;
+  function todayShort() {
+    return (/* @__PURE__ */ new Date()).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  }
+  function cumulativePercents(rows) {
+    var total = document.querySelectorAll(".uq-tile").length;
+    var cumulative = 0;
+    return rows.map(function(rd) {
+      cumulative += rd.filter(Boolean).length;
+      return total ? Math.round(cumulative / total * 100) : 0;
+    });
+  }
+  var SHARE_LINK = "getreps.io/play/verbatim";
+  function computeShareData(prefix, won, roundsPlayed, rows) {
+    var dateStr = todayShort();
+    if (won && rows.length === 0) {
+      var coldText = "Verbatim \xB7 " + dateStr + " \xB7 1/5\n\u{1F3C6} Solved cold - before revealing a single letter\n0% uncovered\n\nPlay Verbatim \u2192 " + SHARE_LINK;
+      shareData[prefix] = { text: coldText, roundsPlayed: 1, won: true, rows, pcts: [0], dateStr, roundsLabel: "1/5", cold: true };
+      return;
+    }
+    var pcts = cumulativePercents(rows);
+    var roundsLabel = won ? roundsPlayed + "/5" : "Not solved";
+    var squares = rows.map(function(rd, i) {
+      var line = rd.map(function(hit) {
+        return hit ? "\u{1F7E9}" : "\u2B1B";
+      }).join("");
+      var pctLabel = pcts[i] + "%" + (i === 0 ? " uncovered" : "");
+      var suffix = won && i === roundsPlayed - 1 ? " \u{1F3C6}" : "";
+      return line + " " + pctLabel + suffix;
+    }).join("\n");
+    var shareText = "Verbatim \xB7 " + dateStr + " \xB7 " + roundsLabel + "\n" + squares + "\n\nPlay Verbatim \u2192 " + SHARE_LINK;
+    shareData[prefix] = { text: shareText, roundsPlayed, won, rows, pcts, dateStr, roundsLabel, cold: false };
+  }
+  function copyText(text, cb) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function() {
+        cb(true);
+      }, function() {
+        cb(false);
+      });
+    } else {
+      try {
+        var ta = document.createElement("textarea");
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        cb(true);
+      } catch (e) {
+        cb(false);
+      }
+    }
+  }
+  var sheetScrim = document.getElementById("uq-sheet-scrim");
+  var shareSheet = document.getElementById("uq-share-sheet");
+  function wireShareEntry(prefix) {
+    var el = document.getElementById("uq-" + prefix + "-share-btn");
+    if (el) el.addEventListener("click", function() {
+      openShareSheet(prefix);
+    });
+  }
+  wireShareEntry("win");
+  wireShareEntry("loss");
+  function openShareSheet(prefix) {
+    activeSharePrefix = prefix;
+    var d = shareData[prefix];
+    if (!d) return;
+    document.getElementById("uq-sheet-payload").textContent = d.text;
+    sheetScrim.classList.add("show");
+    shareSheet.classList.add("show");
+  }
+  function closeShareSheet() {
+    sheetScrim.classList.remove("show");
+    shareSheet.classList.remove("show");
+  }
+  sheetScrim.addEventListener("click", closeShareSheet);
+  document.getElementById("uq-sheet-cancel").addEventListener("click", closeShareSheet);
+  document.getElementById("uq-sheet-copy-action").addEventListener("click", function() {
+    var d = activeSharePrefix && shareData[activeSharePrefix];
+    var text = d && d.text || "";
+    copyText(text, function(ok) {
+      closeShareSheet();
+      showToast(ok ? "Copied to clipboard" : "Could not copy.");
+    });
+  });
+  var CONFETTI_COLORS = ["#FF6B6B", "#FF6B6B", "#FF8E53", "#FF8E53", "#8C3B4A", "#8C3B4A", "#4ECDC4", "#4ECDC4", "#D4A24E"];
+  var CONFETTI_FALL_MS = 1400;
+  var CONFETTI_DURATION = 2200;
+  var confettiCanvas = document.getElementById("uq-confetti-canvas");
+  var confettiCtx = confettiCanvas.getContext("2d");
+  var confettiParticles = [];
+  var confettiRAF = null;
+  var confettiStartedAt = 0;
+  function sizeConfettiCanvas() {
+    var rect = document.querySelector(".device").getBoundingClientRect();
+    confettiCanvas.width = Math.max(1, Math.round(rect.width));
+    confettiCanvas.height = Math.max(1, Math.round(rect.height));
+  }
+  window.addEventListener("resize", function() {
+    if (confettiRAF) sizeConfettiCanvas();
+  });
+  function playConfetti() {
+    sizeConfettiCanvas();
+    var w = confettiCanvas.width, h = confettiCanvas.height;
+    var count = Math.round(Math.max(32, Math.min(60, w / 7)));
+    confettiParticles = [];
+    for (var i = 0; i < count; i++) {
+      confettiParticles.push({
+        x: Math.random() * w,
+        y: -10 - Math.random() * 130,
+        // staggered just above the top edge
+        size: 6 + Math.random() * 6,
+        color: CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)],
+        speedY: 3.2 + Math.random() * 3.2,
+        speedX: (Math.random() - 0.5) * 2.2,
+        rotation: Math.random() * Math.PI * 2,
+        rotSpeed: (Math.random() - 0.5) * 0.3,
+        shape: Math.random() < 0.5 ? "rect" : "circle"
+      });
+    }
+    confettiStartedAt = performance.now();
+    if (confettiRAF) cancelAnimationFrame(confettiRAF);
+    confettiCanvas.style.opacity = "1";
+    tickConfetti();
+  }
+  function tickConfetti(now) {
+    now = now || performance.now();
+    var elapsed = now - confettiStartedAt;
+    var w = confettiCanvas.width, h = confettiCanvas.height;
+    confettiCtx.clearRect(0, 0, w, h);
+    confettiParticles.forEach(function(p) {
+      p.x += p.speedX;
+      p.y += p.speedY;
+      p.rotation += p.rotSpeed;
+      confettiCtx.save();
+      confettiCtx.translate(p.x, p.y);
+      confettiCtx.rotate(p.rotation);
+      confettiCtx.fillStyle = p.color;
+      if (p.shape === "rect") {
+        confettiCtx.fillRect(-p.size / 2, -p.size / 3, p.size, p.size * 0.62);
+      } else {
+        confettiCtx.beginPath();
+        confettiCtx.arc(0, 0, p.size / 2.4, 0, Math.PI * 2);
+        confettiCtx.fill();
+      }
+      confettiCtx.restore();
+    });
+    if (elapsed > CONFETTI_FALL_MS) {
+      var fadeT = Math.min(1, (elapsed - CONFETTI_FALL_MS) / (CONFETTI_DURATION - CONFETTI_FALL_MS));
+      confettiCanvas.style.opacity = String(1 - fadeT);
+    }
+    if (elapsed < CONFETTI_DURATION) {
+      confettiRAF = requestAnimationFrame(tickConfetti);
+    } else {
+      confettiCtx.clearRect(0, 0, w, h);
+      confettiParticles = [];
+      confettiRAF = null;
+      confettiCanvas.style.opacity = "0";
+    }
+  }
+  function winGame() {
+    if (selectedLetters.length > 0) {
+      var pendingHits = selectedLetters.map(function(letter) {
+        var isHit = !!quoteLetterSet[letter];
+        usedLetters[letter] = true;
+        var keyEl = keyEls[letter];
+        keyEl.classList.remove("uq-key--selected");
+        if (isHit) {
+          (lettersToTiles[letter] || []).forEach(function(t) {
+            t.classList.add("hit");
+          });
+          keyEl.classList.add("uq-key--hit");
+        } else {
+          missLetters[letter] = true;
+          keyEl.classList.add("uq-key--miss");
+        }
+        return isHit;
+      });
+      roundResults.push(pendingHits);
+      selectedLetters = [];
+    }
+    gameWon = true;
+    roundsUsed = roundResults.length;
+    Object.keys(lettersToTiles).forEach(function(letter) {
+      lettersToTiles[letter].forEach(function(t) {
+        t.classList.add("revealed-final");
+      });
+    });
+    computeShareData("win", true, roundsUsed, roundResults);
+    renderRoundUI();
+    showView("win");
+    playConfetti();
+  }
+  function loseGame() {
+    if (gameWon) return;
+    gameLost = true;
+    Object.keys(lettersToTiles).forEach(function(letter) {
+      lettersToTiles[letter].forEach(function(t) {
+        t.classList.add("revealed-final");
+      });
+    });
+    computeShareData("loss", false, 5, roundResults);
+    renderRoundUI();
+    showView("loss");
+  }
+  document.getElementById("uq-give-up-link").addEventListener("click", function() {
+    if (gameWon || gameLost || !allRoundsSubmitted || guessMode) return;
+    loseGame();
+  });
+  document.getElementById("uq-win-save").addEventListener("click", function() {
+    showToast("Saved to REPS");
+  });
+  document.getElementById("uq-loss-save").addEventListener("click", function() {
+    showToast("Saved to REPS");
+  });
+  var setDetailReturn = "win";
+  function openSetDetail(fromView) {
+    setDetailReturn = fromView;
+    showView("set-detail");
+  }
+  document.getElementById("uq-setdetail-back").addEventListener("click", function() {
+    showView(setDetailReturn);
+  });
+  document.getElementById("uq-setdetail-train").addEventListener("click", function() {
+    showToast("Training would start in the REPS app");
+  });
+  var introOverlayEl = document.getElementById("uq-intro-overlay");
+  function openIntro() {
+    introOverlayEl.classList.add("show");
+  }
+  function closeIntro() {
+    introOverlayEl.classList.remove("show");
+    resetGame();
+  }
+  document.getElementById("uq-intro-cta").addEventListener("click", closeIntro);
+  function resetGame() {
+    round = 1;
+    requiredPicks = ROUND_PICKS[0];
+    selectedLetters = [];
+    usedLetters = {};
+    roundResults = [];
+    missLetters = {};
+    gameWon = false;
+    gameLost = false;
+    roundsUsed = null;
+    allRoundsSubmitted = false;
+    revealing = false;
+    guessUsedThisRound = false;
+    anyLetterRevealed = false;
+    guessMode = false;
+    guessSlots = [];
+    guessFilled = [];
+    guessCursor = 0;
+    guessEvaluating = false;
+    document.querySelectorAll(".uq-tile").forEach(function(tile) {
+      tile.classList.remove("hit", "revealed-final", "guessing", "uq-tile--pop", "uq-tile--flip");
+      var span = tile.querySelector(".uq-tile__letter");
+      if (span) span.textContent = tile.dataset.true;
+    });
+    Object.keys(keyEls).forEach(function(letter) {
+      keyEls[letter].classList.remove("uq-key--selected", "uq-key--waiting", "uq-key--hit", "uq-key--miss", "uq-key--miss-flash");
+    });
+    renderRoundUI();
+  }
+  renderRoundUI();
+  showView("game");
+  fitGameScreen();
+  window.addEventListener("resize", fitGameScreen);
+  window.addEventListener("orientationchange", fitGameScreen);
+  openIntro();
+})();
+</script>
+  </body>
+</html>
