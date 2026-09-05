@@ -1869,6 +1869,52 @@ body.still .deck-controls{display:none!important;}
 .orgmap .f6{animation-duration:1.830s!important;}
 .orgmap .f7{animation-duration:2.857s!important;}
 
+/* === v32: round-8 board response ===
+
+   1. s06 "Who it's for" -- 3-col persona grid becomes 2-col after Jordan's
+      removal, centered with a wider gap (photos are fixed 152px and text
+      is max-width-36ch-bounded per v9/v11-extra.css, so nothing stretches
+      awkwardly -- only the layout container changes). kannot (the
+      "Strongest signals so far" arrow annotation) is retargeted from
+      "spans columns 1-2 of 3" to "spans both remaining columns", since it
+      already only ever pointed at Sam + Charlie.
+
+   2. s07 "Traction" -- fuller filled-leaf laurel wreath (was thin
+      stroked-outline), 5 stars in a row above "4.8 Rating", real Apple
+      glyph underneath. Matches the reference screenshot Mike attached.
+
+   3. s10 org box: no new CSS needed, the Faculty node's <p> just grew a
+      clause -- flagged here as verified-fits, not assumed (rendered and
+      checked against the box's fixed 72px height before shipping).
+*/
+
+/* --- 1. keepers 2-col grid + retargeted annotation --- */
+.kpers3{
+  grid-template-columns:repeat(2,1fr);
+  max-width:1180px;
+  column-gap:140px;
+  margin:0 auto;
+}
+.kthree .kannot{
+  left:50%;
+  transform:translateX(-50%);
+  width:1180px;
+}
+.kthree .kannot-label{left:50%;}
+
+/* --- 2. fuller laurel + 5-star + Rating + Apple stack --- */
+.rating-wrap.v2{display:flex;align-items:center;justify-content:center;gap:22px;}
+.laurel.v2{width:96px;height:158px;flex:none;opacity:1;}
+.laurel.v2 ellipse{fill:var(--ink);stroke:none;opacity:1;}
+.laurel.v2.r{transform:scaleX(-1);}
+.store .head.laureled.v2{text-align:center;}
+.rating-stack{display:flex;flex-direction:column;align-items:center;gap:6px;}
+.stars5{font-size:30px;letter-spacing:4px;color:#E8A93C;line-height:1;}
+.store .rating.v2{font-family:var(--sans);font-weight:700;font-size:52px;line-height:1;
+  letter-spacing:-.01em;color:var(--fg);}
+.store .rating.v2 span{font-size:28px;font-weight:600;color:var(--fg-soft);margin-left:8px;}
+.apple-mark{width:26px;height:26px;color:var(--fg);margin-top:2px;}
+
 </style>
 </head>
 <body>
@@ -2147,15 +2193,6 @@ body.still .deck-controls{display:none!important;}
             <li>Loves to <b class="kx">share their discoveries</b> IRL</li>
           </ul>
         </div>
-        <div class="kper">
-          <div class="kp-photo"><img src="/angel/assets/personas/jordan-portrait.png" alt="Jordan" /></div>
-          <b class="kwho hot">Jordan &middot; Informed Young Adult</b>
-          <ul class="kbul">
-            <li>Doesn&rsquo;t trust the feed, but <b class="kx">lacks a social alternative</b></li>
-            <li>Wants <b class="kx">friends around real interests</b>, not algorithms</li>
-            <li>Seeks an AI <b class="kx">built to help</b>, not replace their thinking</li>
-          </ul>
-        </div>
       </div>
       <div class="knot reveal r5">
         <div class="knot-h">Not focused on</div>
@@ -2200,13 +2237,16 @@ body.still .deck-controls{display:none!important;}
       </div>
 
       <div class="store reveal r4">
-        <div class="head laureled">
-          <div class="rating-wrap">
-            <svg class="laurel" viewBox="0 0 90 150" aria-hidden="true"><path d="M62 145 C 34 130, 18 92, 25 55 C 30 28, 47 8, 68 -4" /><g><ellipse cx="53" cy="118" rx="12" ry="4.6" transform="rotate(-32 53 118)"/><ellipse cx="41" cy="97" rx="12" ry="4.6" transform="rotate(-44 41 97)"/><ellipse cx="32" cy="74" rx="11" ry="4.3" transform="rotate(-56 32 74)"/><ellipse cx="28" cy="49" rx="10" ry="4" transform="rotate(-68 28 49)"/><ellipse cx="31" cy="25" rx="9" ry="3.8" transform="rotate(-80 31 25)"/><ellipse cx="44" cy="6" rx="8" ry="3.5" transform="rotate(-92 44 6)"/></g></svg>
-            <div class="rating"><em>&#9733;</em>4.8</div>
-            <svg class="laurel r" viewBox="0 0 90 150" aria-hidden="true"><path d="M62 145 C 34 130, 18 92, 25 55 C 30 28, 47 8, 68 -4" /><g><ellipse cx="53" cy="118" rx="12" ry="4.6" transform="rotate(-32 53 118)"/><ellipse cx="41" cy="97" rx="12" ry="4.6" transform="rotate(-44 41 97)"/><ellipse cx="32" cy="74" rx="11" ry="4.3" transform="rotate(-56 32 74)"/><ellipse cx="28" cy="49" rx="10" ry="4" transform="rotate(-68 28 49)"/><ellipse cx="31" cy="25" rx="9" ry="3.8" transform="rotate(-80 31 25)"/><ellipse cx="44" cy="6" rx="8" ry="3.5" transform="rotate(-92 44 6)"/></g></svg>
+        <div class="head laureled v2">
+          <div class="rating-wrap v2">
+            <svg class="laurel v2" viewBox="0 0 90 150" aria-hidden="true"><g><ellipse cx="66.0" cy="148.0" rx="20.0" ry="7.6" transform="rotate(-248.0 66.0 148.0)"/><ellipse cx="58.6" cy="144.0" rx="19.4" ry="7.4" transform="rotate(-239.0 58.6 144.0)"/><ellipse cx="51.9" cy="138.8" rx="18.8" ry="7.2" transform="rotate(-229.9 51.9 138.8)"/><ellipse cx="45.9" cy="132.6" rx="18.2" ry="7.0" transform="rotate(-221.0 45.9 132.6)"/><ellipse cx="40.8" cy="125.2" rx="17.6" ry="6.9" transform="rotate(-212.5 40.8 125.2)"/><ellipse cx="36.6" cy="116.7" rx="17.0" ry="6.7" transform="rotate(-204.4 36.6 116.7)"/><ellipse cx="33.4" cy="107.1" rx="16.4" ry="6.5" transform="rotate(-197.0 33.4 107.1)"/><ellipse cx="31.2" cy="96.5" rx="15.8" ry="6.3" transform="rotate(-190.2 31.2 96.5)"/><ellipse cx="30.2" cy="84.8" rx="15.1" ry="6.1" transform="rotate(-184.1 30.2 84.8)"/><ellipse cx="30.4" cy="72.2" rx="14.5" ry="5.9" transform="rotate(-178.5 30.4 72.2)"/><ellipse cx="31.9" cy="58.5" rx="13.9" ry="5.7" transform="rotate(-173.5 31.9 58.5)"/><ellipse cx="34.7" cy="43.8" rx="13.3" ry="5.6" transform="rotate(-168.9 34.7 43.8)"/><ellipse cx="38.9" cy="28.1" rx="12.7" ry="5.4" transform="rotate(-164.8 38.9 28.1)"/><ellipse cx="44.7" cy="11.5" rx="12.1" ry="5.2" transform="rotate(-161.1 44.7 11.5)"/><ellipse cx="52.0" cy="-6.0" rx="11.5" ry="5.0" transform="rotate(-157.7 52.0 -6.0)"/></g></svg>
+            <div class="rating-stack">
+              <div class="stars5" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <div class="rating v2">4.8 <span>Rating</span></div>
+              <svg class="apple-mark" viewBox="0 0 24 24" aria-hidden="true"><use class="lg" href="#lg-apple"/></svg>
+            </div>
+            <svg class="laurel v2 r" viewBox="0 0 90 150" aria-hidden="true"><g><ellipse cx="66.0" cy="148.0" rx="20.0" ry="7.6" transform="rotate(-248.0 66.0 148.0)"/><ellipse cx="58.6" cy="144.0" rx="19.4" ry="7.4" transform="rotate(-239.0 58.6 144.0)"/><ellipse cx="51.9" cy="138.8" rx="18.8" ry="7.2" transform="rotate(-229.9 51.9 138.8)"/><ellipse cx="45.9" cy="132.6" rx="18.2" ry="7.0" transform="rotate(-221.0 45.9 132.6)"/><ellipse cx="40.8" cy="125.2" rx="17.6" ry="6.9" transform="rotate(-212.5 40.8 125.2)"/><ellipse cx="36.6" cy="116.7" rx="17.0" ry="6.7" transform="rotate(-204.4 36.6 116.7)"/><ellipse cx="33.4" cy="107.1" rx="16.4" ry="6.5" transform="rotate(-197.0 33.4 107.1)"/><ellipse cx="31.2" cy="96.5" rx="15.8" ry="6.3" transform="rotate(-190.2 31.2 96.5)"/><ellipse cx="30.2" cy="84.8" rx="15.1" ry="6.1" transform="rotate(-184.1 30.2 84.8)"/><ellipse cx="30.4" cy="72.2" rx="14.5" ry="5.9" transform="rotate(-178.5 30.4 72.2)"/><ellipse cx="31.9" cy="58.5" rx="13.9" ry="5.7" transform="rotate(-173.5 31.9 58.5)"/><ellipse cx="34.7" cy="43.8" rx="13.3" ry="5.6" transform="rotate(-168.9 34.7 43.8)"/><ellipse cx="38.9" cy="28.1" rx="12.7" ry="5.4" transform="rotate(-164.8 38.9 28.1)"/><ellipse cx="44.7" cy="11.5" rx="12.1" ry="5.2" transform="rotate(-161.1 44.7 11.5)"/><ellipse cx="52.0" cy="-6.0" rx="11.5" ry="5.0" transform="rotate(-157.7 52.0 -6.0)"/></g></svg>
           </div>
-          <div class="meta">67 ratings across four storefronts.<br />Every written review: five stars.</div>
         </div>
         <div class="q hero"><p>&ldquo;It's replaced scrolling Instagram on my phone&hellip; I am literally more interesting in conversation thanks to REPS.&rdquo;</p><cite>24601_London</cite></div>
         <div class="q"><p>&ldquo;What you have created is BRILLIANT!! I am 5 days in and most impressed and excited about where this will go.&rdquo;</p><cite>Karen</cite></div>
@@ -2362,7 +2402,7 @@ body.still .deck-controls{display:none!important;}
         <div class="node hire" style="left:230px;top:0px;width:210px;height:76px"><span class="chip">Future hire</span><h5>Growth</h5></div>
         <div class="node hire" style="left:460px;top:0px;width:210px;height:76px"><span class="chip">Future hire</span><h5>Partnerships</h5></div>
         <div class="node hire" style="left:690px;top:0px;width:210px;height:76px"><span class="chip">Future hire</span><h5>Product</h5></div>
-        <div class="node surface" style="left:0;top:124px;width:900px;height:72px"><h5>The Faculty</h5><p>One surface: every AI model, approvals, the daily digest, and the schedule every job reports into</p></div>
+        <div class="node surface" style="left:0;top:124px;width:900px;height:72px"><h5>The Faculty</h5><p>One surface: every AI model, approvals, the daily digest, and the schedule every job reports into. A First Mate dispatches work to Crewmate agents running in parallel.</p></div>
         <div class="node bucket" style="left:0px;top:250px;width:286px;height:200px"><span class="chip">Skills</span><b>62</b><p>Anything we do twice is written down once, then runs the same way every time without a person in it.</p></div>
         <div class="node bucket" style="left:307px;top:250px;width:286px;height:200px"><span class="chip">Subagents</span><b>44</b><p>Ten specialists can work a problem at once, so review and research cost time rather than headcount.</p></div>
         <div class="node bucket" style="left:614px;top:250px;width:286px;height:200px"><span class="chip">Watched jobs</span><b>91</b><p>Nothing fails quietly. Every job names an owner and how you find out it stopped.</p></div>
@@ -2741,7 +2781,7 @@ function setupSound(){
 class InlineEditor {
   /* v6 = aria-label keys. The v5 blob in any browser is index-keyed and its
      edits are already committed to this file, so it is never read again. */
-  static KEY = 'reps-deck-v31';
+  static KEY = 'reps-deck-v32';
   /* Edits live in ONE browser and never reach the file. Recovering the last
      batch meant copying a Chrome profile and decoding leveldb; this button is
      the cheap version of that. */
