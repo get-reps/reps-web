@@ -50,6 +50,27 @@
 .uq-header__side--right {
   justify-content: flex-end;
 }
+.uq-app-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  color: var(--caption-ink);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 150ms ease, background-color 150ms ease;
+}
+.uq-app-link svg {
+  width: 17px;
+  height: 17px;
+  display: block;
+}
+.uq-app-link:active {
+  opacity: 0.55;
+  background: rgba(140, 59, 74, 0.06);
+}
 .uq-back {
   padding: 8px;
   margin-left: -8px;
@@ -874,6 +895,35 @@
 .uq-save-link:active {
   opacity: 0.55;
 }
+.uq-app-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 auto;
+  padding: 11px 20px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(255, 107, 107, 0.4);
+  background: rgba(255, 107, 107, 0.06);
+  color: var(--coral-ink);
+  font-family: var(--font-interaction);
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 150ms ease, background-color 150ms ease;
+}
+.uq-app-cta svg {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 auto;
+  display: block;
+}
+.uq-app-cta:active {
+  opacity: 0.7;
+  background: rgba(255, 107, 107, 0.12);
+}
 .uq-home-link {
   text-align: center;
   font-family: var(--font-interaction);
@@ -1419,7 +1469,7 @@
         <div class="uq-header">
           <div class="uq-header__side"><div class="uq-back" data-nav="home"><span>&lt;</span></div></div>
           <div class="uq-header__center"><div class="uq-header__title"><span class="uq-wordmark uq-wordmark--compact" role="img" aria-label="Verbatim"><span class="uq-wordmark__tile" aria-hidden="true">V</span><span class="uq-wordmark__tile" aria-hidden="true">E</span><span class="uq-wordmark__tile" aria-hidden="true">R</span><span class="uq-wordmark__tile" aria-hidden="true">B</span><span class="uq-wordmark__tile" aria-hidden="true">A</span><span class="uq-wordmark__tile" aria-hidden="true">T</span><span class="uq-wordmark__tile" aria-hidden="true">I</span><span class="uq-wordmark__tile" aria-hidden="true">M</span></span></div></div>
-          <div class="uq-header__side uq-header__side--right"></div>
+          <div class="uq-header__side uq-header__side--right"><a class="uq-app-link" href="https://apps.apple.com/app/id6759216018" target="_blank" rel="noopener" aria-label="Get REPS on the App Store for iPhone"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.05 12.04c-.03-2.53 2.07-3.74 2.16-3.8-1.18-1.72-3.01-1.96-3.66-1.98-1.56-.16-3.04.92-3.83.92-.79 0-2-.9-3.29-.87-1.69.02-3.25.98-4.12 2.49-1.76 3.05-.45 7.56 1.26 10.03.84 1.21 1.84 2.57 3.15 2.52 1.26-.05 1.74-.81 3.27-.81 1.52 0 1.96.81 3.29.79 1.36-.03 2.22-1.24 3.05-2.45.96-1.4 1.36-2.76 1.38-2.83-.03-.01-2.65-1.02-2.68-4.04zM14.53 4.9c.7-.85 1.17-2.02 1.04-3.2-1.01.04-2.23.67-2.95 1.52-.65.75-1.22 1.95-1.07 3.1 1.13.09 2.28-.57 2.98-1.42z"/></svg></a></div>
         </div>
 
         <div class="uq-round-prompt" id="uq-round-prompt">
@@ -1455,7 +1505,7 @@
         <div class="uq-header">
           <div class="uq-header__side"><div class="uq-back" data-nav="home"><span>&lt;</span></div></div>
           <div class="uq-header__center"><div class="uq-header__title"><span class="uq-wordmark uq-wordmark--compact" role="img" aria-label="Verbatim"><span class="uq-wordmark__tile" aria-hidden="true">V</span><span class="uq-wordmark__tile" aria-hidden="true">E</span><span class="uq-wordmark__tile" aria-hidden="true">R</span><span class="uq-wordmark__tile" aria-hidden="true">B</span><span class="uq-wordmark__tile" aria-hidden="true">A</span><span class="uq-wordmark__tile" aria-hidden="true">T</span><span class="uq-wordmark__tile" aria-hidden="true">I</span><span class="uq-wordmark__tile" aria-hidden="true">M</span></span></div></div>
-          <div class="uq-header__side uq-header__side--right"></div>
+          <div class="uq-header__side uq-header__side--right"><a class="uq-app-link" href="https://apps.apple.com/app/id6759216018" target="_blank" rel="noopener" aria-label="Get REPS on the App Store for iPhone"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.05 12.04c-.03-2.53 2.07-3.74 2.16-3.8-1.18-1.72-3.01-1.96-3.66-1.98-1.56-.16-3.04.92-3.83.92-.79 0-2-.9-3.29-.87-1.69.02-3.25.98-4.12 2.49-1.76 3.05-.45 7.56 1.26 10.03.84 1.21 1.84 2.57 3.15 2.52 1.26-.05 1.74-.81 3.27-.81 1.52 0 1.96.81 3.29.79 1.36-.03 2.22-1.24 3.05-2.45.96-1.4 1.36-2.76 1.38-2.83-.03-.01-2.65-1.02-2.68-4.04zM14.53 4.9c.7-.85 1.17-2.02 1.04-3.2-1.01.04-2.23.67-2.95 1.52-.65.75-1.22 1.95-1.07 3.1 1.13.09 2.28-.57 2.98-1.42z"/></svg></a></div>
         </div>
         <div class="uq-win uq-win--organic">
 
@@ -1495,6 +1545,8 @@
             </a>
 
             <div class="uq-save-link" id="uq-win-save" role="button">Save quote</div>
+
+            <a class="uq-app-cta" id="uq-win-app-cta" href="https://apps.apple.com/app/id6759216018" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.05 12.04c-.03-2.53 2.07-3.74 2.16-3.8-1.18-1.72-3.01-1.96-3.66-1.98-1.56-.16-3.04.92-3.83.92-.79 0-2-.9-3.29-.87-1.69.02-3.25.98-4.12 2.49-1.76 3.05-.45 7.56 1.26 10.03.84 1.21 1.84 2.57 3.15 2.52 1.26-.05 1.74-.81 3.27-.81 1.52 0 1.96.81 3.29.79 1.36-.03 2.22-1.24 3.05-2.45.96-1.4 1.36-2.76 1.38-2.83-.03-.01-2.65-1.02-2.68-4.04zM14.53 4.9c.7-.85 1.17-2.02 1.04-3.2-1.01.04-2.23.67-2.95 1.52-.65.75-1.22 1.95-1.07 3.1 1.13.09 2.28-.57 2.98-1.42z"/></svg><span>Get the REPS app</span></a>
           </div>
 
           <div class="uq-home-link" data-nav="home">Back to Home</div>
@@ -1505,7 +1557,7 @@
         <div class="uq-header">
           <div class="uq-header__side"><div class="uq-back" data-nav="home"><span>&lt;</span></div></div>
           <div class="uq-header__center"><div class="uq-header__title"><span class="uq-wordmark uq-wordmark--compact" role="img" aria-label="Verbatim"><span class="uq-wordmark__tile" aria-hidden="true">V</span><span class="uq-wordmark__tile" aria-hidden="true">E</span><span class="uq-wordmark__tile" aria-hidden="true">R</span><span class="uq-wordmark__tile" aria-hidden="true">B</span><span class="uq-wordmark__tile" aria-hidden="true">A</span><span class="uq-wordmark__tile" aria-hidden="true">T</span><span class="uq-wordmark__tile" aria-hidden="true">I</span><span class="uq-wordmark__tile" aria-hidden="true">M</span></span></div></div>
-          <div class="uq-header__side uq-header__side--right"></div>
+          <div class="uq-header__side uq-header__side--right"><a class="uq-app-link" href="https://apps.apple.com/app/id6759216018" target="_blank" rel="noopener" aria-label="Get REPS on the App Store for iPhone"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.05 12.04c-.03-2.53 2.07-3.74 2.16-3.8-1.18-1.72-3.01-1.96-3.66-1.98-1.56-.16-3.04.92-3.83.92-.79 0-2-.9-3.29-.87-1.69.02-3.25.98-4.12 2.49-1.76 3.05-.45 7.56 1.26 10.03.84 1.21 1.84 2.57 3.15 2.52 1.26-.05 1.74-.81 3.27-.81 1.52 0 1.96.81 3.29.79 1.36-.03 2.22-1.24 3.05-2.45.96-1.4 1.36-2.76 1.38-2.83-.03-.01-2.65-1.02-2.68-4.04zM14.53 4.9c.7-.85 1.17-2.02 1.04-3.2-1.01.04-2.23.67-2.95 1.52-.65.75-1.22 1.95-1.07 3.1 1.13.09 2.28-.57 2.98-1.42z"/></svg></a></div>
         </div>
         <div class="uq-win uq-win--organic">
 
@@ -1550,6 +1602,8 @@
             </a>
 
             <div class="uq-save-link" id="uq-loss-save" role="button">Save quote</div>
+
+            <a class="uq-app-cta" id="uq-loss-app-cta" href="https://apps.apple.com/app/id6759216018" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.05 12.04c-.03-2.53 2.07-3.74 2.16-3.8-1.18-1.72-3.01-1.96-3.66-1.98-1.56-.16-3.04.92-3.83.92-.79 0-2-.9-3.29-.87-1.69.02-3.25.98-4.12 2.49-1.76 3.05-.45 7.56 1.26 10.03.84 1.21 1.84 2.57 3.15 2.52 1.26-.05 1.74-.81 3.27-.81 1.52 0 1.96.81 3.29.79 1.36-.03 2.22-1.24 3.05-2.45.96-1.4 1.36-2.76 1.38-2.83-.03-.01-2.65-1.02-2.68-4.04zM14.53 4.9c.7-.85 1.17-2.02 1.04-3.2-1.01.04-2.23.67-2.95 1.52-.65.75-1.22 1.95-1.07 3.1 1.13.09 2.28-.57 2.98-1.42z"/></svg><span>Get the REPS app</span></a>
           </div>
 
           <div class="uq-home-link" data-nav="home">Back to Home</div>
@@ -1560,7 +1614,7 @@
         <div class="uq-header">
           <div class="uq-header__side"><div class="uq-back" id="uq-setdetail-back"><span>&lt;</span></div></div>
           <div class="uq-header__center"><div class="uq-header__title">Edison Lights Up Manhattan</div></div>
-          <div class="uq-header__side uq-header__side--right"></div>
+          <div class="uq-header__side uq-header__side--right"><a class="uq-app-link" href="https://apps.apple.com/app/id6759216018" target="_blank" rel="noopener" aria-label="Get REPS on the App Store for iPhone"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.05 12.04c-.03-2.53 2.07-3.74 2.16-3.8-1.18-1.72-3.01-1.96-3.66-1.98-1.56-.16-3.04.92-3.83.92-.79 0-2-.9-3.29-.87-1.69.02-3.25.98-4.12 2.49-1.76 3.05-.45 7.56 1.26 10.03.84 1.21 1.84 2.57 3.15 2.52 1.26-.05 1.74-.81 3.27-.81 1.52 0 1.96.81 3.29.79 1.36-.03 2.22-1.24 3.05-2.45.96-1.4 1.36-2.76 1.38-2.83-.03-.01-2.65-1.02-2.68-4.04zM14.53 4.9c.7-.85 1.17-2.02 1.04-3.2-1.01.04-2.23.67-2.95 1.52-.65.75-1.22 1.95-1.07 3.1 1.13.09 2.28-.57 2.98-1.42z"/></svg></a></div>
         </div>
         <div class="uq-setdetail">
           <div class="uq-setdetail-hero">
