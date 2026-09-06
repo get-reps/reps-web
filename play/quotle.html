@@ -132,6 +132,13 @@
   font-weight: 800;
   font-size: calc(var(--uq-wm-tile) * 0.82);
 }
+.uq-wordmark__tile.uq-wordmark__tile--soft {
+  /* ~15% lighter than --unquote, toward white. Deliberately subtle: read
+     QUOTLE at a glance, but skip this one tile and it also reads QUOTE. */
+  border-color: #9D5865;
+  color: #9D5865;
+  box-shadow: 0 1px 0 rgba(140, 59, 74, 0.18), 0 3px 7px rgba(140, 59, 74, 0.09);
+}
 .uq-wordmark--home {
   --uq-wm-tile: clamp(13.5px, 4.3vw, 20px);
 }
@@ -1433,7 +1440,7 @@
               </svg>
             </div>
             <div class="uq-teaser__col">
-              <div class="uq-teaser__eyebrow">Games ·&nbsp;<span class="uq-wordmark uq-wordmark--home" role="img" aria-label="Quotle"><span class="uq-wordmark__tile" aria-hidden="true">Q</span><span class="uq-wordmark__tile" aria-hidden="true">U</span><span class="uq-wordmark__tile" aria-hidden="true">O</span><span class="uq-wordmark__tile" aria-hidden="true">T</span><span class="uq-wordmark__tile" aria-hidden="true">L</span><span class="uq-wordmark__tile" aria-hidden="true">E</span></span></div>
+              <div class="uq-teaser__eyebrow">Games ·&nbsp;<span class="uq-wordmark uq-wordmark--home" role="img" aria-label="Quotle"><span class="uq-wordmark__tile" aria-hidden="true">Q</span><span class="uq-wordmark__tile" aria-hidden="true">U</span><span class="uq-wordmark__tile" aria-hidden="true">O</span><span class="uq-wordmark__tile" aria-hidden="true">T</span><span class="uq-wordmark__tile uq-wordmark__tile--soft" aria-hidden="true">L</span><span class="uq-wordmark__tile" aria-hidden="true">E</span></span></div>
               <div class="uq-teaser__headline">Today’s quote: Thomas Edison</div>
               <div class="uq-teaser__meta" id="uq-home-teaser-meta">Guess it, letter by letter · 5 rounds</div>
             </div>
@@ -1468,7 +1475,7 @@
       <div class="uq-view active" data-view="game">
         <div class="uq-header">
           <div class="uq-header__side"><div class="uq-back" data-nav="home"><span>&lt;</span></div></div>
-          <div class="uq-header__center"><div class="uq-header__title"><span class="uq-wordmark uq-wordmark--compact" role="img" aria-label="Quotle"><span class="uq-wordmark__tile" aria-hidden="true">Q</span><span class="uq-wordmark__tile" aria-hidden="true">U</span><span class="uq-wordmark__tile" aria-hidden="true">O</span><span class="uq-wordmark__tile" aria-hidden="true">T</span><span class="uq-wordmark__tile" aria-hidden="true">L</span><span class="uq-wordmark__tile" aria-hidden="true">E</span></span></div></div>
+          <div class="uq-header__center"><div class="uq-header__title"><span class="uq-wordmark uq-wordmark--compact" role="img" aria-label="Quotle"><span class="uq-wordmark__tile" aria-hidden="true">Q</span><span class="uq-wordmark__tile" aria-hidden="true">U</span><span class="uq-wordmark__tile" aria-hidden="true">O</span><span class="uq-wordmark__tile" aria-hidden="true">T</span><span class="uq-wordmark__tile uq-wordmark__tile--soft" aria-hidden="true">L</span><span class="uq-wordmark__tile" aria-hidden="true">E</span></span></div></div>
           <div class="uq-header__side uq-header__side--right"><a class="uq-app-link" href="https://apps.apple.com/app/id6759216018" target="_blank" rel="noopener" aria-label="Get REPS on the App Store for iPhone"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.05 12.04c-.03-2.53 2.07-3.74 2.16-3.8-1.18-1.72-3.01-1.96-3.66-1.98-1.56-.16-3.04.92-3.83.92-.79 0-2-.9-3.29-.87-1.69.02-3.25.98-4.12 2.49-1.76 3.05-.45 7.56 1.26 10.03.84 1.21 1.84 2.57 3.15 2.52 1.26-.05 1.74-.81 3.27-.81 1.52 0 1.96.81 3.29.79 1.36-.03 2.22-1.24 3.05-2.45.96-1.4 1.36-2.76 1.38-2.83-.03-.01-2.65-1.02-2.68-4.04zM14.53 4.9c.7-.85 1.17-2.02 1.04-3.2-1.01.04-2.23.67-2.95 1.52-.65.75-1.22 1.95-1.07 3.1 1.13.09 2.28-.57 2.98-1.42z"/></svg></a></div>
         </div>
 
@@ -1504,7 +1511,7 @@
       <div class="uq-view" data-view="win">
         <div class="uq-header">
           <div class="uq-header__side"><div class="uq-back" data-nav="home"><span>&lt;</span></div></div>
-          <div class="uq-header__center"><div class="uq-header__title"><span class="uq-wordmark uq-wordmark--compact" role="img" aria-label="Quotle"><span class="uq-wordmark__tile" aria-hidden="true">Q</span><span class="uq-wordmark__tile" aria-hidden="true">U</span><span class="uq-wordmark__tile" aria-hidden="true">O</span><span class="uq-wordmark__tile" aria-hidden="true">T</span><span class="uq-wordmark__tile" aria-hidden="true">L</span><span class="uq-wordmark__tile" aria-hidden="true">E</span></span></div></div>
+          <div class="uq-header__center"><div class="uq-header__title"><span class="uq-wordmark uq-wordmark--compact" role="img" aria-label="Quotle"><span class="uq-wordmark__tile" aria-hidden="true">Q</span><span class="uq-wordmark__tile" aria-hidden="true">U</span><span class="uq-wordmark__tile" aria-hidden="true">O</span><span class="uq-wordmark__tile" aria-hidden="true">T</span><span class="uq-wordmark__tile uq-wordmark__tile--soft" aria-hidden="true">L</span><span class="uq-wordmark__tile" aria-hidden="true">E</span></span></div></div>
           <div class="uq-header__side uq-header__side--right"><a class="uq-app-link" href="https://apps.apple.com/app/id6759216018" target="_blank" rel="noopener" aria-label="Get REPS on the App Store for iPhone"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.05 12.04c-.03-2.53 2.07-3.74 2.16-3.8-1.18-1.72-3.01-1.96-3.66-1.98-1.56-.16-3.04.92-3.83.92-.79 0-2-.9-3.29-.87-1.69.02-3.25.98-4.12 2.49-1.76 3.05-.45 7.56 1.26 10.03.84 1.21 1.84 2.57 3.15 2.52 1.26-.05 1.74-.81 3.27-.81 1.52 0 1.96.81 3.29.79 1.36-.03 2.22-1.24 3.05-2.45.96-1.4 1.36-2.76 1.38-2.83-.03-.01-2.65-1.02-2.68-4.04zM14.53 4.9c.7-.85 1.17-2.02 1.04-3.2-1.01.04-2.23.67-2.95 1.52-.65.75-1.22 1.95-1.07 3.1 1.13.09 2.28-.57 2.98-1.42z"/></svg></a></div>
         </div>
         <div class="uq-win uq-win--organic">
@@ -1556,7 +1563,7 @@
       <div class="uq-view" data-view="loss">
         <div class="uq-header">
           <div class="uq-header__side"><div class="uq-back" data-nav="home"><span>&lt;</span></div></div>
-          <div class="uq-header__center"><div class="uq-header__title"><span class="uq-wordmark uq-wordmark--compact" role="img" aria-label="Quotle"><span class="uq-wordmark__tile" aria-hidden="true">Q</span><span class="uq-wordmark__tile" aria-hidden="true">U</span><span class="uq-wordmark__tile" aria-hidden="true">O</span><span class="uq-wordmark__tile" aria-hidden="true">T</span><span class="uq-wordmark__tile" aria-hidden="true">L</span><span class="uq-wordmark__tile" aria-hidden="true">E</span></span></div></div>
+          <div class="uq-header__center"><div class="uq-header__title"><span class="uq-wordmark uq-wordmark--compact" role="img" aria-label="Quotle"><span class="uq-wordmark__tile" aria-hidden="true">Q</span><span class="uq-wordmark__tile" aria-hidden="true">U</span><span class="uq-wordmark__tile" aria-hidden="true">O</span><span class="uq-wordmark__tile" aria-hidden="true">T</span><span class="uq-wordmark__tile uq-wordmark__tile--soft" aria-hidden="true">L</span><span class="uq-wordmark__tile" aria-hidden="true">E</span></span></div></div>
           <div class="uq-header__side uq-header__side--right"><a class="uq-app-link" href="https://apps.apple.com/app/id6759216018" target="_blank" rel="noopener" aria-label="Get REPS on the App Store for iPhone"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.05 12.04c-.03-2.53 2.07-3.74 2.16-3.8-1.18-1.72-3.01-1.96-3.66-1.98-1.56-.16-3.04.92-3.83.92-.79 0-2-.9-3.29-.87-1.69.02-3.25.98-4.12 2.49-1.76 3.05-.45 7.56 1.26 10.03.84 1.21 1.84 2.57 3.15 2.52 1.26-.05 1.74-.81 3.27-.81 1.52 0 1.96.81 3.29.79 1.36-.03 2.22-1.24 3.05-2.45.96-1.4 1.36-2.76 1.38-2.83-.03-.01-2.65-1.02-2.68-4.04zM14.53 4.9c.7-.85 1.17-2.02 1.04-3.2-1.01.04-2.23.67-2.95 1.52-.65.75-1.22 1.95-1.07 3.1 1.13.09 2.28-.57 2.98-1.42z"/></svg></a></div>
         </div>
         <div class="uq-win uq-win--organic">
