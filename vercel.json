@@ -16,6 +16,16 @@
   ],
   "redirects": [
     {
+      "source": "/play/verbatim",
+      "destination": "/play/quotle",
+      "statusCode": 301
+    },
+    {
+      "source": "/play/verbatim/",
+      "destination": "/play/quotle",
+      "statusCode": 301
+    },
+    {
       "source": "/product",
       "destination": "/",
       "statusCode": 301
