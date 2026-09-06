@@ -3,21 +3,24 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
-// play/verbatim.html is static HTML with an inline script and no module
+// play/quotle.html is static HTML with an inline script and no module
 // boundary, so — same approach as the login.html gateway-wiring test in
 // api/resolve.test.ts — its contract can only be checked as source text.
 //
 // This guards the one thing the "Verbatim on the web" brief actually asked
 // for: a visitor can play immediately with no install and no gate, and the
-// "get the app" offer never blocks or redirects them out of the game.
+// "get the app" offer never blocks or redirects them out of the game. The
+// game itself was later renamed Verbatim → Quotle on the website; this file
+// and its assertions were updated for the new file/route/text, unchanged in
+// what they guard.
 
-const HTML_PATH = fileURLToPath(new URL("../play/verbatim.html", import.meta.url));
+const HTML_PATH = fileURLToPath(new URL("../play/quotle.html", import.meta.url));
 
 function readHtml(): string {
   return readFileSync(HTML_PATH, "utf8");
 }
 
-describe("play/verbatim.html — play online without the app", () => {
+describe("play/quotle.html — play online without the app", () => {
   test("the game view is the one shown on load, not gated behind another view", () => {
     const html = readHtml();
     assert.match(
@@ -48,7 +51,7 @@ describe("play/verbatim.html — play online without the app", () => {
   });
 });
 
-describe("play/verbatim.html — the app offer is present and non-blocking", () => {
+describe("play/quotle.html — the app offer is present and non-blocking", () => {
   test("every app-offer link points at the real App Store listing and opens in a new tab", () => {
     const html = readHtml();
     const linkPattern = /<a class="uq-app-(?:link|cta)"[^>]*href="([^"]+)"[^>]*target="([^"]*)"[^>]*rel="([^"]*)"/g;
