@@ -32,13 +32,57 @@ describe("play/quotle.html — play online without the app", () => {
 
   test("the boot script shows the game and opens the tutorial unconditionally", () => {
     const html = readHtml();
-    const scriptStart = html.indexOf("(function() {");
-    assert.ok(scriptStart !== -1, "expected the game's IIFE to be present");
+    // The game body used to be an IIFE. It is now `window.__quotleStart`, invoked
+    // once today's round has arrived from /api/quotle-round — the board is built
+    // from that round, so it cannot be built before there is one. What this test
+    // guards is UNCHANGED: nothing conditional stands in front of play. A data
+    // fetch that ALWAYS resolves (see the fallback assertions below) is not a
+    // gate; a "has the app", "is on iOS", or install check would be.
+    const scriptStart = html.indexOf("window.__quotleStart = function");
+    assert.ok(scriptStart !== -1, "expected the game's boot function to be present");
     const script = html.slice(scriptStart);
     // These three calls run in this order with nothing gating them - no
     // "has the app", "is on iOS", or install-check branch in front of play.
     assert.match(script, /renderRoundUI\(\);\s*\n\s*showView\("game"\);\s*\n\s*fitGameScreen\(\);/);
-    assert.match(script, /openIntro\(\);\s*\n\s*\}\)\(\);/, "openIntro (the how-to-play overlay) must be the last call before the IIFE closes, unconditional");
+    assert.match(
+      script,
+      /openIntro\(\);\s*\n\s*\};\s*\n\s*window\.__quotleRound\.then\(window\.__quotleStart\);/,
+      "openIntro (the how-to-play overlay) must be the last call before the boot function closes, unconditional, and the boot function must be invoked with no condition on it",
+    );
+  });
+
+  test("the board is built from the fetched round, not a hardcoded quote", () => {
+    const html = readHtml();
+    // THE HEADLINE DELIVERABLE, pinned. `QUOTE_TEXT` is the answer the tiles, the
+    // keyboard hit-test and the guess check all run against. For years it was a
+    // literal, which is what made the web game show the same Edison line forever
+    // while the app served a fresh quote daily. Binding it to the round is the
+    // whole change; a revert to a literal would leave every other assertion in
+    // this file passing, so this is the one that has to catch it.
+    assert.match(
+      html,
+      /var QUOTE_TEXT = round\.quote\.text;/,
+      "the gameplay answer must come from the fetched round — a string literal here means the board has been unwired from the live quote",
+    );
+  });
+
+  test("the round fetch can never leave a visitor without a game", () => {
+    const html = readHtml();
+    // The one way wiring the page to a live quote could take play away from a
+    // visitor: the route is down and the page waits forever, or throws. Neither
+    // is possible — the fetch has a timeout, every failure path returns null
+    // rather than rejecting, and null resolves to a hardcoded round.
+    assert.match(html, /var FALLBACK_ROUND = \{/, "a compiled-in round must exist as the error path");
+    assert.match(html, /var FETCH_TIMEOUT_MS = \d+;/, "the fetch must be bounded, or a hung route hangs the game");
+    assert.match(html, /\.catch\(function\(\) \{[\s\S]{0,120}return null;/, "a failed fetch must resolve to null, never reject");
+    assert.match(
+      html,
+      /var resolved = live \? round : FALLBACK_ROUND;/,
+      "an unusable round must fall back to the compiled-in one rather than blank the board",
+    );
+    // And the fallback must be loud, so "the web game quietly stopped being
+    // daily" cannot go unnoticed for weeks.
+    assert.match(html, /console\.warn\("Quotle: \/api\/quotle-round gave no usable round/);
   });
 
   test("nothing on the page redirects, refreshes, or bounces the visitor to an app store", () => {
@@ -79,7 +123,9 @@ describe("play/quotle.html — the app offer is present and non-blocking", () =>
     // The offer markup must not be nested inside the pre-play tutorial overlay
     // or the share-sheet scrim — both of which DO legitimately use overlay
     // positioning elsewhere on this page for unrelated (in-scope) features.
-    const introOverlayMatch = /<div class="uq-intro-overlay"[\s\S]*?<canvas id="uq-confetti-canvas"/.exec(html);
+    // The class list now also carries `show` (the overlay is up from first paint,
+    // holding the curtain while today's round is fetched), so match on the prefix.
+    const introOverlayMatch = /<div class="uq-intro-overlay[^"]*"[\s\S]*?<canvas id="uq-confetti-canvas"/.exec(html);
     assert.ok(introOverlayMatch, "expected to find the intro-overlay block to scope the check against");
     assert.ok(
       !introOverlayMatch[0].includes("uq-app-link") && !introOverlayMatch[0].includes("uq-app-cta"),
