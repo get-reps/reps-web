@@ -51,6 +51,21 @@ describe("play/quotle.html — play online without the app", () => {
     );
   });
 
+  test("the board is built from the fetched round, not a hardcoded quote", () => {
+    const html = readHtml();
+    // THE HEADLINE DELIVERABLE, pinned. `QUOTE_TEXT` is the answer the tiles, the
+    // keyboard hit-test and the guess check all run against. For years it was a
+    // literal, which is what made the web game show the same Edison line forever
+    // while the app served a fresh quote daily. Binding it to the round is the
+    // whole change; a revert to a literal would leave every other assertion in
+    // this file passing, so this is the one that has to catch it.
+    assert.match(
+      html,
+      /var QUOTE_TEXT = round\.quote\.text;/,
+      "the gameplay answer must come from the fetched round — a string literal here means the board has been unwired from the live quote",
+    );
+  });
+
   test("the round fetch can never leave a visitor without a game", () => {
     const html = readHtml();
     // The one way wiring the page to a live quote could take play away from a
