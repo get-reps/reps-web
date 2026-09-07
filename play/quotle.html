@@ -1434,7 +1434,7 @@
             </div>
             <div class="uq-teaser__col">
               <div class="uq-teaser__eyebrow">Games ·&nbsp;<span class="uq-wordmark uq-wordmark--home" role="img" aria-label="Quotle"><span class="uq-wordmark__tile" aria-hidden="true">Q</span><span class="uq-wordmark__tile" aria-hidden="true">U</span><span class="uq-wordmark__tile" aria-hidden="true">O</span><span class="uq-wordmark__tile" aria-hidden="true">T</span><span class="uq-wordmark__tile" aria-hidden="true">L</span><span class="uq-wordmark__tile" aria-hidden="true">E</span></span></div>
-              <div class="uq-teaser__headline">Today’s quote: Thomas Edison</div>
+              <div class="uq-teaser__headline" id="uq-home-teaser-headline">Today’s quote</div>
               <div class="uq-teaser__meta" id="uq-home-teaser-meta">Guess it, letter by letter · 5 rounds</div>
             </div>
           </div>
@@ -1478,7 +1478,7 @@
         </div>
 
         <div class="uq-quote-grid" id="uq-quote-grid"></div>
-        <div class="uq-author-byline" id="uq-author-byline">- Thomas Edison</div>
+        <div class="uq-author-byline" id="uq-author-byline"></div>
 
         <div class="uq-keyboard" id="uq-keyboard"></div>
 
@@ -1510,8 +1510,8 @@
         <div class="uq-win uq-win--organic">
 
           <div class="uq-organic-quote">
-            <div class="uq-organic-quote__text">&ldquo;Genius is one percent inspiration, ninety-nine percent perspiration&rdquo;</div>
-            <div class="uq-organic-quote__author">- Thomas Edison</div>
+            <div class="uq-organic-quote__text" id="uq-win-quote-text"></div>
+            <div class="uq-organic-quote__author" id="uq-win-quote-author"></div>
           </div>
 
           <div class="uq-organic-context">
@@ -1519,14 +1519,14 @@
               <canvas class="uq-organic-context__echo" data-echo-perched data-pose="thinking" data-size="26"></canvas>
               <div class="uq-organic-context__label">Echo's take</div>
             </div>
-            <p class="uq-organic-context__body">On this day in 1882, Thomas Edison threw the switch on the first commercial power station and lit up lower Manhattan, the start of the electrical age. His most famous line is really about what that took: the spark of an idea counts for almost nothing next to the years of work that make it real.</p>
-            <p class="uq-organic-context__question">What are you waiting to feel inspired to do, when it really just needs the work?</p>
+            <p class="uq-organic-context__body" id="uq-win-context-body"></p>
+            <p class="uq-organic-context__question" id="uq-win-context-question"></p>
           </div>
 
           <div class="uq-win-actions">
             <button class="cta" id="uq-win-share-btn">Share your result</button>
 
-            <a class="uq-readmore-card" id="uq-win-learn-more" href="https://www.nyhistory.org/blogs/edison-lit-manhattan" target="_blank" rel="noopener">
+            <a class="uq-readmore-card" id="uq-win-learn-more" target="_blank" rel="noopener">
               <div class="uq-readmore-card__thumb">
                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                   <g fill="rgba(255,255,255,0.85)">
@@ -1538,7 +1538,7 @@
                 </svg>
               </div>
               <div class="uq-readmore-card__col">
-                <div class="uq-readmore-card__title">Edison Lights Up Manhattan</div>
+                <div class="uq-readmore-card__title" id="uq-win-readmore-title"></div>
                 <div class="uq-readmore-card__meta">A REPS set · 6 concepts</div>
               </div>
               <div class="uq-readmore-card__chevron" aria-hidden="true">&nearr;</div>
@@ -1567,8 +1567,8 @@
           </div>
 
           <div class="uq-organic-quote">
-            <div class="uq-organic-quote__text">&ldquo;Genius is one percent inspiration, ninety-nine percent perspiration&rdquo;</div>
-            <div class="uq-organic-quote__author">- Thomas Edison</div>
+            <div class="uq-organic-quote__text" id="uq-loss-quote-text"></div>
+            <div class="uq-organic-quote__author" id="uq-loss-quote-author"></div>
           </div>
 
           <div class="uq-organic-context">
@@ -1576,14 +1576,14 @@
               <canvas class="uq-organic-context__echo" data-echo-perched data-pose="sad" data-size="26"></canvas>
               <div class="uq-organic-context__label">Echo's take</div>
             </div>
-            <p class="uq-organic-context__body">On this day in 1882, Thomas Edison threw the switch on the first commercial power station and lit up lower Manhattan, the start of the electrical age. His most famous line is really about what that took: the spark of an idea counts for almost nothing next to the years of work that make it real.</p>
-            <p class="uq-organic-context__question">What are you waiting to feel inspired to do, when it really just needs the work?</p>
+            <p class="uq-organic-context__body" id="uq-loss-context-body"></p>
+            <p class="uq-organic-context__question" id="uq-loss-context-question"></p>
           </div>
 
           <div class="uq-win-actions">
             <button class="cta" id="uq-loss-share-btn">Share your result</button>
 
-            <a class="uq-readmore-card" id="uq-loss-learn-more" href="https://www.nyhistory.org/blogs/edison-lit-manhattan" target="_blank" rel="noopener">
+            <a class="uq-readmore-card" id="uq-loss-learn-more" target="_blank" rel="noopener">
               <div class="uq-readmore-card__thumb">
                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                   <g fill="rgba(255,255,255,0.85)">
@@ -1595,7 +1595,7 @@
                 </svg>
               </div>
               <div class="uq-readmore-card__col">
-                <div class="uq-readmore-card__title">Edison Lights Up Manhattan</div>
+                <div class="uq-readmore-card__title" id="uq-loss-readmore-title"></div>
                 <div class="uq-readmore-card__meta">A REPS set · 6 concepts</div>
               </div>
               <div class="uq-readmore-card__chevron" aria-hidden="true">&nearr;</div>
@@ -1613,7 +1613,7 @@
       <div class="uq-view" data-view="set-detail">
         <div class="uq-header">
           <div class="uq-header__side"><div class="uq-back" id="uq-setdetail-back"><span>&lt;</span></div></div>
-          <div class="uq-header__center"><div class="uq-header__title">Edison Lights Up Manhattan</div></div>
+          <div class="uq-header__center"><div class="uq-header__title" id="uq-setdetail-header-title"></div></div>
           <div class="uq-header__side uq-header__side--right"><a class="uq-app-link" href="https://apps.apple.com/app/id6759216018" target="_blank" rel="noopener" aria-label="Get REPS on the App Store for iPhone"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.05 12.04c-.03-2.53 2.07-3.74 2.16-3.8-1.18-1.72-3.01-1.96-3.66-1.98-1.56-.16-3.04.92-3.83.92-.79 0-2-.9-3.29-.87-1.69.02-3.25.98-4.12 2.49-1.76 3.05-.45 7.56 1.26 10.03.84 1.21 1.84 2.57 3.15 2.52 1.26-.05 1.74-.81 3.27-.81 1.52 0 1.96.81 3.29.79 1.36-.03 2.22-1.24 3.05-2.45.96-1.4 1.36-2.76 1.38-2.83-.03-.01-2.65-1.02-2.68-4.04zM14.53 4.9c.7-.85 1.17-2.02 1.04-3.2-1.01.04-2.23.67-2.95 1.52-.65.75-1.22 1.95-1.07 3.1 1.13.09 2.28-.57 2.98-1.42z"/></svg></a></div>
         </div>
         <div class="uq-setdetail">
@@ -1627,17 +1627,17 @@
               </g>
             </svg>
           </div>
-          <div class="uq-setdetail-title">Edison Lights Up Manhattan</div>
+          <div class="uq-setdetail-title" id="uq-setdetail-title"></div>
           <div class="uq-setdetail-meta">A REPS set · 6 concepts</div>
 
-          <div class="uq-setdetail-section">Concepts</div>
-          <div class="uq-concept-list">
-            <div class="uq-concept-row"><div class="uq-concept-row__index">1</div><div class="uq-concept-row__title">The Wizard of Menlo Park</div></div>
-            <div class="uq-concept-row"><div class="uq-concept-row__index">2</div><div class="uq-concept-row__title">Inventing the Light Bulb</div></div>
-            <div class="uq-concept-row"><div class="uq-concept-row__index">3</div><div class="uq-concept-row__title">Building Pearl Street Station</div></div>
-            <div class="uq-concept-row"><div class="uq-concept-row__index">4</div><div class="uq-concept-row__title">Lighting Lower Manhattan</div></div>
-            <div class="uq-concept-row"><div class="uq-concept-row__index">5</div><div class="uq-concept-row__title">The War of the Currents</div></div>
-            <div class="uq-concept-row"><div class="uq-concept-row__index">6</div><div class="uq-concept-row__title">Edison's Lasting Legacy</div></div>
+          <!-- The concept list was six hand-written Edison headings. `get_verbatim_round`
+               carries no concepts, so there is nothing to render here and nothing may be
+               invented: this block stays hidden until a round supplies real ones. The
+               set-detail view has no entry point in this build (`openSetDetail` is never
+               called), so nothing a player can reach is affected either way. -->
+          <div id="uq-setdetail-concepts" hidden>
+            <div class="uq-setdetail-section">Concepts</div>
+            <div class="uq-concept-list" id="uq-setdetail-concept-list"></div>
           </div>
 
           <button class="cta" id="uq-setdetail-train">Train this set</button>
@@ -1672,7 +1672,11 @@
       <button class="uq-sheet__cancel" type="button" id="uq-sheet-cancel">Done</button>
     </div>
 
-    <div class="uq-intro-overlay" id="uq-intro-overlay" role="dialog" aria-label="How to play Quotle">
+    <!-- `show` is in the markup, not added by script, and that is what prevents a flash:
+         the how-to-play card already covers the whole device and the game always opens
+         behind it, so it is the natural curtain to hold up while today's round is
+         fetched. Nothing of the board is on screen until there is a real quote on it. -->
+    <div class="uq-intro-overlay show" id="uq-intro-overlay" role="dialog" aria-label="How to play Quotle">
       <div class="uq-intro-scroll">
         <canvas class="uq-intro-echo" data-echo-perched data-pose="wave" data-size="64"></canvas>
         <div class="uq-intro-title">How to play</div>
@@ -1730,7 +1734,7 @@
       </div>
 
       <div class="uq-intro-cta-wrap">
-        <button class="cta" id="uq-intro-cta">Got it, let's play</button>
+        <button class="cta" id="uq-intro-cta" disabled>Loading today's quote…</button>
       </div>
     </div>
 
@@ -1739,12 +1743,136 @@
   </div>
   </div>
 
-  <script src="harness/echo.js"></script>
-  <script src="harness/echo-perched.js"></script>
+  <!-- Today's round. Deliberately the FIRST script on the page: it is a network
+       round-trip and everything else is local, so it starts before the two harness
+       bundles are even requested. -->
   <script>
 (function() {
   "use strict";
-  var QUOTE_TEXT = "Genius is one percent inspiration, ninety-nine percent perspiration";
+
+  // THE ERROR PATH, AND ONLY THE ERROR PATH.
+  //
+  // This is not "the quote"; it is what the page shows when it could not find out
+  // what the quote is — the route is down, misconfigured, or the bank is empty. It
+  // exists so a failure is a stale round rather than a blank board, and every field
+  // in it is real and verified, because a fallback a player cannot tell from the
+  // real thing must still be true.
+  //
+  // If you find yourself editing this to change today's quote, something is broken:
+  // the quote comes from `get_verbatim_round` through /api/quotle-round. Check that
+  // route's logs (it says out loud why it had no round) before touching this.
+  var FALLBACK_ROUND = {
+    quote: {
+      text: "Genius is one percent inspiration, ninety-nine percent perspiration",
+      author: "Thomas Edison",
+      context: "On this day in 1882, Thomas Edison threw the switch on the first commercial power station and lit up lower Manhattan, the start of the electrical age. His most famous line is really about what that took: the spark of an idea counts for almost nothing next to the years of work that make it real.",
+      question: "What are you waiting to feel inspired to do, when it really just needs the work?",
+      read_more: {
+        title: "Edison Lights Up Manhattan",
+        url: "https://www.nyhistory.org/blogs/edison-lit-manhattan",
+        host: "nyhistory.org"
+      }
+    }
+  };
+
+  // How long to wait for the route before taking the fallback. Long enough to cover
+  // a cold edge function, short enough that a hung route does not leave a visitor
+  // staring at a disabled button.
+  var FETCH_TIMEOUT_MS = 6000;
+
+  var OPEN_QUOTE = "“";
+  var CLOSE_QUOTE = "”";
+
+  function setText(id, value) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = value;
+  }
+
+  function setHref(id, value) {
+    var el = document.getElementById(id);
+    if (el) el.setAttribute("href", value);
+  }
+
+  // Every hardcoded copy of the quote in the markup, in one place. The board itself
+  // is not here — it is built from the same round by the game script below.
+  function renderRoundChrome(round) {
+    var q = round.quote;
+    var byline = "- " + q.author;
+    var quoted = OPEN_QUOTE + q.text + CLOSE_QUOTE;
+
+    setText("uq-home-teaser-headline", "Today’s quote: " + q.author);
+    setText("uq-author-byline", byline);
+
+    ["win", "loss"].forEach(function(view) {
+      setText("uq-" + view + "-quote-text", quoted);
+      setText("uq-" + view + "-quote-author", byline);
+      setText("uq-" + view + "-context-body", q.context);
+      setText("uq-" + view + "-context-question", q.question);
+      setText("uq-" + view + "-readmore-title", q.read_more.title);
+      setHref("uq-" + view + "-learn-more", q.read_more.url);
+    });
+
+    setText("uq-setdetail-header-title", q.read_more.title);
+    setText("uq-setdetail-title", q.read_more.title);
+  }
+
+  function isUsable(round) {
+    if (!round || round.available !== true || !round.quote) return false;
+    var q = round.quote;
+    return typeof q.text === "string" && /[A-Za-z]/.test(q.text)
+      && typeof q.author === "string" && q.author.length > 0
+      && typeof q.context === "string"
+      && typeof q.question === "string"
+      && q.read_more && typeof q.read_more.title === "string"
+      && typeof q.read_more.url === "string";
+  }
+
+  function fetchRound() {
+    if (typeof fetch !== "function") return Promise.resolve(null);
+    var controller = typeof AbortController === "function" ? new AbortController() : null;
+    var timer = setTimeout(function() {
+      if (controller) controller.abort();
+    }, FETCH_TIMEOUT_MS);
+    var options = { headers: { Accept: "application/json" } };
+    if (controller) options.signal = controller.signal;
+    return fetch("/api/quotle-round", options).then(function(res) {
+      clearTimeout(timer);
+      if (!res.ok) return null;
+      return res.json();
+    }).catch(function() {
+      clearTimeout(timer);
+      return null;
+    });
+  }
+
+  // Resolves to a round, ALWAYS — never rejects, so the game below always boots.
+  // Falling back is silent to the player and never to the console: "the web game
+  // quietly stopped being daily" is exactly the failure that hides for weeks.
+  window.__quotleRound = fetchRound().then(function(round) {
+    var live = isUsable(round);
+    if (!live) {
+      console.warn("Quotle: /api/quotle-round gave no usable round; showing the fallback quote.", round);
+    }
+    var resolved = live ? round : FALLBACK_ROUND;
+    // Readable in devtools, so "is this today's quote or the fallback?" is one
+    // glance rather than an investigation.
+    document.documentElement.setAttribute("data-quotle-source", live ? "live" : "fallback");
+    if (live && round.tier) document.documentElement.setAttribute("data-quotle-tier", round.tier);
+    renderRoundChrome(resolved);
+    return resolved;
+  });
+})();
+  </script>
+  <script src="harness/echo.js"></script>
+  <script src="harness/echo-perched.js"></script>
+  <script>
+// The game body is a function, not an IIFE, because every tile, every keyboard
+// hit-test and every letter of the answer is derived from the round — so none of
+// it may run until there is one. It is invoked at the foot of this script, once
+// window.__quotleRound (above) has settled.
+window.__quotleStart = function(round) {
+  "use strict";
+  var QUOTE_TEXT = round.quote.text;
   var ROUND_PICKS = [5, 4, 3, 2, 1];
   function showView(name) {
     document.querySelectorAll(".uq-view").forEach(function(v) {
@@ -2478,8 +2606,14 @@
   fitGameScreen();
   window.addEventListener("resize", fitGameScreen);
   window.addEventListener("orientationchange", fitGameScreen);
+  // The how-to-play card has been up since first paint, hiding a board that had no
+  // quote on it yet. Now there is one, so the card becomes dismissible.
+  var introCta = document.getElementById("uq-intro-cta");
+  introCta.textContent = "Got it, let's play";
+  introCta.disabled = false;
   openIntro();
-})();
+};
+window.__quotleRound.then(window.__quotleStart);
 </script>
   </body>
 </html>
