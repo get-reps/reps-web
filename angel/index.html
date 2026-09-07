@@ -38,7 +38,9 @@ img,video,canvas,svg{max-width:100%;max-height:100%;}
   .slide:last-child{break-after:auto;page-break-after:auto;}
   .deck-controls{display:none!important;}
 }
-@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.2s!important;}}
+/* Reduced-motion handling removed (Mike, 2026-09-07): this deck is a hand-presented
+   investor piece, not broad distribution, and the global freeze silently killed the
+   vision-slide build for anyone with OS "reduce motion" on. Animations always play. */
 
 /* === THEME TOKENS === */
 :root{
@@ -547,8 +549,8 @@ body.still .st.filled::after{opacity:.5;animation:none;}
 /* === 11 THE FACULTY DIAGRAM ===
    One 900x560 coordinate space shared by the SVG wires and the absolutely
    positioned boxes, so a wire always meets a box edge exactly. */
-.orgmap{position:relative;width:900px;height:604px;}
-.orgmap .wires{position:absolute;inset:0;width:900px;height:604px;overflow:visible;}
+.orgmap{position:relative;width:900px;height:624px;}
+.orgmap .wires{position:absolute;inset:0;width:900px;height:624px;overflow:visible;}
 .orgmap .wires path{fill:none;stroke:rgba(255,250,247,.22);stroke-width:1.3;}
 .orgmap .wires path.back{stroke:rgba(255,107,107,.34);stroke-dasharray:3 5;}
 .orgmap .node{position:absolute;border-radius:7px;border:1px solid var(--hair);
@@ -585,11 +587,16 @@ body.still .orgmap .human::after{opacity:.45;animation:none;}
 .orgmap .bucket b{display:block;font-family:var(--serif);font-weight:500;font-size:54px;line-height:1;
   letter-spacing:-.03em;color:#fff;margin-bottom:12px;}
 .orgmap .bucket p{font-size:13px;line-height:1.4;}
-.orgmap .provrow{flex-direction:column;align-items:stretch;justify-content:center;gap:14px;}
-.orgmap .provlab h5{font-size:18px;}
-.orgmap .provlab p{margin-top:3px;font-size:13px;}
+/* .node.provrow (0,3,0) must beat .orgmap .surface's space-between (0,2,0). The real
+   overflow culprit: .provmarks stretched to 80px in the flex column, pushing the logos
+   out the bottom of the box. Pin the marks row to the icon height so the label + logos
+   both sit inside the 104px box, centred. */
+.orgmap .node.provrow{flex-direction:column;align-items:stretch;justify-content:center;gap:11px;}
+.orgmap .node.provrow .provmarks{flex:none;height:26px;min-height:0;align-items:center;}
+.orgmap .provrow > .chip{margin-bottom:0;}
+.orgmap .provcap{margin:0;font-size:13px;line-height:1.35;color:var(--fg-faint);}
 .orgmap .provmarks{display:flex;align-items:center;gap:22px;justify-content:space-between;}
-.orgmap .pv{width:24px;height:24px;fill:rgba(255,250,247,.62);flex:none;}
+.orgmap .pv{width:24px;height:24px;fill:rgba(255,250,247,.62);flex:none;margin:0;align-self:center;}
 /* the foundation twin of the providers row: same height, same register, but it
    still has to carry a count, so the number sits beside the sentence instead of
    above it the way the taller buckets do */
@@ -1915,6 +1922,83 @@ body.still .deck-controls{display:none!important;}
 .store .rating.v2 span{font-size:28px;font-weight:600;color:var(--fg-soft);margin-left:8px;}
 .apple-mark{width:26px;height:26px;color:var(--fg);margin-top:2px;}
 
+
+/* === VISION AT SCALE — top-aligned market circles + Strava callout ===
+   Diagram from vision-slide-options/option17a; animations re-gated on
+   .slide.visible, settled under body.still / reduced-motion. */
+.cc-wrap{position:relative;margin-top:60px;width:1612px;height:638px;}
+.cc-svg{position:absolute;left:0;top:46px;width:734px;height:592px;overflow:visible;}
+.cc-hdr{position:absolute;font-family:var(--sans);font-weight:600;font-size:13px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--fg-faint);opacity:0;}
+.cc-inline{position:absolute;width:140px;text-align:center;font-family:var(--sans);font-weight:700;font-size:21px;
+  letter-spacing:-.02em;font-variant-numeric:tabular-nums;opacity:0;}
+.cc-card{position:absolute;width:300px;opacity:0;transform:translateY(6px);}
+.cc-card h3{font-family:var(--serif);font-weight:600;font-size:19px;line-height:1.2;color:var(--fg);}
+.cc-card p{margin-top:3px;font-family:var(--sans);font-size:13px;line-height:1.4;color:var(--fg-soft);}
+.cc-card.total h3{font-size:20px;color:var(--accent-type);line-height:1.24;}
+.cc-card.total p{font-size:14px;color:var(--fg-soft);margin-top:5px;}
+.cc-line-halo{stroke:#FFFAF7;stroke-width:5;opacity:.9;}
+.cc-line{stroke:rgba(33,26,20,.5);stroke-width:1.25;}
+.cc-line-halo,.cc-line{stroke-dasharray:640;stroke-dashoffset:640;}
+.cc-dot{fill:#FF6B6B;stroke:#FFFAF7;stroke-width:2;opacity:0;}
+.cc-ring{opacity:0;}
+.cc-arrow-head,.cc-callout{opacity:0;}
+.cc-arrow-line{stroke-dasharray:328;stroke-dashoffset:328;}
+.cc-arrow{position:absolute;left:1062px;top:142px;width:40px;height:328px;}
+.cc-arrow svg{width:100%;height:100%;overflow:visible;}
+.cc-callout{position:absolute;left:1142px;top:142px;width:470px;}
+.cc-callout .k{font-family:var(--sans);font-weight:600;font-size:15px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--coral-ink);margin-bottom:14px;}
+.cc-callout .body{font-family:var(--serif);font-weight:500;font-size:26px;line-height:1.42;color:var(--fg);letter-spacing:-.006em;}
+.cc-callout .body p{margin:0;}
+.cc-callout .body p + p{margin-top:17px;}
+.cc-callout .body b{font-weight:600;color:var(--coral-ink);}
+@keyframes ccline{to{stroke-dashoffset:0;}}
+@keyframes ccdraw{to{stroke-dashoffset:0;}}
+@keyframes ccringin{from{opacity:0;}to{opacity:1;}}
+@keyframes ccfadein{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.slide.visible .cc-ring{animation:ccringin .55s ease-out forwards;}
+.slide.visible .cc-hdr{animation:ccfadein .45s ease-out forwards;animation-delay:0.90s;}
+.slide.visible .cc-inline{animation:ccfadein .4s ease-out forwards;}
+.slide.visible .cc-card{animation:ccfadein .45s ease-out forwards;}
+.slide.visible .cc-line,.slide.visible .cc-line-halo{animation:ccline .45s ease-out forwards;}
+.slide.visible .cc-dot{animation:ccfadein .3s ease-out forwards;}
+/* Mike round 4: rings+text land ring by ring (inline delays), THEN the arrow draws
+   top->bottom, THEN the callout. */
+.slide.visible .cc-arrow-line{animation:ccdraw .65s ease-out forwards;animation-delay:3.90s;}
+.slide.visible .cc-arrow-head{animation:ccfadein .3s ease-out forwards;animation-delay:4.48s;}
+.slide.visible .cc-callout{animation:ccfadein .55s ease-out forwards;animation-delay:4.80s;}
+body.still .cc-ring,body.still .cc-dot,body.still .cc-inline,body.still .cc-card,body.still .cc-hdr,body.still .cc-arrow-head,body.still .cc-callout{animation:none!important;opacity:1!important;transform:none!important;}
+body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation:none!important;stroke-dashoffset:0!important;}
+
+/* s08 (round 3): Mike's supplied rating badge, recoloured. Apple glyph removed;
+   the badge is now a full-width banner, so its left/right edges align with the
+   quotes beneath it and it uses the whole panel width. */
+.store .head.laureled.v2{display:block;padding-bottom:16px;}
+.rating-badge{width:100%;height:auto;display:block;}
+
+/* === WHO IT'S FOR - persona variant (folio 06), Mike round 3 === */
+.pv{margin-top:56px;}
+.pv-top{display:grid;grid-template-columns:250px 560px auto;gap:56px;align-items:start;justify-content:start;}
+.pv-photo{margin:0;}
+.pv-photo img{width:250px;height:305px;object-fit:cover;border-radius:16px;display:block;box-shadow:0 18px 40px rgba(33,26,20,.14);}
+.pv-photo figcaption{margin-top:14px;text-align:center;font-family:var(--serif);font-weight:600;font-size:22px;color:var(--fg);}
+.pv-bullets{display:flex;flex-direction:column;gap:24px;}
+.pv-b b{display:block;font-family:var(--sans);font-weight:600;font-size:15px;letter-spacing:.16em;text-transform:uppercase;color:var(--coral-ink);margin-bottom:6px;}
+.pv-b p{font-family:var(--serif);font-weight:400;font-size:22px;line-height:1.4;color:var(--fg);max-width:540px;}
+.pv-b p strong{font-weight:600;color:var(--fg);}
+.pv-stats{align-self:center;display:flex;align-items:center;gap:30px;}
+.pv-tri{width:0;height:0;border-top:46px solid transparent;border-bottom:46px solid transparent;border-left:58px solid var(--coral-ink);flex:none;}
+.pv-stat-col{display:flex;flex-direction:column;gap:20px;}
+.pv-stat .pv-num{font-family:var(--sans);font-weight:700;font-size:54px;line-height:1;letter-spacing:-.02em;color:var(--coral-ink);}
+.pv-stat .pv-lab{margin-top:6px;font-family:var(--sans);font-weight:400;font-size:15px;line-height:1.35;color:var(--fg);max-width:240px;}
+.pv-src{margin-top:2px;font-family:var(--sans);font-size:11px;letter-spacing:.03em;color:var(--fg-faint);}
+.pv-bottom{display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-top:36px;padding-top:26px;border-top:1px solid var(--hair);}
+.pv-h{font-family:var(--sans);font-weight:600;font-size:15px;letter-spacing:.2em;text-transform:uppercase;color:var(--fg-faint);margin-bottom:14px;}
+.pv-explore .pv-h{color:var(--coral-ink);}
+.pv-grid{display:flex;flex-direction:column;gap:12px;}
+.pv-item b{font-family:var(--serif);font-weight:600;font-size:18px;color:var(--fg);margin-right:8px;}
+.pv-item span{font-family:var(--sans);font-size:15px;line-height:1.4;color:var(--fg-soft);}
 </style>
 </head>
 <body>
@@ -1990,7 +2074,7 @@ body.still .deck-controls{display:none!important;}
   </div>
   <footer class="footrule chrome-fade">
     <span>Your attention, worth keeping.</span>
-    <span class="folio">01 <span>/ 13</span></span>
+    <span class="folio">01 <span>/ 14</span></span>
   </footer>
 </section>
 
@@ -2018,7 +2102,7 @@ body.still .deck-controls{display:none!important;}
   </div>
   <footer class="footrule chrome-fade">
     <span>Your attention, worth keeping.</span>
-    <span class="folio">02 <span>/ 13</span></span>
+    <span class="folio">02 <span>/ 14</span></span>
   </footer>
 </section>
 
@@ -2063,7 +2147,7 @@ body.still .deck-controls{display:none!important;}
   </div>
   <footer class="footrule chrome-fade">
     <span>Your attention, worth keeping.</span>
-    <span class="folio">03 <span>/ 13</span></span>
+    <span class="folio">03 <span>/ 14</span></span>
   </footer>
 </section>
 
@@ -2108,7 +2192,7 @@ body.still .deck-controls{display:none!important;}
   </div>
   <footer class="footrule chrome-fade">
     <span>Your attention, worth keeping.</span>
-    <span class="folio">04 <span>/ 13</span></span>
+    <span class="folio">04 <span>/ 14</span></span>
   </footer>
 </section>
 
@@ -2148,65 +2232,64 @@ body.still .deck-controls{display:none!important;}
       </div>
     </div>
   </div>
-  <footer class="footrule chrome-fade"><span>Your attention, worth keeping.</span><span class="folio">05 <span>/ 13</span></span></footer>
+  <footer class="footrule chrome-fade"><span>Your attention, worth keeping.</span><span class="folio">05 <span>/ 14</span></span></footer>
 </section>
 
 <!-- ============ 07 — WHO IT'S FOR · night ============
      Mike's curve, kept. Each segment gets a one-line self-identification so
      a reader can place herself (Nicole), and four sourced numbers sit under
      the curve for "how many are there". -->
-<section class="slide night" aria-label="Knowledge keepers">
+<section class="slide paper" aria-label="Who it's for">
   <header class="masthead chrome-fade">
     <div class="brandlock"><img src="/angel/assets/logos/app-mark.png" alt="" /><div class="wordmark">REPS</div></div>
     <div class="masthead-meta">Who it's for</div>
   </header>
   <div class="canvas">
     <p class="kicker reveal r1">Who it's for</p>
-    <h2 class="lead reveal r2" style="margin-top:12px;max-width:80ch"><span class="hot">Knowledge keepers:</span> cognitively active and poorly equipped to retain it.</h2>
+    <h2 class="lead reveal r2" style="margin-top:12px;max-width:1400px">Building for <span class="hot">middle-age infovores</span>: cognitively proactive and poorly equipped to retain it.</h2>
 
-    <div class="kthree">
-      <div class="kannot" aria-hidden="true">
-        <svg class="kannot-arrows" viewBox="0 0 400 70" preserveAspectRatio="none">
-          <path class="ka" d="M108 20 C 88 28, 72 32, 60 34"/>
-          <path class="ka" d="M68 29 L60 34 L67 40"/>
-          <path class="ka" d="M158 20 C 178 28, 194 32, 206 34"/>
-          <path class="ka" d="M198 29 L206 34 L199 40"/>
-        </svg>
-        <div class="kannot-label">Strongest signals<br />so far</div>
-      </div>
-      <div class="kpers3 reveal r3">
-        <div class="kper">
-          <div class="kp-photo"><img src="/angel/assets/personas/sam-portrait.png" alt="Sam" /></div>
-          <b class="kwho hot">Sam &middot; Lifelong learner</b>
-          <ul class="kbul">
-            <li>Retired, with <b class="kx">time on their hands</b> and a book club</li>
-            <li><b class="kx">Self-proclaimed nerd</b>, already plays NYT Games</li>
-            <li>Cares about <b class="kx">staying sharp</b> as the years go by</li>
-          </ul>
-        </div>
-        <div class="kper">
-          <div class="kp-photo"><img src="/angel/assets/personas/charlie-portrait.png" alt="Charlie" /></div>
-          <b class="kwho hot">Charlie &middot; Curious professional</b>
-          <ul class="kbul">
-            <li>Lived the before and after of the smartphone, and <b class="kx">noticed what it took</b></li>
-            <li><b class="kx">Eclectic content consumption</b>, no single place for it all</li>
-            <li>Loves to <b class="kx">share their discoveries</b> IRL</li>
-          </ul>
-        </div>
-      </div>
-      <div class="knot reveal r5">
-        <div class="knot-h">Not focused on</div>
-        <div class="knot-grid">
-          <div class="knot-item"><b>Casual content consumers</b><span>Consume, forget, repeat.</span></div>
-          <div class="knot-item"><b>Students</b><span>Overly crowded and transactional. Churn after school.</span></div>
-          <div class="knot-item"><b>Productivity zealots</b><span>Already built a second brain in Obsidian. High integration needs.</span></div>
-        </div>
+    <div class="pv">
+  <div class="pv-top reveal r3">
+    <figure class="pv-photo">
+      <img src="/angel/assets/personas/sam.png" alt="Sam, a middle-aged infovore" />
+      <figcaption>Meet Sam</figcaption>
+    </figure>
+    <div class="pv-bullets">
+      <div class="pv-b"><b>Profile</b><p><strong>45&ndash;64</strong>, with decades of accumulated knowledge and <strong>free time on their hands</strong>: kids are independent, retirement approaching.</p></div>
+      <div class="pv-b"><b>Wants &amp; desires</b><p>To <strong>remember what they read</strong> and bring it into the conversation &mdash; at dinner, in the book club, with friends. Values <strong>staying sharp with age</strong>, not productivity.</p></div>
+      <div class="pv-b"><b>Pain points</b><p>Finish a book or podcast and <strong>months later, it&rsquo;s gone</strong>. Systems feel like work, and <strong>bookmarks aren&rsquo;t helpful</strong>.</p></div>
+    </div>
+    <div class="pv-stats">
+      <div class="pv-tri" aria-hidden="true"></div>
+      <div class="pv-stat-col">
+        <div class="pv-stat"><div class="pv-num">2.3&times;</div><div class="pv-lab">more likely to click our ads than under-35s</div></div>
+        <div class="pv-stat"><div class="pv-num">2.5&times;</div><div class="pv-lab">more likely to build a recurring habit than under-45s</div></div>
+        <div class="pv-src">REPS + Meta data, cold-user cohorts</div>
       </div>
     </div>
   </div>
+  <div class="pv-bottom reveal r4">
+    <div class="pv-explore">
+      <div class="pv-h">Testing Older &amp; Younger</div>
+      <div class="pv-grid">
+        <div class="pv-item"><b>Millennial professionals</b><span>Last generation pre-smartphones and used to the information firehose.</span></div>
+        <div class="pv-item"><b>Lifelong learners</b><span>Engaged, but require more user-friendly activation.</span></div>
+      </div>
+    </div>
+    <div class="pv-notfocus">
+      <div class="pv-h">Not focused on</div>
+      <div class="pv-grid">
+        <div class="pv-item"><b>Casual content consumers</b><span>Consume, forget, repeat.</span></div>
+        <div class="pv-item"><b>Students</b><span>Overly crowded and transactional. Churn after school.</span></div>
+        <div class="pv-item"><b>Productivity zealots</b><span>Already built a second brain in Obsidian. High integration needs.</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
   <footer class="footrule chrome-fade">
     <span>Your attention, worth keeping.</span>
-    <span class="folio">06 <span>/ 13</span></span>
+    <span class="folio">06 <span>/ 14</span></span>
   </footer>
 </section>
 
@@ -2238,17 +2321,9 @@ body.still .deck-controls{display:none!important;}
 
       <div class="store reveal r4">
         <div class="head laureled v2">
-          <div class="rating-wrap v2">
-            <svg class="laurel v2" viewBox="0 0 90 150" aria-hidden="true"><g><ellipse cx="66.0" cy="148.0" rx="20.0" ry="7.6" transform="rotate(-248.0 66.0 148.0)"/><ellipse cx="58.6" cy="144.0" rx="19.4" ry="7.4" transform="rotate(-239.0 58.6 144.0)"/><ellipse cx="51.9" cy="138.8" rx="18.8" ry="7.2" transform="rotate(-229.9 51.9 138.8)"/><ellipse cx="45.9" cy="132.6" rx="18.2" ry="7.0" transform="rotate(-221.0 45.9 132.6)"/><ellipse cx="40.8" cy="125.2" rx="17.6" ry="6.9" transform="rotate(-212.5 40.8 125.2)"/><ellipse cx="36.6" cy="116.7" rx="17.0" ry="6.7" transform="rotate(-204.4 36.6 116.7)"/><ellipse cx="33.4" cy="107.1" rx="16.4" ry="6.5" transform="rotate(-197.0 33.4 107.1)"/><ellipse cx="31.2" cy="96.5" rx="15.8" ry="6.3" transform="rotate(-190.2 31.2 96.5)"/><ellipse cx="30.2" cy="84.8" rx="15.1" ry="6.1" transform="rotate(-184.1 30.2 84.8)"/><ellipse cx="30.4" cy="72.2" rx="14.5" ry="5.9" transform="rotate(-178.5 30.4 72.2)"/><ellipse cx="31.9" cy="58.5" rx="13.9" ry="5.7" transform="rotate(-173.5 31.9 58.5)"/><ellipse cx="34.7" cy="43.8" rx="13.3" ry="5.6" transform="rotate(-168.9 34.7 43.8)"/><ellipse cx="38.9" cy="28.1" rx="12.7" ry="5.4" transform="rotate(-164.8 38.9 28.1)"/><ellipse cx="44.7" cy="11.5" rx="12.1" ry="5.2" transform="rotate(-161.1 44.7 11.5)"/><ellipse cx="52.0" cy="-6.0" rx="11.5" ry="5.0" transform="rotate(-157.7 52.0 -6.0)"/></g></svg>
-            <div class="rating-stack">
-              <div class="stars5" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-              <div class="rating v2">4.8 <span>Rating</span></div>
-              <svg class="apple-mark" viewBox="0 0 24 24" aria-hidden="true"><use class="lg" href="#lg-apple"/></svg>
-            </div>
-            <svg class="laurel v2 r" viewBox="0 0 90 150" aria-hidden="true"><g><ellipse cx="66.0" cy="148.0" rx="20.0" ry="7.6" transform="rotate(-248.0 66.0 148.0)"/><ellipse cx="58.6" cy="144.0" rx="19.4" ry="7.4" transform="rotate(-239.0 58.6 144.0)"/><ellipse cx="51.9" cy="138.8" rx="18.8" ry="7.2" transform="rotate(-229.9 51.9 138.8)"/><ellipse cx="45.9" cy="132.6" rx="18.2" ry="7.0" transform="rotate(-221.0 45.9 132.6)"/><ellipse cx="40.8" cy="125.2" rx="17.6" ry="6.9" transform="rotate(-212.5 40.8 125.2)"/><ellipse cx="36.6" cy="116.7" rx="17.0" ry="6.7" transform="rotate(-204.4 36.6 116.7)"/><ellipse cx="33.4" cy="107.1" rx="16.4" ry="6.5" transform="rotate(-197.0 33.4 107.1)"/><ellipse cx="31.2" cy="96.5" rx="15.8" ry="6.3" transform="rotate(-190.2 31.2 96.5)"/><ellipse cx="30.2" cy="84.8" rx="15.1" ry="6.1" transform="rotate(-184.1 30.2 84.8)"/><ellipse cx="30.4" cy="72.2" rx="14.5" ry="5.9" transform="rotate(-178.5 30.4 72.2)"/><ellipse cx="31.9" cy="58.5" rx="13.9" ry="5.7" transform="rotate(-173.5 31.9 58.5)"/><ellipse cx="34.7" cy="43.8" rx="13.3" ry="5.6" transform="rotate(-168.9 34.7 43.8)"/><ellipse cx="38.9" cy="28.1" rx="12.7" ry="5.4" transform="rotate(-164.8 38.9 28.1)"/><ellipse cx="44.7" cy="11.5" rx="12.1" ry="5.2" transform="rotate(-161.1 44.7 11.5)"/><ellipse cx="52.0" cy="-6.0" rx="11.5" ry="5.0" transform="rotate(-157.7 52.0 -6.0)"/></g></svg>
+            <img class="rating-badge" src="/angel/assets/badge-rating.svg" alt="4.8 App Store rating" />
           </div>
-        </div>
-        <div class="q hero"><p>&ldquo;It's replaced scrolling Instagram on my phone&hellip; I am literally more interesting in conversation thanks to REPS.&rdquo;</p><cite>24601_London</cite></div>
+          <div class="q hero"><p>&ldquo;It's replaced scrolling Instagram on my phone&hellip; I am literally more interesting in conversation thanks to REPS.&rdquo;</p><cite>24601_London</cite></div>
         <div class="q"><p>&ldquo;What you have created is BRILLIANT!! I am 5 days in and most impressed and excited about where this will go.&rdquo;</p><cite>Karen</cite></div>
         <div class="q"><p>&ldquo;As a non techy over 60 year old, this app is simple and intuitive to navigate.&rdquo;</p><cite>Mooselake4</cite></div>
       </div>
@@ -2256,7 +2331,7 @@ body.still .deck-controls{display:none!important;}
   </div>
   <footer class="footrule chrome-fade">
     <span>Your attention, worth keeping.</span>
-    <span class="folio">07 <span>/ 13</span></span>
+    <span class="folio">07 <span>/ 14</span></span>
   </footer>
 </section>
 
@@ -2323,7 +2398,72 @@ body.still .deck-controls{display:none!important;}
   </div>
   <footer class="footrule chrome-fade">
     <span>Your attention, worth keeping.</span>
-    <span class="folio">08 <span>/ 13</span></span>
+    <span class="folio">08 <span>/ 14</span></span>
+  </footer>
+</section>
+
+<!-- ============ VISION AT SCALE · paper ============
+     Inserted after The moat, before The model (Mike, 2026-09-06). The market
+     ceiling as the Strava playbook: start niche (infovores), grow to the whole
+     cognitively-proactive population. Diagram: vision-slide-options/gen17_topaligned.py. -->
+<section class="slide paper" aria-label="Vision at scale">
+  <header class="masthead chrome-fade">
+    <div class="brandlock"><img src="/angel/assets/logos/app-mark.png" alt="" /><div class="wordmark">REPS</div></div>
+    <div class="masthead-meta">Vision at scale</div>
+  </header>
+  <div class="canvas">
+    <p class="kicker reveal r1">The path to scale</p>
+    <h2 class="lead sm reveal r2" style="margin-top:14px;max-width:none;white-space:nowrap">From daily personal habit to <span class="hot">global knowledge network.</span></h2>
+    <div class="cc-wrap">
+  <div class="cc-hdr" style="left:0;width:648px;text-align:center;top:8px">User target</div>
+  <div class="cc-hdr" style="left:722px;top:8px">Growth levers</div>
+  <svg class="cc-svg" viewBox="0 0 734 592">
+    <defs><linearGradient id="hot" x1="0" y1="0" x2="1" y2="1"><stop offset="8%" stop-color="#FF6B6B"/><stop offset="92%" stop-color="#FF8E53"/></linearGradient>
+<pattern id="hatch" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(25)"><rect width="1" height="4" fill="rgba(33,26,20,.032)"/></pattern>
+<clipPath id="outerclip"><circle cx="324" cy="288" r="280"/></clipPath>
+</defs>
+    <circle class="cc-ring" cx="324" cy="288" r="280" fill="#7A7169" stroke="#FFFAF7" stroke-width="1.5" style="animation-delay:3.30s;"/>
+<circle class="cc-ring" cx="324" cy="240" r="232" fill="#FFE0DE" stroke="#FFFAF7" stroke-width="1.5" style="animation-delay:2.80s;"/>
+<circle class="cc-ring" cx="324" cy="192" r="184" fill="#FFBEBC" stroke="#FFFAF7" stroke-width="1.5" style="animation-delay:2.30s;"/>
+<circle class="cc-ring" cx="324" cy="144" r="136" fill="#FF9695" stroke="#FFFAF7" stroke-width="1.5" style="animation-delay:1.80s;"/>
+<circle class="cc-ring" cx="324" cy="96" r="88" fill="url(#hot)" stroke="#FFFAF7" stroke-width="1.5" style="animation-delay:1.30s;"/>
+<rect x="0" y="0" width="624" height="592" fill="url(#hatch)" clip-path="url(#outerclip)" class="cc-ring" style="animation-delay:3.30s"/>
+<line class="cc-line-halo" x1="412" y1="96" x2="700" y2="96" style="animation-delay:1.46s"/>
+<line class="cc-line" x1="412" y1="96" x2="700" y2="96" style="animation-delay:1.46s"/>
+<circle class="cc-dot" cx="412" cy="96" r="4.5" style="animation-delay:1.46s"/>
+<line class="cc-line-halo" x1="428" y1="232" x2="700" y2="232" style="animation-delay:1.96s"/>
+<line class="cc-line" x1="428" y1="232" x2="700" y2="232" style="animation-delay:1.96s"/>
+<circle class="cc-dot" cx="428" cy="232" r="4.5" style="animation-delay:1.96s"/>
+<line class="cc-line-halo" x1="448" y1="328" x2="700" y2="328" style="animation-delay:2.46s"/>
+<line class="cc-line" x1="448" y1="328" x2="700" y2="328" style="animation-delay:2.46s"/>
+<circle class="cc-dot" cx="448" cy="328" r="4.5" style="animation-delay:2.46s"/>
+<line class="cc-line-halo" x1="465" y1="424" x2="700" y2="424" style="animation-delay:2.96s"/>
+<line class="cc-line" x1="465" y1="424" x2="700" y2="424" style="animation-delay:2.96s"/>
+<circle class="cc-dot" cx="465" cy="424" r="4.5" style="animation-delay:2.96s"/>
+<line class="cc-line-halo" x1="481" y1="520" x2="700" y2="520" style="animation-delay:3.46s"/>
+<line class="cc-line" x1="481" y1="520" x2="700" y2="520" style="animation-delay:3.46s"/>
+<circle class="cc-dot" cx="481" cy="520" r="4.5" style="animation-delay:3.46s"/>
+
+  </svg>
+  <div class="cc-inline" style="left:254px;top:126px;color:#211A14;animation-delay:1.40s">100K+</div>
+<div class="cc-inline" style="left:254px;top:262px;color:#211A14;animation-delay:1.90s">1M+</div>
+<div class="cc-inline" style="left:254px;top:358px;color:#211A14;animation-delay:2.40s">10M+</div>
+<div class="cc-inline" style="left:254px;top:454px;color:#211A14;animation-delay:2.90s">100M+</div>
+<div class="cc-inline" style="left:254px;top:550px;color:#FFFAF7;animation-delay:3.40s">1B+</div>
+
+  <div class="cc-card" style="left:722px;top:123px;animation-delay:1.52s"><h3>Singleplayer habit</h3><p>Memory as the main pain point</p></div>
+<div class="cc-card" style="left:722px;top:259px;animation-delay:2.02s"><h3>Multiplayer virality</h3><p>Word games and content discovery drive sharing</p></div>
+<div class="cc-card" style="left:722px;top:355px;animation-delay:2.52s"><h3>Publisher partnerships</h3><p>Content brands plug in their own readers.</p></div>
+<div class="cc-card" style="left:722px;top:451px;animation-delay:3.02s"><h3>Creator economy</h3><p>Anyone with an audience following on REPS.</p></div>
+<div class="cc-card total" style="left:722px;top:547px;animation-delay:3.52s"><h3>Over a third of the population is cognitively proactive</h3><p>5+ books a year or a weekly podcast</p></div>
+
+  <div class="cc-arrow"><svg viewBox="0 0 40 328"><line class="cc-arrow-line" x1="20" y1="4" x2="20" y2="312" stroke="var(--coral-ink)" stroke-width="2.4" fill="none" stroke-linecap="round"/><polyline class="cc-arrow-head" points="11,302 20,324 29,302" stroke="var(--coral-ink)" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div class="cc-callout"><div class="k">From focused to global</div><div class="body"><p>We&#39;re building the perfect knowledge companion: starting with <b>middle-aged infovores</b>, on our way to everyone who is <b>cognitively proactive</b>.</p><p>Strava started with middle-aged cyclists in lycra, and is now at <b>200M+ users worldwide</b>. REPS is doing the same for your mind.</p></div></div>
+</div>
+  </div>
+  <footer class="footrule chrome-fade">
+    <span>Your attention, worth keeping.</span>
+    <span class="folio">09 <span>/ 14</span></span>
   </footer>
 </section>
 
@@ -2367,7 +2507,7 @@ body.still .deck-controls{display:none!important;}
   </div>
   <footer class="footrule chrome-fade">
     <span>Your attention, worth keeping.</span>
-    <span class="folio">09 <span>/ 13</span></span>
+    <span class="folio">10 <span>/ 14</span></span>
   </footer>
 </section>
 
@@ -2397,7 +2537,7 @@ body.still .deck-controls{display:none!important;}
       </div>
 
       <div class="orgmap reveal r3">
-        <svg class="wires" viewBox="0 0 900 604" aria-hidden="true"><path d="M105 76 V104"/><path d="M335 76 V104"/><path d="M565 76 V104"/><path d="M795 76 V104"/><path d="M105 104 H795"/><path d="M450 104 V124"/><path d="M450 196 V226 H143 V250"/><path d="M450 196 V250"/><path d="M450 196 V226 H757 V250"/><path d="M143 450 V476"/><path d="M450 450 V476"/><path d="M757 450 V476"/><path d="M143 476 H757"/><path d="M143 476 V500"/><path d="M603 476 V500"/><path class="back" d="M0 343 H-30 V160 H0"/></svg>
+        <svg class="wires" viewBox="0 0 900 624" aria-hidden="true"><path d="M105 76 V104"/><path d="M335 76 V104"/><path d="M565 76 V104"/><path d="M795 76 V104"/><path d="M105 104 H795"/><path d="M450 104 V124"/><path d="M450 196 V226 H143 V250"/><path d="M450 196 V250"/><path d="M450 196 V226 H757 V250"/><path d="M143 450 V476"/><path d="M450 450 V476"/><path d="M757 450 V476"/><path d="M143 476 H757"/><path d="M143 476 V500"/><path d="M603 476 V500"/><path class="back" d="M0 343 H-30 V160 H0"/></svg>
         <div class="node human" style="left:0px;top:0px;width:210px;height:76px"><span class="chip">Founder</span><h5>Mike</h5></div>
         <div class="node hire" style="left:230px;top:0px;width:210px;height:76px"><span class="chip">Future hire</span><h5>Growth</h5></div>
         <div class="node hire" style="left:460px;top:0px;width:210px;height:76px"><span class="chip">Future hire</span><h5>Partnerships</h5></div>
@@ -2406,8 +2546,8 @@ body.still .deck-controls{display:none!important;}
         <div class="node bucket" style="left:0px;top:250px;width:286px;height:200px"><span class="chip">Skills</span><b>62</b><p>Anything we do twice is written down once, then runs the same way every time without a person in it.</p></div>
         <div class="node bucket" style="left:307px;top:250px;width:286px;height:200px"><span class="chip">Subagents</span><b>44</b><p>Ten specialists can work a problem at once, so review and research cost time rather than headcount.</p></div>
         <div class="node bucket" style="left:614px;top:250px;width:286px;height:200px"><span class="chip">Watched jobs</span><b>91</b><p>Nothing fails quietly. Every job names an owner and how you find out it stopped.</p></div>
-        <div class="node bucket found" style="left:0px;top:500px;width:286px;height:104px"><span class="chip">Shared memory</span><div class="row"><b>41</b><p>Nobody relearns what the company already worked out, and a decision made once stays made.</p></div></div>
-        <div class="node surface provrow" style="left:307px;top:500px;width:593px;height:104px"><div class="provlab"><h5>Providers</h5><p>Reached through an API or MCP, never a person in a browser</p></div><div class="provmarks"><svg class="pv" viewBox="0 0 24 24"><use href="#pv-anthropic"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-openai"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-elevenlabs"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-supabase"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-posthog"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-linear"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-meta"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-google"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-slack"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-notion"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-github"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-vercel"/></svg></div></div>
+        <div class="node bucket found" style="left:0px;top:500px;width:286px;height:120px"><span class="chip">Index memory docs</span><div class="row"><b>41</b><p>Nobody relearns what the company already worked out, and a decision made once stays made.</p></div></div>
+        <div class="node surface provrow" style="left:307px;top:500px;width:593px;height:120px"><span class="chip">Providers</span><div class="provmarks"><svg class="pv" viewBox="0 0 24 24"><use href="#pv-anthropic"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-openai"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-elevenlabs"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-supabase"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-posthog"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-linear"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-meta"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-google"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-slack"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-notion"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-github"/></svg><svg class="pv" viewBox="0 0 24 24"><use href="#pv-vercel"/></svg></div><p class="provcap">Reached through an API or MCP, never a person in a browser</p></div>
         <i class="flow f1"></i>
         <i class="flow f2"></i>
         <i class="flow f3"></i>
@@ -2420,7 +2560,7 @@ body.still .deck-controls{display:none!important;}
   </div>
   <footer class="footrule chrome-fade">
     <span>Your attention, worth keeping.</span>
-    <span class="folio">10 <span>/ 13</span></span>
+    <span class="folio">11 <span>/ 14</span></span>
   </footer>
 </section>
 
@@ -2466,7 +2606,7 @@ body.still .deck-controls{display:none!important;}
   </div>
   <footer class="footrule chrome-fade">
     <span>Your attention, worth keeping.</span>
-    <span class="folio">11 <span>/ 13</span></span>
+    <span class="folio">12 <span>/ 14</span></span>
   </footer>
 </section>
 
@@ -2517,7 +2657,7 @@ body.still .deck-controls{display:none!important;}
   </div>
   <footer class="footrule chrome-fade">
     <span>Your attention, worth keeping.</span>
-    <span class="folio">12 <span>/ 13</span></span>
+    <span class="folio">13 <span>/ 14</span></span>
   </footer>
 </section>
 
@@ -2564,7 +2704,7 @@ body.still .deck-controls{display:none!important;}
   </div>
   <footer class="footrule chrome-fade">
     <span>Your attention, worth keeping.</span>
-    <span class="folio">13 <span>/ 13</span></span>
+    <span class="folio">14 <span>/ 14</span></span>
   </footer>
 </section>
 
