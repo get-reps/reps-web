@@ -556,10 +556,17 @@
       .marquee-track {
         display: flex;
         width: max-content;
-        animation: marquee 75s linear infinite;
+        /* 34s = a clearly-visible float, not the old 75s crawl that read as stalled */
+        animation: marquee 34s linear infinite;
       }
-      .marquee-track:hover {
-        animation-play-state: paused;
+      /* Pause-on-hover only for real mouse pointers. On touch devices ":hover"
+         sticks after a tap (no mouseleave event ever fires), which froze the
+         whole banner until the visitor tapped elsewhere on the page — the
+         "stuck" bug on phones, where nearly every visitor is. */
+      @media (hover: hover) and (pointer: fine) {
+        .marquee-track:hover {
+          animation-play-state: paused;
+        }
       }
       @keyframes marquee {
         from {
