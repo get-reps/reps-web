@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="robots" content="noindex,nofollow,noarchive" />
+<title>REPS — Creator deck</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
+
+<style>
+/* ===========================================================================
+   REPS — Creator deck. Fixed 16:9 stage (1920x1080) scaled to fill the window,
+   like the angel deck: every page is the same size. Click-through with the
+   on-screen arrows / keys / swipe. Page 4 (Showcase) is an interactive hero
+   phone + thumbnail rail; page 5 (Marquee) is three fanned TikTok phones.
+   Local-file friendly: assets use RELATIVE paths.
+   =========================================================================== */
+:root{
+  --night:#040409; --night-2:#0a0a14;
+  --paper:#FFFAF7; --paper-2:#F6EFE9;
+  --ink:#211A14; --ink-soft:rgba(33,26,20,.7); --ink-faint:rgba(33,26,20,.5); --ink-hair:rgba(33,26,20,.12);
+  --cream:#FFFAF7; --cream-soft:rgba(255,250,247,.82); --cream-faint:rgba(255,250,247,.6); --cream-hair:rgba(255,250,247,.16);
+  --coral:#FF6B6B; --peach:#FF8E53; --coral-ink:#D8443F;
+  --hot:linear-gradient(96deg,var(--coral) 8%,var(--peach) 92%);
+  --serif:'Lora',Georgia,serif; --sans:'Archivo',system-ui,sans-serif;
+  --ease:cubic-bezier(.19,.72,.3,1);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;height:100%;width:100%;overflow:hidden;background:#000;}
+body{font-family:var(--sans);-webkit-font-smoothing:antialiased;}
+img,video{display:block;max-width:100%;}
+.hot{background:var(--hot);-webkit-background-clip:text;background-clip:text;color:transparent;}
+
+/* ── fixed 16:9 stage ──────────────────────────────────────────────────── */
+.viewport{position:fixed;inset:0;overflow:hidden;background:#000;}
+.stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;background:var(--night);}
+.slide{position:absolute;inset:0;width:1920px;height:1080px;overflow:hidden;display:flex;flex-direction:column;justify-content:center;
+  padding:74px 130px 122px;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .5s var(--ease);}
+.slide.active{opacity:1;visibility:visible;pointer-events:auto;z-index:1;}
+.slide.night{background:radial-gradient(120% 90% at 50% -10%,#12101d 0%,#040409 60%);color:var(--cream);}
+.slide.paper{background:var(--paper);color:var(--ink);}
+.inner{width:100%;max-width:1500px;margin:0 auto;}
+
+.eyebrow{display:inline-flex;align-items:center;gap:16px;font-weight:600;font-size:18px;letter-spacing:.2em;text-transform:uppercase;color:var(--coral-ink);margin:0 0 20px;}
+.slide.night .eyebrow{color:var(--coral);}
+.eyebrow::before{content:"";width:56px;height:2px;background:var(--hot);}
+h2.lead{font-family:var(--serif);font-weight:500;font-size:62px;line-height:1.08;letter-spacing:-.018em;margin:0 0 22px;}
+.sub{font-size:27px;line-height:1.5;color:var(--ink-soft);max-width:60ch;margin:0;}
+.slide.night .sub{color:var(--cream-soft);}
+
+.slide .r{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease),transform .7s var(--ease);}
+.slide.active .r{opacity:1;transform:none;}
+.slide.active .r1{transition-delay:.06s}.slide.active .r2{transition-delay:.16s}
+.slide.active .r3{transition-delay:.26s}.slide.active .r4{transition-delay:.36s}
+@media (prefers-reduced-motion:reduce){.slide .r{opacity:1;transform:none;transition:none;}}
+
+/* cover */
+.cover{align-items:center;text-align:center;}
+.cover .inner{display:flex;flex-direction:column;align-items:center;}
+.cover .mark{width:132px;height:132px;border-radius:32px;filter:drop-shadow(0 0 70px rgba(255,107,107,.26));}
+.cover .name{font-weight:600;font-size:118px;letter-spacing:.3em;margin:30px 0 0 .3em;background:linear-gradient(180deg,#fff,#e9e4ff);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.cover .line{font-family:var(--serif);font-weight:500;font-size:44px;margin:26px 0 0;color:var(--cream);}
+.cover .what{font-size:27px;line-height:1.5;color:var(--cream-soft);max-width:44ch;margin:24px auto 0;}
+.cover .badge{margin-top:50px;padding-top:28px;border-top:1px solid var(--cream-hair);display:flex;gap:16px;align-items:center;font-size:18px;color:var(--cream-faint);}
+.cover .badge b{color:var(--coral);letter-spacing:.24em;text-transform:uppercase;font-size:15px;}
+
+/* exec */
+.exec{display:grid;grid-template-columns:1fr 400px;gap:80px;align-items:center;}
+.tagline{display:inline-block;font-weight:700;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--coral-ink);
+  border:1.5px solid rgba(216,68,63,.4);border-radius:999px;padding:8px 16px;margin-bottom:22px;}
+.live-list{list-style:none;padding:0;margin:26px 0 0;display:grid;gap:15px;}
+.live-list li{position:relative;padding-left:34px;font-size:25px;line-height:1.4;}
+.live-list li::before{content:"";position:absolute;left:0;top:.5em;width:11px;height:11px;border-radius:50%;background:var(--hot);}
+.live-list li b{font-weight:600;}
+.statusnote{margin-top:28px;padding:16px 22px;border-left:3px solid var(--coral);background:rgba(255,107,107,.06);border-radius:0 12px 12px 0;font-size:20px;line-height:1.5;color:var(--ink-soft);}
+.statusnote b{color:var(--ink);}
+.vphone{width:400px;margin:0 auto;}
+.vphone .screen{position:relative;border-radius:34px;overflow:hidden;background:#000;aspect-ratio:9/19.5;box-shadow:0 40px 80px rgba(0,0,0,.5),0 0 0 1px rgba(0,0,0,.06);}
+.vphone video{width:100%;height:100%;object-fit:cover;}
+.playbtn{position:absolute;inset:0;margin:auto;width:76px;height:76px;border:none;cursor:pointer;border-radius:50%;background:var(--hot);color:#fff;display:grid;place-items:center;box-shadow:0 14px 36px rgba(255,107,107,.44);transition:transform .18s;}
+.playbtn svg{width:30px;height:30px;margin-left:4px;fill:#fff;}
+.playbtn:hover{transform:scale(1.07);}
+.pv.playing .playbtn{opacity:0;pointer-events:none;}
+.pcap{text-align:center;margin-top:14px;font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);}
+
+/* personas */
+.aud{font-size:23px;line-height:1.5;color:var(--cream-soft);margin:0 0 34px;max-width:96ch;}
+.aud b{color:var(--cream);font-weight:600;}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
+.pcard{background:rgba(255,250,247,.05);border:1px solid var(--cream-hair);border-radius:22px;padding:32px 30px;}
+.pcard .who{font-family:var(--serif);font-weight:600;font-size:32px;margin:0 0 6px;}
+.pcard .who span{background:var(--hot);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.pcard .role{font-size:16px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--peach);margin:0 0 18px;}
+.pcard p{font-size:20px;line-height:1.55;color:var(--cream-soft);margin:0;}
+.pcard p strong{color:#fff;font-weight:600;}
+
+/* ── page 4 — Showcase: hero phone + Save/Play/Remember thumbnail rail ──── */
+.showcase{display:grid;grid-template-columns:344px 1fr;gap:104px;align-items:center;margin-top:14px;}
+.sc-hero{display:flex;flex-direction:column;align-items:center;}
+.sc-hphone{width:308px;aspect-ratio:9/19.5;border-radius:38px;background:#0b0a10;padding:9px;box-shadow:0 42px 76px rgba(33,26,20,.28),0 0 0 1px rgba(0,0,0,.05);position:relative;cursor:pointer;}
+.sc-hscr{position:relative;width:100%;height:100%;border-radius:29px;overflow:hidden;background:#000;}
+.sc-hscr video,.sc-hscr img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.sc-hplay{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:70px;height:70px;border:none;border-radius:50%;background:rgba(255,255,255,.95);display:grid;place-items:center;box-shadow:0 12px 28px rgba(0,0,0,.35);cursor:pointer;transition:opacity .2s;z-index:2;}
+.sc-hplay svg{width:26px;height:26px;margin-left:3px;fill:var(--coral-ink);}
+.sc-hphone.playing .sc-hplay{opacity:0;pointer-events:none;}
+.sc-hcap{margin-top:18px;text-align:center;}
+.sc-hcap .sc-tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#fff;padding:5px 13px;border-radius:999px;margin-bottom:9px;}
+.sc-hcap .sc-tag.save{background:var(--coral-ink);}.sc-hcap .sc-tag.play{background:#C85A2A;}.sc-hcap .sc-tag.rem{background:#2D8377;}
+.sc-hcap h3{font-family:var(--serif);font-weight:600;font-size:26px;color:var(--ink);}
+.sc-rail{display:flex;flex-direction:column;gap:16px;}
+.sc-grp .sc-gl{font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:12px;}
+.sc-grp .sc-gl::after{content:"";flex:1;height:1px;background:var(--ink-hair);}
+.sc-grp.save .sc-gl{color:var(--coral-ink);}.sc-grp.play .sc-gl{color:#C85A2A;}.sc-grp.rem .sc-gl{color:#2D8377;}
+.sc-list{display:grid;grid-template-columns:repeat(3,248px);gap:16px;}
+.sc-it{display:flex;align-items:center;gap:14px;padding:9px 16px 9px 9px;border-radius:14px;border:1px solid var(--ink-hair);background:#fff;cursor:pointer;box-shadow:0 5px 14px rgba(33,26,20,.05);transition:border-color .15s,box-shadow .15s;}
+.sc-it:hover{border-color:rgba(255,107,107,.5);}
+.sc-it.sel{border-color:var(--coral);box-shadow:0 0 0 2px rgba(255,107,107,.2);}
+.sc-it .sc-tw{position:relative;width:108px;flex:none;border-radius:11px;overflow:hidden;aspect-ratio:9/14;background:#000;}
+.sc-it .sc-tw img{width:100%;height:100%;object-fit:cover;object-position:center 15%;}
+.sc-it .sc-tw .sc-tp{position:absolute;left:8px;bottom:8px;width:32px;height:32px;border-radius:50%;background:var(--hot);display:grid;place-items:center;box-shadow:0 4px 10px rgba(0,0,0,.32);}
+.sc-it .sc-tw .sc-tp svg{width:12px;height:12px;margin-left:1px;fill:#fff;}
+.sc-it .sc-nm{font-size:15px;font-weight:600;line-height:1.22;color:var(--ink);}
+
+/* ── page 5 — Marquee: idea grid + rules + three fanned TikTok phones ──── */
+.marquee{display:grid;grid-template-columns:1fr 640px;gap:56px;align-items:center;margin-top:10px;}
+.mq-ideas{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px;}
+.mq-idea{background:rgba(255,250,247,.05);border:1px solid var(--cream-hair);border-radius:14px;padding:16px 18px;display:flex;gap:14px;align-items:center;min-height:62px;}
+.mq-n{font-family:var(--serif);font-weight:600;font-size:18px;color:var(--coral);line-height:1;flex:none;}
+.mq-t{font-size:16px;line-height:1.28;font-weight:500;}
+.mq-rules{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;}
+.mq-chip{display:flex;gap:10px;align-items:baseline;background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.24);border-radius:12px;padding:11px 15px;max-width:340px;}
+.mq-ck{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);white-space:nowrap;}
+.mq-chip p{font-size:13px;line-height:1.35;color:var(--cream-soft);margin:0;}
+.mq-chip p b{color:#fff;font-weight:600;}
+.mq-stage{position:relative;height:600px;display:flex;align-items:center;justify-content:center;}
+.mq-glow{position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(255,120,90,.32),transparent 62%);filter:blur(10px);}
+.mq-label{position:absolute;top:0;left:50%;transform:translateX(-50%);font-size:12px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--cream-faint);white-space:nowrap;}
+.mq-phone{position:absolute;width:222px;aspect-ratio:9/19.5;border-radius:30px;background:#0b0a10;padding:9px;box-shadow:0 40px 80px rgba(0,0,0,.55),0 0 0 1px rgba(255,250,247,.08);cursor:pointer;border:none;}
+.mq-scr{width:100%;height:100%;border-radius:22px;overflow:hidden;position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:18px;color:#fff;text-align:left;}
+.mq-notch{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:74px;height:16px;border-radius:999px;background:#0b0a10;z-index:3;}
+.mq-phone.p1 .mq-scr{background:linear-gradient(165deg,#3a2350,#D8443F);}
+.mq-phone.p2 .mq-scr{background:linear-gradient(165deg,#0f3b39,#2D8377);}
+.mq-phone.p3 .mq-scr{background:linear-gradient(165deg,#4a2a17,#FF8E53);}
+.mq-tk{position:absolute;top:16px;left:16px;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:rgba(0,0,0,.34);padding:4px 9px;border-radius:999px;}
+.mq-pl{position:absolute;top:46%;left:50%;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.95);display:grid;place-items:center;box-shadow:0 10px 24px rgba(0,0,0,.4);transition:transform .18s;}
+.mq-phone:hover .mq-pl{transform:translate(-50%,-50%) scale(1.08);}
+.mq-pl svg{width:20px;height:20px;margin-left:3px;fill:#D8443F;}
+.mq-pt{font-family:var(--serif);font-weight:600;font-size:18px;line-height:1.15;position:relative;z-index:2;}
+.mq-ph{font-size:12px;opacity:.85;margin-top:5px;}
+.mq-phone.left{transform:translateX(-176px) rotate(-9deg) scale(.9);z-index:1;filter:brightness(.82);}
+.mq-phone.right{transform:translateX(176px) rotate(9deg) scale(.9);z-index:1;filter:brightness(.82);}
+.mq-phone.center{z-index:3;transform:translateY(-6px) scale(1.04);}
+
+/* ── modal ─────────────────────────────────────────────────────────────── */
+.modal{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;background:rgba(4,4,9,.86);backdrop-filter:blur(8px);padding:24px;}
+.modal.on{display:flex;}
+.modal .box{position:relative;max-width:min(94vw,400px);width:100%;}
+.modal .media{border-radius:26px;overflow:hidden;background:#000;box-shadow:0 40px 100px rgba(0,0,0,.6);}
+.modal .media video,.modal .media img{width:100%;max-height:80vh;object-fit:contain;background:#000;}
+.modal .media iframe{width:100%;height:min(80vh,720px);border:0;display:block;background:#000;}
+.modal .mtitle{text-align:center;color:#fff;font-family:var(--serif);font-size:20px;margin-top:16px;}
+.modal .mlink{display:block;text-align:center;margin-top:8px;color:rgba(255,255,255,.6);font-size:14px;text-decoration:none;}
+.modal .mlink:hover{color:#fff;}
+.modal .close{position:absolute;right:-4px;top:-50px;width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;background:rgba(255,255,255,.16);color:#fff;display:grid;place-items:center;}
+.modal .close:hover{background:var(--coral);}
+.modal .close svg{width:19px;height:19px;stroke:#fff;stroke-width:2.4;stroke-linecap:round;fill:none;}
+
+/* two-col */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-top:14px;}
+.two h3{font-family:var(--serif);font-weight:600;font-size:30px;margin:0 0 20px;}
+.two ul{list-style:none;padding:0;margin:0;display:grid;gap:16px;}
+.two li{position:relative;padding-left:30px;font-size:22px;line-height:1.5;color:var(--ink-soft);}
+.two li::before{content:"";position:absolute;left:0;top:.55em;width:10px;height:10px;border-radius:50%;background:var(--hot);}
+.two li b{color:var(--ink);font-weight:600;}
+
+/* cta */
+.cta{align-items:center;text-align:center;}
+.cta h2{font-family:var(--serif);font-weight:500;font-size:76px;margin:0 0 24px;}
+.appbtn{display:inline-flex;align-items:center;gap:12px;margin-top:12px;padding:20px 42px;border-radius:999px;background:var(--hot);color:#fff;text-decoration:none;font-weight:600;font-size:22px;box-shadow:0 18px 44px rgba(255,107,107,.34);}
+.cta .fine{margin-top:24px;font-size:19px;color:var(--cream-faint);max-width:52ch;margin-left:auto;margin-right:auto;}
+
+/* controls (screen-fixed, outside the scaled stage) */
+#progress{position:fixed;left:0;top:0;height:4px;background:var(--hot);width:14%;z-index:120;transition:width .4s var(--ease);}
+.nav{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:120;display:flex;align-items:center;gap:8px;background:rgba(10,10,20,.72);backdrop-filter:blur(10px);border:1px solid rgba(255,250,247,.16);border-radius:999px;padding:8px 9px;}
+.nav button{width:50px;height:50px;border:none;border-radius:50%;cursor:pointer;background:rgba(255,250,247,.12);color:#fff;display:grid;place-items:center;transition:background .15s,transform .15s;}
+.nav button:hover{background:var(--coral);}.nav button:active{transform:scale(.94);}
+.nav button:disabled{opacity:.32;cursor:default;background:rgba(255,250,247,.12);}
+.nav button svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;}
+.nav .count{min-width:74px;text-align:center;font-size:15px;letter-spacing:.06em;color:var(--cream-soft);font-variant-numeric:tabular-nums;}
+.nav .count b{color:#fff;font-weight:600;}
+.hint{position:fixed;right:20px;bottom:34px;z-index:120;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);pointer-events:none;}
+/* embed mode (used by the feedback board's per-page previews): show one slide, no chrome */
+body.embed .nav,body.embed #progress,body.embed .hint{display:none!important;}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<div class="viewport">
+ <div class="stage" id="stage">
+
+  <!-- 1 COVER -->
+  <section class="slide night cover active" aria-label="Cover">
+    <div class="inner">
+      <img class="mark r r1" src="app-mark.png" alt="REPS" />
+      <div class="name r r1">REPS</div>
+      <p class="line r r2">Your attention, worth keeping.</p>
+      <p class="what r r3">You save anything. REPS turns it into a short daily game built from your own reading, so you actually remember it.</p>
+      <div class="badge r r4"><b>Creator brief</b><span>September 2026 &middot; iOS</span></div>
+    </div>
+  </section>
+
+  <!-- 2 WHAT IT IS -->
+  <section class="slide paper" aria-label="What REPS is">
+    <div class="inner exec">
+      <div>
+        <p class="eyebrow r r1">What REPS is</p>
+        <span class="tagline r r1">Live on the App Store</span>
+        <h2 class="lead r r2">Built from <span class="hot">your knowledge</span>, not someone&rsquo;s summary.</h2>
+        <p class="sub r r2">You save anything worth keeping &mdash; a book, an article, a highlight, an idea &mdash; and it comes back as a short daily game made from your own material. Nothing to build, nothing to maintain. It&rsquo;s free.</p>
+        <ul class="live-list r r3">
+          <li><b>Save anything in seconds.</b> REPS does the rest.</li>
+          <li><b>A short daily session,</b> on your own or with a friend.</li>
+          <li><b>Discover curated content</b> from the community.</li>
+          <li><b>Ask Echo</b> anything about it &mdash; by text or out loud.</li>
+        </ul>
+        <div class="statusnote r r4"><b>Where we are now:</b> live on the App Store, iOS only, in soft launch &mdash; scaling deliberately while the creator channel gets going.</div>
+      </div>
+      <div class="vphone pv r r3">
+        <div class="screen">
+          <video src="https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/angel/demo-vertical-v9.mp4" poster="demo-poster.jpg" playsinline loop preload="metadata"></video>
+          <button class="playbtn" aria-label="Play"><svg viewBox="0 0 24 24"><path d="M8 5.6 L18.4 12 L8 18.4 Z"/></svg></button>
+        </div>
+        <div class="pcap">Tap to play</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 PERSONAS -->
+  <section class="slide night" aria-label="Who it's for">
+    <div class="inner">
+      <p class="eyebrow r r1">Who it&rsquo;s for</p>
+      <h2 class="lead r r1">The three people we&rsquo;re <span class="hot">building for.</span></h2>
+      <p class="aud r r2">Strongest pull so far is <b>40 to 65</b> &mdash; people who read a lot and can feel it starting to slip. They identify as the knowledgeable one in the room and want to stay that way. It works younger too, and we&rsquo;re testing that.</p>
+      <div class="pgrid">
+        <div class="pcard r r2"><div class="who"><span>Sam</span></div><div class="role">Lifelong learner</div><p><strong>Retired</strong>, with time on their hands and a <strong>book club</strong>. Self-proclaimed nerd, already plays <strong>NYT Games</strong>. Cares about <strong>staying sharp</strong> as the years go by.</p></div>
+        <div class="pcard r r3"><div class="who"><span>Charlie</span></div><div class="role">Curious professional</div><p>Lived the <strong>before and after of the smartphone</strong>, and noticed what it took. Eclectic consumption, <strong>no single place for it all</strong>. Loves to <strong>share discoveries in real life</strong>.</p></div>
+        <div class="pcard r r4"><div class="who"><span>Jordan</span></div><div class="role">Informed young adult</div><p><strong>Doesn&rsquo;t trust the feed</strong>, but lacks a social alternative. Wants <strong>friends around real interests</strong>, not algorithms. Seeks an <strong>AI that helps, not replaces</strong> their thinking.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 APP DEMOS — Showcase: hero phone + Save/Play/Remember rail -->
+  <section class="slide paper" aria-label="App demos">
+    <div class="inner">
+      <p class="eyebrow r r1">The app, in flows</p>
+      <h2 class="lead r r1">Many flows to <span class="hot">wow your audience.</span></h2>
+      <div class="showcase r r2">
+        <div class="sc-hero">
+          <div class="sc-hphone playing" id="hphone">
+            <div class="sc-hscr">
+              <video id="heroVid" src="demo-assets/bookshelf.mp4" poster="demo-assets/bookshelf.jpg" muted loop playsinline autoplay></video>
+              <img id="heroImg" hidden alt="" />
+            </div>
+            <button class="sc-hplay" id="hplay" aria-label="Play"><svg viewBox="0 0 24 24"><path d="M8 5.6 L18.4 12 L8 18.4 Z"/></svg></button>
+          </div>
+          <div class="sc-hcap">
+            <span class="sc-tag save" id="htag">Save</span>
+            <h3 id="htitle">Scan your bookshelf</h3>
+          </div>
+        </div>
+
+        <div class="sc-rail">
+          <div class="sc-grp save"><div class="sc-gl">Save &middot; anything, in seconds</div>
+            <div class="sc-list">
+              <div class="sc-it sel" data-type="video" data-src="demo-assets/bookshelf.mp4" data-poster="demo-assets/bookshelf.jpg" data-title="Scan your bookshelf" data-verb="save"><div class="sc-tw"><img src="demo-assets/bookshelf.jpg" alt="" /><span class="sc-tp"><svg viewBox="0 0 24 24"><path d="M8 5.6 L18.4 12 L8 18.4 Z"/></svg></span></div><div class="sc-nm">Scan your bookshelf</div></div>
+              <div class="sc-it" data-type="video" data-src="demo-assets/save.mp4" data-poster="demo-assets/save.jpg" data-title="Save from any app" data-verb="save"><div class="sc-tw"><img src="demo-assets/save.jpg" alt="" /><span class="sc-tp"><svg viewBox="0 0 24 24"><path d="M8 5.6 L18.4 12 L8 18.4 Z"/></svg></span></div><div class="sc-nm">Save from any app</div></div>
+              <div class="sc-it" data-type="video" data-src="demo-assets/discover.mp4" data-poster="demo-assets/discover.jpg" data-title="Discover feed" data-verb="save"><div class="sc-tw"><img src="demo-assets/discover.jpg" alt="" /><span class="sc-tp"><svg viewBox="0 0 24 24"><path d="M8 5.6 L18.4 12 L8 18.4 Z"/></svg></span></div><div class="sc-nm">Discover feed</div></div>
+            </div>
+          </div>
+          <div class="sc-grp play"><div class="sc-gl">Play &middot; a daily game from your reading</div>
+            <div class="sc-list">
+              <div class="sc-it" data-type="video" data-src="demo-assets/crossword.mp4" data-poster="demo-assets/crossword.jpg" data-title="Crossword" data-verb="play"><div class="sc-tw"><img src="demo-assets/crossword.jpg" alt="" /><span class="sc-tp"><svg viewBox="0 0 24 24"><path d="M8 5.6 L18.4 12 L8 18.4 Z"/></svg></span></div><div class="sc-nm">Crossword</div></div>
+              <div class="sc-it" data-type="video" data-src="demo-assets/trivia.mp4" data-poster="demo-assets/trivia.jpg" data-title="Friends Trivia" data-verb="play"><div class="sc-tw"><img src="demo-assets/trivia.jpg" alt="" /><span class="sc-tp"><svg viewBox="0 0 24 24"><path d="M8 5.6 L18.4 12 L8 18.4 Z"/></svg></span></div><div class="sc-nm">Friends Trivia</div></div>
+              <div class="sc-it" data-type="video" data-src="demo-assets/recall.mp4" data-poster="demo-assets/recall.jpg" data-title="Active recall" data-verb="play"><div class="sc-tw"><img src="demo-assets/recall.jpg" alt="" /><span class="sc-tp"><svg viewBox="0 0 24 24"><path d="M8 5.6 L18.4 12 L8 18.4 Z"/></svg></span></div><div class="sc-nm">Active recall</div></div>
+            </div>
+          </div>
+          <div class="sc-grp rem"><div class="sc-gl">Remember &middot; it comes back, so it stays</div>
+            <div class="sc-list">
+              <div class="sc-it" data-type="video" data-src="demo-assets/brain.mp4" data-poster="demo-assets/brain.jpg" data-title="Second Brain" data-verb="rem"><div class="sc-tw"><img src="demo-assets/brain.jpg" alt="" /><span class="sc-tp"><svg viewBox="0 0 24 24"><path d="M8 5.6 L18.4 12 L8 18.4 Z"/></svg></span></div><div class="sc-nm">Second Brain</div></div>
+              <div class="sc-it" data-type="gif" data-src="demo-assets/synapse.gif" data-title="Synapse" data-verb="rem"><div class="sc-tw"><img src="demo-assets/synapse.gif" alt="" /><span class="sc-tp"><svg viewBox="0 0 24 24"><path d="M8 5.6 L18.4 12 L8 18.4 Z"/></svg></span></div><div class="sc-nm">Synapse</div></div>
+              <div class="sc-it" data-type="video" data-src="demo-assets/voice.mp4" data-poster="demo-assets/voice.jpg" data-title="Voice training" data-verb="rem"><div class="sc-tw"><img src="demo-assets/voice.jpg" alt="" /><span class="sc-tp"><svg viewBox="0 0 24 24"><path d="M8 5.6 L18.4 12 L8 18.4 Z"/></svg></span></div><div class="sc-nm">Voice training</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 CONTENT IDEAS — Marquee: idea grid + rules + fanned TikTok phones -->
+  <section class="slide night" aria-label="Content ideas">
+    <div class="inner">
+      <p class="eyebrow r r1">Content ideas</p>
+      <h2 class="lead r r1">You drive the <span class="hot">creative.</span></h2>
+      <p class="sub r r1">Six starting points, and three that already work in the category. Take one and make it yours.</p>
+      <div class="marquee r r2">
+        <div class="mq-left">
+          <div class="mq-ideas">
+            <div class="mq-idea"><div class="mq-n">01</div><div class="mq-t">F to S tier: ways to remember what you read</div></div>
+            <div class="mq-idea"><div class="mq-n">02</div><div class="mq-t">&ldquo;Turned my bookshelf into a crossword&rdquo;</div></div>
+            <div class="mq-idea"><div class="mq-n">03</div><div class="mq-t">&ldquo;X years of reading and NOW I find this&rdquo;</div></div>
+            <div class="mq-idea"><div class="mq-n">04</div><div class="mq-t">&ldquo;Rereading a 400-page book&hellip; it&rsquo;s 2026&rdquo;</div></div>
+            <div class="mq-idea"><div class="mq-n">05</div><div class="mq-t">&ldquo;My dad remembers every book he reads&rdquo;</div></div>
+            <div class="mq-idea"><div class="mq-n">06</div><div class="mq-t">Top hobbies &mdash; and the app for each</div></div>
+          </div>
+          <div class="mq-rules">
+            <div class="mq-chip"><span class="mq-ck">Rule 01</span><p><b>Delete the app from the line.</b> Still makes sense? It&rsquo;s decoration.</p></div>
+            <div class="mq-chip"><span class="mq-ck">Rule 02</span><p><b>Product never opens the video.</b> Earn attention, then answer it.</p></div>
+          </div>
+        </div>
+
+        <div class="mq-stage">
+          <div class="mq-glow"></div>
+          <div class="mq-label">Watch what&rsquo;s working</div>
+          <button class="mq-phone left p2" type="button" data-id="7667342688944999710" data-title="How to organise your brain" data-url="https://www.tiktok.com/@kathryn.tatess/video/7667342688944999710">
+            <div class="mq-notch"></div>
+            <div class="mq-scr"><span class="mq-tk">TikTok</span><span class="mq-pl"><svg viewBox="0 0 24 24"><path d="M8 5.6 L18.4 12 L8 18.4 Z"/></svg></span><div class="mq-pt">Organise your brain</div><div class="mq-ph">@kathryn.tatess</div></div>
+          </button>
+          <button class="mq-phone right p3" type="button" data-id="7676526954090073357" data-title="10 tips for brainmaxing" data-url="https://www.tiktok.com/@jennystudies/video/7676526954090073357">
+            <div class="mq-notch"></div>
+            <div class="mq-scr"><span class="mq-tk">TikTok</span><span class="mq-pl"><svg viewBox="0 0 24 24"><path d="M8 5.6 L18.4 12 L8 18.4 Z"/></svg></span><div class="mq-pt">10 tips for brainmaxing</div><div class="mq-ph">@jennystudies</div></div>
+          </button>
+          <button class="mq-phone center p1" type="button" data-id="7641630174215212301" data-title="Top hobbies + the app for each" data-url="https://www.tiktok.com/@mentallockdown01/video/7641630174215212301">
+            <div class="mq-notch"></div>
+            <div class="mq-scr"><span class="mq-tk">TikTok</span><span class="mq-pl"><svg viewBox="0 0 24 24"><path d="M8 5.6 L18.4 12 L8 18.4 Z"/></svg></span><div class="mq-pt">Top hobbies + the app</div><div class="mq-ph">@mentallockdown01</div></div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 HOW WE WORK -->
+  <section class="slide paper" aria-label="How we work">
+    <div class="inner">
+      <p class="eyebrow r r1">How we work together</p>
+      <div class="two">
+        <div class="r r2">
+          <h3>The rhythm</h3>
+          <ul>
+            <li><b>Test on Instagram and TikTok first.</b> Fast, cheap, and where trends surface.</li>
+            <li><b>Recycle what breaks out to Facebook and YouTube,</b> where the core audience lives.</li>
+            <li><b>One note back per video,</b> usually the next morning. One note, not a list.</li>
+            <li><b>Under a few hundred views?</b> It&rsquo;s the hook &mdash; we change that first.</li>
+          </ul>
+        </div>
+        <div class="r r3">
+          <h3>What we need from you</h3>
+          <ul>
+            <li><b>Honest reactions early.</b> If a flow is slow or an angle feels fake, say it before you film.</li>
+            <li><b>The product can move.</b> Bad content can&rsquo;t be fixed in the edit &mdash; the mechanics are flexible, the concepts are settled.</li>
+            <li><b>Please don&rsquo;t call it a study app or flashcards.</b> Each one drops it into a category we lose in.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 CTA -->
+  <section class="slide night cta" aria-label="Get the app">
+    <div class="inner">
+      <h2 class="r r1">Save anything. <span class="hot">Remember everything.</span></h2>
+      <a class="appbtn r r2" href="https://apps.apple.com/us/app/reps-supercharge-your-memory/id6759216018">Download REPS on the App Store</a>
+      <p class="fine r r3">iOS only for now. Free, no card, nothing hidden. Start with the bookshelf scan &mdash; the most visual thing in the app.</p>
+    </div>
+  </section>
+
+ </div>
+</div>
+
+<!-- modal -->
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="box">
+    <button class="close" id="mclose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6 L18 18 M18 6 L6 18"/></svg></button>
+    <div class="media" id="mmedia"></div>
+    <div class="mtitle" id="mtitle"></div>
+    <a class="mlink" id="mlink" href="#" target="_blank" rel="noopener" style="display:none">Open on TikTok &rarr;</a>
+  </div>
+</div>
+
+<!-- controls -->
+<nav class="nav" aria-label="Deck navigation">
+  <button id="prev" aria-label="Previous page"><svg viewBox="0 0 24 24"><path d="M15 5 L8 12 L15 19"/></svg></button>
+  <span class="count"><b id="cur">1</b> / <span id="tot">7</span></span>
+  <button id="next" aria-label="Next page"><svg viewBox="0 0 24 24"><path d="M9 5 L16 12 L9 19"/></svg></button>
+</nav>
+<div class="hint">← → or swipe to move</div>
+
+<script>
+(function(){
+  var stage = document.getElementById('stage');
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var cur = 0;
+  var prevB = document.getElementById('prev'), nextB = document.getElementById('next');
+  var curEl = document.getElementById('cur'), progress = document.getElementById('progress');
+  var modal = document.getElementById('modal'), mMedia = document.getElementById('mmedia'), mTitle = document.getElementById('mtitle'), mLink = document.getElementById('mlink');
+  var EMBED = /[?&]embed/.test(location.search);
+  if(EMBED) document.body.classList.add('embed');
+  document.getElementById('tot').textContent = slides.length;
+
+  function scale(){
+    var f = Math.min(window.innerWidth/1920, window.innerHeight/1080);
+    var x = (window.innerWidth - 1920*f)/2, y = (window.innerHeight - 1080*f)/2;
+    stage.style.transform = 'translate('+x+'px,'+y+'px) scale('+f+')';
+  }
+  scale(); window.addEventListener('resize', scale); window.addEventListener('load', scale);
+
+  function modalOpen(){ return modal.classList.contains('on'); }
+  function show(i){
+    i = Math.max(0, Math.min(i, slides.length-1));
+    slides.forEach(function(s, n){
+      var on = n === i; s.classList.toggle('active', on);
+      var v = s.querySelector('video'); if(v && !on){ v.pause(); var f=v.closest('.pv'); if(f) f.classList.remove('playing'); }
+    });
+    cur = i; curEl.textContent = cur+1;
+    progress.style.width = ((cur+1)/slides.length*100)+'%';
+    prevB.disabled = cur===0; nextB.disabled = cur===slides.length-1;
+    if(history.replaceState) history.replaceState(null,'','#'+(i+1));
+  }
+  function next(){ if(!EMBED && !modalOpen()) show(cur+1); } function prev(){ if(!EMBED && !modalOpen()) show(cur-1); }
+  nextB.addEventListener('click', next); prevB.addEventListener('click', prev);
+
+  document.addEventListener('keydown', function(e){
+    if(e.key==='Escape' && modalOpen()){ closeModal(); return; }
+    if(modalOpen() || EMBED) return;
+    if(['ArrowRight','ArrowDown','PageDown',' '].indexOf(e.key)>=0){ e.preventDefault(); next(); }
+    else if(['ArrowLeft','ArrowUp','PageUp'].indexOf(e.key)>=0){ e.preventDefault(); prev(); }
+    else if(e.key==='Home'){ show(0); } else if(e.key==='End'){ show(slides.length-1); }
+  });
+
+  var x0=null,y0=null;
+  window.addEventListener('touchstart', function(e){ if(EMBED||modalOpen()||e.touches.length>1){x0=null;return;} x0=e.touches[0].clientX; y0=e.touches[0].clientY; }, {passive:true});
+  window.addEventListener('touchend', function(e){
+    if(x0===null) return; var dx=e.changedTouches[0].clientX-x0, dy=e.changedTouches[0].clientY-y0;
+    if(Math.abs(dx)>60 && Math.abs(dx)>Math.abs(dy)*1.5){ dx<0?next():prev(); } x0=null;
+  }, {passive:true});
+
+  var pv = document.querySelector('.pv');
+  if(pv){ var pvv=pv.querySelector('video');
+    pv.addEventListener('click', function(){
+      if(pvv.paused){ pvv.muted=false; var p=pvv.play(); if(p&&p.catch){ p.then(function(){pv.classList.add('playing');}).catch(function(){pvv.muted=true;pvv.play();pv.classList.add('playing');}); } else pv.classList.add('playing'); }
+      else { pvv.pause(); pv.classList.remove('playing'); }
+    });
+  }
+
+  function openMedia(o){
+    mTitle.textContent = o.title || ''; mMedia.innerHTML=''; mLink.style.display='none';
+    if(o.type==='gif'){ var img=document.createElement('img'); img.src=o.src; img.alt=o.title; mMedia.appendChild(img); }
+    else if(o.type==='tiktok'){
+      var f=document.createElement('iframe'); f.src='https://www.tiktok.com/embed/v2/'+o.id;
+      f.setAttribute('allow','autoplay; encrypted-media; fullscreen'); f.setAttribute('allowfullscreen','');
+      mMedia.appendChild(f);
+      if(o.url){ mLink.href=o.url; mLink.style.display='block'; }
+    } else {
+      var v=document.createElement('video'); v.src=o.src; if(o.poster) v.poster=o.poster;
+      v.setAttribute('playsinline',''); v.playsInline=true; v.controls=true; v.loop=true; v.autoplay=true;
+      mMedia.appendChild(v); v.play().catch(function(){ v.muted=true; v.play().catch(function(){}); });
+    }
+    modal.classList.add('on'); modal.setAttribute('aria-hidden','false');
+  }
+  function closeModal(){ modal.classList.remove('on'); modal.setAttribute('aria-hidden','true'); mMedia.innerHTML=''; mLink.style.display='none'; }
+  Array.prototype.slice.call(document.querySelectorAll('.mq-phone')).forEach(function(t){
+    t.addEventListener('click', function(){ openMedia({type:'tiktok',id:t.getAttribute('data-id'),title:t.getAttribute('data-title'),url:t.getAttribute('data-url')}); });
+  });
+  document.getElementById('mclose').addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e){ if(e.target===modal) closeModal(); });
+
+  var fromHash = parseInt((location.hash||'').replace('#',''),10);
+  show(Number.isFinite(fromHash) && fromHash>0 ? fromHash-1 : 0);
+})();
+
+/* page 4 — Showcase widget: click a thumbnail to load + play it in the hero */
+(function(){
+  var hphone=document.getElementById('hphone'), vid=document.getElementById('heroVid'), img=document.getElementById('heroImg');
+  var htag=document.getElementById('htag'), htitle=document.getElementById('htitle');
+  var items=Array.prototype.slice.call(document.querySelectorAll('.sc-it'));
+  if(!hphone) return;
+
+  function select(it){
+    items.forEach(function(x){ x.classList.remove('sel'); });
+    it.classList.add('sel');
+    var d=it.dataset;
+    htag.textContent = d.verb==='save'?'Save':d.verb==='play'?'Play':'Remember';
+    htag.className = 'sc-tag '+d.verb;
+    htitle.textContent = d.title;
+    if(d.type==='gif'){
+      try{ vid.pause(); }catch(e){}
+      vid.hidden=true;
+      img.src=d.src; img.hidden=false;
+      hphone.classList.add('playing');   /* gif animates on its own */
+    } else {
+      img.hidden=true; img.removeAttribute('src');
+      vid.hidden=false;
+      vid.src=d.src; vid.poster=d.poster||'';
+      var p=vid.play();
+      hphone.classList.add('playing');
+      if(p&&p.catch) p.catch(function(){ hphone.classList.remove('playing'); });
+    }
+  }
+  items.forEach(function(it){ it.addEventListener('click', function(){ select(it); }); });
+
+  /* tap the hero to pause / resume (video only) */
+  hphone.addEventListener('click', function(){
+    if(!img.hidden) return;               /* a gif is showing: nothing to toggle */
+    if(vid.paused){ vid.play(); } else { vid.pause(); }
+  });
+  vid.addEventListener('play', function(){ hphone.classList.add('playing'); });
+  vid.addEventListener('pause', function(){ hphone.classList.remove('playing'); });
+  var p=vid.play(); if(p&&p.catch) p.catch(function(){ hphone.classList.remove('playing'); });
+})();
+</script>
+</body>
+</html>
