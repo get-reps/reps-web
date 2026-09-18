@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex,nofollow,noarchive" />
+<title>REPS — Creator deck feedback board</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600&display=swap" rel="stylesheet" />
+
+<style>
+/* ===========================================================================
+   REPS — Creator deck FEEDBACK BOARD. Each page is a live 16:9 embed of the
+   real deck slide (single source of truth — it can never drift from the deck),
+   with one feedback box beneath. Notes save in your browser; "Copy all
+   feedback" bundles them to paste back to Mike.
+   =========================================================================== */
+:root{
+  --paper:#FFFAF7; --paper-2:#F1E9E2;
+  --ink:#211A14; --ink-soft:rgba(33,26,20,.68); --ink-faint:rgba(33,26,20,.46); --ink-hair:rgba(33,26,20,.12);
+  --coral:#FF6B6B; --peach:#FF8E53; --coral-ink:#D8443F;
+  --hot:linear-gradient(96deg,var(--coral) 8%,var(--peach) 92%);
+  --serif:'Lora',Georgia,serif; --sans:'Archivo',system-ui,sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;}
+body{background:var(--paper-2);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;}
+
+.bar{position:sticky;top:0;z-index:40;background:rgba(255,250,247,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--ink-hair);}
+.bar .row{max-width:1040px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.bar .brand{display:flex;align-items:center;gap:10px;}
+.bar .brand img{width:28px;height:28px;border-radius:8px;}
+.bar .brand b{font-family:var(--serif);font-weight:600;font-size:16px;}
+.bar .brand span{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);}
+.bar .spacer{flex:1;}
+.bar .saved{font-size:12px;color:var(--ink-faint);}
+.bar input.who{padding:9px 14px;border:1px solid var(--ink-hair);border-radius:999px;font:inherit;font-size:14px;background:#fff;color:var(--ink);min-width:140px;outline:none;}
+.bar input.who:focus{border-color:var(--coral);}
+.bar button{padding:10px 18px;border:none;border-radius:999px;font:inherit;font-weight:600;font-size:14px;cursor:pointer;background:var(--hot);color:#fff;box-shadow:0 8px 20px rgba(255,107,107,.26);}
+.bar button.ghost{background:#fff;color:var(--ink-soft);border:1px solid var(--ink-hair);box-shadow:none;}
+
+.intro{max-width:1040px;margin:0 auto;padding:36px 20px 6px;}
+.intro .eyebrow{display:inline-flex;align-items:center;gap:14px;font-weight:500;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--coral-ink);margin:0 0 12px;}
+.intro .eyebrow::before{content:"";width:46px;height:2px;background:var(--hot);}
+.intro h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,4vw,42px);line-height:1.1;margin:0 0 12px;}
+.intro p{font-size:15.5px;line-height:1.55;color:var(--ink-soft);max-width:68ch;margin:0;}
+.intro a{color:var(--coral-ink);font-weight:600;text-decoration:none;}
+
+.overall{max-width:1040px;margin:22px auto 0;padding:0 20px;}
+.fb{background:#fff;border:1px solid var(--ink-hair);border-radius:16px;padding:16px 18px 18px;}
+.fb label{display:block;font-weight:600;font-size:14px;color:var(--ink);margin-bottom:9px;}
+.fb label span{color:var(--coral-ink);}
+textarea{width:100%;min-height:78px;resize:vertical;padding:12px 14px;border:1px solid var(--ink-hair);border-radius:11px;font:inherit;font-size:15px;line-height:1.5;color:var(--ink);background:#fff;outline:none;}
+textarea:focus{border-color:var(--coral);box-shadow:0 0 0 3px rgba(255,107,107,.1);}
+textarea::placeholder{color:var(--ink-faint);}
+
+.pagewrap{max-width:1040px;margin:30px auto 0;padding:0 20px;}
+.pagenum{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 10px;}
+.frame{position:relative;width:100%;aspect-ratio:16/9;border-radius:18px 18px 0 0;overflow:hidden;background:#040409;box-shadow:0 20px 50px rgba(33,26,20,.1);}
+.frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;}
+.pagewrap .fb{border-radius:0 0 16px 16px;border-top:none;}
+
+#toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);opacity:0;background:var(--ink);color:#fff;padding:12px 22px;border-radius:999px;font-size:14px;font-weight:500;box-shadow:0 12px 30px rgba(0,0,0,.28);transition:opacity .22s,transform .22s;z-index:60;pointer-events:none;}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+.footer{max-width:1040px;margin:48px auto 0;padding:24px 20px 60px;border-top:1px solid var(--ink-hair);font-family:var(--serif);font-size:14px;color:var(--ink-faint);}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="row">
+    <div class="brand"><img src="../creator/app-mark.png" alt="REPS" /><b>REPS</b><span>Feedback board</span></div>
+    <div class="spacer"></div>
+    <span class="saved" id="saved">Saved in your browser</span>
+    <input class="who" id="who" type="text" placeholder="Your name" autocomplete="name" />
+    <button class="ghost" id="clear" type="button">Clear</button>
+    <button id="copy" type="button">Copy all feedback</button>
+  </div>
+</div>
+
+<div class="intro">
+  <p class="eyebrow">Creator deck review</p>
+  <h1>Give it to us page by page.</h1>
+  <p>Every page of the deck is below, exactly as it looks live. Play any demo inside a page, then leave a note in the box under it. Notes save as you type &mdash; when you&rsquo;re done, hit <b>Copy all feedback</b> and paste it back to Mike. The deck on its own is at <a href="../creator">/creator</a>.</p>
+</div>
+
+<div class="overall">
+  <div class="fb"><label>Overall &mdash; first impression</label>
+  <textarea data-fb="Overall" placeholder="What&rsquo;s your gut reaction to the whole thing?"></textarea></div>
+</div>
+
+<div class="pagewrap"><p class="pagenum">Page 1 &middot; Cover</p>
+  <div class="frame"><iframe loading="lazy" src="../creator?embed=1#1" title="Cover"></iframe></div>
+  <div class="fb"><label>Feedback &mdash; <span>Cover</span></label><textarea data-fb="Page 1 · Cover" placeholder="Does the opening land? Right tagline, right first impression?"></textarea></div>
+</div>
+
+<div class="pagewrap"><p class="pagenum">Page 2 &middot; What REPS is</p>
+  <div class="frame"><iframe loading="lazy" src="../creator?embed=1#2" title="What REPS is"></iframe></div>
+  <div class="fb"><label>Feedback &mdash; <span>What REPS is</span></label><textarea data-fb="Page 2 · What REPS is" placeholder="Is the pitch clear? Anything you'd say differently?"></textarea></div>
+</div>
+
+<div class="pagewrap"><p class="pagenum">Page 3 &middot; Who it&rsquo;s for</p>
+  <div class="frame"><iframe loading="lazy" src="../creator?embed=1#3" title="Who it's for"></iframe></div>
+  <div class="fb"><label>Feedback &mdash; <span>Who it&rsquo;s for</span></label><textarea data-fb="Page 3 · Who it's for" placeholder="Do these three feel right for the content you'd make?"></textarea></div>
+</div>
+
+<div class="pagewrap"><p class="pagenum">Page 4 &middot; App demos</p>
+  <div class="frame"><iframe loading="lazy" src="../creator?embed=1#4" title="App demos"></iframe></div>
+  <div class="fb"><label>Feedback &mdash; <span>App demos</span></label><textarea data-fb="Page 4 · App demos" placeholder="Which flows would you film? Anything too slow, or missing? (Tap a square to watch it.)"></textarea></div>
+</div>
+
+<div class="pagewrap"><p class="pagenum">Page 5 &middot; Content ideas</p>
+  <div class="frame"><iframe loading="lazy" src="../creator?embed=1#5" title="Content ideas"></iframe></div>
+  <div class="fb"><label>Feedback &mdash; <span>Content ideas</span></label><textarea data-fb="Page 5 · Content ideas" placeholder="Which would you actually make? What's missing? (Tap a TikTok to watch it.)"></textarea></div>
+</div>
+
+<div class="pagewrap"><p class="pagenum">Page 6 &middot; How we work</p>
+  <div class="frame"><iframe loading="lazy" src="../creator?embed=1#6" title="How we work"></iframe></div>
+  <div class="fb"><label>Feedback &mdash; <span>How we work</span></label><textarea data-fb="Page 6 · How we work" placeholder="Does the working relationship sound right to you?"></textarea></div>
+</div>
+
+<div class="pagewrap"><p class="pagenum">Page 7 &middot; Get the app</p>
+  <div class="frame"><iframe loading="lazy" src="../creator?embed=1#7" title="Get the app"></iframe></div>
+  <div class="fb"><label>Feedback &mdash; <span>Get the app</span></label><textarea data-fb="Page 7 · Get the app" placeholder="Right call to action to close on?"></textarea></div>
+</div>
+
+<div class="footer">REPS &middot; Your attention, worth keeping. &middot; Notes stay in your browser until you copy them.</div>
+
+<div id="toast"></div>
+
+<script>
+(function(){
+  var STORE = 'reps_creator_feedback_v3';
+  var areas = Array.prototype.slice.call(document.querySelectorAll('textarea[data-fb]'));
+  var whoEl = document.getElementById('who'), savedEl = document.getElementById('saved'), toast = document.getElementById('toast');
+  function debounce(fn, ms){ var id; return function(){ clearTimeout(id); id=setTimeout(fn,ms); }; }
+  function load(){
+    var data={}; try{ data=JSON.parse(localStorage.getItem(STORE)||'{}'); }catch(e){}
+    if(typeof data.__who==='string') whoEl.value=data.__who;
+    areas.forEach(function(t){ var k=t.getAttribute('data-fb'); if(typeof data[k]==='string') t.value=data[k]; });
+  }
+  var flashT;
+  function flash(m){ savedEl.textContent=m; clearTimeout(flashT); flashT=setTimeout(function(){ savedEl.textContent='Saved in your browser'; },1400); }
+  function save(){
+    var data={__who:whoEl.value};
+    areas.forEach(function(t){ if(t.value.trim()) data[t.getAttribute('data-fb')]=t.value; });
+    try{ localStorage.setItem(STORE,JSON.stringify(data)); flash('Saved'); }catch(e){ flash('Could not save'); }
+  }
+  areas.forEach(function(t){ t.addEventListener('input', debounce(save,400)); });
+  whoEl.addEventListener('input', debounce(save,400));
+  function compile(){
+    var who=whoEl.value.trim();
+    var lines=['REPS creator deck — feedback'+(who?' from '+who:''), new Date().toLocaleString(), ''];
+    var any=false;
+    areas.forEach(function(t){ var v=t.value.trim(); if(v){ any=true; lines.push(t.getAttribute('data-fb')+':'); lines.push(v); lines.push(''); } });
+    if(!any) lines.push('(no notes yet)');
+    return lines.join('\n');
+  }
+  var toastT;
+  function showToast(m){ toast.textContent=m; toast.classList.add('on'); clearTimeout(toastT); toastT=setTimeout(function(){ toast.classList.remove('on'); },2600); }
+  function legacy(text){ var ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); showToast('Feedback copied — paste it back to Mike'); }catch(e){ showToast('Press Ctrl/Cmd+C to copy'); } setTimeout(function(){ ta.remove(); },200); }
+  document.getElementById('copy').addEventListener('click', function(){
+    var text=compile();
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(function(){ showToast('Feedback copied — paste it back to Mike'); }).catch(function(){ legacy(text); }); }
+    else { legacy(text); }
+  });
+  document.getElementById('clear').addEventListener('click', function(){
+    if(!confirm('Clear all your notes on this device?')) return;
+    try{ localStorage.removeItem(STORE); }catch(e){}
+    areas.forEach(function(t){ t.value=''; }); whoEl.value=''; showToast('Cleared');
+  });
+  load();
+})();
+</script>
+</body>
+</html>
