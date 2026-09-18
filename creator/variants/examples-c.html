@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Examples — Variant C · The Marquee</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --night:#050409; --cream:#FFFAF7; --cream-soft:rgba(255,250,247,.8); --cream-faint:rgba(255,250,247,.5); --hair:rgba(255,250,247,.12);
+  --coral:#FF6B6B; --peach:#FF8E53; --hot:linear-gradient(96deg,#FF6B6B 8%,#FF8E53 92%);
+  --serif:'Lora',Georgia,serif; --sans:'Archivo',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;}
+body{width:1600px;height:900px;overflow:hidden;background:var(--night);color:var(--cream);font-family:var(--sans);-webkit-font-smoothing:antialiased;}
+.slide{width:1600px;height:900px;padding:66px 84px;display:grid;grid-template-columns:1fr 660px;gap:56px;align-items:center;position:relative;}
+
+.kicker{display:inline-flex;align-items:center;gap:14px;font-weight:600;font-size:15px;letter-spacing:.22em;text-transform:uppercase;color:var(--coral);}
+.kicker::before{content:"";width:52px;height:2px;background:var(--hot);}
+.h2{font-family:var(--serif);font-weight:600;font-size:52px;line-height:1.03;margin:16px 0 10px;letter-spacing:-.018em;}
+.h2 em{font-style:normal;color:transparent;background:var(--hot);-webkit-background-clip:text;background-clip:text;}
+.sub{font-size:19px;color:var(--cream-soft);max-width:44ch;line-height:1.45;}
+
+.ideas{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:28px;}
+.idea{background:rgba(255,250,247,.05);border:1px solid var(--hair);border-radius:14px;padding:16px 18px;display:flex;gap:14px;align-items:center;min-height:62px;}
+.idea .n{font-family:var(--serif);font-weight:600;font-size:18px;color:var(--coral);line-height:1;flex:none;}
+.idea .t{font-size:16px;line-height:1.28;font-weight:500;}
+
+.rules{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap;}
+.chip{display:flex;gap:10px;align-items:baseline;background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.24);border-radius:12px;padding:11px 15px;max-width:340px;}
+.chip .ck{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);white-space:nowrap;}
+.chip p{font-size:13px;line-height:1.35;color:var(--cream-soft);}
+.chip p b{color:#fff;font-weight:600;}
+
+/* marquee of phones */
+.stage{position:relative;height:640px;display:flex;align-items:center;justify-content:center;}
+.glow{position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(255,120,90,.32),transparent 62%);filter:blur(10px);}
+.marq-label{position:absolute;top:6px;left:50%;transform:translateX(-50%);font-size:12px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--cream-faint);white-space:nowrap;}
+.phone{position:absolute;width:236px;aspect-ratio:9/19.5;border-radius:30px;background:#0b0a10;padding:9px;box-shadow:0 40px 80px rgba(0,0,0,.55),0 0 0 1px rgba(255,250,247,.08);}
+.phone .scr{width:100%;height:100%;border-radius:22px;overflow:hidden;position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:18px;color:#fff;}
+.phone .notch{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:74px;height:16px;border-radius:999px;background:#0b0a10;z-index:3;}
+.p1 .scr{background:linear-gradient(165deg,#3a2350,#D8443F);}
+.p2 .scr{background:linear-gradient(165deg,#0f3b39,#2D8377);}
+.p3 .scr{background:linear-gradient(165deg,#4a2a17,#FF8E53);}
+.phone .tk{position:absolute;top:16px;left:16px;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:rgba(0,0,0,.34);padding:4px 9px;border-radius:999px;}
+.phone .pl{position:absolute;top:46%;left:50%;transform:translate(-50%,-50%);width:58px;height:58px;border-radius:50%;background:rgba(255,255,255,.95);display:grid;place-items:center;box-shadow:0 10px 24px rgba(0,0,0,.4);}
+.phone .pl svg{width:21px;height:21px;margin-left:3px;fill:#D8443F;}
+.phone .pt{font-family:var(--serif);font-weight:600;font-size:19px;line-height:1.15;position:relative;z-index:2;}
+.phone .ph{font-size:12px;opacity:.85;margin-top:5px;}
+
+.left{transform:translateX(-186px) rotate(-9deg) scale(.9);z-index:1;filter:brightness(.82);}
+.right{transform:translateX(186px) rotate(9deg) scale(.9);z-index:1;filter:brightness(.82);}
+.center{z-index:3;transform:translateY(-6px) scale(1.04);}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div>
+    <div class="kicker">Content ideas</div>
+    <div class="h2">You drive the <em>creative.</em></div>
+    <div class="sub">Six starting points, and three that already work in the category. Take one and make it yours.</div>
+
+    <div class="ideas">
+      <div class="idea"><div class="n">01</div><div class="t">F to S tier: ways to remember what you read</div></div>
+      <div class="idea"><div class="n">02</div><div class="t">"Turned my bookshelf into a crossword"</div></div>
+      <div class="idea"><div class="n">03</div><div class="t">"X years of reading and NOW I find this"</div></div>
+      <div class="idea"><div class="n">04</div><div class="t">"Rereading a 400-page book… it's 2026"</div></div>
+      <div class="idea"><div class="n">05</div><div class="t">"My dad remembers every book he reads"</div></div>
+      <div class="idea"><div class="n">06</div><div class="t">Top hobbies — and the app for each</div></div>
+    </div>
+
+    <div class="rules">
+      <div class="chip"><span class="ck">Rule 01</span><p><b>Delete the app from the line.</b> Still makes sense? It's decoration.</p></div>
+      <div class="chip"><span class="ck">Rule 02</span><p><b>Product never opens the video.</b> Earn attention, then answer it.</p></div>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="glow"></div>
+    <div class="marq-label">Watch what's working</div>
+    <div class="phone left p2"><div class="notch"></div><div class="scr"><span class="tk">TikTok</span><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5.6 L18.4 12 L8 18.4 Z"/></svg></span><div class="pt">Organise your brain</div><div class="ph">@kathryn.tatess</div></div></div>
+    <div class="phone right p3"><div class="notch"></div><div class="scr"><span class="tk">TikTok</span><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5.6 L18.4 12 L8 18.4 Z"/></svg></span><div class="pt">10 tips for brainmaxing</div><div class="ph">@jennystudies</div></div></div>
+    <div class="phone center p1"><div class="notch"></div><div class="scr"><span class="tk">TikTok</span><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5.6 L18.4 12 L8 18.4 Z"/></svg></span><div class="pt">Top hobbies + the app</div><div class="ph">@mentallockdown01</div></div></div>
+  </div>
+</div>
+</body>
+</html>

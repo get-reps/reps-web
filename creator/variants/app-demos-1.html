@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>App demos — Variant 1 · Showcase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --paper:#FFFAF7; --ink:#211A14; --ink-soft:rgba(33,26,20,.66); --ink-faint:rgba(33,26,20,.44); --hair:rgba(33,26,20,.12);
+  --coral:#FF6B6B; --peach:#FF8E53; --coral-ink:#D8443F; --hot:linear-gradient(96deg,#FF6B6B 8%,#FF8E53 92%);
+  --serif:'Lora',Georgia,serif; --sans:'Archivo',system-ui,sans-serif;
+  --save:#D8443F; --play:#C85A2A; --rem:#2D8377;
+}
+*{box-sizing:border-box;margin:0;}
+body{width:1600px;height:900px;overflow:hidden;background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;}
+.slide{width:1600px;height:900px;padding:44px 84px;display:flex;flex-direction:column;}
+.kicker{display:inline-flex;align-items:center;gap:14px;font-weight:600;font-size:15px;letter-spacing:.2em;text-transform:uppercase;color:var(--coral-ink);}
+.kicker::before{content:"";width:52px;height:2px;background:var(--hot);}
+.h2{font-family:var(--serif);font-weight:600;font-size:42px;line-height:1.02;margin-top:10px;letter-spacing:-.015em;}
+.h2 em{font-style:normal;color:transparent;background:var(--hot);-webkit-background-clip:text;background-clip:text;}
+
+.body{display:grid;grid-template-columns:344px 1fr;gap:104px;flex:1;align-items:center;padding-top:14px;min-height:0;}
+
+/* hero — bigger phone */
+.hero{display:flex;flex-direction:column;align-items:center;}
+.hphone{width:308px;aspect-ratio:9/19.5;border-radius:38px;background:#0b0a10;padding:9px;box-shadow:0 42px 76px rgba(33,26,20,.28),0 0 0 1px rgba(0,0,0,.05);position:relative;cursor:pointer;}
+.hscr{position:relative;width:100%;height:100%;border-radius:29px;overflow:hidden;background:#000;}
+.hscr video,.hscr img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.hplay{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:70px;height:70px;border:none;border-radius:50%;background:rgba(255,255,255,.95);display:grid;place-items:center;box-shadow:0 12px 28px rgba(0,0,0,.35);cursor:pointer;transition:opacity .2s;z-index:2;}
+.hplay svg{width:26px;height:26px;margin-left:3px;fill:var(--coral-ink);}
+.hphone.playing .hplay{opacity:0;pointer-events:none;}
+.hcap{margin-top:18px;text-align:center;}
+.hcap .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#fff;padding:5px 13px;border-radius:999px;margin-bottom:9px;}
+.hcap .tag.save{background:var(--save);}.hcap .tag.play{background:var(--play);}.hcap .tag.rem{background:var(--rem);}
+.hcap h3{font-family:var(--serif);font-weight:600;font-size:26px;}
+
+/* rail — grouped, bigger thumbnails, slimmer cards */
+.rail{display:flex;flex-direction:column;gap:16px;}
+.grp .gl{font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:12px;}
+.grp .gl::after{content:"";flex:1;height:1px;background:var(--hair);}
+.grp.save .gl{color:var(--save);}.grp.play .gl{color:var(--play);}.grp.rem .gl{color:var(--rem);}
+.list{display:grid;grid-template-columns:repeat(3,248px);gap:16px;}
+.it{display:flex;align-items:center;gap:14px;padding:9px 16px 9px 9px;border-radius:14px;border:1px solid var(--hair);background:#fff;cursor:pointer;box-shadow:0 5px 14px rgba(33,26,20,.05);transition:border-color .15s,box-shadow .15s;}
+.it:hover{border-color:rgba(255,107,107,.5);}
+.it.sel{border-color:var(--coral);box-shadow:0 0 0 2px rgba(255,107,107,.2);}
+.it .tw{position:relative;width:108px;flex:none;border-radius:11px;overflow:hidden;aspect-ratio:9/14;background:#000;}
+.it .tw img{width:100%;height:100%;object-fit:cover;object-position:center 15%;}
+.it .tw .tp{position:absolute;left:8px;bottom:8px;width:32px;height:32px;border-radius:50%;background:var(--hot);display:grid;place-items:center;box-shadow:0 4px 10px rgba(0,0,0,.32);}
+.it .tw .tp svg{width:12px;height:12px;margin-left:1px;fill:#fff;}
+.it .nm{font-size:15px;font-weight:600;line-height:1.22;}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div>
+    <div class="kicker">The app, in flows</div>
+    <div class="h2">Many flows to <em>wow your audience.</em></div>
+  </div>
+
+  <div class="body">
+    <div class="hero">
+      <div class="hphone playing" id="hphone">
+        <div class="hscr" id="hscr">
+          <video id="heroVid" src="../demo-assets/bookshelf.mp4" poster="../demo-assets/bookshelf.jpg" muted loop playsinline autoplay></video>
+          <img id="heroImg" hidden alt="" />
+        </div>
+        <button class="hplay" id="hplay" aria-label="Play"><svg viewBox="0 0 24 24"><path d="M8 5.6 L18.4 12 L8 18.4 Z"/></svg></button>
+      </div>
+      <div class="hcap">
+        <span class="tag save" id="htag">Save</span>
+        <h3 id="htitle">Scan your bookshelf</h3>
+      </div>
+    </div>
+
+    <div class="rail">
+      <div class="grp save"><div class="gl">Save · anything, in seconds</div>
+        <div class="list">
+          <div class="it sel" data-type="video" data-src="../demo-assets/bookshelf.mp4" data-poster="../demo-assets/bookshelf.jpg" data-title="Scan your bookshelf" data-verb="save"><div class="tw"><img src="../demo-assets/bookshelf.jpg" alt=""/><span class="tp"><svg viewBox="0 0 24 24"><path d="M8 5.6 L18.4 12 L8 18.4 Z"/></svg></span></div><div class="nm">Scan your bookshelf</div></div>
+          <div class="it" data-type="video" data-src="../demo-assets/save.mp4" data-poster="../demo-assets/save.jpg" data-title="Save from any app" data-verb="save"><div class="tw"><img src="../demo-assets/save.jpg" alt=""/><span class="tp"><svg viewBox="0 0 24 24"><path d="M8 5.6 L18.4 12 L8 18.4 Z"/></svg></span></div><div class="nm">Save from any app</div></div>
+          <div class="it" data-type="video" data-src="../demo-assets/discover.mp4" data-poster="../demo-assets/discover.jpg" data-title="Discover feed" data-verb="save"><div class="tw"><img src="../demo-assets/discover.jpg" alt=""/><span class="tp"><svg viewBox="0 0 24 24"><path d="M8 5.6 L18.4 12 L8 18.4 Z"/></svg></span></div><div class="nm">Discover feed</div></div>
+        </div>
+      </div>
+      <div class="grp play"><div class="gl">Play · a daily game from your reading</div>
+        <div class="list">
+          <div class="it" data-type="video" data-src="../demo-assets/crossword.mp4" data-poster="../demo-assets/crossword.jpg" data-title="Crossword" data-verb="play"><div class="tw"><img src="../demo-assets/crossword.jpg" alt=""/><span class="tp"><svg viewBox="0 0 24 24"><path d="M8 5.6 L18.4 12 L8 18.4 Z"/></svg></span></div><div class="nm">Crossword</div></div>
+          <div class="it" data-type="video" data-src="../demo-assets/trivia.mp4" data-poster="../demo-assets/trivia.jpg" data-title="Friends Trivia" data-verb="play"><div class="tw"><img src="../demo-assets/trivia.jpg" alt=""/><span class="tp"><svg viewBox="0 0 24 24"><path d="M8 5.6 L18.4 12 L8 18.4 Z"/></svg></span></div><div class="nm">Friends Trivia</div></div>
+          <div class="it" data-type="video" data-src="../demo-assets/recall.mp4" data-poster="../demo-assets/recall.jpg" data-title="Active recall" data-verb="play"><div class="tw"><img src="../demo-assets/recall.jpg" alt=""/><span class="tp"><svg viewBox="0 0 24 24"><path d="M8 5.6 L18.4 12 L8 18.4 Z"/></svg></span></div><div class="nm">Active recall</div></div>
+        </div>
+      </div>
+      <div class="grp rem"><div class="gl">Remember · it comes back, so it stays</div>
+        <div class="list">
+          <div class="it" data-type="video" data-src="../demo-assets/brain.mp4" data-poster="../demo-assets/brain.jpg" data-title="Second Brain" data-verb="rem"><div class="tw"><img src="../demo-assets/brain.jpg" alt=""/><span class="tp"><svg viewBox="0 0 24 24"><path d="M8 5.6 L18.4 12 L8 18.4 Z"/></svg></span></div><div class="nm">Second Brain</div></div>
+          <div class="it" data-type="gif" data-src="../demo-assets/synapse.gif" data-title="Synapse" data-verb="rem"><div class="tw"><img src="../demo-assets/synapse.gif" alt=""/><span class="tp"><svg viewBox="0 0 24 24"><path d="M8 5.6 L18.4 12 L8 18.4 Z"/></svg></span></div><div class="nm">Synapse</div></div>
+          <div class="it" data-type="video" data-src="../demo-assets/voice.mp4" data-poster="../demo-assets/voice.jpg" data-title="Voice training" data-verb="rem"><div class="tw"><img src="../demo-assets/voice.jpg" alt=""/><span class="tp"><svg viewBox="0 0 24 24"><path d="M8 5.6 L18.4 12 L8 18.4 Z"/></svg></span></div><div class="nm">Voice training</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var hphone=document.getElementById('hphone'), vid=document.getElementById('heroVid'), img=document.getElementById('heroImg');
+  var htag=document.getElementById('htag'), htitle=document.getElementById('htitle');
+  var items=Array.prototype.slice.call(document.querySelectorAll('.it'));
+
+  function select(it){
+    items.forEach(function(x){ x.classList.remove('sel'); });
+    it.classList.add('sel');
+    var d=it.dataset;
+    htag.textContent = d.verb==='save'?'Save':d.verb==='play'?'Play':'Remember';
+    htag.className = 'tag '+d.verb;
+    htitle.textContent = d.title;
+    if(d.type==='gif'){
+      try{ vid.pause(); }catch(e){}
+      vid.hidden=true;
+      img.src=d.src; img.hidden=false;
+      hphone.classList.add('playing');   /* gif animates on its own */
+    } else {
+      img.hidden=true; img.removeAttribute('src');
+      vid.hidden=false;
+      vid.src=d.src; vid.poster=d.poster||'';
+      var p=vid.play();
+      hphone.classList.add('playing');
+      if(p&&p.catch) p.catch(function(){ hphone.classList.remove('playing'); });
+    }
+  }
+  items.forEach(function(it){ it.addEventListener('click', function(){ select(it); }); });
+
+  /* tap the hero to pause / resume (video only) */
+  hphone.addEventListener('click', function(){
+    if(!img.hidden) return;               /* a gif is showing: nothing to toggle */
+    if(vid.paused){ vid.play(); } else { vid.pause(); }
+  });
+  vid.addEventListener('play', function(){ hphone.classList.add('playing'); });
+  vid.addEventListener('pause', function(){ hphone.classList.remove('playing'); });
+  var p=vid.play(); if(p&&p.catch) p.catch(function(){ hphone.classList.remove('playing'); });
+})();
+</script>
+</body>
+</html>
