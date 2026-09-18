@@ -304,11 +304,11 @@ body.embed .nav,body.embed #progress,body.embed .hint{display:none!important;}
   <!-- 5 CONTENT IDEAS — Marquee: idea grid + rules + fanned TikTok phones -->
   <section class="slide night" aria-label="Content ideas">
     <div class="inner">
-      <p class="eyebrow r r1">Content ideas</p>
-      <h2 class="lead r r1">You drive the <span class="hot">creative.</span></h2>
-      <p class="sub r r1">Six starting points, and three that already work in the category. Take one and make it yours.</p>
       <div class="marquee r r2">
         <div class="mq-left">
+          <p class="eyebrow r r1">Content ideas</p>
+          <h2 class="lead r r1">You drive the <span class="hot">creative.</span></h2>
+          <p class="sub r r1">Six starting points, and three that already work in the category. Take one and make it yours.</p>
           <div class="mq-ideas">
             <div class="mq-idea"><div class="mq-n">01</div><div class="mq-t">F to S tier: ways to remember what you read</div></div>
             <div class="mq-idea"><div class="mq-n">02</div><div class="mq-t">&ldquo;Turned my bookshelf into a crossword&rdquo;</div></div>
@@ -518,7 +518,7 @@ body.embed .nav,body.embed #progress,body.embed .hint{display:none!important;}
     if(vid.paused){ vid.play(); } else { vid.pause(); }
   });
   vid.addEventListener('play', function(){ hphone.classList.add('playing'); });
-  vid.addEventListener('pause', function(){ hphone.classList.remove('playing'); });
+  vid.addEventListener('pause', function(){ if(!img.hidden) return; hphone.classList.remove('playing'); });
   var p=vid.play(); if(p&&p.catch) p.catch(function(){ hphone.classList.remove('playing'); });
 })();
 </script>
