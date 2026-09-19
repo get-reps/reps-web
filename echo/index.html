@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self'; connect-src https://vciosaulrfvddcenblmo.supabase.co https://ecxgtkoaerunnfklhglx.supabase.co; base-uri 'none'; form-action 'none'">
+  <title>Your Echo saves · REPS</title>
+  <script>
+    (() => {
+      'use strict';
+      // Capture then scrub before loading assets. Credentials stay in this closure only.
+      const fragment = new URLSearchParams(window.location.hash.slice(1));
+      let claim = fragment.get('claim') || '';
+      let tokenHash = fragment.get('token_hash') || '';
+      const environment = fragment.get('environment') || 'production';
+      const endpoint = environment === 'staging'
+        ? 'https://ecxgtkoaerunnfklhglx.supabase.co/functions/v1/echo-gateway/claim'
+        : 'https://vciosaulrfvddcenblmo.supabase.co/functions/v1/echo-gateway/claim';
+      const credentialsValid = /^[A-Za-z0-9_-]{32,512}$/.test(claim)
+        && /^[A-Za-z0-9_-]{32,512}$/.test(tokenHash)
+        && ['production', 'staging'].includes(environment)
+        && fragment.getAll('claim').length === 1
+        && fragment.getAll('token_hash').length === 1
+        && fragment.getAll('environment').length <= 1;
+      [...fragment.keys()].forEach((key) => fragment.delete(key));
+      let scrubbed = false;
+      try {
+        window.history.replaceState(null, '', window.location.pathname);
+        scrubbed = true;
+      } catch (_) { /* Refuse the claim if the address bar cannot be cleared. */ }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const button = document.getElementById('connect');
+        const title = document.getElementById('title');
+        const description = document.getElementById('description');
+        const status = document.getElementById('status');
+        const recovery = document.getElementById('recovery');
+        let busy = false;
+        function showUnavailable() {
+          claim = '';
+          tokenHash = '';
+          title.textContent = 'Let’s get you a fresh link';
+          description.textContent = 'This link has expired or connecting saves is temporarily unavailable.';
+          status.textContent = '';
+          button.hidden = true;
+          recovery.hidden = false;
+        }
+        if (!credentialsValid || !scrubbed) {
+          showUnavailable();
+          return;
+        }
+        button.disabled = false;
+        button.addEventListener('click', async () => {
+          if (busy) return;
+          busy = true;
+          button.disabled = true;
+          button.textContent = 'Connecting your saves…';
+          status.textContent = 'One moment — Echo is getting your knowledge ready.';
+          const controller = new AbortController();
+          const timeout = setTimeout(() => controller.abort(), 20000);
+          try {
+            const response = await fetch(endpoint, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              credentials: 'omit',
+              cache: 'no-store',
+              redirect: 'error',
+              referrerPolicy: 'no-referrer',
+              signal: controller.signal,
+              body: JSON.stringify({ claim, token_hash: tokenHash }),
+            });
+            if (!response.ok) throw new Error('claim_unavailable');
+            const result = await response.json();
+            if (typeof result.redirect !== 'string') throw new Error('claim_unavailable');
+            const target = new URL(result.redirect);
+            const login = new URLSearchParams(target.hash.slice(1));
+            // Only the existing REPS login surface may receive the returned credential.
+            if (target.origin !== 'https://www.getreps.io'
+              || target.pathname !== '/login' || target.search
+              || target.username || target.password
+              || login.get('type') !== 'magiclink'
+              || !/^[A-Za-z0-9_-]{32,512}$/.test(login.get('token_hash') || '')
+              || login.getAll('type').length !== 1
+              || login.getAll('token_hash').length !== 1
+              || [...login.keys()].some((key) => !['token_hash', 'type'].includes(key))) {
+              throw new Error('claim_unavailable');
+            }
+            claim = '';
+            tokenHash = '';
+            status.textContent = 'Your saves are connected. Opening REPS…';
+            window.location.replace(target.href);
+          } catch (_) {
+            // Never render or log provider errors, credentials, or response bodies.
+            showUnavailable();
+          } finally {
+            clearTimeout(timeout);
+          }
+        });
+      });
+    })();
+  </script>
+  <style>
+    :root { color-scheme: light; --cream: #fffaf7; --ink: #2a2320; --muted: #6b625e; --coral: #ff6b6b; --peach: #ff8e53; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; min-height: 100svh; display: grid; place-items: center; padding: 32px 22px; color: var(--ink); background: var(--cream); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+    main { width: 100%; max-width: 430px; text-align: center; }
+    .wordmark { margin: 0 0 38px; font-size: 14px; font-weight: 800; letter-spacing: .3em; color: #c74a46; }
+    .eyebrow { margin: 0 0 12px; font-size: 13px; font-weight: 650; color: var(--muted); }
+    h1 { margin: 0 0 16px; font-size: clamp(30px, 8vw, 38px); line-height: 1.12; letter-spacing: -.025em; }
+    .description { margin: 0 auto 28px; max-width: 360px; font-size: 17px; line-height: 1.6; color: var(--muted); }
+    button { width: 100%; border: 0; border-radius: 16px; padding: 18px 20px; background: linear-gradient(135deg, var(--coral), var(--peach)); color: var(--ink); font: inherit; font-size: 16px; line-height: 1.35; font-weight: 750; cursor: pointer; box-shadow: 0 8px 26px rgba(255, 107, 107, .2); transition: transform 160ms ease-out, box-shadow 200ms ease-out; }
+    button:hover:enabled { transform: translateY(-1px); box-shadow: 0 10px 28px rgba(255, 107, 107, .28); }
+    button:active:enabled { transform: translateY(1px); }
+    button:focus-visible { outline: 3px solid var(--ink); outline-offset: 5px; }
+    button:disabled { opacity: .65; cursor: default; }
+    [hidden] { display: none !important; }
+    .status { min-height: 44px; margin: 18px 0 0; font-size: 14px; line-height: 1.5; color: var(--muted); }
+    .recovery { padding: 20px; border-radius: 16px; background: #f5eee9; font-size: 16px; line-height: 1.6; }
+    .hint { margin: 22px 0 0; font-size: 13px; line-height: 1.6; color: var(--muted); }
+    noscript p { line-height: 1.6; }
+    @media (prefers-reduced-motion: reduce) { button { transition: none; } }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="wordmark" aria-label="REPS">REPS</p>
+    <p class="eyebrow">A little knowledge, kept for you</p>
+    <h1 id="title">Bring your saves with you</h1>
+    <p class="description" id="description">Connect what you shared with Echo to your REPS account, then keep learning in the app.</p>
+    <button id="connect" type="button" disabled>Connect my saves and open REPS</button>
+    <p class="status" id="status" role="status" aria-live="polite"></p>
+    <p class="recovery" id="recovery" hidden>Text or email Echo <strong>CLAIM</strong> for a fresh link.</p>
+    <p class="hint">Open this link on the phone you use for REPS.</p>
+    <noscript><p>Enable JavaScript to connect your saves, or text or email Echo <strong>CLAIM</strong> for a fresh link.</p></noscript>
+  </main>
+</body>
+</html>
