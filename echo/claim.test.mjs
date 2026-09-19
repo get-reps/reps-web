@@ -51,9 +51,20 @@ test('scrubs credentials immediately and requires a click before contacting gate
 });
 
 test('staging selects exactly the known staging host', async () => {
-  const page = browser({ hash: `${fragment}&environment=staging` });
+  const page = browser({ hash: `${fragment}&environment=staging`, response: { ok: true, json: async () => ({ connected: true, environment: 'staging' }) } });
   await page.click();
   assert.equal(page.calls[0].url, 'https://ecxgtkoaerunnfklhglx.supabase.co/functions/v1/echo-gateway/claim');
+  assert.equal(page.navigations.length, 0);
+  assert.equal(page.elements.title.textContent, 'Your trial saves are connected');
+  assert.equal(page.elements.connect.hidden, true);
+});
+
+test('staging refuses a production login handoff and production refuses a trial result', async () => {
+  for (const page of [browser({ hash: `${fragment}&environment=staging` }), browser({ response: { ok: true, json: async () => ({ connected: true, environment: 'staging' }) } })]) {
+    await page.click();
+    assert.equal(page.navigations.length, 0);
+    assert.equal(page.elements.recovery.hidden, false);
+  }
 });
 
 test('invalid credentials or environment cannot start a claim', async () => {

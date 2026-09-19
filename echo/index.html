@@ -52,6 +52,11 @@
           return;
         }
         button.disabled = false;
+        if (environment === 'staging') {
+          title.textContent = 'Connect your trial saves';
+          description.textContent = 'Your test saves stay separate from your real REPS library. You can keep using Echo here in messages.';
+          button.textContent = 'Connect my trial saves';
+        }
         button.addEventListener('click', async () => {
           if (busy) return;
           busy = true;
@@ -73,6 +78,16 @@
             });
             if (!response.ok) throw new Error('claim_unavailable');
             const result = await response.json();
+            if (environment === 'staging') {
+              if (result.connected !== true || result.environment !== 'staging') throw new Error('claim_unavailable');
+              claim = '';
+              tokenHash = '';
+              title.textContent = 'Your trial saves are connected';
+              description.textContent = 'Return to your conversation with Echo to keep saving and ask about what you shared.';
+              button.hidden = true;
+              status.textContent = 'Your real REPS library is unchanged.';
+              return;
+            }
             if (typeof result.redirect !== 'string') throw new Error('claim_unavailable');
             const target = new URL(result.redirect);
             const login = new URLSearchParams(target.hash.slice(1));

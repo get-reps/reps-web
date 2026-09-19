@@ -6,7 +6,7 @@ The gateway sends a link whose fragment contains `claim` and `token_hash`. The p
 
 The click POSTs `{ claim, token_hash }` to the fixed production Supabase `/functions/v1/echo-gateway/claim` endpoint. `#environment=staging` selects only the fixed staging project `ecxgtkoaerunnfklhglx`; arbitrary hosts are never accepted. The endpoint must allow the deployed web origin in its CORS response. It enforces the gateway feature flag, expiry, ownership and one-time redemption server-side; the static page is not the security gate.
 
-Success accepts only `https://www.getreps.io/login#token_hash=...&type=magiclink`, with no query, alternate credentials or extra fragment fields. The existing login page stays untouched. The page's staging selector chooses the claim endpoint only; a real staging auth handoff needs a staging-aware login/app route and must not be presented as a production-login success.
+Production success accepts only `https://www.getreps.io/login#token_hash=...&type=magiclink`, with no query, alternate credentials or extra fragment fields. The existing login page stays untouched. Staging success requires `{connected:true,environment:"staging"}` and stays on a clear trial confirmation, without navigating or minting a production-app login. Trial saves remain separate from the real library. A production-shaped redirect in staging, or a trial result in production, is refused.
 
 Missing/malformed links, disabled gateway, expired claims, rejected redirects and network failures all show the same recovery: **Text or email Echo CLAIM for a fresh link.** Reloading intentionally loses in-memory credentials; reopening the original message link restores them if still valid. Requests time out after 20 seconds. No response body or token is logged or displayed.
 
