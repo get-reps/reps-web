@@ -22,8 +22,12 @@ import { dirname, join, resolve } from "node:path";
 
 const KENDRA_URL =
   "https://apps.apple.com/app/id6759216018?pt=128464401&ct=kendra&mt=8";
+const ANDROID_URL = "https://www.getreps.io/android";
 const SLUGS = ["maria", "enzo"];
-const KEYS_PER_SLUG = 3; // ios, android, fallback
+// maria and enzo mirror kendra on ios and fallback, and deliberately differ on android:
+// kendra sends Android viewers to an iPhone-only App Store listing, these two send them
+// to the "Android is coming" page (Mike's call, 2026-09-22).
+const APPLE_KEYS_PER_SLUG = 2; // ios, fallback
 
 const here = dirname(fileURLToPath(import.meta.url));
 // Optional path argument so the check can be pointed at a deliberately corrupted copy
@@ -41,6 +45,15 @@ const countLiteral = (haystack, value) =>
 
 const expectedFor = (slug) => KENDRA_URL.replace("ct=kendra", `ct=${slug}`);
 
+// Counts are taken against the INSERT statement alone, not the whole file: the header
+// comments quote these URLs to explain them, and the assertion declares them as
+// constants. Counting the file would tally all three and mean nothing.
+const insertMatch = sql.match(/insert\s+into\s+public\.links[\s\S]*?;\s*$/im);
+const insertSql = insertMatch ? insertMatch[0] : "";
+if (!insertSql) {
+  failures.push("could not locate the INSERT INTO public.links statement in the file");
+}
+
 // 1. The kendra reference pinned inside the SQL's assertion must be the real one.
 if (countLiteral(sql, KENDRA_URL) < 1) {
   failures.push(
@@ -50,17 +63,28 @@ if (countLiteral(sql, KENDRA_URL) < 1) {
   note(`ok  kendra reference pinned in the SQL matches the live row`);
 }
 
-// 2. Each new slug's URL must appear exactly three times: ios, android, fallback.
+// 2. Each new slug's tagged App Store URL must appear exactly twice: ios and fallback.
 for (const slug of SLUGS) {
   const expected = expectedFor(slug);
-  const hits = countLiteral(sql, expected);
-  if (hits === KEYS_PER_SLUG) {
-    note(`ok  ${slug}: ${hits}/${KEYS_PER_SLUG} keys carry ${expected}`);
+  const hits = countLiteral(insertSql, expected);
+  if (hits === APPLE_KEYS_PER_SLUG) {
+    note(`ok  ${slug}: ${hits}/${APPLE_KEYS_PER_SLUG} Apple-tagged keys carry ${expected}`);
   } else {
     failures.push(
-      `${slug}: expected ${KEYS_PER_SLUG} occurrences of '${expected}', found ${hits}`,
+      `${slug}: expected ${APPLE_KEYS_PER_SLUG} occurrences of '${expected}' (ios + fallback), found ${hits}`,
     );
   }
+}
+
+// 2b. And the Android page must appear once per slug. An Android viewer must never be
+//     sent to the iPhone-only App Store listing.
+const androidHits = countLiteral(insertSql, ANDROID_URL);
+if (androidHits === SLUGS.length) {
+  note(`ok  android: ${androidHits}/${SLUGS.length} rows point at ${ANDROID_URL}`);
+} else {
+  failures.push(
+    `expected ${SLUGS.length} occurrences of '${ANDROID_URL}' (one per slug), found ${androidHits}`,
+  );
 }
 
 // 3. No other apps.apple.com literal may appear in the insert. A stray one is exactly
@@ -110,4 +134,6 @@ if (failures.length) {
   for (const f of failures) console.error(`  - ${f}`);
   process.exit(1);
 }
-console.log(`\nPASS — ${sqlPath} mirrors kendra character for character.`);
+console.log(
+  `\nPASS — ${sqlPath}: ios/fallback mirror kendra character for character, android goes to the "Android is coming" page.`,
+);

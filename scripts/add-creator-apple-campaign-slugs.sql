@@ -20,24 +20,26 @@
 -- sending anything to a creator. That hand-off is the irreversible step, not this insert.
 --
 -- SHAPE
--- Character-for-character the live `kendra` row, only the ct= token differs. BOTH
--- pt=128464401 AND ct=<name> must be present; Apple reports nothing if either is
--- missing, and that silence is indistinguishable from "no downloads". ios/android/
--- fallback are deliberately identical, exactly as `kendra` is, so a tap lands straight
--- on the App Store listing and never passes through getreps.io or Waitlister.
--- channel/variant mirror `kendra` so the three named-partner links share a channel
--- label (readable by joining link_scans.link_id -> links.channel).
+-- The ios and fallback keys are character-for-character the live `kendra` row, only the
+-- ct= token differing. BOTH pt=128464401 AND ct=<name> must be present; Apple reports
+-- nothing if either is missing, and that silence is indistinguishable from "no
+-- downloads". A tap on either lands straight on the App Store listing and never passes
+-- through getreps.io or Waitlister. channel/variant mirror `kendra` so the three
+-- named-partner links share a channel label (readable by joining link_scans.link_id ->
+-- links.channel).
 --
--- ANDROID — a real decision, not a placeholder
--- Mirroring kendra puts the App Store URL on the `android` key, so an Android viewer
--- of a creator's video lands on an iOS-only listing. That is what kendra does today and
--- what "mirror kendra" means, so it is what this file does. But the house pattern for
--- most other live rows (fb, threads, ig, threads-bio) is https://www.getreps.io/android
--- — a real "Android is coming" page that already exists in this repo (android.html) and
--- is already allowlisted. If Cleo/Mike prefer that, swap the two 'android' values below
--- for 'https://www.getreps.io/android' before running, and drop 'android' from the
--- new-row arm of the assertion in step 3. When the Android app ships, that same key
--- takes a Play link carrying the creator token, e.g.
+-- ANDROID — a deliberate departure from kendra (Mike's call, 2026-09-22)
+-- kendra puts its App Store URL on the `android` key too, which sends an Android viewer
+-- of a creator's video to an iOS-only listing they cannot install from. Mike chose the
+-- house pattern used by most other live rows (fb, threads, ig, threads-bio) instead:
+--   https://www.getreps.io/android
+-- a real "Android is coming" page that already exists in this repo (android.html),
+-- returns 200 live, and whose host is already in ALLOWED_HOSTS. So maria and enzo mirror
+-- kendra on ios and fallback and intentionally differ on android; the assertion in step
+-- 3 encodes exactly that and will fail if the android key is ever set to the App Store
+-- URL by mistake. kendra itself is NOT touched — the task was explicit about that.
+-- When the Android app ships, this same key takes a Play link carrying the creator
+-- token, e.g.
 --   https://play.google.com/store/apps/details?id=<pkg>&referrer=utm_source%3Dmaria
 -- play.google.com is already in ALLOWED_HOSTS too, so that later change needs no deploy.
 --
@@ -87,7 +89,7 @@ values
     'maria',
     jsonb_build_object(
       'ios',      'https://apps.apple.com/app/id6759216018?pt=128464401&ct=maria&mt=8',
-      'android',  'https://apps.apple.com/app/id6759216018?pt=128464401&ct=maria&mt=8',
+      'android',  'https://www.getreps.io/android',
       'fallback', 'https://apps.apple.com/app/id6759216018?pt=128464401&ct=maria&mt=8'
     ),
     'team_share',
@@ -97,7 +99,7 @@ values
     'enzo',
     jsonb_build_object(
       'ios',      'https://apps.apple.com/app/id6759216018?pt=128464401&ct=enzo&mt=8',
-      'android',  'https://apps.apple.com/app/id6759216018?pt=128464401&ct=enzo&mt=8',
+      'android',  'https://www.getreps.io/android',
       'fallback', 'https://apps.apple.com/app/id6759216018?pt=128464401&ct=enzo&mt=8'
     ),
     'team_share',
@@ -114,14 +116,16 @@ values
 --
 --    (a) kendra is pinned to its expected literal rather than trusted blindly, so
 --        a drifted reference cannot be mirrored into two new rows.
---    (b) each new row's ios/android/fallback must equal kendra's with only the ct
---        token swapped.
+--    (b) each new row's ios and fallback must equal kendra's with only the ct token
+--        swapped, and its android must be the "Android is coming" page. Setting
+--        android to the App Store URL is treated as a mistake, not a variation.
 --    Any mismatch raises, which aborts the transaction.
 -- ---------------------------------------------------------------------------
 do $assert$
 declare
-  kendra_url constant text :=
+  kendra_url  constant text :=
     'https://apps.apple.com/app/id6759216018?pt=128464401&ct=kendra&mt=8';
+  android_url constant text := 'https://www.getreps.io/android';
   k        jsonb;
   r        record;
   expected text;
@@ -134,6 +138,7 @@ begin
       'kendra row is missing — the reference this change mirrors does not exist';
   end if;
 
+  -- kendra carries the App Store URL on all three of its own keys. Unchanged here.
   foreach dkey in array array['ios', 'android', 'fallback'] loop
     if k ->> dkey is distinct from kendra_url then
       raise exception
@@ -145,18 +150,21 @@ begin
   for r in
     select slug, destination from public.links where slug in ('maria', 'enzo')
   loop
-    expected := replace(kendra_url, 'ct=kendra', 'ct=' || r.slug);
     foreach dkey in array array['ios', 'android', 'fallback'] loop
+      expected := case
+        when dkey = 'android' then android_url
+        else replace(kendra_url, 'ct=kendra', 'ct=' || r.slug)
+      end;
       if r.destination ->> dkey is distinct from expected then
         raise exception
-          '%.% does not mirror kendra. expected %, found %',
+          '%.% is wrong. expected %, found %',
           r.slug, dkey, expected, coalesce(r.destination ->> dkey, '<null>');
       end if;
     end loop;
   end loop;
 
   raise notice
-    'OK: maria and enzo mirror kendra on ios/android/fallback; both tags present.';
+    'OK: maria and enzo carry both Apple tags on ios/fallback and the Android page on android.';
 end
 $assert$;
 
@@ -181,6 +189,7 @@ commit;
 --      curl -sI -A "<iPhone UA>" https://www.getreps.io/r/maria
 --      curl -sI -A "<iPhone UA>" https://www.getreps.io/r/enzo
 --    Expect: 302 -> https://apps.apple.com/app/id6759216018?pt=128464401&ct=<name>&mt=8
+--    With an Android UA, expect: 302 -> https://www.getreps.io/android
 --    A 302 to https://getreps.io/ (bare homepage) means the destination was refused
 --    by the host allowlist. A 302 to https://getreps.io/?ref=<name> means the row is
 --    not there at all.

@@ -69,13 +69,15 @@ So there are two honest routes, and the scout report weighed them:
 
 | | What it gives | Cost |
 |---|---|---|
-| **A — gateway direct** (this file; mirrors `kendra`; what Mike approved) | Apple counts downloads at the store, no app open needed | Loses the per-creator AppsFlyer signal Mike set up on 10 Sep |
+| **A — gateway direct** (this file; mirrors `kendra`) | Apple counts downloads at the store, no app open needed | Loses the per-creator AppsFlyer signal Mike set up on 10 Sep |
 | **B — a Web-URL-mode OneLink template per creator**, behind the same gateway slug | Both meters on one click, like `GL2W` | One hand-built AppsFlyer template per creator, no API on this plan; the report judged it doesn't scale past a handful |
 
-Route A is what was approved and is what the SQL implements. Route B is cheap at two
-creators and expensive at ten. **Worth one look from Mike before the links are handed
-over, because that hand-off is what can't be taken back.** Nothing about the insert
-itself is blocked by this — the rows can exist unused.
+**DECIDED 2026-09-22 — Mike chose route A, with the forfeit named and accepted.** Apple's
+download count is the number the payout is based on, and it is the one AppsFlyer
+structurally cannot produce. The per-creator AppsFlyer signal on
+`pid=maria_creator` / `pid=enzo_creator` goes quiet once the creators switch links; the
+OneLinks themselves are left in place and are not deleted by this change, so route B
+remains available later without redoing anything. The SQL implements route A.
 
 ## Why there is no code change in this repo
 
@@ -96,13 +98,17 @@ landing pages need no change.
   so the insert fails loudly on a duplicate rather than silently overwriting.
 - Maria's and Enzo's OneLink parameters, read from the AppsFlyer account.
 - `GL2W` delivering Apple and AppsFlyer tags on the same click (above).
-- The six URL literals in the SQL, compared character for character against the live
-  `kendra` destination by `scripts/verify-creator-apple-campaign-sql.mjs` — which also
-  refuses a stray App Store URL, a missing tag, non-ASCII in a URL, and an `ON CONFLICT`
-  clause. It needs no credentials: `node scripts/verify-creator-apple-campaign-sql.mjs`.
-  It was itself tested against four deliberately corrupted copies (host typo, dropped
-  `pt=`, wrong app id, softened to an upsert) and rejected all four, so it is not a
+- Every URL literal in the SQL's INSERT, compared character for character against the
+  live `kendra` destination by `scripts/verify-creator-apple-campaign-sql.mjs` — which
+  also refuses a stray App Store URL, a missing tag, non-ASCII in a URL, an Android key
+  pointed at the App Store, and an `ON CONFLICT` clause. It needs no credentials:
+  `node scripts/verify-creator-apple-campaign-sql.mjs`. It was itself tested against five
+  deliberately corrupted copies (host typo, dropped `pt=`, wrong app id, Android sent to
+  the iPhone-only listing, softened to an upsert) and rejected all five, so it is not a
   check that passes everything.
+- `https://www.getreps.io/android` returns 200, `android.html` is titled "Android is
+  coming — REPS", and `/r/fb` under an Android agent already resolves there — so the
+  Android destination chosen below is a page that exists and is already in use.
 
 ## Unverified: the SQL has never been executed
 
@@ -153,18 +159,31 @@ being viewed, so read a cumulative campaign-to-date figure, never a weekly slice
 1. Check whether `kendra` has a campaign in App Store Connect (Apps → REPS → Analytics →
    Acquisition → Campaigns). That answers the prerequisite question for all three links
    at once. Create campaigns named exactly `maria` and `enzo`.
-2. Decide route A vs route B above, and decide the Android destination (§ ANDROID in the
-   SQL). Both are one-string changes before the insert runs.
-3. Run `node scripts/verify-creator-apple-campaign-sql.mjs` (offline, no credentials),
+2. Run `node scripts/verify-creator-apple-campaign-sql.mjs` (offline, no credentials),
    then run `scripts/add-creator-apple-campaign-slugs.sql` against
    `vciosaulrfvddcenblmo`. **This is the live step.**
-4. Re-probe both links with `curl -sI` and confirm the tagged 302.
-5. Real-phone test from inside TikTok and Instagram (above).
-6. Send Maria and Enzo their new links. **Irreversible — do not reach here before step 2.**
-7. Record both slugs in `reps-growth/docs/truth/QR_GATEWAY.md` § Current slugs, including
-   the AppsFlyer forfeit. That doc is the gateway's source of truth and lives in another
-   repo, so this branch cannot update it — **it belongs to whoever runs step 3**, in the
-   same pass, or it becomes the next piece of staleness that doc keeps warning about.
+3. Re-probe both links with `curl -sI` and confirm the tagged 302 on an iPhone UA, and
+   `https://www.getreps.io/android` on an Android UA.
+4. Real-phone test from inside TikTok and Instagram (above).
+5. Send Maria and Enzo their new links. **Irreversible.** Worth telling them in the same
+   message that the counter was on REPS's side of the fence, not theirs.
+6. Record both slugs in `reps-growth/docs/truth/QR_GATEWAY.md` § Current slugs, including
+   the AppsFlyer forfeit and the Android departure from `kendra`. That doc is the
+   gateway's source of truth and lives in another repo, so this branch cannot update it
+   — **it belongs to whoever runs step 2**, in the same pass, or it becomes the next
+   piece of staleness that doc keeps warning about.
+
+## Android: a deliberate departure from kendra (decided 2026-09-22)
+
+`kendra` puts its App Store URL on the `android` key too, so an Android viewer of a
+creator's video lands on an iPhone-only listing they cannot install from. Mike chose the
+house pattern instead: maria and enzo send Android viewers to
+`https://www.getreps.io/android`, the "Android is coming" page already used by `fb`,
+`threads`, `ig` and `threads-bio`. So these two rows mirror `kendra` on `ios` and
+`fallback` and intentionally differ on `android`; the SQL's assertion encodes exactly
+that and will fail if the Android key is ever set back to the App Store URL. `kendra`
+itself is untouched — the task was explicit about not changing other creators' entries.
+When the Android app ships, that same key takes a Play link carrying the creator token.
 
 ## One naming note, not a blocker
 
