@@ -634,6 +634,12 @@ body.still .orgmap .flow{animation:none;offset-distance:62%;opacity:.9;}
   color:var(--fg);margin:76px 0 0 .34em;line-height:1;}
 .cover .line{font-family:var(--serif);font-weight:500;font-size:38px;line-height:1.3;
   color:var(--fg-soft);margin-top:40px;}
+/* Organic underline under Human on the cover tagline (angel lingo pass, 2026-09-23). */
+.cover .u-human{position:relative;display:inline-block;}
+.cover .u-human::after{
+  content:"";position:absolute;left:-2%;right:-2%;bottom:1px;height:12px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 12' preserveAspectRatio='none'%3E%3Cpath d='M2 8 C 18 3, 40 11, 60 5 S 96 2, 118 9' fill='none' stroke='%23FF6B6B' stroke-width='3.2' stroke-linecap='round'/%3E%3C/svg%3E") center/100% 100% no-repeat;
+  pointer-events:none;}
 .cover .round{margin-top:118px;padding-top:34px;border-top:1px solid var(--hair);
   display:flex;gap:38px;align-items:baseline;
   font-family:var(--sans);font-size:16px;letter-spacing:.3em;text-transform:uppercase;color:var(--fg-faint);}
@@ -2041,8 +2047,6 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
 <div class="deck-viewport">
 <main class="deck-stage" id="deckStage">
 
-     No masthead and no folio: the thirteen content slides keep their own
-     numbering, and a cover is not page one of the argument. -->
 <!-- ============ 00 — COVER · night ============
      No masthead and no folio: the fourteen content slides keep their own
      numbering, and a cover is not page one of the argument. The plain line
@@ -2053,8 +2057,8 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
     <div class="cover">
       <img class="mark reveal r1" src="/angel/assets/logos/app-mark.png" alt="REPS" />
       <div class="name reveal r2">REPS</div>
-      <p class="line reveal r3">Your attention, worth keeping.</p>
-      <p class="what reveal r4">You save anything. REPS turns it into daily games that make it stick.</p>
+      <p class="line reveal r3">The <span class="u-human">Human</span> Memory Engine</p>
+      <p class="what reveal r4">Turn media consumption into lasting knowledge so that human inference is not left behind.</p>
       <div class="round v6 reveal r5"><b>Angel round</b><span>September 2026</span></div>
     </div>
     <div class="cover-foot reveal r5">Confidential</div>
@@ -2073,7 +2077,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
     <p class="dek reveal r5" style="margin-top:52px;font-size:33px;max-width:940px">Take a moment. <b>Most people can't get past one.</b></p>
   </div>
   <footer class="footrule chrome-fade">
-    <span>Your attention, worth keeping.</span>
+    <span>The Human Memory Engine</span>
     <span class="folio">01 <span>/ 14</span></span>
   </footer>
 </section>
@@ -2101,7 +2105,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
     </div>
   </div>
   <footer class="footrule chrome-fade">
-    <span>Your attention, worth keeping.</span>
+    <span>The Human Memory Engine</span>
     <span class="folio">02 <span>/ 14</span></span>
   </footer>
 </section>
@@ -2146,7 +2150,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
     </div>
   </div>
   <footer class="footrule chrome-fade">
-    <span>Your attention, worth keeping.</span>
+    <span>The Human Memory Engine</span>
     <span class="folio">03 <span>/ 14</span></span>
   </footer>
 </section>
@@ -2168,7 +2172,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
         <div class="live-list reveal r3">
           <span class="livepill">Live on the App Store</span>
           <ul>
-            <li><b>Save from any app in seconds.</b> REPS does the rest.</li>
+            <li><b>Connect the apps you already use.</b> REPS brings the good stuff in.</li>
             <li><b>A daily session,</b> solo or with a friend.</li>
             <li><b>Discover curated content</b> from the community.</li>
             <li><b>Ask Echo AI</b> anything about it, in text or out loud.</li>
@@ -2191,7 +2195,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
     </div>
   </div>
   <footer class="footrule chrome-fade">
-    <span>Your attention, worth keeping.</span>
+    <span>The Human Memory Engine</span>
     <span class="folio">04 <span>/ 14</span></span>
   </footer>
 </section>
@@ -2210,7 +2214,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
     <p class="kicker reveal r1">What people reach for instead</p>
     <h2 class="lead reveal r2" style="margin-top:12px;max-width:74ch">Existing knowledge apps are overly <span class="hot">generic or utilitarian</span>.</h2>
     <div class="mapwide v8">
-      <div class="aside reveal r3"><b>Over 250M+ word games and micro&#8209;learning app users prove the demand for stimulation, despite it being generic. Nobody offers it socially and gamified on your own content.</b>Saving and second-brain apps are personal but transactional: you do the work. Only possible now that AI does the organising.</div>
+      <div class="aside reveal r3"><b>Over 250M+ word games and micro&#8209;learning app users prove the demand for stimulation, despite it being generic. Nobody offers it socially and gamified on your own content.</b> Bookmark and second-brain tools make you the librarian. REPS makes memory the habit, fed by what you&rsquo;re already in.</div>
       <div class="map-plot reveal r4">
         <svg viewBox="0 0 1080 560" aria-hidden="true">
           <defs><marker id="axhead2" markerWidth="10" markerHeight="10" refX="6" refY="5" orient="auto"><path d="M0,1 L8,5 L0,9 Z" fill="rgba(33,26,20,.35)"/></marker></defs>
@@ -2232,7 +2236,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
       </div>
     </div>
   </div>
-  <footer class="footrule chrome-fade"><span>Your attention, worth keeping.</span><span class="folio">05 <span>/ 14</span></span></footer>
+  <footer class="footrule chrome-fade"><span>The Human Memory Engine</span><span class="folio">05 <span>/ 14</span></span></footer>
 </section>
 
 <!-- ============ 07 — WHO IT'S FOR · night ============
@@ -2288,7 +2292,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
 </div>
   </div>
   <footer class="footrule chrome-fade">
-    <span>Your attention, worth keeping.</span>
+    <span>The Human Memory Engine</span>
     <span class="folio">06 <span>/ 14</span></span>
   </footer>
 </section>
@@ -2308,7 +2312,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
     <div class="trac">
       <div class="reveal r3">
         <div class="sigs">
-          <div class="sig"><b>19%</b><p>D30 for onboarded users<small>People are building a habit of saving knowledge, trainings and games</small></p></div>
+          <div class="sig"><b>19%</b><p>D30 for onboarded users<small>People are building a habit around knowledge, training, and games</small></p></div>
           <div class="sig"><b>30%+</b><p>DAU/WAU<small>Real habit formation that mirrors users&rsquo; content consumption patterns</small></p></div>
           <div class="sig"><b>14&times;</b><p>jump in return rate for users who start one daily training<small>Identifying our equivalent of Facebook&rsquo;s &ldquo;7 friends in 10 days&rdquo;</small></p></div>
         </div>
@@ -2330,7 +2334,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
     </div>
   </div>
   <footer class="footrule chrome-fade">
-    <span>Your attention, worth keeping.</span>
+    <span>The Human Memory Engine</span>
     <span class="folio">07 <span>/ 14</span></span>
   </footer>
 </section>
@@ -2349,7 +2353,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
       <div class="reveal r3">
         <div class="nfx-row v6"><div class="num"><svg class="ico"><use href="#i-network"/></svg></div><div><h4>A personal network</h4></div></div>
         <div class="nfx-row v6"><div class="num"><svg class="ico"><use href="#i-data"/></svg></div><div><h4>Data nobody can scrape</h4></div></div>
-        <div class="nfx-row v6"><div class="num"><svg class="ico"><use href="#i-cheap"/></svg></div><div><h4>Cheaper with every save</h4></div></div>
+        <div class="nfx-row v6"><div class="num"><svg class="ico"><use href="#i-cheap"/></svg></div><div><h4>Cheaper with every item in memory</h4></div></div>
         <div class="nfx-row v6"><div class="num"><svg class="ico"><use href="#i-feed"/></svg></div><div><h4>A feed ranked by what sticks</h4></div></div>
         <div class="nfx-row v6"><div class="num"><svg class="ico"><use href="#i-market"/></svg></div><div><h4>A two-sided network with knowledge suppliers</h4></div></div>
       </div>
@@ -2397,7 +2401,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
     </div>
   </div>
   <footer class="footrule chrome-fade">
-    <span>Your attention, worth keeping.</span>
+    <span>The Human Memory Engine</span>
     <span class="folio">08 <span>/ 14</span></span>
   </footer>
 </section>
@@ -2461,7 +2465,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
 </div>
   </div>
   <footer class="footrule chrome-fade">
-    <span>Your attention, worth keeping.</span>
+    <span>The Human Memory Engine</span>
     <span class="folio">09 <span>/ 14</span></span>
   </footer>
 </section>
@@ -2505,7 +2509,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
     </div>
   </div>
   <footer class="footrule chrome-fade">
-    <span>Your attention, worth keeping.</span>
+    <span>The Human Memory Engine</span>
     <span class="folio">10 <span>/ 14</span></span>
   </footer>
 </section>
@@ -2558,7 +2562,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
     </div>
   </div>
   <footer class="footrule chrome-fade">
-    <span>Your attention, worth keeping.</span>
+    <span>The Human Memory Engine</span>
     <span class="folio">11 <span>/ 14</span></span>
   </footer>
 </section>
@@ -2604,7 +2608,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
     </div>
   </div>
   <footer class="footrule chrome-fade">
-    <span>Your attention, worth keeping.</span>
+    <span>The Human Memory Engine</span>
     <span class="folio">12 <span>/ 14</span></span>
   </footer>
 </section>
@@ -2655,7 +2659,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
     </div>
   </div>
   <footer class="footrule chrome-fade">
-    <span>Your attention, worth keeping.</span>
+    <span>The Human Memory Engine</span>
     <span class="folio">13 <span>/ 14</span></span>
   </footer>
 </section>
@@ -2702,7 +2706,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
     </div>
   </div>
   <footer class="footrule chrome-fade">
-    <span>Your attention, worth keeping.</span>
+    <span>The Human Memory Engine</span>
     <span class="folio">14 <span>/ 14</span></span>
   </footer>
 </section>
