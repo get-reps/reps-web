@@ -634,20 +634,26 @@ body.still .orgmap .flow{animation:none;offset-distance:62%;opacity:.9;}
   color:var(--fg);margin:76px 0 0 .34em;line-height:1;}
 .cover .line{font-family:var(--serif);font-weight:500;font-size:38px;line-height:1.3;
   color:var(--fg-soft);margin-top:40px;}
-/* Underline under Human: slightly inset, draws left→right after the tagline reveals. */
+/* Underline under Human: one soft swoop. Stays invisible until the gate is
+   gone (html.deck-ready), waits 1s, then draws left→right — avoids the flash
+   of a line that already finished behind the access gate. */
 .cover .u-human{position:relative;display:inline-block;}
 .cover .u-human .u-line{
   position:absolute;left:5%;bottom:-2px;width:90%;height:14px;
   max-width:none;max-height:none;overflow:visible;pointer-events:none;display:block;}
 .cover .u-human .u-line path{
   fill:none;stroke:#FF6B6B;stroke-width:3;stroke-linecap:round;
-  stroke-dasharray:100;stroke-dashoffset:100;}
-.slide.visible .cover .u-human .u-line path{
-  animation:uDraw .7s cubic-bezier(.22,1,.36,1) .72s forwards;}
-@keyframes uDraw{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
-body.still .cover .u-human .u-line path{stroke-dashoffset:0;animation:none}
-@media print{.cover .u-human .u-line path{stroke-dashoffset:0;animation:none}}
-@media (prefers-reduced-motion:reduce){.cover .u-human .u-line path{stroke-dashoffset:0;animation:none}}
+  stroke-dasharray:100;stroke-dashoffset:100;opacity:0;}
+html.deck-ready .slide.visible .cover .u-human .u-line path{
+  animation:uDraw .75s cubic-bezier(.22,1,.36,1) 1s both;}
+@keyframes uDraw{
+  0%{opacity:0;stroke-dashoffset:100}
+  1%{opacity:1;stroke-dashoffset:100}
+  100%{opacity:1;stroke-dashoffset:0}}
+body.still .cover .u-human .u-line path,
+html.deck-ready body.still .cover .u-human .u-line path{opacity:1;stroke-dashoffset:0;animation:none}
+@media print{.cover .u-human .u-line path{opacity:1;stroke-dashoffset:0;animation:none}}
+@media (prefers-reduced-motion:reduce){.cover .u-human .u-line path{opacity:1;stroke-dashoffset:0;animation:none}}
 .cover .round{margin-top:118px;padding-top:34px;border-top:1px solid var(--hair);
   display:flex;gap:38px;align-items:baseline;
   font-family:var(--sans);font-size:16px;letter-spacing:.3em;text-transform:uppercase;color:var(--fg-faint);}
@@ -2065,7 +2071,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
     <div class="cover">
       <img class="mark reveal r1" src="/angel/assets/logos/app-mark.png" alt="REPS" />
       <div class="name reveal r2">REPS</div>
-      <p class="line reveal r3">The <span class="u-human">Human<svg class="u-line" viewBox="0 0 120 10" preserveAspectRatio="none" aria-hidden="true"><path pathLength="100" d="M2 6.2 C 28 4.8, 52 7.1, 78 5.6 S 118 6.4, 118 6.4"/></svg></span> Memory Engine</p>
+      <p class="line reveal r3">The <span class="u-human">Human<svg class="u-line" viewBox="0 0 120 10" preserveAspectRatio="none" aria-hidden="true"><path pathLength="100" stroke-dasharray="100" stroke-dashoffset="100" d="M4 7.2 Q 60 2.8 116 7.2"/></svg></span> Memory Engine</p>
       <p class="what reveal r4">Turn media consumption into lasting knowledge<br>so that human inference is not left behind.</p>
       <div class="round v6 reveal r5"><b>Angel round</b><span>September 2026</span></div>
     </div>
@@ -3025,6 +3031,7 @@ class InlineEditor {
 
 if (/[?&]still/.test(location.search)){
   document.body.classList.add('still');
+  document.documentElement.classList.add('deck-ready');
   /* Still renders (the feedback board, print) should show the poster frame,
      not a half-decoded first frame. */
   document.querySelectorAll('video').forEach(function(v){ v.removeAttribute('autoplay'); v.preload = 'none'; v.pause(); });
@@ -3464,6 +3471,8 @@ setupFounderFilm();
   function unlock(email, how){
     viewerEmail = email || null;
     gate.classList.add('gone');
+    /* Start cover underline clock only once the reader can see the deck. */
+    document.documentElement.classList.add('deck-ready');
     if (viewerEmail) {
       try { localStorage.setItem('reps_deck_email', viewerEmail); } catch(e){}
       try {
