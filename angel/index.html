@@ -634,12 +634,20 @@ body.still .orgmap .flow{animation:none;offset-distance:62%;opacity:.9;}
   color:var(--fg);margin:76px 0 0 .34em;line-height:1;}
 .cover .line{font-family:var(--serif);font-weight:500;font-size:38px;line-height:1.3;
   color:var(--fg-soft);margin-top:40px;}
-/* Organic underline under Human on the cover tagline (angel lingo pass, 2026-09-23). */
+/* Underline under Human: nearly straight, draws in after the tagline reveals. */
 .cover .u-human{position:relative;display:inline-block;}
-.cover .u-human::after{
-  content:"";position:absolute;left:-2%;right:-2%;bottom:1px;height:12px;
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 12' preserveAspectRatio='none'%3E%3Cpath d='M2 8 C 18 3, 40 11, 60 5 S 96 2, 118 9' fill='none' stroke='%23FF6B6B' stroke-width='3.2' stroke-linecap='round'/%3E%3C/svg%3E") center/100% 100% no-repeat;
-  pointer-events:none;}
+.cover .u-human .u-line{
+  position:absolute;left:-4%;right:-4%;bottom:-2px;width:108%;height:14px;
+  max-width:none;max-height:none;overflow:visible;pointer-events:none;display:block;}
+.cover .u-human .u-line path{
+  fill:none;stroke:#FF6B6B;stroke-width:3;stroke-linecap:round;
+  stroke-dasharray:130;stroke-dashoffset:130;}
+.slide.visible .cover .u-human .u-line path{
+  animation:uDraw .65s cubic-bezier(.22,1,.36,1) .72s forwards;}
+@keyframes uDraw{to{stroke-dashoffset:0}}
+body.still .cover .u-human .u-line path{stroke-dashoffset:0;animation:none}
+@media print{.cover .u-human .u-line path{stroke-dashoffset:0;animation:none}}
+@media (prefers-reduced-motion:reduce){.cover .u-human .u-line path{stroke-dashoffset:0;animation:none}}
 .cover .round{margin-top:118px;padding-top:34px;border-top:1px solid var(--hair);
   display:flex;gap:38px;align-items:baseline;
   font-family:var(--sans);font-size:16px;letter-spacing:.3em;text-transform:uppercase;color:var(--fg-faint);}
@@ -2057,8 +2065,8 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
     <div class="cover">
       <img class="mark reveal r1" src="/angel/assets/logos/app-mark.png" alt="REPS" />
       <div class="name reveal r2">REPS</div>
-      <p class="line reveal r3">The <span class="u-human">Human</span> Memory Engine</p>
-      <p class="what reveal r4">Turn media consumption into lasting knowledge so that human inference is not left behind.</p>
+      <p class="line reveal r3">The <span class="u-human">Human<svg class="u-line" viewBox="0 0 120 10" preserveAspectRatio="none" aria-hidden="true"><path d="M2 6.2 C 28 4.8, 52 7.1, 78 5.6 S 118 6.4, 118 6.4"/></svg></span> Memory Engine</p>
+      <p class="what reveal r4">Turn media consumption into lasting knowledge<br>so that human inference is not left behind.</p>
       <div class="round v6 reveal r5"><b>Angel round</b><span>September 2026</span></div>
     </div>
     <div class="cover-foot reveal r5">Confidential</div>
