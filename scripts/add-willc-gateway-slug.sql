@@ -9,30 +9,40 @@
 -- step. Hand it to whoever owns the production database write — do not run it as part
 -- of merging this branch.
 --
--- WHY getreps.io/r/will AND NOT A DIRECT APP STORE LINK
+-- WHY getreps.io/r/willc AND NOT A DIRECT APP STORE LINK
 -- Mike's explicit call: the QR code printed for Will's pub quizzes must encode
--- https://www.getreps.io/r/will, not an App Store URL directly. A gateway row is
+-- https://www.getreps.io/r/willc, not an App Store URL directly. A gateway row is
 -- re-pointable (this is api/resolve.ts's whole design, see its own header comment) —
 -- so the same printed QR code can later be repointed at a specific pub-quiz set once
 -- that feature exists, with no reprint. Pointing the QR straight at the App Store would
 -- forfeit that; this insert is what keeps it available.
 --
--- SLUG ASSUMPTION — flag to Mike before anything is printed
--- 'will' is assumed for consistency with the other first-name creator slugs already
--- live (maria, enzo, kendra). Confirm with Mike before the QR code goes to print; the
--- slug is cheap to change now and expensive once it is on physical material.
+-- WHAT "repointable redirect" MEANS HERE, EXACTLY (Mike, 2026-09-23)
+-- api/resolve.ts's unknown-slug path 302s to https://getreps.io/?ref=<slug> — a website
+-- landing page, not the store. That fallback is ONLY what an unrecognized slug gets.
+-- The entire point of this insert is that once it runs, 'willc' stops being unknown:
+-- resolveDestination() picks the row's ios/android/fallback destination by platform,
+-- and for both ios and fallback that destination IS the App Store URL below. So a tap
+-- on getreps.io/r/willc, once this row exists, 302s STRAIGHT to the App Store — it does
+-- NOT stop at a getreps.io website page. See step 4 for the live proof of that.
+--
+-- SLUG — 'willc', not 'will' (Mike's correction, 2026-09-23)
+-- The first draft of this file used 'will', assumed for consistency with the other
+-- first-name creator slugs already live (maria, enzo, kendra). Mike corrected it to
+-- 'willc' for both the slug and the Apple ct= token. Nothing else about the shape
+-- changed. Confirm with Mike before the QR code goes to print if the slug is to change
+-- again; it is cheap to change now and expensive once it is on physical material.
 --
 -- WHY AN INSERT AND NOT AN UPDATE (verified live 2026-09-23)
--- Slug `will` does NOT exist in public.links. A `select` against public.links (below)
--- confirms the table holds `kendra`, `maria`, and `enzo` and no `will` row at all.
--- Today getreps.io/r/will hits resolve.ts's unknown-slug path and 302s to
--- https://getreps.io/?ref=will.
+-- Slug `willc` does NOT exist in public.links. A `select` against public.links (below)
+-- confirms the table holds `kendra`, `maria`, and `enzo` and no `willc` row at all
+-- (and no `will` row either — that slug was never run).
 --
 -- SHAPE
 -- The ios and fallback keys are character-for-character the live `kendra` row's App
 -- Store URL, only the ct= token differing — the same pattern used to add `maria` and
 -- `enzo` (scripts/add-creator-apple-campaign-slugs.sql, task ea4966db, reviewed
--- 0b3bd5f6). BOTH pt=128464401 AND ct=will must be present; Apple reports nothing if
+-- 0b3bd5f6). BOTH pt=128464401 AND ct=willc must be present; Apple reports nothing if
 -- either is missing, and that silence is indistinguishable from "no downloads". android
 -- mirrors maria/enzo (not kendra): an Android viewer goes to the "Android is coming"
 -- page, not an iPhone-only App Store listing. channel/variant mirror the maria/enzo/
@@ -41,8 +51,8 @@
 --
 -- PREREQUISITE THAT IS NOT SQL — the Apple campaign does not exist yet
 -- App Store Connect -> Apps -> REPS -> Analytics -> Acquisition -> Campaigns does not
--- yet hold a campaign named `will` (not yet created — a separate attended step, not
--- part of this insert). Until it is created, ct=will will not count downloads: taps
+-- yet hold a campaign named `willc` (not yet created — a separate attended step, not
+-- part of this insert). Until it is created, ct=willc will not count downloads: taps
 -- still land on the real App Store listing and still install correctly, but Apple's
 -- campaign counter attributes nothing to the tap because it only aggregates by a
 -- campaign it has been told to create. The redirect works from the moment this insert
@@ -55,7 +65,7 @@
 -- HOW TO RUN IT SAFELY
 -- Run the whole file as one unit with psql and ON_ERROR_STOP, so a failed assertion
 -- aborts before COMMIT:
---   psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f scripts/add-will-gateway-slug.sql
+--   psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f scripts/add-willc-gateway-slug.sql
 -- If your surface cannot do that (e.g. the Supabase SQL editor, which manages its own
 -- transaction wrapping), run steps 1-3 as one block first, read the output, and only
 -- then run COMMIT. Either way the assertion in step 3 raises on any mismatch, which
@@ -65,13 +75,13 @@
 begin;
 
 -- ---------------------------------------------------------------------------
--- 1. Pre-flight. Expect kendra/maria/enzo present and NOTHING for will. If will
---    appears here, STOP and investigate: slugs are permanent and must never be
+-- 1. Pre-flight. Expect kendra present and NOTHING for willc. If willc appears
+--    here, STOP and investigate: slugs are permanent and must never be
 --    silently overwritten.
 -- ---------------------------------------------------------------------------
 select slug, destination, channel, variant, is_archived
 from public.links
-where slug in ('kendra', 'will');
+where slug in ('kendra', 'willc');
 
 -- ---------------------------------------------------------------------------
 -- 2. The insert. No ON CONFLICT clause on purpose: a duplicate slug must fail
@@ -80,14 +90,14 @@ where slug in ('kendra', 'will');
 insert into public.links (slug, destination, channel, variant)
 values
   (
-    'will',
+    'willc',
     jsonb_build_object(
-      'ios',      'https://apps.apple.com/app/id6759216018?pt=128464401&ct=will&mt=8',
+      'ios',      'https://apps.apple.com/app/id6759216018?pt=128464401&ct=willc&mt=8',
       'android',  'https://www.getreps.io/android',
-      'fallback', 'https://apps.apple.com/app/id6759216018?pt=128464401&ct=will&mt=8'
+      'fallback', 'https://apps.apple.com/app/id6759216018?pt=128464401&ct=willc&mt=8'
     ),
     'team_share',
-    'will'
+    'willc'
   );
 
 -- ---------------------------------------------------------------------------
@@ -100,7 +110,7 @@ values
 --
 --    (a) kendra is pinned to its expected literal rather than trusted blindly, so
 --        a drifted reference cannot be mirrored into the new row.
---    (b) will's ios and fallback must equal kendra's with only the ct token
+--    (b) willc's ios and fallback must equal kendra's with only the ct token
 --        swapped, and its android must be the "Android is coming" page. Setting
 --        android to the App Store URL is treated as a mistake, not a variation.
 --    Any mismatch raises, which aborts the transaction.
@@ -132,7 +142,7 @@ begin
   end loop;
 
   for r in
-    select slug, destination from public.links where slug = 'will'
+    select slug, destination from public.links where slug = 'willc'
   loop
     foreach dkey in array array['ios', 'android', 'fallback'] loop
       expected := case
@@ -148,7 +158,7 @@ begin
   end loop;
 
   raise notice
-    'OK: will carries the Apple tag on ios/fallback and the Android page on android.';
+    'OK: willc carries the Apple tag on ios/fallback and the Android page on android.';
 end
 $assert$;
 
@@ -162,7 +172,7 @@ select
   variant,
   is_archived
 from public.links
-where slug in ('kendra', 'will')
+where slug in ('kendra', 'willc')
 order by slug;
 
 commit;
@@ -170,20 +180,23 @@ commit;
 -- ---------------------------------------------------------------------------
 -- 4. After committing, confirm from outside the database. Use HEAD — a GET on
 --    this host writes a row to link_scans.
---      curl -sI -A "<iPhone UA>" https://www.getreps.io/r/will
---    Expect: 302 -> https://apps.apple.com/app/id6759216018?pt=128464401&ct=will&mt=8
+--      curl -sI -A "<iPhone UA>" https://www.getreps.io/r/willc
+--    Expect: 302 -> https://apps.apple.com/app/id6759216018?pt=128464401&ct=willc&mt=8
+--    That Location header is the App Store itself, not a getreps.io page — this is
+--    the "straight to the App Store" proof.
 --    With an Android UA, expect: 302 -> https://www.getreps.io/android
 --    A 302 to https://getreps.io/ (bare homepage) means the destination was refused
---    by the host allowlist. A 302 to https://getreps.io/?ref=will means the row is
---    not there at all.
+--    by the host allowlist. A 302 to https://getreps.io/?ref=willc means the row is
+--    not there at all yet — this is the "unknown slug" fallback that step 4's proof
+--    is checking has been replaced by the real destination.
 --
--- 5. Separately, and NOT part of this insert: create a campaign named exactly `will`
+-- 5. Separately, and NOT part of this insert: create a campaign named exactly `willc`
 --    in App Store Connect -> Apps -> REPS -> Analytics -> Acquisition -> Campaigns.
---    Until that exists, ct=will installs correctly but is not counted by Apple.
+--    Until that exists, ct=willc installs correctly but is not counted by Apple.
 --
 -- 6. Later, to repoint the QR (e.g. once a pub-quiz set exists to attach): update
 --    this row's destination in place. The printed QR code never needs to change —
 --    that repointability is the entire reason this is a gateway slug and not a
 --    direct App Store link.
---      update public.links set destination = jsonb_build_object(...) where slug = 'will';
+--      update public.links set destination = jsonb_build_object(...) where slug = 'willc';
 -- ---------------------------------------------------------------------------

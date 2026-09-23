@@ -1,22 +1,22 @@
 #!/usr/bin/env python
 """
-Generate the getreps.io/r/will QR code with the REPS brand mark centered.
+Generate the getreps.io/r/willc QR code with the REPS brand mark centered.
 
 Crew task 1cc02408-d3d5-408c-8fc1-ff4091a6050f. Encodes the redirect URL
 (NOT a direct App Store link) so the printed code can be repointed later by
-updating the `will` row in public.links (see scripts/add-will-gateway-slug.sql)
+updating the `willc` row in public.links (see scripts/add-willc-gateway-slug.sql)
 without reprinting anything.
 
-Usage: python scripts/generate-will-qr.py
+Usage: python scripts/generate-willc-qr.py
 """
 
 import qrcode
 import qrcode.constants
 from PIL import Image, ImageDraw
 
-URL = "https://www.getreps.io/r/will"
+URL = "https://www.getreps.io/r/willc"
 LOGO_PATH = "angel/assets/logos/app-mark.png"  # real REPS brand mark (squircle app icon, RGBA)
-OUTPUT_PATH = "qr/will-r-getreps-io.png"
+OUTPUT_PATH = "qr/willc-r-getreps-io.png"
 
 BOX_SIZE = 30              # pixels per QR module
 BORDER = 4                 # quiet zone in modules — the QR spec minimum, do not go lower
