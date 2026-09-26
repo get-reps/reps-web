@@ -95,7 +95,7 @@
             if (target.origin !== 'https://www.getreps.io'
               || target.pathname !== '/login' || target.search
               || target.username || target.password
-              || login.get('type') !== 'magiclink'
+              || !['magiclink', 'loginrecovery'].includes(login.get('type'))
               || !/^[A-Za-z0-9_-]{32,512}$/.test(login.get('token_hash') || '')
               || login.getAll('type').length !== 1
               || login.getAll('token_hash').length !== 1

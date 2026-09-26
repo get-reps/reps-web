@@ -59,6 +59,18 @@ test('staging selects exactly the known staging host', async () => {
   assert.equal(page.elements.connect.hidden, true);
 });
 
+test('existing-account recovery handoff reaches login without allowing other auth types', async () => {
+  const recovery = redirect.replace('type=magiclink', 'type=loginrecovery');
+  const page = browser({ response: { ok: true, json: async () => ({ redirect: recovery }) } });
+  await page.click();
+  assert.deepEqual(page.navigations, [recovery]);
+  for (const type of ['recovery', 'signup', 'invite', '']) {
+    const invalid = browser({ response: { ok: true, json: async () => ({ redirect: redirect.replace('type=magiclink', `type=${type}`) }) } });
+    await invalid.click();
+    assert.equal(invalid.navigations.length, 0);
+  }
+});
+
 test('staging refuses a production login handoff and production refuses a trial result', async () => {
   for (const page of [browser({ hash: `${fragment}&environment=staging` }), browser({ response: { ok: true, json: async () => ({ connected: true, environment: 'staging' }) } })]) {
     await page.click();
