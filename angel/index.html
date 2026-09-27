@@ -878,7 +878,8 @@ body.still .reveal,body.still .chrome-fade{opacity:1!important;transform:none!im
 .hic h3{font-family:var(--serif);font-weight:600;font-size:27px;line-height:1.2;color:var(--fg);margin-bottom:8px;}
 .hic p.blurb{font-family:var(--sans);font-size:17px;line-height:1.5;color:var(--fg-soft);min-height:78px;}
 .hic .mock{margin-top:22px;min-height:430px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:0;}
-.kicker .hic-pill{margin-left:10px;font-size:12.5px;letter-spacing:.22em;}
+.hic .col-label .notyet{margin-left:12px;font-size:11px;padding:3px 10px;position:relative;top:-1px;}
+.hic .col-label .notyet.later{color:var(--fg-faint);border-color:var(--fg-faint);}
 /* integrations row: cream chips, ink marks -- the same register as slide 05's pills */
 .in-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;max-width:460px;}
 .in-chip{width:62px;height:62px;border-radius:50%;background:#FFFAF7;display:flex;align-items:center;justify-content:center;
@@ -2299,9 +2300,9 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
      goes: from a memory product to a full companion. Three roadmap columns,
      each carrying one code-rendered mock of the experience -- an iOS banner,
      a personal digest card, an iMessage thread with Echo (the Linq gateway
-     work in reps-corpdev/work/imessage-gateway-260918). Marked ROADMAP with
-     the deck's own pill: none of this is live, and PRODUCT_TRUTH forbids a
-     roadmap item reading as a shipped one. Digest rows are credited to no
+     work in reps-corpdev/work/imessage-gateway-260918). Each column carries
+     its own status pill (Mike, 2026-09-27: ingestion + messaging "In beta",
+     curation "Q4 2026"); none of it is in PRODUCT_TRUTH's live list. Digest rows are credited to no
      real publication on purpose (DESIGN_DECISIONS, mockup placeholder prose). -->
 <section class="slide night" aria-label="Human Intelligence Companion">
   <header class="masthead chrome-fade">
@@ -2309,12 +2310,12 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
     <div class="masthead-meta">Where it goes</div>
   </header>
   <div class="canvas">
-    <p class="kicker reveal r1">The same habit, everywhere you already are <span class="notyet hic-pill">Roadmap</span></p>
+    <p class="kicker reveal r1">The same habit, everywhere you already are</p>
     <h2 class="lead sm reveal r2" style="margin-top:14px;max-width:none">From memory product to full <span class="hot">Human Intelligence Companion</span>.</h2>
 
     <div class="hic">
       <div class="reveal r3">
-        <div class="col-label">01 &middot; Continuous ingestion</div>
+        <div class="col-label">01 &middot; Continuous ingestion <span class="notyet">In beta</span></div>
         <h3>Everything you consume, in.</h3>
         <p class="blurb">Connect your listening, watching and reading apps once. From then on, what matters flows into your memory without a single tap.</p>
         <div class="mock">
@@ -2345,7 +2346,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
       </div>
 
       <div class="reveal r4">
-        <div class="col-label">02 &middot; Multi-channel engagement</div>
+        <div class="col-label">02 &middot; Multi-channel engagement <span class="notyet">In beta</span></div>
         <h3>Living where you are.</h3>
         <p class="blurb">Echo lives in iMessage, WhatsApp and email. Send it a link or a voice note; it saves, asks what to keep, and pulls you back into REPS when your round is ready.</p>
         <div class="mock">
@@ -2368,7 +2369,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
       </div>
 
       <div class="reveal r5">
-        <div class="col-label">03 &middot; Tailored curation</div>
+        <div class="col-label">03 &middot; Tailored curation <span class="notyet later">Q4 2026</span></div>
         <h3>We do the scrolling for you.</h3>
         <p class="blurb">One personal digest from every source you follow, picked from what you do, who you follow and what your friends keep. Everything else, already skipped.</p>
         <div class="mock">
