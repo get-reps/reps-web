@@ -10,8 +10,8 @@
    compared against in /api/deck-open — which is how forwarding shows up.
    ========================================================================== */
 import {
+  type Viewer,
   checkCode,
-  checkLink,
   corsHeaders,
   escapeSlack,
   geoOf,
@@ -19,6 +19,7 @@ import {
   json,
   normaliseEmail,
   notifySlack,
+  readLink,
   secret,
   sessionCookie,
   uaOf,
@@ -47,11 +48,14 @@ export async function POST(request: Request): Promise<Response> {
   const geo = geoOf(request);
   let email: string | null = null;
   let via: "link" | "code" = "code";
+  let requestedFrom: string | null = null;
 
   if (typeof body.token === "string" && body.token.length > 0) {
-    email = await checkLink(gateSecret, body.token);
+    const link = await readLink(gateSecret, body.token);
+    if (!link) return json({ ok: false, error: "link_expired" }, { status: 401 });
+    email = link.email;
+    requestedFrom = link.requestedFrom;
     via = "link";
-    if (!email) return json({ ok: false, error: "link_expired" }, { status: 401 });
   } else {
     email = normaliseEmail(body.email);
     if (!email) return json({ ok: false, error: "bad_email" }, { status: 400 });
@@ -63,23 +67,55 @@ export async function POST(request: Request): Promise<Response> {
     }
   }
 
-  const token = await issueSession(gateSecret, { e: email, geo, t: Date.now() });
+  const viewer: Viewer = { e: email, geo, t: Date.now(), via };
+  if (requestedFrom) viewer.rg = requestedFrom;
 
-  await notifySlack({
-    text: `Angel deck: opened by ${email}`,
-    blocks: [
-      { type: "section", text: { type: "mrkdwn", text: "*Angel deck* — someone is reading it" } },
-      {
-        type: "section",
-        fields: [
-          { type: "mrkdwn", text: `*Email:*\n${escapeSlack(email)}` },
-          { type: "mrkdwn", text: `*From:*\n${escapeSlack(geo)}` },
-          { type: "mrkdwn", text: `*Entry:*\n${via === "link" ? "one-click link" : "typed the code"}` },
-        ],
-      },
-      { type: "context", elements: [{ type: "mrkdwn", text: escapeSlack(uaOf(request)) }] },
-    ],
-  });
+  if (via === "code") {
+    /* A typed code means a person with the inbox open. Announce it now, and mark
+       the session as already announced so the first-read beacon stays quiet. */
+    viewer.c = 1;
+    await notifySlack({
+      text: `Angel deck: opened by ${email}`,
+      blocks: [
+        { type: "section", text: { type: "mrkdwn", text: "*Angel deck* — someone is reading it" } },
+        {
+          type: "section",
+          fields: [
+            { type: "mrkdwn", text: `*Email:*\n${escapeSlack(email)}` },
+            { type: "mrkdwn", text: `*From:*\n${escapeSlack(geo)}` },
+            { type: "mrkdwn", text: "*Entry:*\ntyped the code" },
+          ],
+        },
+        { type: "context", elements: [{ type: "mrkdwn", text: escapeSlack(uaOf(request)) }] },
+      ],
+    });
+  } else {
+    /* A followed link is NOT yet a reader. On 2026-09-28 one investor's email
+       produced six link unlocks from Google/AWS/Microsoft data-centre towns
+       (Council Bluffs, Boardman, Washington, Cardiff) — his mail filter checking
+       the link — none of which ever left the cover slide. So this line is
+       labelled as probable noise, and the real "someone is reading it" alert is
+       sent by /api/deck-open once the viewer moves past the cover. */
+    await notifySlack({
+      text: `Angel deck: link check for ${email} from ${geo} (probably an email scanner)`,
+      blocks: [
+        {
+          type: "context",
+          elements: [
+            {
+              type: "mrkdwn",
+              text:
+                `:mag: Link opened for ${escapeSlack(email)} from ${escapeSlack(geo)}. ` +
+                "Probably an email security scanner checking the link, so you can ignore this. " +
+                "You will get a proper alert if someone reads past the cover.",
+            },
+          ],
+        },
+      ],
+    });
+  }
+
+  const token = await issueSession(gateSecret, viewer);
 
   return json(
     { ok: true, email },

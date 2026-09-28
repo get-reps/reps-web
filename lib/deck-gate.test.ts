@@ -10,6 +10,8 @@ import {
   issueLink,
   issueSession,
   normaliseEmail,
+  placeDiffers,
+  readLink,
   readCookie,
   readSession,
   sessionCookie,
@@ -166,4 +168,45 @@ test("both implementations produce byte-identical tokens", async () => {
   const mine = await issueLink(S, "a@b.com", T0);
   const theirs = issueLinkTheInviteScriptWay(S, "a@b.com", T0 + 7 * 864e5);
   assert.equal(mine, theirs);
+});
+
+/* ── 2026-09-28: forwarding signal carried inside the link ──────────────── */
+
+test("a link carries where it was requested from, and old links still verify", async () => {
+  const withPlace = await issueLink(S, "a@b.com", T0, "London, ENG, GB");
+  assert.deepEqual(await readLink(S, withPlace, T0), { email: "a@b.com", requestedFrom: "London, ENG, GB" });
+  assert.equal(await checkLink(S, withPlace, T0), "a@b.com");
+
+  const noPlace = await issueLink(S, "a@b.com", T0);
+  assert.deepEqual(await readLink(S, noPlace, T0), { email: "a@b.com", requestedFrom: null });
+
+  const unknownPlace = await issueLink(S, "a@b.com", T0, "unknown");
+  assert.deepEqual(await readLink(S, unknownPlace, T0), { email: "a@b.com", requestedFrom: null });
+});
+
+test("the requested-from place cannot be edited without breaking the signature", async () => {
+  const token = await issueLink(S, "a@b.com", T0, "London, ENG, GB");
+  const [body, sig] = token.split(".");
+  const forged = Buffer.from(
+    JSON.stringify({ ...JSON.parse(Buffer.from(body, "base64url").toString()), g: "Paris, IDF, FR" }),
+  ).toString("base64url");
+  assert.equal(await readLink(S, `${forged}.${sig}`, T0), null);
+});
+
+test("placeDiffers only fires when both places are known and different", () => {
+  assert.equal(placeDiffers("London, ENG, GB", "Council Bluffs, IA, US"), true);
+  assert.equal(placeDiffers("London, ENG, GB", "London, ENG, GB"), false);
+  assert.equal(placeDiffers("London, ENG, GB", "unknown"), false);
+  assert.equal(placeDiffers(undefined, "London, ENG, GB"), false);
+  assert.equal(placeDiffers(null, null), false);
+});
+
+test("a session round-trips the new fields", async () => {
+  const token = await issueSession(S, {
+    e: "a@b.com", geo: "London, ENG, GB", t: T0, via: "link", rg: "London, ENG, GB",
+  });
+  const v = await readSession(S, token);
+  assert.equal(v?.via, "link");
+  assert.equal(v?.rg, "London, ENG, GB");
+  assert.equal(v?.c, undefined);
 });

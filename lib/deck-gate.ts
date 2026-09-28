@@ -43,6 +43,18 @@ export type Viewer = {
   /** places already reported to Slack, so a re-read from the same new city does
       not ping twice. Lives in the cookie because the whole gate is stateless. */
   s?: string[];
+  /** how they got in. "code" means someone typed a code from the inbox, so a
+      person was definitely there. "link" means the one-click link was followed,
+      which corporate mail filters do automatically within seconds of delivery
+      (Mimecast, Defender, Google's link checker) — so a link unlock is not yet
+      evidence that anyone is reading. Absent on sessions issued before
+      2026-09-28, which were already announced at unlock. */
+  via?: "code" | "link";
+  /** where the one-click link was REQUESTED from (carried inside the link). If
+      it is read somewhere else, the link probably travelled with a forward. */
+  rg?: string;
+  /** 1 once a real read (past the cover) has been announced for this session. */
+  c?: 1;
 };
 
 /* ── primitives ─────────────────────────────────────────────────────────── */
@@ -145,9 +157,33 @@ async function unsign<T>(secret: string, kind: string, token: string): Promise<T
 }
 
 /** A one-click link, so nobody has to retype anything on a phone. Also the lane
-    for pre-authorised invites, which send no email at all. */
-export function issueLink(secret: string, email: string, now = Date.now()): Promise<string> {
-  return sign(secret, "link", { e: email, x: now + LINK_TTL_MS });
+    for pre-authorised invites, which send no email at all.
+
+    `requestedFrom` is the place the code was asked for. It rides inside the
+    signed link (still stateless) so that when the link is later opened, the
+    server can tell whether it is being read where it was requested — the
+    forwarding signal a per-browser check cannot see, because a forwarded link
+    opens a brand-new session with its own baseline. */
+export function issueLink(
+  secret: string,
+  email: string,
+  now = Date.now(),
+  requestedFrom?: string,
+): Promise<string> {
+  const payload: { e: string; x: number; g?: string } = { e: email, x: now + LINK_TTL_MS };
+  if (requestedFrom && requestedFrom !== "unknown") payload.g = requestedFrom;
+  return sign(secret, "link", payload);
+}
+
+export async function readLink(
+  secret: string,
+  token: string,
+  now = Date.now(),
+): Promise<{ email: string; requestedFrom: string | null } | null> {
+  const p = await unsign<{ e?: unknown; x?: unknown; g?: unknown }>(secret, "link", token);
+  if (!p || typeof p.e !== "string" || typeof p.x !== "number") return null;
+  if (p.x < now) return null;
+  return { email: p.e, requestedFrom: typeof p.g === "string" ? p.g : null };
 }
 
 export async function checkLink(
@@ -155,10 +191,7 @@ export async function checkLink(
   token: string,
   now = Date.now(),
 ): Promise<string | null> {
-  const p = await unsign<{ e?: unknown; x?: unknown }>(secret, "link", token);
-  if (!p || typeof p.e !== "string" || typeof p.x !== "number") return null;
-  if (p.x < now) return null;
-  return p.e;
+  return (await readLink(secret, token, now))?.email ?? null;
 }
 
 export function issueSession(secret: string, v: Viewer): Promise<string> {
@@ -211,6 +244,13 @@ export function geoOf(request: Request): string {
   return parts.length ? parts.join(", ") : "unknown";
 }
 
+/** True only when both places are known and they differ. "unknown" never counts
+    as a move — a missing header is not evidence of anything. */
+export function placeDiffers(a: string | null | undefined, b: string | null | undefined): boolean {
+  if (!a || !b || a === "unknown" || b === "unknown") return false;
+  return a !== b;
+}
+
 export function uaOf(request: Request): string {
   return (request.headers.get("user-agent") ?? "").slice(0, 200);
 }
@@ -222,12 +262,14 @@ export function escapeSlack(text: string): string {
 }
 
 /** Fire-and-forget with a hard timeout. A Slack outage must never be the reason
-    an investor cannot open the deck, so every caller ignores the result. */
-export async function notifySlack(payload: unknown): Promise<void> {
+    an investor cannot open the deck, so no caller may fail on it. Returns
+    whether Slack accepted the message, for the one caller that must not mark
+    an alert as sent when it was not (the first-read alert in deck-open). */
+export async function notifySlack(payload: unknown): Promise<boolean> {
   const url = process.env.SLACK_SUPPORT_WEBHOOK_URL;
   if (!url) {
     console.error("deck-gate: SLACK_SUPPORT_WEBHOOK_URL missing");
-    return;
+    return false;
   }
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 5000);
@@ -239,8 +281,10 @@ export async function notifySlack(payload: unknown): Promise<void> {
       signal: controller.signal,
     });
     if (!res.ok) console.error("deck-gate: slack non-2xx", res.status);
+    return res.ok;
   } catch (e) {
     console.error("deck-gate: slack threw", e);
+    return false;
   } finally {
     clearTimeout(timeout);
   }

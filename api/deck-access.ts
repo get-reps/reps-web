@@ -147,8 +147,8 @@ export async function POST(request: Request): Promise<Response> {
   }
 
   const code = await issueCode(gateSecret, email, now);
-  const link = `${DECK_URL}?t=${encodeURIComponent(await issueLink(gateSecret, email, now))}`;
   const geo = geoOf(request);
+  const link = `${DECK_URL}?t=${encodeURIComponent(await issueLink(gateSecret, email, now, geo))}`;
 
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",

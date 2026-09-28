@@ -3398,6 +3398,16 @@ setupFounderFilm();
      as wide as the part of the slide it would otherwise hide. Shift by half the
      panel so the deck re-centres in what is left. */
   .deck-viewport{transition:transform .24s cubic-bezier(.4,0,.2,1);}
+  /* "Prepared for <email>" on every slide. Lives inside the 1920x1080 stage so
+     it is in every screenshot, screen-share and print, which is the forwarding
+     path no server-side signal can see. Mid-grey at low opacity reads on both
+     the night and paper slides without competing with the content. */
+  .deck-owner{position:absolute;right:32px;bottom:16px;z-index:60;pointer-events:none;
+    user-select:none;-webkit-user-select:none;font:500 15px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    letter-spacing:.02em;color:rgba(128,128,128,.6);}
+  /* Print flattens the stage into one page per slide, so a single absolutely
+     placed stamp would land once on page one. Leave it off paper for now. */
+  @media print{.deck-owner{display:none!important;}}
 
   /* A pin arriving from a notes email. Distinct from a reviewer's own numbered
      pins: this one is a target the reader is being POINTED AT, so it pulses
@@ -3566,6 +3576,45 @@ setupFounderFilm();
   function openDwell(i){
     dwellIndex = i; dwellFrom = Date.now();
     if (i + 1 > deepest) deepest = i + 1;
+    armEngaged(i);
+  }
+
+  /* First move past the cover = the first proof a PERSON is reading. Mail
+     filters that auto-open the emailed link never leave slide 1, so the server
+     holds the real "someone is reading it" alert for a link unlock until this
+     arrives. Once per page load; the server dedupes across loads.
+     It needs a real PAUSE on a slide past the cover, not just arriving there:
+     a sandboxing scanner can scroll or click once, which moves the deck, but a
+     person stops to read. Moving on before the pause restarts the clock. */
+  var ENGAGED_MS = 6000;
+  var engagedSent = false, engagedTimer = null;
+  function armEngaged(i){
+    clearTimeout(engagedTimer);
+    if (i < 1 || engagedSent) return;
+    /* Backstop for a fast skimmer who never pauses 6s: reaching slide 4 means
+       several deliberate moves forward, which no link checker makes. */
+    if (i >= 3) return engaged();
+    engagedTimer = setTimeout(engaged, ENGAGED_MS);
+  }
+  function engaged(){
+    if (engagedSent || !gate || !gate.classList.contains('gone')) return;
+    engagedSent = true;
+    post('/api/deck-open', {engaged: true}).catch(function(){});
+  }
+
+  function stampOwner(email){
+    var stage = document.querySelector('.deck-stage');
+    if (!stage || !email) return;
+    var el = stage.querySelector('.deck-owner');
+    if (!el) {
+      el = document.createElement('div');
+      el.className = 'deck-owner';
+      el.setAttribute('aria-hidden', 'true');
+      /* First child, not last: the print stylesheet relies on the final slide
+         being the stage's :last-child. */
+      stage.insertBefore(el, stage.firstChild);
+    }
+    el.textContent = 'Prepared for ' + email;
   }
 
   function watchSlides(){
@@ -3649,6 +3698,7 @@ setupFounderFilm();
 
   function unlock(email, how){
     viewerEmail = email || null;
+    stampOwner(viewerEmail);
     gate.classList.add('gone');
     /* Start cover underline clock only once the reader can see the deck. */
     document.documentElement.classList.add('deck-ready');
@@ -3743,8 +3793,8 @@ setupFounderFilm();
   function knownCheck(linkFailed){
     post('/api/deck-open', {}).then(function(r){
       if (r && r.known) {
-        var saved = null;
-        try { saved = localStorage.getItem('reps_deck_email'); } catch(e){}
+        var saved = r.email || null;
+        if (!saved) { try { saved = localStorage.getItem('reps_deck_email'); } catch(e){} }
         return unlock(saved, 'returning');
       }
       if (linkFailed) fail('That link has expired. Enter your email and we will send you a fresh code.');
