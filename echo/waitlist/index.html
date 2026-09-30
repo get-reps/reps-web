@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self'; connect-src https://vciosaulrfvddcenblmo.supabase.co https://ecxgtkoaerunnfklhglx.supabase.co; base-uri 'none'; form-action 'none'">
+  <title>Confirm your Echo waitlist email · REPS</title>
+  <script>
+    (() => {
+      'use strict';
+      const fragment = new URLSearchParams(window.location.hash.slice(1));
+      let token = fragment.get('token') || '';
+      const environment = fragment.get('environment');
+      const valid = /^[A-Za-z0-9_-]{43}$/.test(token) && ['staging','production'].includes(environment)
+        && fragment.getAll('token').length === 1 && fragment.getAll('environment').length === 1
+        && [...fragment.keys()].every(key => ['token','environment'].includes(key));
+      const endpoint = environment === 'staging' ? 'https://ecxgtkoaerunnfklhglx.supabase.co/functions/v1/echo-gateway/waitlist-confirm' : 'https://vciosaulrfvddcenblmo.supabase.co/functions/v1/echo-gateway/waitlist-confirm';
+      let scrubbed = false;
+      try { window.history.replaceState(null, '', window.location.pathname); scrubbed = true; } catch (_) {}
+      document.addEventListener('DOMContentLoaded', () => {
+        const button = document.getElementById('confirm'), status = document.getElementById('status');
+        const unavailable = () => { token = ''; button.hidden = true; status.textContent = 'This link is unavailable. Return to Echo and send your waitlist email again for a fresh link.'; };
+        if (!valid || !scrubbed) { unavailable(); return; }
+        button.disabled = false;
+        button.addEventListener('click', async () => {
+          if (button.disabled || !token) return;
+          button.disabled = true;
+          const controller = new AbortController(), timeout = setTimeout(() => controller.abort(), 15000);
+          try {
+            const response = await fetch(endpoint, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({token}), credentials:'omit', cache:'no-store', redirect:'error', referrerPolicy:'no-referrer', signal:controller.signal });
+            if (!response.ok || (await response.json()).verified !== true) throw new Error('unavailable');
+            token = ''; button.hidden = true;
+            document.getElementById('title').textContent = 'You’re on the list';
+            status.textContent = 'Your email is confirmed. We’ll let you know when Echo access is available.';
+          } catch (_) { unavailable(); }
+          finally { clearTimeout(timeout); }
+        });
+      });
+    })();
+  </script>
+  <style>
+    *{box-sizing:border-box}body{margin:0;min-height:100svh;display:grid;place-items:center;padding:28px 22px;background:#fffaf7;color:#2a2320;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}main{width:100%;max-width:410px;text-align:center}img{width:112px;height:112px;object-fit:contain}h1{font-family:Georgia,serif;font-size:34px;line-height:1.15;margin:18px 0}p{color:#6b625e;font-size:17px;line-height:1.55}button{width:100%;margin-top:14px;padding:18px;border:0;border-radius:16px;background:linear-gradient(135deg,#ff6b6b,#ff8e53);font:700 17px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#2a2320;cursor:pointer}button:disabled{opacity:.5}button:focus-visible{outline:3px solid #2a2320;outline-offset:5px}.status{min-height:44px;font-size:14px}[hidden]{display:none!important}
+  </style>
+</head>
+<body><main>
+  <img src="/echo/echo-phone-emoji.png" alt="Echo">
+  <h1 id="title">A heads-up when it’s ready</h1>
+  <p>Confirm this email so we can let you know when you can text Echo.</p>
+  <button id="confirm" type="button" disabled>Confirm my email</button>
+  <p id="status" class="status" role="status" aria-live="polite"></p>
+  <noscript><p>Enable JavaScript to confirm your email.</p></noscript>
+</main></body>
+</html>
