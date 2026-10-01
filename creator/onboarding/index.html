@@ -309,6 +309,31 @@ h2.lead{font-family:var(--serif);font-weight:500;font-size:60px;line-height:1.08
 .dshot img{width:100%;}
 .dgrid .dstep{margin-bottom:12px;}
 
+.mq-idea{flex-direction:column;align-items:flex-start;gap:6px;}
+.mq-n{font-size:22px;}.mq-t{font-size:21px;}
+.rv{display:grid;grid-template-columns:1fr 470px;gap:44px;align-items:start;margin-top:22px;}
+.pairs{display:grid;gap:10px;}
+.ph{display:grid;grid-template-columns:1fr 36px 1fr;gap:0;font-size:13px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);padding:0 4px;}
+.ph span:last-child{grid-column:3;color:var(--coral-ink);}
+.pr{display:grid;grid-template-columns:1fr 36px 1fr;align-items:stretch;}
+.pr .th,.pr .rp{padding:13px 18px;border-radius:14px;line-height:1.28;}
+.pr .th{background:rgba(33,26,20,.05);font-size:19px;color:var(--ink-soft);display:flex;align-items:center;}
+.pr .th em{font-style:normal;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--coral-ink);}
+.pr .rp{background:#fff;border:1px solid var(--coral);font-family:var(--serif);font-weight:600;font-size:22px;display:flex;align-items:center;}
+.pr .ar{display:grid;place-items:center;color:var(--coral-ink);font-size:22px;font-weight:700;}
+.rv .sayskip{padding:22px 26px;}
+.rv .sayskip li{font-size:20px;line-height:1.3;}
+.rv .sayskip .say + ul li{font-family:var(--serif);font-weight:600;font-size:21px;}
+.rv .sayskip ul{gap:8px;}.rv .sayskip h4.skip{margin-top:18px;}
+.wg{margin-bottom:12px;}
+.wg-h{font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--coral-ink);margin-bottom:7px;}
+.wf-rail{gap:0;}
+
+.mq-ideas.one{grid-template-columns:1fr;}
+.mq-ideas.one .mq-idea{min-height:0;padding:20px 24px;}
+.mq-ideas.one .mq-t{font-family:var(--serif);font-weight:600;font-size:30px;}
+.pr .th em{white-space:nowrap;margin-left:6px;}
+
 /* === FINAL === */
 .fin{align-items:center;text-align:center;}
 .fin .inner{display:flex;flex-direction:column;align-items:center;}
@@ -376,8 +401,8 @@ h2.lead{font-family:var(--serif);font-weight:500;font-size:60px;line-height:1.08
       <div class="bigcheck r r2">
         <a class="bc" data-go="3"><span class="bn">1</span><div><h3>Get set up</h3><p>Accounts, link, Discord, weekly check-in.</p></div></a>
         <a class="bc" data-go="4"><span class="bn">2</span><div><h3>Load the app</h3><p>Install REPS, add 3 sets.</p></div></a>
-        <a class="bc" data-go="5"><span class="bn">3</span><div><h3>Prepare your content</h3><p>Pick your <u data-go="5">hooks</u> and your <u data-go="6">video ideas</u>.</p></div></a>
-        <a class="bc" data-go="7"><span class="bn">4</span><div><h3>Learn REPS</h3><p><u data-go="7">Key lines</u>, <u data-go="8">flows</u>, recordings.</p></div></a>
+        <a class="bc" data-go="5"><span class="bn">3</span><div><h3>Prepare your content</h3><p><u data-go="5">What works</u>, <u data-go="6">your hooks</u>.</p></div></a>
+        <a class="bc" data-go="7"><span class="bn">4</span><div><h3>Learn REPS</h3><p><u data-go="7">Flows</u>, <u data-go="8">demo flows</u>, recordings.</p></div></a>
       </div>
     </div>
   </section>
@@ -428,37 +453,19 @@ h2.lead{font-family:var(--serif);font-weight:500;font-size:60px;line-height:1.08
     </div>
   </section>
 
-  <!-- 5 HOOKS WE ARE TESTING -->
-  <section class="slide paper" data-step="3" aria-label="Step 3: Hooks we are testing">
-    <div class="inner">
-      <p class="eyebrow r r1">Step 3 of 5 &middot; Prepare content</p>
-      <h2 class="lead r r1">Hooks we are <span class="hot">testing.</span></h2>
-      <div class="hq r r2"><div class="hr2 q">3,000 bookmarks. 0 reread. 1 fix.</div><div class="hr2 q">Name three things from the last book you finished. I&rsquo;ll wait.</div><div class="hr2 q">I read 52 books last year. Ask me about five of them.</div><div class="hr2 q">Open your bookmarks. Pick one from 2023. Do you remember why?</div><div class="hr2 q">Highlighting is D tier and I will not be taking questions.</div><div class="hr2 q">I did nothing between saving it and knowing it. Watch.</div><div class="hr2 q">I read 30 articles a day and can tell you about none of them.</div><div class="hr2 q sh"><span>Share</span>Massive save list you never revisit? Play it with a friend.</div></div>
-      <p class="srcline r r3">Write your own version.</p>
-    </div>
-  </section>
-
   <!-- 7 STEP 3b — CONTENT IDEAS (reused from the creator deck) -->
   <section class="slide night" data-step="3" aria-label="Step 3: Content ideas">
     <div class="inner">
       <div class="marquee r r2">
         <div class="mq-left">
           <p class="eyebrow r r1">Step 3 of 5 &middot; Prepare content</p>
-          <h2 class="lead r r1">You drive the <span class="hot">creative.</span></h2>
-          <p class="sub r r1">Starting points. Make them yours.</p>
-          <div class="mq-ideas">
-            <div class="mq-idea"><div class="mq-n">01</div><div class="mq-t">F to S tier: ways to remember what you read</div></div>
-            <div class="mq-idea"><div class="mq-n">02</div><div class="mq-t">&ldquo;Turned my bookshelf into a crossword&rdquo;</div></div>
-            <div class="mq-idea"><div class="mq-n">03</div><div class="mq-t">&ldquo;X years of reading and NOW I find this&rdquo;</div></div>
-            <div class="mq-idea"><div class="mq-n">04</div><div class="mq-t">&ldquo;Rereading a 400-page book&hellip; it&rsquo;s 2026&rdquo;</div></div>
-            <div class="mq-idea"><div class="mq-n">05</div><div class="mq-t">&ldquo;My dad remembers every book he reads&rdquo;</div></div>
-            <div class="mq-idea"><div class="mq-n">06</div><div class="mq-t">Top hobbies, and the app for each</div></div>
-          </div>
+          <h2 class="lead r r1">What&rsquo;s working <span class="hot">for others.</span></h2>
+                    <div class="mq-ideas one"><div class="mq-idea"><div class="mq-t">Open on a feeling</div></div><div class="mq-idea"><div class="mq-t">Show the app late</div></div><div class="mq-idea"><div class="mq-t">Post a lot, drop what flops</div></div></div>
         </div>
 
         <div class="mq-stage">
           <div class="mq-glow"></div>
-          <div class="mq-label">Watch what&rsquo;s working (their words, not ours)</div>
+          <div class="mq-label">Their videos</div>
           <button class="mq-phone left" type="button" data-src="../demo-assets/ugc-left.mp4" data-poster="../demo-assets/ugc-left.jpg" data-title="How to organise your brain" data-url="https://www.tiktok.com/@kathryn.tatess/video/7667342688944999710" data-link-label="Open on TikTok">
             <div class="mq-notch"></div>
             <div class="mq-scr"><img src="../demo-assets/ugc-left.jpg" alt="" /><span class="mq-tk">TikTok</span><span class="mq-pl"><svg viewBox="0 0 24 24"><path d="M8 5.6 L18.4 12 L8 18.4 Z"/></svg></span><div class="mq-pt">Organise your brain</div><div class="mq-ph">@kathryn.tatess</div></div>
@@ -476,12 +483,15 @@ h2.lead{font-family:var(--serif);font-weight:500;font-size:60px;line-height:1.08
     </div>
   </section>
 
-  <!-- 7 KEY LINES -->
-  <section class="slide paper" data-step="4" aria-label="Step 4: Key lines">
+  <!-- 6 REPS WORDS -->
+  <section class="slide paper" data-step="3" aria-label="Step 3: Their hooks, REPS words">
     <div class="inner">
-      <p class="eyebrow r r1">Step 4 of 5 &middot; Learn REPS</p>
-      <h2 class="lead r r1">Say this about <span class="hot">REPS.</span></h2>
-      <div class="lines2 r r2"><div class="ln2"><span class="cb" role="checkbox" tabindex="0" aria-checked="false"></span><q>Your knowledge companion.</q></div><div class="ln2"><span class="cb" role="checkbox" tabindex="0" aria-checked="false"></span><q>Turn reading a lot into knowing a lot.</q></div><div class="ln2"><span class="cb" role="checkbox" tabindex="0" aria-checked="false"></span><q>Supercharge your memory.</q></div><div class="ln2"><span class="cb" role="checkbox" tabindex="0" aria-checked="false"></span><q>Have all your saves in one place.</q></div><div class="ln2"><span class="cb" role="checkbox" tabindex="0" aria-checked="false"></span><q>Stop doomscrolling. Start bloom scrolling.</q></div></div>
+      <p class="eyebrow r r1">Step 3 of 5 &middot; Prepare content</p>
+      <h2 class="lead r r1">Their hooks, <span class="hot">REPS words.</span></h2>
+      <div class="rv r r2">
+        <div class="pairs"><div class="ph"><span>Theirs</span><span>REPS</span></div><div class="pr"><div class="th"><div>Me remembering the page, the paragraph and the highlighter colour, but not the information. <em>35.6M views</em></div></div><span class="ar">&rarr;</span><div class="rp">Me remembering the cover, the font and the caf&eacute; I read it in, but not one thing the book said.</div></div><div class="pr"><div class="th"><div>The easiest way to be more interesting is to learn another language. I&rsquo;m not kidding. <em>11.5M views</em></div></div><span class="ar">&rarr;</span><div class="rp">The easiest way to be more interesting at dinner is to remember what you read.</div></div><div class="pr"><div class="th"><div>Brain rot so bad I turn my paper into a Minecraft parkour vid. <em>9.9M views</em></div></div><span class="ar">&rarr;</span><div class="rp">Brain rot so bad I turned my bookshelf into a crossword.</div></div><div class="pr"><div class="th"><div>3 years learning Spanish and NOW you found this. <em>6.8M views</em></div></div><span class="ar">&rarr;</span><div class="rp">Forty years of reading books and I find this now.</div></div><div class="pr"><div class="th"><div>Tell me the random work-from-home hack you tried. I&rsquo;m not talking &ldquo;make a to-do list&rdquo;. <em>2.0M views</em></div></div><span class="ar">&rarr;</span><div class="rp">Name three things from the last book you finished. I&rsquo;ll wait.</div></div><div class="pr"><div class="th"><div>Book app tier list. <em>16.8M views</em></div></div><span class="ar">&rarr;</span><div class="rp">Ways to remember what you read, ranked F to S. Rereading is last.</div></div></div>
+        <div class="sayskip"><h4 class="say">Say</h4><ul><li>Your knowledge companion.</li><li>Turn reading a lot into knowing a lot.</li><li>Supercharge your memory.</li><li>Have all your saves in one place.</li><li>Games and daily challenges.</li></ul><h4 class="skip">Don&rsquo;t</h4><ul><li>&ldquo;Study app&rdquo;, &ldquo;flashcards&rdquo;, &ldquo;quiz&rdquo;</li><li>&ldquo;It&rsquo;s the X for Y&rdquo;</li><li>Blaming the viewer</li><li>Naming TikTok or Instagram as the villain</li></ul></div>
+      </div>
     </div>
   </section>
 
@@ -490,13 +500,13 @@ h2.lead{font-family:var(--serif);font-weight:500;font-size:60px;line-height:1.08
     <div class="inner">
       <p class="eyebrow r r1">Step 4 of 5 &middot; Learn REPS</p>
       <h2 class="lead r r1">Watch the flows, <span class="hot">mix and match.</span></h2>
-      <div class="fp r r2"><span>Save &rarr; Games</span><span>Save &rarr; Second Brain &rarr; Games</span><span>Or decide creatively</span></div>
+      <div class="fp r r2"><span>Save &rarr; Games</span><span>Save &rarr; Organise &rarr; Games</span><span>Or decide creatively</span></div>
       <div class="wf r r2" style="margin-top:20px">
         <div class="wf-hero">
           <div class="wf-phone" id="wfphone"><div class="wf-scr"><video id="wfvid" src="flows/share-youtube.mp4" poster="flows/share-youtube.jpg" muted loop playsinline autoplay></video></div></div>
           <div class="wf-cap"><span class="wf-tag" id="wftag" style="display:none"></span><h3 id="wftitle">Share from YouTube</h3></div>
         </div>
-        <div class="wf-rail"><div class="wf-list"><div class="wf-box"><div class="wf-boxh">Save from any app</div><div class="wf-pills"><button type="button" class="wf-pill sel" data-src="flows/share-youtube.mp4" data-poster="flows/share-youtube.jpg" data-title="Share from YouTube">YouTube</button><button type="button" class="wf-pill" data-src="flows/share-spotify.mp4" data-poster="flows/share-spotify.jpg" data-title="Share from Spotify">Spotify</button><button type="button" class="wf-pill" data-src="flows/share-instagram.mp4" data-poster="flows/share-instagram.jpg" data-title="Share from Instagram">Instagram</button><button type="button" class="wf-pill" data-src="flows/share-podcasts.mp4" data-poster="flows/share-podcasts.jpg" data-title="Share from Podcasts">Podcasts</button><button type="button" class="wf-pill" data-src="flows/share-safari.mp4" data-poster="flows/share-safari.jpg" data-title="Share from Safari">Safari</button></div></div><div class="wf-it" data-src="flows/book-by-name.mp4" data-kind="x" data-title="Add a book by name"><img src="flows/book-by-name.jpg" alt="" /><span>Add a book by name</span></div><div class="wf-it" data-src="flows/pick-to-remember.mp4" data-kind="x" data-title="Pick what to remember"><img src="flows/pick-to-remember.jpg" alt="" /><span>Pick what to remember</span></div><div class="wf-it" data-src="flows/crossword.mp4" data-kind="x" data-title="Mini crossword"><img src="flows/crossword.jpg" alt="" /><span>Mini crossword</span></div><div class="wf-it" data-src="flows/quotle.mp4" data-kind="x" data-title="Quotle"><img src="flows/quotle.jpg" alt="" /><span>Quotle</span></div><div class="wf-it" data-src="flows/trivia.mp4" data-kind="x" data-title="Friends Trivia"><img src="flows/trivia.jpg" alt="" /><span>Friends Trivia</span></div><div class="wf-it" data-src="flows/second-brain.mp4" data-kind="x" data-title="Second Brain"><img src="flows/second-brain.jpg" alt="" /><span>Second Brain</span></div><a class="wf-it wf-link" href="https://drive.google.com/file/d/1BmPu5v1YYDAoznBJyIaxnXWcC144Ze2j/view?usp=sharing" target="_blank" rel="noopener"><img src="flows/bookshelf-demo.jpg" alt="" /><span>Bookshelf scan demo</span></a></div>
+        <div class="wf-rail"><div class="wg"><div class="wg-h">Save</div><div class="wf-list"><div class="wf-box"><div class="wf-boxh">From any app</div><div class="wf-pills"><button type="button" class="wf-pill sel" data-src="flows/share-youtube.mp4" data-poster="flows/share-youtube.jpg" data-title="Share from YouTube">YouTube</button><button type="button" class="wf-pill" data-src="flows/share-spotify.mp4" data-poster="flows/share-spotify.jpg" data-title="Share from Spotify">Spotify</button><button type="button" class="wf-pill" data-src="flows/share-instagram.mp4" data-poster="flows/share-instagram.jpg" data-title="Share from Instagram">Instagram</button><button type="button" class="wf-pill" data-src="flows/share-podcasts.mp4" data-poster="flows/share-podcasts.jpg" data-title="Share from Podcasts">Podcasts</button><button type="button" class="wf-pill" data-src="flows/share-safari.mp4" data-poster="flows/share-safari.jpg" data-title="Share from Safari">Safari</button></div></div><div class="wf-it" data-src="flows/book-by-name.mp4" data-kind="x" data-title="Add a book by name"><img src="flows/book-by-name.jpg" alt="" /><span>Add a book by name</span></div><div class="wf-it" data-src="flows/pick-to-remember.mp4" data-kind="x" data-title="Pick what to remember"><img src="flows/pick-to-remember.jpg" alt="" /><span>Pick what to remember</span></div><a class="wf-it wf-link" href="https://drive.google.com/file/d/1BmPu5v1YYDAoznBJyIaxnXWcC144Ze2j/view?usp=sharing" target="_blank" rel="noopener"><img src="flows/bookshelf-demo.jpg" alt="" /><span>Bookshelf scan demo</span></a></div></div><div class="wg"><div class="wg-h">Organise</div><div class="wf-list"><div class="wf-it" data-src="flows/second-brain.mp4" data-kind="x" data-title="Second Brain"><img src="flows/second-brain.jpg" alt="" /><span>Second Brain</span></div><div class="wf-it" data-src="flows/organise.mp4" data-kind="x" data-title="Your library"><img src="flows/organise.jpg" alt="" /><span>Your library</span></div><div class="wf-it" data-src="flows/organise-sped.mp4" data-kind="x" data-title="Your library, sped up"><img src="flows/organise-sped.jpg" alt="" /><span>Library, sped up</span></div></div></div><div class="wg"><div class="wg-h">Games &amp; remember</div><div class="wf-list"><div class="wf-it" data-src="flows/crossword.mp4" data-kind="x" data-title="Mini crossword"><img src="flows/crossword.jpg" alt="" /><span>Mini crossword</span></div><div class="wf-it" data-src="flows/quotle.mp4" data-kind="x" data-title="Quotle"><img src="flows/quotle.jpg" alt="" /><span>Quotle</span></div><div class="wf-it" data-src="flows/trivia.mp4" data-kind="x" data-title="Friends Trivia"><img src="flows/trivia.jpg" alt="" /><span>Friends Trivia</span></div></div></div>
           <div class="dl2"><div><h3>Download all the recordings</h3></div><a class="btn" data-link="recordings" data-pending="Folder link from Mike" target="_blank" rel="noopener">Open the folder <svg viewBox="0 0 24 24"><path d="M7 17 L17 7 M9 7 H17 V15"/></svg></a></div>
         </div>
       </div>
