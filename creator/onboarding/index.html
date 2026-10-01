@@ -133,7 +133,7 @@ h2.lead{font-family:var(--serif);font-weight:500;font-size:60px;line-height:1.08
 .slide.night .note b{color:#fff;}
 
 /* === ADD CONTENT === */
-.addc{display:grid;grid-template-columns:1fr 520px;gap:48px;align-items:stretch;margin-top:30px;}
+.addc{display:grid;grid-template-columns:1fr 420px;gap:48px;align-items:stretch;margin-top:30px;}
 .methods{display:grid;gap:18px;}
 .mrow{display:grid;grid-template-columns:52px 1fr;gap:20px;align-items:start;padding:24px 28px;border-radius:20px;background:rgba(255,250,247,.05);border:1px solid var(--cream-hair);}
 .mrow .tn{width:46px;height:46px;font-size:21px;}
@@ -254,6 +254,61 @@ h2.lead{font-family:var(--serif);font-weight:500;font-size:60px;line-height:1.08
 .wf-it img{width:70px;flex:none;border-radius:10px;aspect-ratio:9/14;object-fit:cover;object-position:center 12%;background:#000;}
 .wf-it span{font-size:15px;font-weight:600;line-height:1.22;}
 
+
+/* === CHECKLIST LOOK === */
+.cb{flex:none;width:48px;height:48px;border-radius:14px;border:3px solid var(--coral);background:transparent;cursor:pointer;display:grid;place-items:center;transition:background .15s,transform .15s;}
+.cb:hover{transform:scale(1.06);}
+.cb.on{background:var(--hot);border-color:transparent;}
+.cb.on::after{content:"\2713";color:#fff;font-weight:700;font-size:30px;line-height:1;}
+.bigcheck{display:grid;gap:18px;margin-top:34px;}
+.bc{display:flex;gap:30px;align-items:center;padding:30px 38px;border-radius:26px;background:#fff;border:1px solid var(--ink-hair);box-shadow:0 10px 30px rgba(33,26,20,.06);text-decoration:none;color:inherit;cursor:pointer;}
+.bc .cb{width:64px;height:64px;border-radius:18px;}.bc .cb.on::after{font-size:40px;}
+.bc h3{font-family:var(--serif);font-weight:600;font-size:38px;margin:0 0 6px;}
+.bc p{font-size:23px;line-height:1.45;color:var(--ink-soft);}
+.bc u{color:var(--coral-ink);text-decoration:underline;cursor:pointer;}
+.mrow{grid-template-columns:48px 1fr;}
+.tcard .thead .cb{width:46px;height:46px;}
+.ht{display:grid;grid-template-columns:1fr 1fr;gap:44px;margin-top:22px;}
+.ht h3{font-family:var(--serif);font-weight:600;font-size:28px;margin:0 0 14px;}
+.hr2{padding:14px 18px;margin-bottom:10px;border-radius:14px;background:#fff;border:1px solid var(--ink-hair);font-size:20px;line-height:1.35;display:flex;gap:14px;align-items:center;}
+.hr2 span:not(.cb){font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--coral-ink);flex:none;width:118px;}
+.hr2.q{font-family:var(--serif);font-size:22px;}.hr2 .cb{width:34px;height:34px;border-radius:10px;border-width:2.5px;}.hr2 .cb.on::after{font-size:22px;}
+.lines2{display:grid;gap:16px;margin-top:30px;}
+.ln2{display:flex;gap:28px;align-items:center;padding:26px 36px;border-radius:22px;background:#fff;border:1px solid var(--ink-hair);box-shadow:0 8px 22px rgba(33,26,20,.05);}
+.ln2 q{quotes:none;font-family:var(--serif);font-weight:600;font-size:44px;line-height:1.15;}
+.dl2{display:flex;justify-content:space-between;align-items:center;gap:24px;padding:20px 28px;border-radius:20px;background:var(--night);color:var(--cream);}
+.dl2 h3{font-family:var(--serif);font-weight:600;font-size:24px;}.dl2 p{font-size:17px;color:var(--cream-soft);margin-top:4px;}.dl2 .btn{white-space:nowrap;font-size:18px;padding:13px 26px;}
+.wf{grid-template-columns:260px 1fr;gap:48px;}.wf-phone{width:236px;}
+.wf-rail{gap:18px;}.wf-list{grid-template-columns:repeat(4,1fr);gap:10px;}.wf-it img{width:54px;}.wf-it span{font-size:14px;}
+
+.bn{flex:none;width:64px;height:64px;border-radius:50%;background:var(--hot);color:#fff;font-weight:700;font-size:32px;display:grid;place-items:center;}
+
+.wf-box{grid-column:span 2;padding:12px 14px;border-radius:14px;border:1px solid var(--ink-hair);background:#fff;}
+.wf-boxh{font-size:14px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--coral-ink);margin-bottom:10px;}
+.wf-pills{display:flex;flex-wrap:wrap;gap:8px;}
+.wf-pill{font-family:var(--sans);font-size:15px;font-weight:600;padding:9px 16px;border-radius:999px;border:1px solid var(--ink-hair);background:var(--paper);color:var(--ink);cursor:pointer;}
+.wf-pill:hover{border-color:rgba(255,107,107,.6);}.wf-pill.sel{border-color:var(--coral);background:rgba(255,107,107,.1);}
+.wf-link{text-decoration:none;color:inherit;}
+.dstep{display:grid;grid-template-columns:60px 1fr;gap:22px;align-items:start;padding:20px 26px;border-radius:20px;background:rgba(255,250,247,.05);border:1px solid var(--cream-hair);margin-bottom:14px;}
+.dstep h3{font-family:var(--serif);font-weight:600;font-size:28px;margin:0 0 6px;}.dstep p{font-size:21px;line-height:1.45;color:var(--cream-soft);}.dstep p b{color:#fff;font-weight:600;}
+.dnum{width:54px;height:54px;border-radius:50%;background:var(--hot);color:#fff;font-weight:700;font-size:26px;display:grid;place-items:center;}
+
+.sp{display:flex;align-items:center;justify-content:center;}
+.sp-phone{width:290px;aspect-ratio:9/19.5;border-radius:40px;background:#0b0a10;padding:10px;box-shadow:0 38px 70px rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.08);}
+.sp-scr{position:relative;width:100%;height:100%;border-radius:31px;overflow:hidden;background:#000;}
+.sp-scr video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.hq{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:34px;}
+.hq .hr2{margin:0;padding:26px 30px;font-size:30px;line-height:1.25;min-height:130px;}
+.hq .hr2.sh{border-color:var(--coral);background:rgba(255,107,107,.08);flex-direction:column;align-items:flex-start;gap:8px;}
+.hq .hr2 span{width:auto;}
+.fp{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px;}
+.fp span{font-size:19px;font-weight:700;padding:10px 18px;border-radius:8px;background:rgba(255,107,107,.1);color:var(--coral-ink);cursor:default;}
+.fp span:last-child{background:rgba(33,26,20,.06);color:var(--ink-soft);}
+.dgrid{display:grid;grid-template-columns:1fr 300px;gap:56px;align-items:start;margin-top:20px;}
+.dshot{border-radius:34px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.5),0 0 0 6px #0b0a10;}
+.dshot img{width:100%;}
+.dgrid .dstep{margin-bottom:12px;}
+
 /* === FINAL === */
 .fin{align-items:center;text-align:center;}
 .fin .inner{display:flex;flex-direction:column;align-items:center;}
@@ -261,7 +316,7 @@ h2.lead{font-family:var(--serif);font-weight:500;font-size:60px;line-height:1.08
 .fin .line{font-family:var(--serif);font-size:38px;color:var(--cream);margin-top:22px;}
 .done5{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:40px;}
 .done5 span{display:inline-flex;align-items:center;gap:10px;padding:12px 22px;border-radius:999px;background:rgba(255,250,247,.06);border:1px solid var(--cream-hair);font-size:19px;font-weight:600;}
-.done5 span::before{content:"\2713";width:26px;height:26px;border-radius:50%;background:var(--hot);color:#fff;display:grid;place-items:center;font-size:14px;}
+.done5 span::before{content:none;}
 .first{margin-top:34px;max-width:1180px;font-size:25px;line-height:1.5;color:var(--cream-soft);}
 .first b{color:#fff;font-weight:600;}
 .two-checks{margin-top:34px;padding-top:26px;border-top:1px solid var(--cream-hair);display:flex;gap:42px;font-size:20px;color:var(--cream-soft);}
@@ -307,23 +362,22 @@ h2.lead{font-family:var(--serif);font-weight:500;font-size:60px;line-height:1.08
       <img class="mark r r1" src="../app-mark.png" alt="REPS" />
       <div class="name r r1">REPS</div>
       <p class="line r r2">Welcome to REPS.<br/>Let&rsquo;s make the world <span class="hot">smarter</span> together.</p>
-      <p class="what r r3">Your step-by-step start guide. Five steps, in order, and you&rsquo;re ready to make your first video.</p>
+      
       <div class="badge r r4"><b>Creator onboarding</b><span>September 2026 &middot; iOS</span></div>
     </div>
   </section>
 
-  <!-- 2 ROADMAP -->
-  <section class="slide paper" aria-label="The five steps">
+
+  <!-- 2 CHECKLIST -->
+  <section class="slide paper" aria-label="Your checklist">
     <div class="inner">
       <p class="eyebrow r r1">Your start guide</p>
-      <h2 class="lead r r1">Five steps to your <span class="hot">first video.</span></h2>
-      <p class="sub r r2">Work through them in order. Each one is a page or two, and none of them takes long.</p>
-      <div class="road r r3">
-        <div class="rc"><div class="rn">1</div><h3>Get set up</h3><p>Warm up your accounts, get your link, join the Discord, book your weekly check-in.</p></div>
-        <div class="rc"><div class="rn">2</div><h3>Load the app</h3><p>Install REPS and add your own content. At least three sets unlocks the games.</p></div>
-        <div class="rc"><div class="rn">3</div><h3>Prepare content</h3><p>Pick your category&rsquo;s best hooks and a few video ideas to start from.</p></div>
-        <div class="rc"><div class="rn">4</div><h3>Learn REPS</h3><p>The key lines to use, what to avoid saying, and the flows worth filming.</p></div>
-        <div class="rc"><div class="rn">5</div><h3>Happy REPPING</h3><p>See how we work together, post, and review with Mike each week.</p></div>
+      <h2 class="lead r r1">This deck will walk you <span class="hot">through.</span></h2>
+      <div class="bigcheck r r2">
+        <a class="bc" data-go="3"><span class="bn">1</span><div><h3>Get set up</h3><p>Accounts, link, Discord, weekly check-in.</p></div></a>
+        <a class="bc" data-go="4"><span class="bn">2</span><div><h3>Load the app</h3><p>Install REPS, add 3 sets.</p></div></a>
+        <a class="bc" data-go="5"><span class="bn">3</span><div><h3>Prepare your content</h3><p>Pick your <u data-go="5">hooks</u> and your <u data-go="6">video ideas</u>.</p></div></a>
+        <a class="bc" data-go="7"><span class="bn">4</span><div><h3>Learn REPS</h3><p><u data-go="7">Key lines</u>, <u data-go="8">flows</u>, recordings.</p></div></a>
       </div>
     </div>
   </section>
@@ -333,84 +387,54 @@ h2.lead{font-family:var(--serif);font-weight:500;font-size:60px;line-height:1.08
     <div class="inner">
       <p class="eyebrow r r1">Step 1 of 5</p>
       <h2 class="lead r r1">Get <span class="hot">set up.</span></h2>
-      <p class="sub r r2">Four quick things, so everything is ready before you film.</p>
+      
       <div class="grid2 r r3">
         <div class="tcard">
-          <div class="thead"><span class="tn">1</span><h3>Warm up your accounts</h3></div>
-          <p>Spend a few days scrolling your category on Instagram and TikTok. <b>Like, follow, save and comment</b> the way you normally would, so the algorithm already knows who to show your videos to.</p>
+          <div class="thead"><span class="cb" role="checkbox" tabindex="0" aria-checked="false"></span><h3>Warm up your accounts</h3></div>
+          <p><b>Like, follow, save and comment</b> in your category on Instagram and TikTok.</p>
         </div>
         <div class="tcard">
-          <div class="thead"><span class="tn">2</span><h3>Get your link from Mike</h3></div>
-          <p>It&rsquo;s your <b>personal download link</b>. Put it in your bios and always use it. It&rsquo;s how installs from your videos are counted.</p>
+          <div class="thead"><span class="cb" role="checkbox" tabindex="0" aria-checked="false"></span><h3>Get your link from Mike</h3></div>
+          <p>Your <b>personal link</b>. Put it in your bios.</p>
         </div>
         <div class="tcard">
-          <div class="thead"><span class="tn">3</span><h3>Join the Discord</h3></div>
-          <p>Where creators swap wins, ask questions and hear about product updates first.</p>
+          <div class="thead"><span class="cb" role="checkbox" tabindex="0" aria-checked="false"></span><h3>Join the Discord</h3></div>
+          <p>Questions, wins, updates.</p>
           <a class="btn" data-link="discord" data-pending="Invite link from Mike" target="_blank" rel="noopener">Join the Discord <svg viewBox="0 0 24 24"><path d="M7 17 L17 7 M9 7 H17 V15"/></svg></a>
         </div>
         <div class="tcard">
-          <div class="thead"><span class="tn">4</span><h3>Book your weekly touch point</h3></div>
-          <p>A <b>15-minute check-in with Mike</b>, every week. Pick a slot that repeats and it&rsquo;s done.</p>
+          <div class="thead"><span class="cb" role="checkbox" tabindex="0" aria-checked="false"></span><h3>Book your weekly touch point</h3></div>
+          <p>A <b>15-minute check-in</b> with Mike, every week.</p>
           <a class="btn" data-link="booking" data-pending="Booking link from Mike" target="_blank" rel="noopener">Book 15 minutes <svg viewBox="0 0 24 24"><path d="M7 17 L17 7 M9 7 H17 V15"/></svg></a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 4 STEP 2a — INSTALL -->
-  <section class="slide paper" data-step="2" aria-label="Step 2: Install the app">
+  <!-- 4 LOAD THE APP -->
+  <section class="slide night" data-step="2" aria-label="Step 2: Load the app">
     <div class="inner">
       <p class="eyebrow r r1">Step 2 of 5 &middot; Load the app</p>
-      <h2 class="lead r r1">First, <span class="hot">install it.</span></h2>
-      <p class="sub r r2">Three quick steps on your iPhone.</p>
-      <div class="flow3 r r3">
-        <div class="tcard"><div class="big">1</div><h3>Open your link</h3><p>The personal link Mike sent you. It takes you straight to the App Store.</p></div>
-        <div class="arrow"><svg viewBox="0 0 24 24"><path d="M9 5 L16 12 L9 19"/></svg></div>
-        <div class="tcard"><div class="big">2</div><h3>Download REPS</h3><p>It&rsquo;s free. iOS only for now, so use an iPhone.</p></div>
-        <div class="arrow"><svg viewBox="0 0 24 24"><path d="M9 5 L16 12 L9 19"/></svg></div>
-        <div class="tcard"><div class="big">3</div><h3>Sign up and open it</h3><p>Follow the short setup. Echo, the app&rsquo;s little guide, walks you through it.</p></div>
-      </div>
-      <div class="note r r4"><b>Always install through your own link.</b> Downloads from anywhere else can&rsquo;t be traced back to you.</div>
-    </div>
-  </section>
-
-  <!-- 5 STEP 2b — ADD CONTENT -->
-  <section class="slide night" data-step="2" aria-label="Step 2: Add your content">
-    <div class="inner">
-      <p class="eyebrow r r1">Step 2 of 5 &middot; Load the app</p>
-      <h2 class="lead r r1">Now fill it with <span class="hot">your own content.</span></h2>
+      <h2 class="lead r r1">Install it, then fill it with <span class="hot">your own content.</span></h2>
       <div class="addc r r2">
         <div class="methods">
-          <div class="mrow"><span class="tn">1</span><div><h3>Import Knowledge<span class="tag-best">Fastest</span></h3><p>Add <b>lots of things in one go</b>: articles, saved posts, screenshots and more, all at once.</p></div></div>
-          <div class="mrow"><span class="tn">2</span><div><h3>Snap your bookshelf</h3><p>One photo of a shelf. Echo pulls the titles and you pick which to keep. <b>The most visual thing in the app.</b></p></div></div>
-          <div class="mrow"><span class="tn">3</span><div><h3>Or ask Mike to add it for you</h3><p>Short on time? <b>Send Mike a photo of your bookshelf</b> or a list of things you love, and he&rsquo;ll add it to your account.</p></div></div>
+          <div class="mrow"><span class="cb" role="checkbox" tabindex="0" aria-checked="false"></span><div><h3>Install REPS</h3><p>Free, on iPhone.</p><a class="btn" href="https://apps.apple.com/us/app/reps-supercharge-your-memory/id6759216018" target="_blank" rel="noopener" style="margin-top:12px;font-size:17px;padding:11px 22px">Get REPS on the App Store <svg viewBox="0 0 24 24"><path d="M7 17 L17 7 M9 7 H17 V15"/></svg></a></div></div>
+          <div class="mrow"><span class="cb" role="checkbox" tabindex="0" aria-checked="false"></span><div><h3>Add sets, or Import Knowledge<span class="tag-best">Fastest</span></h3><p><b>Add Set</b> &rarr; <b>+</b> &rarr; <b>Bookshelf &amp; lists</b>. Aim for <b>3 ready sets</b>: unlocks the games.</p></div></div>
+          <div class="mrow"><span class="cb" role="checkbox" tabindex="0" aria-checked="false"></span><div><h3>Snap your bookshelf</h3><p>One photo of a shelf. Or send Mike the photo.</p></div></div>
+          <div class="mrow"><span class="cb" role="checkbox" tabindex="0" aria-checked="false"></span><div><h3>Turn on the share button yourself</h3><p>In any share sheet: <b>Edit Actions</b> &rarr; switch on <b>Remember with REPS</b>.</p></div></div>
         </div>
-        <div class="goal">
-          <div class="k">Your first goal</div>
-          <div class="n">3<small>sets</small></div>
-          <p>Three ready sets <b>unlock all the games</b> and the rest of the app.</p>
-          <div class="more"><b>Then keep adding.</b> The more you save, the fuller your Second Brain page looks on camera.</div>
-        </div>
+        <div class="sp"><div class="sp-phone"><div class="sp-scr"><video src="flows/turn-on-share.mp4" poster="flows/turn-on-share.jpg" muted loop playsinline autoplay data-auto></video></div></div></div>
       </div>
-      <div class="note r r3" style="margin-top:26px">Stuck on anything? Ask in the <a data-link="discord" target="_blank" rel="noopener" style="color:var(--coral);font-weight:600">Discord</a>.</div>
     </div>
   </section>
 
-  <!-- 6 STEP 3a — HOOK FORMULAS -->
-  <section class="slide paper" data-step="3" aria-label="Step 3: Hooks that work">
+  <!-- 5 HOOKS WE ARE TESTING -->
+  <section class="slide paper" data-step="3" aria-label="Step 3: Hooks we are testing">
     <div class="inner">
       <p class="eyebrow r r1">Step 3 of 5 &middot; Prepare content</p>
-      <h2 class="lead r r1">Hooks that already <span class="hot">work.</span></h2>
-      <p class="sub r r2">Six proven openers. Pick the ones that fit you, then write your own version.</p>
-      <div class="hgrid r r3">
-        <div class="hcard"><div class="hf">Identity promise</div><p class="ho">&ldquo;The easiest way to be more interesting is to learn another language.&rdquo;</p><div class="hv"><b>11.5M views</b> &middot; language app creator</div><div class="hr"><span>Your REPS version</span>The easiest way to be more interesting at dinner is to remember what you read.</div></div>
-        <div class="hcard"><div class="hf">Self-own meme</div><p class="ho">&ldquo;Me remembering the page, paragraph and color of the highlighter&hellip; but not the information.&rdquo;</p><div class="hv"><b>35.6M views</b> &middot; writing app creator</div><div class="hr"><span>Your REPS version</span>Me remembering the cover, the font and the caf&eacute; I read it in, but not one thing the book said.</div></div>
-        <div class="hcard"><div class="hf">Ranked list</div><p class="ho">A tier list that ends on a clear winner.</p><div class="hv"><b>16.8M views</b> &middot; books app</div><div class="hr"><span>Your REPS version</span>5 free ways to remember what you read, ranked. Rereading is last.</div></div>
-        <div class="hcard"><div class="hf">Late discovery</div><p class="ho">&ldquo;3 years learning Spanish and now you found this.&rdquo;</p><div class="hv"><b>6.8M views</b> &middot; language app creator</div><div class="hr"><span>Your REPS version</span>X years of reading and NOW I find this.</div></div>
-        <div class="hcard"><div class="hf">Old way vs. now</div><p class="ho">&ldquo;Forcing myself to study a 90 page pdf, but then I realize we&rsquo;re in 2025.&rdquo;</p><div class="hv"><b>10.5M views</b> &middot; study creator</div><div class="hr"><span>Your REPS version</span>Rereading a 400-page book&hellip; it&rsquo;s 2026.</div></div>
-        <div class="hcard"><div class="hf">Comment bait</div><p class="ho">&ldquo;Tell me the random work-from-home hack you tried. I&rsquo;m not talking &lsquo;make a to-do list&rsquo;.&rdquo;</p><div class="hv"><b>2.0M views</b> &middot; productivity creator</div><div class="hr"><span>Your REPS version</span>Tell me one thing you read this year that you can still explain. I&rsquo;m not talking the title.</div></div>
-      </div>
-      <p class="srcline r r4">Views are on the original videos, from other apps. We borrow the shape, never the words.</p>
+      <h2 class="lead r r1">Hooks we are <span class="hot">testing.</span></h2>
+      <div class="hq r r2"><div class="hr2 q">3,000 bookmarks. 0 reread. 1 fix.</div><div class="hr2 q">Name three things from the last book you finished. I&rsquo;ll wait.</div><div class="hr2 q">I read 52 books last year. Ask me about five of them.</div><div class="hr2 q">Open your bookmarks. Pick one from 2023. Do you remember why?</div><div class="hr2 q">Highlighting is D tier and I will not be taking questions.</div><div class="hr2 q">I did nothing between saving it and knowing it. Watch.</div><div class="hr2 q">I read 30 articles a day and can tell you about none of them.</div><div class="hr2 q sh"><span>Share</span>Massive save list you never revisit? Play it with a friend.</div></div>
+      <p class="srcline r r3">Write your own version.</p>
     </div>
   </section>
 
@@ -421,7 +445,7 @@ h2.lead{font-family:var(--serif);font-weight:500;font-size:60px;line-height:1.08
         <div class="mq-left">
           <p class="eyebrow r r1">Step 3 of 5 &middot; Prepare content</p>
           <h2 class="lead r r1">You drive the <span class="hot">creative.</span></h2>
-          <p class="sub r r1">Six starting points, and three videos that already work in the category. Use them as inspiration, then take creative liberty and make the idea yours.</p>
+          <p class="sub r r1">Starting points. Make them yours.</p>
           <div class="mq-ideas">
             <div class="mq-idea"><div class="mq-n">01</div><div class="mq-t">F to S tier: ways to remember what you read</div></div>
             <div class="mq-idea"><div class="mq-n">02</div><div class="mq-t">&ldquo;Turned my bookshelf into a crossword&rdquo;</div></div>
@@ -452,121 +476,41 @@ h2.lead{font-family:var(--serif);font-weight:500;font-size:60px;line-height:1.08
     </div>
   </section>
 
-  <!-- 8 STEP 4a — KEY LINES -->
-  <section class="slide paper" data-step="4" aria-label="Step 4: REPS key lines">
+  <!-- 7 KEY LINES -->
+  <section class="slide paper" data-step="4" aria-label="Step 4: Key lines">
     <div class="inner">
       <p class="eyebrow r r1">Step 4 of 5 &middot; Learn REPS</p>
-      <h2 class="lead r r1">The lines to <span class="hot">use.</span></h2>
-      <div class="kl r r2">
-        <div class="lines">
-          <div class="ln"><q>Supercharge your memory.</q><span><b>The promise.</b> Lead with it for people who don&rsquo;t know us yet.</span></div>
-          <div class="ln"><q>Save anything. Remember everything.</q><span><b>The two-beat.</b> Great as a closer or a call to action.</span></div>
-          <div class="ln"><q>Save. Play. Remember.</q><span><b>The loop.</b> Use it to explain how REPS works in three beats.</span></div>
-          <div class="ln"><q>Stop doomscrolling. Start bloom scrolling.</q><span><b>The enemy line.</b> For the manifesto-style, rally-the-viewer videos.</span></div>
-          <div class="ln"><q>Bring your own content.</q><span><b>The difference.</b> Your material, not someone else&rsquo;s course.</span></div>
-        </div>
-        <div class="sayskip">
-          <h4 class="say">Say</h4>
-          <ul>
-            <li>&ldquo;Games&rdquo; and &ldquo;daily challenges&rdquo;</li>
-            <li>Save, remember, keep</li>
-            <li>&ldquo;Built from your own reading&rdquo;</li>
-            <li>Brain rot as the enemy</li>
-          </ul>
-          <h4 class="skip">Skip</h4>
-          <ul>
-            <li>&ldquo;Study app&rdquo;, &ldquo;flashcards&rdquo;, &ldquo;quiz&rdquo;</li>
-            <li>&ldquo;It&rsquo;s the X for Y&rdquo; comparisons</li>
-            <li>&ldquo;Make it stick&rdquo;</li>
-            <li>Blaming the viewer. Aim it at the problem.</li>
-          </ul>
-        </div>
-      </div>
+      <h2 class="lead r r1">Say this about <span class="hot">REPS.</span></h2>
+      <div class="lines2 r r2"><div class="ln2"><span class="cb" role="checkbox" tabindex="0" aria-checked="false"></span><q>Your knowledge companion.</q></div><div class="ln2"><span class="cb" role="checkbox" tabindex="0" aria-checked="false"></span><q>Turn reading a lot into knowing a lot.</q></div><div class="ln2"><span class="cb" role="checkbox" tabindex="0" aria-checked="false"></span><q>Supercharge your memory.</q></div><div class="ln2"><span class="cb" role="checkbox" tabindex="0" aria-checked="false"></span><q>Have all your saves in one place.</q></div><div class="ln2"><span class="cb" role="checkbox" tabindex="0" aria-checked="false"></span><q>Stop doomscrolling. Start bloom scrolling.</q></div></div>
     </div>
   </section>
 
-  <!-- 9 STEP 4b — REPS HOOKS -->
-  <section class="slide night" data-step="4" aria-label="Step 4: REPS hooks">
-    <div class="inner">
-      <p class="eyebrow r r1">Step 4 of 5 &middot; Learn REPS</p>
-      <h2 class="lead r r1">A few hooks <span class="hot">written for REPS.</span></h2>
-      <p class="sub r r2">Use them word for word, or bend them into your own voice.</p>
-      <div class="rh r r3">
-        <div class="rh-i"><span class="n">01</span><q>That article you read this morning? Already fading.</q></div>
-        <div class="rh-i"><span class="n">02</span><q>3,000 saves. 0 reread. 1 fix.</q></div>
-        <div class="rh-i"><span class="n">03</span><q>Open your bookmarks. Pick one from 2023. Do you remember why you saved it?</q></div>
-        <div class="rh-i"><span class="n">04</span><q>Brain rot so bad I turned my bookshelf into a crossword.</q></div>
-        <div class="rh-i"><span class="n">05</span><q>Name three things from the last book you finished. I&rsquo;ll wait.</q></div>
-        <div class="rh-i"><span class="n">06</span><q>My mum just showed me how she remembers every book from her book club.</q></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 10 STEP 4c — WATCH THE FLOWS -->
+  <!-- 8 FLOWS + DOWNLOAD -->
   <section class="slide paper" data-step="4" aria-label="Step 4: Watch the flows">
     <div class="inner">
       <p class="eyebrow r r1">Step 4 of 5 &middot; Learn REPS</p>
-      <h2 class="lead r r1">Watch the flows, <span class="hot">then film your own.</span></h2>
-      <div class="wf r r2">
+      <h2 class="lead r r1">Watch the flows, <span class="hot">mix and match.</span></h2>
+      <div class="fp r r2"><span>Save &rarr; Games</span><span>Save &rarr; Second Brain &rarr; Games</span><span>Or decide creatively</span></div>
+      <div class="wf r r2" style="margin-top:20px">
         <div class="wf-hero">
           <div class="wf-phone" id="wfphone"><div class="wf-scr"><video id="wfvid" src="flows/share-youtube.mp4" poster="flows/share-youtube.jpg" muted loop playsinline autoplay></video></div></div>
-          <div class="wf-cap"><span class="wf-tag save" id="wftag">Save</span><h3 id="wftitle">Share from YouTube</h3></div>
+          <div class="wf-cap"><span class="wf-tag" id="wftag" style="display:none"></span><h3 id="wftitle">Share from YouTube</h3></div>
         </div>
-        <div class="wf-rail">
-          <div class="wf-grp save"><div class="wf-gl">Save &middot; anything, in seconds</div><div class="wf-list"><div class="wf-it sel" data-src="flows/share-youtube.mp4" data-kind="save" data-title="Share from YouTube"><img src="flows/share-youtube.jpg" alt="" /><span>Share from YouTube</span></div><div class="wf-it" data-src="flows/share-spotify.mp4" data-kind="save" data-title="Share from Spotify"><img src="flows/share-spotify.jpg" alt="" /><span>Share from Spotify</span></div><div class="wf-it" data-src="flows/share-instagram.mp4" data-kind="save" data-title="Share from Instagram"><img src="flows/share-instagram.jpg" alt="" /><span>Share from Instagram</span></div><div class="wf-it" data-src="flows/share-podcasts.mp4" data-kind="save" data-title="Share from Apple Podcasts"><img src="flows/share-podcasts.jpg" alt="" /><span>Share from Apple Podcasts</span></div><div class="wf-it" data-src="flows/share-safari.mp4" data-kind="save" data-title="Share from Safari"><img src="flows/share-safari.jpg" alt="" /><span>Share from Safari</span></div><div class="wf-it" data-src="flows/turn-on-share.mp4" data-kind="save" data-title="Turn on the share button"><img src="flows/turn-on-share.jpg" alt="" /><span>Turn on the share button</span></div><div class="wf-it" data-src="flows/book-by-name.mp4" data-kind="save" data-title="Add a book by name"><img src="flows/book-by-name.jpg" alt="" /><span>Add a book by name</span></div><div class="wf-it" data-src="flows/pick-to-remember.mp4" data-kind="save" data-title="Pick what to remember"><img src="flows/pick-to-remember.jpg" alt="" /><span>Pick what to remember</span></div></div></div>
-          <div class="wf-grp play"><div class="wf-gl">Play &middot; a daily game from your reading</div><div class="wf-list"><div class="wf-it" data-src="flows/crossword.mp4" data-kind="play" data-title="Mini crossword"><img src="flows/crossword.jpg" alt="" /><span>Mini crossword</span></div><div class="wf-it" data-src="flows/quotle.mp4" data-kind="play" data-title="Quotle"><img src="flows/quotle.jpg" alt="" /><span>Quotle</span></div><div class="wf-it" data-src="flows/trivia.mp4" data-kind="play" data-title="Friends Trivia"><img src="flows/trivia.jpg" alt="" /><span>Friends Trivia</span></div></div></div>
+        <div class="wf-rail"><div class="wf-list"><div class="wf-box"><div class="wf-boxh">Save from any app</div><div class="wf-pills"><button type="button" class="wf-pill sel" data-src="flows/share-youtube.mp4" data-poster="flows/share-youtube.jpg" data-title="Share from YouTube">YouTube</button><button type="button" class="wf-pill" data-src="flows/share-spotify.mp4" data-poster="flows/share-spotify.jpg" data-title="Share from Spotify">Spotify</button><button type="button" class="wf-pill" data-src="flows/share-instagram.mp4" data-poster="flows/share-instagram.jpg" data-title="Share from Instagram">Instagram</button><button type="button" class="wf-pill" data-src="flows/share-podcasts.mp4" data-poster="flows/share-podcasts.jpg" data-title="Share from Podcasts">Podcasts</button><button type="button" class="wf-pill" data-src="flows/share-safari.mp4" data-poster="flows/share-safari.jpg" data-title="Share from Safari">Safari</button></div></div><div class="wf-it" data-src="flows/book-by-name.mp4" data-kind="x" data-title="Add a book by name"><img src="flows/book-by-name.jpg" alt="" /><span>Add a book by name</span></div><div class="wf-it" data-src="flows/pick-to-remember.mp4" data-kind="x" data-title="Pick what to remember"><img src="flows/pick-to-remember.jpg" alt="" /><span>Pick what to remember</span></div><div class="wf-it" data-src="flows/crossword.mp4" data-kind="x" data-title="Mini crossword"><img src="flows/crossword.jpg" alt="" /><span>Mini crossword</span></div><div class="wf-it" data-src="flows/quotle.mp4" data-kind="x" data-title="Quotle"><img src="flows/quotle.jpg" alt="" /><span>Quotle</span></div><div class="wf-it" data-src="flows/trivia.mp4" data-kind="x" data-title="Friends Trivia"><img src="flows/trivia.jpg" alt="" /><span>Friends Trivia</span></div><div class="wf-it" data-src="flows/second-brain.mp4" data-kind="x" data-title="Second Brain"><img src="flows/second-brain.jpg" alt="" /><span>Second Brain</span></div><a class="wf-it wf-link" href="https://drive.google.com/file/d/1BmPu5v1YYDAoznBJyIaxnXWcC144Ze2j/view?usp=sharing" target="_blank" rel="noopener"><img src="flows/bookshelf-demo.jpg" alt="" /><span>Bookshelf scan demo</span></a></div>
+          <div class="dl2"><div><h3>Download all the recordings</h3></div><a class="btn" data-link="recordings" data-pending="Folder link from Mike" target="_blank" rel="noopener">Open the folder <svg viewBox="0 0 24 24"><path d="M7 17 L17 7 M9 7 H17 V15"/></svg></a></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 11 STEP 4d — KEY FLOWS + RECORDINGS -->
-  <section class="slide paper" data-step="4" aria-label="Step 4: Key flows and recordings">
+  <!-- DEMO FLOWS -->
+  <section class="slide night" data-step="4" aria-label="Step 4: Demo flows">
     <div class="inner">
       <p class="eyebrow r r1">Step 4 of 5 &middot; Learn REPS</p>
-      <h2 class="lead r r1">The flows worth <span class="hot">filming.</span></h2>
-      <div class="flows r r2">
-        <div class="fcol save"><div class="gl">Save</div><div class="gd">Anything, in seconds</div>
-          <ul><li>Import Knowledge</li><li>Snap your bookshelf</li><li>Save from any app</li><li>The Discover feed</li></ul></div>
-        <div class="fcol play"><div class="gl">Play</div><div class="gd">A daily game from your reading</div>
-          <ul><li>Daily training</li><li>Mini crossword and Quotle</li><li>Ladder and Cryptic</li><li>Friends Trivia</li></ul></div>
-        <div class="fcol rem"><div class="gl">Remember</div><div class="gd">It comes back, so it stays</div>
-          <ul><li>Your Second Brain</li><li>Voice training</li><li>Ask Echo</li></ul></div>
-      </div>
-      <div class="dl r r3">
-        <div>
-          <h3>Screen recordings of every flow</h3>
-          <p>Download them and cut them straight into your videos. These are the newest recordings of the app. If a flow looks slow on screen, tell Mike and it can usually be tweaked.</p>
-        </div>
-        <a class="btn" data-link="recordings" data-pending="Folder link from Mike" target="_blank" rel="noopener">Open the recordings folder <svg viewBox="0 0 24 24"><path d="M7 17 L17 7 M9 7 H17 V15"/></svg></a>
-      </div>
-    </div>
-  </section>
-
-  <!-- 12 STEP 5 — HOW WE WORK TOGETHER -->
-  <section class="slide paper" data-step="5" aria-label="Step 5: How we work together">
-    <div class="inner">
-      <p class="eyebrow r r1">Step 5 of 5 &middot; Happy REPPING</p>
-      <h2 class="lead r r1">How we work <span class="hot">together.</span></h2>
-      <div class="two r r2">
-        <div>
-          <h3>The rhythm</h3>
-          <ul>
-            <li><b>Test on Instagram and TikTok first.</b> Fast, cheap, and where trends surface.</li>
-            <li><b>Feedback comes at your weekly check-in.</b> One clear note on what to change, not a list.</li>
-            <li><b>Under a few hundred views?</b> It&rsquo;s the hook. We change that first.</li>
-          </ul>
-        </div>
-        <div>
-          <h3>What we need from you</h3>
-          <ul>
-            <li><b>Honest reactions early.</b> If a flow is slow or an angle feels fake, say it before you film.</li>
-            <li><b>The product can move.</b> Bad content can&rsquo;t be fixed in the edit. The mechanics are flexible, the concepts are settled.</li>
-            <li><b>Games and challenges only.</b> Never call REPS a study app, flashcards or a quiz.</li>
-            <li><b>Turn on the paid-partnership label</b> on every post, and keep your link in your bio.</li>
-          </ul>
-        </div>
-      </div>
+      <h2 class="lead r r1">Demo flows: <span class="hot">film the app, your way.</span></h2>
+      <div class="dgrid r r2"><div>
+<div class="dstep"><span class="dnum">1</span><div><h3>Open the hidden menu</h3><p>Go to the <b>You</b> tab and tap <b>You</b>, above your profile picture, <b>7 times</b>, quickly.</p></div></div><div class="dstep"><span class="dnum">2</span><div><h3>Pick a game</h3><p><b>Crossword</b>, <b>Quotle</b>, <b>Practice round</b> or <b>Voice practice</b>.</p></div></div><div class="dstep"><span class="dnum">3</span><div><h3>Pick what it plays</h3><p><b>Built-in books</b> save nothing. <b>Your own books</b> update your real schedule.</p></div></div><div class="dstep"><span class="dnum">4</span><div><h3>Pick what comes before</h3><p>Shelf photo with scan, photo only, Second Brain, or straight in. Choose first, <b>then film</b>.</p></div></div>      </div><div class="dshot"><img src="flows/demo-menu.jpg" alt="Creator demos screen" /></div></div>
+      <p class="srcline r r3" style="color:var(--cream-faint)">Screen-record, or film yourself tapping.</p>
     </div>
   </section>
 
@@ -578,9 +522,9 @@ h2.lead{font-family:var(--serif);font-weight:500;font-size:60px;line-height:1.08
       <div class="done5 r r3">
         <span>Accounts warmed up</span><span>Link, Discord, weekly check-in</span><span>Content loaded</span><span>Hooks picked</span><span>REPS lines learned</span>
       </div>
-      <p class="first r r3"><b>Your first move:</b> make your first video, save the final cut in the folder below, and bring it to your next weekly check-in with Mike.</p>
+      <p class="first r r3"><b>First move:</b> make a video, save it below, bring it to your weekly check-in.</p>
       <a class="btn r r3" style="align-self:center;margin-top:30px" data-link="submit" data-pending="Upload folder from Mike" target="_blank" rel="noopener">Save your final video here <svg viewBox="0 0 24 24"><path d="M7 17 L17 7 M9 7 H17 V15"/></svg></a>
-      <div class="two-checks r r4"><span><b>Before every post</b>Your link is in your bio</span><span>The paid-partnership label is on</span></div>
+      <div class="two-checks r r4"><span><b>Before every post</b>Your link is in your bio</span></div>
     </div>
   </section>
 
@@ -659,7 +603,7 @@ h2.lead{font-family:var(--serif);font-weight:500;font-size:60px;line-height:1.08
   function modalOpen(){ return modal.classList.contains('on'); }
   function show(i){
     i = Math.max(0, Math.min(i, slides.length-1));
-    slides.forEach(function(s, n){ s.classList.toggle('active', n === i); var v=s.querySelector('video'); if(v && n!==i) v.pause(); else if(v && n===i && v.id==='wfvid') v.play().catch(function(){}); });
+    slides.forEach(function(s, n){ s.classList.toggle('active', n === i); var v=s.querySelector('video'); if(v && n!==i) v.pause(); else if(v && n===i && (v.id==='wfvid' || v.hasAttribute('data-auto'))) v.play().catch(function(){}); });
     cur = i; curEl.textContent = cur+1;
     progress.style.width = ((cur+1)/slides.length*100)+'%';
     prevB.disabled = cur===0; nextB.disabled = cur===slides.length-1;
@@ -707,15 +651,32 @@ h2.lead{font-family:var(--serif);font-weight:500;font-size:60px;line-height:1.08
   /* watch-the-flows widget: click a thumbnail to load it in the hero phone; tap the phone to pause/resume */
   (function(){
     var vid=document.getElementById('wfvid'), tag=document.getElementById('wftag'), ttl=document.getElementById('wftitle'), ph=document.getElementById('wfphone');
-    var its=Array.prototype.slice.call(document.querySelectorAll('.wf-it')); if(!vid) return;
+    var its=Array.prototype.slice.call(document.querySelectorAll('.wf-it:not(.wf-link)')); if(!vid) return;
     its.forEach(function(it){ it.addEventListener('click', function(){
-      its.forEach(function(x){x.classList.remove('sel');}); it.classList.add('sel');
+      Array.prototype.slice.call(document.querySelectorAll('.wf-it,.wf-pill')).forEach(function(x){x.classList.remove('sel');}); it.classList.add('sel');
       vid.src=it.getAttribute('data-src'); vid.poster=it.querySelector('img').getAttribute('src');
       var k=it.getAttribute('data-kind'); tag.textContent=k==='save'?'Save':'Play'; tag.className='wf-tag '+k; ttl.textContent=it.getAttribute('data-title');
       var p=vid.play(); if(p&&p.catch) p.catch(function(){});
     }); });
     ph.addEventListener('click', function(){ if(vid.paused) vid.play(); else vid.pause(); });
   })();
+
+  /* checklist ticks + slide links */
+  Array.prototype.slice.call(document.querySelectorAll('.cb')).forEach(function(b){
+    function t(e){ e.stopPropagation(); e.preventDefault(); b.classList.toggle('on'); b.setAttribute('aria-checked', b.classList.contains('on')); }
+    b.addEventListener('click', t); b.addEventListener('keydown', function(e){ if(e.key==='Enter'){ t(e); } });
+  });
+  Array.prototype.slice.call(document.querySelectorAll('[data-go]')).forEach(function(a){
+    a.addEventListener('click', function(e){ e.stopPropagation(); show(parseInt(a.getAttribute('data-go'),10)-1); });
+  });
+
+  Array.prototype.slice.call(document.querySelectorAll('.wf-pill')).forEach(function(b){
+    b.addEventListener('click', function(){
+      Array.prototype.slice.call(document.querySelectorAll('.wf-it,.wf-pill')).forEach(function(x){x.classList.remove('sel');}); b.classList.add('sel');
+      var v=document.getElementById('wfvid'); v.src=b.getAttribute('data-src'); v.poster=b.getAttribute('data-poster');
+      document.getElementById('wftitle').textContent=b.getAttribute('data-title'); var q=v.play(); if(q&&q.catch) q.catch(function(){});
+    });
+  });
 
   var fromHash = parseInt((location.hash||'').replace('#',''),10);
   show(Number.isFinite(fromHash) && fromHash>0 ? fromHash-1 : 0);
