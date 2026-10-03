@@ -10,11 +10,16 @@
       "destination": "/api/resolve?slug=:slug"
     },
     {
-      "source": "/i/:code",
-      "destination": "/invite.html?code=:code"
+      "source": "/i/:path*",
+      "destination": "/invite"
     }
   ],
   "redirects": [
+    {
+      "source": "/i/:code",
+      "destination": "/invite?code=:code",
+      "permanent": false
+    },
     {
       "source": "/play/verbatim",
       "destination": "/play/quotle",
