@@ -26,12 +26,21 @@
           status.textContent = 'Ask Echo for a fresh connection link.';
           return;
         }
-        button.disabled = false;
-        const scheme = environment === 'staging' ? 'reps-echo-staging' : 'reps';
         if (environment === 'staging') {
-          status.textContent = 'Open your REPS test app to connect.';
+          // The separate staging binary was abandoned. Neither installed REPS
+          // app registers its scheme; do not launch it or fall back to the
+          // ambiguous reps:// scheme shared by the normal dev and store apps.
+          // Re-enable only with a verified compatible dev-client handoff.
+          request = '';
+          button.hidden = true;
+          document.getElementById('title').textContent = 'Back to Echo';
+          document.getElementById('intro').textContent = 'This test connection isn’t ready yet. Please return to Messages.';
+          status.textContent = '';
           document.getElementById('install').hidden = true;
+          return;
         }
+        button.disabled = false;
+        const scheme = 'reps';
         const openApp = () => {
           if (!request) return;
           status.textContent = 'Finish connecting in REPS. Still here? Tap Open REPS.';
@@ -53,8 +62,8 @@
 </head>
 <body><main>
   <img src="/echo/echo-phone-emoji.png" alt="Echo">
-  <h1>Bring Echo along</h1>
-  <p>Connect this chat to the REPS account you already use.</p>
+  <h1 id="title">Bring Echo along</h1>
+  <p id="intro">Connect this chat to the REPS account you already use.</p>
   <button id="connect" type="button" disabled>Open REPS</button>
   <p id="status" class="status" role="status" aria-live="polite"></p>
   <p id="install"><a href="https://apps.apple.com/app/id6759216018" rel="noreferrer">Get REPS</a></p>
