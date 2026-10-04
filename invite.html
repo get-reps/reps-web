@@ -3,54 +3,181 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>You've been invited to REPS</title>
-  <meta name="description" content="A friend invited you to REPS. Save anything you read, watch or listen to - and actually remember it.">
-  <meta property="og:title" content="REPS - save anything, remember everything">
-  <meta property="og:description" content="A friend invited you to REPS. Save anything you read, watch or listen to - and actually remember it.">
+  <title>A friend is inviting you to REPS</title>
+  <meta name="description" content="A friend is inviting you to REPS. Save what you read and watch. Actually remember it.">
+  <meta property="og:title" content="A friend is inviting you to REPS">
+  <meta property="og:description" content="Save what you read and watch. Actually remember it.">
   <meta property="og:type" content="website">
+  <meta name="theme-color" content="#fffaf7">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --cream: #fffaf7;
+      --coral: #ff6b6b;
+      --peach: #ff8e53;
+      --ink: #211a14;
+      --body: rgba(33, 26, 20, 0.66);
+      --muted: rgba(33, 26, 20, 0.5);
+      --display: "Space Grotesk", system-ui, -apple-system, sans-serif;
+      --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { background: var(--cream); }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #FFFAF7;
-      color: #1F2937;
+      font-family: var(--sans);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
       min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 24px;
+      overflow-x: hidden;
+      background:
+        radial-gradient(60% 45% at 50% 30%, rgba(255, 142, 83, 0.20), transparent 70%),
+        radial-gradient(50% 35% at 50% 100%, rgba(255, 107, 107, 0.10), transparent 70%),
+        var(--cream);
+    }
+    .card {
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      animation: rise 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    }
+
+    /* Hero: inviter photo, their initial, or Echo (generic). Same footprint in every state. */
+    .hero { position: relative; width: 148px; height: 148px; margin: 0 auto 28px; }
+    .ring {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      padding: 5px;
+      background: linear-gradient(135deg, var(--coral), var(--peach));
+      box-shadow: 0 18px 40px -12px rgba(255, 107, 107, 0.55);
+    }
+    .ring-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: var(--cream);
+      border: 4px solid var(--cream);
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 24px;
     }
-    .card { text-align: center; max-width: 400px; width: 100%; }
-    .emoji { font-size: 64px; margin-bottom: 16px; }
-    h1 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
-    .subtitle { font-size: 16px; color: #6B7280; margin-bottom: 32px; line-height: 1.5; }
-    .open-btn {
-      display: inline-block;
-      background: linear-gradient(135deg, #FF6B6B, #FF8E53);
-      color: white;
-      font-size: 17px;
+    .ring-inner img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .ring-inner img.echo { width: 118%; height: 118%; object-fit: contain; transform: translateY(4%); }
+    .monogram {
+      font-family: var(--display);
       font-weight: 700;
-      padding: 16px 48px;
-      border-radius: 16px;
-      text-decoration: none;
-      transition: transform 0.15s;
+      font-size: 64px;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--coral), var(--peach));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
+    .badge {
+      position: absolute;
+      right: -6px;
+      bottom: -2px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--cream);
+      box-shadow: 0 6px 16px -6px rgba(33, 26, 20, 0.35);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .badge img { width: 120%; height: 120%; object-fit: contain; }
+    .is-personal .badge { display: flex; animation: pop 0.45s 0.15s cubic-bezier(0.3, 1.5, 0.5, 1) both; }
+
+    h1 {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: clamp(30px, 8.4vw, 40px);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+    .name {
+      background: linear-gradient(135deg, var(--coral), var(--peach));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      overflow-wrap: anywhere;
+    }
+    .support { font-size: 17px; line-height: 1.45; color: var(--body); margin: 0 auto 32px; max-width: 320px; }
+
+    .open-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      max-width: 340px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, var(--coral), var(--peach));
+      color: #fff;
+      font-family: var(--display);
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      padding: 18px 28px;
+      border-radius: 18px;
+      text-decoration: none;
+      box-shadow: 0 14px 30px -12px rgba(255, 107, 107, 0.75);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .open-btn:hover { transform: translateY(-1px); box-shadow: 0 18px 34px -12px rgba(255, 107, 107, 0.85); }
     .open-btn:active { transform: scale(0.97); }
-    .fallback { font-size: 13px; color: #9CA3AF; margin-top: 24px; line-height: 1.6; }
-    .fallback a { color: #FF6B6B; text-decoration: none; font-weight: 600; }
+    .open-btn svg { width: 20px; height: 20px; }
+    .secondary { font-size: 14px; color: var(--muted); margin-top: 20px; }
+    .secondary a { color: var(--coral); font-weight: 600; text-decoration: none; }
+    .wordmark {
+      margin-top: 40px;
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.24em;
+      color: var(--muted);
+    }
+
+    .swap { animation: swap 0.35s ease-out both; }
+    @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+    @keyframes pop { from { opacity: 0; transform: scale(0.4); } to { opacity: 1; transform: none; } }
+    @keyframes swap { from { opacity: 0; transform: scale(0.94); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) {
+      .card, .swap, .is-personal .badge { animation: none; }
+    }
   </style>
 </head>
 <body>
-  <div class="card">
-    <div class="emoji">&#128171;</div>
-    <h1>You've been invited to REPS</h1>
-    <p class="subtitle">Save anything you read, watch or listen to. REPS makes sure you actually remember it.</p>
-    <a id="open-link" class="open-btn" href="https://apps.apple.com/app/id6759216018">Open or get REPS</a>
-    <p class="fallback">
-      Already have the app?<br>
-      <a id="app-link" href="#">Open it directly</a>
-    </p>
-  </div>
+  <main class="card" id="card">
+    <!-- Generic state is the static markup, so with no JS, an unknown code or a failed
+         lookup the page is already complete. js/invite-preview.js only ever upgrades it. -->
+    <div class="hero">
+      <div class="ring"><div class="ring-inner" id="hero-slot">
+        <img class="echo" src="/echo/echo-phone-emoji.png" alt="" width="148" height="148">
+      </div></div>
+      <div class="badge" aria-hidden="true"><img src="/echo/echo-phone-emoji.png" alt=""></div>
+    </div>
+    <h1 id="headline"><span class="name" id="inviter-name">A friend</span> is inviting you to REPS</h1>
+    <p class="support">Save what you read and watch. Actually remember it.</p>
+    <a id="open-link" class="open-btn" href="https://apps.apple.com/app/id6759216018">
+      Accept invite
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+    <p class="secondary">Already have REPS? <a id="app-link" href="#">Open the app</a></p>
+    <div class="wordmark">REPS</div>
+  </main>
   <script>
     (function () {
       var params = new URLSearchParams(window.location.search);
@@ -90,6 +217,44 @@
         (source ? '&source=' + encodeURIComponent(source) : '');
       document.getElementById('app-link').href = deepLink;
     })();
+  </script>
+  <script type="module">
+    // Personalization only. Never touches the CTA hrefs set above.
+    import { fetchInvitePreview } from '/js/invite-preview.js';
+
+    var code = new URLSearchParams(window.location.search).get('code') || '';
+    var preview = await fetchInvitePreview(code);
+    if (preview) {
+      var nameEl = document.getElementById('inviter-name');
+      var slot = document.getElementById('hero-slot');
+
+      nameEl.textContent = preview.firstName;
+      nameEl.classList.add('swap');
+      document.title = preview.firstName + ' is inviting you to REPS';
+
+      // Their initial straight away; the photo replaces it only once it has fully loaded,
+      // so a dead or slow image URL never shows a broken picture.
+      var mono = document.createElement('span');
+      mono.className = 'monogram';
+      mono.textContent = Array.from(preview.firstName)[0].toUpperCase();
+      slot.replaceChildren(mono);
+      slot.classList.add('swap');
+      document.getElementById('card').classList.add('is-personal');
+
+      if (preview.avatarUrl) {
+        var img = new Image();
+        img.alt = preview.firstName;
+        img.referrerPolicy = 'no-referrer';
+        img.decoding = 'async';
+        img.onload = function () {
+          slot.classList.remove('swap');
+          void slot.offsetWidth;
+          slot.replaceChildren(img);
+          slot.classList.add('swap');
+        };
+        img.src = preview.avatarUrl;
+      }
+    }
   </script>
 </body>
 </html>
