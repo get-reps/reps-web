@@ -10,6 +10,20 @@
             "comment": "Magic-link / recovery hop - open directly in REPS. The '#' matcher is load-bearing, not cosmetic: it keeps iOS from handing a bare/tokenless /login to the app, which isAuthCallbackPath() would accept and then route to the magic-link error screen. Loosening it means narrowing that gate in the same change. Scoped to /login only - never '/' (marketing) or '/r/:slug' (resolver)."
           }
         ]
+      },
+      {
+        "appIDs": ["VS232T422C.io.getreps.app.dev"],
+        "components": [
+          {
+            "/": "/echo/connect/",
+            "#": "request=*&environment=staging",
+            "comment": "Private Echo test app only. No login or production URL claims; the staging fallback uses a dedicated scheme."
+          },
+          {
+            "/": "/echo/connect",
+            "#": "request=*&environment=staging"
+          }
+        ]
       }
     ]
   }

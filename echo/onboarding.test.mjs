@@ -3,22 +3,61 @@ import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import vm from 'node:vm';
 const token = 'a'.repeat(43);
-function page(kind, { hash = `#${kind === 'connect' ? 'request' : 'token'}=${token}&environment=staging`, scrubFails = false, response = { ok:true, json:async()=>({verified:true}) } } = {}) {
+function page(kind, { hash = `#${kind === 'connect' ? 'request' : 'token'}=${token}&environment=staging`, search = '', mobile = false, hidden = false, scrubFails = false, response = { ok:true, json:async()=>({verified:true}) } } = {}) {
   const html = readFileSync(new URL(`./${kind}/index.html`, import.meta.url),'utf8');
   const script = html.match(/<script>([\s\S]*?)<\/script>/)[1];
-  const elements = Object.fromEntries(['connect','confirm','title','status'].map(id=>[id,{disabled:true,hidden:false,textContent:'',addEventListener(event,fn){this[event]=fn;}}]));
+  const elements = Object.fromEntries(['connect','confirm','title','status','install'].map(id=>[id,{disabled:true,hidden:false,textContent:'',addEventListener(event,fn){this[event]=fn;}}]));
   const calls=[], navigations=[]; let ready;
-  const window={location:{hash,pathname:`/echo/${kind}/`,assign:url=>navigations.push(url)},history:{replaceState:()=>{if(scrubFails)throw Error('blocked');window.location.hash='';}}};
-  vm.runInNewContext(script,{window,URLSearchParams,AbortController,setTimeout,clearTimeout,document:{addEventListener:(_event,fn)=>{ready=fn;},getElementById:id=>elements[id]},fetch:async(url,options)=>{calls.push({url,options});return response;}});
+  const window={location:{hash,search,pathname:`/echo/${kind}/`,assign:url=>{assert.equal(window.location.hash,'');navigations.push(url);}},history:{replaceState:()=>{if(scrubFails)throw Error('blocked');window.location.hash='';}}};
+  vm.runInNewContext(script,{window,URLSearchParams,AbortController,setTimeout,clearTimeout,navigator:{userAgent:mobile?'iPhone':'Desktop',maxTouchPoints:mobile?5:0},document:{visibilityState:hidden?'hidden':'visible',addEventListener:(_event,fn)=>{ready=fn;},getElementById:id=>elements[id]},fetch:async(url,options)=>{calls.push({url,options});return response;}});
   ready();
   return {html,window,elements,calls,navigations,click:()=>elements[kind==='connect'?'connect':'confirm'].click?.()};
 }
-test('connection is fragment-only, scrubbed, explicit and never requests Auth from the web',async()=>{
+test('desktop connection is fragment-only, scrubbed, explicit and never requests Auth from the web',async()=>{
   const p=page('connect');
   assert.equal(p.window.location.hash,'');assert.equal(p.calls.length,0);assert.equal(p.navigations.length,0);
   await p.click();assert.equal(p.calls.length,0);
-  assert.deepEqual(p.navigations,[`reps://echo-connect#request=${token}&environment=staging`]);
+  assert.deepEqual(p.navigations,[`reps-echo-staging://echo-connect#request=${token}&environment=staging`]);
   assert.doesNotMatch(p.html,/analytics|localStorage|sessionStorage|access_token|refresh_token/);
+});
+
+test('visible mobile connection attempts the correct app once and retains its fallback',async()=>{
+  for(const environment of ['staging','production']){
+    const p=page('connect',{mobile:true,hash:`#request=${token}&environment=${environment}`});
+    const expected=`${environment==='staging'?'reps-echo-staging':'reps'}://echo-connect#request=${token}&environment=${environment}`;
+    assert.deepEqual(p.navigations,[expected]);
+    assert.equal(p.elements.connect.hidden,false);
+    assert.equal(p.elements.connect.disabled,false);
+    assert.equal(p.elements.install.hidden,environment==='staging');
+    assert.equal(p.calls.length,0);
+    await p.click();assert.deepEqual(p.navigations,[expected,expected]);
+  }
+  const hidden=page('connect',{mobile:true,hidden:true});assert.equal(hidden.navigations.length,0);
+});
+
+test('mobile malformed or unscrubbable connection never attempts to open an app',async()=>{
+  for(const options of [{hash:''},{hash:`#request=${token}&environment=evil`},{scrubFails:true},{search:`?request=${token}`}]){
+    const p=page('connect',{mobile:true,...options});await p.click();
+    assert.equal(p.navigations.length,0);assert.equal(p.calls.length,0);
+  }
+});
+
+test('AASA preserves login and only enables Echo for the capable private staging app',()=>{
+  const aasa=JSON.parse(readFileSync(new URL('../.well-known/apple-app-site-association',import.meta.url),'utf8'));
+  const [production,staging]=aasa.applinks.details;
+  assert.deepEqual(production.appIDs,['VS232T422C.io.getreps.app']);
+  assert.deepEqual(staging.appIDs,['VS232T422C.io.getreps.app.dev']);
+  assert.equal(production.components[0]['/'],'/login');
+  assert.equal(production.components[0]['#'],'token_hash=*&type=*');
+  // Existing App Store versions cannot parse HTTPS Echo links yet. Add the
+  // production association only after a capable app release is available.
+  assert.equal(production.components.length,1);
+  for(const [entry,environment] of [[staging,'staging']]){
+    const components=entry.components.filter(c=>c['/']!=='/login');
+    assert.deepEqual(components.map(c=>c['/']),['/echo/connect/','/echo/connect']);
+    assert.ok(components.every(c=>c['#']===`request=*&environment=${environment}`));
+  }
+  assert.equal(staging.components.some(c=>c['/']==='/login'),false);
 });
 test('both bridges reject malformed, extra, duplicate, unscubbable and unknown environment requests',async()=>{
   for(const kind of ['connect','waitlist']){

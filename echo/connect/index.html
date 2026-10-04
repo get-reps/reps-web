@@ -13,7 +13,7 @@
       const fragment = new URLSearchParams(window.location.hash.slice(1));
       let request = fragment.get('request') || '';
       const environment = fragment.get('environment');
-      const valid = /^[A-Za-z0-9_-]{43}$/.test(request) && ['staging', 'production'].includes(environment)
+      const valid = !window.location.search && /^[A-Za-z0-9_-]{43}$/.test(request) && ['staging', 'production'].includes(environment)
         && fragment.getAll('request').length === 1 && fragment.getAll('environment').length === 1
         && [...fragment.keys()].every(key => ['request', 'environment'].includes(key));
       let scrubbed = false;
@@ -23,16 +23,27 @@
         if (!valid || !scrubbed) {
           request = '';
           button.hidden = true;
-          status.textContent = 'Text Echo CONNECT for a fresh link.';
+          status.textContent = 'Ask Echo for a fresh connection link.';
           return;
         }
         button.disabled = false;
-        if (environment === 'staging') status.textContent = 'Private trial: open this with the REPS test app. Your regular app account stays separate.';
-        button.addEventListener('click', () => {
+        const scheme = environment === 'staging' ? 'reps-echo-staging' : 'reps';
+        if (environment === 'staging') {
+          status.textContent = 'Open your REPS test app to connect.';
+          document.getElementById('install').hidden = true;
+        }
+        const openApp = () => {
           if (!request) return;
-          window.location.assign(`reps://echo-connect#request=${encodeURIComponent(request)}&environment=${environment}`);
-          status.textContent = 'Approve the connection in REPS, then send the prepared message to Echo. If the app doesn’t open, return to this link after installing REPS.';
-        });
+          status.textContent = 'Finish connecting in REPS. Still here? Tap Open REPS.';
+          try { window.location.assign(`${scheme}://echo-connect#request=${encodeURIComponent(request)}&environment=${environment}`); } catch (_) {}
+        };
+        button.addEventListener('click', openApp);
+        // Universal Links open the app before this page loads. If iOS kept the
+        // browser (for example, a same-domain tap), try once and retain the button.
+        // Never auto-install, call Auth, or persist a connection token in the browser.
+        const mobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+          || (/Macintosh/i.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
+        if (mobile && document.visibilityState === 'visible') openApp();
       });
     })();
   </script>
@@ -46,7 +57,7 @@
   <p>Connect this chat to the REPS account you already use.</p>
   <button id="connect" type="button" disabled>Open REPS</button>
   <p id="status" class="status" role="status" aria-live="polite"></p>
-  <p><a href="https://apps.apple.com/app/id6759216018" rel="noreferrer">Get REPS</a></p>
-  <noscript><p>Enable JavaScript, or text Echo CONNECT EMAIL followed by your account email.</p></noscript>
+  <p id="install"><a href="https://apps.apple.com/app/id6759216018" rel="noreferrer">Get REPS</a></p>
+  <noscript><p>Enable JavaScript to open REPS, or ask Echo for help connecting.</p></noscript>
 </main></body>
 </html>
