@@ -9,6 +9,9 @@
   <meta property="og:description" content="Save what you read and watch. Actually remember it.">
   <meta property="og:type" content="website">
   <meta name="theme-color" content="#fffaf7">
+  <!-- Backstop for js/invite-preview.js's cleanAvatarUrl allowlist: even a bug there could not load
+       an inviter's avatar_url from an arbitrary host, since the browser would refuse it outright. -->
+  <meta http-equiv="Content-Security-Policy" content="img-src 'self' https://vciosaulrfvddcenblmo.supabase.co https://lh3.googleusercontent.com data:">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">

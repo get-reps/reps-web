@@ -44,12 +44,28 @@ export function cleanFirstName(raw) {
   return Array.from(first).slice(0, MAX_NAME_CHARS).join("");
 }
 
+// Same rule as the server (reps-backend lib/invite-preview/handler.ts resolveAvatarUrl): only the
+// project's own public avatars bucket or a Google sign-in photo. users.avatar_url is owner-writable,
+// so an arbitrary host must never be loaded from getreps.io.
+const AVATAR_ORIGIN = "https://vciosaulrfvddcenblmo.supabase.co";
+const AVATARS_PUBLIC_PREFIX = "/storage/v1/object/public/avatars/";
+const ALLOWED_PHOTO_HOSTS = new Set(["lh3.googleusercontent.com"]);
+
 /** @param {unknown} raw @returns {string | null} */
 export function cleanAvatarUrl(raw) {
   if (typeof raw !== "string" || raw.length > MAX_URL_CHARS) return null;
   try {
     const url = new URL(raw);
-    return url.protocol === "https:" ? url.href : null;
+    if (url.protocol !== "https:" || url.username || url.password || url.port) return null;
+    if (ALLOWED_PHOTO_HOSTS.has(url.hostname)) return url.href;
+    if (
+      url.origin === AVATAR_ORIGIN &&
+      url.pathname.startsWith(AVATARS_PUBLIC_PREFIX) &&
+      url.pathname.length > AVATARS_PUBLIC_PREFIX.length
+    ) {
+      return url.href;
+    }
+    return null;
   } catch {
     return null;
   }

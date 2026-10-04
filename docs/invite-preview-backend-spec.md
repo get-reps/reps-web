@@ -1,9 +1,12 @@
-# Invite preview — backend spec (NOT built, NOT deployed)
+# Invite preview — backend spec (built on a branch, NOT deployed)
 
-Status 2026-10-04: the invite page (`invite.html` + `js/invite-preview.js`) is built against
-this contract. Until the endpoint exists the request 404s and every visitor sees the generic
-"A friend is inviting you to REPS" page. Building and deploying the endpoint below is Mike's
-call.
+Status 2026-10-04: the invite page (`invite.html` + `js/invite-preview.js`), the edge route
+(`api/invite-preview.ts`, vendoring `lib/invite-preview-handler.ts`) and the SQL function below
+are all written, exactly to this contract, on a crew branch pending independent review. None of
+it is live: the branch is not merged to `main` (reps-web deploys to production on every `main`
+push), the migration has not been applied, and the Vercel Firewall rate-limit rule is not set.
+Until all three preconditions are done the request 404s and every visitor sees the generic
+"A friend is inviting you to REPS" page. Merging and deploying is Mike's call.
 
 ## Why a new read is needed
 
@@ -44,8 +47,15 @@ create or replace function public.get_invite_preview(p_code text)
 returns jsonb language sql stable security definer set search_path = '' as $$
   select coalesce(
     (select jsonb_build_object(
-              'first_name', nullif(btrim(u.first_name), ''),
-              'avatar_url', case when u.avatar_url like 'https://%' then u.avatar_url end)
+              'first_name', substring(btrim(u.first_name) from '^[^[:space:]]+'),
+              'avatar_url', case
+                when u.avatar_url ~ '^[0-9a-f-]{36}/[A-Za-z0-9_-][A-Za-z0-9._-]*$'
+                  then u.avatar_url
+                when u.avatar_url ~ '^https://[a-z0-9]+\.supabase\.co/storage/v1/object/public/avatars/[^?#[:space:]]+$'
+                  then u.avatar_url
+                when u.avatar_url ~ '^https://lh3\.googleusercontent\.com/[^[:space:]]+$'
+                  then u.avatar_url
+              end)
        from public.users u
       where u.referral_code = upper(btrim(p_code))
         and u.is_active is true
@@ -69,6 +79,13 @@ The edge function calls it with the service-role key already configured for `api
 - A picture is never returned without a name; the page also refuses to show one alone.
 - Unknown codes are indistinguishable from private ones, so the endpoint cannot be used to test
   whether a code exists beyond "this one shows a name".
+- `first_name` is cut to its first word server-side.
+- `users.avatar_url` is owner-writable with no validation, so it is never reflected as-is. Accepted:
+  a storage path `<userId>/<file>` (current app uploads; the route resolves it to
+  `<SUPABASE_URL>/storage/v1/object/public/avatars/<path>`), a full URL on the project's OWN public
+  avatars prefix (historic rows), or `https://lh3.googleusercontent.com/...` (Google sign-in photos —
+  Mike prefers showing people's real photos). Anything else → `avatar_url: null`, name still shown.
+- Vercel Firewall rule (30/min/IP, deny) is a deploy precondition, not optional.
 
 ## Rate limiting / enumeration
 
@@ -79,10 +96,20 @@ The edge function calls it with the service-role key already configured for `api
 
 ## Front-end guarantees already shipped
 
-`js/invite-preview.js` — 2.5 s timeout, no cookies sent, https-only pictures, first word of the
-name only (max 24 chars, letters required), picture shown only after it fully loads (otherwise
-the inviter's initial), and any failure leaves the generic page untouched. Tests:
-`lib/invite-preview.test.ts`.
+`js/invite-preview.js` — 2.5 s timeout, no cookies sent, first word of the name only (max 24
+chars, letters required), picture shown only after it fully loads (otherwise the inviter's
+initial), and any failure leaves the generic page untouched. `cleanAvatarUrl` applies the same
+avatar-host allowlist as the server (`https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/avatars/*`
+or `https://lh3.googleusercontent.com/*`) as a second gate, independent of what the route returns.
+Tests: `lib/invite-preview.test.ts`.
+
+## Edge route guarantees already shipped
+
+`api/invite-preview.ts` wires `process.env.SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` into the
+vendored `lib/invite-preview-handler.ts` (unchanged copy of `reps-backend lib/invite-preview/handler.ts`).
+Tests: `api/invite-preview.test.ts` (mocked lookup: public inviter, unknown code, malformed code,
+lookup throwing, rate-limited) plus the fuller behaviour + privacy suite already proven in
+`reps-backend lib/invite-preview/handler.test.ts`, since the module is vendored unchanged.
 
 ## Decisions (supervisor, 2026-10-04)
 
