@@ -187,6 +187,31 @@ describe("invite.html — generic page is complete without JS, CTAs untouched", 
     assert.match(html, /'reps:\/\/invite\?code=' \+ encodeURIComponent\(code\)/);
   });
 
+  test("only a well-formed code holds the page, and the hold is bounded by a backstop", () => {
+    const head = html.slice(0, html.indexOf("</head>"));
+    assert.match(head, /if \(!\/\^\[A-HJ-NP-Z2-9\]\{8\}\$\/\.test\(code\)\) return;\s*\n[\s\S]*classList\.add\('invite-loading'\)/);
+    assert.match(head, /performance\.now\(\) \+ 2500/);
+    assert.match(head, /setTimeout\(function \(\) \{ window\.repsInviteReveal\(null\); \}, 2800\)/);
+  });
+
+  test("the reveal settles once: a late answer can never swap the page a second time", () => {
+    assert.match(html, /if \(settled\) return false;\s*\n\s*settled = true;/);
+  });
+
+  test("the inviter-dependent parts are held, the buttons never are", () => {
+    for (const id of ["hero-slot", "headline"]) {
+      assert.match(html, new RegExp(`id="${id}" data-hold`));
+    }
+    assert.match(html, /<p class="support" data-hold>/);
+    assert.doesNotMatch(html, /<a [^>]*data-hold/);
+    assert.match(html, /\.invite-loading \[data-hold\] \{ opacity: 0; visibility: hidden; \}/);
+  });
+
+  test("the lookup and the photo share the one deadline", () => {
+    assert.match(html, /fetchInvitePreview\(code, \{ timeoutMs: remaining\(\) \}\)/);
+    assert.match(html, /setTimeout\(resolve, remaining\(\), false\)/);
+  });
+
   test("the inviter's name is written as text, never as HTML", () => {
     assert.match(html, /nameEl\.textContent = preview\.firstName/);
     assert.doesNotMatch(html, /innerHTML/);

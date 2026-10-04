@@ -73,7 +73,18 @@
       align-items: center;
       justify-content: center;
     }
+    .hero-slot {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
     .ring-inner img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    /* A photo that missed the reveal deadline fades in over the monogram instead of popping. */
+    .ring-inner img.late { position: absolute; inset: 0; opacity: 0; transition: opacity 0.5s ease-out; }
+    .ring-inner img.late.shown { opacity: 1; }
     .ring-inner img.echo { width: 118%; height: 118%; object-fit: contain; transform: translateY(4%); }
     .monogram {
       font-family: var(--display);
@@ -103,6 +114,7 @@
     .is-personal .badge { display: flex; animation: pop 0.45s 0.15s cubic-bezier(0.3, 1.5, 0.5, 1) both; }
 
     h1 {
+      min-height: 2.16em; /* two lines, so a one-line name never pulls the card up on reveal */
       font-family: var(--display);
       font-weight: 700;
       font-size: clamp(30px, 8.4vw, 40px);
@@ -153,27 +165,60 @@
       color: var(--muted);
     }
 
-    .swap { animation: swap 0.35s ease-out both; }
+    /* Hold: while the inviter lookup is in flight, the inviter-dependent parts keep their
+       space but show nothing, and the empty avatar circle breathes. The page then reveals ONE
+       final state (personal or generic) in a single fade - never generic first, then a swap. */
+    [data-hold] { transition: opacity 0.3s ease-out, visibility 0s; }
+    .invite-loading [data-hold] { opacity: 0; visibility: hidden; }
+    .invite-loading .ring-inner { animation: breathe 1.4s ease-in-out infinite; }
+
     @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
     @keyframes pop { from { opacity: 0; transform: scale(0.4); } to { opacity: 1; transform: none; } }
-    @keyframes swap { from { opacity: 0; transform: scale(0.94); } to { opacity: 1; transform: none; } }
+    @keyframes breathe { 0%, 100% { background-color: var(--cream); } 50% { background-color: #ffe6d8; } }
     @media (prefers-reduced-motion: reduce) {
-      .card, .swap, .is-personal .badge { animation: none; }
+      .card, .is-personal .badge, .invite-loading .ring-inner { animation: none; }
+      [data-hold], .ring-inner img.late { transition: none; }
     }
   </style>
+  <script>
+    // Runs before first paint. Only a well-formed code can personalize, so only then does the
+    // page hold its inviter-dependent parts back. No JS, or a missing/malformed code: no hold,
+    // the generic page paints immediately.
+    (function () {
+      var code = (new URLSearchParams(window.location.search).get('code') || '').trim().toUpperCase();
+      if (!/^[A-HJ-NP-Z2-9]{8}$/.test(code)) return;
+      var root = document.documentElement;
+      var settled = false;
+      root.classList.add('invite-loading');
+      // Same 2.5 s budget as js/invite-preview.js's TIMEOUT_MS, measured from here.
+      window.repsInviteDeadline = performance.now() + 2500;
+      // First caller wins and later calls are ignored, so the page can never change state twice.
+      window.repsInviteReveal = function (apply) {
+        if (settled) return false;
+        settled = true;
+        clearTimeout(failsafe);
+        if (apply) apply();
+        root.classList.remove('invite-loading');
+        return true;
+      };
+      // Backstop if the personalization module never runs (failed to load, old browser):
+      // show the generic page, never a blank or stuck one.
+      var failsafe = setTimeout(function () { window.repsInviteReveal(null); }, 2800);
+    })();
+  </script>
 </head>
 <body>
   <main class="card" id="card">
     <!-- Generic state is the static markup, so with no JS, an unknown code or a failed
          lookup the page is already complete. js/invite-preview.js only ever upgrades it. -->
     <div class="hero">
-      <div class="ring"><div class="ring-inner" id="hero-slot">
+      <div class="ring"><div class="ring-inner"><div class="hero-slot" id="hero-slot" data-hold>
         <img class="echo" src="/echo/echo-phone-emoji.png" alt="" width="148" height="148">
-      </div></div>
+      </div></div></div>
       <div class="badge" aria-hidden="true"><img src="/echo/echo-phone-emoji.png" alt=""></div>
     </div>
-    <h1 id="headline"><span class="name" id="inviter-name">A friend</span> is inviting you to REPS</h1>
-    <p class="support">Save what you read and watch. Actually remember it.</p>
+    <h1 id="headline" data-hold><span class="name" id="inviter-name">A friend</span> is inviting you to REPS</h1>
+    <p class="support" data-hold>Save what you read and watch. Actually remember it.</p>
     <a id="open-link" class="open-btn" href="https://apps.apple.com/app/id6759216018">
       Accept invite
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -225,38 +270,56 @@
     // Personalization only. Never touches the CTA hrefs set above.
     import { fetchInvitePreview } from '/js/invite-preview.js';
 
-    var code = new URLSearchParams(window.location.search).get('code') || '';
-    var preview = await fetchInvitePreview(code);
-    if (preview) {
-      var nameEl = document.getElementById('inviter-name');
-      var slot = document.getElementById('hero-slot');
+    // The head script only sets up the hold for a well-formed code; without it there is
+    // nothing to reveal and the generic page is already showing.
+    var reveal = window.repsInviteReveal;
+    var deadline = window.repsInviteDeadline;
+    if (reveal) {
+      var remaining = function () { return Math.max(0, deadline - performance.now()); };
+      var code = new URLSearchParams(window.location.search).get('code') || '';
+      var preview = await fetchInvitePreview(code, { timeoutMs: remaining() });
 
-      nameEl.textContent = preview.firstName;
-      nameEl.classList.add('swap');
-      document.title = preview.firstName + ' is inviting you to REPS';
-
-      // Their initial straight away; the photo replaces it only once it has fully loaded,
-      // so a dead or slow image URL never shows a broken picture.
-      var mono = document.createElement('span');
-      mono.className = 'monogram';
-      mono.textContent = Array.from(preview.firstName)[0].toUpperCase();
-      slot.replaceChildren(mono);
-      slot.classList.add('swap');
-      document.getElementById('card').classList.add('is-personal');
-
-      if (preview.avatarUrl) {
-        var img = new Image();
+      // Wait for the photo too (same deadline), so it never pops in after the headline.
+      var img = null;
+      var photoReady = false;
+      if (preview && preview.avatarUrl) {
+        img = new Image();
         img.alt = preview.firstName;
         img.referrerPolicy = 'no-referrer';
-        img.decoding = 'async';
-        img.onload = function () {
-          slot.classList.remove('swap');
-          void slot.offsetWidth;
-          slot.replaceChildren(img);
-          slot.classList.add('swap');
-        };
         img.src = preview.avatarUrl;
+        photoReady = await Promise.race([
+          img.decode().then(function () { return true; }, function () { return false; }),
+          new Promise(function (resolve) { setTimeout(resolve, remaining(), false); }),
+        ]);
       }
+
+      reveal(preview && function () {
+        var nameEl = document.getElementById('inviter-name');
+        var slot = document.getElementById('hero-slot');
+
+        nameEl.textContent = preview.firstName;
+        document.title = preview.firstName + ' is inviting you to REPS';
+        document.getElementById('card').classList.add('is-personal');
+
+        if (photoReady) {
+          slot.replaceChildren(img);
+          return;
+        }
+        // No photo in time (or none at all): their initial. A photo that is merely slow fades
+        // in over it later; a dead image URL never shows a broken picture.
+        var mono = document.createElement('span');
+        mono.className = 'monogram';
+        mono.textContent = Array.from(preview.firstName)[0].toUpperCase();
+        slot.replaceChildren(mono);
+        if (img) {
+          img.className = 'late';
+          img.decode().then(function () {
+            slot.appendChild(img);
+            void img.offsetWidth;
+            img.classList.add('shown');
+          }, function () {});
+        }
+      });
     }
   </script>
 </body>
