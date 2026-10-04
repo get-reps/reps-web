@@ -84,7 +84,8 @@ name only (max 24 chars, letters required), picture shown only after it fully lo
 the inviter's initial), and any failure leaves the generic page untouched. Tests:
 `lib/invite-preview.test.ts`.
 
-## Open choice for Mike
+## Decisions (supervisor, 2026-10-04)
 
-Whether `friends`-visibility inviters should show their first name (they chose to send the
-link). Spec above says no — the safer default.
+- `friends`-visibility inviters get the generic shape (no name, no picture), as specified above.
+- The endpoint is to be built later as a separate task, exactly as specified, and deployed only
+  after Mike's go.
