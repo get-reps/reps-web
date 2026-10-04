@@ -14,6 +14,9 @@ import {
 } from "../js/invite-preview.js";
 
 const CODE = "ABCD2345";
+const AVATAR_ORIGIN = "https://vciosaulrfvddcenblmo.supabase.co";
+const GOOD_AVATAR = `${AVATAR_ORIGIN}/storage/v1/object/public/avatars/abc.jpg`;
+const GOOGLE_AVATAR = "https://lh3.googleusercontent.com/a/ACg8ocJ-abc123=s96-c";
 
 function jsonResponse(body: unknown, status = 200): Response {
   return new Response(JSON.stringify(body), {
@@ -25,8 +28,8 @@ function jsonResponse(body: unknown, status = 200): Response {
 describe("parsePreview — only a first name and an https picture ever get through", () => {
   test("a good response becomes a personalized preview", () => {
     assert.deepEqual(
-      parsePreview({ first_name: "Sam", avatar_url: "https://x.supabase.co/a.jpg" }),
-      { firstName: "Sam", avatarUrl: "https://x.supabase.co/a.jpg" },
+      parsePreview({ first_name: "Sam", avatar_url: GOOD_AVATAR }),
+      { firstName: "Sam", avatarUrl: GOOD_AVATAR },
     );
   });
 
@@ -64,12 +67,32 @@ describe("parsePreview — only a first name and an https picture ever get throu
     assert.equal(cleanFirstName("<>"), null);
   });
 
-  test("only https picture URLs are accepted", () => {
+  test("only the project's own public avatars prefix or a Google photo host are accepted", () => {
     assert.equal(cleanAvatarUrl("javascript:alert(1)"), null);
     assert.equal(cleanAvatarUrl("data:image/png;base64,AAAA"), null);
     assert.equal(cleanAvatarUrl("/relative.png"), null);
     assert.equal(cleanAvatarUrl("https://" + "a".repeat(2100)), null);
-    assert.equal(cleanAvatarUrl("https://x.supabase.co/a.jpg"), "https://x.supabase.co/a.jpg");
+
+    // Kept — project's own public-avatars URL, and a Google sign-in photo.
+    assert.equal(cleanAvatarUrl(GOOD_AVATAR), GOOD_AVATAR);
+    assert.equal(cleanAvatarUrl(GOOGLE_AVATAR), GOOGLE_AVATAR);
+
+    // Dropped — same rule as the server (reps-backend lib/invite-preview/handler.ts resolveAvatarUrl).
+    const dropped = [
+      "https://evil.example/x.gif",                                                      // arbitrary host
+      "https://other-project.supabase.co/storage/v1/object/public/avatars/x.jpg",         // another project
+      `${AVATAR_ORIGIN}/storage/v1/object/public/content/x.jpg`,                          // another bucket
+      `${AVATAR_ORIGIN}/storage/v1/object/sign/avatars/x.jpg?token=t`,                    // signed, not public
+      `${AVATAR_ORIGIN}/storage/v1/object/public/avatars/`,                               // bare prefix
+      `${AVATAR_ORIGIN}/storage/v1/object/public/avatars/../../../rest/v1/users`,         // traversal
+      `${AVATAR_ORIGIN}/storage/v1/object/public/avatars/%2e%2e/%2e%2e/x`,                // encoded traversal
+      `http://${new URL(AVATAR_ORIGIN).host}/storage/v1/object/public/avatars/x.jpg`,     // http:
+      `https://${new URL(AVATAR_ORIGIN).host}:8443/storage/v1/object/public/avatars/x.jpg`, // explicit port
+      `https://user:pw@${new URL(AVATAR_ORIGIN).host}/storage/v1/object/public/avatars/x.jpg`, // userinfo
+      "https://lh3.googleusercontent.com.evil.example/a/x",                               // suffix host
+      "http://lh3.googleusercontent.com/a/x",                                             // not https
+    ];
+    for (const url of dropped) assert.equal(cleanAvatarUrl(url), null, url);
   });
 });
 
