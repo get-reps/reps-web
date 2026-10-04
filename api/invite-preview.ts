@@ -1,4 +1,4 @@
-import { createInvitePreviewHandler, createRpcLookup } from "../lib/invite-preview-handler";
+import { createInvitePreviewHandler, createRpcLookup } from "../lib/invite-preview-handler.js";
 
 export const runtime = "edge";
 
