@@ -5,6 +5,10 @@
         "appIDs": ["VS232T422C.io.getreps.app"],
         "components": [
           {
+            "/": "/echo-set",
+            "comment": "Echo set locator; app rechecks access. Website fallback redirects to the App Store without exposing set content."
+          },
+          {
             "/": "/login",
             "#": "token_hash=*&type=*",
             "comment": "Magic-link / recovery hop - open directly in REPS. The '#' matcher is load-bearing, not cosmetic: it keeps iOS from handing a bare/tokenless /login to the app, which isAuthCallbackPath() would accept and then route to the magic-link error screen. Loosening it means narrowing that gate in the same change. Scoped to /login only - never '/' (marketing) or '/r/:slug' (resolver)."
