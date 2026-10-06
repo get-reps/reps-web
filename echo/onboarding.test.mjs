@@ -52,16 +52,20 @@ test('mobile malformed or unscrubbable connection never attempts to open an app'
   }
 });
 
-test('AASA preserves login and only enables Echo for the capable private staging app',()=>{
+test('AASA permits set links and scoped login while keeping production connection links on the website',()=>{
   const aasa=JSON.parse(readFileSync(new URL('../.well-known/apple-app-site-association',import.meta.url),'utf8'));
-  const [production,staging]=aasa.applinks.details;
+  const production=aasa.applinks.details.find(entry=>entry.appIDs.includes('VS232T422C.io.getreps.app'));
+  const staging=aasa.applinks.details.find(entry=>entry.appIDs.includes('VS232T422C.io.getreps.app.dev'));
   assert.deepEqual(production.appIDs,['VS232T422C.io.getreps.app']);
   assert.deepEqual(staging.appIDs,['VS232T422C.io.getreps.app.dev']);
-  assert.equal(production.components[0]['/'],'/login');
-  assert.equal(production.components[0]['#'],'token_hash=*&type=*');
-  // Existing App Store versions cannot parse HTTPS Echo links yet. Add the
-  // production association only after a capable app release is available.
-  assert.equal(production.components.length,1);
+  assert.deepEqual(production.components.map(c=>c['/']).sort(),['/echo-set','/login']);
+  const login=production.components.find(c=>c['/']==='/login');
+  assert.equal(login['#'],'token_hash=*&type=*');
+  const set=production.components.find(c=>c['/']==='/echo-set');
+  assert.equal(set.exclude,undefined);
+  // Set links were deliberately enabled; connection links still use the web
+  // bridge until a compatible production app release is available.
+  assert.equal(production.components.some(c=>c['/'].startsWith('/echo/connect')),false);
   for(const [entry,environment] of [[staging,'staging']]){
     const components=entry.components.filter(c=>c['/']!=='/login');
     assert.deepEqual(components.map(c=>c['/']),['/echo/connect/','/echo/connect']);
