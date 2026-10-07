@@ -1660,6 +1660,25 @@ body.still .deck-controls{display:none!important;}
 .mp-bul{gap:12px;}
 .mp-bul li{font-size:22px;line-height:1.46;}
 
+/* Slide 10 -- levers as ruled rows on the left; the network is the bigger vision,
+   so it gets its own plate on the right. Comparables are one small note
+   (Mike, 7 Oct 2026). */
+.m10{display:grid;grid-template-columns:1.4fr 1fr;gap:84px;margin-top:46px;align-items:stretch;}
+.m10 .vh{font-family:var(--serif);font-weight:500;font-size:34px;line-height:1.18;letter-spacing:-.01em;color:var(--fg);}
+.m10 .vsub{font-family:var(--sans);font-size:20px;line-height:1.4;color:var(--fg-soft);margin:10px 0 22px;}
+.m10-row{display:grid;grid-template-columns:220px 1fr;gap:24px;align-items:baseline;padding:20px 0;border-top:1px solid var(--hair);}
+.m10-row h4,.m10-vision .tag{font-family:var(--sans);font-weight:600;font-size:13px;line-height:1.3;letter-spacing:.22em;text-transform:uppercase;color:var(--accent-type);}
+.m10-row p{font-family:var(--sans);font-size:21px;line-height:1.45;color:var(--fg);}
+.m10-vision{padding:38px 44px;background:var(--plate);border-left:2px solid var(--coral);border-radius:0 8px 8px 0;display:flex;flex-direction:column;justify-content:center;}
+.m10-vision .tag{margin-bottom:22px;}
+.m10-vision .vhead{display:flex;align-items:center;gap:20px;margin-bottom:26px;}
+.m10-vision .mp-num{width:56px;height:56px;margin:0;flex:none;}
+.m10-vision .mp-num .ico{font-size:28px;}
+.m10-vision h3{font-family:var(--serif);font-weight:500;font-size:44px;line-height:1.1;letter-spacing:-.015em;color:var(--fg);}
+.m10-vision .mp-bul{gap:14px;}
+.m10-vision .mp-bul li{font-size:25px;line-height:1.35;color:var(--fg);padding-left:20px;}
+.m10-note{margin-top:30px;font-family:var(--sans);font-size:15px;line-height:1.4;color:var(--fg-faint);}
+
 /* Slide 13 -- the two 20% labels, recomputed from the ring's actual arc
    geometry (circumference 2*pi*200, rotate(-90deg) so 0% = 12 o'clock,
    sweeping clockwise) instead of eyeballed. c2 (AI R&D, segment 216-286deg,
@@ -2676,20 +2695,17 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
     <p class="kicker reveal r1">MONETIZATION PATHWAYS</p>
     <h2 class="lead reveal r2" style="margin-top:14px;max-width:50ch">Monetize on <span class="hot">value delivered</span>, not attention sold.</h2>
 
-    <div class="mpath reveal r3">
-      <div class="mp-step">
-        <div class="mp-head">
-          <div class="mp-num"><svg class="ico" viewBox="0 0 24 24"><use href="#i-think"/></svg></div>
-          <h3>Freemium anchored on features that support sharper thinking</h3>
-        </div>
-        <ul class="mp-bul">
-          <li>Generous free tier to grow the network</li>
-          <li>Charge for advanced features such as voice AI, knowledge coach, advanced games, and enhanced security</li>
-        </ul>
+    <div class="m10 reveal r3">
+      <div class="m10-l">
+        <h3 class="vh">Freemium, with a subscription built on three levers</h3>
+        <p class="vsub">A generous free tier grows the network. Subscribers pay for:</p>
+        <div class="m10-row"><h4>Convenience &amp; control</h4><p>Save from iMessage and email &middot; Pull content in from Spotify, Kindle and more &middot; Enhanced privacy</p></div>
+        <div class="m10-row"><h4>Deeper learning</h4><p>Synapse challenges &middot; Ask Echo &middot; Voice conversations &middot; Custom learning paths</p></div>
+        <div class="m10-row"><h4>Premium games</h4><p>Puzzle packs and extra daily rounds, on the NYT Games model</p></div>
       </div>
-      <div class="mp-arrow"><svg viewBox="0 0 40 24" aria-hidden="true"><path d="M2 12 H34 M22 2 L34 12 L22 22" fill="none" stroke="var(--fg-faint)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div class="mp-step">
-        <div class="mp-head">
+      <div class="m10-vision">
+        <div class="tag">The bigger vision</div>
+        <div class="vhead">
           <div class="mp-num"><svg class="ico" viewBox="0 0 24 24"><use href="#i-network"/></svg></div>
           <h3>Monetize the network</h3>
         </div>
@@ -2700,6 +2716,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
         </ul>
       </div>
     </div>
+    <p class="m10-note reveal r4">For reference: Duolingo, Deepstash, Paladin and Strava charge roughly $80&#8211;160 a year, or $12&#8211;30 a month (US App Store, Oct 2026).</p>
   </div>
   <footer class="footrule chrome-fade">
     <span>The Human Knowledge Engine</span>
