@@ -2,6 +2,10 @@
   "cleanUrls": true,
   "rewrites": [
     {
+      "source": "/echo-set",
+      "destination": "/api/echo-set"
+    },
+    {
       "source": "/",
       "destination": "/v3c"
     },
@@ -15,11 +19,6 @@
     }
   ],
   "redirects": [
-    {
-      "source": "/echo-set",
-      "destination": "https://apps.apple.com/app/id6759216018",
-      "permanent": false
-    },
     {
       "source": "/i/:code",
       "destination": "/invite?code=:code",
