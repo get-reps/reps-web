@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import handler, { runtime } from "./echo-set.ts";
+import { GET, HEAD } from "./echo-set.ts";
 
 const store = "https://apps.apple.com/app/id6759216018";
 const urls = [
@@ -14,7 +14,7 @@ const urls = [
 for (const url of urls) {
   test(`fallback discards incoming query: ${url}`, async () => {
     // Vercel passes a Request at runtime even though the handler needs no input.
-    const invoke = handler as (_request: Request) => Response;
+    const invoke = GET as (_request: Request) => Response;
     const response = invoke(new Request(url));
     assert.equal(response.status, 307);
     assert.equal(response.headers.get("location"), store);
@@ -27,11 +27,19 @@ test("fallback requires no request and performs no network/access lookup", async
   const priorFetch = globalThis.fetch;
   globalThis.fetch = () => { throw new Error("fallback must not fetch content or access"); };
   try {
-    assert.equal(handler().headers.get("location"), store);
-    assert.equal(runtime, "edge");
+    assert.equal(GET().headers.get("location"), store);
+    assert.equal(HEAD().headers.get("location"), store);
   } finally {
     globalThis.fetch = priorFetch;
   }
+});
+
+test("HEAD exports a Web response with the same redirect contract", async () => {
+  const response = HEAD();
+  assert.equal(response.status, 307);
+  assert.equal(response.headers.get("location"), store);
+  assert.equal(response.headers.get("cache-control"), "no-store");
+  assert.equal(await response.text(), "");
 });
 
 test("public set route reaches the query-stripping handler instead of a static redirect", () => {
