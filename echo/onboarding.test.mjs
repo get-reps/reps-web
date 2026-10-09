@@ -21,18 +21,26 @@ test('desktop connection is fragment-only, scrubbed, explicit and never requests
   assert.doesNotMatch(p.html,/analytics|localStorage|sessionStorage|access_token|refresh_token/);
 });
 
-test('visible mobile connection attempts the correct app once and retains its fallback',async()=>{
+test('mobile connection never probes for an app and opens only on the explicit installed-app choice',async()=>{
   for(const environment of ['production']){
     const p=page('connect',{mobile:true,hash:`#request=${token}&environment=${environment}`});
     const expected=`${environment==='staging'?'reps-echo-staging':'reps'}://echo-connect#request=${token}&environment=${environment}`;
-    assert.deepEqual(p.navigations,[expected]);
+    assert.deepEqual(p.navigations,[]);
     assert.equal(p.elements.connect.hidden,false);
     assert.equal(p.elements.connect.disabled,false);
     assert.equal(p.elements.install.hidden,environment==='staging');
     assert.equal(p.calls.length,0);
-    await p.click();assert.deepEqual(p.navigations,[expected,expected]);
+    await p.click();assert.deepEqual(p.navigations,[expected]);
   }
   const hidden=page('connect',{mobile:true,hidden:true});assert.equal(hidden.navigations.length,0);
+});
+
+test('installation is a direct credential-free App Store link, separate from the app launch',()=>{
+  const p=page('connect',{mobile:true,hash:`#request=${token}&environment=production`});
+  assert.match(p.html,/<button id="connect" class="action action-open"[^>]*>I already have REPS<\/button>/);
+  assert.match(p.html,/<a id="install" class="action action-install" href="https:\/\/apps\.apple\.com\/app\/id6759216018" rel="noreferrer">Install REPS<\/a>/);
+  assert.equal(p.navigations.length,0);
+  assert.equal(p.calls.length,0);
 });
 
 test('staging never launches the abandoned scheme or an ambiguous installed app',async()=>{
