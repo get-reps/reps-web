@@ -17,9 +17,11 @@ function browser({ hash = fragment, response = { ok: true, json: async () => ({ 
   }]));
   const calls = [];
   const navigations = [];
-  let onReady;
+  let onReady, reloads = 0;
+  const listeners = {};
   const window = {
-    location: { hash, pathname: '/echo/', replace: url => navigations.push(url) },
+    addEventListener: (event, callback) => { listeners[event] = callback; },
+    location: { hash, pathname: '/echo/', reload: () => { reloads++; }, replace: url => navigations.push(url) },
     history: { replaceState: (_state, _title, path) => {
       if (scrubFails) throw new Error('blocked');
       assert.equal(path, '/echo/');
@@ -33,8 +35,59 @@ function browser({ hash = fragment, response = { ok: true, json: async () => ({ 
   });
   assert.equal(window.location.hash, scrubFails ? hash : '');
   onReady();
-  return { elements, calls, navigations, click: () => elements.connect.click?.() };
+  return { elements, calls, navigations, click: () => elements.connect.click?.(), reloads: () => reloads,
+    navigateFragment: (hash, { dispatch = true } = {}) => { window.location.hash = hash; if (dispatch) listeners.hashchange?.(); } };
 }
+
+test('replacement claim fences clicks and late bodies before hashchange dispatch', async () => {
+  const fresh = `#claim=${'b'.repeat(48)}&token_hash=${'c'.repeat(64)}`;
+  const idle = browser(); idle.navigateFragment(fresh, { dispatch: false }); await idle.click();
+  assert.equal(idle.calls.length, 0); assert.equal(idle.reloads(), 0);
+  let complete, signalReading;
+  const readingBody = new Promise(resolve => { signalReading = resolve; });
+  const pending = new Promise(resolve => { complete = resolve; });
+  const page = browser({ response: { ok: true, json: () => { signalReading(); return pending; } } });
+  const first = page.click(); await readingBody;
+  page.navigateFragment(fresh, { dispatch: false }); complete({ redirect }); await first;
+  assert.equal(page.navigations.length, 0);
+  page.navigateFragment(fresh); assert.equal(page.reloads(), 1);
+});
+
+test('replacement claim link fences the old click before reloading', async () => {
+  for (const hash of ['', fragment]) {
+    const page = browser({ hash });
+    page.navigateFragment(`#claim=${'b'.repeat(48)}&token_hash=${'c'.repeat(64)}`);
+    await page.click();
+    assert.equal(page.reloads(), 1);
+    assert.equal(page.elements.connect.disabled, true);
+    assert.equal(page.calls.length, 0);
+    assert.equal(page.navigations.length, 0);
+  }
+});
+
+test('replacement claim ignores a late response after an already-started request', async () => {
+  let complete;
+  const pending = new Promise(resolve => { complete = resolve; });
+  const page = browser({ response: () => pending });
+  const first = page.click();
+  page.navigateFragment(`#claim=${'b'.repeat(48)}&token_hash=${'c'.repeat(64)}`);
+  assert.equal(page.calls[0].options.signal.aborted, true);
+  complete({ ok: true, json: async () => ({ redirect }) });
+  await first; await page.click();
+  assert.equal(page.calls.length, 1, 'an earlier submitted claim cannot be undone by the client');
+  assert.equal(page.navigations.length, 0, 'its late credential must not navigate the replacement journey');
+});
+
+test('replacement claim also fences a response body that resolves late', async () => {
+  let complete, signalReading;
+  const readingBody = new Promise(resolve => { signalReading = resolve; });
+  const pending = new Promise(resolve => { complete = resolve; });
+  const page = browser({ response: { ok: true, json: () => { signalReading(); return pending; } } });
+  const first = page.click(); await readingBody;
+  page.navigateFragment(`#claim=${'b'.repeat(48)}&token_hash=${'c'.repeat(64)}`);
+  complete({ redirect }); await first;
+  assert.equal(page.navigations.length, 0);
+});
 
 test('scrubs credentials immediately and requires a click before contacting gateway', async () => {
   const page = browser();

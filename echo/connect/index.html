@@ -28,7 +28,7 @@
       try { window.history.replaceState(null, '', window.location.pathname); scrubbed = true; } catch (_) {}
       document.addEventListener('DOMContentLoaded', () => {
         const button = document.getElementById('connect'), status = document.getElementById('status');
-        if (!valid || !scrubbed) {
+        if (window.location.hash || !valid || !scrubbed) {
           request = '';
           button.hidden = true;
           status.textContent = 'Ask Echo for a fresh connection link.';
@@ -50,7 +50,7 @@
         button.disabled = false;
         const scheme = 'reps';
         const openApp = () => {
-          if (!request) return;
+          if (window.location.hash || !request) return;
           status.textContent = 'Finish connecting in REPS, then come back to Echo 😊';
           try { window.location.assign(`${scheme}://echo-connect#request=${encodeURIComponent(request)}&environment=${environment}`); } catch (_) {}
         };

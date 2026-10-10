@@ -8,11 +8,30 @@ function page(kind, { hash = `#${kind === 'connect' ? 'request' : 'token'}=${tok
   const script = html.match(/<script>([\s\S]*?)<\/script>/)[1];
   const elements = Object.fromEntries(['connect','confirm','title','intro','status','install'].map(id=>[id,{disabled:true,hidden:false,textContent:'',addEventListener(event,fn){this[event]=fn;}}]));
   const calls=[], navigations=[],windowListeners={}; let ready,reloads=0;
-  const window={addEventListener:(event,fn)=>{windowListeners[event]=fn;},location:{hash,search,pathname:`/echo/${kind}/`,reload:()=>{reloads++;},assign:url=>{assert.equal(window.location.hash,'');navigations.push(url);}},history:{replaceState:()=>{if(scrubFails)throw Error('blocked');window.location.hash='';}}};
-  vm.runInNewContext(script,{window,URLSearchParams,AbortController,setTimeout,clearTimeout,navigator:{userAgent:mobile?'iPhone':'Desktop',maxTouchPoints:mobile?5:0},document:{visibilityState:hidden?'hidden':'visible',addEventListener:(_event,fn)=>{ready=fn;},getElementById:id=>elements[id]},fetch:async(url,options)=>{calls.push({url,options});return response;}});
+  const window={addEventListener:(event,fn)=>{windowListeners[event]=fn;},location:{hash,search,pathname:`/echo/${kind}/`,reload:()=>{reloads++;},assign:url=>{navigations.push(url);}},history:{replaceState:()=>{if(scrubFails)throw Error('blocked');window.location.hash='';}}};
+  vm.runInNewContext(script,{window,URLSearchParams,AbortController,setTimeout,clearTimeout,navigator:{userAgent:mobile?'iPhone':'Desktop',maxTouchPoints:mobile?5:0},document:{visibilityState:hidden?'hidden':'visible',addEventListener:(_event,fn)=>{ready=fn;},getElementById:id=>elements[id]},fetch:async(url,options)=>{calls.push({url,options});return typeof response==='function'?response():response;}});
   ready();
-  return {html,window,elements,calls,navigations,click:()=>elements[kind==='connect'?'connect':'confirm'].click?.(),navigateFragment:hash=>{window.location.hash=hash;windowListeners.hashchange?.();},reloads:()=>reloads};
+  return {html,window,elements,calls,navigations,click:()=>elements[kind==='connect'?'connect':'confirm'].click?.(),navigateFragment:(hash,{dispatch=true}={})=>{window.location.hash=hash;if(dispatch)windowListeners.hashchange?.();},reloads:()=>reloads};
 }
+
+test('replacement connection fences clicks before hashchange dispatch',async()=>{
+  const p=page('connect',{hash:`#request=${token}&environment=production`});
+  p.navigateFragment(`#request=${'b'.repeat(43)}&environment=production`,{dispatch:false});
+  await p.click();assert.equal(p.navigations.length,0);assert.equal(p.reloads(),0);
+});
+
+test('replacement waitlist fences clicks and late bodies before hashchange dispatch',async()=>{
+  const fresh=`#token=${'b'.repeat(43)}&environment=production`;
+  const idle=page('waitlist');idle.navigateFragment(fresh,{dispatch:false});await idle.click();
+  assert.equal(idle.calls.length,0);assert.equal(idle.reloads(),0);
+  let complete,signalReading;const readingBody=new Promise(resolve=>{signalReading=resolve;});
+  const pending=new Promise(resolve=>{complete=resolve;});
+  const p=page('waitlist',{response:{ok:true,json:()=>{signalReading();return pending;}}});
+  const first=p.click();await readingBody;
+  p.navigateFragment(fresh,{dispatch:false});complete({verified:true});await first;
+  assert.notEqual(p.elements.title.textContent,'You’re on the list');
+  p.navigateFragment(fresh);assert.equal(p.reloads(),1);
+});
 test('a fresh connection link in an existing tab reinitializes before any app launch',()=>{
   for(const initial of ['#request=bad&environment=production',`#request=${token}&environment=production`]){
     const p=page('connect',{hash:initial});
@@ -23,6 +42,35 @@ test('a fresh connection link in an existing tab reinitializes before any app la
     assert.equal(p.elements.connect.disabled,true);
     assert.equal(p.navigations.length,0,'a click during reload cannot reuse the previous token');
   }
+});
+
+test('replacement waitlist link fences the previous confirmation before reloading',async()=>{
+  for(const hash of ['',`#token=${token}&environment=production`]){
+    const p=page('waitlist',{hash});
+    p.navigateFragment(`#token=${'b'.repeat(43)}&environment=production`);
+    await p.click();
+    assert.equal(p.reloads(),1);assert.equal(p.elements.confirm.disabled,true);
+    assert.equal(p.calls.length,0);assert.equal(p.navigations.length,0);
+  }
+});
+
+test('replacement waitlist link ignores late confirmation of the earlier request',async()=>{
+  let complete;const pending=new Promise(resolve=>{complete=resolve;});
+  const p=page('waitlist',{response:()=>pending});const first=p.click();
+  p.navigateFragment(`#token=${'b'.repeat(43)}&environment=production`);
+  assert.equal(p.calls[0].options.signal.aborted,true);
+  complete({ok:true,json:async()=>({verified:true})});await first;await p.click();
+  assert.equal(p.calls.length,1);assert.notEqual(p.elements.title.textContent,'You’re on the list');
+});
+
+test('replacement waitlist link ignores a late confirmation body too',async()=>{
+  let complete,signalReading;const pending=new Promise(resolve=>{complete=resolve;});
+  const readingBody=new Promise(resolve=>{signalReading=resolve;});
+  const p=page('waitlist',{response:{ok:true,json:()=>{signalReading();return pending;}}});
+  const first=p.click();await readingBody;
+  p.navigateFragment(`#token=${'b'.repeat(43)}&environment=production`);
+  complete({verified:true});await first;
+  assert.notEqual(p.elements.title.textContent,'You’re on the list');
 });
 test('desktop connection is fragment-only, scrubbed, explicit and never requests Auth from the web',async()=>{
   const p=page('connect',{hash:`#request=${token}&environment=production`});

@@ -14,6 +14,15 @@
       const fragment = new URLSearchParams(window.location.hash.slice(1));
       let claim = fragment.get('claim') || '';
       let tokenHash = fragment.get('token_hash') || '';
+      let linkReplaced = false, activeController = null;
+      window.addEventListener('hashchange', () => {
+        linkReplaced = true;
+        claim = ''; tokenHash = '';
+        const button = document.getElementById('connect');
+        if (button) button.disabled = true;
+        if (activeController) activeController.abort();
+        window.location.reload();
+      });
       const environment = fragment.get('environment') || 'production';
       const endpoint = environment === 'staging'
         ? 'https://ecxgtkoaerunnfklhglx.supabase.co/functions/v1/echo-gateway/claim'
@@ -47,7 +56,7 @@
           button.hidden = true;
           recovery.hidden = false;
         }
-        if (!credentialsValid || !scrubbed) {
+        if (linkReplaced || window.location.hash || !credentialsValid || !scrubbed) {
           showUnavailable();
           return;
         }
@@ -58,12 +67,13 @@
           button.textContent = 'Connect my trial saves';
         }
         button.addEventListener('click', async () => {
-          if (busy) return;
+          if (busy || linkReplaced || window.location.hash || !claim || !tokenHash) return;
           busy = true;
           button.disabled = true;
           button.textContent = 'Connecting your saves…';
           status.textContent = 'One moment — Echo is getting your knowledge ready.';
           const controller = new AbortController();
+          activeController = controller;
           const timeout = setTimeout(() => controller.abort(), 20000);
           try {
             const response = await fetch(endpoint, {
@@ -76,8 +86,10 @@
               signal: controller.signal,
               body: JSON.stringify({ claim, token_hash: tokenHash }),
             });
+            if (linkReplaced || window.location.hash) return;
             if (!response.ok) throw new Error('claim_unavailable');
             const result = await response.json();
+            if (linkReplaced || window.location.hash) return;
             if (environment === 'staging') {
               if (result.connected !== true || result.environment !== 'staging') throw new Error('claim_unavailable');
               claim = '';
@@ -108,9 +120,10 @@
             window.location.replace(target.href);
           } catch (_) {
             // Never render or log provider errors, credentials, or response bodies.
-            showUnavailable();
+            if (!linkReplaced && !window.location.hash) showUnavailable();
           } finally {
             clearTimeout(timeout);
+            activeController = null;
           }
         });
       });

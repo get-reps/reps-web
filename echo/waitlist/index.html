@@ -12,6 +12,15 @@
       'use strict';
       const fragment = new URLSearchParams(window.location.hash.slice(1));
       let token = fragment.get('token') || '';
+      let linkReplaced = false, activeController = null;
+      window.addEventListener('hashchange', () => {
+        linkReplaced = true;
+        token = '';
+        const button = document.getElementById('confirm');
+        if (button) button.disabled = true;
+        if (activeController) activeController.abort();
+        window.location.reload();
+      });
       const environment = fragment.get('environment');
       const valid = /^[A-Za-z0-9_-]{43}$/.test(token) && ['staging','production'].includes(environment)
         && fragment.getAll('token').length === 1 && fragment.getAll('environment').length === 1
@@ -22,20 +31,25 @@
       document.addEventListener('DOMContentLoaded', () => {
         const button = document.getElementById('confirm'), status = document.getElementById('status');
         const unavailable = () => { token = ''; button.hidden = true; status.textContent = 'This link is unavailable. Return to Echo and send your waitlist email again for a fresh link.'; };
-        if (!valid || !scrubbed) { unavailable(); return; }
+        if (linkReplaced || window.location.hash || !valid || !scrubbed) { unavailable(); return; }
         button.disabled = false;
         button.addEventListener('click', async () => {
-          if (button.disabled || !token) return;
+          if (button.disabled || linkReplaced || window.location.hash || !token) return;
           button.disabled = true;
           const controller = new AbortController(), timeout = setTimeout(() => controller.abort(), 15000);
+          activeController = controller;
           try {
             const response = await fetch(endpoint, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({token}), credentials:'omit', cache:'no-store', redirect:'error', referrerPolicy:'no-referrer', signal:controller.signal });
-            if (!response.ok || (await response.json()).verified !== true) throw new Error('unavailable');
+            if (linkReplaced || window.location.hash) return;
+            if (!response.ok) throw new Error('unavailable');
+            const result = await response.json();
+            if (linkReplaced || window.location.hash) return;
+            if (result.verified !== true) throw new Error('unavailable');
             token = ''; button.hidden = true;
             document.getElementById('title').textContent = 'You’re on the list';
             status.textContent = 'Your email is confirmed. We’ll let you know when Echo access is available.';
-          } catch (_) { unavailable(); }
-          finally { clearTimeout(timeout); }
+          } catch (_) { if (!linkReplaced && !window.location.hash) unavailable(); }
+          finally { clearTimeout(timeout); activeController = null; }
         });
       });
     })();
