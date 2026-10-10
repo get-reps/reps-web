@@ -12,6 +12,14 @@
       'use strict';
       const fragment = new URLSearchParams(window.location.hash.slice(1));
       let request = fragment.get('request') || '';
+      // Fresh links may reuse this tab. Fence the previous token immediately,
+      // including clicks while the replacement document is still loading.
+      window.addEventListener('hashchange', () => {
+        request = '';
+        const button = document.getElementById('connect');
+        if (button) button.disabled = true;
+        window.location.reload();
+      });
       const environment = fragment.get('environment');
       const valid = !window.location.search && /^[A-Za-z0-9_-]{43}$/.test(request) && ['staging', 'production'].includes(environment)
         && fragment.getAll('request').length === 1 && fragment.getAll('environment').length === 1

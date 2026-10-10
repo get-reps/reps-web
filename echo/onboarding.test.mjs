@@ -7,12 +7,23 @@ function page(kind, { hash = `#${kind === 'connect' ? 'request' : 'token'}=${tok
   const html = readFileSync(new URL(`./${kind}/index.html`, import.meta.url),'utf8');
   const script = html.match(/<script>([\s\S]*?)<\/script>/)[1];
   const elements = Object.fromEntries(['connect','confirm','title','intro','status','install'].map(id=>[id,{disabled:true,hidden:false,textContent:'',addEventListener(event,fn){this[event]=fn;}}]));
-  const calls=[], navigations=[]; let ready;
-  const window={location:{hash,search,pathname:`/echo/${kind}/`,assign:url=>{assert.equal(window.location.hash,'');navigations.push(url);}},history:{replaceState:()=>{if(scrubFails)throw Error('blocked');window.location.hash='';}}};
+  const calls=[], navigations=[],windowListeners={}; let ready,reloads=0;
+  const window={addEventListener:(event,fn)=>{windowListeners[event]=fn;},location:{hash,search,pathname:`/echo/${kind}/`,reload:()=>{reloads++;},assign:url=>{assert.equal(window.location.hash,'');navigations.push(url);}},history:{replaceState:()=>{if(scrubFails)throw Error('blocked');window.location.hash='';}}};
   vm.runInNewContext(script,{window,URLSearchParams,AbortController,setTimeout,clearTimeout,navigator:{userAgent:mobile?'iPhone':'Desktop',maxTouchPoints:mobile?5:0},document:{visibilityState:hidden?'hidden':'visible',addEventListener:(_event,fn)=>{ready=fn;},getElementById:id=>elements[id]},fetch:async(url,options)=>{calls.push({url,options});return response;}});
   ready();
-  return {html,window,elements,calls,navigations,click:()=>elements[kind==='connect'?'connect':'confirm'].click?.()};
+  return {html,window,elements,calls,navigations,click:()=>elements[kind==='connect'?'connect':'confirm'].click?.(),navigateFragment:hash=>{window.location.hash=hash;windowListeners.hashchange?.();},reloads:()=>reloads};
 }
+test('a fresh connection link in an existing tab reinitializes before any app launch',()=>{
+  for(const initial of ['#request=bad&environment=production',`#request=${token}&environment=production`]){
+    const p=page('connect',{hash:initial});
+    assert.equal(p.reloads(),0,'scrubbing with replaceState must not trigger reload');
+    p.navigateFragment(`#request=${'b'.repeat(43)}&environment=production`);
+    assert.equal(p.reloads(),1);assert.equal(p.calls.length,0);assert.equal(p.navigations.length,0);
+    p.click();
+    assert.equal(p.elements.connect.disabled,true);
+    assert.equal(p.navigations.length,0,'a click during reload cannot reuse the previous token');
+  }
+});
 test('desktop connection is fragment-only, scrubbed, explicit and never requests Auth from the web',async()=>{
   const p=page('connect',{hash:`#request=${token}&environment=production`});
   assert.equal(p.window.location.hash,'');assert.equal(p.calls.length,0);assert.equal(p.navigations.length,0);
