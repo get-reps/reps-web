@@ -1,0 +1,964 @@
+<!doctype html>
+<!-- REPS — Press kit (/press), built 2026-10-11 (crew task ad5a00cb).
+     Spec: Step 1 checklist of the PR playbook (faculty-dashboard/work/digital-employees-261011/
+     grok-reps-pr-playbook.docx) as scoped by Cleo. Layout and tokens reuse planet.html / v3c.html
+     (cream/coral/teal/ink, Space Grotesk + system sans, hairline rules, no cards).
+     Facts come only from reps-app/docs/truth/PRODUCT_TRUTH.md + WEBSITE.md; the bio only from
+     PERSONAL_STORY.md (public-tagged threads). Every image is a real file; sources, excluded
+     frames and candidate review quotes are listed in docs/press-kit-sources.md. Anything awaiting Mike carries a visible .pending label —
+     remove the label when the slot is filled. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>REPS · Press kit</title>
+    <meta
+      name="description"
+      content="Press kit for REPS, the iOS app that turns what you read, watch, and hear into quick daily games. Boilerplate, founder bio, fact sheet, logos, and app screenshots."
+    />
+    <link rel="canonical" href="https://www.getreps.io/press" />
+    <meta property="og:title" content="REPS · Press kit" />
+    <meta
+      property="og:description"
+      content="Boilerplate, founder bio, fact sheet, logos, and real app screenshots for writing about REPS."
+    />
+    <meta property="og:url" content="https://www.getreps.io/press" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="REPS" />
+    <meta property="og:image" content="https://www.getreps.io/og-card-v3.png?v=2" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="REPS · Press kit" />
+    <meta
+      name="twitter:description"
+      content="Boilerplate, founder bio, fact sheet, logos, and real app screenshots for writing about REPS."
+    />
+    <meta name="twitter:image" content="https://www.getreps.io/og-card-v3.png?v=2" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "@id": "https://www.getreps.io/#organization",
+        "name": "REPS",
+        "legalName": "REPS AI LTD",
+        "url": "https://www.getreps.io/",
+        "logo": "https://www.getreps.io/press/assets/reps-app-icon-1024.png",
+        "founder": { "@id": "https://www.getreps.io/#mike" },
+        "sameAs": ["https://apps.apple.com/app/id6759216018"]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "@id": "https://www.getreps.io/press#webpage",
+        "name": "REPS · Press kit",
+        "url": "https://www.getreps.io/press",
+        "isPartOf": { "@id": "https://www.getreps.io/#website" },
+        "about": { "@id": "https://www.getreps.io/#organization" }
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --cream: #fffaf7;
+        --coral: #ff6b6b;
+        --peach: #ff8e53;
+        --ink: #211a14;
+        --body: rgba(33, 26, 20, 0.72);
+        --muted: rgba(33, 26, 20, 0.5);
+        --rule: rgba(33, 26, 20, 0.14);
+        --hairline: rgba(33, 26, 20, 0.09);
+        --teal: #2d8377;
+        --teal-deep: #1f5f56;
+        --pending: #b4540a;
+        --pending-bg: rgba(255, 142, 83, 0.12);
+        --display: "Space Grotesk", system-ui, -apple-system, sans-serif;
+        --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        --wrap: 980px;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        background: var(--cream);
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--cream);
+        color: var(--body);
+        font-family: var(--sans);
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.62;
+        overflow-x: hidden;
+      }
+      img {
+        display: block;
+        max-width: 100%;
+      }
+      a {
+        color: inherit;
+      }
+      .wrap {
+        max-width: var(--wrap);
+        margin: 0 auto;
+        padding: 0 28px;
+      }
+      .inline-link {
+        color: var(--teal-deep);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        text-decoration-thickness: 1.5px;
+        font-weight: 600;
+      }
+      .inline-link:hover {
+        color: var(--teal);
+      }
+      .label {
+        display: inline-block;
+        font-family: var(--display);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.26em;
+        text-transform: uppercase;
+        color: var(--teal);
+      }
+      strong {
+        color: var(--ink);
+      }
+
+      /* ── Pending-Mike marker: visible on purpose until the slot is filled ── */
+      .pending {
+        display: inline-block;
+        font-family: var(--display);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--pending);
+        background: var(--pending-bg);
+        border: 1px solid rgba(180, 84, 10, 0.35);
+        border-radius: 4px;
+        padding: 3px 8px;
+        vertical-align: middle;
+      }
+      .pending-note {
+        margin-top: 10px;
+        font-size: 14px;
+        color: var(--pending);
+      }
+
+      /* ── Nav ── */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 200;
+        background: rgba(255, 250, 247, 0.85);
+        backdrop-filter: saturate(1.4) blur(10px);
+        border-bottom: 1px solid var(--hairline);
+        padding: 14px 28px;
+      }
+      .nav-inner {
+        max-width: var(--wrap);
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .wordmark {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 18px;
+        letter-spacing: 0.04em;
+        color: var(--ink);
+      }
+      .wordmark img {
+        width: 26px;
+        height: 26px;
+        border-radius: 6px;
+      }
+      .nav-cta {
+        display: inline-block;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        color: #fff;
+        background: linear-gradient(135deg, var(--coral), var(--peach));
+        padding: 9px 20px;
+        border-radius: 999px;
+        transition:
+          opacity 0.14s,
+          transform 0.14s;
+      }
+      .nav-cta:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+      }
+
+      /* ── Hero ── */
+      .hero {
+        max-width: var(--wrap);
+        margin: 0 auto;
+        padding: 70px 28px 34px;
+      }
+      .hero h1 {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: clamp(42px, 9vw, 78px);
+        line-height: 0.98;
+        letter-spacing: -0.035em;
+        color: var(--ink);
+        margin-top: 16px;
+      }
+      .hero h1 .accent {
+        color: var(--teal);
+      }
+      .hero .lede {
+        max-width: 580px;
+        margin-top: 24px;
+        font-size: clamp(17px, 2.4vw, 20px);
+      }
+      .toc {
+        margin-top: 30px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 22px;
+        font-family: var(--display);
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .toc a {
+        color: var(--teal-deep);
+        text-decoration: none;
+        border-bottom: 1.5px solid rgba(45, 131, 119, 0.35);
+      }
+      .toc a:hover {
+        border-bottom-color: var(--teal);
+      }
+
+      /* ── Editorial sections: ruled, no cards ── */
+      .stripe {
+        border-top: 1px solid var(--rule);
+        padding: 52px 0;
+        scroll-margin-top: 70px;
+      }
+      h2 {
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: clamp(26px, 4.2vw, 34px);
+        line-height: 1.1;
+        letter-spacing: -0.015em;
+        color: var(--ink);
+        margin: 12px 0 18px;
+      }
+      h3 {
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 16px;
+        color: var(--ink);
+        margin-bottom: 8px;
+      }
+      p {
+        max-width: 660px;
+      }
+      p + p {
+        margin-top: 14px;
+      }
+      .intro {
+        font-size: 15px;
+        color: var(--muted);
+        margin-bottom: 26px;
+      }
+
+      /* Copyable text blocks (boilerplate, bio) */
+      .copyblock {
+        position: relative;
+        border-left: 2px solid var(--teal);
+        padding: 4px 0 4px 22px;
+        margin-top: 30px;
+      }
+      .copyblock:first-of-type {
+        margin-top: 0;
+      }
+      .copyblock .head {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px 14px;
+        margin-bottom: 10px;
+      }
+      .copyblock .head h3 {
+        margin: 0;
+      }
+      .copy-btn {
+        font-family: var(--display);
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--teal-deep);
+        background: none;
+        border: 1px solid rgba(45, 131, 119, 0.4);
+        border-radius: 999px;
+        padding: 3px 12px;
+        cursor: pointer;
+      }
+      .copy-btn:hover {
+        border-color: var(--teal);
+      }
+      .copyblock .text p {
+        color: var(--ink);
+        opacity: 0.86;
+      }
+
+      /* Fact sheet: a ruled definition list */
+      .facts {
+        border-top: 1px solid var(--rule);
+      }
+      .fact {
+        display: grid;
+        grid-template-columns: 180px 1fr;
+        gap: 22px;
+        padding: 16px 0;
+        border-bottom: 1px solid var(--hairline);
+      }
+      .fact dt {
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 14px;
+        color: var(--ink);
+      }
+      .fact dd {
+        font-size: 15px;
+      }
+      .fact dd .sub {
+        display: block;
+        margin-top: 4px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+      @media (max-width: 640px) {
+        .fact {
+          grid-template-columns: 1fr;
+          gap: 4px;
+        }
+      }
+
+      /* Downloads */
+      .assets {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 30px;
+      }
+      .asset .tile {
+        aspect-ratio: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--hairline);
+        border-radius: 14px;
+        overflow: hidden;
+        background: #fff;
+      }
+      .asset .tile.dark {
+        background: #040409;
+      }
+      .asset .tile img {
+        max-width: 72%;
+        max-height: 72%;
+      }
+      .asset .tile img.icon {
+        border-radius: 22%;
+      }
+      .asset .cap {
+        margin-top: 12px;
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 14px;
+        color: var(--ink);
+      }
+      .asset .meta {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .dl {
+        display: inline-block;
+        margin-top: 6px;
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 13px;
+        color: var(--teal-deep);
+        text-decoration: none;
+        border-bottom: 1.5px solid var(--teal);
+        padding-bottom: 1px;
+      }
+      .dl:hover {
+        color: var(--teal);
+      }
+
+      /* Screenshots */
+      .shots {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 26px 16px;
+      }
+      @media (max-width: 860px) {
+        .shots {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+      @media (max-width: 520px) {
+        .shots {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      .shot img {
+        width: 100%;
+        height: auto;
+        border-radius: 18px;
+        border: 1px solid var(--hairline);
+        background: #fff;
+      }
+      .shot .cap {
+        margin-top: 10px;
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 14px;
+        color: var(--ink);
+      }
+
+      /* Placeholder slots (headshots, quotes): dashed, never a face or a fake quote */
+      .slots {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 22px;
+      }
+      .slot {
+        border: 1.5px dashed rgba(180, 84, 10, 0.45);
+        border-radius: 14px;
+        background: var(--pending-bg);
+        padding: 22px;
+        min-height: 150px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 14px;
+        color: var(--pending);
+      }
+      .slot.portrait {
+        aspect-ratio: 4 / 5;
+      }
+      .slot.landscape {
+        aspect-ratio: 3 / 2;
+      }
+
+      /* Contact */
+      .contact-line {
+        font-family: var(--display);
+        font-size: clamp(20px, 3vw, 26px);
+        font-weight: 600;
+        color: var(--ink);
+      }
+
+      /* ── Footer ── */
+      footer {
+        padding: 26px 28px 48px;
+        border-top: 1px solid var(--hairline);
+        text-align: center;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      footer .motto {
+        display: block;
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 13px;
+        letter-spacing: 0.04em;
+        color: var(--ink);
+        margin-bottom: 6px;
+      }
+      footer a {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="nav-inner">
+        <a class="wordmark" href="/">
+          <img
+            src="/product/assets/app-icon.png"
+            alt="REPS"
+            width="26"
+            height="26"
+          />
+          REPS
+        </a>
+        <a
+          class="nav-cta"
+          href="https://apps.apple.com/app/id6759216018"
+          target="_blank"
+          rel="noopener"
+          >Get the app</a
+        >
+      </div>
+    </nav>
+
+    <header class="hero">
+      <span class="label">Press kit</span>
+      <h1>Writing about <span class="accent">REPS?</span></h1>
+      <p class="lede">
+        Everything you need in one place: a short description, the founder's
+        story, the facts, logos and real screenshots from the app. Use any of
+        it freely.
+      </p>
+      <div class="toc">
+        <a href="#about">About REPS</a>
+        <a href="#facts">Fact sheet</a>
+        <a href="#founder">Founder</a>
+        <a href="#screenshots">Screenshots</a>
+        <a href="#logos">Icon &amp; logo</a>
+        <a href="#reviews">What people say</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <!-- ── Boilerplate ── -->
+      <section class="stripe" id="about">
+        <span class="label">About REPS</span>
+        <h2>REPS in 50 and 150 words</h2>
+        <p class="intro">Copy either version as it is.</p>
+
+        <div class="copyblock">
+          <div class="head">
+            <h3>Short (50 words)</h3>
+            <button class="copy-btn" type="button" data-copy="bp-short">
+              Copy
+            </button>
+          </div>
+          <div class="text" id="bp-short">
+            <p>
+              REPS is an iOS app that helps people remember what they read,
+              watch and hear. Save an article, a YouTube video, a podcast, a PDF
+              or a page from a book, and REPS turns it into quick daily games
+              built from your own material, so what you save stays with you.
+            </p>
+          </div>
+        </div>
+
+        <div class="copyblock">
+          <div class="head">
+            <h3>Long (150 words)</h3>
+            <button class="copy-btn" type="button" data-copy="bp-long">
+              Copy
+            </button>
+          </div>
+          <div class="text" id="bp-long">
+            <p>
+              REPS is an iOS app that helps people remember what they read,
+              watch and hear, with no notes or folders to keep.
+            </p>
+            <p>
+              Saving takes seconds. Share an article, a YouTube video, a podcast
+              episode, a PDF, a screenshot or a photo of a bookshelf from any
+              app, and REPS does the rest. It picks out the ideas worth keeping
+              and brings them back over the following days and weeks as short
+              daily games made from your own material, timed using spaced
+              repetition. Games include a crossword, a cryptic, Quotle, a daily
+              quote game, and trivia you can play against a friend. Everything
+              you save also builds Your Second Brain, an interactive map of what
+              you know.
+            </p>
+            <p>
+              REPS was founded by Mike McGraw, who spent twelve years as an
+              investor, most recently in venture capital, before leaving to
+              build it full time. It is free on the App Store.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Fact sheet ── -->
+      <section class="stripe" id="facts">
+        <span class="label">Fact sheet</span>
+        <h2>The facts</h2>
+        <dl class="facts">
+          <div class="fact">
+            <dt>What it is</dt>
+            <dd>
+              An app that turns what you read, watch and hear into quick daily
+              games, so you remember it.
+            </dd>
+          </div>
+          <div class="fact">
+            <dt>What you can save</dt>
+            <dd>
+              Web articles, YouTube videos, podcast episodes, PDFs and documents,
+              screenshots and photos, a photo of a bookshelf or a book page,
+              reading lists, and your own notes.
+            </dd>
+          </div>
+          <div class="fact">
+            <dt>How it works</dt>
+            <dd>
+              Share from any app, or save in REPS. Each day REPS brings back what
+              you saved as a short game, spaced over days and weeks. Games
+              include Ladder, Crossword, Cryptic, Quotle and Friends Trivia.
+            </dd>
+          </div>
+          <div class="fact">
+            <dt>Platform</dt>
+            <dd>
+              iOS, on the App Store. A Chrome extension saves from your desktop
+              browser into the app.
+              <span class="sub">There is no Android or web version.</span>
+            </dd>
+          </div>
+          <div class="fact">
+            <dt>Launch</dt>
+            <dd>Launched on the App Store in July 2026.</dd>
+          </div>
+          <div class="fact">
+            <dt>Price</dt>
+            <dd>
+              Free on the App Store.
+              <span class="sub">As of October 2026.</span>
+            </dd>
+          </div>
+          <div class="fact">
+            <dt>Founder</dt>
+            <dd>Mike McGraw</dd>
+          </div>
+          <div class="fact">
+            <dt>Company</dt>
+            <dd>
+              REPS AI LTD, registered in England and Wales (company number
+              17271160).
+            </dd>
+          </div>
+          <div class="fact">
+            <dt>Links</dt>
+            <dd>
+              <a
+                class="inline-link"
+                href="https://apps.apple.com/app/id6759216018"
+                target="_blank"
+                rel="noopener"
+                >App Store</a
+              >
+              ·
+              <a class="inline-link" href="https://www.getreps.io/"
+                >getreps.io</a
+              >
+              ·
+              <a class="inline-link" href="/watch">Demo video</a>
+              ·
+              <a
+                class="inline-link"
+                href="https://chromewebstore.google.com/detail/reps-%E2%80%94-save-play-remember/pkklccghmhejmjilhlpokbkdoejhjnbg"
+                target="_blank"
+                rel="noopener"
+                >Chrome extension</a
+              >
+            </dd>
+          </div>
+        </dl>
+      </section>
+
+      <!-- ── Founder ── -->
+      <section class="stripe" id="founder">
+        <span class="label">Founder</span>
+        <h2>Mike McGraw</h2>
+        <p>
+          <span class="pending">Draft · awaiting Mike's sign-off</span>
+        </p>
+
+        <div class="copyblock" style="margin-top: 22px">
+          <div class="head">
+            <h3>Short bio</h3>
+            <button class="copy-btn" type="button" data-copy="bio-short">
+              Copy
+            </button>
+          </div>
+          <div class="text" id="bio-short">
+            <p>
+              Mike McGraw is the founder of REPS. He spent twelve years investing,
+              including at CDPQ, where he helped launch its technology investment
+              team, and at Inovia, before leaving in 2026 to build REPS full time.
+            </p>
+          </div>
+        </div>
+
+        <div class="copyblock">
+          <div class="head">
+            <h3>Long bio</h3>
+            <button class="copy-btn" type="button" data-copy="bio-long">
+              Copy
+            </button>
+          </div>
+          <div class="text" id="bio-long">
+            <p>
+              Mike McGraw is the founder of REPS. He grew up between two kinds of
+              entrepreneur: his mother has run a magazine business in Quebec for
+              25 years, and his father's startup went bankrupt while Mike was a
+              student at McGill University.
+            </p>
+            <p>
+              He spent the next twelve years in investing. He started in natural
+              resources at PSP Investments, helped launch the technology
+              investment team at CDPQ, and then joined Inovia, where he became a
+              Principal and moved to help set up the firm's European office.
+            </p>
+            <p>
+              In 2025 he went deep on AI, spending his spare time building with
+              language models and automation tools. At the same time he was
+              watching his nephews and nieces grow up on endless short videos.
+              REPS came out of both: the idea that the mechanics that keep people
+              scrolling could instead help them keep what they learn. He built it
+              on nights and early mornings alongside his job, and left Inovia on
+              30 June 2026, his 34th birthday, to work on it full time.
+            </p>
+          </div>
+        </div>
+
+        <h3 style="margin-top: 36px">Headshots</h3>
+        <div class="slots" style="margin-top: 12px">
+          <div class="slot portrait">
+            <span class="pending">Pending Mike</span>
+            High-resolution portrait headshot
+          </div>
+          <div class="slot landscape">
+            <span class="pending">Pending Mike</span>
+            High-resolution landscape headshot
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Screenshots ── -->
+      <section class="stripe" id="screenshots">
+        <span class="label">Screenshots</span>
+        <h2>Inside the app</h2>
+        <p class="intro">
+          Real screens captured from the REPS iPhone app. Select an image to open
+          the full-size file.
+        </p>
+        <!-- Each still is a frame from a real iPhone screen recording already on this site
+             (beats/ = homepage recordings, June 2026; creator/demo-assets/ = creator deck).
+             Sources and the frames left out (and why) are in docs/press-kit-sources.md. -->
+        <div class="shots">
+          <figure class="shot">
+            <a href="/beats/quiz-all-sped-poster.jpg" target="_blank" rel="noopener"
+              ><img
+                src="/beats/quiz-all-sped-poster.jpg"
+                alt="A REPS daily round: a multiple-choice prompt about a saved nutrition article, answered correctly, with a Hat Trick celebration"
+                width="1080"
+                height="2340"
+                loading="lazy"
+            /></a>
+            <figcaption class="cap">The daily game</figcaption>
+          </figure>
+          <figure class="shot">
+            <a href="/beats/quiz-frame.jpg" target="_blank" rel="noopener"
+              ><img
+                src="/beats/quiz-frame.jpg"
+                alt="A REPS fill-in-the-blank round with a word bank, built from a saved article on negotiation"
+                width="1080"
+                height="2340"
+                loading="lazy"
+            /></a>
+            <figcaption class="cap">Fill in the blank</figcaption>
+          </figure>
+          <figure class="shot">
+            <a href="/beats/quiz-single-poster.jpg" target="_blank" rel="noopener"
+              ><img
+                src="/beats/quiz-single-poster.jpg"
+                alt="Echo's challenge in REPS: after three right answers in a row, the word bank is hidden and you answer from memory"
+                width="1080"
+                height="2340"
+                loading="lazy"
+            /></a>
+            <figcaption class="cap">Echo's challenge</figcaption>
+          </figure>
+          <figure class="shot">
+            <a href="/beats/game-crossword-poster.jpg" target="_blank" rel="noopener"
+              ><img
+                src="/beats/game-crossword-poster.jpg"
+                alt="The REPS Daily Crossword, mid-game, with a clue and the in-app keyboard"
+                width="1080"
+                height="2340"
+                loading="lazy"
+            /></a>
+            <figcaption class="cap">Daily Crossword</figcaption>
+          </figure>
+          <figure class="shot">
+            <a href="/beats/constellation-poster.jpg" target="_blank" rel="noopener"
+              ><img
+                src="/beats/constellation-poster.jpg"
+                alt="Your Second Brain in REPS: a 3D map of everything saved, coloured by topic"
+                width="1080"
+                height="2340"
+                loading="lazy"
+            /></a>
+            <figcaption class="cap">Your Second Brain</figcaption>
+          </figure>
+          <figure class="shot">
+            <a href="/creator/demo-assets/voice.jpg" target="_blank" rel="noopener"
+              ><img
+                src="/creator/demo-assets/voice.jpg"
+                alt="A REPS voice training session: talking through saved material out loud with Echo"
+                width="600"
+                height="1300"
+                loading="lazy"
+            /></a>
+            <figcaption class="cap">Voice training</figcaption>
+          </figure>
+        </div>
+        <p class="pending-note">
+          <span class="pending">Pending Mike</span> Optional: fresh full-resolution
+          captures of the current app, including saving from the share sheet and
+          Quotle. These six are real recordings from June to September 2026.
+        </p>
+      </section>
+
+      <!-- ── Icon & logo ── -->
+      <section class="stripe" id="logos">
+        <span class="label">Icon &amp; logo</span>
+        <h2>App icon and logo</h2>
+        <p class="intro">
+          Please don't recolour, stretch or redraw the icon. The wordmark is
+          "REPS" in capitals.
+        </p>
+        <div class="assets">
+          <!-- reps-app-icon-1024.png is a byte-for-byte copy of reps-app/assets/icon.png
+               (the icon app.json ships); the 256px rounded mark is creator/app-mark.png. -->
+          <div class="asset">
+            <div class="tile dark">
+              <img
+                src="/press/assets/reps-app-icon-1024.png"
+                alt="REPS app icon"
+                width="1024"
+                height="1024"
+              />
+            </div>
+            <div class="cap">App icon, full size</div>
+            <div class="meta">PNG · 1024 × 1024 · square, no rounding</div>
+            <a class="dl" href="/press/assets/reps-app-icon-1024.png" download
+              >Download</a
+            >
+          </div>
+          <div class="asset">
+            <div class="tile">
+              <img
+                class="icon"
+                src="/press/assets/reps-app-icon-rounded-256.png"
+                alt="REPS app icon with rounded corners"
+                width="256"
+                height="256"
+              />
+            </div>
+            <div class="cap">App icon, rounded</div>
+            <div class="meta">PNG · 256 × 256 · transparent corners</div>
+            <a
+              class="dl"
+              href="/press/assets/reps-app-icon-rounded-256.png"
+              download
+              >Download</a
+            >
+          </div>
+          <div class="asset">
+            <div class="slot" style="aspect-ratio: 1">
+              <span class="pending">Pending Mike</span>
+              Wordmark logo (SVG and PNG, light and dark). No standalone logo
+              file exists yet.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Reviews ── -->
+      <section class="stripe" id="reviews">
+        <span class="label">What people say</span>
+        <h2>From App Store reviews</h2>
+        <p>
+          <span class="pending">Pending Mike · quotes not yet chosen</span>
+        </p>
+        <div class="slots" style="margin-top: 18px">
+          <div class="slot">
+            <span class="pending">Review quote 1</span>
+            A real App Store review, quoted word for word with the reviewer's
+            name.
+          </div>
+          <div class="slot">
+            <span class="pending">Review quote 2</span>
+            A real App Store review, quoted word for word with the reviewer's
+            name.
+          </div>
+          <div class="slot">
+            <span class="pending">Review quote 3</span>
+            A real App Store review, quoted word for word with the reviewer's
+            name.
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Contact ── -->
+      <section class="stripe" id="contact">
+        <span class="label">Press contact</span>
+        <h2>Get in touch</h2>
+        <p class="contact-line">
+          <span class="pending">Pending Mike · press email address</span>
+        </p>
+        <p style="margin-top: 14px">
+          For interviews, a walkthrough of the app, or anything else you need
+          for a story.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <span class="motto">Save. Play. Remember.</span>
+      REPS · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> ·
+      <a href="/support">Support</a>
+    </footer>
+
+    <script>
+      document.querySelectorAll(".copy-btn").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var el = document.getElementById(btn.getAttribute("data-copy"));
+          var text = Array.prototype.map
+            .call(el.querySelectorAll("p"), function (p) {
+              return p.textContent.replace(/\s+/g, " ").trim();
+            })
+            .join("\n\n");
+          var done = function () {
+            btn.textContent = "Copied";
+            setTimeout(function () {
+              btn.textContent = "Copy";
+            }, 1600);
+          };
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(done, function () {});
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
