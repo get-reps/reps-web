@@ -19,8 +19,9 @@
       name="description"
       content="Press kit for REPS, an AI knowledge companion on iPhone: what you read, watch and hear becomes a living knowledge base you can talk to. Boilerplate, founder bio, fact sheet, logos and app screenshots."
     />
-    <!-- noindex (and out of sitemap.xml) until Mike's pending slots are filled:
-         bio sign-off, headshots, review quotes, press email. Remove both together. -->
+    <!-- noindex (and out of sitemap.xml) until Mike says otherwise. Still pending as of
+         2026-10-11: bio sign-off, wordmark logo, Ask Echo capture, fresh captures/photos.
+         Remove the meta and add /press to sitemap.xml together. -->
     <meta name="robots" content="noindex" />
     <link rel="canonical" href="https://www.getreps.io/press" />
     <meta property="og:title" content="REPS · Press kit" />
@@ -480,6 +481,38 @@
         aspect-ratio: 3 / 2;
       }
 
+      /* Reviews: ruled quotes, no cards */
+      .reviews {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 34px;
+        border-top: 1px solid var(--rule);
+        padding-top: 26px;
+      }
+      @media (max-width: 760px) {
+        .reviews {
+          grid-template-columns: 1fr;
+        }
+      }
+      .review .stars {
+        color: var(--peach);
+        letter-spacing: 0.12em;
+        font-size: 15px;
+      }
+      .review blockquote {
+        margin-top: 10px;
+        font-size: 16px;
+        line-height: 1.55;
+        color: var(--ink);
+      }
+      .review figcaption {
+        margin-top: 12px;
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 13px;
+        color: var(--muted);
+      }
+
       /* Contact */
       .contact-line {
         font-family: var(--display);
@@ -784,17 +817,31 @@
           </div>
         </div>
 
-        <h3 style="margin-top: 36px">Headshots</h3>
-        <div class="slots" style="margin-top: 12px">
-          <div class="slot portrait">
-            <span class="pending">Pending Mike</span>
-            High-resolution portrait headshot
-          </div>
-          <div class="slot landscape">
-            <span class="pending">Pending Mike</span>
-            High-resolution landscape headshot
+        <h3 style="margin-top: 36px">Headshot</h3>
+        <!-- Byte-for-byte copy of compare/assets/mike-mcgraw.jpg (public since 0febfc9),
+             approved by Mike 2026-10-11 as the press headshot until fresh photos arrive. -->
+        <div class="assets" style="margin-top: 12px">
+          <div class="asset">
+            <div class="tile">
+              <img
+                src="/press/assets/reps-founder-headshot.jpg"
+                alt="Mike McGraw, founder of REPS"
+                width="400"
+                height="400"
+                style="max-width: 100%; max-height: 100%"
+              />
+            </div>
+            <div class="cap">Mike McGraw, founder</div>
+            <div class="meta">JPG · 400 × 400</div>
+            <a class="dl" href="/press/assets/reps-founder-headshot.jpg" download
+              >Download</a
+            >
           </div>
         </div>
+        <p class="pending-note">
+          <span class="pending">Pending Mike</span> Higher-resolution portrait and
+          landscape photos to follow.
+        </p>
       </section>
 
       <!-- ── Screenshots ── -->
@@ -944,25 +991,40 @@
       <section class="stripe" id="reviews">
         <span class="label">What people say</span>
         <h2>From App Store reviews</h2>
-        <p>
-          <span class="pending">Pending Mike · quotes not yet chosen</span>
+        <p class="intro">
+          Real App Store reviews, quoted word for word and credited to the
+          reviewer's App Store name.
         </p>
-        <div class="slots" style="margin-top: 18px">
-          <div class="slot">
-            <span class="pending">Review quote 1</span>
-            A real App Store review, quoted word for word with the reviewer's
-            name.
-          </div>
-          <div class="slot">
-            <span class="pending">Review quote 2</span>
-            A real App Store review, quoted word for word with the reviewer's
-            name.
-          </div>
-          <div class="slot">
-            <span class="pending">Review quote 3</span>
-            A real App Store review, quoted word for word with the reviewer's
-            name.
-          </div>
+        <!-- Approved by Mike 2026-10-11. Verbatim from the homepage block "Set 1 — real,
+             verbatim App Store reviews" (v3c.html ~1016); not re-checked against Apple's
+             records. Sources in docs/press-kit-sources.md. -->
+        <div class="reviews">
+          <figure class="review">
+            <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <blockquote>
+              “It's replaced scrolling Instagram on my phone, and it's helping me
+              re-engage with books I read years ago, and actively seek out
+              interesting knowledge to add to my second brain.”
+            </blockquote>
+            <figcaption>24601_London · App Store review</figcaption>
+          </figure>
+          <figure class="review">
+            <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <blockquote>
+              “Really enjoying using this app as a better way to spend 5/10
+              minutes at bus stop etc. vs brain rotting on Insta/X.”
+            </blockquote>
+            <figcaption>jsdldn · App Store review</figcaption>
+          </figure>
+          <figure class="review">
+            <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <blockquote>
+              “Such a fun and easy way to remember the things that matter the
+              most to me! New content is also great to discover! Definitely one
+              of my favorite apps!”
+            </blockquote>
+            <figcaption>Cathb1234 · App Store review</figcaption>
+          </figure>
         </div>
       </section>
 
@@ -970,8 +1032,11 @@
       <section class="stripe" id="contact">
         <span class="label">Press contact</span>
         <h2>Get in touch</h2>
+        <!-- Mike's own address, approved 2026-10-11 as the press contact for now. Already
+             public: email-chrome-mockup.html:27 and the reply-to in api/deck-access.ts:30-31. -->
         <p class="contact-line">
-          <span class="pending">Pending Mike · press email address</span>
+          Mike McGraw, founder ·
+          <a class="inline-link" href="mailto:mike@getreps.io">mike@getreps.io</a>
         </p>
         <p style="margin-top: 14px">
           For interviews, a walkthrough of the app, or anything else you need

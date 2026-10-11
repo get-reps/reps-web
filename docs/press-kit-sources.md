@@ -45,6 +45,7 @@ Screenshots are byte-for-byte copies (md5 checked) of frames already on the site
 | Your knowledge, played back | `/press/assets/reps-daily-game.jpg` (1080×2340) | `beats/quiz-all-sped-poster.jpg` | same |
 | Daily Crossword | `/press/assets/reps-daily-crossword.jpg` (1080×2340) | `beats/game-crossword-poster.jpg` | same |
 | Built from what you saved | `/press/assets/reps-fill-in-the-blank.jpg` (1080×2340) | `beats/quiz-frame.jpg` | same |
+| Headshot (Mike McGraw, founder) | `/press/assets/reps-founder-headshot.jpg` (400×400) | byte-for-byte copy of `compare/assets/mike-mcgraw.jpg` (public on `/compare` since `0febfc9`, 2026-07-07) | md5 `3a54004f…` matches; approved by Mike 2026-10-11 as the press headshot until fresh photos arrive |
 | App icon, full size | `/press/assets/reps-app-icon-1024.png` | byte-for-byte copy of `reps-app/assets/icon.png` (the icon `app.json` ships) | md5 `67ed3c42…` matches |
 | App icon, rounded | `/press/assets/reps-app-icon-rounded-256.png` | copy of `creator/app-mark.png` | md5 `d09a801e…` matches |
 
@@ -84,7 +85,11 @@ Uses public-tagged threads only: 1 (entrepreneurial family), 2 (bankruptcy at Mc
 >
 > In 2025 he went deep on AI, building with language models in his spare time, while watching his nephews and nieces grow up on endless short videos. REPS came out of both: the technology built to keep people scrolling could instead help them build knowledge they keep. He left Inovia on 30 June 2026, his 34th birthday, to build it full time.
 
-## Proposed App Store review quotes (three picks for Mike)
+## App Store review quotes — APPROVED by Mike 2026-10-11 (via Cleo), now on the page
+
+The three picks below are on the page verbatim, credited to the App Store username with five stars. A whitespace-normalised diff confirmed each matches the homepage block character for character. **Not re-checked against Apple's own records** in this task: the source is the site's own review block, not an App Store export.
+
+### The original proposal
 
 All are 5★ and verbatim from the homepage block headed "Set 1 — real, verbatim App Store reviews (App Store id 6759216018)" (`reps-web/v3c.html` ~line 1016). They were picked for fit with the companion positioning: a knowledge base you grow, discovery, and a better use of attention.
 
@@ -94,17 +99,29 @@ All are 5★ and verbatim from the homepage block headed "Set 1 — real, verbat
 
 Not picked: **Sizeret74** ("Very nice and fun way to retrain your brain – love a competition with friends. Love that app!", `v3c.html` ~1049), which is games-led. **Mooselake4** ("As a non-techy over 60 year old, this app is simple and intuitive to navigate.", `v3c.html` ~1078) is about ease of use, and `reps-growth/work/gtm-sprint-260904/SOURCES-AND-GAPS.md:16` traces it to a `user_feedback` row, so confirm its App Store origin first. Not usable: "Karen" in the angel deck (a private email); "Sam B." in onboarding (an invented name on 24601_London's text); the unattributed "REPS effortlessly organizes my knowledge…" quote in `PITCH.md` § v13 (no reviewer name on disk).
 
-None of the three is on the page yet: the three review slots stay pending until Mike approves.
+## Press contact — APPROVED 2026-10-11: Mike's own address
 
-## Pending Mike (visible `.pending` label on the page)
+`mike@getreps.io`, shown on the page as "Mike McGraw, founder · mike@getreps.io". Mike approved using his own address for now, on the condition that it was already public. Where it was already public before this page:
+
+- `reps-web/email-chrome-mockup.html:27` ("From: Mike &lt;mike@getreps.io&gt;"), a page served publicly at `/email-chrome-mockup`.
+- `reps-web/api/deck-access.ts:30-31`: the From ("Mike at REPS &lt;mike@getreps.io&gt;") and Reply-To on every `/angel` deck-access email sent to outside viewers.
+- reps-app truth docs: `docs/truth/CLAUDE_OPS.md:167` and `docs/truth/DASHBOARD.md:706` name `mike@getreps.io` as the company account.
+
+No dedicated press address exists (`support@` and `privacy@` do).
+
+## Approved 2026-10-11 and now on the page
+
+- The three review quotes above.
+- The press contact above.
+- The headshot: the existing public photo, as a press copy (see the Images table).
+
+## Still pending Mike (visible `.pending` / draft label on the page)
 
 1. Founder bio sign-off (the 50- and 150-word drafts above, also on the page). The Copy buttons prepend "DRAFT, not yet approved" until then (`data-draft`; remove it at sign-off).
-2. Headshots: one portrait, one landscape. (A 400×400 photo is already public at `compare/assets/mike-mcgraw.jpg`; not reused because the brief reserves headshots for Mike.)
-3. Three App Store review quotes. The proposal is above.
-4. Press contact email. No press address exists in this repo (`support@` and `privacy@` do).
-5. Wordmark logo (SVG + PNG, light + dark). No standalone file exists.
-6. A real capture of a chat with Echo (Ask Echo), plus fresh full-resolution captures of the current app. Raw device captures exist in `reps-backend/work/app-store-screenshots-freshvariants-20260721/screens/` (the `-clean` files are edited: redrawn status bar, one avatar swapped). The Sept 2026 recordings are on Drive (`Shared drives/REPS/3. Sales & Marketing/Media Assets/Canonical Media/September 2026 Update/`, catalogued in `Edited/TRACKER.md`).
+2. Wordmark logo (SVG + PNG, light + dark). No standalone file exists.
+3. A real capture of a chat with Echo (Ask Echo), plus fresh full-resolution captures of the current app.
+4. Fresh, higher-resolution portrait and landscape headshots (the 400×400 photo stands in until then). Raw device captures exist in `reps-backend/work/app-store-screenshots-freshvariants-20260721/screens/` (the `-clean` files are edited: redrawn status bar, one avatar swapped). The Sept 2026 recordings are on Drive (`Shared drives/REPS/3. Sales & Marketing/Media Assets/Canonical Media/September 2026 Update/`, catalogued in `Edited/TRACKER.md`).
 
-Indexing: when items 1–4 are filled, remove the `noindex` meta and add `/press` to `sitemap.xml` together (see the CLAUDE.md routes row).
+Indexing: the page stays `noindex` and out of `sitemap.xml` until Mike says otherwise. When he does, remove the meta and add `/press` to `sitemap.xml` together (see the CLAUDE.md routes row).
 
 Playbook items deliberately not built (outside Cleo's scope): founder quotes, memory-science explainer, X/LinkedIn handles, a zipped asset folder.
