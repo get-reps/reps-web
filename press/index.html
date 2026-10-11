@@ -19,6 +19,9 @@
       name="description"
       content="Press kit for REPS, the iOS app that turns what you read, watch, and hear into quick daily games. Boilerplate, founder bio, fact sheet, logos, and app screenshots."
     />
+    <!-- noindex (and out of sitemap.xml) until Mike's pending slots are filled:
+         bio sign-off, headshots, review quotes, press email. Remove both together. -->
+    <meta name="robots" content="noindex" />
     <link rel="canonical" href="https://www.getreps.io/press" />
     <meta property="og:title" content="REPS · Press kit" />
     <meta
@@ -28,16 +31,24 @@
     <meta property="og:url" content="https://www.getreps.io/press" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="REPS" />
-    <meta property="og:image" content="https://www.getreps.io/og-card-v3.png?v=2" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta name="twitter:card" content="summary_large_image" />
+    <!-- The app icon, not og-card-v3.png (that card still says "Join the waitlist"). -->
+    <meta
+      property="og:image"
+      content="https://www.getreps.io/press/assets/reps-app-icon-1024.png"
+    />
+    <meta property="og:image:width" content="1024" />
+    <meta property="og:image:height" content="1024" />
+    <meta property="og:image:alt" content="REPS app icon" />
+    <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="REPS · Press kit" />
     <meta
       name="twitter:description"
       content="Boilerplate, founder bio, fact sheet, logos, and real app screenshots for writing about REPS."
     />
-    <meta name="twitter:image" content="https://www.getreps.io/og-card-v3.png?v=2" />
+    <meta
+      name="twitter:image"
+      content="https://www.getreps.io/press/assets/reps-app-icon-1024.png"
+    />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -527,7 +538,7 @@
       <p class="lede">
         Everything you need in one place: a short description, the founder's
         story, the facts, logos and real screenshots from the app. Use any of
-        it freely.
+        it freely, except anything marked draft or pending.
       </p>
       <div class="toc">
         <a href="#about">About REPS</a>
@@ -578,12 +589,12 @@
             </p>
             <p>
               Saving takes seconds. Share an article, a YouTube video, a podcast
-              episode, a PDF, a screenshot or a photo of a bookshelf from any
-              app, and REPS does the rest. It picks out the ideas worth keeping
+              episode or a screenshot from any app, or add a PDF or a photo of
+              your bookshelf in REPS, and REPS does the rest. It picks out the ideas worth keeping
               and brings them back over the following days and weeks as short
               daily games made from your own material, timed using spaced
               repetition. Games include a crossword, a cryptic, Quotle, a daily
-              quote game, and trivia you can play against a friend. Everything
+              quote game, and trivia against a friend. Everything
               you save also builds Your Second Brain, an interactive map of what
               you know.
             </p>
@@ -694,7 +705,13 @@
         <div class="copyblock" style="margin-top: 22px">
           <div class="head">
             <h3>Short bio</h3>
-            <button class="copy-btn" type="button" data-copy="bio-short">
+            <!-- data-draft prepends the draft notice to copied text; drop it after sign-off. -->
+            <button
+              class="copy-btn"
+              type="button"
+              data-copy="bio-short"
+              data-draft="DRAFT, not yet approved by REPS. Please check with us before publishing."
+            >
               Copy
             </button>
           </div>
@@ -710,7 +727,12 @@
         <div class="copyblock">
           <div class="head">
             <h3>Long bio</h3>
-            <button class="copy-btn" type="button" data-copy="bio-long">
+            <button
+              class="copy-btn"
+              type="button"
+              data-copy="bio-long"
+              data-draft="DRAFT, not yet approved by REPS. Please check with us before publishing."
+            >
               Copy
             </button>
           </div>
@@ -761,13 +783,14 @@
           the full-size file.
         </p>
         <!-- Each still is a frame from a real iPhone screen recording already on this site
-             (beats/ = homepage recordings, June 2026; creator/demo-assets/ = creator deck).
+             (beats/ = homepage recordings, June 2026; creator/demo-assets/ = creator deck),
+             copied byte-for-byte to /press/assets/ under neutral names.
              Sources and the frames left out (and why) are in docs/press-kit-sources.md. -->
         <div class="shots">
           <figure class="shot">
-            <a href="/beats/quiz-all-sped-poster.jpg" target="_blank" rel="noopener"
+            <a href="/press/assets/reps-daily-game.jpg" target="_blank" rel="noopener"
               ><img
-                src="/beats/quiz-all-sped-poster.jpg"
+                src="/press/assets/reps-daily-game.jpg"
                 alt="A REPS daily round: a multiple-choice prompt about a saved nutrition article, answered correctly, with a Hat Trick celebration"
                 width="1080"
                 height="2340"
@@ -776,9 +799,9 @@
             <figcaption class="cap">The daily game</figcaption>
           </figure>
           <figure class="shot">
-            <a href="/beats/quiz-frame.jpg" target="_blank" rel="noopener"
+            <a href="/press/assets/reps-fill-in-the-blank.jpg" target="_blank" rel="noopener"
               ><img
-                src="/beats/quiz-frame.jpg"
+                src="/press/assets/reps-fill-in-the-blank.jpg"
                 alt="A REPS fill-in-the-blank round with a word bank, built from a saved article on negotiation"
                 width="1080"
                 height="2340"
@@ -787,9 +810,9 @@
             <figcaption class="cap">Fill in the blank</figcaption>
           </figure>
           <figure class="shot">
-            <a href="/beats/quiz-single-poster.jpg" target="_blank" rel="noopener"
+            <a href="/press/assets/reps-echos-challenge.jpg" target="_blank" rel="noopener"
               ><img
-                src="/beats/quiz-single-poster.jpg"
+                src="/press/assets/reps-echos-challenge.jpg"
                 alt="Echo's challenge in REPS: after three right answers in a row, the word bank is hidden and you answer from memory"
                 width="1080"
                 height="2340"
@@ -798,9 +821,9 @@
             <figcaption class="cap">Echo's challenge</figcaption>
           </figure>
           <figure class="shot">
-            <a href="/beats/game-crossword-poster.jpg" target="_blank" rel="noopener"
+            <a href="/press/assets/reps-daily-crossword.jpg" target="_blank" rel="noopener"
               ><img
-                src="/beats/game-crossword-poster.jpg"
+                src="/press/assets/reps-daily-crossword.jpg"
                 alt="The REPS Daily Crossword, mid-game, with a clue and the in-app keyboard"
                 width="1080"
                 height="2340"
@@ -809,9 +832,9 @@
             <figcaption class="cap">Daily Crossword</figcaption>
           </figure>
           <figure class="shot">
-            <a href="/beats/constellation-poster.jpg" target="_blank" rel="noopener"
+            <a href="/press/assets/reps-second-brain.jpg" target="_blank" rel="noopener"
               ><img
-                src="/beats/constellation-poster.jpg"
+                src="/press/assets/reps-second-brain.jpg"
                 alt="Your Second Brain in REPS: a 3D map of everything saved, coloured by topic"
                 width="1080"
                 height="2340"
@@ -820,9 +843,9 @@
             <figcaption class="cap">Your Second Brain</figcaption>
           </figure>
           <figure class="shot">
-            <a href="/creator/demo-assets/voice.jpg" target="_blank" rel="noopener"
+            <a href="/press/assets/reps-voice-training.jpg" target="_blank" rel="noopener"
               ><img
-                src="/creator/demo-assets/voice.jpg"
+                src="/press/assets/reps-voice-training.jpg"
                 alt="A REPS voice training session: talking through saved material out loud with Echo"
                 width="600"
                 height="1300"
@@ -948,6 +971,8 @@
               return p.textContent.replace(/\s+/g, " ").trim();
             })
             .join("\n\n");
+          var draft = btn.getAttribute("data-draft");
+          if (draft) text = draft + "\n\n" + text;
           var done = function () {
             btn.textContent = "Copied";
             setTimeout(function () {

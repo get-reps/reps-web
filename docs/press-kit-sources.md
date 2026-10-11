@@ -7,12 +7,16 @@ Spec: Step 1 checklist of `faculty-dashboard/work/digital-employees-261011/grok-
 
 | On the page | File served | Original source | Evidence it is a real capture |
 | --- | --- | --- | --- |
-| The daily game | `/beats/quiz-all-sped-poster.jpg` (1080×2340) | homepage recording beats, June 2026 | iPhone status bar + red screen-recording dot in frame |
-| Fill in the blank | `/beats/quiz-frame.jpg` (1080×2340) | same | same |
-| Echo's challenge | `/beats/quiz-single-poster.jpg` (1080×2340) | same | same (byte-identical frame also at `creator/demo-assets/recall.jpg`) |
-| Daily Crossword | `/beats/game-crossword-poster.jpg` (1080×2340) | same | same |
-| Your Second Brain | `/beats/constellation-poster.jpg` (1080×2340) | same | same (also at `creator/demo-assets/brain.jpg`) |
-| Voice training | `/creator/demo-assets/voice.jpg` (600×1300) | creator deck, Sept 2026 (`f5053a3`) | status bar + recording dot in frame |
+Screenshots are byte-for-byte copies (md5 checked) of frames already on the site, served under neutral press names so no reader-facing path says "quiz". The shared originals are untouched.
+
+| On the page | File served | Copied from | Evidence it is a real capture |
+| --- | --- | --- | --- |
+| The daily game | `/press/assets/reps-daily-game.jpg` (1080×2340) | `beats/quiz-all-sped-poster.jpg` (homepage recordings, June 2026) | iPhone status bar + red screen-recording dot in frame |
+| Fill in the blank | `/press/assets/reps-fill-in-the-blank.jpg` (1080×2340) | `beats/quiz-frame.jpg` | same |
+| Echo's challenge | `/press/assets/reps-echos-challenge.jpg` (1080×2340) | `beats/quiz-single-poster.jpg` (also `creator/demo-assets/recall.jpg`) | same |
+| Daily Crossword | `/press/assets/reps-daily-crossword.jpg` (1080×2340) | `beats/game-crossword-poster.jpg` | same |
+| Your Second Brain | `/press/assets/reps-second-brain.jpg` (1080×2340) | `beats/constellation-poster.jpg` (also `creator/demo-assets/brain.jpg`) | same |
+| Voice training | `/press/assets/reps-voice-training.jpg` (600×1300) | `creator/demo-assets/voice.jpg` (creator deck, Sept 2026, `f5053a3`) | status bar + recording dot in frame |
 | App icon 1024 | `/press/assets/reps-app-icon-1024.png` | byte-for-byte copy of `reps-app/assets/icon.png` (the icon `app.json` ships) | md5 `67ed3c42…` matches |
 | App icon rounded 256 | `/press/assets/reps-app-icon-rounded-256.png` | copy of `creator/app-mark.png` | md5 `d09a801e…` matches |
 
@@ -23,7 +27,9 @@ Not used, and why:
 - `creator/demo-assets/discover.jpg`: other users' names and third-party news photos.
 - `beats/save-composite-poster.jpg`: a camera view of a bookshelf, no REPS UI.
 - `creator/demo-assets/quotle.jpg`: a "Coming soon" placeholder card, not a capture.
-- `og-card-v3.png`: still says "Join the waitlist" (kept only as the page's social share image, matching `/planet`).
+- `og-card-v3.png`: still says "Join the waitlist" (not used here; the page's share image is the 1024 app icon).
+
+Indexing: the page carries `noindex` and is out of `sitemap.xml` until Mike's slots below are filled. When they are, remove the meta tag and add `/press` to the sitemap together. The bio Copy buttons prepend a "DRAFT, not yet approved" line until sign-off (`data-draft` attribute); remove it then.
 - `product-2026/assets/icon.png`: a different crop from the shipped icon.
 
 ## Facts — where each came from

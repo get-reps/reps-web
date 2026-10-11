@@ -23,7 +23,7 @@ Static marketing site for REPS. Hosted on Vercel with auto-deploy on push to `ma
 | `/terms` | terms.html | |
 | `/r/:code` | Redirects to `/?ref=:code` | Referral links from reps-app `SocialScreen` |
 | `/support` | `support.html` | Support form (writes to `support_requests` table, pings `#reps-support`) |
-| `/press` | `press/index.html` | Press kit. Indexable, in sitemap. Pending-Mike slots carry a visible `.pending` label; image sources in `docs/press-kit-sources.md` |
+| `/press` | `press/index.html` | Press kit. `noindex` and NOT in sitemap until Mike's pending slots are filled; then remove the meta and add it to `sitemap.xml` together. Pending-Mike slots carry a visible `.pending` label; image sources in `docs/press-kit-sources.md` |
 
 `cleanUrls: true` in vercel.json strips `.html` extensions automatically.
 
