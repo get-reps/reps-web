@@ -674,6 +674,17 @@ html.deck-ready body.still .cover .u-human .u-line path{opacity:1;stroke-dashoff
 .finale .shot img{width:100%;height:100%;object-fit:cover;object-position:center;
   filter:saturate(.7) contrast(1.03) brightness(.96);}
 
+/* === LEGAL DISCLAIMERS (Mike, 2026-10-12, before the PDF goes to investors) ===
+   Sentence case, no tracking: the footrule's uppercase/letter-spaced register
+   would run a full sentence off the slide. The finale bar sits below the grid
+   rather than over it, so the quote and the photo keep their full frame. */
+.footrule .disclaim{font-size:12px;letter-spacing:.02em;text-transform:none;color:var(--fg-faint);}
+.finale.with-legal{bottom:96px;}
+.legal-bar{position:absolute;left:0;right:0;bottom:0;height:96px;margin:0;box-sizing:border-box;background:#000;z-index:6;
+  display:flex;align-items:center;padding:0 96px;
+  font-family:var(--sans);font-size:12px;line-height:1.55;letter-spacing:.01em;color:rgba(255,250,247,.55);
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+
 /* === 12 ADVISORS === */
 /* 2x2 rather than a row of four: four across left each advisor 387px, which is
    why one title wrapped and the others did not. Two columns give 819px, so each
@@ -2194,7 +2205,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
   </div>
   <footer class="footrule chrome-fade">
     <span>The Human Knowledge Engine</span>
-    <span class="folio">01 <span>/ 15</span></span>
+    <span class="folio">02 <span>/ 17</span></span>
   </footer>
 </section>
 
@@ -2222,7 +2233,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
   </div>
   <footer class="footrule chrome-fade">
     <span>The Human Knowledge Engine</span>
-    <span class="folio">02 <span>/ 15</span></span>
+    <span class="folio">03 <span>/ 17</span></span>
   </footer>
 </section>
 
@@ -2267,7 +2278,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
   </div>
   <footer class="footrule chrome-fade">
     <span>The Human Knowledge Engine</span>
-    <span class="folio">03 <span>/ 15</span></span>
+    <span class="folio">04 <span>/ 17</span></span>
   </footer>
 </section>
 
@@ -2312,7 +2323,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
   </div>
   <footer class="footrule chrome-fade">
     <span>The Human Knowledge Engine</span>
-    <span class="folio">04 <span>/ 15</span></span>
+    <span class="folio">05 <span>/ 17</span></span>
   </footer>
 </section>
 
@@ -2408,7 +2419,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
   </div>
   <footer class="footrule chrome-fade">
     <span>The Human Knowledge Engine</span>
-    <span class="folio">05 <span>/ 15</span></span>
+    <span class="folio">06 <span>/ 17</span></span>
   </footer>
 </section>
 
@@ -2448,7 +2459,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
       </div>
     </div>
   </div>
-  <footer class="footrule chrome-fade"><span>The Human Knowledge Engine</span><span class="folio">06 <span>/ 15</span></span></footer>
+  <footer class="footrule chrome-fade"><span>The Human Knowledge Engine</span><span class="folio">07 <span>/ 17</span></span></footer>
 </section>
 
 <!-- ============ 07 — WHO IT'S FOR · night ============
@@ -2505,7 +2516,8 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
   </div>
   <footer class="footrule chrome-fade">
     <span>The Human Knowledge Engine</span>
-    <span class="folio">07 <span>/ 15</span></span>
+    <span class="disclaim">Unaudited internal figures as at September 2026. Forward-looking statements are not guarantees.</span>
+    <span class="folio">08 <span>/ 17</span></span>
   </footer>
 </section>
 
@@ -2547,7 +2559,8 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
   </div>
   <footer class="footrule chrome-fade">
     <span>The Human Knowledge Engine</span>
-    <span class="folio">08 <span>/ 15</span></span>
+    <span class="disclaim">Unaudited internal figures as at September 2026. Forward-looking statements are not guarantees.</span>
+    <span class="folio">09 <span>/ 17</span></span>
   </footer>
 </section>
 
@@ -2614,7 +2627,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
   </div>
   <footer class="footrule chrome-fade">
     <span>The Human Knowledge Engine</span>
-    <span class="folio">09 <span>/ 15</span></span>
+    <span class="folio">10 <span>/ 17</span></span>
   </footer>
 </section>
 
@@ -2678,7 +2691,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
   </div>
   <footer class="footrule chrome-fade">
     <span>The Human Knowledge Engine</span>
-    <span class="folio">10 <span>/ 15</span></span>
+    <span class="folio">11 <span>/ 17</span></span>
   </footer>
 </section>
 
@@ -2720,7 +2733,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
   </div>
   <footer class="footrule chrome-fade">
     <span>The Human Knowledge Engine</span>
-    <span class="folio">11 <span>/ 15</span></span>
+    <span class="folio">12 <span>/ 17</span></span>
   </footer>
 </section>
 
@@ -2773,7 +2786,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
   </div>
   <footer class="footrule chrome-fade">
     <span>The Human Knowledge Engine</span>
-    <span class="folio">12 <span>/ 15</span></span>
+    <span class="folio">13 <span>/ 17</span></span>
   </footer>
 </section>
 
@@ -2819,7 +2832,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
   </div>
   <footer class="footrule chrome-fade">
     <span>The Human Knowledge Engine</span>
-    <span class="folio">13 <span>/ 15</span></span>
+    <span class="folio">14 <span>/ 17</span></span>
   </footer>
 </section>
 
@@ -2870,7 +2883,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
   </div>
   <footer class="footrule chrome-fade">
     <span>The Human Knowledge Engine</span>
-    <span class="folio">14 <span>/ 15</span></span>
+    <span class="folio">15 <span>/ 17</span></span>
   </footer>
 </section>
 
@@ -2916,19 +2929,20 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
   </div>
   <footer class="footrule chrome-fade">
     <span>The Human Knowledge Engine</span>
-    <span class="folio">15 <span>/ 15</span></span>
+    <span class="folio">16 <span>/ 17</span></span>
   </footer>
 </section>
 
 <!-- ============ 15 — FINALE · night ============ unchanged -->
 <section class="slide night" aria-label="Finale">
-  <div class="finale">
+  <div class="finale with-legal">
     <div class="panel">
       <blockquote class="reveal r2">The only way to deal with an unfree world is to become <span class="hot">so absolutely free</span> that your very existence is an act of rebellion.</blockquote>
       <cite class="reveal r3">Albert Camus</cite>
     </div>
     <div class="shot reveal r1"><img src="/angel/assets/generated/tube-reader.jpg" alt="A woman reading a book on the underground while every other passenger looks at a phone" /></div>
   </div>
+  <p class="legal-bar">This presentation has been prepared by REPS AI Ltd for information purposes only and is confidential. It does not constitute an offer or invitation to subscribe for or buy shares. Figures are unaudited management estimates as at September 2026 and may be revised. Forward-looking statements reflect current expectations and are not guarantees of future performance. No representation or warranty is given as to the accuracy or completeness of this information, and no liability is accepted for any loss arising from reliance on it. Recipients should make their own assessment and seek independent advice.</p>
 </section>
 
 </main>
