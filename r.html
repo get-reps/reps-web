@@ -62,6 +62,12 @@
         if (v) extra.push(encodeURIComponent(k) + '=' + encodeURIComponent(v));
       });
       var deepLink = to;
+      // iOS dev and store builds both register reps://. Settings setup must
+      // target the regular app's existing bundle-specific scheme instead.
+      // Keep Android and every non-Settings route on their current schemes.
+      if (/iPhone|iPad|iPod/i.test(navigator.userAgent) && /^reps:\/\/settings\/?(?:[?#].*)?$/.test(to)) {
+        deepLink = 'io.getreps.app:' + to.slice('reps:'.length);
+      }
       if (extra.length) {
         deepLink += (to.indexOf('?') >= 0 ? '&' : '?') + extra.join('&');
       }
