@@ -1,0 +1,739 @@
+<!doctype html>
+<!-- REPS home, variant v4b — direction: "Losing Count" (2026-10-13, fix round 1)
+     1. The page begins counted and ends uncounted. The loop is the only counted thing: a live counter of
+        saves ticking with the share footage, then steps 1, 2, 3 in full-ink numerals. The fourth beat
+        never gets its number: "Somewhere along the way, you stop counting." names what was kept.
+     2. Grid: seven columns, used asymmetrically (3:2, then 2:3) so the loop zig-zags down the page in a
+        Z rhythm. Hairline rules only between sections; nothing behind the type.
+     3. Type: extreme scale. A huge, tight Inter Tight H1 against small tabular figures. Lora only for
+        what people said and what people read. One eyebrow style, sentence case, warm ink.
+     4. Rhythm: tight at the top, more air towards the bottom; the close is almost empty.
+     5. Colour: coral lives only where you tap (the nav pill). Apple's black badge is the install CTA.
+        Teal ticks mark what was kept; indigo only on Friends Trivia. One night-black band (#040409), placed
+        straight after the hero: the why-now line, the founder and the map of one reader's library.
+     6. Motion: a counter that ticks with the footage, hairlines that draw, entries that arrive on a
+        diagonal. Everything runs once and settles. Reduced motion gets the settled state. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>REPS · Your Knowledge Companion</title>
+    <meta
+      name="description"
+      content="REPS is your knowledge companion. Save anything you read, watch, or listen to, and it comes back as a short daily game built from your own library. Free on the App Store."
+    />
+    <link rel="canonical" href="https://www.getreps.io/" />
+    <meta property="og:title" content="REPS · Your Knowledge Companion" />
+    <meta property="og:description" content="Save anything. Remember everything." />
+    <meta property="og:url" content="https://www.getreps.io/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://www.getreps.io/og-card-v3.png?v=2" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://www.getreps.io/og-card-v3.png?v=2" />
+    <meta name="theme-color" content="#FFFAF7" />
+    <link rel="icon" href="product/assets/app-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" /></noscript>
+    <link rel="preload" as="image" href="beats/2026-09/game-quotle-poster.jpg" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "@id": "https://www.getreps.io/#organization",
+        "name": "REPS",
+        "url": "https://www.getreps.io/",
+        "logo": "https://www.getreps.io/og-card-v3.png",
+        "description": "REPS is a knowledge companion for iPhone. Save what you read, watch, and listen to, and it comes back as a short daily game built from your own library."
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "@id": "https://www.getreps.io/#mike",
+        "name": "Mike McGraw",
+        "url": "https://www.getreps.io/about",
+        "image": "https://www.getreps.io/compare/assets/mike-mcgraw.jpg",
+        "jobTitle": "Founder",
+        "worksFor": { "@id": "https://www.getreps.io/#organization" },
+        "description": "Founder of REPS. Twelve years investing in technology before leaving to build REPS full-time."
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "@id": "https://www.getreps.io/#website",
+        "name": "REPS",
+        "url": "https://www.getreps.io/",
+        "publisher": { "@id": "https://www.getreps.io/#organization" }
+      }
+    </script>
+    <style>
+      :root {
+        --cream: #fffaf7;
+        --ink: #211a14;
+        --body: rgba(33, 26, 20, 0.8);
+        --muted: rgba(33, 26, 20, 0.68);
+        --hair: rgba(33, 26, 20, 0.12);
+        --teal-ink: #2d8377;
+        --indigo: #4c5fab;
+        --night: #040409;
+        --on-night: rgba(255, 250, 247, 0.8);
+        --grad: linear-gradient(100deg, #ff6b6b 0%, #ff8e53 100%);
+        --display: "Inter Tight", system-ui, -apple-system, "Segoe UI", sans-serif;
+        --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        --serif: "Lora", Georgia, serif;
+        --gap: 24px;
+        --pad: 20px;
+        --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+      }
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      html { background: var(--cream); scroll-behavior: smooth; scroll-padding-top: 72px; }
+      body {
+        background: var(--cream);
+        color: var(--body);
+        font-family: var(--sans);
+        font-size: 18px;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
+      img, video { display: block; max-width: 100%; }
+      a { color: inherit; }
+      :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; border-radius: 6px; }
+      .skip { position: absolute; left: 12px; top: -60px; z-index: 400; background: var(--ink); color: var(--cream); padding: 10px 14px; border-radius: 8px; text-decoration: none; }
+      .skip:focus { top: 12px; }
+
+      .wrap { width: 100%; max-width: 1180px; margin: 0 auto; padding: 0 var(--pad); }
+      .g7 { display: grid; grid-template-columns: minmax(0, 1fr); row-gap: 28px; }
+
+      /* ── One label system ── */
+      .eyebrow { font-family: var(--display); font-weight: 600; font-size: 15px; line-height: 1.3; letter-spacing: 0.01em; color: rgba(33, 26, 20, 0.74); }
+      h1, h2, h3 { font-family: var(--display); color: var(--ink); font-weight: 600; text-wrap: balance; }
+      p, blockquote { text-wrap: pretty; }
+      h2 { font-size: clamp(34px, 5.2vw, 68px); line-height: 0.98; letter-spacing: -0.035em; }
+      h3 { font-size: clamp(26px, 2.6vw, 34px); line-height: 1.08; letter-spacing: -0.025em; }
+      .lede { font-size: 19px; line-height: 1.55; color: var(--body); max-width: 34em; }
+      .cap { font-size: 15px; line-height: 1.4; color: var(--muted); }
+      .link { font-family: var(--display); font-weight: 600; font-size: 17px; color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 5px; }
+      .link:hover { text-decoration-thickness: 2px; }
+
+      /* ── Nav ── */
+      .nav {
+        position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+        background: rgba(255, 250, 247, 0.95);
+        -webkit-backdrop-filter: saturate(1.2) blur(10px); backdrop-filter: saturate(1.2) blur(10px);
+        border-bottom: 1px solid var(--hair);
+        padding-top: env(safe-area-inset-top);
+      }
+      .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 12px; }
+      .wordmark { display: flex; align-items: center; gap: 9px; text-decoration: none; font-family: var(--display); font-weight: 700; font-size: 19px; letter-spacing: 0.06em; color: var(--ink); }
+      .wordmark img { width: 30px; height: 30px; border-radius: 8px; }
+      .nav-links { display: flex; align-items: center; gap: 18px; font-family: var(--display); font-weight: 500; font-size: 16px; color: var(--ink); }
+      .nav-links a:not(.btn-mini) { text-decoration: none; padding: 8px 2px; }
+      .nav-links a:not(.btn-mini):hover { text-decoration: underline; text-underline-offset: 5px; }
+      .nav-links .opt { display: none; }
+      .btn-mini {
+        display: inline-flex; align-items: center; height: 40px; padding: 0 16px; border-radius: 999px;
+        background: var(--grad); color: #fff; text-decoration: none; font-weight: 600; font-size: 15px; white-space: nowrap;
+        box-shadow: 0 6px 16px -8px rgba(216, 68, 63, 0.7);
+      }
+
+      /* ── App Store badge: Apple's black badge, unmodified ── */
+      .appstore-btn {
+        display: inline-flex; align-items: center; justify-content: center; gap: 11px;
+        min-height: 56px; padding: 0 22px; border-radius: 13px; text-decoration: none;
+        background: #000; color: #fff;
+        box-shadow: 0 8px 22px -10px rgba(33, 26, 20, 0.5);
+        transition: transform 0.14s, box-shadow 0.14s;
+      }
+      .appstore-btn:hover { transform: translateY(-1px); box-shadow: 0 12px 26px -10px rgba(33, 26, 20, 0.55); }
+      .appstore-btn:active { transform: translateY(0); }
+      .appstore-btn svg { width: 25px; height: 30px; flex: none; }
+      .appstore-label { display: flex; flex-direction: column; align-items: flex-start; line-height: 1; text-align: left; font-family: -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", sans-serif; }
+      .appstore-label .small { font-size: 11px; font-weight: 400; letter-spacing: 0.01em; margin-bottom: 2px; }
+      .appstore-label .big { font-size: 21px; font-weight: 600; letter-spacing: -0.01em; line-height: 1; }
+      .reassure { margin-top: 12px; font-size: 15px; color: var(--muted); }
+
+      /* ── Phone bezel (code-drawn) around real captures ── */
+      .phone {
+        position: relative; width: 100%; padding: 8px; border-radius: 44px;
+        background: #1b1612;
+        box-shadow: 0 34px 60px -34px rgba(33, 26, 20, 0.55), inset 0 0 0 1px rgba(255, 255, 255, 0.07);
+      }
+      .phone video { width: 100%; aspect-ratio: 540 / 1170; object-fit: cover; border-radius: 36px; background: #e9e2dc; }
+      .phone.dark { background: #1d1b22; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 40px 80px -30px rgba(0, 0, 0, 0.8); }
+      .phone.dark video { background: #0b0b12; }
+      figcaption.cap { margin-top: 12px; }
+      .play-btn { position: absolute; right: 18px; bottom: 18px; width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgba(33, 26, 20, 0.84); color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+      .play-btn svg { width: 16px; height: 16px; }
+
+      /* ── Reveal vocabulary: diagonal arrivals, drawn hairlines ── */
+      .js .rv { opacity: 0; transform: translate(-14px, 18px); transition: opacity 0.7s var(--ease), transform 0.9s var(--ease); }
+      .js .rv.r { transform: translate(14px, 18px); }
+      .js .rv.in { opacity: 1; transform: none; }
+      .js .rv.d1 { transition-delay: 0.08s; } .js .rv.d2 { transition-delay: 0.16s; } .js .rv.d3 { transition-delay: 0.24s; }
+
+      /* ═════════ HERO ═════════ */
+      .hero { padding: calc(64px + env(safe-area-inset-top) + 28px) 0 44px; }
+      .hero h1 { margin-top: 14px; font-size: clamp(58px, 8.6vw, 126px); line-height: 0.9; letter-spacing: -0.048em; }
+      .hero h1 span { display: block; }
+      .hero .what { margin-top: 24px; font-family: var(--display); font-weight: 500; font-size: clamp(21px, 2vw, 27px); line-height: 1.3; letter-spacing: -0.015em; color: var(--ink); max-width: 25em; }
+      .hero .cta { margin-top: 30px; }
+      .hero .media { width: 196px; margin: 8px auto 0; }
+
+      /* ═════════ THE DARK BAND: why now + who + one reader's map ═════════ */
+      .mind { background: var(--night); color: var(--on-night); padding: 48px 0 52px; position: relative; overflow: hidden; }
+      .mind::before { content: ""; position: absolute; inset: 0; background: radial-gradient(55% 55% at 78% 50%, rgba(76, 95, 171, 0.18), transparent 70%); pointer-events: none; }
+      .mind .wrap { position: relative; }
+      .mind .eyebrow { color: rgba(255, 250, 247, 0.74); }
+      .mind .pull { margin-top: 16px; font-family: var(--display); font-weight: 600; color: #fffaf7; font-size: clamp(42px, 5.8vw, 84px); line-height: 0.98; letter-spacing: -0.045em; text-wrap: balance; }
+      .mind .then { margin-top: 22px; font-size: 19px; max-width: 30em; }
+      .founder-line { margin-top: 34px; padding-top: 26px; border-top: 1px solid rgba(255, 250, 247, 0.18); display: flex; gap: 18px; align-items: flex-start; }
+      .founder-line img { width: 72px; height: 72px; border-radius: 50%; flex: none; }
+      .founder-line .name { font-family: var(--display); font-weight: 600; font-size: 18px; color: #fffaf7; }
+      .founder-line .fact { font-size: 16px; line-height: 1.5; margin-top: 2px; }
+      .founder-line q { display: block; margin-top: 10px; font-family: var(--serif); font-style: italic; font-size: 22px; line-height: 1.3; color: #fffaf7; quotes: "\201C" "\201D"; }
+      .mind .link { color: #fffaf7; display: inline-block; margin-top: 18px; }
+      .mind .media { width: 184px; margin: 8px auto 0; }
+      .mind .cap { color: rgba(255, 250, 247, 0.72); text-align: center; }
+
+      /* ═════════ PROOF ═════════ */
+      .proof { padding: 56px 0 40px; }
+      .sec-head { margin-bottom: 28px; }
+      .sec-head h2 { margin-top: 12px; }
+      .reviews { list-style: none; border-bottom: 1px solid var(--hair); }
+      .reviews li { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); row-gap: 8px; padding: 20px 0 18px; }
+      .reviews li::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: var(--ink); opacity: 0.2; transform-origin: left; }
+      .js .reviews li::before { transform: scaleX(0); transition: transform 1s var(--ease); }
+      .js .reviews li.in::before { transform: scaleX(1); }
+      .reviews blockquote { font-family: var(--serif); font-size: clamp(19px, 2vw, 25px); line-height: 1.4; color: var(--ink); }
+      .reviews blockquote::before { content: "\201C"; }
+      .reviews blockquote::after { content: "\201D"; }
+      .reviews li:first-child blockquote { font-size: clamp(23px, 3.2vw, 42px); line-height: 1.24; letter-spacing: -0.01em; }
+      .reviews .who { font-family: var(--display); font-size: 16px; font-weight: 600; color: var(--ink); line-height: 1.3; }
+      .reviews .who small { font-family: var(--sans); font-weight: 400; font-size: 15px; color: var(--muted); }
+      .reviews .who small::before { content: " · "; }
+
+      /* ═════════ LOOP: four steps on a Z ═════════ */
+      .how { padding: 36px 0 16px; }
+      .step { padding: 32px 0; border-top: 1px solid var(--hair); }
+      .step .big {
+        display: block; font-family: var(--display); font-variant-numeric: tabular-nums; font-weight: 600;
+        font-size: clamp(64px, 10vw, 150px); line-height: 0.78; letter-spacing: -0.06em; color: var(--ink); margin-bottom: 20px;
+      }
+      .step h3 { margin-bottom: 14px; }
+      .step p { max-width: 30em; }
+      .step .media { width: 160px; }
+      .step .txt { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 16px; align-items: end; }
+      .step .txt > * { grid-column: 1 / -1; }
+      .step .txt > .big { grid-column: 1; margin-bottom: 14px; }
+      .step .txt > h3 { grid-column: 2; }
+      .step:nth-of-type(even) .media { margin-left: auto; }
+
+      .ledger-wrap { margin-top: 26px; max-width: 360px; }
+      .ledger-head { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 10px; border-bottom: 1px solid var(--ink); }
+      .counter { font-family: var(--display); font-variant-numeric: tabular-nums; font-weight: 600; font-size: 30px; letter-spacing: -0.02em; color: var(--ink); line-height: 1; display: inline-block; overflow: hidden; height: 30px; }
+      .counter b { display: inline-block; font-weight: 600; transition: transform 0.35s var(--ease), opacity 0.35s; }
+      .counter b.tick { transform: translateY(60%); opacity: 0; transition: none; }
+      .ledger { list-style: none; }
+      .ledger li { display: grid; grid-template-columns: minmax(0, 1fr) 14px; column-gap: 8px; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--hair); color: var(--muted); transition: color 0.3s; }
+      .ledger .src { font-family: var(--display); font-weight: 600; font-size: 16px; line-height: 1.25; color: inherit; }
+      .ledger .what { font-size: 15px; line-height: 1.3; }
+      .ledger .what::before { content: " · "; }
+      .ledger .ok { width: 12px; height: 12px; color: var(--teal-ink); opacity: 0; transform: scale(0.6); transition: opacity 0.3s, transform 0.3s var(--ease); }
+      .ledger li.on { color: var(--ink); }
+      .ledger li.done .ok, .ledger li.on .ok { opacity: 1; transform: none; }
+
+      .games { margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--hair); }
+      .games ul { list-style: none; display: flex; flex-wrap: wrap; gap: 4px 0; margin-top: 8px; }
+      .games li { font-family: var(--display); font-weight: 600; color: var(--ink); font-size: 17px; }
+      .games li + li::before { content: "·"; color: var(--muted); margin: 0 10px; font-weight: 400; }
+      .games li.social { color: var(--indigo); }
+      .games p { margin-top: 8px; font-size: 16px; color: var(--muted); }
+
+      .also { padding: 22px 0; border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); font-size: 17px; color: var(--body); }
+      .also b { font-family: var(--display); color: var(--ink); font-weight: 600; margin-right: 6px; }
+      .yours .cta { margin-top: 32px; }
+
+      /* ═════════ IDENTITY: the counting stops ═════════ */
+      .yours { padding: 48px 0 56px; }
+      .shelf { max-width: 320px; border-radius: 30px; overflow: hidden; border: 1px solid var(--hair); background: #fffaf7; box-shadow: 0 30px 60px -40px rgba(33, 26, 20, 0.45); }
+      .shelf img { width: 100%; height: auto; }
+      .yours h2 { margin-bottom: 22px; }
+      .titles { margin-top: 30px; font-family: var(--serif); font-style: italic; font-size: clamp(23px, 2.4vw, 31px); line-height: 1.45; color: var(--ink); }
+      .titles .sep { font-style: normal; color: var(--muted); padding: 0 0.3em; }
+
+      /* ═════════ FOUNDER ═════════ */
+      .founder { padding: 24px 0 56px; }
+      .founder .txt { border-top: 1px solid var(--ink); padding-top: 30px; }
+      .founder .story { font-family: var(--serif); font-size: clamp(18px, 1.6vw, 20px); line-height: 1.62; color: var(--ink); max-width: 36em; margin-top: 14px; }
+      .founder .link { display: inline-block; margin-top: 18px; }
+
+      /* ═════════ PLANET ═════════ */
+      .planet { padding: 0 0 32px; }
+      .planet .row { display: grid; gap: 16px; align-items: center; padding: 28px 0; border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); }
+      .planet img { width: 184px; height: auto; }
+      .planet p { font-size: 17px; max-width: 36em; }
+      .planet .link { font-size: 16px; justify-self: start; white-space: nowrap; }
+
+      /* ═════════ CLOSE ═════════ */
+      .close { padding: 56px 0 64px; }
+      .close h2 { margin-top: 18px; font-size: clamp(42px, 6.6vw, 96px); line-height: 0.94; letter-spacing: -0.048em; max-width: 11.5em; }
+      .close .lede { margin-top: 24px; }
+      .close .cta { margin-top: 32px; }
+      .close .link { display: inline-block; margin-top: 30px; }
+
+      /* ═════════ FOOTER ═════════ */
+      footer { border-top: 1px solid var(--hair); padding: 32px 0 calc(36px + env(safe-area-inset-bottom)); font-size: 16px; color: var(--muted); }
+      footer .g7 { row-gap: 22px; }
+      .f-brand { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 600; font-size: 17px; color: var(--ink); }
+      .f-brand img { width: 26px; height: 26px; border-radius: 7px; }
+      .f-nav { display: grid; row-gap: 12px; }
+      .f-links { display: flex; flex-wrap: wrap; gap: 8px 18px; }
+      .f-links a { text-decoration: none; }
+      .f-links a:hover { color: var(--ink); text-decoration: underline; }
+
+      /* ═════════ MOBILE ONLY: the ledger collapses to one looping line ═════════ */
+      @media (max-width: 959px) {
+        .ledger li:not(.on) { display: none; }
+        .ledger li { border-bottom: 0; }
+      }
+      @media (min-width: 640px) {
+        .nav-links .opt { display: inline; }
+      }
+
+      /* ═════════ DESKTOP: seven columns ═════════ */
+      @media (min-width: 960px) {
+        :root { --pad: 40px; }
+        .g7 { grid-template-columns: repeat(7, minmax(0, 1fr)); column-gap: var(--gap); }
+        .nav-links { gap: 26px; }
+
+        .hero { padding-top: calc(64px + 56px); padding-bottom: 64px; }
+        .hero .g7 { align-items: center; }
+        .hero-copy { grid-column: 1 / span 5; }
+        .hero .media { grid-column: 6 / span 2; width: auto; max-width: 270px; margin: 0; justify-self: end; }
+
+        .mind { padding: 88px 0 88px; }
+        .mind .g7 { align-items: center; }
+        .mind .txt { grid-column: 1 / span 4; }
+        .mind .media { grid-column: 6 / span 2; width: auto; max-width: 270px; margin: 0; justify-self: end; }
+
+        .proof { padding: 96px 0 64px; }
+        .reviews li { grid-template-columns: repeat(7, minmax(0, 1fr)); column-gap: var(--gap); padding: 28px 0 26px; }
+        .reviews blockquote { grid-column: 1 / span 5; }
+        .reviews .who { grid-column: 6 / span 2; padding-top: 6px; }
+        .reviews .who small { display: block; margin-top: 2px; }
+        .reviews .who small::before { content: none; }
+
+        .step { padding: 36px 0; }
+        .step .txt { display: block; }
+        .step .txt > .big { margin-bottom: 18px; }
+        .step .g7 { align-items: center; }
+        .step .txt { grid-column: 1 / span 4; grid-row: 1; }
+        .step .media { grid-column: 6 / span 2; grid-row: 1; width: auto; max-width: 230px; justify-self: end; }
+        .step:nth-of-type(even) .txt { grid-column: 4 / span 4; }
+        .step:nth-of-type(even) .media { grid-column: 1 / span 2; margin-left: 0; justify-self: start; }
+        .also { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); column-gap: var(--gap); }
+        .also b { grid-column: 1 / span 2; }
+        .also span { grid-column: 3 / span 5; }
+
+        .yours { padding: 56px 0 56px; }
+        .yours .g7 { align-items: center; }
+        .shelf { max-width: 420px; }
+        .yours .pic { grid-column: 1 / span 3; }
+        .yours .txt { grid-column: 4 / span 4; padding-left: 32px; }
+
+        .founder .g7 { align-items: start; }
+        .founder .txt { grid-column: 1 / span 6; }
+
+        .planet .row { grid-template-columns: repeat(7, minmax(0, 1fr)); column-gap: var(--gap); }
+        .planet img { grid-column: 1 / span 2; }
+        .planet p { grid-column: 3 / span 4; }
+        .planet .link { grid-column: 7; justify-self: end; }
+
+        .close { padding: 96px 0 96px; }
+        .close .inner { grid-column: 1 / span 6; }
+
+        footer .g7 { align-items: start; }
+        .f-brand { grid-column: 1 / span 2; }
+        .f-nav { grid-column: 3 / span 5; }
+      }
+      @media (max-width: 380px) {
+        .nav-links { gap: 12px; font-size: 15px; }
+        .btn-mini { padding: 0 13px; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        .js .rv, .js .rv.r { opacity: 1; transform: none; transition: none; }
+        .js .reviews li::before { transform: none; transition: none; }
+        .counter b, .ledger li, .ledger .ok, .appstore-btn { transition: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <script>document.documentElement.classList.add("js");</script>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <nav class="nav" aria-label="Main">
+      <div class="wrap">
+        <a class="wordmark" href="/" aria-label="REPS home">
+          <img src="product/assets/app-icon.png" alt="" width="30" height="30" />
+          <span>REPS</span>
+        </a>
+        <div class="nav-links">
+          <a class="opt" href="#how">How it works</a>
+          <a href="/about">About</a>
+          <a href="/about#press">Press</a>
+          <a class="btn-mini" href="https://apps.apple.com/app/id6759216018" target="_blank" rel="noopener">Get the app</a>
+        </div>
+      </div>
+    </nav>
+
+    <main id="main">
+      <!-- ═════════ HERO ═════════ -->
+      <header class="hero">
+        <div class="wrap g7">
+          <div class="hero-copy">
+            <p class="eyebrow rv">Save anything. Remember everything.</p>
+            <h1 class="rv d1"><span>Your</span><span>Knowledge</span><span>Companion</span></h1>
+            <p class="what rv d2">Save what you read, watch and listen to. It comes back as a few minutes of play a day, right before you&rsquo;d forget it.</p>
+            <div class="cta rv d3">
+              <a class="appstore-btn" href="https://apps.apple.com/app/id6759216018" target="_blank" rel="noopener" aria-label="Download REPS on the App Store">
+                <svg viewBox="0 0 384 512" fill="currentColor" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" /></svg>
+                <span class="appstore-label"><span class="small">Download on the</span><span class="big">App Store</span></span>
+              </a>
+              <p class="reassure">Free on the App Store.</p>
+            </div>
+          </div>
+          <figure class="media rv r d2">
+            <div class="phone">
+              <video id="hero-vid" class="clip" muted playsinline loop autoplay preload="metadata"
+                poster="beats/2026-09/game-quotle-poster.jpg" src="beats/2026-09/game-quotle.mp4"
+                aria-label="Screen recording: playing Quotle, the daily quote game, on a line from Jack London"></video>
+            </div>
+            <figcaption class="cap">Quotle, the daily quote game.</figcaption>
+          </figure>
+        </div>
+      </header>
+
+      <!-- ═════════ THE ONE DARK BAND: why now, who, and one reader's map ═════════ -->
+      <section class="mind" id="why" aria-labelledby="why-h">
+        <div class="wrap g7">
+          <div class="txt">
+            <p class="eyebrow rv">Why REPS exists</p>
+            <h2 id="why-h" class="pull rv d1">We have never taken in more and kept less.</h2>
+            <p class="then rv d2">The feed is built to take your attention and give nothing back. REPS runs the other way: every minute in it adds to a library that is yours.</p>
+            <div class="founder-line rv d2">
+              <img src="compare/assets/mike-mcgraw.jpg" alt="Mike McGraw, founder of REPS" width="72" height="72" />
+              <div>
+                <p class="name">Mike McGraw, founder</p>
+                <p class="fact">Twelve years investing in technology. Left on his 34th birthday to build REPS full-time.</p>
+                <q>I&rsquo;m building the antidote.</q>
+              </div>
+            </div>
+            <a class="link rv d3" href="/about#press">About &amp; press kit &rarr;</a>
+          </div>
+          <figure class="media rv r d2">
+            <div class="phone dark"><video class="clip" muted playsinline loop autoplay preload="none" poster="beats/2026-09/second-brain-poster.jpg" data-src="beats/2026-09/second-brain.mp4" aria-label="Screen recording: an interactive 3D map of hundreds of saved ideas, colored by topic"></video></div>
+            <figcaption class="cap">One reader&rsquo;s library, mapped. Every point is something they kept.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- ═════════ PROOF ═════════ -->
+      <section class="proof" aria-labelledby="proof-h">
+        <div class="wrap">
+          <div class="sec-head">
+            <p class="eyebrow rv">In their words</p>
+            <h2 id="proof-h" class="rv d1">Five App Store reviews, word for word.</h2>
+          </div>
+          <ol class="reviews">
+            <li class="rv"><blockquote>As a non-techy over 60 year old, this app is simple and intuitive to navigate.</blockquote><p class="who">Mooselake4<small>App Store review</small></p></li>
+            <li class="rv"><blockquote>Really enjoying using this app as a better way to spend 5/10 minutes at bus stop etc. vs brain rotting on Insta/X.</blockquote><p class="who">jsdldn<small>App Store review</small></p></li>
+            <li class="rv"><blockquote>Such a fun and easy way to remember the things that matter the most to me! New content is also great to discover! Definitely one of my favorite apps!</blockquote><p class="who">Cathb1234<small>App Store review</small></p></li>
+            <li class="rv"><blockquote>Very nice and fun way to retrain your brain &ndash; love a competition with friends. Love that app!</blockquote><p class="who">Sizeret74<small>App Store review</small></p></li>
+            <li class="rv"><blockquote>It&rsquo;s replaced scrolling Instagram on my phone, and it&rsquo;s helping me re-engage with books I read years ago, and actively seek out interesting knowledge to add to my second brain.</blockquote><p class="who">24601_London<small>App Store review</small></p></li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- ═════════ HOW IT WORKS (the only counted thing on the page) ═════════ -->
+      <section class="how" id="how" aria-labelledby="how-h">
+        <div class="wrap">
+          <div class="sec-head">
+            <p class="eyebrow rv">How it works</p>
+            <h2 id="how-h" class="rv d1">From saved to known.</h2>
+          </div>
+
+          <article class="step">
+            <div class="g7">
+              <div class="txt rv">
+                <span class="big" aria-hidden="true">1</span>
+                <h3>Save it from anywhere.</h3>
+                <p>Tap Share in Safari, YouTube, Spotify, Instagram or Apple Podcasts. Add a PDF, a screenshot, or a photo of your bookshelf, or search a book by its title. It takes seconds, and REPS does the rest.</p>
+                <div class="ledger-wrap">
+                  <div class="ledger-head">
+                    <span class="eyebrow">Saved in this clip</span>
+                    <span class="counter" aria-hidden="true"><b id="count">1</b></span>
+                  </div>
+                  <ol class="ledger" id="ledger" aria-label="What is saved in this clip">
+                    <li class="on"><span><span class="src">Safari</span><span class="what">The Beatles, on Wikipedia</span></span><svg class="ok" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6.4 4.8 9 10 3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></li>
+                    <li><span><span class="src">YouTube</span><span class="what">a Short</span></span><svg class="ok" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6.4 4.8 9 10 3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></li>
+                    <li><span><span class="src">Spotify</span><span class="what">a podcast episode</span></span><svg class="ok" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6.4 4.8 9 10 3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></li>
+                    <li><span><span class="src">Instagram</span><span class="what">an economics Reel</span></span><svg class="ok" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6.4 4.8 9 10 3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></li>
+                    <li><span><span class="src">Apple Podcasts</span><span class="what">an episode</span></span><svg class="ok" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6.4 4.8 9 10 3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></li>
+                  </ol>
+                </div>
+              </div>
+              <figure class="media rv r d1">
+                <div class="phone"><video id="share-vid" class="clip" muted playsinline loop autoplay preload="none" poster="beats/2026-09/share-anywhere-poster.jpg" data-src="beats/2026-09/share-anywhere.mp4" aria-label="Screen recording: sharing a Wikipedia page, a YouTube Short, a Spotify episode, an Instagram Reel and an Apple Podcasts episode to REPS"></video></div>
+                <figcaption class="cap">Five apps, twenty seconds.</figcaption>
+              </figure>
+            </div>
+          </article>
+
+          <article class="step">
+            <div class="g7">
+              <div class="txt rv r">
+                <span class="big" aria-hidden="true">2</span>
+                <h3>Keep the ideas you want.</h3>
+                <p>REPS reads what you saved and pulls out the ideas. You choose the ones worth keeping. It&rsquo;s your library, not someone else&rsquo;s course.</p>
+              </div>
+              <figure class="media rv d1">
+                <div class="phone"><video class="clip" muted playsinline loop autoplay preload="none" poster="beats/2026-09/curate-concepts-poster.jpg" data-src="beats/2026-09/curate-concepts.mp4" aria-label="Screen recording: choosing which ideas to keep from a saved page about Alexander the Great"></video></div>
+                <figcaption class="cap">Choosing what to keep from a page on Alexander the Great.</figcaption>
+              </figure>
+            </div>
+          </article>
+
+          <article class="step">
+            <div class="g7">
+              <div class="txt rv">
+                <span class="big" aria-hidden="true">3</span>
+                <h3>Play a few minutes a day.</h3>
+                <p>A short daily game built from your own saves: multiple choice, true or false, fill in the blank, or say it back in your own words. Each idea returns just before it would fade, over days and then weeks.</p>
+                <div class="games">
+                  <p class="eyebrow">Five more games, same library</p>
+                  <ul>
+                    <li>Ladder</li><li>Crossword</li><li>Cryptic</li><li>Quotle</li><li class="social">Friends Trivia</li>
+                  </ul>
+                  <p>Friends Trivia: play a friend on the same round and compare scores.</p>
+                </div>
+              </div>
+              <figure class="media rv r d1">
+                <div class="phone"><video class="clip" muted playsinline loop autoplay preload="none" poster="beats/2026-09/game-crossword-poster.jpg" data-src="beats/2026-09/game-crossword.mp4" aria-label="Screen recording: solving a crossword built from saved knowledge"></video></div>
+                <figcaption class="cap">A crossword made from saved reading.</figcaption>
+              </figure>
+            </div>
+          </article>
+
+          <p class="also rv"><b>Also in the app</b> <span>Ask Echo about anything you&rsquo;ve saved. Voice rounds in English, French, German, Spanish, Italian and Portuguese. A Lock Screen widget, reminders, streaks, friends and a leaderboard.</span></p>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ═════════ THE FOURTH BEAT, UNNUMBERED: from here on, nothing is counted ═════════ -->
+      <section class="yours" aria-labelledby="yours-h">
+        <div class="wrap g7">
+          <div class="pic rv">
+            <div class="shelf">
+              <img src="beats/2026-09/your-knowledge.jpg" alt="The REPS library screen: Your Knowledge, 82 sets and 2 collections, showing Into Thin Air by Jon Krakauer and a Diary of a CEO episode with Vanessa Van Edwards" width="720" height="860" loading="lazy" />
+            </div>
+          </div>
+          <div class="txt">
+            <h2 id="yours-h" class="rv r">Somewhere along the way, you stop counting.</h2>
+            <p class="lede rv r d1">The book you finished in spring is still with you in autumn. You become the one who remembers it: what went wrong on Everest in 1996, what Orwell meant by doublethink, which idea from last month&rsquo;s podcast actually holds up.</p>
+            <p class="titles rv r d2">Into&nbsp;Thin&nbsp;Air<span class="sep" aria-hidden="true">·</span> The&nbsp;Diary&nbsp;of&nbsp;a&nbsp;CEO<span class="sep" aria-hidden="true">·</span> 1984<span class="sep" aria-hidden="true">·</span> The&nbsp;Beatles<span class="sep" aria-hidden="true">·</span> Alexander&nbsp;the&nbsp;Great<span class="sep" aria-hidden="true">·</span> To&nbsp;Kill&nbsp;a&nbsp;Mockingbird</p>
+            <div class="cta rv r d3">
+              <a class="appstore-btn" href="https://apps.apple.com/app/id6759216018" target="_blank" rel="noopener" aria-label="Download REPS on the App Store">
+                <svg viewBox="0 0 384 512" fill="currentColor" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" /></svg>
+                <span class="appstore-label"><span class="small">Download on the</span><span class="big">App Store</span></span>
+              </a>
+              <p class="reassure">Free on the App Store.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═════════ FOUNDER ═════════ -->
+      <section class="founder" aria-labelledby="founder-h">
+        <div class="wrap g7">
+          <div class="txt">
+            <h2 class="eyebrow rv" id="founder-h">From the founder</h2>
+            <p class="story rv d1">Mike McGraw watched his nephews and nieces grow up on YouTube Shorts, read that the Flynn effect has reversed, and came to think Huxley, not Orwell, had called it: control through entertainment that asks nothing of you. In 2025 he deleted Instagram and went back to books, long reads and documentaries. On 30 June 2026, his 34th birthday, he left twelve years of technology investing, at CDPQ and then Inovia Capital, to build REPS full-time. He uses it every day.</p>
+            <a class="link rv d2" href="/about">Read the full story &rarr;</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═════════ PLANET ═════════ -->
+      <section class="planet" aria-label="Our planet pledge">
+        <div class="wrap">
+          <div class="row rv">
+            <img src="justonetree-logo.png" alt="JUST ONE Tree" width="368" height="100" loading="lazy" />
+            <p>The AI that powers REPS uses a little energy, so we plant real trees for it, far more than we use.</p>
+            <a class="link" href="/planet">Our planet pledge &rarr;</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═════════ CLOSE ═════════ -->
+      <section class="close" aria-labelledby="close-h">
+        <div class="wrap g7">
+          <div class="inner">
+            <p class="eyebrow rv">Your Knowledge Companion</p>
+            <h2 id="close-h" class="rv d1">Start with one thing you&rsquo;d hate to forget.</h2>
+            <p class="lede rv d2">A book on your nightstand, an episode from this week, the article you meant to come back to. Save it tonight. Tomorrow it&rsquo;s waiting for you.</p>
+            <div class="cta rv d3">
+              <a class="appstore-btn" href="https://apps.apple.com/app/id6759216018" target="_blank" rel="noopener" aria-label="Download REPS on the App Store">
+                <svg viewBox="0 0 384 512" fill="currentColor" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" /></svg>
+                <span class="appstore-label"><span class="small">Download on the</span><span class="big">App Store</span></span>
+              </a>
+              <p class="reassure">Free on the App Store.</p>
+            </div>
+            <a class="link rv d3" href="/about">Meet the founder and read about REPS &rarr;</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap g7">
+        <p class="f-brand"><img src="product/assets/app-icon.png" alt="" width="26" height="26" loading="lazy" />Save. Play. Remember.</p>
+        <div class="f-nav">
+          <nav class="f-links" aria-label="Company">
+            <a href="/about">About</a>
+            <a href="/about#press">Press</a>
+            <a href="/planet">Planet</a>
+            <a href="/support">Support</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+          </nav>
+          <nav class="f-links" aria-label="Features">
+            <a href="/features/active-recall">How the daily game works</a>
+            <a href="/features/second-brain">Your knowledge map</a>
+            <a href="/features/read-it-later">Read it later</a>
+          </nav>
+          <p>REPS · Free on the App Store, for iPhone.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- PostHog — analytics + engagement (autocapture, pageleave/scroll, session replay) -->
+    <script>
+      !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+      posthog.init("phc_gTI0FJoXiGPjdACbgVyunpDSl0mPs2HEYtmzUtK3SyE", {
+        api_host: "https://us.i.posthog.com",
+        ui_host: "https://us.posthog.com",
+        defaults: "2025-05-24",
+        persistence: "localStorage+cookie",
+        capture_pageview: true,
+        capture_pageleave: true,
+        autocapture: true,
+        disable_session_recording: false,
+        loaded: function (ph) { ph.register({ lp_variant: "v4b" }); }
+      });
+    </script>
+
+    <script>
+      (function () {
+        var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        /* ── Reveals: once, then unobserve ── */
+        var rvs = document.querySelectorAll(".rv");
+        if (!("IntersectionObserver" in window) || reduce) {
+          rvs.forEach(function (el) { el.classList.add("in"); });
+        } else {
+          var rio = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+              if (e.isIntersecting) { e.target.classList.add("in"); rio.unobserve(e.target); }
+            });
+          }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+          rvs.forEach(function (el) { rio.observe(el); });
+        }
+
+        /* ── Videos: lazy src, play only on screen, never more than 3 at once ── */
+        var vids = Array.prototype.slice.call(document.querySelectorAll("video.clip"));
+        var playing = [];
+        function play(v) {
+          if (playing.indexOf(v) === -1) playing.push(v);
+          while (playing.length > 3) { var old = playing.shift(); old.pause(); }
+          var pr = v.play(); if (pr && pr.catch) pr.catch(function () {});
+        }
+        function stop(v) {
+          var i = playing.indexOf(v); if (i > -1) playing.splice(i, 1);
+          v.pause();
+        }
+        /* Reduced motion: nothing autoplays; each phone gets one quiet play/pause button instead. */
+        var PLAY = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg>';
+        var PAUSE = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5h3v11H4zM9 2.5h3v11H9z" fill="currentColor"/></svg>';
+        if (reduce) vids.forEach(function (v) {
+          v.removeAttribute("autoplay"); v.pause();
+          var b = document.createElement("button");
+          b.type = "button"; b.className = "play-btn"; b.innerHTML = PLAY;
+          b.setAttribute("aria-label", "Play this screen recording");
+          b.addEventListener("click", function () {
+            if (!v.getAttribute("src") && v.dataset.src) v.src = v.dataset.src;
+            if (v.paused) { var pr = v.play(); if (pr && pr.catch) pr.catch(function () {}); } else v.pause();
+          });
+          v.addEventListener("play", function () { b.innerHTML = PAUSE; b.setAttribute("aria-label", "Pause this screen recording"); });
+          v.addEventListener("pause", function () { b.innerHTML = PLAY; b.setAttribute("aria-label", "Play this screen recording"); });
+          v.parentNode.appendChild(b);
+        });
+        if ("IntersectionObserver" in window) {
+          var near = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+              if (e.isIntersecting) {
+                var v = e.target;
+                if (v.dataset.src && !v.getAttribute("src")) { v.preload = "metadata"; v.src = v.dataset.src; }
+                near.unobserve(v);
+              }
+            });
+          }, { rootMargin: "400px 0px" });
+          var vis = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+              if (e.isIntersecting && !reduce) play(e.target); else stop(e.target);
+            });
+          }, { threshold: 0.3 });
+          vids.forEach(function (v) { near.observe(v); vis.observe(v); });
+        } else {
+          vids.forEach(function (v) { if (v.dataset.src) v.src = v.dataset.src; });
+        }
+
+        /* ── Step 1: the counter ticks with the share footage (cuts at the real scene changes) ── */
+        var sv = document.getElementById("share-vid");
+        var rows = document.querySelectorAll("#ledger li");
+        var countEl = document.getElementById("count");
+        var cuts = [0, 4.03, 8.37, 12.53, 16.87];
+        var cur = 0;
+        function mark(i) {
+          if (i === cur) return;
+          cur = i;
+          rows.forEach(function (r, k) {
+            r.classList.toggle("on", k === i);
+            r.classList.toggle("done", k < i);
+          });
+          var label = String(i + 1);
+          if (reduce) { countEl.textContent = label; return; }
+          countEl.classList.add("tick");
+          countEl.textContent = label;
+          requestAnimationFrame(function () { requestAnimationFrame(function () { countEl.classList.remove("tick"); }); });
+        }
+        sv.addEventListener("timeupdate", function () {
+          var t = sv.currentTime, i = 0;
+          for (var k = 0; k < cuts.length; k++) if (t >= cuts[k]) i = k;
+          mark(i);
+        });
+      })();
+    </script>
+  </body>
+</html>

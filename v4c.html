@@ -1,0 +1,693 @@
+<!doctype html>
+<!-- REPS home, variant v4c — direction: "Contact Sheet" (2026-10-13, fix round 1)
+     1. Governing metaphor: a photographer's contact sheet. You take in a lot; you circle the frames worth
+        keeping; those get enlarged into your life. That IS the product (save → choose → keep).
+     2. Two devices only: the sheet (small real frames beside one enlarged print) and a hand-drawn
+        graphite circle around the frame that was kept. No other numbering or label layers.
+     3. Built in threes: three-line H1, three steps, three frames per step, a 4:3 type scale.
+     4. The hero is the payoff, not the plumbing: one large, sharp capture of the daily crossword.
+        The why-now line sits directly under the H1 so a journalist and a 55-year-old read it first.
+     5. Coral is spent only where you tap. Everything else is warm ink on grained cream paper with hairlines.
+     6. One dark band, the graph of one reader's knowledge, placed early so its line is not buried.
+     7. Motion: prints "develop" (over-exposed → true) on entry, the circle draws itself, each step's
+        enlargement advances to the next frame when its clip ends. Bounded; off under reduced motion.
+     8. The close echoes the sheet: the same nine frames, now all circled. The sheet has become yours. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>REPS · Your Knowledge Companion</title>
+    <meta
+      name="description"
+      content="REPS keeps what you read, watch and listen to, and brings it back as a short daily game built from your own material. Free on the App Store."
+    />
+    <link rel="canonical" href="https://www.getreps.io/" />
+    <meta property="og:title" content="REPS · Your Knowledge Companion" />
+    <meta property="og:description" content="Save anything. Remember everything." />
+    <meta property="og:url" content="https://www.getreps.io/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://www.getreps.io/og-card-v3.png?v=2" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://www.getreps.io/og-card-v3.png?v=2" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Lora:ital,wght@0,500;1,400&display=swap" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Lora:ital,wght@0,500;1,400&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Lora:ital,wght@0,500;1,400&display=swap" rel="stylesheet" /></noscript>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "@id": "https://www.getreps.io/#organization",
+        "name": "REPS",
+        "url": "https://www.getreps.io/",
+        "logo": "https://www.getreps.io/og-card-v3.png",
+        "description": "REPS is your knowledge companion: a free iPhone app that keeps what you read, watch and listen to, and brings it back as a short daily game built from your own material."
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "@id": "https://www.getreps.io/#mike",
+        "name": "Mike McGraw",
+        "url": "https://www.getreps.io/about",
+        "image": "https://www.getreps.io/compare/assets/mike-mcgraw.jpg",
+        "jobTitle": "Founder",
+        "worksFor": { "@id": "https://www.getreps.io/#organization" },
+        "description": "Founder of REPS. Spent twelve years investing in technology before leaving to build REPS full-time in 2026."
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "@id": "https://www.getreps.io/#website",
+        "name": "REPS",
+        "url": "https://www.getreps.io/",
+        "publisher": { "@id": "https://www.getreps.io/#organization" }
+      }
+    </script>
+    <style>
+      :root {
+        --cream: #fffaf7;
+        --paper-2: #f8f0ea;
+        --coral: #ff6b6b;
+        --peach: #ff8e53;
+        --teal-ink: #2d8377;
+        --ink: #211a14;
+        --body: rgba(33, 26, 20, 0.76);
+        --soft: rgba(33, 26, 20, 0.68);
+        --pencil: rgba(33, 26, 20, 0.78);
+        --hair: rgba(33, 26, 20, 0.12);
+        --hair-soft: rgba(33, 26, 20, 0.07);
+        --night: #040409;
+        --display: "Space Grotesk", system-ui, -apple-system, sans-serif;
+        --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        --serif: "Lora", Georgia, serif;
+        --wrap: 1160px;
+        --gut: 22px;
+      }
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      html { background: var(--cream); scroll-behavior: smooth; }
+      body {
+        background-color: var(--cream);
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .13 0 0 0 0 .1 0 0 0 0 .08 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+        color: var(--body);
+        font-family: var(--sans);
+        font-size: 18px;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
+      img, video { display: block; max-width: 100%; height: auto; }
+      a { color: inherit; }
+      :focus-visible { outline: 2.5px solid var(--ink); outline-offset: 3px; border-radius: 4px; }
+      .wrap { max-width: var(--wrap); margin: 0 auto; padding-left: var(--gut); padding-right: var(--gut); }
+      .skip { position: absolute; left: 12px; top: -60px; z-index: 300; background: var(--ink); color: var(--cream); padding: 10px 14px; border-radius: 8px; text-decoration: none; }
+      .skip:focus { top: 12px; }
+
+      /* The page's one label style */
+      .eyebrow { display: block; font-family: var(--display); font-weight: 600; font-size: 14.5px; letter-spacing: 0.01em; color: var(--ink); margin-bottom: 14px; }
+      .ink-link { color: var(--ink); font-weight: 600; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px; text-decoration-color: rgba(33, 26, 20, 0.35); }
+      .ink-link:hover { text-decoration-color: var(--ink); }
+
+      /* ── Nav ── */
+      .nav { position: sticky; top: 0; z-index: 200; background: rgba(255, 250, 247, 0.97); border-bottom: 1px solid transparent; transition: border-color 0.25s; }
+      .nav.scrolled { border-bottom-color: var(--hair); }
+      .nav-in { display: flex; align-items: center; justify-content: space-between; height: 62px; }
+      .brand { display: inline-flex; align-items: center; gap: 9px; text-decoration: none; color: var(--ink); font-family: var(--display); font-weight: 700; font-size: 19px; letter-spacing: 0.02em; }
+      .brand img { width: 30px; height: 30px; border-radius: 8px; }
+      .nav-links { display: flex; align-items: center; gap: 18px; list-style: none; }
+      .nav-links a.txt { text-decoration: none; font-family: var(--display); font-weight: 500; font-size: 15.5px; color: var(--ink); }
+      .nav-links a.txt:hover { text-decoration: underline; text-underline-offset: 4px; }
+      .nav-links .opt { display: none; }
+      .cta-pill {
+        display: inline-block; text-decoration: none; color: #fff; white-space: nowrap;
+        font-family: var(--display); font-weight: 600; font-size: 14px;
+        padding: 7px 14px; border-radius: 999px;
+        background: linear-gradient(135deg, var(--coral), var(--peach));
+        transition: transform 0.15s, opacity 0.15s;
+      }
+      .cta-pill:hover { transform: translateY(-1px); opacity: 0.94; }
+      @media (min-width: 860px) { .nav-links { gap: 30px; } .nav-links .opt { display: list-item; } }
+      @media (max-width: 370px) { .nav-links { gap: 12px; } .brand span { display: none; } }
+
+      /* ── App Store badge (canonical black, Apple proportions) ── */
+      .appstore-btn {
+        display: inline-flex; align-items: center; justify-content: center; gap: 11px;
+        min-height: 60px; min-width: 190px; padding: 0 24px; border-radius: 13px; text-decoration: none;
+        background: #000; color: #fff;
+        box-shadow: 0 10px 24px -14px rgba(33, 26, 20, 0.6);
+        transition: transform 0.14s, box-shadow 0.14s;
+      }
+      .appstore-btn:hover { transform: translateY(-1px); box-shadow: 0 14px 28px -14px rgba(33, 26, 20, 0.65); }
+      .appstore-btn:active { transform: translateY(0); }
+      .appstore-btn svg { width: 26px; height: 31px; flex: none; }
+      .appstore-label { display: flex; flex-direction: column; align-items: flex-start; line-height: 1; text-align: left; font-family: -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", sans-serif; }
+      .appstore-label .small { font-size: 11.5px; font-weight: 400; letter-spacing: 0.01em; margin-bottom: 2px; }
+      .appstore-label .big { font-size: 22px; font-weight: 600; letter-spacing: -0.01em; line-height: 1; }
+      .reassure { margin-top: 12px; font-size: 15.5px; color: var(--soft); }
+
+      /* ── Phone bezel (code-drawn) ── */
+      .phone { position: relative; border-radius: 36px; padding: 7px; background: var(--ink); box-shadow: 0 30px 60px -36px rgba(33, 26, 20, 0.55); }
+      .phone video, .phone img { width: 100%; aspect-ratio: 540 / 1170; object-fit: cover; border-radius: 29px; background: #efe7e1; }
+
+      /* ── Graphite circle (the one annotation) ── */
+      .pencil path, .circ path { fill: none; stroke: var(--pencil); stroke-width: 2.2; stroke-linecap: round; vector-effect: non-scaling-stroke; stroke-dasharray: 1; stroke-dashoffset: 0; }
+      .pencil.draw path { animation: draw 0.7s cubic-bezier(0.4, 0, 0.2, 1) both; }
+      @keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+
+      /* ── HERO ── */
+      .hero { padding: 26px 0 36px; }
+      .hero-grid { display: grid; gap: 36px; }
+      h1 { font-family: var(--display); font-weight: 600; color: var(--ink); font-size: clamp(46px, 12.4vw, 84px); line-height: 0.95; letter-spacing: -0.035em; }
+      h1 .ln { display: block; }
+      .why { margin-top: 24px; font-family: var(--display); font-weight: 500; color: var(--ink); font-size: clamp(22px, 5.6vw, 27px); letter-spacing: -0.012em; line-height: 1.25; max-width: 21em; }
+      .define { margin-top: 14px; max-width: 28em; font-size: 20px; line-height: 1.5; color: var(--body); }
+      .hero-cta { margin-top: 28px; }
+      .hero-phone { position: relative; width: min(62%, 280px); margin: 0 auto; }
+      .hero-phone figcaption { margin-top: 14px; text-align: center; font-size: 15px; color: var(--soft); }
+      @media (min-width: 980px) {
+        .hero { padding: 56px 0 64px; }
+        .hero-grid { grid-template-columns: minmax(0, 1fr) 340px; align-items: center; gap: 80px; }
+        .hero-phone { width: 100%; margin: 0; }
+      }
+
+      /* ── Press strip (G) ── */
+      .press { border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); background: var(--paper-2); }
+      .press-grid { display: grid; }
+      .press-cell { padding: 26px 0; border-bottom: 1px solid var(--hair-soft); }
+      .press-cell:last-child { border-bottom: 0; }
+      .press-cell p { font-size: 18px; color: var(--ink); line-height: 1.5; }
+      .press-cell .pull { font-family: var(--serif); font-style: italic; font-size: 23px; line-height: 1.38; }
+      .founder-line { display: grid; grid-template-columns: 72px 1fr; gap: 16px; align-items: start; }
+      .founder-line img { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; }
+      .founder-line .fact { font-size: 16.5px; color: var(--body); }
+      .founder-line .voice { margin-top: 6px; font-family: var(--serif); font-style: italic; font-size: 19px; color: var(--ink); }
+      .founder-line .ink-link { display: inline-block; margin-top: 10px; font-size: 16px; }
+      @media (min-width: 900px) {
+        .press-grid { grid-template-columns: 1.05fr 0.95fr 1.25fr; }
+        .press-cell { padding: 32px 32px 34px; border-bottom: 0; border-left: 1px solid var(--hair-soft); }
+        .press-cell:first-child { padding-left: 0; border-left: 0; }
+        .press-cell:last-child { padding-right: 0; }
+      }
+
+      /* ── Sections ── */
+      section { scroll-margin-top: 70px; }
+      .sec { padding: 64px 0; }
+      @media (min-width: 980px) { .sec { padding: 80px 0; } }
+      .h2 { text-wrap: balance; font-family: var(--display); font-weight: 600; color: var(--ink); font-size: clamp(34px, 8.4vw, 53.7px); line-height: 1.03; letter-spacing: -0.03em; }
+      .lede { margin-top: 16px; max-width: 34em; font-size: 19px; }
+
+      /* ── Reviews ── */
+      .reviews { display: grid; gap: 36px; margin-top: 40px; }
+      .lead-q blockquote { font-family: var(--serif); font-style: italic; font-size: clamp(25px, 6.2vw, 34px); line-height: 1.35; color: var(--ink); }
+      .lead-q .circ-wrap { position: relative; display: inline-block; white-space: nowrap; }
+      .lead-q .circ { position: absolute; left: -7%; top: -6%; width: 112%; height: 118%; overflow: visible; pointer-events: none; }
+      .circ path { stroke-dashoffset: 1; }
+      .reveal.in .circ path { animation: draw 0.9s 0.4s cubic-bezier(0.4, 0, 0.2, 1) both; }
+      .attr { display: block; margin-top: 14px; font-style: normal; font-size: 15px; color: var(--soft); }
+      .attr b { color: var(--ink); font-weight: 600; }
+      .more-q { list-style: none; display: grid; gap: 26px; }
+      .more-q li { border-top: 1px solid var(--hair); padding-top: 18px; }
+      .more-q blockquote { font-family: var(--serif); font-style: italic; font-size: 19px; line-height: 1.5; color: var(--ink); }
+      @media (min-width: 980px) {
+        .reviews { grid-template-columns: 1fr 1.25fr; gap: 72px; align-items: start; }
+        .more-q { grid-template-columns: 1fr 1fr; gap: 30px 36px; }
+      }
+
+      /* ── Dark band ── */
+      .band { background: var(--night); color: rgba(255, 250, 247, 0.78); padding: 60px 0; }
+      .band .h2 { color: var(--cream); font-size: clamp(34px, 8.6vw, 58px); }
+      .band .eyebrow { color: rgba(255, 250, 247, 0.82); }
+      .band-grid { display: grid; gap: 36px; align-items: center; }
+      .band .phone { background: #1a1820; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08); width: min(64%, 270px); margin: 0 auto; }
+      .band .phone video { background: var(--night); }
+      .band p { margin-top: 20px; max-width: 32em; font-size: 19px; }
+      @media (min-width: 980px) { .band { padding: 80px 0; } .band-grid { grid-template-columns: minmax(0, 1fr) 262px; gap: 90px; } .band .phone { width: 100%; } }
+
+      /* ── How it works: the sheet, step by step ── */
+      .steps { margin-top: 30px; }
+      .step { border-top: 1px solid var(--hair); padding: 36px 0 40px; display: grid; gap: 24px; }
+      .step:last-child { padding-bottom: 0; }
+      .num { display: block; font-family: var(--display); font-weight: 600; font-size: 56px; line-height: 1; letter-spacing: -0.04em; color: var(--ink); margin-bottom: 14px; }
+      .step h3 { font-family: var(--display); font-weight: 600; color: var(--ink); font-size: 30.2px; line-height: 1.12; letter-spacing: -0.02em; }
+      .step-copy p { margin-top: 12px; max-width: 30em; }
+      .step-sheet { display: none; }
+      .step-phone { width: min(62%, 250px); margin: 0 auto; }
+      .step-phone figcaption { margin-top: 14px; font-size: 15.5px; line-height: 1.45; color: var(--body); text-align: center; min-height: 2.9em; }
+      @media (min-width: 980px) {
+        .step { grid-template-columns: minmax(0, 1fr) 86px 262px; gap: 0 56px; align-items: center; padding: 40px 0; }
+        .step-sheet { display: grid; gap: 14px; position: relative; }
+        .step-phone { width: 100%; margin: 0; }
+        .step-phone figcaption { text-align: left; }
+      }
+      .thumb { appearance: none; border: 0; background: none; cursor: pointer; padding: 0; border-radius: 8px; display: block; }
+      .thumb img { width: 100%; aspect-ratio: 540 / 1170; object-fit: cover; border-radius: 8px; outline: 1px solid var(--hair); outline-offset: -1px; opacity: 0.7; transition: opacity 0.3s; }
+      .thumb:hover img, .thumb[aria-pressed="true"] img { opacity: 1; }
+      .step-sheet .pencil { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; transition: transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1); }
+
+      /* ── Mid ask ── */
+      .ask { text-align: center; padding: 8px 0 64px; }
+      .ask p.line { text-wrap: balance; font-family: var(--display); font-weight: 500; font-size: 24px; color: var(--ink); margin-bottom: 22px; letter-spacing: -0.01em; }
+
+      /* ── Identity print ── */
+      .ident-grid { display: grid; gap: 40px; align-items: center; }
+      .bigprint { position: relative; max-width: 420px; margin: 0 auto; width: 100%; }
+      .bigprint .sheetpaper { background: #fffdfb; padding: 14px 14px 48px; box-shadow: 0 1px 0 var(--hair), 0 26px 50px -34px rgba(33, 26, 20, 0.45); transform: rotate(-1.2deg); }
+      .bigprint img { width: 100%; aspect-ratio: 720 / 860; }
+      .bigprint .pcap { position: absolute; left: 20px; bottom: 16px; font-size: 14px; color: var(--soft); }
+      .bigprint .circ { position: absolute; left: 2%; top: 12.5%; width: 64%; height: 20%; overflow: visible; pointer-events: none; }
+      .serif-list { margin-top: 22px; font-family: var(--serif); font-size: 20px; line-height: 1.6; color: var(--ink); }
+      .serif-list span { display: block; }
+      @media (min-width: 980px) { .ident-grid { grid-template-columns: 1fr 1fr; gap: 90px; } .bigprint { margin: 0; } }
+
+      /* ── Founder ── */
+      .founder-grid { display: grid; gap: 30px; align-items: start; }
+      @media (max-width: 979px) { .founder-grid .mugshot { display: none; } }
+      .mugshot { width: 176px; background: #fffdfb; padding: 9px 9px 9px; transform: rotate(1.6deg); box-shadow: 0 1px 0 var(--hair), 0 20px 40px -28px rgba(33, 26, 20, 0.5); }
+      .mugshot img { width: 158px; height: 158px; object-fit: cover; }
+      .note { margin-top: 20px; font-family: var(--serif); font-size: 20px; line-height: 1.62; color: var(--ink); max-width: 34em; }
+      .note p + p { margin-top: 16px; }
+      .doors { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 12px 28px; font-size: 17px; }
+      @media (min-width: 980px) { .founder-grid { grid-template-columns: 260px minmax(0, 1fr); gap: 60px; } .mugshot { width: 216px; padding: 10px; } .mugshot img { width: 196px; height: 196px; } }
+
+      /* ── Planet strip ── */
+      .planet { border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); background: rgba(78, 205, 196, 0.07); }
+      .planet-in { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; padding-top: 26px; padding-bottom: 26px; }
+      .planet img { width: 120px; height: auto; }
+      .planet p { flex: 1 1 320px; font-size: 17px; color: var(--ink); }
+
+      /* ── Close ── */
+      .close { padding: 72px 0 64px; text-align: center; }
+      .close .h2 { max-width: 13em; margin: 0 auto; }
+      .close .lede { margin-left: auto; margin-right: auto; }
+      .close-strip { display: grid; grid-template-columns: repeat(9, 1fr); gap: 9px; max-width: 600px; margin: 40px auto 44px; }
+      .close-strip .cf { position: relative; }
+      .close-strip img { width: 100%; aspect-ratio: 540 / 1170; object-fit: cover; border-radius: 5px; outline: 1px solid var(--hair); outline-offset: -1px; }
+      .close-strip svg { position: absolute; left: -12%; top: -6%; width: 124%; height: 112%; overflow: visible; pointer-events: none; }
+      .close-strip svg path { fill: none; stroke: var(--pencil); stroke-width: 1.7; stroke-linecap: round; vector-effect: non-scaling-stroke; stroke-dasharray: 1; stroke-dashoffset: 1; }
+      .close.in .close-strip svg path { animation: draw 0.5s cubic-bezier(0.4, 0, 0.2, 1) both; }
+      .close-strip .cf:nth-child(1) svg path { animation-delay: 0.39s !important; }
+      .close-strip .cf:nth-child(2) svg path { animation-delay: 0.53s !important; }
+      .close-strip .cf:nth-child(3) svg path { animation-delay: 0.67s !important; }
+      .close-strip .cf:nth-child(4) svg path { animation-delay: 0.81s !important; }
+      .close-strip .cf:nth-child(5) svg path { animation-delay: 0.95s !important; }
+      .close-strip .cf:nth-child(6) svg path { animation-delay: 1.09s !important; }
+      .close-strip .cf:nth-child(7) svg path { animation-delay: 1.23s !important; }
+      .close-strip .cf:nth-child(8) svg path { animation-delay: 1.37s !important; }
+      .close-strip .cf:nth-child(9) svg path { animation-delay: 1.51s !important; }
+      .close-cta { display: flex; flex-direction: column; align-items: center; }
+      .close-about { margin-top: 22px; font-size: 16.5px; }
+
+      /* ── Footer ── */
+      footer { border-top: 1px solid var(--hair); padding: 40px 0 calc(40px + env(safe-area-inset-bottom)); font-size: 15.5px; }
+      .foot { display: grid; gap: 22px; }
+      .foot .motto { font-family: var(--display); font-weight: 600; color: var(--ink); font-size: 17px; }
+      .foot nav ul { list-style: none; display: flex; flex-wrap: wrap; gap: 10px 22px; }
+      .foot a { text-decoration: none; color: var(--ink); }
+      .foot a:hover { text-decoration: underline; text-underline-offset: 3px; }
+      .foot .feat a { color: var(--body); }
+      .foot small { color: var(--soft); font-size: 14px; }
+      @media (min-width: 860px) { .foot { grid-template-columns: auto 1fr; align-items: start; column-gap: 60px; } .foot nav { justify-self: end; } }
+
+      /* ── Develop (scroll reveal) ── */
+      .reveal { transition: opacity 0.9s ease, filter 1.4s ease, transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1); }
+      .js .reveal:not(.in) { opacity: 0; transform: translateY(14px); filter: brightness(1.35) contrast(0.6) saturate(0.3); }
+
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        .reveal, .js .reveal:not(.in) { opacity: 1 !important; transform: none !important; filter: none !important; transition: none !important; }
+        .pencil, .pencil.draw path, .reveal.in .circ path, .close.in .close-strip svg path { animation: none !important; transition: none !important; }
+        .circ path, .close-strip svg path { stroke-dashoffset: 0; }
+        .appstore-btn, .cta-pill { transition: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header class="nav" id="nav">
+      <div class="wrap nav-in">
+        <a class="brand" href="/" aria-label="REPS home">
+          <img src="product/assets/app-icon.png" alt="" width="30" height="30" />
+          <span>REPS</span>
+        </a>
+        <ul class="nav-links">
+          <li class="opt"><a class="txt" href="#how">How it works</a></li>
+          <li><a class="txt" href="/about">About</a></li>
+          <li><a class="txt" href="/about#press">Press</a></li>
+          <li><a class="cta-pill" href="https://apps.apple.com/app/id6759216018" target="_blank" rel="noopener">Get the app</a></li>
+        </ul>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- ═══ HERO ═══ -->
+      <section class="hero" aria-labelledby="h1">
+        <div class="wrap hero-grid">
+          <div class="hero-copy">
+            <span class="eyebrow">Save anything. Remember everything.</span>
+            <h1 id="h1"><span class="ln">Your</span><span class="ln">Knowledge</span><span class="ln">Companion</span></h1>
+            <p class="why">The feed is built to be forgotten: scroll, swipe, gone. REPS runs the other way.</p>
+            <p class="define">Save what you read, watch and listen to. It comes back as a few minutes of play a day, made from your own material, right before you'd forget it.</p>
+            <div class="hero-cta">
+              <a class="appstore-btn" href="https://apps.apple.com/app/id6759216018" target="_blank" rel="noopener" aria-label="Download REPS on the App Store">
+                <svg viewBox="0 0 384 512" fill="currentColor" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" /></svg>
+                <span class="appstore-label"><span class="small">Download on the</span><span class="big">App Store</span></span>
+              </a>
+              <p class="reassure">Free on the App Store.</p>
+            </div>
+          </div>
+          <figure class="hero-phone">
+            <div class="phone">
+              <video id="hero-vid" class="clip" muted playsinline loop autoplay preload="metadata" poster="beats/2026-09/game-crossword-poster.jpg" src="beats/2026-09/game-crossword.mp4" aria-label="Screen recording: solving a crossword built from things the player saved"></video>
+            </div>
+            <figcaption>Today's crossword, built from what you saved.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- ═══ PRESS STRIP ═══ -->
+      <section class="press" aria-label="REPS at a glance">
+        <div class="wrap press-grid">
+          <div class="press-cell">
+            <span class="eyebrow">In one line</span>
+            <p>REPS is a free iPhone app that keeps what you read, watch and listen to, and brings it back as a short daily game built from your own material.</p>
+          </div>
+          <div class="press-cell">
+            <span class="eyebrow">Why now</span>
+            <p class="pull">“We have never taken in more, and kept less.”</p>
+          </div>
+          <div class="press-cell">
+            <span class="eyebrow">Who made it</span>
+            <div class="founder-line">
+              <img src="compare/assets/mike-mcgraw.jpg" alt="Mike McGraw, founder of REPS" width="72" height="72" />
+              <div>
+                <p class="fact">Mike McGraw spent twelve years in tech investing, then left on his 34th birthday to build REPS.</p>
+                <p class="voice">“I'm building the antidote.”</p>
+                <a class="ink-link" href="/about#press">About &amp; press kit →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ REVIEWS ═══ -->
+      <section class="sec" aria-labelledby="proof-h">
+        <div class="wrap">
+          <span class="eyebrow">From the App Store, unedited</span>
+          <h2 class="h2" id="proof-h">In their words.</h2>
+          <div class="reviews">
+            <figure class="lead-q reveal">
+              <blockquote>“As a non-techy over 60 year old, this app is <span class="circ-wrap">simple and intuitive<svg class="circ" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M60 4 C 90 3, 99 14, 97 22 C 95 32, 70 38, 46 37 C 18 36, 2 30, 3 20 C 4 10, 22 4, 50 3 C 58 3, 66 4, 72 7" /></svg></span> to navigate.”</blockquote>
+              <figcaption class="attr"><b>Mooselake4</b> · App Store review</figcaption>
+            </figure>
+            <ul class="more-q">
+              <li class="reveal"><blockquote>“Really enjoying using this app as a better way to spend 5/10 minutes at bus stop etc. vs brain rotting on Insta/X.”</blockquote><span class="attr"><b>Jsdldn</b> · App Store review</span></li>
+              <li class="reveal"><blockquote>“Such a fun and easy way to remember the things that matter the most to me! New content is also great to discover! Definitely one of my favorite apps!”</blockquote><span class="attr"><b>Cathb1234</b> · App Store review</span></li>
+              <li class="reveal"><blockquote>“Very nice and fun way to retrain your brain – love a competition with friends. Love that app!”</blockquote><span class="attr"><b>Sizeret74</b> · App Store review</span></li>
+              <li class="reveal"><blockquote>“It's replaced scrolling Instagram on my phone, and it's helping me re-engage with books I read years ago, and actively seek out interesting knowledge to add to my second brain.”</blockquote><span class="attr"><b>24601_London</b> · App Store review</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ THE ONE DARK BAND ═══ -->
+      <section class="band" aria-labelledby="band-h">
+        <div class="wrap band-grid">
+          <div class="reveal">
+            <span class="eyebrow">Where it leads</span>
+            <h2 class="h2" id="band-h">Every point of light is something one person chose to keep.</h2>
+            <p>Over weeks, what you save starts to connect. The book finds the podcast, the podcast finds the article you nearly lost. Turn it, zoom in, and see the shape of what you know. Then ask Echo, your companion in the app, about any of it.</p>
+          </div>
+          <div class="phone reveal">
+            <video class="clip" muted playsinline loop autoplay preload="none" poster="beats/2026-09/second-brain-poster.jpg" data-src="beats/2026-09/second-brain.mp4" aria-label="A real 3D map of one person's saved knowledge, hundreds of coloured points"></video>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ HOW IT WORKS: the sheet, step by step ═══ -->
+      <section class="sec" id="how" aria-labelledby="how-h">
+        <div class="wrap">
+          <span class="eyebrow">How it works</span>
+          <h2 class="h2" id="how-h">Three steps from forgotten to yours.</h2>
+          <p class="lede">You already read the long piece, watched the documentary, finished the book. REPS takes it from there.</p>
+
+          <div class="steps">
+            <article class="step reveal">
+              <div class="step-copy"><span class="num" aria-hidden="true">1</span><h3>Save it from wherever you are.</h3><p>Tap Share in Safari, YouTube, Spotify, Instagram or Apple Podcasts and choose REPS. Add a book by its title, snap your bookshelf, drop in a PDF, or type a note. That's your whole job.</p></div>
+              <div class="step-sheet" role="group" aria-label="Three screens for this step. Choose one to play it."><button class="thumb" type="button" aria-pressed="true" data-clip="share-anywhere" data-cap="Saving from Safari, YouTube, Spotify, Instagram and Apple Podcasts, one tap each."><img src="beats/2026-09/share-anywhere-poster.jpg" alt="Saving from Safari, YouTube, Spotify, Instagram and Apple Podcasts, one tap each." width="540" height="1170" loading="lazy" /></button><button class="thumb" type="button" aria-pressed="false" data-clip="save-book-search" data-cap="Adding a book you've already read, just by its title."><img src="beats/2026-09/save-book-search-poster.jpg" alt="Adding a book you've already read, just by its title." width="540" height="1170" loading="lazy" /></button><button class="thumb" type="button" aria-pressed="false" data-clip="share-spotify" data-cap="Saving a podcast episode straight from Spotify."><img src="beats/2026-09/share-spotify-poster.jpg" alt="Saving a podcast episode straight from Spotify." width="540" height="1170" loading="lazy" /></button><svg class="pencil" viewBox="0 0 100 200" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M56 7 C 88 6, 98 46, 97 102 C 96 158, 84 195, 49 194 C 15 193, 4 156, 4 100 C 4 44, 16 9, 47 5 C 55 4, 62 6, 66 10" /></svg></div>
+              <figure class="step-phone"><div class="phone"><video class="clip" muted playsinline autoplay preload="none" poster="beats/2026-09/share-anywhere-poster.jpg" data-src="beats/2026-09/share-anywhere.mp4" aria-label="Saving from Safari, YouTube, Spotify, Instagram and Apple Podcasts, one tap each."></video></div><figcaption>Saving from Safari, YouTube, Spotify, Instagram and Apple Podcasts, one tap each.</figcaption></figure>
+            </article>
+            <article class="step reveal">
+              <div class="step-copy"><span class="num" aria-hidden="true">2</span><h3>Keep the ideas worth keeping.</h3><p>REPS pulls out the ideas. You choose the ones you care about, and they join your library beside the books, talks and articles you've already kept. You decide what stays.</p></div>
+              <div class="step-sheet" role="group" aria-label="Three screens for this step. Choose one to play it."><button class="thumb" type="button" aria-pressed="true" data-clip="curate-concepts" data-cap="Choosing which ideas from an article about Alexander the Great to keep."><img src="beats/2026-09/curate-concepts-poster.jpg" alt="Choosing which ideas from an article about Alexander the Great to keep." width="540" height="1170" loading="lazy" /></button><button class="thumb" type="button" aria-pressed="false" data-clip="set-1984" data-cap="A book you finished, kept in your library with its key ideas."><img src="beats/2026-09/set-1984-poster.jpg" alt="A book you finished, kept in your library with its key ideas." width="540" height="1170" loading="lazy" /></button><button class="thumb" type="button" aria-pressed="false" data-clip="home-feed" data-cap="Your home screen, made of the things you saved."><img src="beats/2026-09/home-feed-poster.jpg" alt="Your home screen, made of the things you saved." width="540" height="1170" loading="lazy" /></button><svg class="pencil" viewBox="0 0 100 200" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M56 7 C 88 6, 98 46, 97 102 C 96 158, 84 195, 49 194 C 15 193, 4 156, 4 100 C 4 44, 16 9, 47 5 C 55 4, 62 6, 66 10" /></svg></div>
+              <figure class="step-phone"><div class="phone"><video class="clip" muted playsinline autoplay preload="none" poster="beats/2026-09/curate-concepts-poster.jpg" data-src="beats/2026-09/curate-concepts.mp4" aria-label="Choosing which ideas from an article about Alexander the Great to keep."></video></div><figcaption>Choosing which ideas from an article about Alexander the Great to keep.</figcaption></figure>
+            </article>
+            <article class="step reveal">
+              <div class="step-copy"><span class="num" aria-hidden="true">3</span><h3>It comes back as a daily game.</h3><p>A few minutes a day, made from your own material, and each idea returns just as it starts to fade. Play Ladder, Crossword, Cryptic and Quotle, or Friends Trivia when you'd rather play with someone.</p></div>
+              <div class="step-sheet" role="group" aria-label="Three screens for this step. Choose one to play it."><button class="thumb" type="button" aria-pressed="true" data-clip="game-quotle" data-cap="Quotle, the daily quote game. Today: Jack London."><img src="beats/2026-09/game-quotle-poster.jpg" alt="Quotle, the daily quote game. Today: Jack London." width="540" height="1170" loading="lazy" /></button><button class="thumb" type="button" aria-pressed="false" data-clip="game-friends-trivia" data-cap="Friends Trivia: play a friend on the same round and compare scores."><img src="beats/2026-09/game-friends-trivia-poster.jpg" alt="Friends Trivia: play a friend on the same round and compare scores." width="540" height="1170" loading="lazy" /></button><button class="thumb" type="button" aria-pressed="false" data-clip="game-crossword" data-cap="A crossword built from what you saved."><img src="beats/2026-09/game-crossword-poster.jpg" alt="A crossword built from what you saved." width="540" height="1170" loading="lazy" /></button><svg class="pencil" viewBox="0 0 100 200" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M56 7 C 88 6, 98 46, 97 102 C 96 158, 84 195, 49 194 C 15 193, 4 156, 4 100 C 4 44, 16 9, 47 5 C 55 4, 62 6, 66 10" /></svg></div>
+              <figure class="step-phone"><div class="phone"><video class="clip" muted playsinline autoplay preload="none" poster="beats/2026-09/game-quotle-poster.jpg" data-src="beats/2026-09/game-quotle.mp4" aria-label="Quotle, the daily quote game. Today: Jack London."></video></div><figcaption>Quotle, the daily quote game. Today: Jack London.</figcaption></figure>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ MID ASK ═══ -->
+      <aside class="ask" aria-label="Get REPS">
+        <div class="wrap">
+          <p class="line">Save one thing tonight. Play it tomorrow.</p>
+          <a class="appstore-btn" href="https://apps.apple.com/app/id6759216018" target="_blank" rel="noopener" aria-label="Download REPS on the App Store">
+                <svg viewBox="0 0 384 512" fill="currentColor" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" /></svg>
+                <span class="appstore-label"><span class="small">Download on the</span><span class="big">App Store</span></span>
+              </a>
+          <p class="reassure">Free on the App Store.</p>
+        </div>
+      </aside>
+
+      <!-- ═══ IDENTITY ═══ -->
+      <section class="sec" aria-labelledby="ident-h" style="padding-top: 20px">
+        <div class="wrap ident-grid">
+          <figure class="bigprint reveal">
+            <div class="sheetpaper">
+              <img src="beats/2026-09/your-knowledge.jpg" alt="The Your Knowledge library screen in REPS, with saved sets including Into Thin Air by Jon Krakauer and a Diary of a CEO episode" width="720" height="860" loading="lazy" />
+            </div>
+            <svg class="circ" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M60 4 C 90 3, 99 14, 97 22 C 95 32, 70 38, 46 37 C 18 36, 2 30, 3 20 C 4 10, 22 4, 50 3 C 58 3, 66 4, 72 7" /></svg>
+            <figcaption class="pcap">One reader's library, as it looks in the app.</figcaption>
+          </figure>
+          <div class="reveal">
+            <span class="eyebrow">What you end up with</span>
+            <h2 class="h2" id="ident-h">Months later, it's still yours.</h2>
+            <div class="serif-list">
+              <span>The mountain book you couldn't put down.</span>
+              <span>The interview that changed how you talk to people.</span>
+              <span>The documentary you'd have half-forgotten by Friday.</span>
+            </div>
+            <p class="lede">Not a pile of bookmarks. A library you can actually draw on: at dinner, at work, mid-conversation, when someone says “didn't you read something about that?”</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ FOUNDER ═══ -->
+      <section class="sec" aria-labelledby="founder-h" style="padding-top: 20px">
+        <div class="wrap founder-grid">
+          <div class="mugshot reveal"><img src="compare/assets/mike-mcgraw.jpg" alt="Mike McGraw, founder of REPS" width="400" height="400" loading="lazy" /></div>
+          <div class="reveal">
+            <span class="eyebrow">Why this exists</span>
+            <h2 class="h2" id="founder-h" style="font-size: clamp(30px, 6.6vw, 40.3px)">“I'm building the antidote.”</h2>
+            <div class="note">
+              <p>Mike McGraw spent twelve years investing in technology, latterly at Inovia Capital, where he opened the European office. Then he watched his nephews and nieces grow up on YouTube Shorts, and read that the Flynn effect has gone into reverse. He thinks Huxley called it, not Orwell: control through entertainment that asks nothing of you.</p>
+              <p>So he deleted Instagram, went back to books, and on 30 June 2026, his 34th birthday, left to build REPS full-time. He uses it every day.</p>
+            </div>
+            <div class="doors">
+              <a class="ink-link" href="/about">Read the full story →</a>
+              <a class="ink-link" href="/about#press">About &amp; press kit →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ PLANET ═══ -->
+      <aside class="planet" aria-label="Our planet pledge">
+        <div class="wrap planet-in">
+          <img src="justonetree-logo.png" alt="JUST ONE Tree" width="368" height="100" loading="lazy" />
+          <p>The AI that powers REPS uses a little energy, so we plant real trees for it, far more than we use. <a class="ink-link" href="/planet">See our planet pledge&nbsp;→</a></p>
+        </div>
+      </aside>
+
+      <!-- ═══ CLOSE: the same nine frames, all circled ═══ -->
+      <section class="close" id="close" aria-labelledby="close-h">
+        <div class="wrap">
+          <span class="eyebrow">Your Knowledge Companion</span>
+          <h2 class="h2" id="close-h">Start keeping what you learn.</h2>
+          <div class="close-strip" aria-hidden="true">
+            <div class="cf"><img src="beats/2026-09/share-anywhere-poster.jpg" alt="" loading="lazy" /><svg viewBox="0 0 100 200" preserveAspectRatio="none"><path pathLength="1" d="M56 7 C 88 6, 98 46, 97 102 C 96 158, 84 195, 49 194 C 15 193, 4 156, 4 100 C 4 44, 16 9, 47 5 C 55 4, 62 6, 66 10" /></svg></div>
+            <div class="cf"><img src="beats/2026-09/share-youtube-short-poster.jpg" alt="" loading="lazy" /><svg viewBox="0 0 100 200" preserveAspectRatio="none"><path pathLength="1" d="M48 5 C 84 7, 96 50, 95 104 C 94 160, 80 196, 46 195 C 12 194, 5 150, 6 98 C 7 46, 20 6, 52 6 C 60 6, 66 9, 70 13" /></svg></div>
+            <div class="cf"><img src="beats/2026-09/save-book-search-poster.jpg" alt="" loading="lazy" /><svg viewBox="0 0 100 200" preserveAspectRatio="none"><path pathLength="1" d="M56 7 C 88 6, 98 46, 97 102 C 96 158, 84 195, 49 194 C 15 193, 4 156, 4 100 C 4 44, 16 9, 47 5 C 55 4, 62 6, 66 10" /></svg></div>
+            <div class="cf"><img src="beats/2026-09/curate-concepts-poster.jpg" alt="" loading="lazy" /><svg viewBox="0 0 100 200" preserveAspectRatio="none"><path pathLength="1" d="M48 5 C 84 7, 96 50, 95 104 C 94 160, 80 196, 46 195 C 12 194, 5 150, 6 98 C 7 46, 20 6, 52 6 C 60 6, 66 9, 70 13" /></svg></div>
+            <div class="cf"><img src="beats/2026-09/set-1984-poster.jpg" alt="" loading="lazy" /><svg viewBox="0 0 100 200" preserveAspectRatio="none"><path pathLength="1" d="M56 7 C 88 6, 98 46, 97 102 C 96 158, 84 195, 49 194 C 15 193, 4 156, 4 100 C 4 44, 16 9, 47 5 C 55 4, 62 6, 66 10" /></svg></div>
+            <div class="cf"><img src="beats/2026-09/home-feed-poster.jpg" alt="" loading="lazy" /><svg viewBox="0 0 100 200" preserveAspectRatio="none"><path pathLength="1" d="M48 5 C 84 7, 96 50, 95 104 C 94 160, 80 196, 46 195 C 12 194, 5 150, 6 98 C 7 46, 20 6, 52 6 C 60 6, 66 9, 70 13" /></svg></div>
+            <div class="cf"><img src="beats/2026-09/game-quotle-poster.jpg" alt="" loading="lazy" /><svg viewBox="0 0 100 200" preserveAspectRatio="none"><path pathLength="1" d="M56 7 C 88 6, 98 46, 97 102 C 96 158, 84 195, 49 194 C 15 193, 4 156, 4 100 C 4 44, 16 9, 47 5 C 55 4, 62 6, 66 10" /></svg></div>
+            <div class="cf"><img src="beats/2026-09/game-crossword-poster.jpg" alt="" loading="lazy" /><svg viewBox="0 0 100 200" preserveAspectRatio="none"><path pathLength="1" d="M48 5 C 84 7, 96 50, 95 104 C 94 160, 80 196, 46 195 C 12 194, 5 150, 6 98 C 7 46, 20 6, 52 6 C 60 6, 66 9, 70 13" /></svg></div>
+            <div class="cf"><img src="beats/2026-09/game-friends-trivia-poster.jpg" alt="" loading="lazy" /><svg viewBox="0 0 100 200" preserveAspectRatio="none"><path pathLength="1" d="M56 7 C 88 6, 98 46, 97 102 C 96 158, 84 195, 49 194 C 15 193, 4 156, 4 100 C 4 44, 16 9, 47 5 C 55 4, 62 6, 66 10" /></svg></div>
+          </div>
+          <div class="close-cta">
+            <a class="appstore-btn" href="https://apps.apple.com/app/id6759216018" target="_blank" rel="noopener" aria-label="Download REPS on the App Store">
+                <svg viewBox="0 0 384 512" fill="currentColor" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" /></svg>
+                <span class="appstore-label"><span class="small">Download on the</span><span class="big">App Store</span></span>
+              </a>
+            <p class="reassure">Free on the App Store.</p>
+            <p class="close-about">Who's behind it? <a class="ink-link" href="/about">Meet the founder →</a></p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap foot">
+        <div>
+          <p class="motto">Save. Play. Remember.</p>
+          <small>REPS · Your Knowledge Companion</small>
+        </div>
+        <nav aria-label="Footer">
+          <ul>
+            <li><a href="/about">About</a></li>
+            <li><a href="/about#press">Press</a></li>
+            <li><a href="/planet">Planet</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/privacy">Privacy</a></li>
+            <li><a href="/terms">Terms</a></li>
+          </ul>
+          <ul class="feat" style="margin-top: 12px">
+            <li><a href="/features/active-recall">Active recall</a></li>
+            <li><a href="/features/second-brain">Second brain</a></li>
+            <li><a href="/features/read-it-later">Read it later</a></li>
+          </ul>
+        </nav>
+      </div>
+    </footer>
+
+    <!-- PostHog — analytics + engagement (autocapture, pageleave/scroll, session replay) -->
+    <script>
+      !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+      posthog.init("phc_gTI0FJoXiGPjdACbgVyunpDSl0mPs2HEYtmzUtK3SyE", {
+        api_host: "https://us.i.posthog.com",
+        ui_host: "https://us.posthog.com",
+        defaults: "2025-05-24",
+        persistence: "localStorage+cookie",
+        capture_pageview: true,
+        capture_pageleave: true,
+        autocapture: true,
+        disable_session_recording: false,
+        loaded: function (ph) { ph.register({ lp_variant: "v4c" }); }
+      });
+    </script>
+
+    <script>
+      (function () {
+        document.documentElement.classList.add("js");
+        var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        /* ── Nav hairline on scroll ── */
+        var nav = document.getElementById("nav");
+        function onScroll() { nav.classList.toggle("scrolled", window.scrollY > 8); }
+        window.addEventListener("scroll", onScroll, { passive: true });
+        onScroll();
+
+        /* ── Develop-on-enter reveals ── */
+        var revealIO = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); revealIO.unobserve(e.target); } });
+        }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+        document.querySelectorAll(".reveal, .close").forEach(function (el) { if (reduced) el.classList.add("in"); else revealIO.observe(el); });
+
+        /* ── Video manager: lazy-load, pause off-screen, never more than 3 playing ── */
+        var MAX_PLAYING = 3;
+        var clips = Array.prototype.slice.call(document.querySelectorAll("video.clip"));
+        var ratios = new Map();
+        function schedule() {
+          if (reduced) return;
+          var visible = clips.filter(function (v) { return (ratios.get(v) || 0) > 0.15; });
+          visible.sort(function (a, b) { return (ratios.get(b) || 0) - (ratios.get(a) || 0); });
+          var allowed = visible.slice(0, MAX_PLAYING);
+          clips.forEach(function (v) {
+            if (allowed.indexOf(v) !== -1) {
+              if (v.dataset.src && !v.getAttribute("src")) v.src = v.dataset.src;
+              if (v.paused) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+            } else if (!v.paused) { v.pause(); }
+          });
+        }
+        var loadIO = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            var v = e.target;
+            if (e.isIntersecting && v.dataset.src && !v.getAttribute("src")) { v.preload = "metadata"; v.src = v.dataset.src; }
+          });
+        }, { rootMargin: "400px 0px" });
+        var playIO = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) { ratios.set(e.target, e.isIntersecting ? e.intersectionRatio : 0); });
+          schedule();
+        }, { threshold: [0, 0.15, 0.4, 0.7, 1] });
+        clips.forEach(function (v) {
+          if (reduced) {
+            // Reduced motion: nothing autoplays; tap (or Enter/Space) plays a clip, with no native chrome.
+            v.removeAttribute("autoplay"); v.tabIndex = 0; v.style.cursor = "pointer";
+            var toggle = function () { if (!v.getAttribute("src") && v.dataset.src) v.src = v.dataset.src; if (v.paused) { var p = v.play(); if (p && p.catch) p.catch(function () {}); } else v.pause(); };
+            v.addEventListener("click", toggle);
+            v.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } });
+          }
+          loadIO.observe(v); playIO.observe(v);
+        });
+        document.addEventListener("visibilitychange", function () {
+          if (document.hidden) clips.forEach(function (v) { v.pause(); }); else schedule();
+        });
+
+        /* ── Each step is a small contact sheet: circle a frame, enlarge it, advance when it ends ── */
+        Array.prototype.forEach.call(document.querySelectorAll(".step"), function (step) {
+          var sheet = step.querySelector(".step-sheet");
+          var pencil = step.querySelector(".pencil");
+          var thumbs = Array.prototype.slice.call(step.querySelectorAll(".thumb"));
+          var vid = step.querySelector("video");
+          var cap = step.querySelector(".step-phone figcaption");
+          var current = 0;
+          function place(animate) {
+            if (!sheet.offsetParent) return; // sheet hidden on small screens
+            var img = thumbs[current].querySelector("img");
+            var s = sheet.getBoundingClientRect(), r = img.getBoundingClientRect();
+            var px = r.width * 0.2, py = r.height * 0.07;
+            pencil.style.width = r.width + px * 2 + "px";
+            pencil.style.height = r.height + py * 2 + "px";
+            pencil.style.transform = "translate(" + (r.left - s.left - px) + "px," + (r.top - s.top - py) + "px)";
+            if (animate && !reduced) { pencil.classList.remove("draw"); void pencil.getBoundingClientRect(); pencil.classList.add("draw"); }
+          }
+          function select(i, user) {
+            current = (i + thumbs.length) % thumbs.length;
+            thumbs.forEach(function (t, j) { t.setAttribute("aria-pressed", j === current ? "true" : "false"); });
+            var t = thumbs[current], clip = "beats/2026-09/" + t.dataset.clip;
+            vid.poster = clip + "-poster.jpg";
+            vid.dataset.src = clip + ".mp4";
+            if (vid.getAttribute("src") || user) vid.src = clip + ".mp4";
+            vid.setAttribute("aria-label", t.dataset.cap);
+            cap.textContent = t.dataset.cap;
+            place(true);
+            schedule();
+          }
+          thumbs.forEach(function (t, i) { t.addEventListener("click", function () { select(i, true); }); });
+          // On wide screens the enlargement moves on to the next frame when a clip ends.
+          vid.addEventListener("ended", function () {
+            if (!reduced && sheet.offsetParent) select(current + 1, false);
+            else { vid.currentTime = 0; vid.play().catch(function () {}); }
+          });
+          function layout() { place(false); }
+          window.addEventListener("resize", layout);
+          window.addEventListener("load", layout);
+          if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+          layout();
+        });
+      })();
+    </script>
+  </body>
+</html>

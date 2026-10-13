@@ -1,0 +1,1679 @@
+<!doctype html>
+<!-- REPS home, variant v4d — direction: "Slow Orbit" (2026-10-13, fix round 1)
+     1. Read as a found object: a field that is mostly letters, interrupted by clusters of nines and one
+        mirrored centre. So: a nine-column grid, asymmetric 5|4 splits, generous air at the top that
+        tightens toward the end.
+     2. The recurring round letters became the motif: the orbit. What you save goes out and comes back
+        on a widening rhythm, and you are always the centre of it. The loop is told as time
+        (Today / A minute later / Tomorrow, and after / Weeks from now) along one thin gold path.
+     3. The orbit completes in the one dark band: the path runs into the near-black night band, where gold hairline
+        rings circle the real graph of one reader's library. The hero stays clean: just the payoff,
+        the daily game, on two phones.
+     4. Type: Sora, a geometric sans whose round o's echo the rings, at extreme scale for the H1 and
+        a large plain-language definition directly under it. Lora only for other people's words:
+        readers and the founder. One label style, sentence-legible, warm ink.
+     5. Motion: reveals once; the rings drift a few degrees with scroll (event-driven, never a running
+        loop); the path fills as you scroll; videos play only on screen. Reduced motion = static.
+     6. Accent: gold, scarce: the path and the rings, nothing else. Coral only where you tap. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>REPS · Your Knowledge Companion</title>
+    <meta
+      name="description"
+      content="REPS keeps what you read, watch, and listen to, and brings it back as a short daily game made from your own material. Free on the App Store."
+    />
+    <link rel="canonical" href="https://www.getreps.io/" />
+    <meta property="og:title" content="REPS · Your Knowledge Companion" />
+    <meta
+      property="og:description"
+      content="Save anything. Remember everything."
+    />
+    <meta property="og:url" content="https://www.getreps.io/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://www.getreps.io/og-card-v3.png?v=2" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:image"
+      content="https://www.getreps.io/og-card-v3.png?v=2"
+    />
+    <link rel="icon" href="product/assets/app-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&family=Lora:ital,wght@0,500;1,400&display=swap" />
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&family=Lora:ital,wght@0,500;1,400&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&family=Lora:ital,wght@0,500;1,400&display=swap" rel="stylesheet" /></noscript>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "@id": "https://www.getreps.io/#organization",
+        "name": "REPS",
+        "url": "https://www.getreps.io/",
+        "logo": "https://www.getreps.io/og-card-v3.png",
+        "description": "REPS is a knowledge companion for iPhone: it keeps what you read, watch, and listen to, and brings it back as a short daily game made from your own material."
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "@id": "https://www.getreps.io/#mike",
+        "name": "Mike McGraw",
+        "url": "https://www.getreps.io/about",
+        "image": "https://www.getreps.io/compare/assets/mike-mcgraw.jpg",
+        "jobTitle": "Founder",
+        "worksFor": { "@id": "https://www.getreps.io/#organization" },
+        "description": "Founder of REPS. Twelve years investing in technology before leaving to build REPS full-time; builds and uses the app every day."
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "@id": "https://www.getreps.io/#website",
+        "name": "REPS",
+        "url": "https://www.getreps.io/",
+        "publisher": { "@id": "https://www.getreps.io/#organization" }
+      }
+    </script>
+    <style>
+      :root {
+        --cream: #fffaf7;
+        --cream-2: #fbf3ee;
+        --ink: #211a14;
+        --body: rgba(33, 26, 20, 0.76);
+        --muted: rgba(33, 26, 20, 0.66);
+        --hair: rgba(33, 26, 20, 0.13);
+        --hair-soft: rgba(33, 26, 20, 0.08);
+        --coral: #ff6b6b;
+        --peach: #ff8e53;
+        --gold: #d4a24e;
+        --night: #040409;
+        --display: "Sora", system-ui, -apple-system, "Segoe UI", sans-serif;
+        --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        --serif: "Lora", Georgia, serif;
+        --gap: 24px;
+        --pad: 22px;
+        --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        background: var(--cream);
+        scroll-behavior: smooth;
+        -webkit-text-size-adjust: 100%;
+      }
+      body {
+        background: var(--cream);
+        color: var(--body);
+        font-family: var(--sans);
+        font-size: 18px;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
+      img,
+      video,
+      svg {
+        display: block;
+        max-width: 100%;
+      }
+      a {
+        color: inherit;
+      }
+      :focus-visible {
+        outline: 3px solid var(--ink);
+        outline-offset: 3px;
+        border-radius: 6px;
+      }
+      .wrap {
+        max-width: 1160px;
+        margin: 0 auto;
+        padding: 0 var(--pad);
+      }
+      .g9 {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        row-gap: 36px;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: var(--display);
+        color: var(--ink);
+        font-weight: 600;
+        letter-spacing: -0.03em;
+        line-height: 1.04;
+        text-wrap: balance;
+      }
+      h2 {
+        font-size: clamp(32px, 4.6vw, 56px);
+      }
+      h3 {
+        font-size: clamp(26px, 2.5vw, 32px);
+        letter-spacing: -0.02em;
+        line-height: 1.12;
+      }
+      p {
+        text-wrap: pretty;
+      }
+      /* The one label style on the page */
+      .eyebrow {
+        display: block;
+        font-family: var(--sans);
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ink);
+        margin-bottom: 16px;
+      }
+      /* Captions: body sans, ≥14px, ≥4.5:1 */
+      .caption {
+        font-size: 15px;
+        line-height: 1.45;
+        color: var(--muted);
+      }
+      .link {
+        color: var(--ink);
+        font-weight: 600;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        text-decoration-thickness: 1px;
+      }
+      .link:hover {
+        text-decoration-thickness: 2px;
+      }
+
+      /* ── Nav ── */
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: rgba(255, 250, 247, 0.95);
+        -webkit-backdrop-filter: saturate(1.4) blur(10px);
+        backdrop-filter: saturate(1.4) blur(10px);
+        border-bottom: 1px solid var(--hair-soft);
+        padding-top: env(safe-area-inset-top);
+      }
+      .nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 64px;
+        gap: 12px;
+      }
+      .wordmark {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        text-decoration: none;
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 18px;
+        letter-spacing: 0.06em;
+        color: var(--ink);
+      }
+      .wordmark img {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+      }
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        font-size: 16px;
+      }
+      .nav-links a {
+        text-decoration: none;
+        color: var(--ink);
+      }
+      .nav-links a:not(.btn-get):hover {
+        text-decoration: underline;
+        text-underline-offset: 4px;
+      }
+      .nav-links .nl-how {
+        display: none;
+      }
+      .btn-get {
+        display: inline-flex;
+        align-items: center;
+        min-height: 42px;
+        padding: 0 16px;
+        border-radius: 999px;
+        background: linear-gradient(100deg, var(--coral), var(--peach));
+        color: #fff !important;
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 15px;
+        text-decoration: none;
+        white-space: nowrap;
+        transition: transform 0.15s;
+      }
+      .btn-get:hover {
+        transform: translateY(-1px);
+      }
+
+      /* ── App Store badge (Apple's, unmodified; copied from v3c) ── */
+      .appstore-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 11px;
+        min-height: 56px;
+        padding: 0 22px;
+        border-radius: 13px;
+        text-decoration: none;
+        background: #000;
+        color: #fff;
+        box-shadow: 0 8px 22px -10px rgba(33, 26, 20, 0.5);
+        transition:
+          transform 0.14s,
+          box-shadow 0.14s;
+      }
+      .appstore-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 12px 26px -10px rgba(33, 26, 20, 0.55);
+      }
+      .appstore-btn:active {
+        transform: translateY(0);
+      }
+      .appstore-btn svg {
+        width: 25px;
+        height: 30px;
+        flex: none;
+      }
+      .appstore-label {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        line-height: 1;
+        text-align: left;
+        font-family: -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI",
+          sans-serif;
+      }
+      .appstore-label .small {
+        font-size: 11px;
+        font-weight: 400;
+        letter-spacing: 0.01em;
+        margin-bottom: 2px;
+      }
+      .appstore-label .big {
+        font-size: 21px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        line-height: 1;
+      }
+      .cta-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px 18px;
+      }
+      .reassure {
+        font-size: 16px;
+        color: var(--muted);
+      }
+
+      /* ── Phone (code-drawn bezel around a real capture) ── */
+      .phone {
+        width: var(--pw, 220px);
+        padding: calc(var(--pw, 220px) * 0.032);
+        border-radius: calc(var(--pw, 220px) * 0.165);
+        background: #15110e;
+        box-shadow:
+          inset 0 0 0 1px rgba(255, 255, 255, 0.07),
+          0 40px 70px -40px rgba(33, 26, 20, 0.55);
+        flex: none;
+        position: relative;
+      }
+      .phone video {
+        width: 100%;
+        aspect-ratio: 540 / 1170;
+        object-fit: cover;
+        border-radius: calc(var(--pw, 220px) * 0.135);
+        background: #ece5df;
+      }
+      /* No native video chrome, ever */
+      video:not([controls])::-webkit-media-controls,
+      video:not([controls])::-webkit-media-controls-enclosure,
+      video:not([controls])::-webkit-media-controls-panel,
+      video:not([controls])::-webkit-media-controls-overlay-play-button,
+      video::-webkit-media-controls-start-playback-button {
+        display: none !important;
+        -webkit-appearance: none;
+      }
+
+      /* ── Hero ── */
+      .hero {
+        position: relative;
+        overflow: hidden;
+        padding: 34px 0 44px;
+      }
+      .hero h1 {
+        font-size: clamp(52px, 7.2vw, 96px);
+        letter-spacing: -0.045em;
+        line-height: 0.96;
+        margin-bottom: 22px;
+        text-wrap: initial;
+      }
+      .hero h1 span {
+        display: block;
+      }
+      .hero-def {
+        font-family: var(--display);
+        font-weight: 400;
+        font-size: 22px;
+        line-height: 1.38;
+        letter-spacing: -0.01em;
+        color: var(--ink);
+        max-width: 24em;
+        margin-bottom: 28px;
+      }
+      .hero-phones {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 18px;
+      }
+      .hero-phones .phone {
+        --pw: 206px;
+      }
+      .hero-phones .phone.second {
+        display: none;
+      }
+
+      /* ── Glance strip: what · why now · who (press-ready) ── */
+      .glance {
+        border-top: 1px solid var(--hair);
+        border-bottom: 1px solid var(--hair);
+        background: var(--cream-2);
+      }
+      .glance .g9 {
+        row-gap: 0;
+      }
+      .glance-cell {
+        padding: 26px 0;
+        border-bottom: 1px solid var(--hair);
+      }
+      .glance-cell:last-child {
+        border-bottom: 0;
+      }
+      .glance-cell p:not(.eyebrow) {
+        font-size: 18px;
+        color: var(--ink);
+        line-height: 1.5;
+      }
+      .glance-cell p.thesis {
+        font-family: var(--display);
+        font-weight: 500;
+        font-size: 22px;
+        letter-spacing: -0.015em;
+        line-height: 1.3;
+      }
+      .who {
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+      }
+      .who img {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex: none;
+      }
+      .who .fact {
+        font-size: 16px;
+        color: var(--body);
+        line-height: 1.45;
+      }
+      .who .fact strong {
+        color: var(--ink);
+      }
+      .who .voice {
+        font-family: var(--serif);
+        font-style: italic;
+        font-size: 18px;
+        margin-top: 6px;
+      }
+      .who .link {
+        display: inline-block;
+        margin-top: 10px;
+        font-size: 16px;
+      }
+
+      /* ── Proof ── */
+      .proof {
+        padding: 72px 0 56px;
+      }
+      .proof h2 {
+        font-size: clamp(30px, 3.4vw, 42px);
+        margin-bottom: 36px;
+      }
+      .reviews {
+        list-style: none;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0;
+      }
+      .review {
+        padding: 22px 0;
+        border-top: 1px solid var(--hair);
+      }
+      .review blockquote {
+        font-family: var(--serif);
+        font-style: italic;
+        font-size: 20px;
+        line-height: 1.45;
+        color: var(--ink);
+      }
+      .review.lead blockquote {
+        font-size: clamp(24px, 2.6vw, 32px);
+        line-height: 1.32;
+      }
+      .review figcaption {
+        margin-top: 10px;
+        font-size: 15px;
+        color: var(--muted);
+      }
+
+      /* ── Loop ── */
+      .loop {
+        padding: 64px 0 0;
+        background: linear-gradient(to bottom, var(--cream), var(--cream-2) 22%);
+      }
+      .loop-head {
+        margin-bottom: 44px;
+      }
+      .loop-head .lede {
+        margin-top: 16px;
+        max-width: 30em;
+        font-size: 19px;
+      }
+      .path {
+        position: relative;
+      }
+      .path-line,
+      .path-fill {
+        display: none;
+      }
+      .step {
+        position: relative;
+        padding: 0 0 64px;
+      }
+      .node {
+        display: none;
+      }
+      .step .when {
+        margin-bottom: 10px;
+      }
+      .step h3 {
+        margin-bottom: 14px;
+      }
+      .step p {
+        max-width: 28em;
+      }
+      .step-media {
+        margin-top: 26px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        text-align: center;
+      }
+      .step-media .phone {
+        --pw: 200px;
+      }
+
+      /* ── The one dark band: the orbit completes ── */
+      .night {
+        background: var(--night);
+        color: rgba(255, 250, 247, 0.78);
+        padding: 64px 0 72px;
+        position: relative;
+        overflow: hidden;
+      }
+      .night .eyebrow {
+        color: var(--cream);
+      }
+      .night h2 {
+        color: var(--cream);
+        margin-bottom: 18px;
+      }
+      .night .lede {
+        font-size: 19px;
+        max-width: 26em;
+        margin-bottom: 28px;
+      }
+      .night .appstore-btn {
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.34);
+      }
+      .night .reassure {
+        color: rgba(255, 250, 247, 0.72);
+      }
+      .night .caption {
+        color: rgba(255, 250, 247, 0.7);
+        text-align: center;
+        margin-top: 14px;
+      }
+      .orbit {
+        --o: 360px;
+        --pw: 196px;
+        --rot: 0deg;
+        position: relative;
+        display: grid;
+        place-items: center;
+        padding: 18px 0;
+      }
+      .orbit-rings {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: var(--o);
+        height: var(--o);
+        margin-left: calc(var(--o) / -2);
+        margin-top: calc(var(--o) / -2);
+        transform: rotate(var(--rot));
+        pointer-events: none;
+      }
+      .orbit-rings circle.r {
+        fill: none;
+        stroke: rgba(212, 162, 78, 0.36);
+        stroke-width: 1;
+        vector-effect: non-scaling-stroke;
+      }
+      .orbit-rings circle.r.dash {
+        stroke-dasharray: 0.004 0.012;
+        stroke: rgba(212, 162, 78, 0.55);
+      }
+      .orbit-rings circle.dot {
+        fill: var(--gold);
+      }
+      .orbit-rings circle.dot.pale {
+        fill: var(--cream);
+        opacity: 0.6;
+      }
+      .js .orbit-rings circle.r:not(.dash) {
+        stroke-dasharray: 1;
+        stroke-dashoffset: 1;
+      }
+      .js .orbit.in .orbit-rings circle.r:not(.dash) {
+        animation: draw 2.2s var(--ease) forwards;
+      }
+      .js .orbit.in .orbit-rings circle.r:nth-of-type(2) {
+        animation-delay: 0.15s;
+      }
+      .js .orbit.in .orbit-rings circle.r:nth-of-type(3) {
+        animation-delay: 0.3s;
+      }
+      @keyframes draw {
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+      .night .phone {
+        background: #1a1a20;
+        box-shadow:
+          inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+          0 0 80px -10px rgba(212, 162, 78, 0.16);
+        z-index: 2;
+      }
+      .night .phone video {
+        background: var(--night);
+      }
+
+      /* ── Identity ── */
+      .identity {
+        padding: 72px 0 64px;
+      }
+      .id-shot {
+        width: min(100%, 360px);
+        margin: 0 auto;
+        border-radius: 24px;
+        overflow: hidden;
+        border: 1px solid var(--hair);
+        box-shadow: 0 50px 80px -50px rgba(33, 26, 20, 0.5);
+        background: var(--cream);
+      }
+      .id-shot img {
+        width: 100%;
+        height: auto;
+      }
+      .id-copy h2 {
+        font-size: clamp(32px, 3.8vw, 50px);
+        margin-bottom: 20px;
+      }
+      .id-copy .editorial {
+        font-family: var(--serif);
+        font-size: 20px;
+        line-height: 1.6;
+        color: var(--ink);
+        max-width: 26em;
+      }
+      .id-copy .editorial + .editorial {
+        margin-top: 14px;
+      }
+
+      /* ── Founder note ── */
+      .founder {
+        padding: 64px 0 56px;
+        border-top: 1px solid var(--hair);
+      }
+      .note {
+        font-family: var(--serif);
+        font-size: 19px;
+        line-height: 1.62;
+        color: var(--ink);
+      }
+      .note p + p {
+        margin-top: 14px;
+      }
+      .note .sign {
+        font-style: italic;
+      }
+      .sig {
+        margin-top: 18px;
+        font-size: 16px;
+        color: var(--body);
+      }
+      .sig strong {
+        color: var(--ink);
+      }
+      .founder-links {
+        margin-top: 18px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 26px;
+        font-size: 16px;
+      }
+
+      /* ── Planet ── */
+      .planet {
+        border-top: 1px solid var(--hair);
+        border-bottom: 1px solid var(--hair);
+        padding: 26px 0;
+      }
+      .planet-inner {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .planet img {
+        width: 130px;
+        height: auto;
+      }
+      .planet p {
+        font-size: 17px;
+        max-width: 36em;
+      }
+
+      /* ── Close ── */
+      .close {
+        padding: 64px 0 56px;
+        text-align: left;
+      }
+      .close h2 {
+        font-size: clamp(32px, 4.4vw, 54px);
+        margin-bottom: 16px;
+        max-width: 15em;
+      }
+      .close .lede {
+        font-size: 19px;
+        max-width: 28em;
+        margin-bottom: 26px;
+      }
+      .close .founder-line {
+        margin-top: 22px;
+        font-size: 16px;
+      }
+
+      /* ── Footer ── */
+      footer {
+        border-top: 1px solid var(--hair);
+        padding: 40px 0 calc(40px + env(safe-area-inset-bottom));
+        font-size: 16px;
+      }
+      .foot {
+        display: grid;
+        gap: 24px;
+      }
+      .motto {
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 22px;
+        letter-spacing: -0.02em;
+        color: var(--ink);
+        margin-top: 12px;
+      }
+      .foot ul {
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 22px;
+      }
+      .foot a {
+        text-decoration: none;
+        color: var(--ink);
+      }
+      .foot a:hover {
+        text-decoration: underline;
+      }
+      .foot .legal {
+        color: var(--muted);
+        font-size: 15px;
+      }
+
+      /* ── Reveal ── */
+      .js .rv {
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.9s var(--ease),
+          transform 0.9s var(--ease);
+      }
+      .js .rv.in {
+        opacity: 1;
+        transform: none;
+      }
+
+      /* ═══ ≥ 900px: the nine-column grid ═══ */
+      @media (min-width: 900px) {
+        :root {
+          --pad: 40px;
+        }
+        .g9 {
+          grid-template-columns: repeat(9, minmax(0, 1fr));
+          column-gap: var(--gap);
+          row-gap: 0;
+        }
+        .nav-links {
+          gap: 28px;
+        }
+        .nav-links .nl-how {
+          display: inline;
+        }
+        .btn-get {
+          padding: 0 20px;
+        }
+        .hero {
+          padding: 56px 0 64px;
+        }
+        .hero-copy {
+          grid-column: 1 / 6;
+          align-self: center;
+        }
+        .hero-def {
+          font-size: 26px;
+        }
+        .hero-phones {
+          grid-column: 6 / 10;
+          justify-content: flex-end;
+        }
+        .hero-phones .phone {
+          --pw: 238px;
+        }
+        .hero-phones .phone.second {
+          display: block;
+          --pw: 204px;
+          margin-top: 72px;
+        }
+
+        .glance-cell {
+          padding: 30px 0;
+          border-bottom: 0;
+        }
+        .glance-cell:nth-child(1) {
+          grid-column: 1 / 4;
+          padding-right: 20px;
+        }
+        .glance-cell:nth-child(2) {
+          grid-column: 4 / 7;
+          padding: 30px 20px 30px 24px;
+          border-left: 1px solid var(--hair);
+        }
+        .glance-cell:nth-child(3) {
+          grid-column: 7 / 10;
+          padding-left: 24px;
+          border-left: 1px solid var(--hair);
+        }
+
+        .proof {
+          padding: 88px 0 64px;
+        }
+        .reviews {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          column-gap: 48px;
+        }
+        .review.lead {
+          grid-column: 1 / -1;
+        }
+
+        .loop {
+          padding: 80px 0 0;
+        }
+        .loop-head {
+          margin-bottom: 64px;
+        }
+        .path-line,
+        .path-fill {
+          display: block;
+          position: absolute;
+          left: 7px;
+          top: 72px;
+          bottom: 0;
+          width: 1px;
+          background: var(--hair);
+        }
+        .path-fill {
+          background: var(--gold);
+          width: 2px;
+          left: 6.5px;
+          transform-origin: top;
+          transform: scaleY(var(--fill, 0));
+        }
+        .step {
+          display: grid;
+          grid-template-columns: repeat(9, minmax(0, 1fr));
+          column-gap: var(--gap);
+          align-items: start;
+          padding: 0 0 64px;
+        }
+        .node {
+          display: block;
+          position: absolute;
+          left: 0;
+          top: 3px;
+          width: 15px;
+          height: 15px;
+          border-radius: 50%;
+          background: var(--cream-2);
+          border: 1.5px solid rgba(33, 26, 20, 0.35);
+          transition:
+            background 0.5s,
+            border-color 0.5s;
+        }
+        .step.on .node {
+          background: var(--gold);
+          border-color: var(--gold);
+        }
+        .step-text {
+          grid-column: 1 / 6;
+          padding-left: 52px;
+          padding-top: 64px;
+          position: relative;
+        }
+        .step-text .node {
+          top: 67px;
+        }
+        .step-media {
+          grid-column: 6 / 10;
+          margin-top: 0;
+        }
+        .step-media .phone {
+          --pw: 212px;
+        }
+
+        .night {
+          padding: 88px 0 88px;
+        }
+        .night-copy {
+          grid-column: 1 / 5;
+          align-self: center;
+          padding-left: 52px;
+        }
+        .night .orbit {
+          grid-column: 5 / 10;
+          --o: 600px;
+          --pw: 232px;
+          padding: 30px 0;
+        }
+        .night .caption {
+          grid-column: 5 / 10;
+        }
+
+        .identity {
+          padding: 104px 0 96px;
+        }
+        .id-media {
+          grid-column: 1 / 5;
+        }
+        .id-shot {
+          margin: 0;
+          width: min(100%, 380px);
+        }
+        .id-copy {
+          grid-column: 5 / 10;
+          align-self: center;
+        }
+
+        .founder {
+          padding: 88px 0 72px;
+        }
+        .founder-label {
+          grid-column: 1 / 3;
+        }
+        .founder-body {
+          grid-column: 3 / 9;
+        }
+        .note {
+          font-size: 21px;
+        }
+
+        .planet-inner {
+          flex-direction: row;
+          align-items: center;
+          gap: 40px;
+        }
+
+        .close {
+          padding: 96px 0 80px;
+        }
+
+        .foot {
+          grid-template-columns: 1.2fr 2fr;
+          align-items: start;
+        }
+      }
+
+
+      /* ── Mobile density pass (keeps the full page inside ~9000px at 390 wide) ── */
+      @media (max-width: 899px) {
+        .hero { padding: 28px 0 36px; }
+        .hero-phones .phone { --pw: 196px; }
+        .glance-cell { padding: 22px 0; }
+        .proof { padding: 56px 0 36px; }
+        .proof h2 { margin-bottom: 24px; }
+        .review { padding: 18px 0; }
+        .loop { padding-top: 52px; }
+        .loop-head { margin-bottom: 32px; }
+        .step { padding-bottom: 48px; }
+        .step-media { margin-top: 20px; }
+        .step-media .phone { --pw: 176px; }
+        .night { padding: 52px 0 48px; }
+        .night .orbit { --pw: 180px; --o: 330px; }
+        .identity { padding: 56px 0 44px; }
+        .identity .g9 { row-gap: 28px; }
+        .id-shot { width: min(100%, 290px); }
+        .founder { padding: 48px 0 40px; }
+        .founder .g9 { row-gap: 0; }
+        .note { font-size: 18px; }
+        .close { padding: 52px 0 44px; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        .js .rv {
+          opacity: 1;
+          transform: none;
+          transition: none;
+        }
+        .js .orbit-rings circle.r:not(.dash) {
+          animation: none !important;
+          stroke-dashoffset: 0;
+        }
+        .node,
+        .appstore-btn,
+        .btn-get {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      document.documentElement.classList.add("js");
+    </script>
+
+    <header class="nav">
+      <div class="wrap nav-inner">
+        <a class="wordmark" href="/" aria-label="REPS home">
+          <img src="product/assets/app-icon.png" alt="" width="30" height="30" />
+          REPS
+        </a>
+        <nav class="nav-links" aria-label="Main">
+          <a class="nl-how" href="#how">How it works</a>
+          <a href="/about">About</a>
+          <a href="/about#press">Press</a>
+          <a
+            class="btn-get"
+            href="https://apps.apple.com/app/id6759216018"
+            target="_blank"
+            rel="noopener"
+            >Get the app</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <!-- ═══ Hero: the payoff, clean ═══ -->
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="wrap g9">
+          <div class="hero-copy">
+            <p class="eyebrow">Save anything. Remember everything.</p>
+            <h1 id="hero-title"><span>Your</span> <span>Knowledge</span> <span>Companion</span></h1>
+            <p class="hero-def">
+              Save what you read, watch and listen to. It comes back as a short daily game made
+              from your own material, right before you&rsquo;d forget it.
+            </p>
+            <div class="cta-row">
+              <a
+                class="appstore-btn"
+                href="https://apps.apple.com/app/id6759216018"
+                target="_blank"
+                rel="noopener"
+                aria-label="Download REPS on the App Store"
+              >
+                <svg viewBox="0 0 384 512" fill="currentColor" aria-hidden="true">
+                  <path
+                    d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"
+                  />
+                </svg>
+                <span class="appstore-label">
+                  <span class="small">Download on the</span>
+                  <span class="big">App Store</span>
+                </span>
+              </a>
+              <p class="reassure">Free on the App Store.</p>
+            </div>
+          </div>
+
+          <div class="hero-phones">
+            <div class="phone">
+              <video
+                data-v
+                src="beats/2026-09/game-crossword.mp4"
+                poster="beats/2026-09/game-crossword-poster.jpg"
+                muted
+                playsinline
+                loop
+                autoplay
+                preload="metadata"
+                aria-label="Screen recording: solving a REPS crossword built from things the player saved"
+              ></video>
+            </div>
+            <div class="phone second">
+              <video
+                data-v
+                data-src="beats/2026-09/game-quotle.mp4"
+                poster="beats/2026-09/game-quotle-poster.jpg"
+                muted
+                playsinline
+                loop
+                autoplay
+                preload="none"
+                aria-label="Screen recording: Quotle, the daily quote game, with a Jack London quote"
+              ></video>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ Glance: what it is · why now · who (one scroll for a journalist) ═══ -->
+      <section class="glance" aria-label="REPS at a glance">
+        <div class="wrap g9">
+          <div class="glance-cell">
+            <p class="eyebrow">What it is</p>
+            <p>
+              REPS is a free iPhone app that keeps what you read, watch and listen to, and turns it
+              into a short daily game made from your own material.
+            </p>
+          </div>
+          <div class="glance-cell">
+            <p class="eyebrow">Why now</p>
+            <p class="thesis">
+              We have never taken in more and kept less. The feed is built to be forgotten; REPS runs
+              the other way.
+            </p>
+          </div>
+          <div class="glance-cell">
+            <p class="eyebrow">Who</p>
+            <div class="who">
+              <img
+                src="compare/assets/mike-mcgraw.jpg"
+                width="72"
+                height="72"
+                alt="Mike McGraw, founder of REPS"
+              />
+              <div>
+                <p class="fact">
+                  <strong>Mike McGraw</strong>, founder. Twelve years in tech investing; left on his
+                  34th birthday to build this.
+                </p>
+                <p class="voice">&ldquo;I&rsquo;m building the antidote.&rdquo;</p>
+                <a class="link" href="/about#press">About &amp; press kit &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ Proof: five real reviews ═══ -->
+      <section class="proof" aria-labelledby="proof-title">
+        <div class="wrap">
+          <div class="rv">
+            <p class="eyebrow">From the App Store</p>
+            <h2 id="proof-title">What people say when nobody asked them to.</h2>
+          </div>
+          <ul class="reviews">
+            <li class="review lead rv">
+              <figure>
+                <blockquote>&ldquo;As a non-techy over 60 year old, this app is simple and intuitive to navigate.&rdquo;</blockquote>
+                <figcaption>Mooselake4 · App Store review</figcaption>
+              </figure>
+            </li>
+            <li class="review rv">
+              <figure>
+                <blockquote>&ldquo;Really enjoying using this app as a better way to spend 5/10 minutes at bus stop etc. vs brain rotting on Insta/X.&rdquo;</blockquote>
+                <figcaption>Jsdldn · App Store review</figcaption>
+              </figure>
+            </li>
+            <li class="review rv">
+              <figure>
+                <blockquote>&ldquo;Such a fun and easy way to remember the things that matter the most to me! New content is also great to discover! Definitely one of my favorite apps!&rdquo;</blockquote>
+                <figcaption>Cathb1234 · App Store review</figcaption>
+              </figure>
+            </li>
+            <li class="review rv">
+              <figure>
+                <blockquote>&ldquo;Very nice and fun way to retrain your brain &ndash; love a competition with friends. Love that app!&rdquo;</blockquote>
+                <figcaption>Sizeret74 · App Store review</figcaption>
+              </figure>
+            </li>
+            <li class="review rv">
+              <figure>
+                <blockquote>&ldquo;It&rsquo;s replaced scrolling Instagram on my phone, and it&rsquo;s helping me re-engage with books I read years ago, and actively seek out interesting knowledge to add to my second brain.&rdquo;</blockquote>
+                <figcaption>24601_London · App Store review</figcaption>
+              </figure>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ═══ The loop, told as time ═══ -->
+      <section class="loop" id="how" aria-labelledby="how-title">
+        <div class="wrap">
+          <div class="loop-head rv">
+            <p class="eyebrow">How it works</p>
+            <h2 id="how-title">Save it once. It keeps coming back.</h2>
+            <p class="lede">
+              Not a course, not a reading list you feel guilty about. Just the things you chose,
+              returning until they&rsquo;re yours.
+            </p>
+          </div>
+
+          <div class="path" data-path>
+            <div class="path-line" aria-hidden="true"></div>
+            <div class="path-fill" aria-hidden="true"></div>
+
+            <article class="step" data-step>
+              <div class="step-text">
+                <span class="node" aria-hidden="true"></span>
+                <p class="eyebrow when">Today</p>
+                <h3>Save it from anywhere.</h3>
+                <p>
+                  Tap Share in Safari, YouTube, Spotify, Instagram or Apple Podcasts. Add a PDF, a
+                  screenshot, a note, a photo of your bookshelf, or just type a book&rsquo;s title.
+                  Saved in seconds.
+                </p>
+              </div>
+              <div class="step-media">
+                <div class="phone">
+                  <video
+                    data-v
+                    data-src="beats/2026-09/share-anywhere.mp4"
+                    poster="beats/2026-09/share-anywhere-poster.jpg"
+                    muted
+                    playsinline
+                    loop
+                    autoplay
+                    preload="none"
+                    aria-label="Screen recording: sharing a Wikipedia page, a YouTube Short, a Spotify episode, an Instagram Reel and an Apple Podcasts episode into REPS"
+                  ></video>
+                </div>
+                <p class="caption">Shared from Safari, YouTube, Spotify, Instagram and Apple Podcasts</p>
+              </div>
+            </article>
+
+            <article class="step" data-step>
+              <div class="step-text">
+                <span class="node" aria-hidden="true"></span>
+                <p class="eyebrow when">A minute later</p>
+                <h3>Keep the ideas worth&nbsp;keeping.</h3>
+                <p>
+                  REPS reads it with you and lays out the ideas inside. You choose what&rsquo;s worth
+                  carrying forward. Nothing becomes yours unless you pick it.
+                </p>
+              </div>
+              <div class="step-media">
+                <div class="phone">
+                  <video
+                    data-v
+                    data-src="beats/2026-09/curate-concepts.mp4"
+                    poster="beats/2026-09/curate-concepts-poster.jpg"
+                    muted
+                    playsinline
+                    loop
+                    autoplay
+                    preload="none"
+                    aria-label="Screen recording: choosing which ideas to keep from a page about Alexander the Great"
+                  ></video>
+                </div>
+                <p class="caption">Choosing what to keep from a page on Alexander the Great</p>
+              </div>
+            </article>
+
+            <article class="step" data-step>
+              <div class="step-text">
+                <span class="node" aria-hidden="true"></span>
+                <p class="eyebrow when">Tomorrow, and after</p>
+                <h3>It comes back as a game.</h3>
+                <p>
+                  A short daily game built from your own saves, returning over days and weeks just as
+                  it starts to fade. Play the Crossword, Ladder, Cryptic or Quotle on your own, or
+                  Friends Trivia with a friend: the same round for both of you, then compare scores.
+                </p>
+              </div>
+              <div class="step-media">
+                <div class="phone">
+                  <video
+                    data-v
+                    data-src="beats/2026-09/game-friends-trivia.mp4"
+                    poster="beats/2026-09/game-friends-trivia-poster.jpg"
+                    muted
+                    playsinline
+                    loop
+                    autoplay
+                    preload="none"
+                    aria-label="Screen recording: starting a round of Friends Trivia against a friend"
+                  ></video>
+                </div>
+                <p class="caption">A round of Friends Trivia</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ The one dark band: the orbit completes (+ the mid-page ask) ═══ -->
+      <section class="night" aria-labelledby="night-title">
+        <div class="wrap g9">
+          <div class="night-copy rv">
+            <p class="eyebrow">Weeks from now</p>
+            <h2 id="night-title">And then it&rsquo;s simply&nbsp;yours.</h2>
+            <p class="lede">
+              Every book, episode and article you kept, connected in one place you can explore,
+              search and play again. Ask Echo about any of it.
+            </p>
+            <div class="cta-row">
+              <a
+                class="appstore-btn"
+                href="https://apps.apple.com/app/id6759216018"
+                target="_blank"
+                rel="noopener"
+                aria-label="Download REPS on the App Store"
+              >
+                <svg viewBox="0 0 384 512" fill="currentColor" aria-hidden="true">
+                  <path
+                    d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"
+                  />
+                </svg>
+                <span class="appstore-label">
+                  <span class="small">Download on the</span>
+                  <span class="big">App Store</span>
+                </span>
+              </a>
+              <p class="reassure">Free on the App Store.</p>
+            </div>
+          </div>
+          <div class="orbit" data-orbit>
+            <svg class="orbit-rings" viewBox="0 0 100 100" aria-hidden="true">
+              <circle class="r" cx="50" cy="50" r="49.5" pathLength="1" />
+              <circle class="r" cx="50" cy="50" r="40" pathLength="1" />
+              <circle class="r" cx="50" cy="50" r="30.5" pathLength="1" />
+              <circle class="r dash" cx="50" cy="50" r="45" pathLength="1" />
+              <circle class="dot" cx="0.5" cy="50" r="0.75" />
+              <circle class="dot" cx="78.3" cy="78.3" r="0.6" />
+              <circle class="dot pale" cx="50" cy="10" r="0.5" />
+              <circle class="dot pale" cx="80.5" cy="38" r="0.45" />
+            </svg>
+            <div class="phone">
+              <video
+                data-v
+                data-src="beats/2026-09/second-brain.mp4"
+                poster="beats/2026-09/second-brain-poster.jpg"
+                muted
+                playsinline
+                loop
+                autoplay
+                preload="none"
+                aria-label="Screen recording: one reader's saved knowledge as an interactive 3D graph of hundreds of colored points"
+              ></video>
+            </div>
+          </div>
+          <p class="caption">One reader&rsquo;s library, as a graph you can explore</p>
+        </div>
+      </section>
+
+      <!-- ═══ Identity: show, don't say ═══ -->
+      <section class="identity" aria-labelledby="id-title">
+        <div class="wrap g9">
+          <div class="id-media rv">
+            <div class="id-shot">
+              <img
+                src="beats/2026-09/your-knowledge.jpg"
+                width="720"
+                height="860"
+                loading="lazy"
+                alt="The REPS library screen: Your Knowledge, 82 sets and 2 collections, showing Into Thin Air by Jon Krakauer and a Diary of a CEO episode with Vanessa Van Edwards"
+              />
+            </div>
+          </div>
+          <div class="id-copy rv">
+            <p class="eyebrow">Your Knowledge</p>
+            <h2 id="id-title">The one at dinner who remembers the&nbsp;book.</h2>
+            <p class="editorial">
+              Into Thin Air, the storm on the mountain and the choices made in it. That episode on
+              conversation from the drive to work. The page about Alexander you fell into at midnight.
+            </p>
+            <p class="editorial">
+              One by one, they stop being things you once read and start being things you know.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ From the founder (teaser → /about) ═══ -->
+      <section class="founder" id="why" aria-labelledby="why-title">
+        <div class="wrap g9">
+          <div class="founder-label rv">
+            <p class="eyebrow" id="why-title">Why REPS exists</p>
+          </div>
+          <div class="founder-body rv">
+            <div class="note">
+              <p>
+                I spent twelve years investing in technology, first helping launch CDPQ&rsquo;s tech
+                team, then at Inovia Capital, where I opened the European office. Then I watched my
+                nephews and nieces grow up on YouTube Shorts, and read that the Flynn effect has
+                reversed.
+              </p>
+              <p>
+                I think Huxley, not Orwell, called it: control through entertainment that asks nothing
+                of you. I deleted Instagram and went back to books, long reads and documentaries. On
+                30 June 2026, my 34th birthday, I left to build REPS full-time.
+              </p>
+              <p class="sign">I&rsquo;m building the antidote.</p>
+            </div>
+            <p class="sig"><strong>Mike McGraw</strong>, founder</p>
+            <div class="founder-links">
+              <a class="link" href="/about">Read the full story &rarr;</a>
+              <a class="link" href="/about#press">About &amp; press kit &rarr;</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ Planet strip ═══ -->
+      <section class="planet" aria-label="Our planet pledge">
+        <div class="wrap planet-inner">
+          <img src="justonetree-logo.png" width="368" height="100" loading="lazy" alt="JUST ONE Tree" />
+          <p>
+            The AI that powers REPS uses a little energy, so we plant real trees for it, far more than
+            we use. <a class="link" href="/planet">Our planet pledge &rarr;</a>
+          </p>
+        </div>
+      </section>
+
+      <!-- ═══ Close ═══ -->
+      <section class="close" aria-labelledby="close-title">
+        <div class="wrap rv">
+          <p class="eyebrow">Your Knowledge Companion</p>
+          <h2 id="close-title">What did you read this week that you&rsquo;d like to&nbsp;keep?</h2>
+          <p class="lede">
+            Save it tonight. Tomorrow it comes back as a game. Weeks from now, it&rsquo;s part of what
+            you know.
+          </p>
+          <div class="cta-row">
+            <a
+              class="appstore-btn"
+              href="https://apps.apple.com/app/id6759216018"
+              target="_blank"
+              rel="noopener"
+              aria-label="Download REPS on the App Store"
+            >
+              <svg viewBox="0 0 384 512" fill="currentColor" aria-hidden="true">
+                <path
+                  d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"
+                />
+              </svg>
+              <span class="appstore-label">
+                <span class="small">Download on the</span>
+                <span class="big">App Store</span>
+              </span>
+            </a>
+            <p class="reassure">Free on the App Store.</p>
+          </div>
+          <p class="founder-line">
+            Built by Mike McGraw, who left venture to make it.
+            <a class="link" href="/about">Read why &rarr;</a>
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap foot">
+        <div>
+          <a class="wordmark" href="/" aria-label="REPS home">
+            <img src="product/assets/app-icon.png" alt="" width="30" height="30" />
+            REPS
+          </a>
+          <p class="motto">Save. Play. Remember.</p>
+        </div>
+        <div style="display: grid; gap: 16px">
+          <ul aria-label="Company">
+            <li><a href="/about">About</a></li>
+            <li><a href="/about#press">Press</a></li>
+            <li><a href="/planet">Planet</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/privacy">Privacy</a></li>
+            <li><a href="/terms">Terms</a></li>
+          </ul>
+          <ul aria-label="Features">
+            <li><a href="/features/active-recall">The daily game</a></li>
+            <li><a href="/features/second-brain">Your knowledge graph</a></li>
+            <li><a href="/features/read-it-later">Read it later</a></li>
+          </ul>
+          <p class="legal">REPS · Your Knowledge Companion · Free on the App Store.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- PostHog — analytics + engagement (autocapture, pageleave/scroll, session replay) -->
+    <script>
+      !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+      posthog.init("phc_gTI0FJoXiGPjdACbgVyunpDSl0mPs2HEYtmzUtK3SyE", {
+        api_host: "https://us.i.posthog.com",
+        ui_host: "https://us.posthog.com",
+        defaults: "2025-05-24",
+        persistence: "localStorage+cookie",
+        capture_pageview: true,
+        capture_pageleave: true,
+        autocapture: true,
+        disable_session_recording: false,
+        loaded: function (ph) { ph.register({ lp_variant: "v4d" }); }
+      });
+    </script>
+
+    <script>
+      (function () {
+        var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var hasIO = "IntersectionObserver" in window;
+
+        /* ── Scroll reveals (once) ── */
+        var rvs = document.querySelectorAll(".rv, [data-orbit]");
+        if (!hasIO || reduce) {
+          rvs.forEach(function (el) { el.classList.add("in"); });
+        } else {
+          var rio = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (e) {
+                if (e.isIntersecting) {
+                  e.target.classList.add("in");
+                  rio.unobserve(e.target);
+                }
+              });
+            },
+            { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
+          );
+          rvs.forEach(function (el) { rio.observe(el); });
+        }
+
+        /* ── Videos: lazy src, play only on screen, never more than 3 at once ── */
+        var vids = Array.prototype.slice.call(document.querySelectorAll("video[data-v]"));
+        var playing = [];
+        var MAX = 3;
+        function load(v) {
+          if (v.dataset.src && !v.getAttribute("src")) {
+            v.setAttribute("src", v.dataset.src);
+          }
+        }
+        function start(v) {
+          load(v);
+          if (playing.indexOf(v) === -1) playing.push(v);
+          while (playing.length > MAX) playing.shift().pause();
+          if (v.paused) {
+            var p = v.play();
+            if (p && p.catch) p.catch(function () {});
+          }
+        }
+        function stop(v) {
+          v.pause();
+          var i = playing.indexOf(v);
+          if (i > -1) playing.splice(i, 1);
+        }
+        if (reduce) {
+          /* Reduced motion: nothing moves on its own. Each phone shows its still
+             frame; a tap (or Enter/Space) plays or pauses that one clip. */
+          vids.forEach(function (v) {
+            v.removeAttribute("autoplay");
+            v.pause();
+            v.setAttribute("preload", "none");
+            v.setAttribute("tabindex", "0");
+            v.setAttribute("role", "button");
+            v.setAttribute("aria-label", "Play or pause. " + (v.getAttribute("aria-label") || ""));
+            v.style.cursor = "pointer";
+            function toggle() {
+              load(v);
+              if (v.paused) {
+                var p = v.play();
+                if (p && p.catch) p.catch(function () {});
+              } else v.pause();
+            }
+            v.addEventListener("click", toggle);
+            v.addEventListener("keydown", function (e) {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                toggle();
+              }
+            });
+          });
+        } else if (!hasIO) {
+          vids.forEach(function (v) { load(v); });
+        } else {
+          var near = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (e) {
+                if (e.isIntersecting) {
+                  load(e.target);
+                  near.unobserve(e.target);
+                }
+              });
+            },
+            { rootMargin: "300px 0px" }
+          );
+          var vis = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (e) {
+                if (e.isIntersecting) start(e.target);
+                else stop(e.target);
+              });
+            },
+            { threshold: 0.25 }
+          );
+          vids.forEach(function (v) {
+            near.observe(v);
+            vis.observe(v);
+          });
+        }
+
+        /* ── Loop path: nodes light as each step arrives ── */
+        var steps = document.querySelectorAll("[data-step]");
+        if (hasIO && !reduce) {
+          var sio = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (e) {
+                if (e.isIntersecting) e.target.classList.add("on");
+              });
+            },
+            { rootMargin: "0px 0px -45% 0px", threshold: 0 }
+          );
+          steps.forEach(function (s) { sio.observe(s); });
+        } else {
+          steps.forEach(function (s) { s.classList.add("on"); });
+        }
+
+        /* ── Scroll-linked (event-driven only): ring drift + path fill ── */
+        var orbit = document.querySelector("[data-orbit]");
+        var path = document.querySelector("[data-path]");
+        var ticking = false;
+        function update() {
+          ticking = false;
+          var vh = window.innerHeight;
+          if (orbit) {
+            var r = orbit.getBoundingClientRect();
+            if (r.bottom > -200 && r.top < vh + 200) {
+              var t = Math.max(0, Math.min(1, (vh - r.top) / (vh + r.height)));
+              orbit.style.setProperty("--rot", (t * 16 - 8).toFixed(2) + "deg");
+            }
+          }
+          if (path) {
+            var pr = path.getBoundingClientRect();
+            var f = Math.max(0, Math.min(1, (vh * 0.55 - pr.top) / pr.height));
+            path.style.setProperty("--fill", f.toFixed(4));
+          }
+        }
+        function onScroll() {
+          if (!ticking) {
+            ticking = true;
+            requestAnimationFrame(update);
+          }
+        }
+        if (!reduce) {
+          window.addEventListener("scroll", onScroll, { passive: true });
+          window.addEventListener("resize", onScroll);
+          update();
+        } else if (path) {
+          path.style.setProperty("--fill", "1");
+        }
+      })();
+    </script>
+  </body>
+</html>
