@@ -92,8 +92,7 @@
         -webkit-font-smoothing: antialiased;
         text-rendering: optimizeLegibility;
       }
-      img,
-      video {
+      img {
         display: block;
         max-width: 100%;
       }
@@ -551,7 +550,7 @@
         margin-right: 6px;
       }
 
-      /* ───────────── the graph (galaxy black, the one capture) ───────────── */
+      /* ───────────── the graph (galaxy black, the one conceptual scene: what you keep becomes one light) ───────────── */
       .graph .in {
         display: grid;
         grid-template-columns: 1fr auto;
@@ -574,50 +573,41 @@
         box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 40px 100px rgba(0, 0, 0, 0.7), 0 0 120px rgba(76, 95, 171, 0.25);
         justify-self: end;
       }
-      .window video {
-        width: 100%;
-        aspect-ratio: 540 / 1170;
-        object-fit: cover;
-        margin-top: -30%; /* the capture's status bar and screen title stay out of frame */
-        position: relative;
-      }
-      .play-glyph {
+      #gather {
         position: absolute;
         inset: 0;
-        display: none;
-        place-items: center;
-        background: transparent;
-        border: 0;
-        cursor: pointer;
-        padding: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
       }
-      .play-glyph span {
-        width: 74px;
-        height: 74px;
-        border-radius: 50%;
-        background: var(--cream);
-        display: grid;
-        place-items: center;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+      /* a cheap compositor-only breath once the light has gathered; only while on screen, only under motion */
+      .afterglow {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0;
+        background: radial-gradient(circle at 50% 52%, rgba(255, 142, 83, 0.26), rgba(255, 107, 107, 0.1) 30%, rgba(4, 4, 9, 0) 60%);
+        transition: opacity 0.8s var(--ease);
       }
-      .play-glyph svg {
-        width: 26px;
-        height: 26px;
-        margin-left: 4px;
+      .window.settled .afterglow {
+        opacity: 0.7;
       }
-      .window.still .play-glyph {
-        display: grid;
+      html.motion .window.settled.live .afterglow {
+        animation: breathe 5.2s ease-in-out infinite;
+      }
+      @keyframes breathe {
+        0%,
+        100% {
+          opacity: 0.45;
+        }
+        50% {
+          opacity: 1;
+        }
       }
       .window-wrap {
         display: grid;
         gap: 14px;
         justify-items: center;
-      }
-      .window-wrap .cap {
-        margin: 0;
-        font-size: 15px;
-        color: rgba(255, 250, 247, 0.62);
-        font-weight: 500;
       }
 
       /* ───────────── proof (cream, ruled Lora quotes) ───────────── */
@@ -950,34 +940,26 @@
         </div>
       </section>
 
-      <!-- ═══════ THE GRAPH · Galaxy Black · the one real capture ═══════ -->
+      <!-- ═══════ THE GRAPH · Galaxy Black · the one conceptual scene: what you keep becomes one light that grows ═══════ -->
       <section class="block f-galaxy graph reveal" id="graph">
         <div class="in">
           <div>
             <p class="eyebrow">A year in</p>
             <h2>Most apps compete for your attention. REPS <span class="gold">compounds</span> it.</h2>
             <p class="lede">
-              Everything you keep connects to everything else you've kept, across books, podcasts, videos
-              and the odd screenshot. One reader's year, inside the app, looks like this.
+              Everything you keep connects to everything else you've kept, across books, podcasts, what you
+              watch and the odd screenshot. A year of it, kept, adds up to something you can feel.
             </p>
           </div>
           <div class="window-wrap">
             <div class="window" id="window">
-              <video
-                muted
-                playsinline
-                loop
-                preload="none"
-                disablepictureinpicture
-                poster="beats/2026-09/second-brain-poster.jpg"
-                data-src="beats/2026-09/second-brain.mp4"
-                aria-label="A 3D graph of one person's saved knowledge, hundreds of nodes coloured by topic"
-              ></video>
-              <button class="play-glyph" type="button" aria-label="Play the clip">
-                <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3l15 9-15 9z" fill="#211A14" /></svg></span>
-              </button>
+              <canvas
+                id="gather"
+                role="img"
+                aria-label="Saved fragments drift in from the edges and gather into one warm light that grows as each one arrives"
+              ></canvas>
+              <div class="afterglow" aria-hidden="true"></div>
             </div>
-            <p class="cap">Real capture, one reader's knowledge.</p>
           </div>
         </div>
       </section>
@@ -1375,26 +1357,160 @@
           Array.prototype.forEach.call(reveals, function (el) { el.classList.add("in"); });
         }
 
-        /* ─────────── the one clip: autoplay in view under motion; poster + custom glyph otherwise. Never native chrome. ─────────── */
-        var win = document.getElementById("window");
-        var vid = win.querySelector("video");
-        var glyph = win.querySelector(".play-glyph");
-        var clipStarted = false;
-        function startClip() {
-          if (!vid.src) { vid.src = vid.dataset.src; vid.load(); }
-          var pr = vid.play();
-          if (pr && pr.catch) pr.catch(function () { win.classList.add("still"); });
-          win.classList.remove("still");
-          if (!clipStarted) { clipStarted = true; ph("lp_clip_play"); }
-        }
-        glyph.addEventListener("click", startClip);
-        if (MOTION) {
-          new IntersectionObserver(function (es) {
-            es.forEach(function (e) { if (e.isIntersecting) startClip(); else if (!vid.paused) vid.pause(); });
-          }, { rootMargin: "120px", threshold: 0.25 }).observe(win);
-        } else {
-          win.classList.add("still");
-        }
+        /* ─────────── the gathering: what you keep streams in from the edges and becomes ONE warm light that grows.
+           Code-drawn with the hero's own fragment shapes on a dark-ground palette. Abstract light + fragments only —
+           never a node-and-edge graph, never app UI. Runs only while on screen, ~30 fps, stops for good once gathered. ─────────── */
+        (function () {
+          var win = document.getElementById("window");
+          var gc = document.getElementById("gather");
+          if (!win || !gc || !gc.getContext) return;
+          var g = gc.getContext("2d");
+          var GW = 0, GH = 0, GD = 1, CX = 0, CY = 0, S = 1;
+          var DARK = { INK: "rgba(255,250,247,0.6)", INKF: "rgba(255,250,247,0.14)", PAPER: "rgba(255,250,247,0.1)", GOLD: "rgba(212,162,78,0.8)" };
+          var DUR = 2.0; /* seconds of gathering once the window is on screen */
+          var BATCH = [0.3, 0.55, 0.78, 0.98]; /* a gold ring steps outward each time a batch has landed */
+          var gf = [], rings = [], pulse = 0, gP = 0, gT = 0, gLast = 0, gRaf = 0, lastPaint = 0, scrollFloor = 0;
+          var gRun = false, gDone = false, gBegun = false, gVis = false, fallbackArmed = false;
+
+          /* the hero's shapes, drawn in a dark-ground ink; the palette vars are read at call time */
+          function shape(k, c) {
+            var i = INK, f = INKF, p = PAPER, gd = GOLD;
+            INK = DARK.INK; INKF = DARK.INKF; PAPER = DARK.PAPER; GOLD = DARK.GOLD;
+            SHAPES[k](c);
+            INK = i; INKF = f; PAPER = p; GOLD = gd;
+          }
+
+          function gsize() {
+            var r = win.getBoundingClientRect();
+            GW = Math.round(r.width) || 330; GH = Math.round(r.height) || 440;
+            GD = Math.min(2, window.devicePixelRatio || 1);
+            gc.width = GW * GD; gc.height = GH * GD;
+            CX = GW / 2; CY = GH * 0.52; S = Math.min(GW, GH) / 330;
+          }
+
+          function gbuild() {
+            seed = SEED ^ 0x51f; /* deterministic, so the settled still is the same every load */
+            gsize();
+            gf = []; rings = [];
+            var N = GW < 300 ? 13 : 16, TAIL = 3; /* the last few are still arriving in the settled still */
+            var far = Math.sqrt(GW * GW + GH * GH) / 2 + 80 * S;
+            for (var i = 0; i < N; i++) {
+              var a = R(0, 6.2832), tail = i >= N - TAIL, t0, t1;
+              if (tail) { t0 = R(0.62, 0.78); t1 = t0 + R(0.5, 0.62); }
+              else { t1 = 0.14 + 0.84 * (i / (N - TAIL - 1)) + R(-0.04, 0.04); t0 = t1 - R(0.34, 0.48); }
+              gf.push({ k: KINDS[(i + ((rnd() * 4) | 0)) % 4], sx: CX + Math.cos(a) * far, sy: CY + Math.sin(a) * far, srot: R(-0.7, 0.7), cur: R(-0.6, 0.6), t0: t0, t1: t1 });
+            }
+          }
+
+          function gpaint(P, still) {
+            g.setTransform(GD, 0, 0, GD, 0, 0);
+            g.clearRect(0, 0, GW, GH);
+            var E = ease(clamp(P, 0, 1));
+            for (var k = 0; k < BATCH.length; k++) if (P >= BATCH[k] && rings.length <= k) { rings.push({ k: k, born: P }); pulse = 1; }
+            if (still) pulse = 0;
+            var core = S * (24 + 40 * E) * (1 + 0.1 * pulse);
+
+            /* the halo: the one strong warm light, growing with everything that has arrived */
+            var halo = g.createRadialGradient(CX, CY, 0, CX, CY, core * 4.4);
+            halo.addColorStop(0, "rgba(255,142,83," + (0.55 + 0.25 * E) + ")");
+            halo.addColorStop(0.3, "rgba(255,107,107," + (0.2 + 0.16 * E) + ")");
+            halo.addColorStop(1, "rgba(255,107,107,0)");
+            g.fillStyle = halo; g.fillRect(0, 0, GW, GH);
+
+            /* tree rings: one gold ring per landed batch, stepping outward, popping once then resting */
+            for (var r = 0; r < rings.length; r++) {
+              var rg = rings[r], age = still ? 1 : clamp((P - rg.born) / 0.1, 0, 1), ea = ease(age);
+              g.beginPath(); g.arc(CX, CY, S * (80 + rg.k * 17) * (0.92 + 0.08 * ea), 0, 6.2832);
+              g.strokeStyle = "rgba(212,162,78," + (0.28 + 0.6 * (1 - ea)) + ")"; g.lineWidth = 1.5; g.stroke();
+            }
+
+            /* the fragments: in from the edges on a gentle curve, shrinking and warming as the light takes them */
+            for (var i = 0; i < gf.length; i++) {
+              var f = gf[i];
+              if (P < f.t0) continue;
+              var p = clamp((P - f.t0) / (f.t1 - f.t0), 0, 1);
+              if (p >= 1) continue;
+              var e = ease(p), dx = CX - f.sx, dy = CY - f.sy, len = Math.sqrt(dx * dx + dy * dy) || 1;
+              var x = f.sx + dx * e + (-dy / len) * Math.sin(Math.PI * p) * f.cur * 70 * S;
+              var y = f.sy + dy * e + (dx / len) * Math.sin(Math.PI * p) * f.cur * 70 * S;
+              var sc = (1 - 0.68 * e) * S, a = (p < 0.15 ? p / 0.15 : 1) * (1 - e * e * e);
+              if (e > 0.4) {
+                var w = (e - 0.4) / 0.6, gl = g.createRadialGradient(x, y, 0, x, y, 46 * S * (1 - 0.5 * w));
+                gl.addColorStop(0, "rgba(255,142,83," + 0.5 * w + ")"); gl.addColorStop(1, "rgba(255,107,107,0)");
+                g.fillStyle = gl; g.fillRect(x - 50 * S, y - 50 * S, 100 * S, 100 * S);
+              }
+              g.save(); g.translate(x, y); g.rotate(f.srot * (1 - e)); g.scale(sc, sc); g.globalAlpha = a; shape(f.k, g); g.restore();
+            }
+
+            /* the core, on top, so each arrival vanishes into it */
+            var cg = g.createRadialGradient(CX, CY, 0, CX, CY, core);
+            cg.addColorStop(0, "#FFA06E"); cg.addColorStop(0.45, "#FF8E53"); cg.addColorStop(0.82, "#FF6B6B"); cg.addColorStop(1, "rgba(255,107,107,0)");
+            g.fillStyle = cg; g.beginPath(); g.arc(CX, CY, core, 0, 6.2832); g.fill();
+          }
+
+          function gsettle() {
+            if (gDone) return;
+            gDone = true; gRun = false; gLast = 0;
+            if (gRaf) { cancelAnimationFrame(gRaf); gRaf = 0; }
+            rings = []; gP = 1;
+            gpaint(1, true);
+            win.classList.add("settled");
+          }
+
+          function gframe(now) {
+            gRaf = 0;
+            if (gLast) gT += Math.min(now - gLast, 50) / 1000;
+            gLast = now;
+            gP = Math.max(gT / DUR, scrollFloor * 0.75); /* scrolling in brings it most of the way; time lands the last batch */
+            if (gP >= 1) { gsettle(); return; }
+            if (now - lastPaint >= 31) { lastPaint = now; gpaint(gP, false); pulse *= 0.8; } /* ~30 fps cap */
+            if (gVis && !document.hidden) gRaf = requestAnimationFrame(gframe);
+            else { gRun = false; gLast = 0; }
+          }
+          function gwake() {
+            if (!MOTION || gDone || gRun || !gBegun || !gVis || document.hidden) return;
+            gRun = true; gRaf = requestAnimationFrame(gframe);
+          }
+          function gbegin() {
+            if (gBegun) return;
+            gBegun = true;
+            gbuild();
+            if (!MOTION) { gsettle(); return; } /* reduced motion: the finished light, drawn once */
+            gpaint(0, false);
+            gwake();
+          }
+          function floor() {
+            var r = win.getBoundingClientRect(), vh = window.innerHeight || 1;
+            scrollFloor = clamp((vh - r.top) / (vh * 0.5 + r.height * 0.5), 0, 1);
+          }
+
+          gbegin();
+          if ("IntersectionObserver" in window) {
+            new IntersectionObserver(function (es) {
+              es.forEach(function (e) {
+                gVis = e.isIntersecting;
+                win.classList.toggle("live", gVis);
+                if (!gVis) return;
+                floor(); gwake();
+                if (!fallbackArmed) { fallbackArmed = true; setTimeout(function () { if (!gDone) gsettle(); }, 2400); } /* a throttled tab still ends on the full light */
+              });
+            }, { threshold: 0.2, rootMargin: "40px" }).observe(win);
+          } else {
+            gVis = true; win.classList.add("live"); gwake();
+            setTimeout(function () { if (!gDone) gsettle(); }, 2400);
+          }
+          window.addEventListener("scroll", function () { if (gDone || !gVis) return; floor(); gwake(); }, { passive: true });
+          document.addEventListener("visibilitychange", function () { if (!document.hidden) gwake(); });
+          var gRT = 0;
+          window.addEventListener("resize", function () {
+            clearTimeout(gRT);
+            gRT = setTimeout(function () {
+              if (!gBegun) return;
+              gbuild();
+              if (gDone) { gpaint(1, true); } else { gpaint(gP, false); gwake(); }
+            }, 120);
+          });
+        })();
       })();
     </script>
   </body>
