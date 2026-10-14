@@ -2949,7 +2949,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
 </div>
 
 <div id="progress" style="width:6.66%"></div>
-<div class="deck-controls" id="deckControls">&larr; &rarr; to move &middot; S for sound</div>
+<div class="deck-controls" id="deckControls">&larr; &rarr; to move<span id="deckSoundHint" hidden> &middot; S for sound</span></div>
 <!-- edit hotzone removed for web -->
 <button class="edit-toggle" id="editToggle" title="Edit mode (E)">Edit text</button>
 <!-- editor export button removed for web -->
@@ -3058,6 +3058,9 @@ class SlidePresentation {
       s.classList.toggle('visible', n === this.current);
     });
     this.progress.style.width = ((this.current + 1) / this.slides.length * 100) + '%';
+    /* "S for sound" is only advertised on slides that actually have a video */
+    const soundHint = document.getElementById('deckSoundHint');
+    if (soundHint) soundHint.hidden = !this.slides[this.current].querySelector('video');
     if (history.replaceState) history.replaceState(null, '', '#' + (this.current + 1));
     /* Leaving a slide always pauses its video, so no audio carries over.
        ARRIVING on one only starts the video if the video ASKED to be started --
@@ -3100,9 +3103,15 @@ function setupFounderFilm(){
   v.addEventListener('ended', function(){ wrap.classList.remove('playing'); v.currentTime = 0; });
   /* leaving the slide stops the voice track rather than letting it play on
      underneath the next argument */
-  document.addEventListener('keydown', function(){
+  document.addEventListener('keydown', function(e){
     var slide = v.closest('.slide');
     if (slide && !slide.classList.contains('active') && !v.paused) v.pause();
+    /* S on the film slide: start it with sound, or mute/unmute while playing */
+    if ((e.key === 's' || e.key === 'S') && !e.metaKey && !e.ctrlKey && !e.altKey
+        && !(e.target.getAttribute && e.target.getAttribute('contenteditable') === 'true')
+        && slide && slide.classList.contains('active')){
+      if (v.paused) play(); else v.muted = !v.muted;
+    }
   });
 }
 
@@ -3137,8 +3146,15 @@ function setupSound(){
   if (playBtn) playBtn.addEventListener('click', function(e){ e.stopPropagation(); playWithSound(); });
   v.addEventListener('pause', function(){ if (wrap) wrap.classList.remove('playing'); });
   v.addEventListener('ended', function(){ if (wrap) wrap.classList.remove('playing'); });
+  /* S only means anything on the slide that holds this video. Anywhere else it
+     must do nothing -- it used to unmute and start the demo from any slide. */
   document.addEventListener('keydown', function(e){
-    if ((e.key === 's' || e.key === 'S') && e.target.getAttribute && e.target.getAttribute('contenteditable') !== 'true') toggle();
+    if (e.key !== 's' && e.key !== 'S') return;
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (e.target.getAttribute && e.target.getAttribute('contenteditable') === 'true') return;
+    var slide = v.closest('.slide');
+    if (!slide || !slide.classList.contains('active')) return;
+    toggle();
   });
   paint();
 }
