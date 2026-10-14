@@ -1,0 +1,1401 @@
+<!doctype html>
+<!-- REPS home, candidate v6b — BOLD POSTER in the REPS world (2026-10-14, round 3; BRIEF_V3 governs).
+     Direction:
+     1. One visual world: the app's own. Cream page, warm-ink type, coral→peach spent on the CTA alone,
+        ONE Galaxy Black beat (the graph), teal and indigo as a section field once each, gold only as a
+        highlighter. Space Grotesk for everything the product says; Lora only inside quotes and the letter.
+     2. Playground STRUCTURE, not its clothes: one idea per screen, poster-scale type, hierarchy by size and
+        colour blocks, CTA inside the first screen on a phone. Headline devices change every screen
+        (assembled letters → gold highlighter → gold underline + quoted line → two-tone outlined word →
+        gold word on black → ruled Lora quotes → letter).
+     3. Signature: THE HEADLINE ASSEMBLES FROM WHAT YOU KEPT. In the first second, code-drawn, washed-out
+        saved fragments (screenshot frames, highlighted lines, podcast timestamp chips, link cards; never a
+        real logo, cover or app UI) fly in and each one becomes a letter of the headline. The ones that
+        didn't make it fade into a faint drift behind the type. Then the hero is STILL: one focal point.
+        Cursor afterwards: a low-contrast parallax of the faded fragments, nothing else. Mobile: the same
+        assembly on load, scroll-driven parallax. One rAF loop, paused off-screen and when the tab hides.
+        Reduced motion (and no `?motion=1`): the finished headline over the faint drift. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>REPS · Your Knowledge Companion</title>
+    <meta
+      name="description"
+      content="You take in more than ever and keep almost none of it. REPS is a free iPhone app that keeps what you read, watch and listen to with you, for the moment you want it."
+    />
+    <link rel="canonical" href="https://www.getreps.io/" />
+    <meta property="og:title" content="REPS · Your Knowledge Companion" />
+    <meta
+      property="og:description"
+      content="You take in more than ever and keep almost none of it. REPS keeps what you read, watch and listen to with you."
+    />
+    <meta property="og:url" content="https://www.getreps.io/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://www.getreps.io/og-card-v3.png?v=2" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://www.getreps.io/og-card-v3.png?v=2" />
+    <meta name="theme-color" content="#FFFAF7" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      /* Early, so the headline never flashes before it assembles. `?motion=1` overrides reduced motion. */
+      (function () {
+        var q = new URLSearchParams(location.search);
+        if (q.get("motion") === "1" || !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          document.documentElement.classList.add("motion");
+        }
+      })();
+    </script>
+    <style>
+      :root {
+        --cream: #fffaf7;
+        --ink: #211a14;
+        --soft: #5f554e;
+        --mute: #776d66;
+        --coral: #ff6b6b;
+        --peach: #ff8e53;
+        --coral-ink: #d8443f;
+        --galaxy: #040409;
+        --teal: #4ecdc4;
+        --teal-deep: #2d8377;
+        --indigo: #4c5fab;
+        --gold: #d4a24e;
+        --sans: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+        --serif: "Lora", Georgia, "Times New Roman", serif;
+        --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html.motion {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background: var(--cream);
+        color: var(--ink);
+        font-family: var(--sans);
+        font-size: 18px;
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+      img,
+      video {
+        display: block;
+        max-width: 100%;
+      }
+      a {
+        color: inherit;
+      }
+      .skip {
+        position: absolute;
+        left: -999px;
+        top: 8px;
+        background: var(--ink);
+        color: var(--cream);
+        padding: 10px 14px;
+        border-radius: 10px;
+        z-index: 50;
+        font-weight: 600;
+      }
+      .skip:focus {
+        left: 12px;
+      }
+      .in {
+        width: min(1120px, 100% - 48px);
+        margin: 0 auto;
+      }
+
+      /* ───────────── nav ───────────── */
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: rgba(255, 250, 247, 0.84);
+        -webkit-backdrop-filter: blur(14px);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid rgba(33, 26, 20, 0.06);
+      }
+      .nav .in {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 68px;
+      }
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        font-weight: 600;
+        font-size: 17px;
+        letter-spacing: 0.04em;
+        color: var(--soft);
+        text-decoration: none;
+      }
+      .brand img {
+        width: 26px;
+        height: 26px;
+        border-radius: 7px;
+        opacity: 0.85;
+      }
+      .nav nav {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+      }
+      .nav .link {
+        font-weight: 600;
+        font-size: 15px;
+        color: var(--soft);
+        text-decoration: none;
+      }
+      .nav .link:hover {
+        color: var(--ink);
+      }
+
+      /* ───────────── CTA (the one style) ───────────── */
+      .cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        height: 58px;
+        padding: 0 28px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, var(--coral), var(--peach));
+        color: #fff;
+        font-weight: 700;
+        font-size: 17px;
+        letter-spacing: 0.005em;
+        text-decoration: none;
+        box-shadow: 0 12px 30px rgba(255, 107, 107, 0.32);
+        transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+        will-change: transform;
+      }
+      .cta svg {
+        width: 20px;
+        height: 20px;
+        fill: #fff;
+        flex: none;
+      }
+      .cta:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 36px rgba(255, 107, 107, 0.42);
+      }
+      .cta:focus-visible,
+      .link:focus-visible,
+      .arrow:focus-visible,
+      .lockup:focus-visible,
+      .play-glyph:focus-visible {
+        outline: 3px solid var(--coral-ink);
+        outline-offset: 4px;
+      }
+      /* One coral object above the fold: the hero CTA. The nav pill only earns its colour once the hero has scrolled away. */
+      .cta.small {
+        height: 42px;
+        padding: 0 18px;
+        font-size: 15px;
+        background: transparent;
+        color: var(--ink);
+        border: 1px solid rgba(33, 26, 20, 0.14);
+        box-shadow: none;
+        transition: background 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+      }
+      body.past-hero .cta.small {
+        background: linear-gradient(135deg, var(--coral), var(--peach));
+        color: #fff;
+        border-color: transparent;
+        box-shadow: 0 6px 16px rgba(255, 107, 107, 0.25);
+      }
+      .reassure {
+        margin: 14px 0 0;
+        font-size: 15px;
+        color: var(--mute);
+        font-weight: 500;
+      }
+      .f-ink .reassure,
+      .f-galaxy .reassure {
+        color: rgba(255, 250, 247, 0.62);
+      }
+
+      /* ───────────── type system ───────────── */
+      .eyebrow {
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        color: var(--coral-ink);
+        margin: 0 0 18px;
+      }
+      h2 {
+        font-size: clamp(36px, 4.9vw, 68px);
+        line-height: 1.03;
+        letter-spacing: -0.025em;
+        font-weight: 700;
+        margin: 0 0 24px;
+        max-width: 15ch;
+      }
+      .lede {
+        font-size: clamp(18px, 1.5vw, 22px);
+        line-height: 1.5;
+        color: var(--soft);
+        max-width: 620px;
+        margin: 0;
+      }
+      .lede strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .arrow {
+        display: inline-block;
+        font-weight: 700;
+        color: var(--coral-ink);
+        text-decoration: none;
+        border-bottom: 2px solid rgba(216, 68, 63, 0.3);
+        padding-bottom: 1px;
+      }
+      .arrow:hover {
+        border-color: var(--coral-ink);
+      }
+
+      /* ───────────── blocks (colour fields) ───────────── */
+      .block {
+        padding: clamp(84px, 11vw, 144px) 0;
+        position: relative;
+      }
+      .f-indigo {
+        background: var(--indigo);
+        color: var(--cream);
+      }
+      .f-indigo .eyebrow {
+        color: rgba(255, 250, 247, 0.78);
+      }
+      .f-indigo .lede {
+        color: rgba(255, 250, 247, 0.84);
+      }
+      .f-teal {
+        background: var(--teal);
+        color: var(--ink);
+      }
+      .f-teal .eyebrow {
+        color: var(--ink);
+      }
+      .f-teal .lede {
+        color: rgba(33, 26, 20, 0.8);
+      }
+      .f-galaxy {
+        background: var(--galaxy);
+        color: var(--cream);
+      }
+      .f-galaxy .eyebrow {
+        color: var(--gold);
+      }
+      .f-galaxy .lede {
+        color: rgba(255, 250, 247, 0.74);
+      }
+      .f-ink {
+        background: var(--ink);
+        color: var(--cream);
+      }
+      .f-ink .eyebrow {
+        color: var(--peach);
+      }
+      .f-ink .lede {
+        color: rgba(255, 250, 247, 0.74);
+      }
+
+      /* ───────────── hero ───────────── */
+      .hero {
+        position: relative;
+        min-height: min(calc(100svh - 68px), 860px);
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        padding: 40px 0 72px;
+      }
+      #dust {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+      }
+      .hero-in {
+        position: relative;
+        text-align: center;
+        width: min(1080px, 100% - 48px);
+        margin: 0 auto;
+      }
+      .lockup {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 700;
+        font-size: 15px;
+        letter-spacing: 0.02em;
+        color: var(--coral-ink);
+        text-decoration: none;
+      }
+      .lockup img {
+        width: 26px;
+        height: 26px;
+        border-radius: 7px;
+      }
+      h1 {
+        font-size: clamp(38px, 5vw, 70px);
+        line-height: 1.04;
+        letter-spacing: -0.03em;
+        font-weight: 700;
+        margin: 28px 0 22px;
+      }
+      h1 .line {
+        display: block;
+      }
+      h1 .l2 {
+        color: var(--coral-ink);
+      }
+      h1 .w {
+        display: inline-block;
+        white-space: nowrap;
+      }
+      h1 .gl {
+        display: inline-block;
+      }
+      /* under motion the letters start hidden and switch on as their fragment lands */
+      html.motion #h1:not(.split) .line {
+        opacity: 0;
+      }
+      html.motion #h1 .gl {
+        opacity: 0;
+        transform: translateY(0.14em) scale(0.9);
+      }
+      html.motion #h1 .gl.on {
+        opacity: 1;
+        transform: none;
+        transition: opacity 0.22s ease-out, transform 0.36s var(--ease);
+      }
+      html.motion #h1.done .gl {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+      .hero .lede {
+        margin: 0 auto 30px;
+        max-width: 560px;
+      }
+      .hero .actions {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      /* ───────────── relief (cream, gold highlighter) ───────────── */
+      .relief .in {
+        max-width: 900px;
+      }
+      .hl {
+        background: linear-gradient(transparent 52%, rgba(212, 162, 78, 0.5) 52%, rgba(212, 162, 78, 0.5) 94%, transparent 94%)
+          no-repeat 0 0 / 100% 100%;
+        -webkit-box-decoration-break: clone;
+        box-decoration-break: clone;
+        padding: 0 0.06em;
+        margin: 0 -0.06em;
+      }
+      html.motion .reveal:not(.in) .hl {
+        background-size: 0% 100%;
+      }
+      html.motion .reveal.in .hl {
+        transition: background-size 0.9s 0.25s var(--ease);
+      }
+      .turn {
+        font-size: clamp(26px, 3.2vw, 44px);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: var(--coral-ink);
+        margin: 30px 0 0;
+        line-height: 1.1;
+      }
+      .founder-note {
+        margin: 56px 0 0;
+        display: flex;
+        gap: 18px;
+        align-items: center;
+        background: #fff;
+        border: 1px solid rgba(33, 26, 20, 0.06);
+        border-radius: 22px;
+        padding: 18px 22px 18px 18px;
+        box-shadow: 0 14px 40px rgba(33, 26, 20, 0.07);
+        max-width: 640px;
+      }
+      .founder-note img {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex: none;
+      }
+      .founder-note .q {
+        font-family: var(--serif);
+        font-style: italic;
+        font-size: 18px;
+        line-height: 1.4;
+        margin: 0 0 6px;
+        color: var(--ink);
+      }
+      .founder-note .who {
+        margin: 0;
+        font-size: 15px;
+        color: var(--mute);
+        font-weight: 500;
+      }
+      .founder-note .who .arrow {
+        margin-left: 6px;
+      }
+
+      /* ───────────── the room (indigo) ───────────── */
+      .room h2 {
+        max-width: 13ch;
+      }
+      .ul {
+        background: linear-gradient(var(--gold), var(--gold)) no-repeat 0 90% / 100% 0.12em;
+        padding-bottom: 0.02em;
+      }
+      html.motion .reveal:not(.in) .ul {
+        background-size: 0% 0.12em;
+      }
+      html.motion .reveal.in .ul {
+        transition: background-size 0.8s 0.35s var(--ease);
+      }
+      .scene {
+        margin: 44px 0 0;
+        max-width: 720px;
+      }
+      .scene .ask {
+        font-family: var(--serif);
+        font-style: italic;
+        font-weight: 500;
+        font-size: clamp(26px, 3vw, 40px);
+        line-height: 1.2;
+        margin: 0 0 18px;
+        color: #fff;
+      }
+      .scene .after {
+        font-size: clamp(18px, 1.6vw, 23px);
+        line-height: 1.45;
+        margin: 0;
+        color: rgba(255, 250, 247, 0.86);
+      }
+      .scene .after strong {
+        color: #fff;
+        font-weight: 700;
+      }
+      html.motion .reveal:not(.in) .wd {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      .wd {
+        display: inline-block;
+        transition: opacity 0.5s var(--ease), transform 0.6s var(--ease);
+      }
+
+      /* ───────────── play (teal) ───────────── */
+      .play .in {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 48px;
+        align-items: end;
+      }
+      .play h2 {
+        max-width: 11ch;
+      }
+      .outline {
+        -webkit-text-stroke: 2px var(--ink);
+        color: var(--cream);
+        transition: color 0.6s 0.4s var(--ease);
+      }
+      html.motion .reveal:not(.in) .outline {
+        color: transparent;
+      }
+      .games {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 26px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+      .games li {
+        font-size: 15px;
+        font-weight: 700;
+        background: var(--cream);
+        color: var(--ink);
+        border-radius: 999px;
+        padding: 8px 14px;
+        box-shadow: 0 6px 16px rgba(33, 26, 20, 0.1);
+      }
+      .games li span {
+        color: var(--teal-deep);
+        margin-right: 6px;
+      }
+
+      /* ───────────── the graph (galaxy black, the one capture) ───────────── */
+      .graph .in {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 56px;
+        align-items: center;
+      }
+      .graph h2 {
+        max-width: 14ch;
+      }
+      .gold {
+        color: var(--gold);
+      }
+      .window {
+        position: relative;
+        width: min(330px, 80vw);
+        aspect-ratio: 540 / 720;
+        border-radius: 30px;
+        overflow: hidden;
+        background: var(--galaxy);
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 40px 100px rgba(0, 0, 0, 0.7), 0 0 120px rgba(76, 95, 171, 0.25);
+        justify-self: end;
+      }
+      .window video {
+        width: 100%;
+        aspect-ratio: 540 / 1170;
+        object-fit: cover;
+        margin-top: -30%; /* the capture's status bar and screen title stay out of frame */
+        position: relative;
+      }
+      .play-glyph {
+        position: absolute;
+        inset: 0;
+        display: none;
+        place-items: center;
+        background: transparent;
+        border: 0;
+        cursor: pointer;
+        padding: 0;
+      }
+      .play-glyph span {
+        width: 74px;
+        height: 74px;
+        border-radius: 50%;
+        background: var(--cream);
+        display: grid;
+        place-items: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+      }
+      .play-glyph svg {
+        width: 26px;
+        height: 26px;
+        margin-left: 4px;
+      }
+      .window.still .play-glyph {
+        display: grid;
+      }
+      .window-wrap {
+        display: grid;
+        gap: 14px;
+        justify-items: center;
+      }
+      .window-wrap .cap {
+        margin: 0;
+        font-size: 15px;
+        color: rgba(255, 250, 247, 0.62);
+        font-weight: 500;
+      }
+
+      /* ───────────── proof (cream, ruled Lora quotes) ───────────── */
+      .proof h2 {
+        margin-bottom: 40px;
+      }
+      .reviews {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 56px;
+      }
+      .reviews li {
+        border-top: 1px solid rgba(33, 26, 20, 0.12);
+        padding: 30px 0 34px 46px;
+        position: relative;
+        transition: opacity 0.6s var(--ease), transform 0.7s var(--ease);
+      }
+      html.motion .reveal:not(.in) .reviews li {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      .reviews li::before {
+        content: "\201C";
+        position: absolute;
+        left: 0;
+        top: 18px;
+        font-family: var(--serif);
+        font-size: 64px;
+        line-height: 1;
+        color: var(--coral-ink);
+        font-weight: 600;
+      }
+      .reviews blockquote {
+        margin: 0 0 12px;
+        font-family: var(--serif);
+        font-weight: 500;
+        font-size: clamp(18px, 1.5vw, 22px);
+        line-height: 1.45;
+        color: var(--ink);
+      }
+      .reviews cite {
+        font-style: normal;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--mute);
+        letter-spacing: 0.02em;
+      }
+
+      /* ───────────── why (founder letter) ───────────── */
+      .why .in {
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        gap: 56px;
+        align-items: start;
+        max-width: 1000px;
+      }
+      .why img {
+        width: 200px;
+        height: 200px;
+        border-radius: 28px;
+        object-fit: cover;
+        box-shadow: 0 20px 50px rgba(33, 26, 20, 0.14);
+      }
+      .letter {
+        max-width: 620px;
+      }
+      .letter p {
+        font-family: var(--serif);
+        font-size: clamp(18px, 1.45vw, 21px);
+        line-height: 1.55;
+        color: var(--soft);
+        margin: 0 0 18px;
+      }
+      .letter p strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .sig {
+        margin: 26px 0 16px;
+        font-weight: 700;
+        font-size: 16px;
+      }
+      .sig span {
+        color: var(--mute);
+        font-weight: 500;
+      }
+
+      /* ───────────── planet strip ───────────── */
+      .planet {
+        border-top: 1px solid rgba(33, 26, 20, 0.08);
+        border-bottom: 1px solid rgba(33, 26, 20, 0.08);
+        padding: 44px 0;
+      }
+      .planet .in {
+        display: flex;
+        align-items: center;
+        gap: 32px;
+      }
+      .planet img {
+        height: 44px;
+        width: auto;
+        flex: none;
+      }
+      .planet p {
+        margin: 0;
+        font-size: 16px;
+        color: var(--soft);
+        max-width: 640px;
+      }
+
+      /* ───────────── close (ink) ───────────── */
+      .close .in {
+        text-align: center;
+        display: grid;
+        justify-items: center;
+      }
+      .close h2 {
+        font-size: clamp(40px, 6.2vw, 92px);
+        max-width: none;
+        margin-bottom: 18px;
+      }
+      .close .lede {
+        margin-bottom: 36px;
+      }
+
+      /* ───────────── footer ───────────── */
+      footer {
+        padding: 36px 0 48px;
+      }
+      footer .in {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px 22px;
+        font-size: 14px;
+        color: var(--mute);
+      }
+      footer a {
+        text-decoration: none;
+        color: var(--mute);
+        font-weight: 500;
+      }
+      footer a:hover {
+        color: var(--ink);
+      }
+      footer .motto {
+        font-weight: 700;
+        color: var(--ink);
+        font-size: 15px;
+        margin-right: 10px;
+      }
+      footer .feat {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 22px;
+        padding-top: 10px;
+      }
+
+      /* ───────────── scroll reveals (motion only) ───────────── */
+      html.motion .reveal {
+        opacity: 0;
+        transform: translateY(22px);
+        transition: opacity 0.7s var(--ease), transform 0.8s var(--ease);
+      }
+      html.motion .reveal.in {
+        opacity: 1;
+        transform: none;
+      }
+
+      /* ───────────── phone ───────────── */
+      @media (max-width: 860px) {
+        .nav nav {
+          gap: 16px;
+        }
+        .nav .in {
+          height: 64px;
+        }
+        .hero {
+          min-height: min(calc(100svh - 64px), 780px);
+          padding: 28px 0 56px;
+        }
+        h1 {
+          margin: 22px 0 18px;
+        }
+        .play .in,
+        .graph .in,
+        .why .in {
+          grid-template-columns: 1fr;
+          gap: 36px;
+        }
+        .window {
+          justify-self: center;
+        }
+        .reviews {
+          grid-template-columns: 1fr;
+        }
+        .founder-note {
+          align-items: flex-start;
+        }
+        .why img {
+          width: 120px;
+          height: 120px;
+          border-radius: 20px;
+        }
+        .planet .in {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 18px;
+        }
+        .cta {
+          width: min(100%, 360px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#top">Skip to content</a>
+
+    <header class="nav">
+      <div class="in">
+        <a class="brand" href="/" aria-label="REPS home">
+          <img src="product/assets/app-icon.png" alt="" width="26" height="26" />
+          REPS
+        </a>
+        <nav aria-label="Primary">
+          <a class="link" href="/about">About</a>
+          <a class="link" href="/about#press">Press</a>
+          <a class="cta small" href="https://apps.apple.com/app/id6759216018" target="_blank" rel="noopener">Get the app</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <!-- ═══════ HERO · cream · the headline assembles from what you kept ═══════ -->
+      <section class="hero" id="top">
+        <canvas id="dust" aria-hidden="true"></canvas>
+        <div class="hero-in">
+          <a class="lockup" href="#why">
+            <img src="product/assets/app-icon.png" alt="" width="26" height="26" />
+            Your Knowledge Companion
+          </a>
+          <h1 id="h1" aria-label="You take in more than ever. You keep almost none of it.">
+            <span class="line l1">You take in more than ever.</span>
+            <span class="line l2">You keep almost none of it.</span>
+          </h1>
+          <p class="lede">
+            REPS is a free iPhone app that keeps what you read, watch and listen to
+            <strong>with you</strong>, for the moment you want it.
+          </p>
+          <div class="actions">
+            <a
+              class="cta"
+              href="https://apps.apple.com/app/id6759216018"
+              target="_blank"
+              rel="noopener"
+              aria-label="Download REPS on the App Store"
+            >
+              <svg viewBox="0 0 384 512" aria-hidden="true">
+                <path
+                  d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"
+                />
+              </svg>
+              Download on the App Store
+            </a>
+            <p class="reassure">Free on the App Store.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════ RELIEF · cream · gold highlighter ═══════ -->
+      <section class="block relief reveal" id="relief">
+        <div class="in">
+          <p class="eyebrow">The part nobody says</p>
+          <h2>You're <span class="hl">already doing the work.</span></h2>
+          <p class="lede">
+            You read. You listen. You watch. You save the thing you meant to keep. It just has nowhere to
+            live, so it gathers dust in a notes app and a camera roll.
+          </p>
+          <p class="turn">Now it stays with you.</p>
+
+          <aside class="founder-note" aria-label="From the founder">
+            <img src="compare/assets/mike-mcgraw.jpg" alt="Mike McGraw, founder of REPS" width="64" height="64" loading="lazy" />
+            <div>
+              <p class="q">“Huxley, not Orwell, called it: a feed that asks nothing of you. I'm building the antidote.”</p>
+              <p class="who">Mike McGraw, founder <a class="arrow" href="/about#press">About &amp; press kit →</a></p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ═══════ THE ROOM · indigo · gold underline + a quoted line ═══════ -->
+      <section class="block f-indigo room reveal" id="room">
+        <div class="in">
+          <p class="eyebrow">Who you become</p>
+          <h2>Be the most knowledgeable person in the <span class="ul">room.</span></h2>
+          <div class="scene">
+            <p class="ask">“So why did Rome actually fall?”</p>
+            <p class="after">
+              <span class="wd" style="transition-delay: 0.5s">Half the table read the book.</span>
+              <span class="wd" style="transition-delay: 0.9s"><strong>You're the one who still has it.</strong></span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════ PLAY · teal · two-tone outlined word ═══════ -->
+      <section class="block f-teal play reveal" id="play">
+        <div class="in">
+          <div>
+            <p class="eyebrow">Stop doomscrolling. Start bloom scrolling.</p>
+            <h2>It feels like <span class="outline">play.</span> Because it is.</h2>
+          </div>
+          <div>
+            <p class="lede">
+              A crossword built from your week. A daily quote game. A friend on the same board, scores
+              compared. Five games made from what you kept, for the moments you'd otherwise give to the feed.
+            </p>
+            <ul class="games" aria-label="The five games">
+              <li><span>●</span>Ladder</li>
+              <li><span>●</span>Crossword</li>
+              <li><span>●</span>Cryptic</li>
+              <li><span>●</span>Friends Trivia</li>
+              <li><span>●</span>Quotle</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════ THE GRAPH · Galaxy Black · the one real capture ═══════ -->
+      <section class="block f-galaxy graph reveal" id="graph">
+        <div class="in">
+          <div>
+            <p class="eyebrow">A year in</p>
+            <h2>Most apps compete for your attention. REPS <span class="gold">compounds</span> it.</h2>
+            <p class="lede">
+              Everything you keep connects to everything else you've kept, across books, podcasts, videos
+              and the odd screenshot. One reader's year, inside the app, looks like this.
+            </p>
+          </div>
+          <div class="window-wrap">
+            <div class="window" id="window">
+              <video
+                muted
+                playsinline
+                loop
+                preload="none"
+                disablepictureinpicture
+                poster="beats/2026-09/second-brain-poster.jpg"
+                data-src="beats/2026-09/second-brain.mp4"
+                aria-label="A 3D graph of one person's saved knowledge, hundreds of nodes coloured by topic"
+              ></video>
+              <button class="play-glyph" type="button" aria-label="Play the clip">
+                <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3l15 9-15 9z" fill="#211A14" /></svg></span>
+              </button>
+            </div>
+            <p class="cap">Real capture, one reader's knowledge.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════ PROOF · cream · ruled Lora quotes ═══════ -->
+      <section class="block proof reveal" id="proof">
+        <div class="in">
+          <p class="eyebrow">Said on the App Store</p>
+          <h2>In their words.</h2>
+          <ul class="reviews">
+            <li style="transition-delay: 0.1s">
+              <blockquote>Really enjoying using this app as a better way to spend 5/10 minutes at bus stop etc. vs brain rotting on Insta/X.</blockquote>
+              <cite>App Store review · jsdldn</cite>
+            </li>
+            <li style="transition-delay: 0.2s">
+              <blockquote>It's replaced scrolling Instagram on my phone, and it's helping me re-engage with books I read years ago, and actively seek out interesting knowledge to add to my second brain.</blockquote>
+              <cite>App Store review · 24601_London</cite>
+            </li>
+            <li style="transition-delay: 0.3s">
+              <blockquote>Very nice and fun way to retrain your brain – love a competition with friends. Love that app!</blockquote>
+              <cite>App Store review · Sizeret74</cite>
+            </li>
+            <li style="transition-delay: 0.4s">
+              <blockquote>Such a fun and easy way to remember the things that matter the most to me! New content is also great to discover! Definitely one of my favorite apps!</blockquote>
+              <cite>App Store review · Cathb1234</cite>
+            </li>
+            <li style="transition-delay: 0.5s">
+              <blockquote>As a non-techy over 60 year old, this app is simple and intuitive to navigate.</blockquote>
+              <cite>App Store review · Mooselake4</cite>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ═══════ WHY · cream · the letter ═══════ -->
+      <section class="block why reveal" id="why">
+        <div class="in">
+          <img src="compare/assets/mike-mcgraw.jpg" alt="Mike McGraw, founder of REPS" width="200" height="200" loading="lazy" />
+          <div>
+            <p class="eyebrow">Why this exists</p>
+            <h2>I watched my nieces and nephews grow up on Shorts.</h2>
+            <div class="letter">
+              <p>
+                I spent twelve years investing in technology, and I watched my nephews and nieces grow up on
+                YouTube Shorts. Then I read that the Flynn effect has reversed: for the first time, population
+                IQ scores have started to fall.
+              </p>
+              <p>
+                Neil Postman saw it coming in 1985. Orwell feared the people who would ban books; Huxley
+                feared there would be no need to, because no one would want to read one. <strong>That's the feed.</strong>
+              </p>
+              <p>
+                I left my job on my 34th birthday to build the antidote. I build REPS and use it every day,
+                and I'd like it to be where what you read, watch and hear stays with you.
+              </p>
+            </div>
+            <p class="sig">Mike McGraw <span>· founder, REPS</span></p>
+            <a class="arrow" href="/about">About &amp; press kit →</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════ PLANET · strip ═══════ -->
+      <section class="planet reveal" id="planet">
+        <div class="in">
+          <img src="justonetree-logo.png" alt="JUST ONE Tree" width="368" height="100" loading="lazy" />
+          <p>
+            The AI that powers REPS uses a little energy, so we plant real trees for it, far more than we use.
+            <a class="arrow" href="/planet">The planet pledge →</a>
+          </p>
+        </div>
+      </section>
+
+      <!-- ═══════ CLOSE · ink · the key line again ═══════ -->
+      <section class="block f-ink close reveal" id="get">
+        <div class="in">
+          <p class="eyebrow">Free on the App Store</p>
+          <h2>Your Knowledge Companion.</h2>
+          <p class="lede">You take in more than ever. Now it stays with you.</p>
+          <a
+            class="cta"
+            href="https://apps.apple.com/app/id6759216018"
+            target="_blank"
+            rel="noopener"
+            aria-label="Download REPS on the App Store"
+          >
+            <svg viewBox="0 0 384 512" aria-hidden="true">
+              <path
+                d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"
+              />
+            </svg>
+            Download on the App Store
+          </a>
+          <p class="reassure">Free on the App Store.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="in">
+        <span class="motto">Save. Play. Remember.</span>
+        <a href="/about">About</a>
+        <a href="/planet">Planet</a>
+        <a href="/about#press">Press</a>
+        <a href="/support">Support</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <div class="feat">
+          <a href="/features/active-recall">The daily game</a>
+          <a href="/features/second-brain">Your knowledge graph</a>
+          <a href="/features/read-it-later">Read it later</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- PostHog — analytics + engagement (autocapture, pageleave/scroll, session replay) -->
+    <script>
+      !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+      posthog.init("phc_gTI0FJoXiGPjdACbgVyunpDSl0mPs2HEYtmzUtK3SyE", {
+        api_host: "https://us.i.posthog.com",
+        ui_host: "https://us.posthog.com",
+        defaults: "2025-05-24",
+        persistence: "localStorage+cookie",
+        capture_pageview: true,
+        capture_pageleave: true,
+        autocapture: true,
+        disable_session_recording: false,
+        loaded: function (ph) { ph.register({ lp_variant: "v6b" }); }
+      });
+    </script>
+
+    <script>
+      (function () {
+        "use strict";
+        var MOTION = document.documentElement.classList.contains("motion");
+        var COARSE = matchMedia("(pointer: coarse)").matches;
+        var clamp = function (v, a, b) { return v < a ? a : v > b ? b : v; };
+        var ease = function (p) { return p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2; };
+        var ph = function (ev, props) { try { window.posthog && posthog.capture(ev, props || {}); } catch (e) {} };
+
+        /* deterministic scatter, so the still is the same every load */
+        var SEED = 0x6b2a9f1d, seed = SEED;
+        function rnd() {
+          seed |= 0; seed = (seed + 0x6d2b79f5) | 0;
+          var t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+          t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        }
+        var R = function (a, b) { return a + rnd() * (b - a); };
+
+        /* ─────────── split the headline into letters ─────────── */
+        var h1 = document.getElementById("h1");
+        var letters = [];
+        Array.prototype.forEach.call(h1.querySelectorAll(".line"), function (line) {
+          var text = line.textContent.trim();
+          line.textContent = "";
+          text.split(" ").forEach(function (word, wi, arr) {
+            var w = document.createElement("span");
+            w.className = "w";
+            for (var i = 0; i < word.length; i++) {
+              var s = document.createElement("span");
+              s.className = "gl";
+              s.textContent = word[i];
+              s.setAttribute("aria-hidden", "true");
+              w.appendChild(s);
+              letters.push(s);
+            }
+            line.appendChild(w);
+            if (wi < arr.length - 1) line.appendChild(document.createTextNode(" "));
+          });
+        });
+        h1.classList.add("split");
+
+        /* ─────────── the fragments (code-drawn, washed-out) ─────────── */
+        var hero = document.getElementById("top");
+        var heroIn = hero.querySelector(".hero-in");
+        var cv = document.getElementById("dust");
+        var ctx = cv.getContext("2d");
+        var W = 0, H = 0, DPR = 1;
+        var INK = "rgba(33,26,20,0.3)", INKF = "rgba(33,26,20,0.1)", PAPER = "rgba(255,255,255,0.8)", GOLD = "rgba(212,162,78,0.6)";
+
+        function rr(c, x, y, w, h, r) {
+          c.beginPath();
+          c.moveTo(x + r, y);
+          c.arcTo(x + w, y, x + w, y + h, r);
+          c.arcTo(x + w, y + h, x, y + h, r);
+          c.arcTo(x, y + h, x, y, r);
+          c.arcTo(x, y, x + w, y, r);
+          c.closePath();
+        }
+        function ln(c, x1, y1, x2, y2, w) { c.lineWidth = w; c.beginPath(); c.moveTo(x1, y1); c.lineTo(x2, y2); c.stroke(); }
+        var SHAPES = {
+          /* a screenshot frame */
+          frame: function (c) {
+            var w = 54, h = 92;
+            rr(c, -w / 2, -h / 2, w, h, 8); c.fillStyle = PAPER; c.fill(); c.strokeStyle = INK; c.lineWidth = 1.5; c.stroke();
+            c.fillStyle = INKF; rr(c, -w / 2 + 6, -h / 2 + 8, w - 12, 14, 3); c.fill();
+            c.strokeStyle = INK; var y = -h / 2 + 34;
+            [40, 34, 42, 26, 36].forEach(function (l) { ln(c, -w / 2 + 7, y, -w / 2 + 7 + l, y, 2); y += 9; });
+          },
+          /* a highlighted line in a page */
+          hl: function (c) {
+            var w = 112, h = 48, y = -h / 2 + 6;
+            [104, 96, 80].forEach(function (l, i) {
+              if (i === 1) { c.fillStyle = GOLD; rr(c, -w / 2 - 2, y - 7, l + 6, 14, 4); c.fill(); }
+              c.strokeStyle = INK; ln(c, -w / 2, y, -w / 2 + l, y, 2.5); y += 17;
+            });
+          },
+          /* a podcast timestamp chip */
+          chip: function (c) {
+            var w = 84, h = 28;
+            rr(c, -w / 2, -h / 2, w, h, 14); c.fillStyle = PAPER; c.fill(); c.strokeStyle = INK; c.lineWidth = 1.5; c.stroke();
+            c.fillStyle = INK; c.beginPath(); c.moveTo(-w / 2 + 12, -6); c.lineTo(-w / 2 + 12, 6); c.lineTo(-w / 2 + 22, 0); c.closePath(); c.fill();
+            ln(c, -w / 2 + 30, 0, w / 2 - 10, 0, 2);
+            c.beginPath(); c.arc(-w / 2 + 46, 0, 3.5, 0, 6.2832); c.fill();
+          },
+          /* a link card */
+          link: function (c) {
+            var w = 98, h = 60;
+            rr(c, -w / 2, -h / 2, w, h, 9); c.fillStyle = PAPER; c.fill(); c.strokeStyle = INK; c.lineWidth = 1.5; c.stroke();
+            c.save(); rr(c, -w / 2, -h / 2, w, h, 9); c.clip(); c.fillStyle = INKF; c.fillRect(-w / 2, -h / 2, w, 27); c.restore();
+            c.strokeStyle = INK; ln(c, -w / 2 + 9, -h / 2 + 38, -w / 2 + 9 + 62, -h / 2 + 38, 2.5); ln(c, -w / 2 + 9, -h / 2 + 50, -w / 2 + 9 + 40, -h / 2 + 50, 2);
+          }
+        };
+        var KINDS = ["frame", "hl", "chip", "link"];
+
+        var frags = [];
+        var par = { x: 0, y: 0 }, tgt = { x: 0, y: 0 }, scrollPar = 0;
+        var heroVisible = true, pageVisible = !document.hidden;
+        var running = false, raf = 0, last = 0, T = 0, assembled = false, settled = false, begun = false;
+
+        function size() {
+          var r = hero.getBoundingClientRect();
+          W = Math.round(r.width); H = Math.round(r.height);
+          DPR = Math.min(2, window.devicePixelRatio || 1);
+          cv.width = W * DPR; cv.height = H * DPR;
+          cv.style.width = W + "px"; cv.style.height = H + "px";
+        }
+
+        function build() {
+          seed = SEED;
+          size();
+          frags = [];
+          var hr = hero.getBoundingClientRect();
+          var cr = heroIn.getBoundingClientRect();
+          var box = { l: cr.left - hr.left - 24, t: cr.top - hr.top - 24, r: cr.right - hr.left + 24, b: cr.bottom - hr.top + 24 };
+          var N = letters.length;
+          letters.forEach(function (el, i) {
+            var r = el.getBoundingClientRect();
+            var tx = r.left - hr.left + r.width / 2, ty = r.top - hr.top + r.height / 2;
+            var side = rnd() < 0.5 ? -1 : 1;
+            var sx = clamp(W / 2 + side * R(W * 0.16, W * 0.55), 40, W - 40);
+            var sy = clamp(R(-0.05, 1.05) * H, 30, H - 30);
+            var t1 = 0.22 + 0.9 * (i / N) + R(-0.08, 0.08);
+            var t0 = t1 - R(0.42, 0.68);
+            frags.push({ k: KINDS[(i + ((rnd() * 4) | 0)) % 4], sx: sx, sy: sy, srot: R(-0.55, 0.55), tx: tx, ty: ty, t0: t0, t1: t1, letter: el, done: assembled, amb: false });
+          });
+          var ambN = W < 640 ? 9 : 15;
+          for (var j = 0; j < ambN; j++) {
+            var ax = 0, ay = 0, tries = 0;
+            do { ax = R(0.03, 0.97) * W; ay = R(0.05, 0.95) * H; tries++; }
+            while (tries < 30 && ax > box.l && ax < box.r && ay > box.t && ay < box.b);
+            frags.push({
+              k: KINDS[j % 4], sx: ax + R(-80, 80), sy: ay + R(-70, 70), srot: R(-0.5, 0.5), tx: ax, ty: ay,
+              t0: R(0, 0.35), t1: R(0.9, 1.5), amb: true, rot: R(-0.22, 0.22), scale: R(0.85, 1.15),
+              depth: R(0.35, 1), phase: R(0, 6.2832)
+            });
+          }
+        }
+
+        function drawFrag(f, t, still) {
+          var p, e, x, y, rot, sc, a;
+          if (!f.amb) {
+            if (f.done || t < f.t0) return;
+            p = clamp((t - f.t0) / (f.t1 - f.t0), 0, 1);
+            if (p >= 1) { f.done = true; f.letter.classList.add("on"); return; }
+            e = ease(p);
+            x = f.sx + (f.tx - f.sx) * e; y = f.sy + (f.ty - f.sy) * e;
+            rot = f.srot * (1 - e); sc = 1 - 0.72 * e;
+            a = (p < 0.12 ? p / 0.12 : p > 0.72 ? 1 - (p - 0.72) / 0.28 : 1) * 0.95;
+          } else {
+            p = still || settled ? 1 : clamp((t - f.t0) / (f.t1 - f.t0), 0, 1);
+            e = ease(p);
+            var bx = f.sx + (f.tx - f.sx) * e, by = f.sy + (f.ty - f.sy) * e;
+            var wx = still ? 0 : Math.sin(t * 0.22 + f.phase) * 6, wy = still ? 0 : Math.cos(t * 0.17 + f.phase * 1.3) * 5;
+            x = bx + wx + par.x * f.depth; y = by + wy + (par.y + scrollPar) * f.depth;
+            rot = f.rot + (still ? 0 : Math.sin(t * 0.13 + f.phase) * 0.04); sc = f.scale;
+            a = (p < 0.2 ? p / 0.2 : 1) * (0.95 - 0.6 * e); /* settles at 0.35 of an already washed-out ink */
+          }
+          ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.scale(sc, sc); ctx.globalAlpha = a; SHAPES[f.k](ctx); ctx.restore();
+        }
+
+        function paint(t, still) {
+          ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+          ctx.clearRect(0, 0, W, H);
+          for (var i = 0; i < frags.length; i++) drawFrag(frags[i], t, still);
+        }
+
+        function finishNow() {
+          if (assembled) return;
+          assembled = true;
+          settled = true;
+          letters.forEach(function (el) { el.classList.add("on"); });
+          frags.forEach(function (f) { if (!f.amb) f.done = true; });
+          h1.classList.add("done");
+        }
+
+        function frame(now) {
+          raf = 0;
+          if (last) T += Math.min(now - last, 50) / 1000; /* a hiccup never skips the assembly */
+          last = now;
+          var t = T;
+          par.x += (tgt.x - par.x) * 0.09; par.y += (tgt.y - par.y) * 0.09;
+          paint(t, false);
+          if (!assembled) {
+            var all = true;
+            for (var i = 0; i < frags.length; i++) if (!frags[i].amb && !frags[i].done) { all = false; break; }
+            if (all) { assembled = true; h1.classList.add("done"); ph("lp_hero_assembled"); }
+          }
+          if (!settled && t > 1.6) settled = true;
+          if (heroVisible && pageVisible) raf = requestAnimationFrame(frame);
+          else { running = false; last = 0; }
+        }
+        function wake() {
+          if (!MOTION || running || !begun) return;
+          if (!heroVisible || !pageVisible) return;
+          running = true;
+          raf = requestAnimationFrame(frame);
+        }
+
+        function begin() {
+          if (begun) return;
+          begun = true;
+          build();
+          if (!MOTION) { finishNow(); paint(100, true); return; }
+          if (!heroVisible) { finishNow(); }
+          wake();
+          /* a throttled or background tab still ends on the finished headline */
+          setTimeout(function () { if (!assembled) { finishNow(); paint(100, true); } }, 2800);
+        }
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { setTimeout(begin, 40); });
+        setTimeout(begin, 1600); /* fonts never resolving must not hold the headline */
+
+        /* pointer parallax (fine pointers) and scroll parallax (everyone) — within one frame of the input */
+        if (!COARSE) {
+          hero.addEventListener("pointermove", function (e) {
+            var r = hero.getBoundingClientRect();
+            tgt.x = ((e.clientX - r.left) / r.width - 0.5) * -26;
+            tgt.y = ((e.clientY - r.top) / r.height - 0.5) * -18;
+            wake();
+          }, { passive: true });
+          hero.addEventListener("pointerleave", function () { tgt.x = 0; tgt.y = 0; wake(); });
+        }
+        window.addEventListener("scroll", function () {
+          scrollPar = clamp(window.scrollY, 0, 900) * -0.1;
+          wake();
+        }, { passive: true });
+
+        (function () {
+          function tick() { document.body.classList.toggle("past-hero", window.scrollY > hero.offsetHeight - 80); }
+          window.addEventListener("scroll", tick, { passive: true });
+          tick();
+        })();
+        new IntersectionObserver(function (es) {
+          es.forEach(function (e) {
+            heroVisible = e.isIntersecting;
+            if (heroVisible) wake(); else if (begun && !assembled) { finishNow(); }
+          });
+        }, { threshold: 0.02 }).observe(hero);
+        document.addEventListener("visibilitychange", function () {
+          pageVisible = !document.hidden;
+          if (pageVisible) wake();
+        });
+        var rT = 0;
+        window.addEventListener("resize", function () {
+          clearTimeout(rT);
+          rT = setTimeout(function () {
+            if (!begun) return;
+            if (!assembled) finishNow();
+            build();
+            if (!MOTION) paint(100, true); else wake();
+          }, 120);
+        });
+
+        /* ─────────── scroll reveals ─────────── */
+        var reveals = document.querySelectorAll(".reveal");
+        if (MOTION && "IntersectionObserver" in window) {
+          var ro = new IntersectionObserver(function (es) {
+            es.forEach(function (e) {
+              if (e.isIntersecting) { e.target.classList.add("in"); ro.unobserve(e.target); }
+            });
+          }, { threshold: 0.16, rootMargin: "0px 0px -6% 0px" });
+          Array.prototype.forEach.call(reveals, function (el) { ro.observe(el); });
+        } else {
+          Array.prototype.forEach.call(reveals, function (el) { el.classList.add("in"); });
+        }
+
+        /* ─────────── the one clip: autoplay in view under motion; poster + custom glyph otherwise. Never native chrome. ─────────── */
+        var win = document.getElementById("window");
+        var vid = win.querySelector("video");
+        var glyph = win.querySelector(".play-glyph");
+        var clipStarted = false;
+        function startClip() {
+          if (!vid.src) { vid.src = vid.dataset.src; vid.load(); }
+          var pr = vid.play();
+          if (pr && pr.catch) pr.catch(function () { win.classList.add("still"); });
+          win.classList.remove("still");
+          if (!clipStarted) { clipStarted = true; ph("lp_clip_play"); }
+        }
+        glyph.addEventListener("click", startClip);
+        if (MOTION) {
+          new IntersectionObserver(function (es) {
+            es.forEach(function (e) { if (e.isIntersecting) startClip(); else if (!vid.paused) vid.pause(); });
+          }, { rootMargin: "120px", threshold: 0.25 }).observe(win);
+        } else {
+          win.classList.add("still");
+        }
+      })();
+    </script>
+  </body>
+</html>
