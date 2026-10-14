@@ -1433,10 +1433,10 @@
               </div>
             </div>
             <div class="bubbles" aria-label="A dinner-table conversation">
-              <div class="bubble them reveal" style="--i: 0">Wasn't there a ship that got stuck in the ice?</div>
-              <div class="bubble me reveal" style="--i: 1">Shackleton's. The Endurance, 1915.</div>
-              <div class="bubble them reveal" style="--i: 2">And the Everest book, who wrote that?</div>
-              <div class="bubble me reveal" style="--i: 3">Krakauer. Into Thin Air. I kept half of it.</div>
+              <div class="bubble them reveal" style="--i: 0">Why did Rome actually fall, though?</div>
+              <div class="bubble me reveal" style="--i: 1">It split first, in 395. The West went in 476.</div>
+              <div class="bubble them reveal" style="--i: 2">And that sleep book, how many hours was it?</div>
+              <div class="bubble me reveal" style="--i: 3">Why We Sleep. Seven to nine. I kept the why.</div>
               <div class="bubble reveal" style="--i: 4">How do you remember all this?</div>
               <div class="bubble me reveal" style="--i: 5">I play.</div>
             </div>
@@ -1642,16 +1642,16 @@
 
         /* ─────────────────────────── THE DECK (hero toy) ─────────────────────────── */
         var ROUNDS = [
-          { kind: "Book", title: "Into Thin Air", q: "Which mountain?", o: ["Everest", "K2", "Denali"], a: 0 },
-          { kind: "Book", title: "Endurance", q: "Whose ship was it?", o: ["Shackleton's", "Scott's", "Amundsen's"], a: 0 },
+          { kind: "Article", title: "The Roman Empire", q: "The West fell in…", o: ["476", "1453", "800"], a: 0 },
+          { kind: "Book", title: "Sapiens", q: "Who wrote it?", o: ["Yuval Noah Harari", "Jared Diamond", "Steven Pinker"], a: 0 },
           { kind: "Book", title: "1984", q: "Who wrote it?", o: ["George Orwell", "Aldous Huxley", "Ray Bradbury"], a: 0 },
-          { kind: "Podcast", title: "The Diary of a CEO", q: "Who hosts it?", o: ["Steven Bartlett", "Tim Ferriss", "Guy Raz"], a: 0 },
-          { kind: "Magazine", title: "National Geographic", q: "First published in…", o: ["1888", "1925", "1960"], a: 0 },
-          { kind: "Magazine", title: "MIT Technology Review", q: "Founded in…", o: ["1899", "1947", "1983"], a: 0 },
+          { kind: "Podcast", title: "The Daily", q: "Who makes it?", o: ["The New York Times", "The Washington Post", "NPR"], a: 0 },
+          { kind: "Podcast", title: "Huberman Lab", q: "He teaches at…", o: ["Stanford", "Harvard", "MIT"], a: 0 },
+          { kind: "Documentary", title: "Planet Earth", q: "Narrated by…", o: ["David Attenborough", "Morgan Freeman", "Stephen Fry"], a: 0 },
+          { kind: "Book", title: "Atomic Habits", q: "Who wrote it?", o: ["James Clear", "Charles Duhigg", "Cal Newport"], a: 0 },
           { kind: "Article", title: "The Beatles", q: "Formed in…", o: ["Liverpool", "Manchester", "London"], a: 0 },
-          { kind: "Article", title: "Alexander the Great", q: "His tutor was…", o: ["Aristotle", "Plato", "Socrates"], a: 0 },
           { kind: "Article", title: "Stonehenge", q: "It stands in…", o: ["Wiltshire", "Cornwall", "Yorkshire"], a: 0 },
-          { kind: "Book", title: "To Kill a Mockingbird", q: "Who wrote it?", o: ["Harper Lee", "Truman Capote", "Eudora Welty"], a: 0 }
+          { kind: "Book", title: "Thinking, Fast and Slow", q: "Who wrote it?", o: ["Daniel Kahneman", "Richard Thaler", "Dan Ariely"], a: 0 }
         ];
         var ORDER = [[1, 0, 2], [2, 1, 0], [0, 2, 1], [1, 2, 0], [2, 0, 1], [0, 1, 2], [1, 0, 2], [2, 1, 0], [0, 2, 1], [1, 2, 0]];
         var COLORS = [
@@ -1660,7 +1660,7 @@
         ];
         var JIT = [[-0.06, 0.05], [0.05, -0.06], [-0.03, 0.08], [0.07, 0.02], [-0.05, -0.07], [0.04, 0.06], [0.06, -0.04], [-0.07, 0.01], [0.02, -0.08], [-0.04, 0.06]];
         var ROT = [-6, 4, -3, 7, -5, 2, 6, -7, 3, -2];
-        var OPEN_FIRST = 1; // the pile lands with "Endurance" already flipped
+        var OPEN_FIRST = 0; // the pile lands with "The Roman Empire" already flipped
 
         var toy = document.getElementById("toy");
         var board = document.getElementById("board");

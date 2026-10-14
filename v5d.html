@@ -1199,11 +1199,11 @@
           <div class="noise-field" id="noiseField" aria-hidden="true"></div>
           <div class="steady">
             <ul aria-label="Five saved ideas that stayed">
-              <li>Into Thin Air</li>
-              <li>Endurance</li>
+              <li>Sapiens</li>
+              <li>The Daily</li>
               <li>the Beatles</li>
               <li>Stonehenge</li>
-              <li>Alexander the Great</li>
+              <li>the Roman Empire</li>
             </ul>
             <p>The noise clears. What you chose stays lit.</p>
           </div>
@@ -1228,14 +1228,14 @@
           <p class="eyebrow" data-reveal>Across the table</p>
           <h2 id="room-h" data-reveal style="--rd: 0.08s">Be the most knowledgeable person in the <em>room</em>.</h2>
           <p class="body" data-reveal style="--rd: 0.16s">
-            Someone mentions Shackleton, and you have it. Not the faint sense of having read something once —
-            the thing itself: the ice, the open boat, the eight hundred miles. You, with something to say.
+            Someone asks why Rome actually fell, and you have it. Not the faint sense of having watched something once —
+            the thing itself: the split, the borders, the last emperor. You, with something to say.
           </p>
           <div class="lens" id="lens" data-scrub aria-hidden="true">
             <div class="circle you"></div>
             <div class="circle them"></div>
             <div class="lens-glow"></div>
-            <div class="lens-word"><b>Endurance</b><small>the ice · the open boat · 800 miles</small></div>
+            <div class="lens-word"><b>The Roman Empire</b><small>the split, 395 · the West, 476 · the East, a thousand years on</small></div>
           </div>
         </div>
       </section>
@@ -1458,7 +1458,7 @@
 
         /* ── Noise field: a deterministic scatter of feed fragments and real titles ── */
         var FEED = ["swipe", "new", "3h ago", "trending", "autoplay", "you might also like", "unread", "keep scrolling", "breaking", "sponsored", "watch next", "up next", "see more", "refresh", "for you", "live", "suggested", "skip", "mute", "share", "later", "just now", "notifications", "reply", "liked by", "tap to continue", "recommended", "load more", "in case you missed it", "now playing", "limited time", "everyone is talking about", "don't miss this", "viral", "while you were away", "new episode", "read later", "unsaved", "scroll"];
-        var TITLES = ["Into Thin Air", "Endurance", "1984", "The Diary of a CEO", "National Geographic", "MIT Technology Review", "the Beatles", "Alexander the Great", "Stonehenge", "To Kill a Mockingbird", "Jack London"];
+        var TITLES = ["Sapiens", "Atomic Habits", "1984", "The Daily", "Huberman Lab", "Planet Earth", "the Beatles", "the Roman Empire", "Stonehenge", "Thinking, Fast and Slow", "Black holes"];
         var seed = 1741;
         var rnd = function () { seed = (seed + 0x6d2b79f5) | 0; var t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
         var between = function (a, b) { return a + rnd() * (b - a); };
