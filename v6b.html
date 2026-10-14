@@ -413,10 +413,10 @@
         padding: 0 0.06em;
         margin: 0 -0.06em;
       }
-      html.motion .reveal:not(.in) .hl {
+      html.motion .reveal:not(.shown) .hl {
         background-size: 0% 100%;
       }
-      html.motion .reveal.in .hl {
+      html.motion .reveal.shown .hl {
         transition: background-size 0.9s 0.25s var(--ease);
       }
       .turn {
@@ -472,10 +472,10 @@
         background: linear-gradient(var(--gold), var(--gold)) no-repeat 0 90% / 100% 0.12em;
         padding-bottom: 0.02em;
       }
-      html.motion .reveal:not(.in) .ul {
+      html.motion .reveal:not(.shown) .ul {
         background-size: 0% 0.12em;
       }
-      html.motion .reveal.in .ul {
+      html.motion .reveal.shown .ul {
         transition: background-size 0.8s 0.35s var(--ease);
       }
       .scene {
@@ -501,7 +501,7 @@
         color: #fff;
         font-weight: 700;
       }
-      html.motion .reveal:not(.in) .wd {
+      html.motion .reveal:not(.shown) .wd {
         opacity: 0;
         transform: translateY(10px);
       }
@@ -525,7 +525,7 @@
         color: var(--cream);
         transition: color 0.6s 0.4s var(--ease);
       }
-      html.motion .reveal:not(.in) .outline {
+      html.motion .reveal:not(.shown) .outline {
         color: transparent;
       }
       .games {
@@ -628,7 +628,7 @@
         position: relative;
         transition: opacity 0.6s var(--ease), transform 0.7s var(--ease);
       }
-      html.motion .reveal:not(.in) .reviews li {
+      html.motion .reveal:not(.shown) .reviews li {
         opacity: 0;
         transform: translateY(16px);
       }
@@ -776,7 +776,7 @@
         transform: translateY(22px);
         transition: opacity 0.7s var(--ease), transform 0.8s var(--ease);
       }
-      html.motion .reveal.in {
+      html.motion .reveal.shown {
         opacity: 1;
         transform: none;
       }
@@ -1349,12 +1349,12 @@
         if (MOTION && "IntersectionObserver" in window) {
           var ro = new IntersectionObserver(function (es) {
             es.forEach(function (e) {
-              if (e.isIntersecting) { e.target.classList.add("in"); ro.unobserve(e.target); }
+              if (e.isIntersecting) { e.target.classList.add("shown"); ro.unobserve(e.target); }
             });
           }, { threshold: 0.16, rootMargin: "0px 0px -6% 0px" });
           Array.prototype.forEach.call(reveals, function (el) { ro.observe(el); });
         } else {
-          Array.prototype.forEach.call(reveals, function (el) { el.classList.add("in"); });
+          Array.prototype.forEach.call(reveals, function (el) { el.classList.add("shown"); });
         }
 
         /* ─────────── the gathering: what you keep streams in from the edges and becomes ONE warm light that grows.
