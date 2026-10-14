@@ -1,0 +1,1883 @@
+<!doctype html>
+<!-- REPS home, candidate v6c — the DEEPSTASH REGISTER in the REPS world (2026-10-14, round 4; BRIEF_V4 governs).
+     Same family as v6b: cream page, warm-ink type, coral→peach spent on the CTA alone, ONE Galaxy Black beat (the
+     gathering light), Space Grotesk for everything the product says, Lora only inside quotes and the letter.
+     Four moves on top of it:
+     1. A SCROLL-DRIVEN HERO STAGE showing the RANGE of what people save: four real book covers, two real YouTube
+        thumbnails (16:9, code-drawn play glyph + real duration), one real podcast artwork (square, code-drawn
+        waveform) and one code-drawn article card naming a real, widely known piece — every real artwork shown whole,
+        in its true aspect, never cropped, recoloured or worn; no platform logos or chrome. They float in from the
+        edges to loose spots in the hero's periphery (kinds mixed on each side, never clustered by type) and REST
+        SUBDUED — 0.42 opacity, 0.86 scale, desaturated, soft shadow — so the resting frame is the headline and the
+        button alone; the material whispers at the edges. It wakes (full colour, full size, ~300 ms) on the first
+        scroll or when a fine pointer comes within ~140 px of a piece; scrolling further tightens it toward the
+        centre line behind the copy and fades it down. The scroll IS the demo; nothing is a recording, nothing is
+        app UI. The wow lives in the motion, never as a second object in the resting frame.
+     2. THE TURN in the headline. "You keep almost none of it." is struck through by a drawn coral line, left to right,
+        at the same scroll point (or after ~1.6 s unscrolled; at once under `?motion=1`), and "Now it stays with you."
+        resolves beneath it in coral-ink.
+     3. SIX IDENTITY-OUTCOME CARDS ("Who you become") in place of v6b's room and play sections.
+     4. ONE MANIFESTO BEAT with no product: "Stop doomscrolling. Start bloom scrolling." — oversized type that gains
+        weight and colour as it scrolls into view.
+     Motion budget: one rAF loop at ≤30 fps that runs only during the fly-in and while an input (scroll, pointer) is
+     still settling; paused off-screen and when the tab hides. Reduced motion (and no `?motion=1`): the settled frame
+     drawn once. `?motion=1` settles everything within ~2.5 s (`h1.struck`, `h1.done`, `.hero.settled`,
+     `.window.settled`, `.reveal.shown`). -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>REPS · Your Knowledge Companion</title>
+    <meta
+      name="description"
+      content="You take in more than ever and keep almost none of it. REPS is a free iPhone app that keeps what you read, watch and listen to with you, for the moment you want it."
+    />
+    <link rel="canonical" href="https://www.getreps.io/" />
+    <meta property="og:title" content="REPS · Your Knowledge Companion" />
+    <meta
+      property="og:description"
+      content="You take in more than ever and keep almost none of it. REPS keeps what you read, watch and listen to with you."
+    />
+    <meta property="og:url" content="https://www.getreps.io/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://www.getreps.io/og-card-v3.png?v=2" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://www.getreps.io/og-card-v3.png?v=2" />
+    <meta name="theme-color" content="#FFFAF7" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      /* Early, so the stage never flashes before it is placed. `?motion=1` overrides reduced motion. */
+      (function () {
+        var q = new URLSearchParams(location.search);
+        if (q.get("motion") === "1" || !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          document.documentElement.classList.add("motion");
+        }
+      })();
+    </script>
+    <style>
+      :root {
+        --cream: #fffaf7;
+        --ink: #211a14;
+        --soft: #5f554e;
+        --mute: #776d66;
+        --coral: #ff6b6b;
+        --peach: #ff8e53;
+        --coral-ink: #d8443f;
+        --galaxy: #040409;
+        --teal: #4ecdc4;
+        --teal-deep: #2d8377;
+        --indigo: #4c5fab;
+        --gold: #d4a24e;
+        --sans: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+        --serif: "Lora", Georgia, "Times New Roman", serif;
+        --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html.motion {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background: var(--cream);
+        color: var(--ink);
+        font-family: var(--sans);
+        font-size: 18px;
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+      img {
+        display: block;
+        max-width: 100%;
+      }
+      a {
+        color: inherit;
+      }
+      .skip {
+        position: absolute;
+        left: -999px;
+        top: 8px;
+        background: var(--ink);
+        color: var(--cream);
+        padding: 10px 14px;
+        border-radius: 10px;
+        z-index: 50;
+        font-weight: 600;
+      }
+      .skip:focus {
+        left: 12px;
+      }
+      .in {
+        width: min(1120px, 100% - 48px);
+        margin: 0 auto;
+      }
+
+      /* ───────────── nav ───────────── */
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: rgba(255, 250, 247, 0.84);
+        -webkit-backdrop-filter: blur(14px);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid rgba(33, 26, 20, 0.06);
+      }
+      .nav .in {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 68px;
+      }
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        font-weight: 600;
+        font-size: 17px;
+        letter-spacing: 0.04em;
+        color: var(--soft);
+        text-decoration: none;
+      }
+      .brand img {
+        width: 26px;
+        height: 26px;
+        border-radius: 7px;
+        opacity: 0.85;
+      }
+      .nav nav {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+      }
+      .nav .link {
+        font-weight: 600;
+        font-size: 15px;
+        color: var(--soft);
+        text-decoration: none;
+      }
+      .nav .link:hover {
+        color: var(--ink);
+      }
+
+      /* ───────────── CTA (the one style) ───────────── */
+      .cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        height: 58px;
+        padding: 0 28px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, var(--coral), var(--peach));
+        color: #fff;
+        font-weight: 700;
+        font-size: 17px;
+        letter-spacing: 0.005em;
+        text-decoration: none;
+        box-shadow: 0 12px 30px rgba(255, 107, 107, 0.32);
+        transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+        will-change: transform;
+      }
+      .cta svg {
+        width: 20px;
+        height: 20px;
+        fill: #fff;
+        flex: none;
+      }
+      .cta:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 36px rgba(255, 107, 107, 0.42);
+      }
+      .cta:focus-visible,
+      .link:focus-visible,
+      .arrow:focus-visible,
+      .lockup:focus-visible {
+        outline: 3px solid var(--coral-ink);
+        outline-offset: 4px;
+      }
+      /* One coral object above the fold: the hero CTA. The nav pill only earns its colour once the hero has scrolled away. */
+      .cta.small {
+        height: 42px;
+        padding: 0 18px;
+        font-size: 15px;
+        background: transparent;
+        color: var(--ink);
+        border: 1px solid rgba(33, 26, 20, 0.14);
+        box-shadow: none;
+        transition: background 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+      }
+      body.past-hero .cta.small {
+        background: linear-gradient(135deg, var(--coral), var(--peach));
+        color: #fff;
+        border-color: transparent;
+        box-shadow: 0 6px 16px rgba(255, 107, 107, 0.25);
+      }
+      .reassure {
+        margin: 14px 0 0;
+        font-size: 15px;
+        color: var(--mute);
+        font-weight: 500;
+      }
+      .f-ink .reassure,
+      .f-galaxy .reassure {
+        color: rgba(255, 250, 247, 0.62);
+      }
+
+      /* ───────────── type system ───────────── */
+      .eyebrow {
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        color: var(--coral-ink);
+        margin: 0 0 18px;
+      }
+      h2 {
+        font-size: clamp(36px, 4.9vw, 68px);
+        line-height: 1.03;
+        letter-spacing: -0.025em;
+        font-weight: 700;
+        margin: 0 0 24px;
+        max-width: 15ch;
+      }
+      .lede {
+        font-size: clamp(18px, 1.5vw, 22px);
+        line-height: 1.5;
+        color: var(--soft);
+        max-width: 620px;
+        margin: 0;
+      }
+      .lede strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .arrow {
+        display: inline-block;
+        font-weight: 700;
+        color: var(--coral-ink);
+        text-decoration: none;
+        border-bottom: 2px solid rgba(216, 68, 63, 0.3);
+        padding-bottom: 1px;
+      }
+      .arrow:hover {
+        border-color: var(--coral-ink);
+      }
+
+      /* ───────────── blocks (colour fields) ───────────── */
+      .block {
+        padding: clamp(84px, 11vw, 144px) 0;
+        position: relative;
+      }
+      .f-indigo {
+        background: var(--indigo);
+        color: var(--cream);
+      }
+      .f-teal {
+        background: var(--teal);
+        color: var(--ink);
+      }
+      .f-galaxy {
+        background: var(--galaxy);
+        color: var(--cream);
+      }
+      .f-galaxy .eyebrow {
+        color: var(--gold);
+      }
+      .f-galaxy .lede {
+        color: rgba(255, 250, 247, 0.74);
+      }
+      .f-ink {
+        background: var(--ink);
+        color: var(--cream);
+      }
+      .f-ink .eyebrow {
+        color: var(--peach);
+      }
+      .f-ink .lede {
+        color: rgba(255, 250, 247, 0.74);
+      }
+
+      /* ───────────── hero: the scroll-driven stage ───────────── */
+      .hero {
+        position: relative;
+        min-height: min(calc(100svh - 68px), 860px);
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        padding: 40px 0 72px;
+      }
+      /* the stage sits under the copy; it is decorative and never catches the pointer */
+      .stage {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0;
+      }
+      .stage.ready {
+        opacity: 1;
+      }
+      /* the saved material: every real artwork is shown whole, in its own aspect (width/height attributes reserve it),
+         never cropped, recoloured or worn. Books: a flat rounded card. Videos: the real thumbnail in a 16:9 card with a
+         code-drawn play glyph and duration chip. Podcasts: the square artwork with a code-drawn waveform under it.
+         Articles: code-drawn cards, no image, the publication named in type. */
+      /* at rest a piece is subdued (opacity, scale and saturation are set per frame by the script) with a soft shadow;
+         `.awake` is the full-colour, full-size state it wakes into on scroll or pointer proximity */
+      .item {
+        position: absolute;
+        left: 0;
+        top: 0;
+        margin: 0;
+        opacity: 0;
+        will-change: transform, opacity, filter;
+        transform-origin: 50% 50%;
+        box-shadow: 0 8px 18px rgba(33, 26, 20, 0.07);
+        transition: box-shadow 0.3s var(--ease);
+      }
+      .item.awake {
+        box-shadow: 0 22px 44px rgba(33, 26, 20, 0.2), 0 2px 6px rgba(33, 26, 20, 0.1);
+      }
+      .item img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      .book {
+        border-radius: 6px;
+        overflow: hidden;
+        background: #fff;
+      }
+      .video {
+        border-radius: 12px;
+        overflow: hidden;
+        background: var(--ink);
+      }
+      .video .play {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 38px;
+        height: 38px;
+        margin: -19px 0 0 -19px;
+        border-radius: 50%;
+        background: rgba(33, 26, 20, 0.5);
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25) inset;
+      }
+      .video .play::after {
+        content: "";
+        position: absolute;
+        left: 15px;
+        top: 11px;
+        border-left: 13px solid #fff;
+        border-top: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+      }
+      .video .dur {
+        position: absolute;
+        right: 8px;
+        bottom: 8px;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        line-height: 1;
+        color: #fff;
+        background: rgba(33, 26, 20, 0.72);
+        padding: 4px 6px;
+        border-radius: 4px;
+      }
+      .pod {
+        box-shadow: none;
+      }
+      .pod img {
+        border-radius: 12px;
+        box-shadow: 0 8px 18px rgba(33, 26, 20, 0.07);
+        transition: box-shadow 0.3s var(--ease);
+      }
+      .pod.awake img {
+        box-shadow: 0 16px 36px rgba(33, 26, 20, 0.18), 0 2px 6px rgba(33, 26, 20, 0.1);
+      }
+      .pod .wave {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        gap: 3px;
+        height: 14px;
+        margin: 9px 0 0;
+      }
+      .pod .wave i {
+        display: block;
+        width: 3px;
+        border-radius: 2px;
+        background: rgba(33, 26, 20, 0.34);
+      }
+      .pod .wave i:nth-child(1) { height: 5px; }
+      .pod .wave i:nth-child(2) { height: 11px; }
+      .pod .wave i:nth-child(3) { height: 7px; }
+      .pod .wave i:nth-child(4) { height: 14px; }
+      .pod .wave i:nth-child(5) { height: 6px; }
+      .art {
+        display: grid;
+        gap: 5px;
+        background: #fff;
+        border: 1px solid rgba(33, 26, 20, 0.06);
+        border-radius: 12px;
+        padding: 12px 14px 13px;
+        text-align: left;
+      }
+      .art.awake {
+        box-shadow: 0 16px 36px rgba(33, 26, 20, 0.12), 0 2px 6px rgba(33, 26, 20, 0.06);
+      }
+      .art .pub {
+        font-size: 11px;
+        font-weight: 600;
+        font-variant-caps: all-small-caps;
+        letter-spacing: 0.08em;
+        color: var(--mute);
+        line-height: 1;
+      }
+      .art .hd {
+        font-family: var(--serif);
+        font-weight: 600;
+        font-size: 15px;
+        line-height: 1.25;
+        color: var(--ink);
+      }
+      /* the "saved" cue: a coral-ink highlighter across part of the headline */
+      .art .hd em {
+        font-style: normal;
+        background: linear-gradient(transparent 58%, rgba(216, 68, 63, 0.3) 58%, rgba(216, 68, 63, 0.3) 94%, transparent 94%);
+      }
+      .art .by {
+        font-size: 11px;
+        color: var(--mute);
+        line-height: 1;
+      }
+      .item.small .play {
+        width: 26px;
+        height: 26px;
+        margin: -13px 0 0 -13px;
+      }
+      .item.small .play::after {
+        left: 10px;
+        top: 7px;
+        border-left-width: 9px;
+        border-top-width: 6px;
+        border-bottom-width: 6px;
+      }
+      .item.small .dur {
+        font-size: 9px;
+        padding: 3px 4px;
+        right: 5px;
+        bottom: 5px;
+      }
+      .item.small .wave {
+        height: 10px;
+        margin-top: 6px;
+        gap: 2px;
+      }
+      .item.small .wave i {
+        width: 2px;
+        transform: scaleY(0.7);
+        transform-origin: bottom;
+      }
+      .art.small {
+        padding: 8px 10px 9px;
+        gap: 3px;
+        border-radius: 9px;
+      }
+      .art.small .pub {
+        font-size: 8px;
+      }
+      .art.small .hd {
+        font-size: 11px;
+      }
+      .art.small .by {
+        font-size: 8px;
+      }
+      .hero-in {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        width: fit-content;
+        max-width: min(1080px, 100% - 48px);
+        margin: 0 auto;
+      }
+      .lockup {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 700;
+        font-size: 15px;
+        letter-spacing: 0.02em;
+        color: var(--coral-ink);
+        text-decoration: none;
+      }
+      .lockup img {
+        width: 26px;
+        height: 26px;
+        border-radius: 7px;
+      }
+      h1 {
+        font-size: clamp(38px, 5vw, 70px);
+        line-height: 1.04;
+        letter-spacing: -0.03em;
+        font-weight: 700;
+        margin: 28px 0 22px;
+      }
+      h1 .line {
+        display: block;
+      }
+      /* the turn: line 2 is struck by a DRAWN coral line (a background stripe, per line fragment, not text-decoration),
+         then line 3 opens beneath it in coral-ink. The struck line stays in the DOM and in the accessible name. */
+      h1 .l2 {
+        color: var(--ink);
+      }
+      h1 .sw {
+        background: linear-gradient(var(--coral-ink), var(--coral-ink)) no-repeat 0 55% / 0% 0.085em;
+        -webkit-box-decoration-break: clone;
+        box-decoration-break: clone;
+        padding: 0 0.04em;
+        margin: 0 -0.04em;
+      }
+      h1.struck .sw {
+        background-size: 100% 0.085em;
+      }
+      h1.struck .l2 {
+        color: var(--soft);
+      }
+      h1 .l3w {
+        display: grid;
+        grid-template-rows: 0fr;
+      }
+      h1 .l3 {
+        min-height: 0;
+        overflow: hidden;
+        color: var(--coral-ink);
+      }
+      /* the line is revealed by the row opening (a top-down wipe) and its ink arriving: paint properties only, so the
+         settled frame is identical in a headless capture and on a phone */
+      h1 .l3 .t {
+        display: block;
+        color: transparent;
+      }
+      h1.struck .l3w {
+        grid-template-rows: 1fr;
+      }
+      h1.struck .l3 .t {
+        color: var(--coral-ink);
+      }
+      html.motion h1 .sw {
+        transition: background-size 0.7s var(--ease);
+      }
+      html.motion h1 .l2 {
+        transition: color 0.5s 0.45s var(--ease);
+      }
+      html.motion h1 .l3w {
+        transition: grid-template-rows 0.6s 0.4s var(--ease);
+      }
+      html.motion h1 .l3 .t {
+        transition: color 0.5s 0.65s var(--ease);
+      }
+      /* `done` lands after every transition would have ended: the settled headline, no transition left to run */
+      html.motion h1.done .sw,
+      html.motion h1.done .l2,
+      html.motion h1.done .l3w,
+      html.motion h1.done .l3 .t {
+        transition: none;
+      }
+      .hero .lede {
+        margin: 0 auto 30px;
+        max-width: 560px;
+      }
+      .hero .actions {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      /* ───────────── relief (cream, gold highlighter) ───────────── */
+      .relief .in {
+        max-width: 900px;
+      }
+      .hl {
+        background: linear-gradient(transparent 52%, rgba(212, 162, 78, 0.5) 52%, rgba(212, 162, 78, 0.5) 94%, transparent 94%)
+          no-repeat 0 0 / 100% 100%;
+        -webkit-box-decoration-break: clone;
+        box-decoration-break: clone;
+        padding: 0 0.06em;
+        margin: 0 -0.06em;
+      }
+      html.motion .reveal:not(.shown) .hl {
+        background-size: 0% 100%;
+      }
+      html.motion .reveal.shown .hl {
+        transition: background-size 0.9s 0.25s var(--ease);
+      }
+      .turn {
+        font-size: clamp(26px, 3.2vw, 44px);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: var(--coral-ink);
+        margin: 30px 0 0;
+        line-height: 1.1;
+      }
+      .founder-note {
+        margin: 56px 0 0;
+        display: flex;
+        gap: 18px;
+        align-items: center;
+        background: #fff;
+        border: 1px solid rgba(33, 26, 20, 0.06);
+        border-radius: 22px;
+        padding: 18px 22px 18px 18px;
+        box-shadow: 0 14px 40px rgba(33, 26, 20, 0.07);
+        max-width: 640px;
+      }
+      .founder-note img {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex: none;
+      }
+      .founder-note .q {
+        font-family: var(--serif);
+        font-style: italic;
+        font-size: 18px;
+        line-height: 1.4;
+        margin: 0 0 6px;
+        color: var(--ink);
+      }
+      .founder-note .who {
+        margin: 0;
+        font-size: 15px;
+        color: var(--mute);
+        font-weight: 500;
+      }
+      .founder-note .who .arrow {
+        margin-left: 6px;
+      }
+
+      /* ───────────── who you become (cream, six identity cards) ───────────── */
+      .become h2 {
+        max-width: 17ch;
+      }
+      .become h2 .who {
+        color: var(--coral-ink);
+      }
+      .cards {
+        list-style: none;
+        margin: 44px 0 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 22px;
+      }
+      .card {
+        position: relative;
+        background: #fff;
+        border: 1px solid rgba(33, 26, 20, 0.06);
+        border-radius: 22px;
+        padding: 34px 28px 32px;
+        box-shadow: 0 14px 40px rgba(33, 26, 20, 0.06);
+        overflow: hidden;
+      }
+      /* one accent per card: a thin bar along the top edge (gold is only ever this bar, never text on cream) */
+      .card::before {
+        content: "";
+        position: absolute;
+        left: 28px;
+        right: 28px;
+        top: 0;
+        height: 5px;
+        border-radius: 0 0 5px 5px;
+        background: var(--acc);
+      }
+      .card h3 {
+        margin: 0 0 12px;
+        font-size: clamp(22px, 1.8vw, 27px);
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        font-weight: 700;
+        color: var(--ink);
+      }
+      .card p {
+        margin: 0;
+        font-size: 17px;
+        line-height: 1.5;
+        color: var(--soft);
+      }
+
+      /* ───────────── manifesto (cream, oversized type, no product) ───────────── */
+      .manifesto {
+        padding: clamp(96px, 13vw, 176px) 0;
+        text-align: center;
+      }
+      .manifesto h2 {
+        max-width: none;
+        margin: 0 auto;
+        font-size: clamp(40px, 6.4vw, 96px);
+        line-height: 1.02;
+        letter-spacing: -0.035em;
+      }
+      .manifesto .m {
+        display: block;
+        color: var(--ink);
+      }
+      .manifesto .m2 {
+        color: var(--coral-ink);
+      }
+      .manifesto .m3 {
+        font-size: clamp(18px, 1.6vw, 24px);
+        line-height: 1.45;
+        font-weight: 500;
+        color: var(--soft);
+        max-width: 560px;
+        margin: 30px auto 0;
+      }
+      /* the lines gain weight and colour as the beat scrolls into view (weight animates on the variable font) */
+      html.motion .manifesto .m,
+      html.motion .manifesto .m3 {
+        transition: font-weight 1s var(--ease), color 1s var(--ease), opacity 0.8s var(--ease), transform 0.9s var(--ease);
+      }
+      html.motion .manifesto .m2 {
+        transition-delay: 0.22s;
+      }
+      html.motion .manifesto .m3 {
+        transition-delay: 0.5s;
+      }
+      html.motion .manifesto:not(.shown) .m {
+        font-weight: 300;
+        color: rgba(33, 26, 20, 0.26);
+        transform: translateY(12px);
+      }
+      html.motion .manifesto:not(.shown) .m2 {
+        color: rgba(216, 68, 63, 0.26);
+      }
+      html.motion .manifesto:not(.shown) .m3 {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      /* ───────────── the graph (galaxy black, the one conceptual scene: what you keep becomes one light) ───────────── */
+      .graph .in {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 56px;
+        align-items: center;
+      }
+      .graph h2 {
+        max-width: 14ch;
+      }
+      .gold {
+        color: var(--gold);
+      }
+      .window {
+        position: relative;
+        width: min(330px, 80vw);
+        aspect-ratio: 540 / 720;
+        border-radius: 30px;
+        overflow: hidden;
+        background: var(--galaxy);
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 40px 100px rgba(0, 0, 0, 0.7), 0 0 120px rgba(76, 95, 171, 0.25);
+        justify-self: end;
+      }
+      #gather {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      /* a cheap compositor-only breath once the light has gathered; only while on screen, only under motion */
+      .afterglow {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0;
+        background: radial-gradient(circle at 50% 52%, rgba(255, 142, 83, 0.26), rgba(255, 107, 107, 0.1) 30%, rgba(4, 4, 9, 0) 60%);
+        transition: opacity 0.8s var(--ease);
+      }
+      .window.settled .afterglow {
+        opacity: 0.7;
+      }
+      html.motion .window.settled.live .afterglow {
+        animation: breathe 5.2s ease-in-out infinite;
+      }
+      @keyframes breathe {
+        0%,
+        100% {
+          opacity: 0.45;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+      .window-wrap {
+        display: grid;
+        gap: 14px;
+        justify-items: center;
+      }
+
+      /* ───────────── proof (cream, ruled Lora quotes) ───────────── */
+      .proof h2 {
+        margin-bottom: 40px;
+      }
+      .reviews {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 56px;
+      }
+      .reviews li {
+        border-top: 1px solid rgba(33, 26, 20, 0.12);
+        padding: 30px 0 34px 46px;
+        position: relative;
+        transition: opacity 0.6s var(--ease), transform 0.7s var(--ease);
+      }
+      html.motion .reveal:not(.shown) .reviews li {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      .reviews li::before {
+        content: "\201C";
+        position: absolute;
+        left: 0;
+        top: 18px;
+        font-family: var(--serif);
+        font-size: 64px;
+        line-height: 1;
+        color: var(--coral-ink);
+        font-weight: 600;
+      }
+      .reviews blockquote {
+        margin: 0 0 12px;
+        font-family: var(--serif);
+        font-weight: 500;
+        font-size: clamp(18px, 1.5vw, 22px);
+        line-height: 1.45;
+        color: var(--ink);
+      }
+      .reviews cite {
+        font-style: normal;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--mute);
+        letter-spacing: 0.02em;
+      }
+
+      /* ───────────── why (founder letter) ───────────── */
+      .why .in {
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        gap: 56px;
+        align-items: start;
+        max-width: 1000px;
+      }
+      .why img {
+        width: 200px;
+        height: 200px;
+        border-radius: 28px;
+        object-fit: cover;
+        box-shadow: 0 20px 50px rgba(33, 26, 20, 0.14);
+      }
+      .letter {
+        max-width: 620px;
+      }
+      .letter p {
+        font-family: var(--serif);
+        font-size: clamp(18px, 1.45vw, 21px);
+        line-height: 1.55;
+        color: var(--soft);
+        margin: 0 0 18px;
+      }
+      .letter p strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .sig {
+        margin: 26px 0 16px;
+        font-weight: 700;
+        font-size: 16px;
+      }
+      .sig span {
+        color: var(--mute);
+        font-weight: 500;
+      }
+
+      /* ───────────── planet strip ───────────── */
+      .planet {
+        border-top: 1px solid rgba(33, 26, 20, 0.08);
+        border-bottom: 1px solid rgba(33, 26, 20, 0.08);
+        padding: 44px 0;
+      }
+      .planet .in {
+        display: flex;
+        align-items: center;
+        gap: 32px;
+      }
+      .planet img {
+        height: 44px;
+        width: auto;
+        flex: none;
+      }
+      .planet p {
+        margin: 0;
+        font-size: 16px;
+        color: var(--soft);
+        max-width: 640px;
+      }
+
+      /* ───────────── close (ink) ───────────── */
+      .close .in {
+        text-align: center;
+        display: grid;
+        justify-items: center;
+      }
+      .close h2 {
+        font-size: clamp(40px, 6.2vw, 92px);
+        max-width: none;
+        margin-bottom: 18px;
+      }
+      .close .lede {
+        margin-bottom: 36px;
+      }
+
+      /* ───────────── footer ───────────── */
+      footer {
+        padding: 36px 0 48px;
+      }
+      footer .in {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px 22px;
+        font-size: 14px;
+        color: var(--mute);
+      }
+      footer a {
+        text-decoration: none;
+        color: var(--mute);
+        font-weight: 500;
+      }
+      footer a:hover {
+        color: var(--ink);
+      }
+      footer .motto {
+        font-weight: 700;
+        color: var(--ink);
+        font-size: 15px;
+        margin-right: 10px;
+      }
+      footer .feat {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 22px;
+        padding-top: 10px;
+      }
+
+      /* ───────────── scroll reveals (motion only) ───────────── */
+      html.motion .reveal {
+        opacity: 0;
+        transform: translateY(22px);
+        transition: opacity 0.7s var(--ease), transform 0.8s var(--ease);
+      }
+      html.motion .reveal.shown {
+        opacity: 1;
+        transform: none;
+      }
+
+      /* ───────────── phone ───────────── */
+      @media (max-width: 860px) {
+        .nav nav {
+          gap: 16px;
+        }
+        .nav .in {
+          height: 64px;
+        }
+        .hero {
+          min-height: min(calc(100svh - 64px), 780px);
+          padding: 28px 0 56px;
+        }
+        h1 {
+          margin: 22px 0 18px;
+        }
+        .graph .in,
+        .why .in {
+          grid-template-columns: 1fr;
+          gap: 36px;
+        }
+        .window {
+          justify-self: center;
+        }
+        .reviews {
+          grid-template-columns: 1fr;
+        }
+        .founder-note {
+          align-items: flex-start;
+        }
+        .why img {
+          width: 120px;
+          height: 120px;
+          border-radius: 20px;
+        }
+        .planet .in {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 18px;
+        }
+        .cta {
+          width: min(100%, 360px);
+        }
+      }
+      @media (max-width: 720px) {
+        .cards {
+          grid-template-columns: 1fr;
+          gap: 16px;
+        }
+        .card {
+          padding: 30px 24px 28px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#top">Skip to content</a>
+
+    <header class="nav">
+      <div class="in">
+        <a class="brand" href="/" aria-label="REPS home">
+          <img src="product/assets/app-icon.png" alt="" width="26" height="26" />
+          REPS
+        </a>
+        <nav aria-label="Primary">
+          <a class="link" href="/about">About</a>
+          <a class="link" href="/about#press">Press</a>
+          <a class="cta small" href="https://apps.apple.com/app/id6759216018" target="_blank" rel="noopener">Get the app</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <!-- ═══════ HERO · cream · the scroll-driven stage: what you take in floats in, your scroll tightens it, the headline turns ═══════ -->
+      <section class="hero" id="top">
+        <div class="stage" id="stage" aria-hidden="true">
+          <!-- the range of what people save. Real published artwork (Apple Books / Apple Podcasts / YouTube thumbnails),
+               each whole and in its true aspect (width/height attributes reserve it before load); the article card is
+               code-drawn and names the publication in type. Which items show, and where, is decided by the layout tables
+               in the script (desktop: all eight, four per side, kinds mixed; phone: five, smaller). -->
+          <figure class="item book" data-slug="sapiens">
+            <img src="product/assets/covers/sapiens.jpg" alt="" width="400" height="604" decoding="async" fetchpriority="high" />
+          </figure>
+          <figure class="item book" data-slug="atomic-habits">
+            <img src="product/assets/covers/atomic-habits.jpg" alt="" width="400" height="604" decoding="async" fetchpriority="high" />
+          </figure>
+          <figure class="item book" data-slug="1984">
+            <img src="product/assets/covers/1984.jpg" alt="" width="400" height="600" decoding="async" fetchpriority="high" />
+          </figure>
+          <figure class="item book" data-slug="thinking-fast-and-slow">
+            <img src="product/assets/covers/thinking-fast-and-slow.jpg" alt="" width="400" height="593" decoding="async" fetchpriority="high" />
+          </figure>
+          <figure class="item video" data-slug="video-kurzgesagt-the-egg">
+            <img src="product/assets/covers/video-kurzgesagt-the-egg.jpg" alt="" width="640" height="360" decoding="async" fetchpriority="high" />
+            <span class="play"></span>
+            <span class="dur">8:06</span>
+          </figure>
+          <figure class="item video" data-slug="video-veritasium-entropy">
+            <img src="product/assets/covers/video-veritasium-entropy.jpg" alt="" width="640" height="360" decoding="async" fetchpriority="high" />
+            <span class="play"></span>
+            <span class="dur">27:15</span>
+          </figure>
+          <figure class="item pod" data-slug="podcast-the-daily">
+            <img src="product/assets/covers/podcast-the-daily.jpg" alt="" width="400" height="400" decoding="async" fetchpriority="high" />
+            <span class="wave"><i></i><i></i><i></i><i></i><i></i></span>
+          </figure>
+          <figure class="item art" data-slug="article-atlantic">
+            <span class="pub">The Atlantic</span>
+            <span class="hd">Is Google <em>Making Us Stupid?</em></span>
+            <span class="by">by Nicholas Carr</span>
+          </figure>
+        </div>
+        <div class="hero-in">
+          <a class="lockup" href="#why">
+            <img src="product/assets/app-icon.png" alt="" width="26" height="26" />
+            Your Knowledge Companion
+          </a>
+          <h1 id="h1" aria-label="You take in more than ever. You keep almost none of it. Now it stays with you.">
+            <span class="line l1">You take in more than ever.</span>
+            <span class="line l2"><span class="sw">You keep almost none of it.</span></span>
+            <span class="l3w"><span class="line l3"><span class="t">Now it stays with you.</span></span></span>
+          </h1>
+          <p class="lede">
+            REPS is a free iPhone app that keeps what you read, watch and listen to
+            <strong>with you</strong>, for the moment you want it.
+          </p>
+          <div class="actions">
+            <a
+              class="cta"
+              href="https://apps.apple.com/app/id6759216018"
+              target="_blank"
+              rel="noopener"
+              aria-label="Download REPS on the App Store"
+            >
+              <svg viewBox="0 0 384 512" aria-hidden="true">
+                <path
+                  d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"
+                />
+              </svg>
+              Download on the App Store
+            </a>
+            <p class="reassure">Free on the App Store.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════ RELIEF · cream · gold highlighter ═══════ -->
+      <section class="block relief reveal" id="relief">
+        <div class="in">
+          <p class="eyebrow">The part nobody says</p>
+          <h2>You're <span class="hl">already doing the work.</span></h2>
+          <p class="lede">
+            You read. You listen. You watch. You save the thing you meant to keep. It just has nowhere to
+            live, so it gathers dust in a notes app and a camera roll.
+          </p>
+          <p class="turn">Now it stays with you.</p>
+
+          <aside class="founder-note" aria-label="From the founder">
+            <img src="compare/assets/mike-mcgraw.jpg" alt="Mike McGraw, founder of REPS" width="64" height="64" loading="lazy" />
+            <div>
+              <p class="q">“Huxley, not Orwell, called it: a feed that asks nothing of you. I'm building the antidote.”</p>
+              <p class="who">Mike McGraw, founder <a class="arrow" href="/about#press">About &amp; press kit →</a></p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ═══════ WHO YOU BECOME · cream · six identity-outcome cards ═══════ -->
+      <section class="block become" id="become">
+        <div class="in">
+          <p class="eyebrow reveal">Who you become</p>
+          <h2 class="reveal" style="transition-delay: 0.08s">Not what the app does. <span class="who">Who you are with it.</span></h2>
+          <ul class="cards" aria-label="Who you become with REPS">
+            <li class="card reveal" style="--acc: var(--coral-ink); transition-delay: 0.05s">
+              <h3>The one at dinner who still has it.</h3>
+              <p>Someone asks why Rome actually fell. You read that piece last month. This time, you have the thread.</p>
+            </li>
+            <li class="card reveal" style="--acc: var(--indigo); transition-delay: 0.13s">
+              <h3>Pull the thread a year later.</h3>
+              <p>The line you underlined, the episode you half-remember. Still there, still yours.</p>
+            </li>
+            <li class="card reveal" style="--acc: var(--teal-deep); transition-delay: 0.21s">
+              <h3>A feed worth remembering.</h3>
+              <p>In the queue, in the lift, on the walk. You come away with more than you went in with.</p>
+            </li>
+            <li class="card reveal" style="--acc: var(--gold); transition-delay: 0.29s">
+              <h3>Play, not a chore.</h3>
+              <p>A crossword built from your week. A friend on the same board. A few minutes you look forward to.</p>
+            </li>
+            <li class="card reveal" style="--acc: var(--coral-ink); transition-delay: 0.37s">
+              <h3>Nothing gathering dust.</h3>
+              <p>Not in a notes app. Not in a camera roll. Everything you kept, with you.</p>
+            </li>
+            <li class="card reveal" style="--acc: var(--indigo); transition-delay: 0.45s">
+              <h3>The quiet confidence of knowing.</h3>
+              <p>Not the loudest in the room. The one who read the thing, watched the thing, and kept it.</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ═══════ MANIFESTO · cream · oversized type, no product ═══════ -->
+      <section class="manifesto watch" id="manifesto">
+        <div class="in">
+          <h2>
+            <span class="m m1">Stop doomscrolling.</span>
+            <span class="m m2">Start bloom scrolling.</span>
+          </h2>
+          <p class="m3">Your attention is yours. Spend it on something that stays.</p>
+        </div>
+      </section>
+
+      <!-- ═══════ THE GRAPH · Galaxy Black · the one conceptual scene: what you keep becomes one light that grows ═══════ -->
+      <section class="block f-galaxy graph reveal" id="graph">
+        <div class="in">
+          <div>
+            <p class="eyebrow">A year in</p>
+            <h2>Most apps compete for your attention. REPS <span class="gold">compounds</span> it.</h2>
+            <p class="lede">
+              Everything you keep connects to everything else you've kept, across books, podcasts, what you
+              watch and the odd screenshot. A year of it, kept, adds up to something you can feel.
+            </p>
+          </div>
+          <div class="window-wrap">
+            <div class="window" id="window">
+              <canvas
+                id="gather"
+                role="img"
+                aria-label="Saved fragments drift in from the edges and gather into one warm light that grows as each one arrives"
+              ></canvas>
+              <div class="afterglow" aria-hidden="true"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════ PROOF · cream · ruled Lora quotes ═══════ -->
+      <section class="block proof reveal" id="proof">
+        <div class="in">
+          <p class="eyebrow">Said on the App Store</p>
+          <h2>In their words.</h2>
+          <ul class="reviews">
+            <li style="transition-delay: 0.1s">
+              <blockquote>Really enjoying using this app as a better way to spend 5/10 minutes at bus stop etc. vs brain rotting on Insta/X.</blockquote>
+              <cite>App Store review · jsdldn</cite>
+            </li>
+            <li style="transition-delay: 0.2s">
+              <blockquote>It's replaced scrolling Instagram on my phone, and it's helping me re-engage with books I read years ago, and actively seek out interesting knowledge to add to my second brain.</blockquote>
+              <cite>App Store review · 24601_London</cite>
+            </li>
+            <li style="transition-delay: 0.3s">
+              <blockquote>Very nice and fun way to retrain your brain – love a competition with friends. Love that app!</blockquote>
+              <cite>App Store review · Sizeret74</cite>
+            </li>
+            <li style="transition-delay: 0.4s">
+              <blockquote>Such a fun and easy way to remember the things that matter the most to me! New content is also great to discover! Definitely one of my favorite apps!</blockquote>
+              <cite>App Store review · Cathb1234</cite>
+            </li>
+            <li style="transition-delay: 0.5s">
+              <blockquote>As a non-techy over 60 year old, this app is simple and intuitive to navigate.</blockquote>
+              <cite>App Store review · Mooselake4</cite>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ═══════ WHY · cream · the letter ═══════ -->
+      <section class="block why reveal" id="why">
+        <div class="in">
+          <img src="compare/assets/mike-mcgraw.jpg" alt="Mike McGraw, founder of REPS" width="200" height="200" loading="lazy" />
+          <div>
+            <p class="eyebrow">Why this exists</p>
+            <h2>I watched my nieces and nephews grow up on Shorts.</h2>
+            <div class="letter">
+              <p>
+                I spent twelve years investing in technology, and I watched my nephews and nieces grow up on
+                YouTube Shorts. Then I read that the Flynn effect has reversed: for the first time, population
+                IQ scores have started to fall.
+              </p>
+              <p>
+                Neil Postman saw it coming in 1985. Orwell feared the people who would ban books; Huxley
+                feared there would be no need to, because no one would want to read one. <strong>That's the feed.</strong>
+              </p>
+              <p>
+                I left my job on my 34th birthday to build the antidote. I build REPS and use it every day,
+                and I'd like it to be where what you read, watch and hear stays with you.
+              </p>
+            </div>
+            <p class="sig">Mike McGraw <span>· founder, REPS</span></p>
+            <a class="arrow" href="/about">About &amp; press kit →</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════ PLANET · strip ═══════ -->
+      <section class="planet reveal" id="planet">
+        <div class="in">
+          <img src="justonetree-logo.png" alt="JUST ONE Tree" width="368" height="100" loading="lazy" />
+          <p>
+            The AI that powers REPS uses a little energy, so we plant real trees for it, far more than we use.
+            <a class="arrow" href="/planet">The planet pledge →</a>
+          </p>
+        </div>
+      </section>
+
+      <!-- ═══════ CLOSE · ink · the key line again ═══════ -->
+      <section class="block f-ink close reveal" id="get">
+        <div class="in">
+          <p class="eyebrow">Free on the App Store</p>
+          <h2>Your Knowledge Companion.</h2>
+          <p class="lede">You take in more than ever. Now it stays with you.</p>
+          <a
+            class="cta"
+            href="https://apps.apple.com/app/id6759216018"
+            target="_blank"
+            rel="noopener"
+            aria-label="Download REPS on the App Store"
+          >
+            <svg viewBox="0 0 384 512" aria-hidden="true">
+              <path
+                d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"
+              />
+            </svg>
+            Download on the App Store
+          </a>
+          <p class="reassure">Free on the App Store.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="in">
+        <span class="motto">Save. Play. Remember.</span>
+        <a href="/about">About</a>
+        <a href="/planet">Planet</a>
+        <a href="/about#press">Press</a>
+        <a href="/support">Support</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <div class="feat">
+          <a href="/features/active-recall">The daily game</a>
+          <a href="/features/second-brain">Your knowledge graph</a>
+          <a href="/features/read-it-later">Read it later</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- PostHog — analytics + engagement (autocapture, pageleave/scroll, session replay) -->
+    <script>
+      !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+      posthog.init("phc_gTI0FJoXiGPjdACbgVyunpDSl0mPs2HEYtmzUtK3SyE", {
+        api_host: "https://us.i.posthog.com",
+        ui_host: "https://us.posthog.com",
+        defaults: "2025-05-24",
+        persistence: "localStorage+cookie",
+        capture_pageview: true,
+        capture_pageleave: true,
+        autocapture: true,
+        disable_session_recording: false,
+        loaded: function (ph) { ph.register({ lp_variant: "v6c" }); }
+      });
+    </script>
+
+    <script>
+      (function () {
+        "use strict";
+        var MOTION = document.documentElement.classList.contains("motion");
+        var FAST = /(?:^|[?&])motion=1(?:&|$)/.test(location.search); /* headless capture: the turn lands at once */
+        var COARSE = matchMedia("(pointer: coarse)").matches;
+        var clamp = function (v, a, b) { return v < a ? a : v > b ? b : v; };
+        var ease = function (p) { return p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2; };
+        var ph = function (ev, props) { try { window.posthog && posthog.capture(ev, props || {}); } catch (e) {} };
+
+        /* deterministic scatter, so the still is the same every load */
+        var SEED = 0x6b2a9f1d, seed = SEED;
+        function rnd() {
+          seed |= 0; seed = (seed + 0x6d2b79f5) | 0;
+          var t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+          t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        }
+        var R = function (a, b) { return a + rnd() * (b - a); };
+
+        /* ─────────── the fragments (code-drawn, washed-out) ─────────── */
+        var INK = "rgba(33,26,20,0.3)", INKF = "rgba(33,26,20,0.1)", PAPER = "rgba(255,255,255,0.8)", GOLD = "rgba(212,162,78,0.6)";
+
+        function rr(c, x, y, w, h, r) {
+          c.beginPath();
+          c.moveTo(x + r, y);
+          c.arcTo(x + w, y, x + w, y + h, r);
+          c.arcTo(x + w, y + h, x, y + h, r);
+          c.arcTo(x, y + h, x, y, r);
+          c.arcTo(x, y, x + w, y, r);
+          c.closePath();
+        }
+        function ln(c, x1, y1, x2, y2, w) { c.lineWidth = w; c.beginPath(); c.moveTo(x1, y1); c.lineTo(x2, y2); c.stroke(); }
+        var SHAPES = {
+          /* a screenshot frame */
+          frame: function (c) {
+            var w = 54, h = 92;
+            rr(c, -w / 2, -h / 2, w, h, 8); c.fillStyle = PAPER; c.fill(); c.strokeStyle = INK; c.lineWidth = 1.5; c.stroke();
+            c.fillStyle = INKF; rr(c, -w / 2 + 6, -h / 2 + 8, w - 12, 14, 3); c.fill();
+            c.strokeStyle = INK; var y = -h / 2 + 34;
+            [40, 34, 42, 26, 36].forEach(function (l) { ln(c, -w / 2 + 7, y, -w / 2 + 7 + l, y, 2); y += 9; });
+          },
+          /* a highlighted line in a page */
+          hl: function (c) {
+            var w = 112, h = 48, y = -h / 2 + 6;
+            [104, 96, 80].forEach(function (l, i) {
+              if (i === 1) { c.fillStyle = GOLD; rr(c, -w / 2 - 2, y - 7, l + 6, 14, 4); c.fill(); }
+              c.strokeStyle = INK; ln(c, -w / 2, y, -w / 2 + l, y, 2.5); y += 17;
+            });
+          },
+          /* a podcast timestamp chip */
+          chip: function (c) {
+            var w = 84, h = 28;
+            rr(c, -w / 2, -h / 2, w, h, 14); c.fillStyle = PAPER; c.fill(); c.strokeStyle = INK; c.lineWidth = 1.5; c.stroke();
+            c.fillStyle = INK; c.beginPath(); c.moveTo(-w / 2 + 12, -6); c.lineTo(-w / 2 + 12, 6); c.lineTo(-w / 2 + 22, 0); c.closePath(); c.fill();
+            ln(c, -w / 2 + 30, 0, w / 2 - 10, 0, 2);
+            c.beginPath(); c.arc(-w / 2 + 46, 0, 3.5, 0, 6.2832); c.fill();
+          },
+          /* a link card */
+          link: function (c) {
+            var w = 98, h = 60;
+            rr(c, -w / 2, -h / 2, w, h, 9); c.fillStyle = PAPER; c.fill(); c.strokeStyle = INK; c.lineWidth = 1.5; c.stroke();
+            c.save(); rr(c, -w / 2, -h / 2, w, h, 9); c.clip(); c.fillStyle = INKF; c.fillRect(-w / 2, -h / 2, w, 27); c.restore();
+            c.strokeStyle = INK; ln(c, -w / 2 + 9, -h / 2 + 38, -w / 2 + 9 + 62, -h / 2 + 38, 2.5); ln(c, -w / 2 + 9, -h / 2 + 50, -w / 2 + 9 + 40, -h / 2 + 50, 2);
+          }
+        };
+        var KINDS = ["frame", "hl", "chip", "link"];
+
+        /* ─────────── the stage: the real saved material (DOM) + fragments (canvas), one scroll progress, one loop ─────────── */
+        var hero = document.getElementById("top");
+        var heroIn = hero.querySelector(".hero-in");
+        var stage = document.getElementById("stage");
+        var h1 = document.getElementById("h1");
+        var l3 = h1.querySelector(".l3");
+        var items = Array.prototype.slice.call(stage.querySelectorAll(".item"));
+        var bySlug = {};
+        items.forEach(function (el) { bySlug[el.getAttribute("data-slug")] = el; });
+        /* desktop: x is measured in gutter widths from the OUTER edge of that side, y in hero heights; w at a 290px gutter.
+           The kinds are mixed on each side (book, podcast, video, article, book) and never clustered by type. */
+        var SIDES = [
+          { slug: "sapiens", side: -1, x: 0.3, y: 0.22, r: -5, w: 136 },
+          { slug: "podcast-the-daily", side: -1, x: 0.78, y: 0.26, r: 4, w: 104 },
+          { slug: "video-kurzgesagt-the-egg", side: -1, x: 0.5, y: 0.49, r: -3, w: 188 },
+          { slug: "1984", side: -1, x: 0.38, y: 0.78, r: 4, w: 136 },
+          { slug: "atomic-habits", side: 1, x: 0.32, y: 0.2, r: 5, w: 136 },
+          { slug: "video-veritasium-entropy", side: 1, x: 0.52, y: 0.43, r: 3, w: 188 },
+          { slug: "article-atlantic", side: 1, x: 0.52, y: 0.61, r: -2, w: 212 },
+          { slug: "thinking-fast-and-slow", side: 1, x: 0.34, y: 0.82, r: -4, w: 136 }
+        ];
+        /* phone: x in hero widths; row 0 sits above the copy, row 1 below it; w at a 390px hero */
+        var STACK = [
+          { slug: "sapiens", x: 0.17, row: 0, r: -5, w: 64 },
+          { slug: "video-kurzgesagt-the-egg", x: 0.5, row: 0, r: 2, w: 122 },
+          { slug: "podcast-the-daily", x: 0.84, row: 0, r: 4, w: 60 },
+          { slug: "1984", x: 0.25, row: 1, r: 4, w: 64 },
+          { slug: "article-atlantic", x: 0.66, row: 1, r: -2, w: 152 }
+        ];
+        var W = 0, H = 0;
+
+        var specs = [];
+        var par = { x: 0, y: 0 }, tgt = { x: 0, y: 0 }, sp = 0, dirty = false;
+        var wakeAll = false; /* the first scroll wakes every piece for good; a fine pointer wakes the pieces near it */
+        var REST = { alpha: 0.42, scale: 0.86, sat: 0.55 }, NEAR = 140;
+        var heroVisible = true, pageVisible = !document.hidden;
+        var running = false, raf = 0, last = 0, lastPaint = 0, T = 0;
+        var begun = false, landed = false, turned = false;
+        var LAND = 1.5; /* seconds until every cover and fragment has arrived */
+
+        function size() {
+          var r = hero.getBoundingClientRect();
+          W = Math.round(r.width); H = Math.round(r.height);
+        }
+
+        function build() {
+          seed = SEED;
+          size();
+          var hr = hero.getBoundingClientRect(), cr = heroIn.getBoundingClientRect();
+          /* the copy's box, measured as if the third headline line were already open, so the stage never crowds it later */
+          var grow = turned ? 0 : (l3.scrollHeight || 0);
+          var box = { l: cr.left - hr.left, t: cr.top - hr.top - grow / 2, r: cr.right - hr.left, b: cr.bottom - hr.top + grow / 2 };
+          var gutter = Math.min(box.l, W - box.r);
+          var stack = W <= 720 || gutter < 170;
+          var spots = [], sc, small = stack;
+          if (!stack) {
+            /* desktop: four pieces per side in the gutters either side of the copy, never under it; sizes follow the
+               gutter and, on short windows, the hero height, so the lower pieces never kiss the bottom edge */
+            sc = Math.min(clamp((gutter - 30) / 260, 0.72, 1), clamp(H / 860, 0.78, 1));
+            SIDES.forEach(function (d) {
+              var gx = gutter * d.x;
+              spots.push({ el: bySlug[d.slug], x: d.side < 0 ? gx : W - gx, y: H * d.y, r: d.r, w: Math.round(d.w * sc) });
+            });
+          } else {
+            /* phone: five smaller pieces, a row above the copy and a row below it */
+            var gapT = Math.max(0, box.t), gapB = Math.max(0, H - box.b);
+            sc = clamp(W / 390, 0.9, 1.3) * clamp(Math.min(gapT, gapB) / 130, 0.7, 1);
+            STACK.forEach(function (d) {
+              spots.push({ el: bySlug[d.slug], x: W * d.x, y: d.row ? box.b + gapB / 2 : gapT / 2 + 8, r: d.r, w: Math.round(d.w * sc) });
+            });
+          }
+          /* pieces not in this layout stay out of it entirely */
+          var used = {};
+          spots.forEach(function (s) { used[s.el.getAttribute("data-slug")] = true; });
+          items.forEach(function (el) {
+            el.style.display = used[el.getAttribute("data-slug")] ? "" : "none";
+            el.classList.toggle("small", small);
+          });
+          specs = [];
+          spots.forEach(function (s, i) {
+            var el = s.el;
+            el.style.width = s.w + "px";
+            var ch = el.offsetHeight || s.w * 1.5;
+            var sideX = s.x < W / 2 ? -1 : 1, sideY = s.y < H / 2 ? -1 : 1;
+            specs.push({
+              el: el, x: s.x, y: s.y, r: s.r, w: s.w, h: ch,
+              fx: s.x + sideX * (W * 0.3 + s.w), fy: s.y + sideY * H * 0.18,
+              t0: 0.04 + i * 0.08, t1: 0.04 + i * 0.08 + 0.78,
+              depth: 0.45 + 0.15 * ((i * 7) % 3), drift: sideX,
+              aw: 0, awT: 0, near: false, sat: "" /* awake 0..1, its target, pointer proximity, last filter string */
+            });
+          });
+          stage.classList.add("ready");
+        }
+
+        /* one frame of the stage. `still` draws the settled frame (used for reduced motion, the capture, and after a
+           resize): fly-in complete, pieces at REST unless already woken. */
+        function render(t, still) {
+          var S = ease(sp), A = 1 - ease(clamp(sp * 1.5, 0, 1)); /* they fade faster than they tighten, so they never sit under the type */
+          var i, c, p, e, x, y, rot, sc, a, aw, sat;
+          for (i = 0; i < specs.length; i++) {
+            c = specs[i];
+            p = still ? 1 : clamp((t - c.t0) / (c.t1 - c.t0), 0, 1); e = ease(p);
+            aw = c.aw;
+            x = c.fx + (c.x - c.fx) * e; y = c.fy + (c.y - c.fy) * e;
+            rot = c.r + c.r * 2.5 * (1 - e);
+            /* the visitor's scroll draws it toward the centre line behind the copy and down out of the way */
+            x += (W / 2 + c.drift * W * 0.08 - x) * S * 0.9; y += H * 0.14 * S;
+            sc = (1 - 0.32 * S) * (REST.scale + (1 - REST.scale) * aw);
+            a = (p < 0.3 ? p / 0.3 : 1) * A * (REST.alpha + (1 - REST.alpha) * aw);
+            x += par.x * c.depth; y += par.y * c.depth;
+            c.el.style.transform = "translate3d(" + (x - c.w / 2).toFixed(1) + "px," + (y - c.h / 2).toFixed(1) + "px,0) rotate(" + rot.toFixed(2) + "deg) scale(" + sc.toFixed(3) + ")";
+            c.el.style.opacity = a.toFixed(3);
+            sat = "saturate(" + (REST.sat + (1 - REST.sat) * aw).toFixed(2) + ")";
+            if (sat !== c.sat) { c.sat = sat; c.el.style.filter = sat; c.el.classList.toggle("awake", aw > 0.5); }
+          }
+        }
+
+        /* the wake: a piece's awake target is 1 once the visitor has scrolled, or while a fine pointer is near it;
+           it approaches that target over ~300 ms in the frame loop */
+        function retarget() {
+          var moving = false;
+          for (var i = 0; i < specs.length; i++) {
+            var c = specs[i];
+            c.awT = wakeAll || c.near ? 1 : 0;
+            if (Math.abs(c.awT - c.aw) > 0.01) moving = true;
+          }
+          return moving;
+        }
+        function stepWake() {
+          var moving = false;
+          for (var i = 0; i < specs.length; i++) {
+            var c = specs[i], d = c.awT - c.aw;
+            if (Math.abs(d) <= 0.01) { c.aw = c.awT; continue; }
+            c.aw += d * 0.22; moving = true;
+          }
+          return moving;
+        }
+        function nearPointer(px, py) {
+          var changed = false;
+          for (var i = 0; i < specs.length; i++) {
+            var c = specs[i];
+            var dx = Math.max(c.x - c.w / 2 - px, 0, px - (c.x + c.w / 2));
+            var dy = Math.max(c.y - c.h / 2 - py, 0, py - (c.y + c.h / 2));
+            var near = Math.sqrt(dx * dx + dy * dy) < NEAR;
+            if (near !== c.near) { c.near = near; changed = true; }
+          }
+          return changed;
+        }
+
+        /* the turn: strike line 2, open line 3. Once, whichever comes first: scroll, the timer, or the capture flag. */
+        function turn(how) {
+          if (turned) return;
+          turned = true;
+          h1.classList.add("struck");
+          ph("lp_hero_turned", { how: how });
+          /* a headless capture screenshots its last composited frame, so under the capture flag the headline settles at once */
+          if (FAST || !MOTION) h1.classList.add("done");
+          else setTimeout(function () { h1.classList.add("done"); }, 1300);
+        }
+        function land() {
+          if (landed) return;
+          landed = true;
+          hero.classList.add("settled");
+          ph("lp_hero_landed");
+          /* two trailing frames so the settled classes are painted even if the loop stops here */
+          requestAnimationFrame(function () { requestAnimationFrame(function () {}); });
+        }
+        function finishNow() {
+          /* freeze the loop first, so a frame already in flight cannot repaint a mid-flight stage over the settled one */
+          T = 10; last = 0; running = false;
+          if (raf) { cancelAnimationFrame(raf); raf = 0; }
+          turn("skip");
+          land();
+          render(10, true);
+        }
+
+        function frame(now) {
+          raf = 0;
+          if (last) T += Math.min(now - last, 50) / 1000; /* a hiccup never skips the fly-in */
+          last = now;
+          var waking = false;
+          if (now - lastPaint >= 31) { /* ~30 fps cap */
+            lastPaint = now;
+            par.x += (tgt.x - par.x) * 0.12; par.y += (tgt.y - par.y) * 0.12;
+            waking = stepWake();
+            render(T, false);
+            dirty = false;
+          } else {
+            waking = retarget();
+          }
+          if (!landed && T >= LAND) land();
+          var moving = !landed || dirty || waking || Math.abs(tgt.x - par.x) > 0.15 || Math.abs(tgt.y - par.y) > 0.15;
+          if (moving && heroVisible && pageVisible) raf = requestAnimationFrame(frame);
+          else { running = false; last = 0; }
+        }
+        function wake() {
+          if (!MOTION || running || !begun) return;
+          if (!heroVisible || !pageVisible) return;
+          running = true;
+          raf = requestAnimationFrame(frame);
+        }
+
+        function begin() {
+          if (begun) return;
+          begun = true;
+          build();
+          if (!MOTION) { finishNow(); return; } /* reduced motion: the settled frame, drawn once */
+          if (!heroVisible) { finishNow(); return; }
+          wake();
+          setTimeout(function () { turn(FAST ? "capture" : "timer"); }, FAST ? 250 : 1600);
+          /* a throttled or background tab still ends on the settled stage */
+          setTimeout(function () { if (!landed) finishNow(); }, 2800);
+        }
+        /* begin once the fonts and the artwork are in (a blank card flying in would be the wrong first frame);
+           neither is allowed to hold the stage for long */
+        var ready = [];
+        if (document.fonts && document.fonts.ready) ready.push(document.fonts.ready);
+        items.forEach(function (el) {
+          var img = el.querySelector("img");
+          if (img && img.decode) ready.push(img.decode().catch(function () {}));
+        });
+        Promise.all(ready).then(function () { setTimeout(begin, 40); }, function () { begin(); });
+        setTimeout(begin, 1600); /* fonts or images never resolving must not hold the stage */
+
+        /* pointer parallax (fine pointers) and the scroll that drives the stage (everyone) — within one frame of the input */
+        if (!COARSE) {
+          hero.addEventListener("pointermove", function (e) {
+            var r = hero.getBoundingClientRect();
+            tgt.x = ((e.clientX - r.left) / r.width - 0.5) * -22;
+            tgt.y = ((e.clientY - r.top) / r.height - 0.5) * -14;
+            if (MOTION && landed && nearPointer(e.clientX - r.left, e.clientY - r.top)) { retarget(); dirty = true; }
+            wake();
+          }, { passive: true });
+          hero.addEventListener("pointerleave", function () {
+            tgt.x = 0; tgt.y = 0;
+            if (nearPointer(-1e4, -1e4)) { retarget(); dirty = true; }
+            wake();
+          });
+        }
+        window.addEventListener("scroll", function () {
+          if (!MOTION) return;
+          var y = window.scrollY;
+          sp = clamp(y / Math.max(1, H * 0.6), 0, 1);
+          if (y > 24) turn("scroll");
+          if (y > 8 && !wakeAll) { wakeAll = true; retarget(); ph("lp_hero_woken"); }
+          dirty = true;
+          wake();
+        }, { passive: true });
+
+        (function () {
+          function tick() { document.body.classList.toggle("past-hero", window.scrollY > hero.offsetHeight - 80); }
+          window.addEventListener("scroll", tick, { passive: true });
+          tick();
+        })();
+        new IntersectionObserver(function (es) {
+          es.forEach(function (e) {
+            heroVisible = e.isIntersecting;
+            if (heroVisible) wake(); else if (begun && !landed) { finishNow(); }
+          });
+        }, { threshold: 0.02 }).observe(hero);
+        document.addEventListener("visibilitychange", function () {
+          pageVisible = !document.hidden;
+          if (pageVisible) wake();
+        });
+        var rT = 0;
+        window.addEventListener("resize", function () {
+          clearTimeout(rT);
+          rT = setTimeout(function () {
+            if (!begun) return;
+            if (!landed) land();
+            build();
+            render(10, true);
+            if (MOTION) { dirty = true; wake(); }
+          }, 120);
+        });
+
+        /* ─────────── scroll reveals ─────────── */
+        var reveals = document.querySelectorAll(".reveal, .watch");
+        if (MOTION && "IntersectionObserver" in window) {
+          var ro = new IntersectionObserver(function (es) {
+            es.forEach(function (e) {
+              if (e.isIntersecting) { e.target.classList.add("shown"); ro.unobserve(e.target); }
+            });
+          }, { threshold: 0.16, rootMargin: "0px 0px -6% 0px" });
+          Array.prototype.forEach.call(reveals, function (el) { ro.observe(el); });
+        } else {
+          Array.prototype.forEach.call(reveals, function (el) { el.classList.add("shown"); });
+        }
+
+        /* ─────────── the gathering: what you keep streams in from the edges and becomes ONE warm light that grows.
+           Code-drawn with the hero's own fragment shapes on a dark-ground palette. Abstract light + fragments only —
+           never a node-and-edge graph, never app UI. Runs only while on screen, ~30 fps, stops for good once gathered. ─────────── */
+        (function () {
+          var win = document.getElementById("window");
+          var gc = document.getElementById("gather");
+          if (!win || !gc || !gc.getContext) return;
+          var g = gc.getContext("2d");
+          var GW = 0, GH = 0, GD = 1, CX = 0, CY = 0, S = 1;
+          var DARK = { INK: "rgba(255,250,247,0.6)", INKF: "rgba(255,250,247,0.14)", PAPER: "rgba(255,250,247,0.1)", GOLD: "rgba(212,162,78,0.8)" };
+          var DUR = 2.0; /* seconds of gathering once the window is on screen */
+          var BATCH = [0.3, 0.55, 0.78, 0.98]; /* a gold ring steps outward each time a batch has landed */
+          var gf = [], rings = [], pulse = 0, gP = 0, gT = 0, gLast = 0, gRaf = 0, lastPaint = 0, scrollFloor = 0;
+          var gRun = false, gDone = false, gBegun = false, gVis = false, fallbackArmed = false;
+
+          /* the hero's shapes, drawn in a dark-ground ink; the palette vars are read at call time */
+          function shape(k, c) {
+            var i = INK, f = INKF, p = PAPER, gd = GOLD;
+            INK = DARK.INK; INKF = DARK.INKF; PAPER = DARK.PAPER; GOLD = DARK.GOLD;
+            SHAPES[k](c);
+            INK = i; INKF = f; PAPER = p; GOLD = gd;
+          }
+
+          function gsize() {
+            var r = win.getBoundingClientRect();
+            GW = Math.round(r.width) || 330; GH = Math.round(r.height) || 440;
+            GD = Math.min(2, window.devicePixelRatio || 1);
+            gc.width = GW * GD; gc.height = GH * GD;
+            CX = GW / 2; CY = GH * 0.52; S = Math.min(GW, GH) / 330;
+          }
+
+          function gbuild() {
+            seed = SEED ^ 0x51f; /* deterministic, so the settled still is the same every load */
+            gsize();
+            gf = []; rings = [];
+            var N = GW < 300 ? 13 : 16, TAIL = 3; /* the last few are still arriving in the settled still */
+            var far = Math.sqrt(GW * GW + GH * GH) / 2 + 80 * S;
+            for (var i = 0; i < N; i++) {
+              var a = R(0, 6.2832), tail = i >= N - TAIL, t0, t1;
+              if (tail) { t0 = R(0.62, 0.78); t1 = t0 + R(0.5, 0.62); }
+              else { t1 = 0.14 + 0.84 * (i / (N - TAIL - 1)) + R(-0.04, 0.04); t0 = t1 - R(0.34, 0.48); }
+              gf.push({ k: KINDS[(i + ((rnd() * 4) | 0)) % 4], sx: CX + Math.cos(a) * far, sy: CY + Math.sin(a) * far, srot: R(-0.7, 0.7), cur: R(-0.6, 0.6), t0: t0, t1: t1 });
+            }
+          }
+
+          function gpaint(P, still) {
+            g.setTransform(GD, 0, 0, GD, 0, 0);
+            g.clearRect(0, 0, GW, GH);
+            var E = ease(clamp(P, 0, 1));
+            for (var k = 0; k < BATCH.length; k++) if (P >= BATCH[k] && rings.length <= k) { rings.push({ k: k, born: P }); pulse = 1; }
+            if (still) pulse = 0;
+            var core = S * (24 + 40 * E) * (1 + 0.1 * pulse);
+
+            /* the halo: the one strong warm light, growing with everything that has arrived */
+            var halo = g.createRadialGradient(CX, CY, 0, CX, CY, core * 4.4);
+            halo.addColorStop(0, "rgba(255,142,83," + (0.55 + 0.25 * E) + ")");
+            halo.addColorStop(0.3, "rgba(255,107,107," + (0.2 + 0.16 * E) + ")");
+            halo.addColorStop(1, "rgba(255,107,107,0)");
+            g.fillStyle = halo; g.fillRect(0, 0, GW, GH);
+
+            /* tree rings: one gold ring per landed batch, stepping outward, popping once then resting */
+            for (var r = 0; r < rings.length; r++) {
+              var rg = rings[r], age = still ? 1 : clamp((P - rg.born) / 0.1, 0, 1), ea = ease(age);
+              g.beginPath(); g.arc(CX, CY, S * (80 + rg.k * 17) * (0.92 + 0.08 * ea), 0, 6.2832);
+              g.strokeStyle = "rgba(212,162,78," + (0.28 + 0.6 * (1 - ea)) + ")"; g.lineWidth = 1.5; g.stroke();
+            }
+
+            /* the fragments: in from the edges on a gentle curve, shrinking and warming as the light takes them */
+            for (var i = 0; i < gf.length; i++) {
+              var f = gf[i];
+              if (P < f.t0) continue;
+              var p = clamp((P - f.t0) / (f.t1 - f.t0), 0, 1);
+              if (p >= 1) continue;
+              var e = ease(p), dx = CX - f.sx, dy = CY - f.sy, len = Math.sqrt(dx * dx + dy * dy) || 1;
+              var x = f.sx + dx * e + (-dy / len) * Math.sin(Math.PI * p) * f.cur * 70 * S;
+              var y = f.sy + dy * e + (dx / len) * Math.sin(Math.PI * p) * f.cur * 70 * S;
+              var sc = (1 - 0.68 * e) * S, a = (p < 0.15 ? p / 0.15 : 1) * (1 - e * e * e);
+              if (e > 0.4) {
+                var w = (e - 0.4) / 0.6, gl = g.createRadialGradient(x, y, 0, x, y, 46 * S * (1 - 0.5 * w));
+                gl.addColorStop(0, "rgba(255,142,83," + 0.5 * w + ")"); gl.addColorStop(1, "rgba(255,107,107,0)");
+                g.fillStyle = gl; g.fillRect(x - 50 * S, y - 50 * S, 100 * S, 100 * S);
+              }
+              g.save(); g.translate(x, y); g.rotate(f.srot * (1 - e)); g.scale(sc, sc); g.globalAlpha = a; shape(f.k, g); g.restore();
+            }
+
+            /* the core, on top, so each arrival vanishes into it */
+            var cg = g.createRadialGradient(CX, CY, 0, CX, CY, core);
+            cg.addColorStop(0, "#FFA06E"); cg.addColorStop(0.45, "#FF8E53"); cg.addColorStop(0.82, "#FF6B6B"); cg.addColorStop(1, "rgba(255,107,107,0)");
+            g.fillStyle = cg; g.beginPath(); g.arc(CX, CY, core, 0, 6.2832); g.fill();
+          }
+
+          function gsettle() {
+            if (gDone) return;
+            gDone = true; gRun = false; gLast = 0;
+            if (gRaf) { cancelAnimationFrame(gRaf); gRaf = 0; }
+            rings = []; gP = 1;
+            gpaint(1, true);
+            win.classList.add("settled");
+          }
+
+          function gframe(now) {
+            gRaf = 0;
+            if (gLast) gT += Math.min(now - gLast, 50) / 1000;
+            gLast = now;
+            gP = Math.max(gT / DUR, scrollFloor * 0.75); /* scrolling in brings it most of the way; time lands the last batch */
+            if (gP >= 1) { gsettle(); return; }
+            if (now - lastPaint >= 31) { lastPaint = now; gpaint(gP, false); pulse *= 0.8; } /* ~30 fps cap */
+            if (gVis && !document.hidden) gRaf = requestAnimationFrame(gframe);
+            else { gRun = false; gLast = 0; }
+          }
+          function gwake() {
+            if (!MOTION || gDone || gRun || !gBegun || !gVis || document.hidden) return;
+            gRun = true; gRaf = requestAnimationFrame(gframe);
+          }
+          function gbegin() {
+            if (gBegun) return;
+            gBegun = true;
+            gbuild();
+            if (!MOTION) { gsettle(); return; } /* reduced motion: the finished light, drawn once */
+            gpaint(0, false);
+            gwake();
+          }
+          function floor() {
+            var r = win.getBoundingClientRect(), vh = window.innerHeight || 1;
+            scrollFloor = clamp((vh - r.top) / (vh * 0.5 + r.height * 0.5), 0, 1);
+          }
+
+          gbegin();
+          if ("IntersectionObserver" in window) {
+            new IntersectionObserver(function (es) {
+              es.forEach(function (e) {
+                gVis = e.isIntersecting;
+                win.classList.toggle("live", gVis);
+                if (!gVis) return;
+                floor(); gwake();
+                if (!fallbackArmed) { fallbackArmed = true; setTimeout(function () { if (!gDone) gsettle(); }, 2400); } /* a throttled tab still ends on the full light */
+              });
+            }, { threshold: 0.2, rootMargin: "40px" }).observe(win);
+          } else {
+            gVis = true; win.classList.add("live"); gwake();
+            setTimeout(function () { if (!gDone) gsettle(); }, 2400);
+          }
+          window.addEventListener("scroll", function () { if (gDone || !gVis) return; floor(); gwake(); }, { passive: true });
+          document.addEventListener("visibilitychange", function () { if (!document.hidden) gwake(); });
+          var gRT = 0;
+          window.addEventListener("resize", function () {
+            clearTimeout(gRT);
+            gRT = setTimeout(function () {
+              if (!gBegun) return;
+              gbuild();
+              if (gDone) { gpaint(1, true); } else { gpaint(gP, false); gwake(); }
+            }, 120);
+          });
+        })();
+      })();
+    </script>
+  </body>
+</html>
