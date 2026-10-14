@@ -1,0 +1,2483 @@
+<!doctype html>
+<!-- v5a — Night sky · direction: "Patient Gravity" (2026-10-14, fix round 2)
+     Pairs, everywhere: every scene sets one bright thing beside one dim thing — a star and its companion,
+       a poster-size line and a whisper under it. Alignment alternates scene by scene: left, right, left, centre.
+     A pulse every few beats: gold is the one accent — on the line that resolves, on the key word of a headline,
+       on the single eyebrow device; long dark stretches between accents.
+     One rest: the sky goes quiet once, in a near-empty band before the close.
+     The full run: every jewel topic colour appears once, as a point of light beside a real title.
+     Extreme scale: Fraunces at poster size against a 17–19px system-sans body; one serif, one sans, nothing else.
+     Overdamped easing: nothing snaps. Gravity is slow and patient — stars lean before they move.
+     Signature: the cursor is gravity. Hold still, and the dust around it flies to the gold line and settles it. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>REPS · Your Knowledge Companion</title>
+    <meta
+      name="description"
+      content="You take in more than ever and keep almost none of it. REPS is a free iPhone app that keeps what you read, watch and listen to close by, ready for the next conversation."
+    />
+    <link rel="canonical" href="https://www.getreps.io/" />
+    <meta property="og:title" content="REPS · Your Knowledge Companion" />
+    <meta
+      property="og:description"
+      content="You take in more than ever and keep almost none of it. Let's change that."
+    />
+    <meta property="og:url" content="https://www.getreps.io/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://www.getreps.io/og-card-v3.png?v=2" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://www.getreps.io/og-card-v3.png?v=2" />
+    <meta name="theme-color" content="#040409" />
+    <link rel="icon" href="product/assets/app-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&display=swap"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript
+      ><link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&display=swap"
+        rel="stylesheet"
+    /></noscript>
+
+    <script>
+      /* Reduced motion → a still, finished page. `?motion=1` forces the live state (used for captures). */
+      (function () {
+        var force = /[?&]motion=1(&|$)/.test(location.search);
+        var rm = !force && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (rm) document.documentElement.classList.add("rm");
+        window.__REPS_RM = rm;
+      })();
+    </script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "@id": "https://www.getreps.io/#organization",
+        "name": "REPS",
+        "url": "https://www.getreps.io/",
+        "logo": "https://www.getreps.io/og-card-v3.png",
+        "description": "REPS is a free iPhone app that keeps what you read, watch and listen to close by."
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "@id": "https://www.getreps.io/#mike",
+        "name": "Mike McGraw",
+        "url": "https://www.getreps.io/about",
+        "image": "https://www.getreps.io/compare/assets/mike-mcgraw.jpg",
+        "jobTitle": "Founder",
+        "worksFor": { "@id": "https://www.getreps.io/#organization" },
+        "description": "Founder of REPS. Twelve years investing in technology; builds and uses REPS every day."
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "@id": "https://www.getreps.io/#website",
+        "name": "REPS",
+        "url": "https://www.getreps.io/",
+        "publisher": { "@id": "https://www.getreps.io/#organization" }
+      }
+    </script>
+
+    <style>
+      :root {
+        --bg: #040409;
+        --star: #f4f1ea;
+        --body: rgba(244, 241, 234, 0.76);
+        --mute: rgba(244, 241, 234, 0.62);
+        --faint: rgba(244, 241, 234, 0.34);
+        --hair: rgba(244, 241, 234, 0.13);
+        --coral: #ff6b6b;
+        --peach: #ff8e53;
+        --teal: #4ecdc4;
+        --indigo2: #7488c9;
+        --gold: #d4a24e;
+        --gold2: #e8c27a;
+        --amethyst: #9b6bd6;
+        --emerald: #3fb27f;
+        --sapphire: #3c7be0;
+        --display: "Fraunces", Georgia, "Times New Roman", serif;
+        --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Inter, system-ui, sans-serif;
+        --wrap: 1240px;
+        --gutter: clamp(20px, 5vw, 72px);
+        --stage: clamp(620px, 100svh, 1000px);
+        --beat: clamp(96px, 12vh, 150px);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        background: var(--bg);
+        color: var(--star);
+        -webkit-text-size-adjust: 100%;
+        scroll-behavior: smooth;
+      }
+      html.rm {
+        scroll-behavior: auto;
+      }
+      body {
+        margin: 0;
+        font-family: var(--sans);
+        font-size: 18px;
+        line-height: 1.55;
+        color: var(--body);
+        background:
+          radial-gradient(1.2px 1.2px at 12% 18%, rgba(244, 241, 234, 0.35) 50%, transparent 51%),
+          radial-gradient(1px 1px at 78% 34%, rgba(244, 241, 234, 0.28) 50%, transparent 51%),
+          radial-gradient(1.4px 1.4px at 58% 72%, rgba(244, 241, 234, 0.22) 50%, transparent 51%),
+          radial-gradient(1px 1px at 30% 88%, rgba(244, 241, 234, 0.25) 50%, transparent 51%),
+          radial-gradient(1px 1px at 90% 80%, rgba(244, 241, 234, 0.2) 50%, transparent 51%),
+          var(--bg);
+        background-size:
+          900px 900px,
+          700px 700px,
+          1100px 1100px,
+          800px 800px,
+          600px 600px,
+          auto;
+        overflow-x: hidden;
+      }
+      a {
+        color: inherit;
+      }
+      :focus-visible {
+        outline: 2px solid var(--gold2);
+        outline-offset: 4px;
+        border-radius: 4px;
+      }
+      img,
+      video {
+        display: block;
+        max-width: 100%;
+      }
+      .wrap {
+        width: min(var(--wrap), 100% - 2 * var(--gutter));
+        margin-inline: auto;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        column-gap: clamp(16px, 2vw, 32px);
+        row-gap: 32px;
+      }
+
+      /* ── Type ── */
+      .display {
+        font-family: var(--display);
+        font-weight: 400;
+        font-variation-settings: "opsz" 144;
+        color: var(--star);
+        letter-spacing: -0.015em;
+        line-height: 1.02;
+        margin: 0;
+        text-wrap: balance;
+      }
+      .display i,
+      .display em {
+        font-style: italic;
+        font-weight: 300;
+      }
+      .display .g {
+        font-style: inherit;
+        color: var(--gold2);
+      }
+      .eyebrow {
+        font-family: var(--sans);
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin: 0 0 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .eyebrow::before {
+        content: "";
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: currentColor;
+        box-shadow: 0 0 12px currentColor;
+      }
+      .lede {
+        font-size: clamp(18px, 1.5vw, 21px);
+        line-height: 1.55;
+        color: var(--body);
+        max-width: 48ch;
+        margin: 0;
+        text-wrap: pretty;
+      }
+      .k {
+        font-style: normal;
+        color: var(--star);
+        font-weight: 500;
+      }
+      .cap {
+        font-size: 15px;
+        color: var(--mute);
+        line-height: 1.5;
+        margin: 0;
+      }
+      .lockup {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        font-family: var(--sans);
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        color: var(--star);
+        line-height: 1.1;
+      }
+      .lockup::before {
+        content: "";
+        flex: none;
+        width: 36px;
+        height: 1px;
+        background: var(--gold);
+        box-shadow: 0 0 10px var(--gold);
+      }
+
+      /* ── CTA (one style, used in hero, mid-page and close) ── */
+      .btn {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 58px;
+        padding: 0 28px 0 24px;
+        border-radius: 999px;
+        background: linear-gradient(100deg, var(--coral), var(--peach));
+        color: #1a0c08;
+        font-family: var(--sans);
+        font-weight: 700;
+        font-size: 17px;
+        text-decoration: none;
+        box-shadow:
+          0 0 0 1px rgba(255, 142, 83, 0.25),
+          0 18px 44px -18px rgba(255, 107, 107, 0.7);
+        transition:
+          box-shadow 0.35s ease,
+          transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+        will-change: transform;
+      }
+      .btn svg {
+        width: 20px;
+        height: 24px;
+        flex: none;
+      }
+      .btn:hover {
+        box-shadow:
+          0 0 0 1px rgba(255, 142, 83, 0.4),
+          0 22px 56px -16px rgba(255, 107, 107, 0.9);
+      }
+      .mag {
+        display: inline-block;
+        padding: 18px;
+        margin: -18px;
+      }
+      .free {
+        font-size: 16px;
+        color: var(--mute);
+        margin: 0;
+        white-space: nowrap;
+      }
+      .cta-row {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        flex-wrap: wrap;
+        margin-top: 36px;
+      }
+
+      /* ── Nav ── */
+      .nav {
+        position: fixed;
+        inset: 0 0 auto 0;
+        z-index: 40;
+        padding: 14px 0;
+        background: linear-gradient(rgba(4, 4, 9, 0.86), rgba(4, 4, 9, 0.6) 70%, rgba(4, 4, 9, 0));
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        mask-image: linear-gradient(#000 70%, transparent);
+        -webkit-mask-image: linear-gradient(#000 70%, transparent);
+      }
+      .nav .wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
+      .wordmark {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: var(--star);
+        font-weight: 700;
+        font-size: 18px;
+        letter-spacing: 0.08em;
+      }
+      .wordmark img {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+      }
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: clamp(16px, 2.4vw, 32px);
+        font-size: 15px;
+        font-weight: 500;
+      }
+      .nav-links a {
+        color: var(--body);
+        text-decoration: none;
+      }
+      .nav-links a:hover {
+        color: var(--star);
+      }
+      .nav-cta {
+        color: #1a0c08 !important;
+        background: linear-gradient(100deg, var(--coral), var(--peach));
+        border-radius: 999px;
+        padding: 10px 18px;
+        font-weight: 700;
+      }
+
+      .scene {
+        position: relative;
+      }
+
+      /* ═══ 1 · Hero: the sky ═══ */
+      .hero {
+        height: var(--stage);
+        min-height: 620px;
+        display: flex;
+        align-items: flex-end;
+        overflow: hidden;
+        isolation: isolate;
+      }
+      .sky {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+      }
+      .sky-labels {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .sky-labels span {
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--display);
+        font-variation-settings: "opsz" 48;
+        font-weight: 400;
+        font-size: 16px;
+        color: var(--body);
+        white-space: nowrap;
+        will-change: transform, opacity;
+        opacity: 0;
+      }
+      .sky-labels span.f {
+        font-style: italic;
+        font-weight: 300;
+        font-size: 15px;
+        color: var(--mute);
+      }
+      .sky-labels span b {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--c);
+        box-shadow: 0 0 10px var(--c);
+        flex: none;
+      }
+      .sky-labels span.f b {
+        width: 3px;
+        height: 3px;
+        background: var(--faint);
+        box-shadow: none;
+      }
+      .hero-shade {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        pointer-events: none;
+        background:
+          radial-gradient(60% 55% at 24% 76%, rgba(4, 4, 9, 0.7), rgba(4, 4, 9, 0) 70%),
+          linear-gradient(rgba(4, 4, 9, 0) 50%, rgba(4, 4, 9, 0.88));
+      }
+      .hero .wrap {
+        position: relative;
+        z-index: 3;
+        padding-bottom: clamp(44px, 7vh, 80px);
+        padding-top: 120px;
+      }
+      .hero-copy {
+        max-width: 820px;
+      }
+      .hero h1 {
+        margin: 0;
+        font-weight: 400;
+      }
+      .hero .lockup {
+        font-size: clamp(24px, 3vw, 46px);
+        margin-bottom: clamp(16px, 2.2vh, 26px);
+      }
+      .feel {
+        display: block;
+        font-family: var(--display);
+        font-variation-settings: "opsz" 144;
+        font-weight: 400;
+        font-size: clamp(42px, 5.9vw, 92px);
+        line-height: 1;
+        letter-spacing: -0.02em;
+        color: var(--star);
+        max-width: 14.5ch;
+        text-wrap: balance;
+      }
+      .feel .dim {
+        color: rgba(244, 241, 234, 0.8);
+        font-weight: 300;
+      }
+      .resolve-wrap {
+        position: relative;
+        margin-top: clamp(14px, 1.8vw, 26px);
+        display: flex;
+        align-items: baseline;
+        gap: 18px;
+        flex-wrap: wrap;
+      }
+      .resolve {
+        display: inline-block;
+        font-family: var(--display);
+        font-style: italic;
+        font-weight: 500;
+        font-variation-settings: "opsz" 144;
+        font-size: clamp(30px, 3.6vw, 56px);
+        line-height: 1.1;
+        letter-spacing: -0.01em;
+        color: var(--gold2);
+        white-space: nowrap;
+        opacity: 0.78;
+        text-shadow: 0 0 0 rgba(212, 162, 78, 0);
+        transition:
+          opacity 1.1s ease,
+          text-shadow 1.1s ease;
+      }
+      .resolve.on {
+        opacity: 1;
+        text-shadow: 0 0 28px rgba(212, 162, 78, 0.55);
+      }
+      .hint {
+        font-size: 15px;
+        color: var(--faint);
+        letter-spacing: 0.04em;
+        transition: opacity 0.6s;
+        margin: 0;
+      }
+      .hint.off {
+        opacity: 0;
+      }
+      .hero .lede {
+        margin-top: clamp(18px, 2.4vh, 28px);
+        max-width: 46ch;
+      }
+      .scroll-cue {
+        position: absolute;
+        right: var(--gutter);
+        bottom: 28px;
+        z-index: 3;
+        font-size: 14px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--faint);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .scroll-cue::after {
+        content: "";
+        width: 1px;
+        height: 36px;
+        background: linear-gradient(var(--faint), transparent);
+        animation: cue 2.4s ease-in-out infinite;
+      }
+      @keyframes cue {
+        0%,
+        100% {
+          transform: scaleY(0.6);
+          transform-origin: top;
+          opacity: 0.5;
+        }
+        50% {
+          transform: scaleY(1);
+          opacity: 1;
+        }
+      }
+      html.rm .scroll-cue::after {
+        animation: none;
+      }
+
+      /* ═══ 2 · Gather: scattered words become a mind (scroll-scrubbed, pinned) ═══ */
+      .gather {
+        height: calc(var(--stage) + 560px);
+      }
+      .stage {
+        position: sticky;
+        top: 0;
+        height: var(--stage);
+        overflow: hidden;
+        isolation: isolate;
+      }
+      .orb {
+        position: absolute;
+        left: 34%;
+        top: 50%;
+        width: 70vmin;
+        height: 70vmin;
+        max-width: 720px;
+        max-height: 720px;
+        border-radius: 50%;
+        transform: translate(-50%, -50%) scale(0.2);
+        opacity: 0;
+        background: radial-gradient(circle, rgba(116, 136, 201, 0.22), rgba(76, 95, 171, 0.08) 45%, transparent 70%);
+        pointer-events: none;
+        z-index: 0;
+      }
+      .cloud {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+      }
+      .cloud span {
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-family: var(--display);
+        font-variation-settings: "opsz" 48;
+        font-style: italic;
+        font-weight: 300;
+        font-size: 15px;
+        color: var(--mute);
+        white-space: nowrap;
+        will-change: transform, opacity;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        transform: translate(-50%, -50%);
+      }
+      .cloud span b {
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: var(--c, var(--faint));
+        box-shadow: 0 0 8px var(--c, transparent);
+        flex: none;
+      }
+      .cloud span.t {
+        font-style: normal;
+        font-weight: 400;
+        color: var(--star);
+        font-size: 16px;
+      }
+      .stage .wrap {
+        position: relative;
+        z-index: 2;
+        height: 100%;
+        display: grid;
+        align-items: center;
+        justify-items: end;
+        text-align: right;
+      }
+      .ph {
+        grid-area: 1 / 1;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        max-width: 560px;
+        pointer-events: none;
+      }
+      .ph.on {
+        opacity: 1;
+      }
+      .ph .display {
+        font-size: clamp(38px, 4.8vw, 76px);
+      }
+      .ph .lede {
+        margin: 24px 0 0 auto;
+      }
+      .ph .eyebrow {
+        justify-content: flex-end;
+      }
+
+      /* ═══ 3 · The room leans in (aspiration) + mid-page CTA ═══ */
+      .talk {
+        padding: var(--beat) 0;
+      }
+      .talk .grid {
+        align-items: center;
+      }
+      .talk-copy {
+        grid-column: 1 / span 6;
+      }
+      .talk-copy .num {
+        font-family: var(--display);
+        font-style: italic;
+        font-weight: 300;
+        font-size: 15px;
+        color: var(--mute);
+        margin: 0 0 18px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .talk-copy .num::before {
+        content: "✦";
+        color: var(--gold);
+        font-style: normal;
+        font-size: 13px;
+        text-shadow: 0 0 10px var(--gold);
+      }
+      .talk-copy .display {
+        font-size: clamp(40px, 5vw, 80px);
+      }
+      .talk-copy .lede {
+        margin-top: 28px;
+      }
+      .constellation {
+        grid-column: 7 / span 6;
+        width: 100%;
+        height: auto;
+        overflow: visible;
+      }
+      .constellation line {
+        stroke: rgba(244, 241, 234, 0.78);
+        stroke-width: 1.5;
+        stroke-linecap: round;
+      }
+      .constellation text {
+        font-family: var(--display);
+        font-size: 15px;
+        fill: var(--body);
+        opacity: 0;
+        transition: opacity 0.8s ease;
+      }
+      .constellation .lbl.on {
+        opacity: 1;
+      }
+      .constellation circle.node {
+        filter: drop-shadow(0 0 6px currentColor);
+      }
+      .constellation .halo {
+        opacity: 0;
+        transition: opacity 1.2s ease;
+      }
+      .constellation .halo.on {
+        opacity: 1;
+      }
+      .talk .cta-row {
+        grid-column: 1 / -1;
+        margin-top: clamp(24px, 4vh, 48px);
+      }
+
+      /* ═══ 4 · Play, as a feeling ═══ */
+      .play {
+        padding: var(--beat) 0;
+        text-align: center;
+      }
+      .play .ritual {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        margin: 0 auto clamp(32px, 5vh, 48px);
+        border-radius: 50%;
+        border: 1px solid rgba(212, 162, 78, 0.45);
+        box-shadow:
+          0 0 40px rgba(212, 162, 78, 0.18),
+          inset 0 0 40px rgba(212, 162, 78, 0.12);
+      }
+      .play .ritual::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 10px;
+        height: 10px;
+        margin: -5px 0 0 -5px;
+        border-radius: 50%;
+        background: var(--gold2);
+        box-shadow:
+          0 0 18px var(--gold2),
+          0 0 48px rgba(212, 162, 78, 0.6);
+      }
+      .play .ritual.live::before {
+        animation: pulse 4s ease-in-out infinite;
+      }
+      .play .ritual.live {
+        animation: ring 4s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(0.85);
+          opacity: 0.8;
+        }
+        50% {
+          transform: scale(1.15);
+          opacity: 1;
+        }
+      }
+      @keyframes ring {
+        0%,
+        100% {
+          box-shadow:
+            0 0 30px rgba(212, 162, 78, 0.14),
+            inset 0 0 30px rgba(212, 162, 78, 0.1);
+        }
+        50% {
+          box-shadow:
+            0 0 60px rgba(212, 162, 78, 0.28),
+            inset 0 0 50px rgba(212, 162, 78, 0.16);
+        }
+      }
+      .play .line {
+        font-family: var(--display);
+        font-style: italic;
+        font-weight: 300;
+        font-variation-settings: "opsz" 144;
+        font-size: clamp(30px, 3.8vw, 58px);
+        line-height: 1.15;
+        color: var(--star);
+        margin: 0 auto;
+        max-width: 24ch;
+        text-wrap: balance;
+      }
+      .play .line .g {
+        font-style: italic;
+        font-weight: 500;
+        color: var(--gold2);
+      }
+      .play .cap {
+        margin: 24px auto 0;
+        max-width: 40ch;
+        font-size: 17px;
+      }
+
+      /* ═══ 5 · Payoff: the sky you filled (the one real capture) ═══ */
+      .payoff {
+        padding: var(--beat) 0;
+        overflow: hidden;
+      }
+      .payoff .grid {
+        align-items: center;
+      }
+      .payoff-copy {
+        grid-column: 8 / span 5;
+      }
+      .payoff-copy .display {
+        font-size: clamp(38px, 4.4vw, 68px);
+      }
+      .payoff-copy .lede {
+        margin-top: 24px;
+      }
+      .payoff-art {
+        grid-column: 1 / span 7;
+        position: relative;
+        display: grid;
+        place-items: center;
+        min-height: 520px;
+      }
+      .web {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+      }
+      .web line {
+        stroke: rgba(244, 241, 234, 0.22);
+        stroke-width: 1;
+      }
+      .web circle {
+        filter: drop-shadow(0 0 5px currentColor);
+      }
+      .porthole {
+        position: relative;
+        width: 420px;
+        height: 420px;
+        border-radius: 50%;
+        overflow: hidden;
+        background: #000;
+        box-shadow:
+          0 0 0 1px rgba(244, 241, 234, 0.2),
+          0 0 0 14px rgba(4, 4, 9, 1),
+          0 0 0 15px rgba(244, 241, 234, 0.12),
+          0 0 90px rgba(60, 123, 224, 0.28);
+        transform: scale(0.94);
+        opacity: 0;
+        transition:
+          transform 1.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+          opacity 1.2s ease;
+      }
+      .porthole.in,
+      html.rm .porthole {
+        transform: none;
+        opacity: 1;
+      }
+      .porthole video {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 460px;
+        max-width: none;
+        height: auto;
+        transform: translate(-50%, -50%);
+      }
+      .porthole .glyph {
+        display: none;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 56px;
+        height: 56px;
+        margin: -28px 0 0 -28px;
+        border-radius: 50%;
+        background: rgba(4, 4, 9, 0.6);
+        border: 1px solid rgba(244, 241, 234, 0.3);
+        color: var(--star);
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+      .porthole .glyph svg {
+        width: 18px;
+        height: 18px;
+        margin-left: 3px;
+      }
+      html.rm .porthole .glyph {
+        display: flex;
+      }
+      html.rm .porthole.playing .glyph {
+        display: none;
+      }
+
+      /* ═══ 6 · Proof: a ledger of five ═══ */
+      .proof {
+        padding: var(--beat) 0;
+      }
+      .proof .grid {
+        align-items: start;
+      }
+      .proof-head {
+        grid-column: 1 / span 4;
+        position: sticky;
+        top: 120px;
+      }
+      .proof-head .label {
+        font-family: var(--sans);
+        font-weight: 600;
+        font-size: 15px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin: 0 0 14px;
+      }
+      .proof-head p {
+        margin: 0;
+        font-size: 17px;
+        color: var(--mute);
+        max-width: 26ch;
+      }
+      .reviews {
+        grid-column: 5 / span 8;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .rv {
+        display: grid;
+        grid-template-columns: 28px 1fr;
+        gap: 18px;
+        padding: 30px 0;
+        border-top: 1px solid var(--hair);
+        opacity: 0;
+        transform: translateY(14px);
+        transition:
+          opacity 0.9s ease,
+          transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      .rv:last-child {
+        border-bottom: 1px solid var(--hair);
+      }
+      .rv.in,
+      html.rm .rv {
+        opacity: 1;
+        transform: none;
+      }
+      .rv .star {
+        width: 8px;
+        height: 8px;
+        margin-top: 12px;
+        border-radius: 50%;
+        background: var(--c);
+        box-shadow: 0 0 14px var(--c);
+      }
+      .rv figure {
+        margin: 0;
+      }
+      .rv blockquote {
+        margin: 0;
+        font-family: var(--display);
+        font-style: italic;
+        font-weight: 300;
+        font-variation-settings: "opsz" 72;
+        font-size: clamp(21px, 1.9vw, 27px);
+        line-height: 1.35;
+        color: var(--star);
+        text-wrap: pretty;
+      }
+      .rv figcaption {
+        font-family: var(--sans);
+        font-size: 15px;
+        color: var(--mute);
+        margin-top: 12px;
+      }
+
+      /* ═══ 7 · Why it exists (founder, Postman) ═══ */
+      .why {
+        padding: var(--beat) 0;
+      }
+      .why .grid {
+        align-items: start;
+      }
+      .why-head {
+        grid-column: 2 / span 3;
+      }
+      .why-head h2 {
+        font-family: var(--sans);
+        font-weight: 700;
+        font-size: clamp(22px, 2vw, 28px);
+        letter-spacing: -0.01em;
+        color: var(--star);
+        margin: 0 0 20px;
+        line-height: 1.2;
+      }
+      .why-head img {
+        width: 88px;
+        height: 88px;
+        border-radius: 50%;
+        object-fit: cover;
+        box-shadow: 0 0 0 1px var(--hair);
+        margin-bottom: 18px;
+      }
+      .why-head p {
+        margin: 0;
+        font-size: 16px;
+        color: var(--mute);
+        line-height: 1.5;
+        max-width: 26ch;
+      }
+      .why-body {
+        grid-column: 5 / span 7;
+        border-left: 1px solid var(--gold);
+        padding-left: clamp(24px, 3vw, 44px);
+      }
+      .why-body p {
+        font-family: var(--display);
+        font-style: italic;
+        font-weight: 300;
+        font-variation-settings: "opsz" 96;
+        font-size: clamp(22px, 2.2vw, 32px);
+        line-height: 1.35;
+        color: var(--body);
+        margin: 0 0 1em;
+        text-wrap: pretty;
+      }
+      .why-body p .k {
+        font-style: italic;
+        color: var(--star);
+        font-weight: 500;
+      }
+      .why-body .voice {
+        color: var(--gold2);
+        font-weight: 500;
+      }
+      .press-link {
+        display: inline-block;
+        font-family: var(--sans);
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--star);
+        text-decoration: none;
+        border-bottom: 1px solid var(--gold);
+        padding-bottom: 3px;
+        margin-top: 8px;
+      }
+      .press-link:hover {
+        color: var(--gold2);
+      }
+
+      /* ═══ 8 · The quiet band, then the close ═══ */
+      .void {
+        padding: clamp(48px, 8vh, 96px) 0 0;
+        text-align: center;
+      }
+      .void p {
+        margin: 0;
+        font-family: var(--display);
+        font-style: italic;
+        font-weight: 300;
+        font-size: clamp(20px, 2vw, 28px);
+        color: var(--mute);
+      }
+      .close {
+        padding: clamp(56px, 8vh, 96px) 0 var(--beat);
+        text-align: center;
+      }
+      .close .lockup {
+        justify-content: center;
+        font-size: clamp(20px, 2.4vw, 36px);
+        margin-bottom: clamp(18px, 2.4vh, 28px);
+      }
+      .close .lockup::after {
+        content: "";
+        flex: none;
+        width: 36px;
+        height: 1px;
+        background: var(--gold);
+        box-shadow: 0 0 10px var(--gold);
+      }
+      .close .display {
+        font-size: clamp(42px, 6vw, 96px);
+        margin-inline: auto;
+        max-width: 13ch;
+      }
+      .close .cta-row {
+        justify-content: center;
+        margin-top: 44px;
+      }
+      .close .whisper {
+        margin: clamp(48px, 7vh, 80px) auto 0;
+        font-family: var(--display);
+        font-style: italic;
+        font-weight: 300;
+        font-size: clamp(18px, 1.6vw, 22px);
+        color: var(--mute);
+        max-width: 44ch;
+      }
+      .planet {
+        border-top: 1px solid var(--hair);
+        padding: 32px 0;
+      }
+      .planet .wrap {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        flex-wrap: wrap;
+      }
+      .planet img {
+        width: 128px;
+        height: auto;
+        filter: invert(1) brightness(1.1);
+        opacity: 0.85;
+      }
+      .planet p {
+        margin: 0;
+        font-size: 16px;
+        color: var(--mute);
+        max-width: 60ch;
+      }
+      .planet a {
+        color: var(--gold2);
+        text-decoration: none;
+      }
+      .planet a:hover {
+        text-decoration: underline;
+      }
+
+      /* Footer */
+      footer {
+        border-top: 1px solid var(--hair);
+        padding: 40px 0 56px;
+        font-size: 15px;
+        color: var(--mute);
+      }
+      footer .wrap {
+        display: grid;
+        gap: 18px;
+      }
+      footer .motto {
+        color: var(--star);
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        margin: 0;
+      }
+      footer ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 22px;
+      }
+      footer a {
+        color: var(--mute);
+        text-decoration: none;
+      }
+      footer a:hover {
+        color: var(--star);
+      }
+
+      /* ── Reduced motion: still, finished ── */
+      html.rm .resolve {
+        opacity: 1;
+        text-shadow: 0 0 28px rgba(212, 162, 78, 0.55);
+        transition: none;
+      }
+      html.rm .hint {
+        display: none;
+      }
+      html.rm .gather {
+        height: auto;
+      }
+      html.rm .stage {
+        position: relative;
+        height: clamp(560px, 78svh, 760px);
+      }
+      html.rm .orb {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+      html.rm .ph {
+        transition: none;
+      }
+      html.rm .constellation text,
+      html.rm .constellation .halo {
+        opacity: 1;
+      }
+      html.rm .btn,
+      html.rm .nav-cta {
+        transition: none;
+      }
+      html.rm .sky-labels span {
+        opacity: 1;
+      }
+
+      /* ── Mobile ── */
+      @media (max-width: 860px) {
+        body {
+          font-size: 17px;
+        }
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .talk-copy,
+        .constellation,
+        .payoff-copy,
+        .payoff-art,
+        .proof-head,
+        .reviews,
+        .why-head,
+        .why-body,
+        .talk .cta-row {
+          grid-column: 1;
+        }
+        .hero {
+          height: auto;
+          min-height: 0;
+        }
+        .hero .wrap {
+          padding-top: 236px;
+          padding-bottom: 36px;
+        }
+        .hero .lockup {
+          font-size: 22px;
+        }
+        .feel {
+          font-size: clamp(40px, 11vw, 48px);
+          max-width: none;
+        }
+        .resolve {
+          font-size: clamp(28px, 8vw, 36px);
+        }
+        .hero .lede {
+          font-size: 17px;
+        }
+        .hero .cta-row {
+          margin-top: 26px;
+          gap: 16px 24px;
+        }
+        .scroll-cue {
+          display: none;
+        }
+        .hero-shade {
+          background: linear-gradient(rgba(4, 4, 9, 0) 150px, rgba(4, 4, 9, 0.92) 260px);
+        }
+        .gather {
+          height: calc(var(--stage) + 420px);
+        }
+        .stage .wrap {
+          justify-items: start;
+          text-align: left;
+          align-items: end;
+          padding-bottom: 56px;
+        }
+        .ph .lede {
+          margin-left: 0;
+        }
+        .ph .eyebrow {
+          justify-content: flex-start;
+        }
+        .orb {
+          left: 50%;
+          top: 36%;
+          width: 86vmin;
+          height: 86vmin;
+        }
+        .cloud span {
+          font-size: 14px;
+        }
+        .cloud span.t {
+          font-size: 15px;
+        }
+        .cloud span:nth-child(n + 15) {
+          display: none;
+        }
+        .constellation {
+          margin-top: 16px;
+        }
+        .payoff-art {
+          min-height: 380px;
+          order: 2;
+        }
+        .porthole {
+          width: 300px;
+          height: 300px;
+        }
+        .porthole video {
+          width: 330px;
+        }
+        .proof-head {
+          position: static;
+        }
+        .reviews {
+          margin-top: 8px;
+        }
+        .why-body {
+          padding-left: 20px;
+        }
+        .planet img {
+          width: 110px;
+        }
+      }
+      @media (min-width: 861px) and (max-width: 1100px) {
+        .why-head {
+          grid-column: 1 / span 4;
+        }
+        .why-body {
+          grid-column: 5 / span 8;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="nav">
+      <div class="wrap">
+        <a class="wordmark" href="/" aria-label="REPS home">
+          <img src="product/assets/app-icon.png" width="30" height="30" alt="" />
+          <span>REPS</span>
+        </a>
+        <nav class="nav-links" aria-label="Main">
+          <a href="/about">About</a>
+          <a href="/about#press">Press</a>
+          <a
+            class="nav-cta"
+            href="https://apps.apple.com/app/id6759216018"
+            target="_blank"
+            rel="noopener"
+            >Get the app</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <!-- ═══ 1 · The sky ═══ -->
+      <section class="scene hero" id="hero" aria-labelledby="hero-title">
+        <canvas class="sky" id="sky" aria-hidden="true"></canvas>
+        <div class="sky-labels" id="sky-labels" aria-hidden="true"></div>
+        <div class="hero-shade" aria-hidden="true"></div>
+        <div class="wrap">
+          <div class="hero-copy" id="hero-copy">
+            <h1 id="hero-title">
+              <span class="lockup">Your Knowledge Companion</span>
+              <span class="feel">You take in more than ever. <span class="dim">And keep almost none of it.</span></span>
+            </h1>
+            <div class="resolve-wrap">
+              <span class="resolve" id="resolve">Let&rsquo;s change that.</span>
+              <p class="hint" id="hint" aria-hidden="true">hold still</p>
+            </div>
+            <p class="lede">
+              REPS is a free iPhone app that keeps what you read, watch and listen to <em class="k">close by</em>
+              &mdash; ready the moment the conversation turns to it.
+            </p>
+            <div class="cta-row">
+              <span class="mag">
+                <a
+                  class="btn"
+                  href="https://apps.apple.com/app/id6759216018"
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="Get REPS on the App Store"
+                >
+                  <svg viewBox="0 0 384 512" fill="currentColor" aria-hidden="true">
+                    <path
+                      d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"
+                    />
+                  </svg>
+                  Get the app
+                </a>
+              </span>
+              <p class="free">Free on the App Store.</p>
+            </div>
+          </div>
+        </div>
+        <p class="scroll-cue" aria-hidden="true">Scroll</p>
+      </section>
+
+      <!-- ═══ 2 · The sky fills: scattered words gather into a mind (relief) ═══ -->
+      <section class="scene gather" id="gather" aria-labelledby="gather-title">
+        <div class="stage" id="gather-stage">
+          <div class="orb" id="orb" aria-hidden="true"></div>
+          <div class="cloud" id="cloud" aria-hidden="true"></div>
+          <div class="wrap">
+            <div class="ph" id="ph-a" data-from="0" data-to="0.48">
+              <p class="eyebrow">The other way</p>
+              <h2 class="display" id="gather-title">What if it <i class="g">gathered</i> instead?</h2>
+              <p class="lede">
+                One tap, wherever you found it, and it stays. Not scrolled past &mdash; <span class="k">kept.</span>
+              </p>
+            </div>
+            <div class="ph" id="ph-b" data-from="0.52" data-to="1.01">
+              <p class="eyebrow">The other way</p>
+              <p class="display">A mind you fill <i class="g">on purpose.</i></p>
+              <p class="lede">
+                Everything you cared enough to save: still there, connected, yours. It doesn&rsquo;t take
+                discipline &mdash; <span class="k">just a few minutes you&rsquo;d have given the feed anyway.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ 3 · The room leans in (aspiration), then the mid-page ask ═══ -->
+      <section class="scene talk" id="talk" aria-labelledby="talk-title">
+        <div class="wrap grid">
+          <div class="talk-copy">
+            <p class="num">Then, one evening</p>
+            <h2 class="display" id="talk-title">Be the most knowledgeable person <span class="g">in the room.</span></h2>
+            <p class="lede">
+              Someone mentions Shackleton. You have the story &mdash; the ice, the boat, the long way home &mdash;
+              <span class="k">and the room leans in.</span>
+            </p>
+          </div>
+          <svg
+            class="constellation"
+            id="constellation"
+            viewBox="0 0 560 420"
+            role="img"
+            aria-label="A constellation drawn between five saved titles: Endurance, Into Thin Air, Stonehenge, Alexander the Great and 1984"
+          >
+            <defs>
+              <radialGradient id="hg">
+                <stop offset="0" stop-color="#d4a24e" stop-opacity="0.35" />
+                <stop offset="1" stop-color="#d4a24e" stop-opacity="0" />
+              </radialGradient>
+            </defs>
+            <circle class="halo" cx="150" cy="120" r="70" fill="url(#hg)" />
+            <line x1="150" y1="120" x2="330" y2="80" />
+            <line x1="330" y1="80" x2="440" y2="190" />
+            <line x1="150" y1="120" x2="230" y2="260" />
+            <line x1="230" y1="260" x2="400" y2="330" />
+            <line x1="440" y1="190" x2="400" y2="330" />
+            <g>
+              <circle class="node" cx="150" cy="120" r="5" fill="#d4a24e" color="#d4a24e" />
+              <text class="lbl" x="150" y="100" text-anchor="middle">Endurance</text>
+              <circle class="node" cx="330" cy="80" r="4" fill="#4ecdc4" color="#4ecdc4" />
+              <text class="lbl" x="330" y="60" text-anchor="middle">Into Thin Air</text>
+              <circle class="node" cx="440" cy="190" r="3.5" fill="#9b6bd6" color="#9b6bd6" />
+              <text class="lbl" x="458" y="195">Stonehenge</text>
+              <circle class="node" cx="230" cy="260" r="4" fill="#3fb27f" color="#3fb27f" />
+              <text class="lbl" x="230" y="290" text-anchor="middle">Alexander the Great</text>
+              <circle class="node" cx="400" cy="330" r="3.5" fill="#3c7be0" color="#3c7be0" />
+              <text class="lbl" x="400" y="360" text-anchor="middle">1984</text>
+            </g>
+          </svg>
+          <div class="cta-row">
+            <span class="mag">
+              <a class="btn" href="https://apps.apple.com/app/id6759216018" target="_blank" rel="noopener">
+                <svg viewBox="0 0 384 512" fill="currentColor" aria-hidden="true">
+                  <path
+                    d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"
+                  />
+                </svg>
+                Get the app
+              </a>
+            </span>
+            <p class="free">Free on the App Store.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ 4 · Play, as a feeling ═══ -->
+      <section class="scene play" id="play" aria-label="Play, every evening">
+        <div class="wrap">
+          <div class="ritual" id="ritual" aria-hidden="true"></div>
+          <p class="line">
+            Every evening, a short <span class="g">game</span> made from what you kept &mdash; it feels like play, and it
+            does what discipline never would.
+          </p>
+        </div>
+      </section>
+
+      <!-- ═══ 5 · The sky you filled (one real capture, late, framed) ═══ -->
+      <section class="scene payoff" id="payoff" aria-labelledby="payoff-title">
+        <div class="wrap grid">
+          <div class="payoff-art">
+            <svg class="web" viewBox="0 0 700 520" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+              <line x1="350" y1="260" x2="60" y2="70" />
+              <line x1="350" y1="260" x2="640" y2="110" />
+              <line x1="350" y1="260" x2="80" y2="440" />
+              <line x1="350" y1="260" x2="620" y2="470" />
+              <line x1="350" y1="260" x2="350" y2="20" />
+              <line x1="60" y1="70" x2="350" y2="20" />
+              <line x1="640" y1="110" x2="350" y2="20" />
+              <line x1="80" y1="440" x2="620" y2="470" />
+              <circle cx="60" cy="70" r="3.5" fill="#4ecdc4" color="#4ecdc4" />
+              <circle cx="640" cy="110" r="3" fill="#9b6bd6" color="#9b6bd6" />
+              <circle cx="80" cy="440" r="3" fill="#d4a24e" color="#d4a24e" />
+              <circle cx="620" cy="470" r="3.5" fill="#3fb27f" color="#3fb27f" />
+              <circle cx="350" cy="20" r="3" fill="#3c7be0" color="#3c7be0" />
+            </svg>
+            <div class="porthole" id="porthole" data-reveal>
+              <video
+                id="graph"
+                muted
+                playsinline
+                preload="none"
+                poster="beats/2026-09/second-brain-poster.jpg"
+                aria-label="The interactive 3D graph of everything saved in REPS: hundreds of coloured points of light on black, seen through a round window"
+              >
+                <source src="beats/2026-09/second-brain.mp4" type="video/mp4" />
+              </video>
+              <button class="glyph" id="glyph" type="button" aria-label="Play the knowledge graph clip">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4l14 8-14 8z" /></svg>
+              </button>
+            </div>
+          </div>
+          <div class="payoff-copy">
+            <p class="eyebrow">Months in</p>
+            <h2 class="display" id="payoff-title">A sky <span class="g">you filled</span> yourself.</h2>
+            <p class="lede">
+              Open it one night and see everything you&rsquo;ve kept, connected &mdash; the books beside the talks,
+              the talks beside the articles, <span class="k">a map of what you care about.</span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ 6 · Proof ═══ -->
+      <section class="scene proof" id="proof" aria-labelledby="proof-title">
+        <div class="wrap grid">
+          <div class="proof-head">
+            <p class="label" id="proof-title">Said in the App Store</p>
+            <p>Five people, in their own words. Nothing edited, nothing invented.</p>
+          </div>
+          <ul class="reviews">
+            <li class="rv" style="--c: #d4a24e">
+              <span class="star" aria-hidden="true"></span>
+              <figure>
+                <blockquote>&ldquo;As a non-techy over 60 year old, this app is simple and intuitive to navigate.&rdquo;</blockquote>
+                <figcaption>Mooselake4 &middot; App Store review</figcaption>
+              </figure>
+            </li>
+            <li class="rv" style="--c: #4ecdc4">
+              <span class="star" aria-hidden="true"></span>
+              <figure>
+                <blockquote>
+                  &ldquo;Really enjoying using this app as a better way to spend 5/10 minutes at bus stop etc. vs brain
+                  rotting on Insta/X.&rdquo;
+                </blockquote>
+                <figcaption>jsdldn &middot; App Store review</figcaption>
+              </figure>
+            </li>
+            <li class="rv" style="--c: #ff6b6b">
+              <span class="star" aria-hidden="true"></span>
+              <figure>
+                <blockquote>
+                  &ldquo;Such a fun and easy way to remember the things that matter the most to me! New content is also
+                  great to discover! Definitely one of my favorite apps!&rdquo;
+                </blockquote>
+                <figcaption>Cathb1234 &middot; App Store review</figcaption>
+              </figure>
+            </li>
+            <li class="rv" style="--c: #7488c9">
+              <span class="star" aria-hidden="true"></span>
+              <figure>
+                <blockquote>
+                  &ldquo;Very nice and fun way to retrain your brain &ndash; love a competition with friends. Love that
+                  app!&rdquo;
+                </blockquote>
+                <figcaption>Sizeret74 &middot; App Store review</figcaption>
+              </figure>
+            </li>
+            <li class="rv" style="--c: #9b6bd6">
+              <span class="star" aria-hidden="true"></span>
+              <figure>
+                <blockquote>
+                  &ldquo;It&rsquo;s replaced scrolling Instagram on my phone, and it&rsquo;s helping me re-engage with
+                  books I read years ago, and actively seek out interesting knowledge to add to my second brain.&rdquo;
+                </blockquote>
+                <figcaption>24601_London &middot; App Store review</figcaption>
+              </figure>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ═══ 7 · Why it exists ═══ -->
+      <section class="scene why" id="why" aria-labelledby="why-title">
+        <div class="wrap grid">
+          <div class="why-head">
+            <img src="compare/assets/mike-mcgraw.jpg" width="88" height="88" alt="Mike McGraw, founder of REPS" loading="lazy" />
+            <h2 id="why-title">Why this exists</h2>
+            <p>
+              Mike McGraw, founder. Twelve years investing in technology; left on his 34th birthday to build REPS.
+            </p>
+          </div>
+          <div class="why-body">
+            <p>
+              Orwell feared the book would be banned. Huxley feared no one would want to read one.
+              <span class="k">Neil Postman wrote that in 1985</span>, and I think the feed is proving him right: it gives
+              you everything and keeps none of it for you.
+            </p>
+            <p>
+              I watched my nephews and nieces grow up on Shorts, deleted Instagram, went back to books and long reads,
+              and built the thing I wanted to exist. <span class="voice">I&rsquo;m building the antidote.</span>
+            </p>
+            <a class="press-link" href="/about#press">About &amp; press kit &rarr;</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ 8 · The quiet band, then the close ═══ -->
+      <section class="scene void" aria-hidden="true">
+        <p>Stop doomscrolling. Start bloom scrolling.</p>
+      </section>
+
+      <section class="scene close" id="close" aria-labelledby="close-title">
+        <div class="wrap">
+          <p class="lockup">Your Knowledge Companion</p>
+          <h2 class="display" id="close-title">Make your mind a place you <i class="g">like living in.</i></h2>
+          <div class="cta-row">
+            <span class="mag">
+              <a class="btn" href="https://apps.apple.com/app/id6759216018" target="_blank" rel="noopener">
+                <svg viewBox="0 0 384 512" fill="currentColor" aria-hidden="true">
+                  <path
+                    d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"
+                  />
+                </svg>
+                Get the app
+              </a>
+            </span>
+            <p class="free">Free on the App Store.</p>
+          </div>
+          <p class="whisper">Most apps compete for your attention. REPS compounds it.</p>
+        </div>
+      </section>
+
+      <section class="planet" aria-label="Our planet pledge">
+        <div class="wrap">
+          <img src="justonetree-logo.png" width="368" height="100" alt="JUST ONE Tree" loading="lazy" />
+          <p>
+            The AI behind REPS uses a little energy, so we plant real trees for it, far more than we use.
+            <a href="/planet">Our planet pledge &rarr;</a>
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        <p class="motto">Save. Play. Remember.</p>
+        <ul>
+          <li><a href="/about">About</a></li>
+          <li><a href="/about#press">Press</a></li>
+          <li><a href="/planet">Planet</a></li>
+          <li><a href="/support">Support</a></li>
+          <li><a href="/privacy">Privacy</a></li>
+          <li><a href="/terms">Terms</a></li>
+        </ul>
+        <ul>
+          <li><a href="/features/active-recall">The daily game</a></li>
+          <li><a href="/features/second-brain">Your knowledge graph</a></li>
+          <li><a href="/features/read-it-later">Read it later</a></li>
+        </ul>
+        <p style="margin: 0">REPS &middot; iPhone</p>
+      </div>
+    </footer>
+
+    <!-- PostHog — analytics + engagement (autocapture, pageleave/scroll, session replay) -->
+    <script>
+      !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+      posthog.init("phc_gTI0FJoXiGPjdACbgVyunpDSl0mPs2HEYtmzUtK3SyE", {
+        api_host: "https://us.i.posthog.com",
+        ui_host: "https://us.posthog.com",
+        defaults: "2025-05-24",
+        persistence: "localStorage+cookie",
+        capture_pageview: true,
+        capture_pageleave: true,
+        autocapture: true,
+        disable_session_recording: false,
+        loaded: function (ph) { ph.register({ lp_variant: "v5a" }); }
+      });
+    </script>
+
+    <script>
+      (function () {
+        "use strict";
+        var RM = !!window.__REPS_RM;
+        var TOUCH = window.matchMedia("(pointer: coarse)").matches;
+        var $ = function (id) {
+          return document.getElementById(id);
+        };
+        var clamp = function (v, a, b) {
+          return v < a ? a : v > b ? b : v;
+        };
+        var ease = function (p) {
+          return p < 0.5 ? 2 * p * p : -1 + (4 - 2 * p) * p;
+        };
+        /* deterministic pseudo-random so the sky is the same sky on every visit */
+        var seedN = 7349;
+        var rnd = function () {
+          seedN = (seedN * 1664525 + 1013904223) % 4294967296;
+          return seedN / 4294967296;
+        };
+
+        /* Real titles from the September captures, plus neutral fragments (nothing invented). */
+        var TITLES = [
+          ["Into Thin Air", "#4ecdc4"],
+          ["Endurance", "#d4a24e"],
+          ["1984", "#3c7be0"],
+          ["The Diary of a CEO", "#ff6b6b"],
+          ["National Geographic", "#3fb27f"],
+          ["MIT Technology Review", "#7488c9"],
+          ["The Beatles", "#9b6bd6"],
+          ["Alexander the Great", "#d4a24e"],
+          ["Stonehenge", "#9b6bd6"],
+          ["To Kill a Mockingbird", "#4ecdc4"],
+          ["Jack London", "#ff6b6b"],
+          ["Jon Krakauer", "#3fb27f"],
+        ];
+        var FRAGS = [
+          "a chapter",
+          "an article",
+          "a documentary",
+          "a podcast episode",
+          "a YouTube short",
+          "a lecture",
+          "a newsletter",
+          "a quote",
+          "a PDF",
+          "a talk",
+          "an interview",
+          "a long read",
+          "a thread",
+          "a book you loved",
+          "a page you folded",
+          "a line you underlined",
+        ];
+
+        /* ════════ One rAF loop for the whole page ════════ */
+        var running = false,
+          lastT = 0;
+        var heroVis = false,
+          gatherVis = false,
+          talkVis = false,
+          hidden = document.hidden;
+        function wake() {
+          if (RM || running || hidden) return;
+          running = true;
+          lastT = performance.now();
+          requestAnimationFrame(tick);
+        }
+        document.addEventListener("visibilitychange", function () {
+          hidden = document.hidden;
+          if (!hidden) wake();
+        });
+
+        /* ════════ 1 · The sky (hero canvas + DOM labels) ════════ */
+        var hero = $("hero"),
+          canvas = $("sky"),
+          ctx = canvas.getContext("2d"),
+          labelsEl = $("sky-labels"),
+          resolveEl = $("resolve"),
+          hintEl = $("hint"),
+          heroCopy = $("hero-copy");
+        var W = 0,
+          H = 0,
+          dpr = 1,
+          mobile = false;
+        var dust = [],
+          words = [];
+        var N_DUST = TOUCH ? 150 : 280;
+        var ptr = { x: -9999, y: -9999, in: false, hx: -9999, hy: -9999 };
+        var lastMove = performance.now(),
+          moveAnchor = { x: 0, y: 0 };
+        var gathered = false,
+          gatherAt = 0,
+          everResolved = false,
+          fontsReady = false,
+          born = performance.now();
+
+        /* the copy column owns its rectangle: no label may enter it */
+        var zone = { l: 0, t: 0, r: 0, b: 0 };
+        var bounds = { l: 16, t: 72, r: 0, b: 0 };
+        function sizeZone() {
+          var hr = hero.getBoundingClientRect(),
+            q = heroCopy.getBoundingClientRect();
+          zone = { l: q.left - hr.left - 40, t: q.top - hr.top - 36, r: q.right - hr.left + 40, b: H + 10 };
+          bounds.r = W - 16;
+          bounds.b = mobile ? zone.t - 6 : H * 0.86;
+        }
+        function labelRect(w) {
+          return { l: w.x + w.ox, t: w.y + w.oy - 11, r: w.x + w.ox + w.w, b: w.y + w.oy + 11 };
+        }
+        function rectInZone(r) {
+          return r.r > zone.l && r.l < zone.r && r.b > zone.t && r.t < zone.b;
+        }
+        function sizeSky() {
+          dpr = Math.min(window.devicePixelRatio || 1, 1.75);
+          W = hero.clientWidth;
+          H = hero.clientHeight;
+          mobile = W < 861;
+          canvas.width = Math.round(W * dpr);
+          canvas.height = Math.round(H * dpr);
+          canvas.style.width = W + "px";
+          canvas.style.height = H + "px";
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          sizeZone();
+          if (!dust.length) seedSky();
+          else relayout();
+        }
+        function seedSky() {
+          dust = [];
+          for (var i = 0; i < N_DUST; i++) {
+            dust.push({
+              x: rnd() * W,
+              y: rnd() * H,
+              r: 0.5 + rnd() * 1.2,
+              a: 0.25 + rnd() * 0.6,
+              sp: 0.4 + rnd() * 1.2,
+              ph: rnd() * 6.28,
+              vx: (rnd() - 0.5) * 0.06,
+              vy: (rnd() - 0.5) * 0.06,
+              ox: 0,
+              oy: 0,
+              g: 0,
+              gather: false,
+              tx: 0,
+              ty: 0,
+            });
+          }
+          var list = (mobile ? [TITLES[0], TITLES[1], TITLES[2], TITLES[6], TITLES[8], TITLES[10], TITLES[11]] : TITLES).map(function (t) {
+            return { s: t[0], c: t[1], t: true };
+          }).concat(
+            FRAGS.slice(0, mobile ? 0 : 10).map(function (f) {
+              return { s: f, c: null, t: false };
+            })
+          );
+          words = [];
+          labelsEl.innerHTML = "";
+          for (var j = 0; j < list.length; j++) {
+            var it = list[j],
+              el = document.createElement("span");
+            if (!it.t) el.className = "f";
+            var b = document.createElement("b");
+            if (it.c) b.style.setProperty("--c", it.c);
+            el.appendChild(b);
+            el.appendChild(document.createTextNode(it.s));
+            labelsEl.appendChild(el);
+            words.push({
+              el: el,
+              s: it.s,
+              t: it.t,
+              x: 0,
+              y: 0,
+              w: el.offsetWidth || 120,
+              vx: (rnd() - 0.5) * 0.12,
+              vy: (rnd() - 0.5) * 0.08,
+              ox: 0,
+              oy: 0,
+              a: it.t ? 0.75 + rnd() * 0.25 : 0.5 + rnd() * 0.3,
+              la: -1,
+            });
+          }
+          relayout(true);
+        }
+        function measure() {
+          for (var i = 0; i < words.length; i++) words[i].w = words[i].el.offsetWidth || words[i].w;
+        }
+        function overlaps(a, b) {
+          return a.l < b.r + 14 && a.r > b.l - 14 && a.t < b.b + 2 && a.b > b.t - 2;
+        }
+        function relayout(first) {
+          measure();
+          for (var i = 0; i < words.length; i++) {
+            var w = words[i];
+            if (first) {
+              /* greedy seeding: avoid the copy column and each other */
+              for (var tries = 0; tries < 40; tries++) {
+                w.x = bounds.l + rnd() * Math.max(10, bounds.r - w.w - bounds.l);
+                w.y = bounds.t + rnd() * Math.max(10, bounds.b - bounds.t);
+                var r = labelRect(w),
+                  ok = !rectInZone(r);
+                for (var k = 0; ok && k < i; k++) if (overlaps(r, labelRect(words[k]))) ok = false;
+                if (ok) break;
+              }
+            }
+            w.x = clamp(w.x, bounds.l, Math.max(bounds.l, bounds.r - w.w));
+            w.y = clamp(w.y, bounds.t, Math.max(bounds.t, bounds.b));
+          }
+          for (var d = 0; d < dust.length; d++) {
+            dust[d].x = clamp(dust[d].x, 0, W);
+            dust[d].y = clamp(dust[d].y, 0, H);
+          }
+        }
+
+        function sampleResolve() {
+          var r = resolveEl.getBoundingClientRect(),
+            hr = hero.getBoundingClientRect();
+          var w = Math.ceil(r.width),
+            h = Math.ceil(r.height);
+          if (!w || !h) return [];
+          var oc = document.createElement("canvas");
+          oc.width = w;
+          oc.height = h;
+          var o = oc.getContext("2d");
+          var cs = getComputedStyle(resolveEl);
+          o.font = cs.fontStyle + " " + cs.fontWeight + " " + cs.fontSize + " " + cs.fontFamily;
+          o.textBaseline = "middle";
+          o.fillStyle = "#fff";
+          o.fillText(resolveEl.textContent.trim(), 0, h / 2);
+          var data = o.getImageData(0, 0, w, h).data;
+          var step = w > 520 ? 5 : 4,
+            pts = [];
+          for (var y = 0; y < h; y += step)
+            for (var x = 0; x < w; x += step)
+              if (data[(y * w + x) * 4 + 3] > 110) pts.push([x + r.left - hr.left, y + r.top - hr.top]);
+          if (pts.length > 460) {
+            var keep = [];
+            for (var i = 0; i < pts.length; i += 2) keep.push(pts[i]);
+            pts = keep;
+          }
+          return pts;
+        }
+
+        function gather() {
+          if (gathered || !W) return;
+          var pts = sampleResolve();
+          if (!pts.length) return;
+          var cx = ptr.in ? ptr.x : W * 0.3,
+            cy = ptr.in ? ptr.y : H * 0.5;
+          var order = dust
+            .map(function (p, i) {
+              var dx = p.x - cx,
+                dy = p.y - cy;
+              return [dx * dx + dy * dy, i];
+            })
+            .sort(function (a, b) {
+              return a[0] - b[0];
+            });
+          var n = Math.min(pts.length, dust.length);
+          for (var i = pts.length - 1; i > 0; i--) {
+            var j = Math.floor(rnd() * (i + 1)),
+              t = pts[i];
+            pts[i] = pts[j];
+            pts[j] = t;
+          }
+          for (var k = 0; k < n; k++) {
+            var p = dust[order[k][1]];
+            p.gather = true;
+            p.tx = pts[k][0];
+            p.ty = pts[k][1];
+          }
+          gathered = true;
+          gatherAt = performance.now();
+          moveAnchor.x = ptr.x;
+          moveAnchor.y = ptr.y;
+          wake();
+        }
+        function release() {
+          if (!gathered) return;
+          for (var i = 0; i < dust.length; i++) {
+            var p = dust[i];
+            if (p.gather) {
+              p.gather = false;
+              p.vx = (rnd() - 0.5) * 0.5;
+              p.vy = (rnd() - 0.5) * 0.5;
+            }
+          }
+          gathered = false;
+        }
+        function settle() {
+          if (everResolved) return;
+          everResolved = true;
+          resolveEl.classList.add("on");
+          hintEl.classList.add("off");
+          if (window.posthog && posthog.capture) posthog.capture("lp_hero_resolved", { lp_variant: "v5a" });
+        }
+
+        function drawSky(dt, now) {
+          var t = now / 1000;
+          ctx.clearRect(0, 0, W, H);
+          var hasPtr = ptr.in && !TOUCH;
+          if (ptr.in) {
+            ptr.hx += (ptr.x - ptr.hx) * 0.08 * dt;
+            ptr.hy += (ptr.y - ptr.hy) * 0.08 * dt;
+            var g = ctx.createRadialGradient(ptr.hx, ptr.hy, 0, ptr.hx, ptr.hy, 220);
+            g.addColorStop(0, "rgba(244,241,234,0.09)");
+            g.addColorStop(1, "rgba(244,241,234,0)");
+            ctx.fillStyle = g;
+            ctx.fillRect(ptr.hx - 220, ptr.hy - 220, 440, 440);
+          }
+          /* dust */
+          var i, p, d, dx, dy, f;
+          for (i = 0; i < dust.length; i++) {
+            p = dust[i];
+            if (p.gather) {
+              p.x += (p.tx - p.x) * 0.075 * dt;
+              p.y += (p.ty - p.y) * 0.075 * dt;
+              p.g += (1 - p.g) * 0.06 * dt;
+              p.ox *= 0.9;
+              p.oy *= 0.9;
+            } else {
+              p.x += p.vx * dt;
+              p.y += p.vy * dt;
+              p.vx *= 0.995;
+              p.vy *= 0.995;
+              if (Math.abs(p.vx) < 0.03) p.vx += (rnd() - 0.5) * 0.004;
+              if (Math.abs(p.vy) < 0.03) p.vy += (rnd() - 0.5) * 0.004;
+              if (p.x < -4) p.x = W + 4;
+              if (p.x > W + 4) p.x = -4;
+              if (p.y < -4) p.y = H + 4;
+              if (p.y > H + 4) p.y = -4;
+              p.g -= p.g * 0.05 * dt;
+              if (ptr.in) {
+                dx = ptr.x - p.x;
+                dy = ptr.y - p.y;
+                d = Math.sqrt(dx * dx + dy * dy);
+                f = d < 200 ? (1 - d / 200) * (1 - d / 200) : 0;
+                p.ox += (dx * f * 0.22 - p.ox) * 0.05 * dt;
+                p.oy += (dy * f * 0.22 - p.oy) * 0.05 * dt;
+              } else {
+                p.ox *= 0.96;
+                p.oy *= 0.96;
+              }
+            }
+            var tw = 0.65 + 0.35 * Math.sin(t * p.sp + p.ph);
+            var al = p.a * tw * (1 - p.g) + 0.95 * p.g;
+            var rr = p.r * (1 + 0.5 * p.g);
+            ctx.beginPath();
+            ctx.arc(p.x + p.ox, p.y + p.oy, rr, 0, 6.2832);
+            ctx.fillStyle = p.g > 0.02 ? "rgba(232,194,122," + al.toFixed(3) + ")" : "rgba(244,241,234," + al.toFixed(3) + ")";
+            ctx.fill();
+          }
+          /* labels: drift inside their bounds, lean toward the cursor, keep out of the copy, keep off each other */
+          var w, k, w2, ex, ey, dd;
+          for (i = 0; i < words.length; i++) {
+            w = words[i];
+            w.x += w.vx * dt;
+            w.y += w.vy * dt;
+            if (w.x < bounds.l) {
+              w.x = bounds.l;
+              w.vx = Math.abs(w.vx);
+            }
+            if (w.x > bounds.r - w.w) {
+              w.x = bounds.r - w.w;
+              w.vx = -Math.abs(w.vx);
+            }
+            if (w.y < bounds.t) {
+              w.y = bounds.t;
+              w.vy = Math.abs(w.vy);
+            }
+            if (w.y > bounds.b) {
+              w.y = bounds.b;
+              w.vy = -Math.abs(w.vy);
+            }
+            var lr = labelRect(w);
+            if (rectInZone(lr)) {
+              /* out the nearest edge */
+              var dl = lr.r - zone.l,
+                dr = zone.r - lr.l,
+                dtp = lr.b - zone.t,
+                m = Math.min(dl, dr, dtp);
+              if (m === dtp) w.y -= 1.6 * dt;
+              else if (m === dl) w.x -= 1.6 * dt;
+              else w.x += 1.6 * dt;
+            }
+            w.vx *= 0.995;
+            w.vy *= 0.995;
+            if (Math.abs(w.vx) < 0.04) w.vx += (rnd() - 0.5) * 0.01;
+            if (Math.abs(w.vy) < 0.03) w.vy += (rnd() - 0.5) * 0.008;
+            if (ptr.in) {
+              dx = ptr.x - w.x;
+              dy = ptr.y - w.y;
+              d = Math.sqrt(dx * dx + dy * dy);
+              f = d < 300 ? Math.pow(1 - d / 300, 2) : 0;
+              w.ox += (dx * f * 0.4 - w.ox) * 0.045 * dt;
+              w.oy += (dy * f * 0.4 - w.oy) * 0.045 * dt;
+            } else {
+              w.ox += (0 - w.ox) * 0.03 * dt;
+              w.oy += (0 - w.oy) * 0.03 * dt;
+            }
+          }
+          /* pairwise: separate overlapping labels, and connect near ones */
+          ctx.lineWidth = 1;
+          for (i = 0; i < words.length; i++) {
+            w = words[i];
+            ex = w.x + w.ox;
+            ey = w.y + w.oy;
+            var near = 0;
+            if (ptr.in) {
+              dx = ptr.x - ex;
+              dy = ptr.y - ey;
+              d = Math.sqrt(dx * dx + dy * dy);
+              near = d < 260 ? 1 - d / 260 : 0;
+              if (near > 0 && hasPtr) {
+                ctx.strokeStyle = "rgba(244,241,234," + (near * 0.28).toFixed(3) + ")";
+                ctx.beginPath();
+                ctx.moveTo(ex, ey);
+                ctx.lineTo(ptr.x, ptr.y);
+                ctx.stroke();
+              }
+            }
+            for (k = i + 1; k < words.length; k++) {
+              w2 = words[k];
+              var ax = (w.w + w2.w) / 2 + 16,
+                cxa = ex + w.w / 2,
+                cxb = w2.x + w2.ox + w2.w / 2;
+              dx = cxb - cxa;
+              dy = w2.y + w2.oy - ey;
+              if (Math.abs(dx) < ax && Math.abs(dy) < 26) {
+                var pen = 26 - Math.abs(dy),
+                  s = dy >= 0 ? 1 : -1;
+                w.y -= s * pen * 0.12 * dt;
+                w2.y += s * pen * 0.12 * dt;
+                var penx = ax - Math.abs(dx),
+                  sx = dx >= 0 ? 1 : -1;
+                w.x -= sx * penx * 0.03 * dt;
+                w2.x += sx * penx * 0.03 * dt;
+              }
+              dd = dx * dx + dy * dy;
+              if (dd < 190 * 190) {
+                var pa = (1 - Math.sqrt(dd) / 190) * (0.1 + 0.4 * near);
+                ctx.strokeStyle = "rgba(244,241,234," + pa.toFixed(3) + ")";
+                ctx.beginPath();
+                ctx.moveTo(ex, ey);
+                ctx.lineTo(w2.x + w2.ox, w2.y + w2.oy);
+                ctx.stroke();
+              }
+            }
+          }
+          /* write the labels */
+          for (i = 0; i < words.length; i++) {
+            w = words[i];
+            ex = w.x + w.ox;
+            ey = w.y + w.oy;
+            var boost = 0;
+            if (ptr.in) {
+              dx = ptr.x - ex;
+              dy = ptr.y - ey;
+              d = Math.sqrt(dx * dx + dy * dy);
+              boost = d < 260 ? 1 - d / 260 : 0;
+            }
+            var wa = Math.min(1, w.a + boost * 0.3);
+            if (rectInZone(labelRect(w))) wa = 0;
+            w.el.style.transform = "translate3d(" + ex.toFixed(1) + "px," + (ey - 11).toFixed(1) + "px,0)";
+            if (Math.abs(wa - w.la) > 0.02) {
+              w.el.style.opacity = wa.toFixed(2);
+              w.la = wa;
+            }
+          }
+        }
+
+        function drawStill() {
+          ptr.in = false;
+          drawSky(1, 0);
+        }
+
+        /* pointer = gravity */
+        function setPtr(cx, cy) {
+          var hr = hero.getBoundingClientRect();
+          ptr.x = cx - hr.left;
+          ptr.y = cy - hr.top;
+          var inside = ptr.x >= 0 && ptr.x <= W && ptr.y >= 0 && ptr.y <= H;
+          if (!ptr.in && inside) {
+            ptr.hx = ptr.x;
+            ptr.hy = ptr.y;
+          }
+          ptr.in = inside;
+        }
+        function moved() {
+          var now = performance.now();
+          lastMove = now;
+          if (gathered && now - gatherAt > 700) {
+            var dx = ptr.x - moveAnchor.x,
+              dy = ptr.y - moveAnchor.y;
+            if (dx * dx + dy * dy > 40 * 40) release();
+          }
+          wake();
+        }
+        if (!RM) {
+          window.addEventListener(
+            "pointermove",
+            function (e) {
+              if (e.pointerType === "touch") return;
+              setPtr(e.clientX, e.clientY);
+              moved();
+            },
+            { passive: true }
+          );
+          window.addEventListener(
+            "touchstart",
+            function (e) {
+              var t = e.touches[0];
+              setPtr(t.clientX, t.clientY);
+              moved();
+            },
+            { passive: true }
+          );
+          window.addEventListener(
+            "touchmove",
+            function (e) {
+              var t = e.touches[0];
+              setPtr(t.clientX, t.clientY);
+              moved();
+            },
+            { passive: true }
+          );
+          window.addEventListener(
+            "touchend",
+            function () {
+              lastMove = performance.now();
+            },
+            { passive: true }
+          );
+          document.addEventListener("pointerleave", function () {
+            ptr.in = false;
+          });
+          if (TOUCH) hintEl.textContent = "hold a finger on the sky";
+        }
+
+        /* magnetic CTAs (desktop pointer only) */
+        if (!RM && !TOUCH) {
+          Array.prototype.forEach.call(document.querySelectorAll(".mag"), function (m) {
+            var b = m.querySelector(".btn");
+            m.addEventListener("pointermove", function (e) {
+              var r = b.getBoundingClientRect();
+              var dx = e.clientX - (r.left + r.width / 2),
+                dy = e.clientY - (r.top + r.height / 2);
+              b.style.transform = "translate(" + (dx * 0.18).toFixed(1) + "px," + (dy * 0.22).toFixed(1) + "px)";
+            });
+            m.addEventListener("pointerleave", function () {
+              b.style.transform = "";
+            });
+          });
+        }
+
+        /* ════════ 2 · Gather: scattered words become a mind (scroll-scrubbed) ════════ */
+        var gatherSec = $("gather"),
+          stage = $("gather-stage"),
+          cloud = $("cloud"),
+          orb = $("orb"),
+          phA = $("ph-a"),
+          phB = $("ph-b");
+        var cloudItems = [];
+        (function () {
+          var list = TITLES.map(function (t) {
+            return { s: t[0], c: t[1], t: true };
+          }).concat(
+            FRAGS.map(function (f) {
+              return { s: f, c: null, t: false };
+            })
+          );
+          for (var i = 0; i < list.length; i++) {
+            var it = list[i],
+              s = document.createElement("span");
+            if (it.t) s.className = "t";
+            var b = document.createElement("b");
+            if (it.c) b.style.setProperty("--c", it.c);
+            s.appendChild(b);
+            s.appendChild(document.createTextNode(it.s));
+            cloud.appendChild(s);
+            cloudItems.push({ el: s, sx: rnd(), sy: rnd() });
+          }
+        })();
+        var lastGatherP = -1;
+        function layoutGather(p) {
+          if (Math.abs(p - lastGatherP) < 0.002) return;
+          lastGatherP = p;
+          var sw = stage.clientWidth,
+            sh = stage.clientHeight;
+          var mob = sw < 861;
+          var cx = mob ? sw * 0.5 : sw * 0.34,
+            cy = mob ? sh * 0.36 : sh * 0.5;
+          var R = Math.min(sw, sh) * (mob ? 0.44 : 0.3);
+          var sx = 1;
+          var e = ease(clamp((p - 0.08) / 0.72, 0, 1));
+          var n = mob ? Math.min(14, cloudItems.length) : cloudItems.length;
+          for (var i = 0; i < cloudItems.length; i++) {
+            if (i >= n) continue;
+            var it = cloudItems[i];
+            var sxp = 0.06 * sw + it.sx * sw * 0.88,
+              syp = 0.08 * sh + it.sy * sh * 0.84;
+            var rr = R * Math.sqrt((i + 0.5) / n),
+              th = i * 2.399963;
+            var txp = cx + rr * sx * Math.cos(th),
+              typ = cy + rr * Math.sin(th) * 0.92;
+            var x = sxp + (txp - sxp) * e,
+              y = syp + (typ - syp) * e;
+            var hw = (it.w || (it.w = it.el.offsetWidth || 80)) / 2 + 8;
+            x = clamp(x, hw, sw - hw); /* a label never leaves the screen */
+            it.el.style.transform = "translate3d(" + x.toFixed(1) + "px," + y.toFixed(1) + "px,0) translate(-50%,-50%)";
+            it.el.style.opacity = (0.35 + 0.65 * e).toFixed(3);
+          }
+          orb.style.opacity = (e * 0.95).toFixed(3);
+          orb.style.transform = "translate(-50%,-50%) scale(" + (0.2 + 0.8 * e).toFixed(3) + ")";
+          phA.classList.toggle("on", p < 0.48);
+          phB.classList.toggle("on", p >= 0.52);
+        }
+        function scrubGather() {
+          var r = gatherSec.getBoundingClientRect(),
+            sh = stage.clientHeight;
+          var p = clamp(-r.top / Math.max(1, r.height - sh), 0, 1);
+          layoutGather(p);
+        }
+
+        /* ════════ 3 · Talk: lines draw as you scroll ════════ */
+        var talk = $("talk"),
+          lines = Array.prototype.slice.call(document.querySelectorAll("#constellation line")),
+          lbls = Array.prototype.slice.call(document.querySelectorAll("#constellation .lbl")),
+          halo = document.querySelector("#constellation .halo");
+        lines.forEach(function (l) {
+          var len = Math.hypot(l.x2.baseVal.value - l.x1.baseVal.value, l.y2.baseVal.value - l.y1.baseVal.value);
+          l.style.strokeDasharray = len;
+          l.style.strokeDashoffset = RM ? 0 : len;
+          l.dataset.len = len;
+        });
+        function scrubTalk() {
+          var r = talk.getBoundingClientRect(),
+            vh = window.innerHeight;
+          if (r.bottom < 0 || r.top > vh) return;
+          var p = clamp((vh * 0.85 - r.top) / (r.height * 0.75), 0, 1);
+          var per = 1 / lines.length;
+          lines.forEach(function (l, i) {
+            var lp = clamp((p - i * per * 0.8) / (per * 1.6), 0, 1);
+            l.style.strokeDashoffset = (l.dataset.len * (1 - lp)).toFixed(1);
+          });
+          lbls.forEach(function (t, i) {
+            t.classList.toggle("on", p > i * per * 0.8 + 0.04);
+          });
+          halo.classList.toggle("on", p > 0.08);
+        }
+
+        /* ════════ The one clip: framed, seeked past its first frames, looped by hand ════════ */
+        var graph = $("graph"),
+          porthole = $("porthole"),
+          glyph = $("glyph");
+        var SEEK = 4.5;
+        function seekGraph() {
+          try {
+            if (graph.readyState >= 1 && graph.currentTime < SEEK) graph.currentTime = SEEK;
+          } catch (e) {}
+        }
+        graph.addEventListener("loadedmetadata", seekGraph);
+        graph.addEventListener("ended", function () {
+          graph.currentTime = SEEK;
+          var pr = graph.play();
+          if (pr && pr.catch) pr.catch(function () {});
+        });
+        function playGraph() {
+          if (graph.readyState < 1) graph.load();
+          seekGraph();
+          var pr = graph.play();
+          if (pr && pr.catch) pr.catch(function () {});
+        }
+        glyph.addEventListener("click", function () {
+          porthole.classList.add("playing");
+          playGraph();
+        });
+        if (RM) {
+          graph.preload = "metadata";
+          graph.load();
+        }
+
+        /* ════════ Reveals (IntersectionObserver) ════════ */
+        var io = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (en) {
+              var el = en.target;
+              if (el.hasAttribute("data-reveal") || el.classList.contains("rv")) {
+                if (en.isIntersecting) el.classList.add("in");
+              }
+              if (el.id === "porthole" && !RM) {
+                if (en.isIntersecting && en.intersectionRatio >= 0.35) playGraph();
+                else graph.pause();
+              }
+              if (el.id === "ritual") el.classList.toggle("live", en.isIntersecting);
+              if (el.id === "hero") {
+                heroVis = en.isIntersecting;
+                if (heroVis) wake();
+              }
+              if (el.id === "gather") {
+                gatherVis = en.isIntersecting;
+                if (gatherVis) wake();
+              }
+              if (el.id === "talk") {
+                talkVis = en.isIntersecting;
+                if (talkVis) wake();
+              }
+            });
+          },
+          { threshold: [0, 0.35] }
+        );
+        Array.prototype.forEach.call(document.querySelectorAll("[data-reveal], .rv"), function (el) {
+          io.observe(el);
+        });
+        if (!RM) {
+          io.observe($("ritual"));
+          io.observe(hero);
+          io.observe(gatherSec);
+          io.observe(talk);
+        }
+
+        /* ════════ The loop ════════ */
+        function tick(now) {
+          var dt = clamp((now - lastT) / 16.67, 0.2, 3);
+          lastT = now;
+          if (hidden) {
+            running = false;
+            return;
+          }
+          var need = false;
+          if (heroVis) {
+            drawSky(dt, now);
+            need = true;
+            var since = now - lastMove;
+            var still = since > 900 && (ptr.in || TOUCH);
+            var fallback = !everResolved && now - born > (TOUCH ? 3000 : 4500);
+            if (!gathered && (still || fallback)) gather();
+            if (gathered && !everResolved && now - gatherAt > 1100) settle();
+            if (gathered && TOUCH && now - gatherAt > 6000) release();
+          }
+          if (gatherVis) {
+            scrubGather();
+            need = true;
+          }
+          if (talkVis) {
+            scrubTalk();
+            need = true;
+          }
+          if (need) requestAnimationFrame(tick);
+          else running = false;
+        }
+
+        /* ════════ Boot ════════ */
+        function boot() {
+          sizeSky();
+          if (RM) {
+            layoutGather(1);
+            drawStill();
+            resolveEl.classList.add("on");
+            return;
+          }
+          lastGatherP = -1;
+          scrubGather();
+          wake();
+        }
+        var fontWait = document.fonts && document.fonts.load ? document.fonts.load('italic 300 16px "Fraunces"') : Promise.resolve();
+        function fontsLanded() {
+          fontsReady = true;
+          sizeZone();
+          measure();
+          relayout();
+          if (RM) drawStill();
+        }
+        var fontTimer = setTimeout(fontsLanded, 1800);
+        fontWait.then(
+          function () {
+            clearTimeout(fontTimer);
+            fontsLanded();
+          },
+          function () {}
+        );
+        var rt;
+        window.addEventListener("resize", function () {
+          clearTimeout(rt);
+          rt = setTimeout(function () {
+            sizeSky();
+            lastGatherP = -1;
+            if (RM) {
+              layoutGather(1);
+              drawStill();
+            } else {
+              release();
+              wake();
+            }
+          }, 120);
+        });
+        window.addEventListener(
+          "scroll",
+          function () {
+            if (TOUCH) lastMove = performance.now();
+            wake();
+          },
+          { passive: true }
+        );
+        boot();
+      })();
+    </script>
+  </body>
+</html>

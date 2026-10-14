@@ -1,0 +1,2075 @@
+<!doctype html>
+<!-- REPS home, variant v5c — world: PLAYGROUND. Direction: "Zigzag Deck" (2026-10-14, fix round 2)
+     1. The page is a deck of ten. The hero is a toy: ten chunky tiles, each a real title from one reader's
+        week, that drop in, bounce, lean toward the cursor and can be tapped to flip into a short round in
+        code. The pile lands with one tile already flipped, so a half-remembered title is the first thing seen.
+     2. Rhythm in threes, but never the same three twice: each block changes scale, alignment and the accent
+        device (block highlight → coloured word → underlined word → outlined word → ruled quotes).
+     3. Zigzag: the day is told as a game-board path through three code-drawn scenes (bookshelf, bus stop,
+        dinner table); a pawn marked "you" walks it as you scroll. Content columns alternate down the page.
+     4. Fields, not cards: teal → cream → coral → indigo → gold → cream → cream → deep teal → ink. Ink type
+        everywhere; cream only where ink would not read. Coral→peach is spent on the CTA alone.
+     5. Type: Outfit 900 at poster scale, tight leading, negative tracking. Lora italic only inside the five
+        real reviews. Nothing under 15 px. One real capture on the whole page: the graph clip, late.
+     6. Motion vocabulary: spring and bounce, hard offset shadows that lift on hover. One rAF loop, paused
+        off-screen and when the tab hides. Reduced motion is a finished poster; `?motion=1` forces live. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>REPS · Your Knowledge Companion</title>
+    <meta
+      name="description"
+      content="You take in more than ever and keep almost none of it. REPS is a free iPhone app that keeps what you read, watch and listen to close by, through play."
+    />
+    <link rel="canonical" href="https://www.getreps.io/" />
+    <meta property="og:title" content="REPS · Your Knowledge Companion" />
+    <meta property="og:description" content="You take in more than ever and keep almost none of it. Play for keeps." />
+    <meta property="og:url" content="https://www.getreps.io/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://www.getreps.io/og-card-v3.png?v=2" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://www.getreps.io/og-card-v3.png?v=2" />
+    <meta name="theme-color" content="#4ECDC4" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;900&family=Lora:ital,wght@1,400&display=swap"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;900&family=Lora:ital,wght@1,400&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript
+      ><link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;900&family=Lora:ital,wght@1,400&display=swap"
+        rel="stylesheet"
+    /></noscript>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "@id": "https://www.getreps.io/#organization",
+        "name": "REPS",
+        "url": "https://www.getreps.io/",
+        "logo": "https://www.getreps.io/og-card-v3.png",
+        "description": "REPS is a free iPhone app that keeps what you read, watch and listen to close by, through play."
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "@id": "https://www.getreps.io/#mike",
+        "name": "Mike McGraw",
+        "url": "https://www.getreps.io/about",
+        "image": "https://www.getreps.io/compare/assets/mike-mcgraw.jpg",
+        "jobTitle": "Founder",
+        "worksFor": { "@id": "https://www.getreps.io/#organization" },
+        "description": "Founder of REPS. Builds and uses the app every day."
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "@id": "https://www.getreps.io/#website",
+        "name": "REPS",
+        "url": "https://www.getreps.io/",
+        "publisher": { "@id": "https://www.getreps.io/#organization" }
+      }
+    </script>
+
+    <style>
+      :root {
+        --cream: #fffaf7;
+        --ink: #211a14;
+        --body: rgba(33, 26, 20, 0.74);
+        --muted: rgba(33, 26, 20, 0.6);
+        --teal: #4ecdc4;
+        --teal-deep: #2d8377;
+        --indigo: #4c5fab;
+        --gold: #ffd27d;
+        --coral: #ff6b6b;
+        --peach: #ff8e53;
+        --coral-ink: #d8443f;
+        --cream-body: rgba(255, 250, 247, 0.84);
+        --display: "Outfit", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+        --sans: "Outfit", -apple-system, "Segoe UI", system-ui, sans-serif;
+        --serif: "Lora", Georgia, serif;
+        --bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+        --pad: 24px;
+        --max: 1200px;
+        --shadow: 5px 6px 0 var(--ink);
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+        -webkit-text-size-adjust: 100%;
+      }
+      body {
+        margin: 0;
+        font-family: var(--sans);
+        font-size: 18px;
+        line-height: 1.5;
+        color: var(--ink);
+        background: var(--cream);
+        overflow-x: hidden;
+      }
+      a {
+        color: inherit;
+      }
+      img,
+      video,
+      svg {
+        display: block;
+        max-width: 100%;
+      }
+      :focus-visible {
+        outline: 3px solid var(--ink);
+        outline-offset: 3px;
+        border-radius: 4px;
+      }
+
+      /* ── type ─────────────────────────────────────────── */
+      h1,
+      h2,
+      h3 {
+        font-family: var(--display);
+        font-weight: 900;
+        letter-spacing: -0.035em;
+        line-height: 0.94;
+        margin: 0;
+        text-wrap: balance;
+      }
+      h1 {
+        font-size: clamp(44px, 6.2vw, 86px);
+      }
+      h2 {
+        font-size: clamp(38px, 5.6vw, 78px);
+      }
+      h3 {
+        font-size: clamp(22px, 2.2vw, 28px);
+        letter-spacing: -0.02em;
+        line-height: 1.05;
+      }
+      p {
+        margin: 0;
+      }
+      .lede {
+        font-size: clamp(18px, 1.4vw, 21px);
+        line-height: 1.45;
+        color: var(--body);
+        max-width: 34ch;
+        font-weight: 500;
+      }
+      .lede strong {
+        color: var(--ink);
+        font-weight: 700;
+      }
+      /* on colour fields the body is full ink, never a dark tint of the field */
+      .f-teal .lede,
+      .f-coral .lede,
+      .f-gold .lede {
+        color: var(--ink);
+      }
+      .f-indigo .lede,
+      .f-ink .lede {
+        color: var(--cream-body);
+      }
+      .f-indigo .lede strong,
+      .f-ink .lede strong {
+        color: var(--cream);
+      }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        font-family: var(--display);
+        font-weight: 900;
+        font-size: 15px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--coral-ink);
+        margin-bottom: 22px;
+      }
+      .eyebrow::before {
+        content: "";
+        width: 28px;
+        height: 4px;
+        border-radius: 2px;
+        background: currentColor;
+      }
+      .f-coral .eyebrow,
+      .f-gold .eyebrow,
+      .f-teal .eyebrow {
+        color: var(--ink);
+      }
+      .f-indigo .eyebrow,
+      .f-ink .eyebrow {
+        color: var(--gold);
+      }
+      /* accent devices — one per section, never the same twice in a row */
+      .w-coral {
+        color: var(--coral-ink);
+      }
+      .w-gold {
+        color: var(--gold);
+      }
+      .w-teal {
+        color: var(--teal-deep);
+      }
+      .w-under {
+        box-shadow: inset 0 -0.22em 0 var(--teal);
+      }
+      .w-outline {
+        color: transparent;
+        -webkit-text-stroke: 3px var(--ink);
+      }
+      .lockup {
+        display: inline-block;
+        font-family: var(--display);
+        font-weight: 900;
+        font-size: clamp(22px, 3.1vw, 44px);
+        letter-spacing: -0.03em;
+        line-height: 1;
+        padding: 0.42em 0.7em 0.5em;
+        border: 4px solid var(--ink);
+        border-radius: 999px;
+        background: var(--cream);
+        color: var(--ink);
+        box-shadow: 5px 6px 0 var(--ink);
+        transform: rotate(-2deg);
+      }
+
+      /* ── CTA ──────────────────────────────────────────── */
+      .cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        font-family: var(--display);
+        font-weight: 900;
+        font-size: 20px;
+        letter-spacing: -0.01em;
+        color: #fff;
+        text-decoration: none;
+        background: linear-gradient(90deg, var(--coral), var(--peach));
+        border: 3px solid var(--ink);
+        border-radius: 999px;
+        padding: 16px 28px 16px 22px;
+        box-shadow: var(--shadow);
+        transition: transform 0.18s var(--bounce), box-shadow 0.18s;
+        will-change: transform;
+      }
+      .cta svg {
+        width: 22px;
+        height: 22px;
+        fill: #fff;
+        flex: none;
+      }
+      .cta:hover {
+        box-shadow: 7px 9px 0 var(--ink);
+      }
+      .cta:active {
+        transform: translate(3px, 4px) !important;
+        box-shadow: 2px 2px 0 var(--ink);
+      }
+      .cta.small {
+        font-size: 16px;
+        padding: 10px 18px 10px 14px;
+        border-width: 2.5px;
+        box-shadow: 3px 3px 0 var(--ink);
+      }
+      .cta.small svg {
+        width: 17px;
+        height: 17px;
+      }
+      @media (max-width: 420px) {
+        .cta:not(.small) {
+          font-size: 17px;
+          padding: 14px 20px 14px 18px;
+          gap: 10px;
+        }
+      }
+      .reassure {
+        margin-top: 14px;
+        font-weight: 700;
+        font-size: 16px;
+        color: var(--ink);
+      }
+
+      /* ── nav ──────────────────────────────────────────── */
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: var(--cream);
+        border-bottom: 3px solid var(--ink);
+      }
+      .nav .in {
+        max-width: var(--max);
+        margin: 0 auto;
+        padding: 12px var(--pad);
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        font-family: var(--display);
+        font-weight: 900;
+        font-size: 24px;
+        letter-spacing: -0.03em;
+      }
+      .brand img {
+        width: 36px;
+        height: 36px;
+        border-radius: 9px;
+        border: 2px solid var(--ink);
+      }
+      .nav nav {
+        margin-left: auto;
+        display: flex;
+        gap: 22px;
+        align-items: center;
+      }
+      .nav nav a:not(.cta) {
+        font-weight: 700;
+        font-size: 16px;
+        text-decoration: none;
+        color: var(--body);
+      }
+      .nav nav a:not(.cta):hover {
+        color: var(--ink);
+      }
+      @media (max-width: 520px) {
+        .nav nav a.link {
+          display: none;
+        }
+      }
+
+      /* ── blocks ───────────────────────────────────────── */
+      .block {
+        position: relative;
+        padding: clamp(72px, 9vw, 128px) var(--pad);
+      }
+      .block .in {
+        max-width: var(--max);
+        margin: 0 auto;
+        position: relative;
+      }
+      .col {
+        max-width: 760px;
+      }
+      .block.right .col {
+        margin-left: auto;
+      }
+      .col h2 {
+        margin-bottom: 26px;
+      }
+      .f-teal {
+        background: var(--teal);
+      }
+      .f-coral {
+        background: var(--coral);
+      }
+      .f-gold {
+        background: var(--gold);
+      }
+      .f-indigo {
+        background: var(--indigo);
+        color: var(--cream);
+      }
+      .f-deep {
+        background: var(--teal-deep);
+        color: var(--cream);
+      }
+      .f-ink {
+        background: var(--ink);
+        color: var(--cream);
+      }
+      .seam {
+        height: 0;
+        border-top: 3px solid var(--ink);
+      }
+
+      /* ── hero ─────────────────────────────────────────── */
+      .hero {
+        padding-top: clamp(32px, 4vw, 56px);
+        padding-bottom: clamp(48px, 6vw, 80px);
+        overflow: hidden;
+      }
+      .hero .in {
+        display: grid;
+        gap: 36px;
+        align-items: center;
+      }
+      @media (min-width: 900px) {
+        .hero .in {
+          grid-template-columns: 1.05fr 1fr;
+          gap: 48px;
+        }
+      }
+      .hero .lockup {
+        margin-bottom: 28px;
+      }
+      .hero h1 .turn {
+        display: inline-block;
+        margin-top: 0.45em;
+        font-size: clamp(22px, 2.4vw, 34px);
+        letter-spacing: -0.02em;
+        line-height: 1;
+        background: var(--gold);
+        padding: 0.3em 0.55em 0.38em;
+        border-radius: 0.5em;
+        border: 3px solid var(--ink);
+        box-shadow: 3px 4px 0 var(--ink);
+        transform: rotate(-1.5deg);
+      }
+      .hero .lede {
+        margin-top: 26px;
+        max-width: 36ch;
+      }
+      .hero .actions {
+        margin-top: 30px;
+      }
+      .hero-copy {
+        position: relative;
+        z-index: 2;
+      }
+
+      /* toy */
+      .toy {
+        position: relative;
+        user-select: none;
+        -webkit-user-select: none;
+      }
+      .toy-board {
+        position: relative;
+        height: clamp(560px, 150vw, 620px);
+        touch-action: pan-y;
+      }
+      @media (min-width: 900px) {
+        .toy-board {
+          height: 600px;
+        }
+      }
+      .tile {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 150px;
+        height: 108px;
+        border: 3px solid var(--ink);
+        border-radius: 18px;
+        background: var(--c, var(--cream));
+        color: var(--t, var(--ink));
+        box-shadow: 4px 5px 0 var(--ink);
+        padding: 12px 14px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        cursor: pointer;
+        will-change: transform;
+        transform-origin: center;
+        -webkit-tap-highlight-color: transparent;
+        transition: width 0.28s var(--bounce), height 0.28s var(--bounce), box-shadow 0.18s;
+      }
+      .tile:hover {
+        box-shadow: 6px 8px 0 var(--ink);
+      }
+      .tile.sm {
+        padding: 9px 11px;
+      }
+      .tile.sm .kind {
+        font-size: 14px;
+      }
+      .tile.sm .title {
+        font-size: 15px;
+      }
+      .tile .kind {
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        opacity: 0.72;
+      }
+      .tile .title {
+        font-family: var(--display);
+        font-weight: 900;
+        font-size: 16px;
+        line-height: 1.06;
+        letter-spacing: -0.02em;
+        text-wrap: balance;
+      }
+      .tile .round {
+        display: none;
+      }
+      @media (max-width: 479px) {
+        .tile.active {
+          width: 78% !important;
+          min-height: 0;
+          padding: 14px 16px 16px;
+        }
+        .tile.active .round .q {
+          font-size: 19px;
+          margin-bottom: 10px;
+        }
+        .tile.active .round button {
+          padding: 7px 10px;
+          font-size: 15px;
+        }
+      }
+      .tile.active {
+        width: min(264px, 92%);
+        height: auto;
+        min-height: 230px;
+        z-index: 20;
+        cursor: default;
+        background: var(--cream);
+        color: var(--ink);
+        box-shadow: 8px 10px 0 var(--ink);
+        padding: 16px 18px 18px;
+      }
+      .tile.active .face {
+        display: none;
+      }
+      .tile.active .round {
+        display: block;
+      }
+      .round .q {
+        font-family: var(--display);
+        font-weight: 900;
+        font-size: 21px;
+        letter-spacing: -0.02em;
+        line-height: 1.08;
+        margin-bottom: 14px;
+      }
+      .round .q small {
+        display: block;
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        opacity: 0.6;
+        margin-bottom: 6px;
+      }
+      .round .opts {
+        display: grid;
+        gap: 8px;
+      }
+      .round button {
+        font: inherit;
+        font-weight: 700;
+        font-size: 16px;
+        text-align: left;
+        padding: 9px 12px;
+        border: 2.5px solid var(--ink);
+        border-radius: 12px;
+        background: #fff;
+        color: var(--ink);
+        cursor: pointer;
+        transition: transform 0.14s var(--bounce), background 0.14s;
+      }
+      .round button:hover {
+        transform: translateX(3px);
+        background: var(--gold);
+      }
+      .round button.yes {
+        background: var(--teal);
+      }
+      .round button.no {
+        background: var(--coral);
+        text-decoration: line-through;
+      }
+      .round button:disabled {
+        cursor: default;
+        transform: none;
+      }
+      .round .verdict {
+        margin-top: 12px;
+        font-family: var(--display);
+        font-weight: 900;
+        font-size: 18px;
+        min-height: 1.2em;
+        color: var(--teal-deep);
+      }
+      .tile.known {
+        background: var(--teal);
+        color: var(--ink);
+      }
+      .tile.known .kind {
+        opacity: 1;
+      }
+      .tile.known .kind::before {
+        content: "";
+        display: inline-block;
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--ink);
+        margin-right: 6px;
+        vertical-align: 1px;
+      }
+      .tile.wrong {
+        animation: shake 0.5s;
+      }
+      @keyframes shake {
+        20% {
+          margin-left: -6px;
+        }
+        40% {
+          margin-left: 6px;
+        }
+        60% {
+          margin-left: -4px;
+        }
+        80% {
+          margin-left: 4px;
+        }
+      }
+      .toy-hint {
+        margin-top: 8px;
+        font-weight: 700;
+        font-size: 16px;
+        color: var(--ink);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .toy-hint .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--coral);
+        border: 2px solid var(--ink);
+        flex: none;
+      }
+      .finale {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(-3deg);
+        z-index: 22;
+        display: none;
+        text-align: center;
+        border: 4px solid var(--ink);
+        border-radius: 24px;
+        background: var(--cream);
+        padding: 22px 26px;
+        box-shadow: 8px 10px 0 var(--ink);
+        max-width: 320px;
+      }
+      .finale h3 {
+        margin-bottom: 8px;
+      }
+      .finale p {
+        color: var(--body);
+        font-weight: 500;
+        margin-bottom: 14px;
+      }
+      .finale button {
+        font: inherit;
+        font-weight: 900;
+        font-family: var(--display);
+        padding: 9px 16px;
+        border: 3px solid var(--ink);
+        border-radius: 999px;
+        background: var(--gold);
+        cursor: pointer;
+        box-shadow: 3px 4px 0 var(--ink);
+      }
+      .toy.done .finale {
+        display: block;
+      }
+
+      /* ── recognition (centred, two-tone) ──────────────── */
+      .fading {
+        text-align: center;
+      }
+      .fading h2 {
+        font-size: clamp(42px, 7vw, 104px);
+        max-width: 14ch;
+        margin: 0 auto 28px;
+      }
+      #fade {
+        color: var(--coral-ink);
+      }
+      #fade span {
+        display: inline-block;
+        will-change: opacity;
+      }
+      .fading .lede {
+        margin: 0 auto;
+        max-width: 46ch;
+      }
+      .founder-card {
+        margin: clamp(40px, 5vw, 64px) auto 0;
+        display: flex;
+        gap: 18px;
+        align-items: center;
+        text-align: left;
+        border: 3px solid var(--ink);
+        border-radius: 24px;
+        background: var(--cream);
+        padding: 18px 20px;
+        box-shadow: var(--shadow);
+        transform: rotate(1.5deg);
+        max-width: 460px;
+      }
+      .founder-card img {
+        width: 84px;
+        height: 84px;
+        border-radius: 50%;
+        border: 3px solid var(--ink);
+        object-fit: cover;
+        flex: none;
+      }
+      .founder-card .who {
+        font-weight: 700;
+        font-size: 15px;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .founder-card .say {
+        font-family: var(--display);
+        font-weight: 900;
+        font-size: 22px;
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+        margin: 4px 0 8px;
+      }
+      .arrow {
+        font-weight: 700;
+        font-size: 16px;
+        color: var(--coral-ink);
+        text-decoration: none;
+        border-bottom: 2px solid currentColor;
+      }
+      .arrow:hover {
+        color: var(--ink);
+      }
+
+      /* ── relief: the day as a board ───────────────────── */
+      .relief .col {
+        max-width: 640px;
+      }
+      .relief h2 {
+        font-size: clamp(40px, 5vw, 70px);
+      }
+      .board {
+        position: relative;
+        margin-top: clamp(56px, 7vw, 96px);
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 56px;
+      }
+      @media (max-width: 899px) {
+        .stop {
+          width: 84%;
+        }
+        .stop:nth-child(even) {
+          margin-left: auto;
+        }
+      }
+      @media (min-width: 900px) {
+        .board {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 48px;
+          padding-top: 48px;
+        }
+        .stop:nth-child(3) {
+          margin-top: 130px;
+        }
+      }
+      .board svg.path {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+        pointer-events: none;
+        z-index: 3;
+      }
+      .board svg .trail {
+        fill: none;
+        stroke: var(--ink);
+        stroke-width: 4;
+        stroke-dasharray: 14 12;
+        stroke-linecap: round;
+        opacity: 0.6;
+      }
+      .board svg .pawn {
+        fill: var(--cream);
+        stroke: var(--ink);
+        stroke-width: 4;
+      }
+      .board svg .pawn-lbl {
+        font-family: var(--display);
+        font-weight: 900;
+        font-size: 15px;
+        fill: var(--ink);
+        text-anchor: middle;
+        dominant-baseline: central;
+        letter-spacing: 0.02em;
+      }
+      .stop {
+        position: relative;
+        z-index: 1;
+      }
+      .stop .n {
+        position: absolute;
+        top: -14px;
+        left: -6px;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: 3px solid var(--ink);
+        background: var(--cream);
+        color: var(--ink);
+        font-family: var(--display);
+        font-weight: 900;
+        font-size: 20px;
+        display: grid;
+        place-items: center;
+        box-shadow: 3px 3px 0 var(--ink);
+        z-index: 2;
+      }
+      .scene {
+        width: 100%;
+        aspect-ratio: 5 / 3.4;
+        display: block;
+        transition: transform 0.4s var(--bounce);
+      }
+      .stop.lit .scene {
+        transform: translateY(-6px) rotate(-1deg);
+      }
+      .stop h3 {
+        margin: 18px 0 8px;
+      }
+      .stop p {
+        color: var(--ink);
+        font-weight: 500;
+        font-size: 17px;
+        line-height: 1.4;
+        max-width: 30ch;
+      }
+
+      /* ── aspiration: the room ─────────────────────────── */
+      .room-grid {
+        margin-top: clamp(40px, 5vw, 64px);
+        display: grid;
+        gap: 40px;
+        align-items: start;
+      }
+      @media (min-width: 900px) {
+        .room-grid {
+          grid-template-columns: 0.9fr 1.1fr;
+          gap: 72px;
+        }
+      }
+      .room h2 {
+        max-width: 12ch;
+        font-size: clamp(44px, 6.4vw, 92px);
+      }
+      .bubbles {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        max-width: 560px;
+      }
+      .bubble {
+        align-self: flex-start;
+        background: var(--cream);
+        color: var(--ink);
+        border: 3px solid var(--ink);
+        border-radius: 22px 22px 22px 6px;
+        padding: 12px 18px;
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: clamp(17px, 1.5vw, 21px);
+        letter-spacing: -0.015em;
+        box-shadow: 4px 5px 0 var(--ink);
+        max-width: 88%;
+      }
+      .bubble.me {
+        align-self: flex-end;
+        background: var(--gold);
+        border-radius: 22px 22px 6px 22px;
+      }
+      .bubble.them {
+        background: var(--teal);
+      }
+      .midcta {
+        margin-top: 34px;
+      }
+
+      /* ── play as a feeling ────────────────────────────── */
+      .play .in {
+        display: grid;
+        gap: 40px;
+        align-items: center;
+      }
+      @media (min-width: 900px) {
+        .play .in {
+          grid-template-columns: 0.8fr 1.2fr;
+          gap: 72px;
+        }
+        .play .copy {
+          text-align: right;
+          justify-self: end;
+        }
+        .play .copy .lede {
+          margin-left: auto;
+        }
+        .play .eyebrow {
+          flex-direction: row-reverse;
+        }
+      }
+      .play h2 {
+        font-size: clamp(44px, 6.6vw, 96px);
+        max-width: 9ch;
+        margin-bottom: 24px;
+      }
+      @media (min-width: 900px) {
+        .play h2 {
+          margin-left: auto;
+        }
+      }
+      .window {
+        position: relative;
+        width: min(340px, 78vw);
+        aspect-ratio: 540 / 900;
+        border: 4px solid var(--ink);
+        border-radius: 28px;
+        overflow: hidden;
+        background: #040409;
+        box-shadow: 8px 10px 0 var(--ink);
+        transform: rotate(-2deg);
+        justify-self: center;
+      }
+      .window video,
+      .window img {
+        width: 100%;
+        aspect-ratio: 540 / 1170;
+        object-fit: cover;
+        margin-top: -31%; /* hides the status bar + screen title of the capture */
+        position: relative;
+      }
+      .window .play-glyph {
+        position: absolute;
+        inset: 0;
+        display: none;
+        place-items: center;
+        background: transparent;
+        border: 0;
+        cursor: pointer;
+        padding: 0;
+      }
+      .window .play-glyph span {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        background: var(--cream);
+        border: 3px solid var(--ink);
+        display: grid;
+        place-items: center;
+        box-shadow: 4px 5px 0 var(--ink);
+      }
+      .window .play-glyph svg {
+        width: 26px;
+        height: 26px;
+        margin-left: 4px;
+      }
+      .window.still .play-glyph {
+        display: grid;
+      }
+      .window .cap {
+        position: absolute;
+        left: 14px;
+        bottom: 14px;
+        right: 14px;
+        font-weight: 700;
+        font-size: 15px;
+        color: var(--cream);
+        background: rgba(4, 4, 9, 0.72);
+        border-radius: 12px;
+        padding: 8px 12px;
+      }
+
+      /* ── proof: ruled quotes ──────────────────────────── */
+      .quotes {
+        margin-top: clamp(36px, 4vw, 56px);
+        display: grid;
+        gap: 36px 56px;
+      }
+      @media (min-width: 900px) {
+        .quotes {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      .quote {
+        border-left: 8px solid var(--q, var(--coral));
+        padding-left: 22px;
+        margin: 0;
+      }
+      .quote blockquote {
+        margin: 0;
+        font-family: var(--serif);
+        font-style: italic;
+        font-size: clamp(19px, 1.6vw, 23px);
+        line-height: 1.42;
+        color: var(--ink);
+      }
+      .quote .by {
+        margin-top: 10px;
+        font-weight: 700;
+        font-size: 15px;
+        color: var(--body);
+      }
+      .proof h2 {
+        font-size: clamp(36px, 4.6vw, 64px);
+      }
+
+      /* ── founder ──────────────────────────────────────── */
+      .founder-grid {
+        display: grid;
+        gap: 32px;
+        align-items: start;
+      }
+      @media (min-width: 900px) {
+        .founder-grid {
+          grid-template-columns: 220px 1fr;
+          gap: 56px;
+        }
+      }
+      .founder-grid img {
+        width: 220px;
+        max-width: 60vw;
+        height: auto;
+        aspect-ratio: 1;
+        border-radius: 30px;
+        border: 4px solid var(--ink);
+        object-fit: cover;
+        box-shadow: var(--shadow);
+        transform: rotate(-3deg);
+      }
+      .founder-grid .who {
+        margin-top: 22px;
+        font-weight: 700;
+        font-size: 15px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .postman {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: clamp(24px, 2.6vw, 38px);
+        line-height: 1.12;
+        letter-spacing: -0.025em;
+        color: var(--indigo);
+        max-width: 24ch;
+        text-wrap: balance;
+        margin: 0 0 26px;
+      }
+      .postman strong {
+        color: var(--ink);
+        font-weight: 900;
+      }
+      .founder .lede {
+        max-width: 58ch;
+      }
+      .founder .arrow {
+        display: inline-block;
+        margin-top: 22px;
+      }
+
+      /* ── planet ───────────────────────────────────────── */
+      .planet {
+        padding: 36px var(--pad);
+      }
+      .planet .in {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 18px 28px;
+        align-items: center;
+      }
+      .planet p {
+        font-weight: 700;
+        font-size: 18px;
+        max-width: 60ch;
+        flex: 1 1 320px;
+      }
+      .planet img {
+        height: 40px;
+        width: auto;
+        background: var(--cream);
+        padding: 6px 10px;
+        border-radius: 12px;
+        border: 3px solid var(--ink);
+      }
+      .planet .arrow {
+        color: var(--cream);
+      }
+
+      /* ── close ────────────────────────────────────────── */
+      .close {
+        text-align: center;
+        overflow: hidden;
+      }
+      .close .col {
+        margin: 0 auto;
+        max-width: 820px;
+      }
+      .close .lockup {
+        margin-bottom: 34px;
+        transform: rotate(2deg);
+        box-shadow: 5px 6px 0 var(--teal);
+      }
+      .close h2 {
+        font-size: clamp(36px, 4.8vw, 66px);
+        margin-bottom: 36px;
+      }
+      .close .reassure {
+        color: var(--cream);
+      }
+
+      /* ── footer ───────────────────────────────────────── */
+      footer {
+        padding: 44px var(--pad) 56px;
+        font-size: 15px;
+        color: var(--body);
+      }
+      footer .in {
+        max-width: var(--max);
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px 24px;
+        align-items: center;
+      }
+      footer .motto {
+        font-family: var(--display);
+        font-weight: 900;
+        font-size: 18px;
+        color: var(--ink);
+        letter-spacing: -0.02em;
+        margin-right: auto;
+      }
+      footer a {
+        text-decoration: none;
+        font-weight: 700;
+      }
+      footer a:hover {
+        color: var(--ink);
+      }
+      footer .feat {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 24px;
+      }
+
+      /* ── motion (only when html.motion) ───────────────── */
+      .motion .reveal {
+        opacity: 0;
+        transform: translateY(26px) scale(0.97);
+        transition: opacity 0.6s ease, transform 0.7s var(--bounce);
+        transition-delay: calc(var(--i, 0) * 90ms);
+      }
+      .motion .reveal.on {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      .motion .bubble.reveal {
+        transform: translateY(18px) scale(0.7);
+        transition-delay: calc(var(--i, 0) * 220ms);
+      }
+      .motion .bubble.reveal.on {
+        transform: translateY(0) scale(1);
+      }
+      .motion .founder-grid img:hover,
+      .motion .window:hover {
+        transform: rotate(0deg) scale(1.02);
+        transition: transform 0.3s var(--bounce);
+      }
+      .motion .founder-card:hover {
+        transform: rotate(0deg);
+        transition: transform 0.3s var(--bounce);
+      }
+      html:not(.motion) .tile {
+        transition: none;
+      }
+      .motion .tile {
+        opacity: 0;
+      }
+      .motion .tile.born {
+        opacity: 1;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="nav">
+      <div class="in">
+        <a class="brand" href="/" aria-label="REPS home">
+          <img src="product/assets/app-icon.png" alt="" width="36" height="36" />
+          REPS
+        </a>
+        <nav aria-label="Primary">
+          <a class="link" href="/about">About</a>
+          <a class="link" href="/about#press">Press</a>
+          <a class="cta small magnet" href="https://apps.apple.com/app/id6759216018" target="_blank" rel="noopener"
+            >Get the app</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <!-- ═══════ HERO · teal · the deck ═══════ -->
+      <section class="block f-teal hero" id="top">
+        <div class="in">
+          <div class="hero-copy">
+            <span class="lockup">Your Knowledge Companion</span>
+            <h1>
+              You take in more than ever. You keep almost none of it.
+              <span class="turn">Play for keeps.</span>
+            </h1>
+            <p class="lede">
+              REPS is a free iPhone app that keeps what you read, watch and listen to close by, so it's
+              there when the conversation turns to it. <strong>No discipline required.</strong>
+            </p>
+            <div class="actions">
+              <a
+                class="cta magnet"
+                href="https://apps.apple.com/app/id6759216018"
+                target="_blank"
+                rel="noopener"
+                aria-label="Download REPS on the App Store"
+              >
+                <svg viewBox="0 0 384 512" aria-hidden="true">
+                  <path
+                    d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"
+                  />
+                </svg>
+                Download on the App Store
+              </a>
+              <p class="reassure">Free on the App Store.</p>
+            </div>
+          </div>
+
+          <div class="toy" id="toy" aria-label="Ten titles from one reader's week">
+            <div class="toy-board" id="board"></div>
+            <div class="finale" id="finale">
+              <h3>Ten for ten.</h3>
+              <p>Now imagine it with your own week.</p>
+              <button type="button" id="again">Deal again</button>
+            </div>
+            <p class="toy-hint"><span class="dot"></span>One reader's week. Tap a title you half-remember.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════ RECOGNITION · cream · centred, two-tone ═══════ -->
+      <section class="block fading" id="fading">
+        <div class="in">
+          <h2>That article you read this morning? <span id="fade">Already fading.</span></h2>
+          <p class="lede">
+            You take in more than any generation before you, and most of it slips out the back door within
+            the week, quietly, while the feed keeps asking for more.
+          </p>
+          <div class="founder-card reveal">
+            <img src="compare/assets/mike-mcgraw.jpg" alt="Mike McGraw, founder of REPS" width="84" height="84" />
+            <div>
+              <div class="who">Mike McGraw, founder</div>
+              <div class="say">“I'm building the antidote.”</div>
+              <a class="arrow" href="/about#press">About &amp; press kit →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="seam"></div>
+
+      <!-- ═══════ RELIEF · coral · the day as a board ═══════ -->
+      <section class="block f-coral relief" id="loop">
+        <div class="in">
+          <div class="col">
+            <p class="eyebrow">How it feels</p>
+            <h2>No <span class="w-under">willpower</span> required.</h2>
+            <p class="lede">
+              No system, no notebook, no schedule. You keep living your day; REPS does the keeping, and
+              turns it into something you'd <strong>choose over the feed.</strong>
+            </p>
+          </div>
+
+          <div class="board" id="gameboard">
+            <svg class="path" aria-hidden="true">
+              <path class="trail" id="trail" d="" />
+              <g id="pawn">
+                <circle class="pawn" r="24" />
+                <text class="pawn-lbl">you</text>
+              </g>
+            </svg>
+
+            <article class="stop reveal" style="--i: 0">
+              <span class="n" aria-hidden="true">1</span>
+              <svg class="scene" viewBox="0 0 300 204" role="img" aria-label="A bookshelf with one book pulled out">
+                <rect x="18" y="150" width="264" height="14" rx="4" fill="#211A14" />
+                <rect x="30" y="58" width="26" height="92" rx="5" fill="#4ECDC4" stroke="#211A14" stroke-width="4" />
+                <rect x="60" y="40" width="34" height="110" rx="5" fill="#FFD27D" stroke="#211A14" stroke-width="4" />
+                <rect x="98" y="70" width="22" height="80" rx="5" fill="#FFFAF7" stroke="#211A14" stroke-width="4" />
+                <rect x="124" y="52" width="30" height="98" rx="5" fill="#4C5FAB" stroke="#211A14" stroke-width="4" />
+                <g transform="rotate(-16 200 110)">
+                  <rect x="182" y="46" width="36" height="106" rx="5" fill="#FFFAF7" stroke="#211A14" stroke-width="4" />
+                  <rect x="190" y="60" width="20" height="6" rx="3" fill="#211A14" />
+                </g>
+                <rect x="226" y="64" width="24" height="86" rx="5" fill="#211A14" />
+                <rect x="254" y="48" width="22" height="102" rx="5" fill="#FFD27D" stroke="#211A14" stroke-width="4" />
+                <circle cx="160" cy="26" r="9" fill="#FFFAF7" stroke="#211A14" stroke-width="4" />
+                <path d="M160 17v-9M167 20l6-6M153 20l-6-6" stroke="#211A14" stroke-width="4" stroke-linecap="round" />
+                <rect x="40" y="164" width="220" height="24" rx="8" fill="#FFFAF7" stroke="#211A14" stroke-width="4" />
+                <text x="150" y="181" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="900" font-size="15" fill="#211A14">kept</text>
+              </svg>
+              <h3>Keep it where you found it</h3>
+              <p>A tap from the shelf, the podcast app, the browser. It's kept, and sorted, without you.</p>
+            </article>
+
+            <article class="stop reveal" style="--i: 1">
+              <span class="n" aria-hidden="true">2</span>
+              <svg class="scene" viewBox="0 0 300 204" role="img" aria-label="A bus stop with a bench">
+                <rect x="30" y="176" width="240" height="10" rx="4" fill="#211A14" />
+                <rect x="206" y="40" width="10" height="136" rx="3" fill="#211A14" />
+                <circle cx="211" cy="42" r="30" fill="#4C5FAB" stroke="#211A14" stroke-width="4" />
+                <rect x="196" y="30" width="30" height="20" rx="5" fill="#FFFAF7" stroke="#211A14" stroke-width="3" />
+                <circle cx="203" cy="52" r="3.5" fill="#211A14" />
+                <circle cx="219" cy="52" r="3.5" fill="#211A14" />
+                <rect x="40" y="118" width="130" height="18" rx="6" fill="#FFD27D" stroke="#211A14" stroke-width="4" />
+                <rect x="40" y="92" width="130" height="16" rx="6" fill="#FFD27D" stroke="#211A14" stroke-width="4" />
+                <rect x="52" y="136" width="10" height="40" fill="#211A14" />
+                <rect x="148" y="136" width="10" height="40" fill="#211A14" />
+                <g transform="rotate(8 104 60)">
+                  <rect x="86" y="30" width="36" height="60" rx="10" fill="#4ECDC4" stroke="#211A14" stroke-width="4" />
+                  <rect x="94" y="42" width="20" height="4" rx="2" fill="#211A14" />
+                  <rect x="94" y="52" width="14" height="4" rx="2" fill="#211A14" />
+                  <rect x="94" y="62" width="18" height="4" rx="2" fill="#211A14" />
+                </g>
+                <circle cx="48" cy="40" r="14" fill="#FFFAF7" stroke="#211A14" stroke-width="4" />
+                <path d="M48 32v9l6 4" stroke="#211A14" stroke-width="4" stroke-linecap="round" fill="none" />
+              </svg>
+              <h3>Two minutes, wherever you are</h3>
+              <p>A short round from your own week at the bus stop, instead of the feed. It feels like play, because it is.</p>
+            </article>
+
+            <article class="stop reveal" style="--i: 2">
+              <span class="n" aria-hidden="true">3</span>
+              <svg class="scene" viewBox="0 0 300 204" role="img" aria-label="A dinner table with a speech bubble">
+                <ellipse cx="150" cy="138" rx="124" ry="34" fill="#FFD27D" stroke="#211A14" stroke-width="4" />
+                <rect x="62" y="160" width="10" height="34" fill="#211A14" />
+                <rect x="228" y="160" width="10" height="34" fill="#211A14" />
+                <circle cx="96" cy="136" r="20" fill="#FFFAF7" stroke="#211A14" stroke-width="4" />
+                <circle cx="204" cy="136" r="20" fill="#FFFAF7" stroke="#211A14" stroke-width="4" />
+                <rect x="140" y="110" width="8" height="26" rx="3" fill="#FFFAF7" stroke="#211A14" stroke-width="3" />
+                <rect x="156" y="110" width="8" height="26" rx="3" fill="#FFFAF7" stroke="#211A14" stroke-width="3" />
+                <path d="M120 86c-32 0-48-10-48-30s20-32 54-32 54 12 54 32c0 14-10 24-28 28l-6 14-10-12Z" fill="#4ECDC4" stroke="#211A14" stroke-width="4" stroke-linejoin="round" />
+                <circle cx="106" cy="55" r="4" fill="#211A14" />
+                <circle cx="124" cy="55" r="4" fill="#211A14" />
+                <circle cx="142" cy="55" r="4" fill="#211A14" />
+                <path d="M208 76c20 0 42-8 42-26s-14-28-40-28-40 10-40 28c0 10 6 18 18 22l2 12 8-8Z" fill="#FFFAF7" stroke="#211A14" stroke-width="4" stroke-linejoin="round" />
+                <path d="M196 50l6 6 12-14" stroke="#211A14" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+              </svg>
+              <h3>And it's there at dinner</h3>
+              <p>The book comes up and you're the one who read it, and still has it.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <div class="seam"></div>
+
+      <!-- ═══════ ASPIRATION · indigo · the room + mid-page CTA ═══════ -->
+      <section class="block f-indigo room" id="room">
+        <div class="in">
+          <h2>Be the most knowledgeable person in the <span class="w-gold">room.</span></h2>
+          <div class="room-grid">
+            <div>
+              <p class="lede">
+                Not the one who read the most. The one who <strong>still has it</strong>: the ship, the
+                mountain, the line from that episode. That's who this is for.
+              </p>
+              <div class="midcta">
+                <a
+                  class="cta magnet"
+                  href="https://apps.apple.com/app/id6759216018"
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="Download REPS on the App Store"
+                >
+                  <svg viewBox="0 0 384 512" aria-hidden="true">
+                    <path
+                      d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"
+                    />
+                  </svg>
+                  Get REPS free
+                </a>
+                <p class="reassure" style="color: #fffaf7">Free on the App Store.</p>
+              </div>
+            </div>
+            <div class="bubbles" aria-label="A dinner-table conversation">
+              <div class="bubble them reveal" style="--i: 0">Wasn't there a ship that got stuck in the ice?</div>
+              <div class="bubble me reveal" style="--i: 1">Shackleton's. The Endurance, 1915.</div>
+              <div class="bubble them reveal" style="--i: 2">And the Everest book, who wrote that?</div>
+              <div class="bubble me reveal" style="--i: 3">Krakauer. Into Thin Air. I kept half of it.</div>
+              <div class="bubble reveal" style="--i: 4">How do you remember all this?</div>
+              <div class="bubble me reveal" style="--i: 5">I play.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="seam"></div>
+
+      <!-- ═══════ PLAY AS A FEELING · gold · the one real capture, late ═══════ -->
+      <section class="block f-gold play" id="play">
+        <div class="in">
+          <div class="window reveal" id="window">
+            <video
+              muted
+              playsinline
+              loop
+              preload="none"
+              poster="beats/2026-09/second-brain-poster.jpg"
+              data-src="beats/2026-09/second-brain.mp4"
+              aria-label="A 3D graph of one person's saved knowledge, the nodes coloured by topic"
+            ></video>
+            <button class="play-glyph" type="button" aria-label="Play the clip">
+              <span
+                ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3l15 9-15 9z" fill="#211A14" /></svg
+              ></span>
+            </button>
+            <p class="cap">One reader's year, connected.</p>
+          </div>
+          <div class="copy">
+            <p class="eyebrow">The daily game</p>
+            <h2>The keeping is a <span class="w-outline">game.</span></h2>
+            <p class="lede">
+              Some days it's a crossword built from your Tuesday. Some days a friend wants a rematch. And
+              slowly, everything you've kept connects into <strong>one picture of your mind.</strong>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <div class="seam"></div>
+
+      <!-- ═══════ PROOF · cream · ruled quotes ═══════ -->
+      <section class="block proof" id="proof">
+        <div class="in">
+          <div class="col">
+            <p class="eyebrow">From the App Store</p>
+            <h2>Said by <span class="w-teal">real</span> people.</h2>
+          </div>
+          <div class="quotes">
+            <figure class="quote reveal" style="--q: #ffd27d; --i: 0">
+              <blockquote>
+                Really enjoying using this app as a better way to spend 5/10 minutes at bus stop etc. vs
+                brain rotting on Insta/X.
+              </blockquote>
+              <figcaption class="by">jsdldn · App Store review</figcaption>
+            </figure>
+            <figure class="quote reveal" style="--q: #4ecdc4; --i: 1">
+              <blockquote>
+                It's replaced scrolling Instagram on my phone, and it's helping me re-engage with books I
+                read years ago, and actively seek out interesting knowledge to add to my second brain.
+              </blockquote>
+              <figcaption class="by">24601_London · App Store review</figcaption>
+            </figure>
+            <figure class="quote reveal" style="--q: #4c5fab; --i: 2">
+              <blockquote>
+                Very nice and fun way to retrain your brain – love a competition with friends. Love that app!
+              </blockquote>
+              <figcaption class="by">Sizeret74 · App Store review</figcaption>
+            </figure>
+            <figure class="quote reveal" style="--q: #ff6b6b; --i: 3">
+              <blockquote>
+                Such a fun and easy way to remember the things that matter the most to me! New content is
+                also great to discover! Definitely one of my favorite apps!
+              </blockquote>
+              <figcaption class="by">Cathb1234 · App Store review</figcaption>
+            </figure>
+            <figure class="quote reveal" style="--q: #211a14; --i: 4">
+              <blockquote>As a non-techy over 60 year old, this app is simple and intuitive to navigate.</blockquote>
+              <figcaption class="by">Mooselake4 · App Store review</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <div class="seam"></div>
+
+      <!-- ═══════ FOUNDER · cream · why this exists ═══════ -->
+      <section class="block founder" id="founder">
+        <div class="in">
+          <p class="eyebrow">Why REPS exists</p>
+          <div class="founder-grid">
+            <div>
+              <img
+                src="compare/assets/mike-mcgraw.jpg"
+                alt="Mike McGraw, founder of REPS"
+                width="220"
+                height="220"
+                loading="lazy"
+                class="reveal"
+              />
+              <p class="who">Mike McGraw, founder</p>
+            </div>
+            <div>
+              <p class="postman">
+                “Orwell feared the people who would ban books. Huxley feared the people who would stop
+                wanting them. <strong>Neil Postman wrote it in 1985. The feed is Huxley's.</strong>”
+              </p>
+              <p class="lede">
+                Mike spent twelve years investing in technology: CDPQ's tech team, then Inovia Capital,
+                where he opened the European office. On 30 June 2026, his 34th birthday, he left to build
+                REPS full-time. He had watched his nephews and nieces grow up on YouTube Shorts and read
+                that the Flynn effect had reversed. He deleted Instagram in 2025, and he builds and uses
+                REPS every day.
+              </p>
+              <a class="arrow" href="/about">Read Mike's story →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════ PLANET · deep teal ═══════ -->
+      <section class="block f-deep planet" id="planet">
+        <div class="in">
+          <img src="justonetree-logo.png" alt="JUST ONE Tree" width="368" height="100" loading="lazy" />
+          <p>
+            The AI that powers REPS uses a little energy, so we plant real trees for it, far more than we
+            use. <a class="arrow" href="/planet">The planet pledge →</a>
+          </p>
+        </div>
+      </section>
+
+      <!-- ═══════ CLOSE · ink · the key line again ═══════ -->
+      <section class="block f-ink close" id="get">
+        <div class="in">
+          <div class="col">
+            <span class="lockup">Your Knowledge Companion</span>
+            <h2>Start with the next thing you read.</h2>
+            <a
+              class="cta magnet"
+              href="https://apps.apple.com/app/id6759216018"
+              target="_blank"
+              rel="noopener"
+              aria-label="Download REPS on the App Store"
+            >
+              <svg viewBox="0 0 384 512" aria-hidden="true">
+                <path
+                  d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"
+                />
+              </svg>
+              Download on the App Store
+            </a>
+            <p class="reassure">Free on the App Store.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="in">
+        <span class="motto">Save. Play. Remember.</span>
+        <a href="/about">About</a>
+        <a href="/planet">Planet</a>
+        <a href="/about#press">Press</a>
+        <a href="/support">Support</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <div class="feat">
+          <a href="/features/active-recall">The daily game</a>
+          <a href="/features/second-brain">Your knowledge graph</a>
+          <a href="/features/read-it-later">Read it later</a>
+        </div>
+      </div>
+    </footer>
+
+        <!-- PostHog — analytics + engagement (autocapture, pageleave/scroll, session replay) -->
+    <script>
+      !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+      posthog.init("phc_gTI0FJoXiGPjdACbgVyunpDSl0mPs2HEYtmzUtK3SyE", {
+        api_host: "https://us.i.posthog.com",
+        ui_host: "https://us.posthog.com",
+        defaults: "2025-05-24",
+        persistence: "localStorage+cookie",
+        capture_pageview: true,
+        capture_pageleave: true,
+        autocapture: true,
+        disable_session_recording: false,
+        loaded: function (ph) { ph.register({ lp_variant: "v5c" }); }
+      });
+    </script>
+
+    <script>
+      (function () {
+        "use strict";
+        var qs = new URLSearchParams(location.search);
+        var reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var MOTION = qs.get("motion") === "1" || !reduced;
+        var COARSE = matchMedia("(pointer: coarse)").matches;
+        var html = document.documentElement;
+        if (MOTION) html.classList.add("motion");
+        var clamp = function (v, a, b) { return v < a ? a : v > b ? b : v; };
+        var ph = function (ev, props) { try { window.posthog && posthog.capture(ev, props || {}); } catch (e) {} };
+
+        /* ─────────────────────────── THE DECK (hero toy) ─────────────────────────── */
+        var ROUNDS = [
+          { kind: "Book", title: "Into Thin Air", q: "Which mountain?", o: ["Everest", "K2", "Denali"], a: 0 },
+          { kind: "Book", title: "Endurance", q: "Whose ship was it?", o: ["Shackleton's", "Scott's", "Amundsen's"], a: 0 },
+          { kind: "Book", title: "1984", q: "Who wrote it?", o: ["George Orwell", "Aldous Huxley", "Ray Bradbury"], a: 0 },
+          { kind: "Podcast", title: "The Diary of a CEO", q: "Who hosts it?", o: ["Steven Bartlett", "Tim Ferriss", "Guy Raz"], a: 0 },
+          { kind: "Magazine", title: "National Geographic", q: "First published in…", o: ["1888", "1925", "1960"], a: 0 },
+          { kind: "Magazine", title: "MIT Technology Review", q: "Founded in…", o: ["1899", "1947", "1983"], a: 0 },
+          { kind: "Article", title: "The Beatles", q: "Formed in…", o: ["Liverpool", "Manchester", "London"], a: 0 },
+          { kind: "Article", title: "Alexander the Great", q: "His tutor was…", o: ["Aristotle", "Plato", "Socrates"], a: 0 },
+          { kind: "Article", title: "Stonehenge", q: "It stands in…", o: ["Wiltshire", "Cornwall", "Yorkshire"], a: 0 },
+          { kind: "Book", title: "To Kill a Mockingbird", q: "Who wrote it?", o: ["Harper Lee", "Truman Capote", "Eudora Welty"], a: 0 }
+        ];
+        var ORDER = [[1, 0, 2], [2, 1, 0], [0, 2, 1], [1, 2, 0], [2, 0, 1], [0, 1, 2], [1, 0, 2], [2, 1, 0], [0, 2, 1], [1, 2, 0]];
+        var COLORS = [
+          ["#FFFAF7", "#211A14"], ["#FFD27D", "#211A14"], ["#FF6B6B", "#211A14"],
+          ["#4C5FAB", "#FFFAF7"], ["#211A14", "#FFFAF7"]
+        ];
+        var JIT = [[-0.06, 0.05], [0.05, -0.06], [-0.03, 0.08], [0.07, 0.02], [-0.05, -0.07], [0.04, 0.06], [0.06, -0.04], [-0.07, 0.01], [0.02, -0.08], [-0.04, 0.06]];
+        var ROT = [-6, 4, -3, 7, -5, 2, 6, -7, 3, -2];
+        var OPEN_FIRST = 1; // the pile lands with "Endurance" already flipped
+
+        var toy = document.getElementById("toy");
+        var board = document.getElementById("board");
+        var tiles = [];
+        var W = 0, H = 0, TW = 150, TH = 108;
+        var active = null, known = 0;
+        var pointer = { x: 0, y: 0, on: false };
+        var impulse = 0;
+        var heroVisible = true, pageVisible = !document.hidden;
+        var t0 = performance.now();
+
+        ROUNDS.forEach(function (r, i) {
+          var el = document.createElement("div");
+          el.className = "tile";
+          el.setAttribute("role", "button");
+          el.setAttribute("tabindex", "0");
+          el.setAttribute("aria-label", "Flip " + r.title);
+          var c = COLORS[i % COLORS.length];
+          el.style.setProperty("--c", c[0]);
+          el.style.setProperty("--t", c[1]);
+          el.innerHTML =
+            '<div class="face"><div class="kind">' + r.kind + '</div><div class="title">' + r.title + "</div></div>" +
+            '<div class="round"></div>';
+          board.appendChild(el);
+          var t = { el: el, i: i, r: r, x: 0, y: 0, vx: 0, vy: 0, rot: ROT[i], a: ROT[i], va: 0, s: 1, hx: 0, hy: 0, done: false, answered: false, w: TW, h: TH };
+          tiles.push(t);
+          el.addEventListener("click", function (e) {
+            if (e.target.closest("button")) return;
+            open(t, true);
+          });
+          el.addEventListener("keydown", function (e) {
+            if ((e.key === "Enter" || e.key === " ") && e.target === el) { e.preventDefault(); open(t, true); }
+          });
+        });
+
+        function layout() {
+          W = board.clientWidth; H = board.clientHeight;
+          var cols = 3;
+          var rows = Math.ceil(tiles.length / cols);
+          TW = Math.round(clamp(W / cols - 16, 104, 126));
+          TH = Math.round(TW * (TW < 130 ? 0.86 : 0.72));
+          var top = 28, bottom = 12;
+          var cw = W / cols, ch = (H - top - bottom) / rows;
+          tiles.forEach(function (t, i) {
+            var c = i % cols, r = Math.floor(i / cols);
+            var inRow = Math.min(cols, tiles.length - r * cols);
+            var offset = (cols - inRow) * cw * 0.5;
+            t.hx = clamp(offset + (c + 0.5) * cw + JIT[i][0] * cw, TW / 2 + 8, W - TW / 2 - 8);
+            t.hy = top + (r + 0.5) * ch + JIT[i][1] * ch;
+            t.w = TW; t.h = TH;
+            if (t !== active) { t.el.style.width = TW + "px"; t.el.style.height = TH + "px"; }
+            if (!MOTION) { if (t !== active) { t.x = t.hx; t.y = t.hy; } t.el.classList.add("born"); }
+            else if (!t.el.classList.contains("born")) { t.x = t.hx; t.y = -H * 0.5 - i * 36; }
+            t.el.classList.toggle("sm", TW < 130);
+          });
+          if (!MOTION && typeof physics === "function") { physics(performance.now()); physics(performance.now()); }
+          else render();
+        }
+
+        function render() {
+          tiles.forEach(function (t) {
+            var w = t.w, h = t.h;
+            if (t === active) { w = t.el.offsetWidth; h = t.el.offsetHeight; }
+            t.el.style.transform =
+              "translate3d(" + (t.x - w / 2).toFixed(1) + "px," + (t.y - h / 2).toFixed(1) + "px,0) rotate(" + t.a.toFixed(2) + "deg) scale(" + t.s.toFixed(3) + ")";
+          });
+        }
+
+        var K = 0.085, D = 0.80, R = 250;
+        var allBorn = !MOTION, opened = false;
+        function physics(now) {
+          var time = (now - t0) / 1000;
+          var any = false, bornCount = 0;
+          var narrow = W < 480, cardH = active ? active.el.offsetHeight : 0, cardCY = H / 2;
+          if (narrow && active) cardCY = H - cardH / 2 - 8;
+          var packIdx = 0;
+          // wide boards: the nine other tiles ring the open card (3 top, 2 each side, 2 bottom)
+          var ring = null;
+          if (active && !narrow) {
+            var ex = TW / 2 + 6, ey = TH / 2 + 6;
+            ring = [[0.2 * W, ey], [0.5 * W, ey], [0.8 * W, ey], [ex, 0.37 * H], [ex, 0.63 * H],
+                    [W - ex, 0.37 * H], [W - ex, 0.63 * H], [0.34 * W, H - ey], [0.66 * W, H - ey]];
+          }
+          // 1. targets
+          tiles.forEach(function (t, i) {
+            t.live = true;
+            if (MOTION && !t.el.classList.contains("born")) {
+              if (now - t0 > 100 + i * 50) t.el.classList.add("born"); else { t.live = false; return; }
+            }
+            bornCount++;
+            var tx = t.hx, ty = t.hy, ta = t.rot, ts = 1;
+            if (t === active) {
+              tx = W / 2; ty = cardCY; ta = 0; ts = 1;
+            } else if (narrow && active) {
+              // packed 3x3 above the open card
+              var pc = packIdx % 3, pr = Math.floor(packIdx / 3); packIdx++;
+              var region = H - cardH - 24, prow = region / 3;
+              tx = (pc + 0.5) * (W / 3); ty = 4 + (pr + 0.5) * prow; ts = 0.94; ta = t.rot * 0.5;
+            } else if (ring) {
+              var slot = ring[Math.min(packIdx, ring.length - 1)]; packIdx++;
+              tx = slot[0]; ty = slot[1]; ts = 0.96; ta = t.rot * 0.6;
+            } else {
+              if (MOTION && pointer.on) {
+                var dx = pointer.x - t.hx, dy = pointer.y - t.hy, d = Math.hypot(dx, dy);
+                if (d < R) {
+                  var k = 1 - d / R; k = k * k * 0.42;
+                  tx += dx * k; ty += dy * k;
+                  ta += (dx / R) * 14 * (1 - d / R);
+                  ts = 1 + 0.08 * (1 - d / R);
+                }
+              }
+              if (MOTION) {
+                tx += Math.sin(time * 0.9 + i * 1.7) * 3;
+                ty += Math.cos(time * 0.7 + i * 1.1) * 3;
+              }
+            }
+            t.tx = tx; t.ty = ty; t.ta = ta; t.ts = ts;
+          });
+          // 2. no tile may hide another: separate overlapping targets (two passes), then keep them on the board
+          // the open card is an immovable obstacle; every other pair shares the shove
+          var inX = function (x, w) { return x >= w / 2 + 4 && x <= W - w / 2 - 4; };
+          var inY = function (y, h) { return y >= h / 2 + 4 && y <= H - h / 2 - 4; };
+          for (var pass = 0; pass < 3; pass++) {
+            for (var a = 0; a < tiles.length; a++) {
+              var A = tiles[a]; if (!A.live) continue;
+              for (var b = a + 1; b < tiles.length; b++) {
+                var B = tiles[b]; if (!B.live || (A === active && B === active)) continue;
+                var Aw = A === active ? A.el.offsetWidth : A.w, Ah = A === active ? A.el.offsetHeight : A.h;
+                var Bw = B === active ? B.el.offsetWidth : B.w, Bh = B === active ? B.el.offsetHeight : B.h;
+                var ddx = B.tx - A.tx, ddy = B.ty - A.ty;
+                var ox = (Aw + Bw) / 2 + 12 - Math.abs(ddx), oy = (Ah + Bh) / 2 + 12 - Math.abs(ddy);
+                if (ox > 0 && oy > 0) {
+                  var fa = A === active ? 0 : B === active ? 1 : 0.5, fb = 1 - fa;
+                  var sx = (ddx < 0 ? -1 : 1) * ox, sy = (ddy < 0 ? -1 : 1) * oy;
+                  // prefer the smaller shove, but never one that would leave the board
+                  var vOK = (!fa || inY(A.ty - sy * fa, Ah)) && (!fb || inY(B.ty + sy * fb, Bh));
+                  var hOK = (!fa || inX(A.tx - sx * fa, Aw)) && (!fb || inX(B.tx + sx * fb, Bw));
+                  if ((ox < oy && hOK) || !vOK) { A.tx -= sx * fa; B.tx += sx * fb; }
+                  else { A.ty -= sy * fa; B.ty += sy * fb; }
+                }
+              }
+            }
+            tiles.forEach(function (t) {
+              if (!t.live || t === active) return;
+              t.tx = clamp(t.tx, t.w / 2 + 4, W - t.w / 2 - 4);
+              t.ty = clamp(t.ty, t.h / 2 + 4, H - t.h / 2 - 4);
+            });
+          }
+          // 3. springs (reduced motion: snap straight to the target, no spring, no drift)
+          tiles.forEach(function (t, i) {
+            if (!t.live) return;
+            if (!MOTION) { t.x = t.tx; t.y = t.ty; t.a = t.ta; t.s = t.ts; return; }
+            if (impulse) t.vy -= impulse * (0.5 + ((i * 7) % 5) * 0.12);
+            t.vx = (t.vx + (t.tx - t.x) * K) * D;
+            t.vy = (t.vy + (t.ty - t.y) * K) * D;
+            t.va = (t.va + (t.ta - t.a) * 0.1) * 0.78;
+            t.x += t.vx; t.y += t.vy; t.a += t.va;
+            t.s += (t.ts - t.s) * 0.16;
+            if (Math.abs(t.vx) + Math.abs(t.vy) + Math.abs(t.va) > 0.02) any = true;
+          });
+          impulse = 0;
+          render();
+          allBorn = allBorn || bornCount === tiles.length;
+          // the pile lands, settles, then one tile flips on its own
+          if (allBorn && !any && !opened && !active) { opened = true; open(tiles[OPEN_FIRST], false); }
+          return any;
+        }
+
+        function closeActive() {
+          if (!active) return;
+          var t = active;
+          t.el.classList.remove("active", "wrong");
+          t.el.style.width = t.w + "px"; t.el.style.height = t.h + "px";
+          if (t.done) { t.el.classList.add("known"); t.el.setAttribute("aria-label", t.r.title + ": known"); }
+          else t.el.setAttribute("aria-label", "Flip " + t.r.title);
+          active = null;
+          wake();
+        }
+
+        function open(t, byUser) {
+          if (t.done || toy.classList.contains("done")) return;
+          if (active === t) return;
+          if (active) { if (active.answered) return; closeActive(); }
+          active = t;
+          var r = t.r, ord = ORDER[t.i];
+          var h = '<div class="q"><small>' + r.kind + " · " + r.title + "</small>" + r.q + '</div><div class="opts">';
+          ord.forEach(function (oi) { h += '<button type="button" data-i="' + oi + '">' + r.o[oi] + "</button>"; });
+          h += '</div><div class="verdict" aria-live="polite"></div>';
+          var rd = t.el.querySelector(".round");
+          rd.innerHTML = h;
+          t.el.style.width = ""; t.el.style.height = "";
+          t.el.classList.add("active");
+          t.el.setAttribute("aria-label", r.title + ": " + r.q);
+          if (byUser) {
+            ph("lp_toy_round_open", { title: r.title });
+            var first = rd.querySelector("button");
+            if (first) first.focus({ preventScroll: true });
+          }
+          rd.querySelectorAll("button").forEach(function (b) {
+            b.addEventListener("click", function () {
+              if (t.done) return;
+              var ok = +b.dataset.i === r.a;
+              rd.querySelectorAll("button").forEach(function (x) {
+                x.disabled = true;
+                if (+x.dataset.i === r.a) x.classList.add("yes");
+              });
+              if (!ok) { b.classList.add("no"); t.el.classList.add("wrong"); }
+              rd.querySelector(".verdict").textContent = ok ? "You knew it." : "Now you do.";
+              t.done = true; t.answered = true; known += 1;
+              ph("lp_toy_round_answer", { title: r.title, correct: ok, known: known });
+              setTimeout(function () {
+                closeActive();
+                if (known >= tiles.length) { toy.classList.add("done"); ph("lp_toy_complete"); }
+              }, ok ? 1100 : 1700);
+            });
+          });
+          wake();
+        }
+
+        document.getElementById("again").addEventListener("click", function () {
+          known = 0; toy.classList.remove("done");
+          tiles.forEach(function (t, i) {
+            t.done = false; t.answered = false; t.el.classList.remove("known");
+            t.el.setAttribute("aria-label", "Flip " + t.r.title);
+            if (MOTION) { t.y = -H * 0.5 - i * 36; t.vy = 0; }
+          });
+          wake();
+        });
+
+        board.addEventListener("pointermove", function (e) {
+          if (e.pointerType === "touch") return;
+          var rc = board.getBoundingClientRect();
+          pointer.x = e.clientX - rc.left; pointer.y = e.clientY - rc.top; pointer.on = true; wake();
+        });
+        board.addEventListener("pointerleave", function () { pointer.on = false; wake(); });
+        board.addEventListener("touchmove", function (e) {
+          var tch = e.touches[0]; if (!tch) return;
+          var rc = board.getBoundingClientRect();
+          pointer.x = tch.clientX - rc.left; pointer.y = tch.clientY - rc.top; pointer.on = true; wake();
+        }, { passive: true });
+        board.addEventListener("touchend", function () { pointer.on = false; }, { passive: true });
+
+        /* ─────────────────────────── THE ONE LOOP ─────────────────────────── */
+        var running = false, lastY = window.scrollY, lastT = 0;
+        var fadeChars = [], fadeEl = document.getElementById("fade");
+        var gb = document.getElementById("gameboard"), trail = document.getElementById("trail"), pawn = document.getElementById("pawn");
+        var stops = gb ? Array.prototype.slice.call(gb.querySelectorAll(".stop")) : [];
+        var trailLen = 0, boardVisible = false, fadeVisible = false, scrubDirty = true;
+
+        function frame(now) {
+          var busy = false;
+          if (heroVisible && pageVisible) busy = physics(now) || MOTION;
+          if (scrubDirty) {
+            if (fadeVisible) scrubFade();
+            if (boardVisible) scrubBoard();
+            scrubDirty = false;
+          }
+          if (busy && pageVisible) requestAnimationFrame(frame); else running = false;
+        }
+        function wake() { if (!running) { running = true; requestAnimationFrame(frame); } }
+
+        /* fading line: letters lose opacity from the end as you scroll past (no blur; stays legible) */
+        if (fadeEl) {
+          var txt = fadeEl.textContent;
+          fadeEl.textContent = "";
+          txt.split("").forEach(function (ch) {
+            var s = document.createElement("span");
+            s.textContent = ch === " " ? " " : ch;
+            fadeEl.appendChild(s); fadeChars.push(s);
+          });
+        }
+        function scrubFade() {
+          var rc = fadeEl.getBoundingClientRect();
+          var vh = window.innerHeight;
+          var p = MOTION ? clamp((vh * 0.8 - rc.top) / (vh * 0.6), 0, 1) : 0.7;
+          var n = fadeChars.length;
+          fadeChars.forEach(function (s, i) {
+            var rank = n - 1 - i;
+            var f = clamp((p * (n + 5) - rank) / 5, 0, 1);
+            s.style.opacity = (1 - 0.62 * f).toFixed(3);
+          });
+        }
+
+        /* board: the trail runs badge to badge; arches over on desktop, hugs the left margin on mobile */
+        function buildTrail() {
+          if (!gb || !stops.length) return;
+          var rc = gb.getBoundingClientRect();
+          var wide = matchMedia("(min-width: 900px)").matches;
+          var pts = stops.map(function (t) {
+            var r = t.querySelector(".n").getBoundingClientRect();
+            return [r.left - rc.left + r.width / 2, r.top - rc.top + r.height / 2];
+          });
+          var d = "M" + pts[0][0] + " " + pts[0][1];
+          for (var i = 1; i < pts.length; i++) {
+            var a = pts[i - 1], b = pts[i];
+            if (wide) {
+              var top = Math.min(a[1], b[1]) - 90;
+              d += " C" + (a[0] + 10) + " " + top + " " + (b[0] - 10) + " " + top + " " + b[0] + " " + b[1];
+            } else {
+              var lx = -20;
+              d += " C" + lx + " " + (a[1] + 40) + " " + lx + " " + (b[1] - 40) + " " + b[0] + " " + b[1];
+            }
+          }
+          trail.setAttribute("d", d);
+          gb.querySelector("svg").setAttribute("viewBox", "0 0 " + rc.width + " " + rc.height);
+          trailLen = trail.getTotalLength();
+          scrubDirty = true; scrubBoard();
+        }
+        function scrubBoard() {
+          if (!trailLen) return;
+          var rc = gb.getBoundingClientRect();
+          var vh = window.innerHeight;
+          var p = MOTION ? clamp((vh * 0.85 - rc.top) / (rc.height + vh * 0.2), 0, 1) : 1;
+          var pt = trail.getPointAtLength(p * trailLen);
+          pawn.setAttribute("transform", "translate(" + pt.x + " " + pt.y + ")");
+          stops.forEach(function (t, i) {
+            t.classList.toggle("lit", p >= i / (stops.length - 1) - 0.02);
+          });
+        }
+
+        window.addEventListener("scroll", function () {
+          var y = window.scrollY, now = performance.now();
+          var dy = y - lastY; lastY = y;
+          if (MOTION && heroVisible && Math.abs(dy) > 2 && now - lastT > 16) { impulse = clamp(dy * 0.08, -6, 6); lastT = now; }
+          scrubDirty = true; wake();
+        }, { passive: true });
+
+        var rT;
+        window.addEventListener("resize", function () {
+          clearTimeout(rT);
+          rT = setTimeout(function () { layout(); buildTrail(); wake(); }, 80);
+        });
+        document.addEventListener("visibilitychange", function () {
+          pageVisible = !document.hidden; if (pageVisible) wake();
+        });
+
+        new IntersectionObserver(function (es) {
+          es.forEach(function (e) { heroVisible = e.isIntersecting; }); if (heroVisible) wake();
+        }, { rootMargin: "80px" }).observe(board);
+        if (fadeEl) new IntersectionObserver(function (es) {
+          es.forEach(function (e) { fadeVisible = e.isIntersecting; }); scrubDirty = true; wake();
+        }, { rootMargin: "200px" }).observe(fadeEl);
+        if (gb) new IntersectionObserver(function (es) {
+          es.forEach(function (e) { boardVisible = e.isIntersecting; }); scrubDirty = true; wake();
+        }, { rootMargin: "200px" }).observe(gb);
+
+        /* scroll reveals */
+        var reveals = document.querySelectorAll(".reveal");
+        if (MOTION) {
+          var ro = new IntersectionObserver(function (es) {
+            es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("on"); ro.unobserve(e.target); } });
+          }, { threshold: 0.15, rootMargin: "0px 0px -6% 0px" });
+          reveals.forEach(function (el) { ro.observe(el); });
+        } else {
+          reveals.forEach(function (el) { el.classList.add("on"); });
+        }
+
+        /* magnetic buttons (fine pointer only) */
+        var magnets = Array.prototype.slice.call(document.querySelectorAll(".magnet"));
+        if (MOTION && !COARSE) {
+          var mPending = false, mx = 0, my = 0;
+          var applyMagnets = function () {
+            mPending = false;
+            magnets.forEach(function (m) {
+              var r = m.getBoundingClientRect();
+              if (r.bottom < 0 || r.top > window.innerHeight) return;
+              var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+              var dx = mx - cx, dy = my - cy, d = Math.hypot(dx, dy), range = 110;
+              if (d < range) {
+                var k = (1 - d / range) * 0.35;
+                m.style.transform = "translate(" + (dx * k).toFixed(1) + "px," + (dy * k).toFixed(1) + "px)";
+              } else if (m.style.transform) m.style.transform = "";
+            });
+          };
+          document.addEventListener("pointermove", function (e) {
+            mx = e.clientX; my = e.clientY;
+            if (!mPending) { mPending = true; requestAnimationFrame(applyMagnets); }
+          }, { passive: true });
+        }
+
+        /* the one clip: autoplay in view under motion; poster + custom glyph otherwise, never native chrome */
+        var win = document.getElementById("window");
+        var vid = win.querySelector("video");
+        var glyph = win.querySelector(".play-glyph");
+        function startClip() {
+          if (!vid.src) { vid.src = vid.dataset.src; vid.load(); }
+          vid.play().catch(function () {});
+          win.classList.remove("still");
+        }
+        if (MOTION) {
+          new IntersectionObserver(function (es) {
+            es.forEach(function (e) { if (e.isIntersecting) startClip(); else if (!vid.paused) vid.pause(); });
+          }, { rootMargin: "120px", threshold: 0.25 }).observe(win);
+        } else {
+          win.classList.add("still");
+          glyph.addEventListener("click", startClip);
+        }
+
+        /* go */
+        layout();
+        buildTrail();
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { layout(); buildTrail(); });
+        window.addEventListener("load", function () { buildTrail(); });
+        wake();
+        // Without motion the pile is already seated: flip one tile now. With motion the loop flips it once
+        // the pile has settled (fallback timer in case the tab is backgrounded mid-drop).
+        if (!MOTION) { opened = true; open(tiles[OPEN_FIRST], false); physics(performance.now()); physics(performance.now()); }
+        else setTimeout(function () { if (!opened && !active) { opened = true; open(tiles[OPEN_FIRST], false); } }, 4000);
+      })();
+    </script>
+  </body>
+</html>
