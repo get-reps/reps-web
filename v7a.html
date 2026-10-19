@@ -1,0 +1,1941 @@
+<!doctype html>
+<!-- REPS home, candidate v7a — "THE MANIFESTO" (2026-10-19, round 5, Direction A; BRIEF_V5 governs, Mike's answers at
+     its foot override the body). mymind.com's register in REPS's voice: a typographic site with a point of view.
+     Cream page, warm ink, ONE soft coral→peach radial glow behind the hero headline (breathes once on load, then still).
+     The hero is a sentence, not a product. The manifesto sits on the home page. Every section is a bold claim under a
+     small-caps label. The only imagery is the nine-box treasure trove (real artwork, small and quiet) and three real
+     still as proof (Mike, 2026-10-19: one real still on the whole page, small and low). Design system carried from v6c: tokens, nav, the one CTA, reviews (#proof), founder letter (#why),
+     planet (#planet), close (#get), `.reveal.shown`, `?motion=1` settle, PostHog `lp_variant`.
+     Motion budget: no canvas, no rAF loop. CSS transitions/animations only, each bounded, each run ONCE on entry
+     (`.scene.play`), then settled (`.scene.settled`); paused via IntersectionObserver while off-screen (`.live`).
+     Reduced motion (and no `?motion=1`): every scene drawn in its end state, no transitions. `?motion=1`: every scene,
+     reveal and the headline turn settle at once (`html.fast`). -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>REPS · Your Knowledge Companion</title>
+    <meta
+      name="description"
+      content="You read, watch and listen to more than any generation in history, and keep almost none of it. REPS is a free iPhone app that keeps what you take in with you."
+    />
+    <link rel="canonical" href="https://www.getreps.io/" />
+    <meta property="og:title" content="REPS · Your Knowledge Companion" />
+    <meta
+      property="og:description"
+      content="You read, watch and listen to more than any generation in history, and keep almost none of it. Now it stays with you."
+    />
+    <meta property="og:url" content="https://www.getreps.io/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://www.getreps.io/og-card-v3.png?v=2" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://www.getreps.io/og-card-v3.png?v=2" />
+    <meta name="theme-color" content="#FFFAF7" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      /* Early, so nothing flashes before it is placed. `?motion=1` overrides reduced motion AND settles everything at once. */
+      (function () {
+        var q = new URLSearchParams(location.search);
+        var fast = q.get("motion") === "1";
+        if (fast || !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          document.documentElement.classList.add("motion");
+        }
+        if (fast) document.documentElement.classList.add("fast");
+      })();
+    </script>
+    <style>
+      :root {
+        --cream: #fffaf7;
+        --ink: #211a14;
+        --soft: #5f554e;
+        --mute: #776d66;
+        --coral: #ff6b6b;
+        --peach: #ff8e53;
+        --coral-ink: #d8443f;
+        --paper: #f6efe9;
+        --sans: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+        --serif: "Lora", Georgia, "Times New Roman", serif;
+        --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html.motion {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background: var(--cream);
+        color: var(--ink);
+        font-family: var(--sans);
+        font-size: 18px;
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+      img {
+        display: block;
+        max-width: 100%;
+      }
+      a {
+        color: inherit;
+      }
+      .skip {
+        position: absolute;
+        left: -999px;
+        top: 8px;
+        background: var(--ink);
+        color: var(--cream);
+        padding: 10px 14px;
+        border-radius: 10px;
+        z-index: 50;
+        font-weight: 600;
+      }
+      .skip:focus {
+        left: 12px;
+      }
+      .in {
+        width: min(1120px, 100% - 48px);
+        margin: 0 auto;
+      }
+
+      /* ───────────── nav (v6c) ───────────── */
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: rgba(255, 250, 247, 0.84);
+        -webkit-backdrop-filter: blur(14px);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid rgba(33, 26, 20, 0.06);
+      }
+      .nav .in {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 68px;
+      }
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        font-weight: 600;
+        font-size: 17px;
+        letter-spacing: 0.04em;
+        color: var(--soft);
+        text-decoration: none;
+      }
+      .brand img {
+        width: 26px;
+        height: 26px;
+        border-radius: 7px;
+        opacity: 0.85;
+      }
+      .nav nav {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+      }
+      .nav .link {
+        font-weight: 600;
+        font-size: 15px;
+        color: var(--soft);
+        text-decoration: none;
+      }
+      .nav .link:hover {
+        color: var(--ink);
+      }
+
+      /* ───────────── CTA (the one style, v6c) ───────────── */
+      .cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        height: 58px;
+        padding: 0 28px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, var(--coral), var(--peach));
+        color: #fff;
+        font-weight: 700;
+        font-size: 17px;
+        letter-spacing: 0.005em;
+        text-decoration: none;
+        box-shadow: 0 12px 30px rgba(255, 107, 107, 0.32);
+        transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+        will-change: transform;
+      }
+      .cta svg {
+        width: 20px;
+        height: 20px;
+        fill: #fff;
+        flex: none;
+      }
+      .cta:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 36px rgba(255, 107, 107, 0.42);
+      }
+      .cta:focus-visible,
+      .link:focus-visible,
+      .arrow:focus-visible,
+      .lockup:focus-visible {
+        outline: 3px solid var(--coral-ink);
+        outline-offset: 4px;
+      }
+      /* One coral object above the fold: the hero CTA. The nav pill only earns its colour once the hero has scrolled away. */
+      .cta.small {
+        height: 42px;
+        padding: 0 18px;
+        font-size: 15px;
+        background: transparent;
+        color: var(--ink);
+        border: 1px solid rgba(33, 26, 20, 0.14);
+        box-shadow: none;
+        transition: background 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+      }
+      body.past-hero .cta.small {
+        background: linear-gradient(135deg, var(--coral), var(--peach));
+        color: #fff;
+        border-color: transparent;
+        box-shadow: 0 6px 16px rgba(255, 107, 107, 0.25);
+      }
+      .reassure {
+        margin: 14px 0 0;
+        font-size: 15px;
+        color: var(--mute);
+        font-weight: 500;
+      }
+      .f-ink .reassure {
+        color: rgba(255, 250, 247, 0.62);
+      }
+
+      /* ───────────── type system ───────────── */
+      .eyebrow {
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        color: var(--coral-ink);
+        margin: 0 0 18px;
+      }
+      /* the small-caps section label of this direction: quiet, warm grey, letterspaced; coral is spent on the claims */
+      .label {
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--mute);
+        margin: 0 0 22px;
+      }
+      h2 {
+        font-size: clamp(36px, 4.9vw, 68px);
+        line-height: 1.03;
+        letter-spacing: -0.025em;
+        font-weight: 700;
+        margin: 0 0 24px;
+        max-width: 15ch;
+      }
+      .lede {
+        font-size: clamp(18px, 1.5vw, 22px);
+        line-height: 1.5;
+        color: var(--soft);
+        max-width: 620px;
+        margin: 0;
+      }
+      .lede strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .arrow {
+        display: inline-block;
+        font-weight: 700;
+        color: var(--coral-ink);
+        text-decoration: none;
+        border-bottom: 2px solid rgba(216, 68, 63, 0.3);
+        padding-bottom: 1px;
+      }
+      .arrow:hover {
+        border-color: var(--coral-ink);
+      }
+      .block {
+        padding: clamp(84px, 11vw, 144px) 0;
+        position: relative;
+      }
+      .f-ink {
+        background: var(--ink);
+        color: var(--cream);
+      }
+      .f-ink .eyebrow {
+        color: var(--peach);
+      }
+      .f-ink .lede {
+        color: rgba(255, 250, 247, 0.74);
+      }
+
+      /* ───────────── hero: a sentence, one glow ───────────── */
+      .hero {
+        position: relative;
+        min-height: min(calc(100svh - 68px), 880px);
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        padding: 36px 0 56px;
+      }
+      /* the one place the gradient appears off the button: a soft coral→peach radial, ~6% at its heart, behind the headline */
+      .glow {
+        position: absolute;
+        left: 50%;
+        top: 44%;
+        width: min(1180px, 130vw);
+        aspect-ratio: 1.55;
+        transform: translate(-50%, -50%);
+        background: radial-gradient(ellipse at center, rgba(255, 107, 107, 0.1), rgba(255, 142, 83, 0.06) 42%, rgba(255, 250, 247, 0) 70%);
+        pointer-events: none;
+        opacity: 0.92;
+      }
+      /* it breathes once on load, then is still (no loop) */
+      html.motion:not(.fast) .glow {
+        animation: breathe-once 2.6s ease-in-out 1 forwards;
+      }
+      @keyframes breathe-once {
+        0% {
+          opacity: 0;
+          transform: translate(-50%, -50%) scale(0.94);
+        }
+        60% {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1.03);
+        }
+        100% {
+          opacity: 0.92;
+          transform: translate(-50%, -50%) scale(1);
+        }
+      }
+      .hero-in {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        width: min(1200px, 100% - 48px);
+        margin: 0 auto;
+      }
+      .lockup {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 700;
+        font-size: 15px;
+        letter-spacing: 0.02em;
+        color: var(--coral-ink);
+        text-decoration: none;
+      }
+      .lockup img {
+        width: 26px;
+        height: 26px;
+        border-radius: 7px;
+      }
+      h1 {
+        font-size: clamp(40px, 5.6vw, 82px);
+        line-height: 0.98;
+        letter-spacing: -0.035em;
+        font-weight: 700;
+        margin: 26px 0 28px;
+        text-wrap: balance;
+      }
+      h1 .line {
+        display: block;
+        text-wrap: balance;
+      }
+      h1 .l1 {
+        margin-bottom: 0.22em;
+      }
+      /* the turn (v6c): line 2 is struck by a DRAWN coral line, left to right, then line 3 opens beneath it in coral-ink.
+         The struck line stays in the DOM and in the accessible name. */
+      h1 .l2 {
+        color: var(--ink);
+      }
+      h1 .sw {
+        background: linear-gradient(var(--coral-ink), var(--coral-ink)) no-repeat 0 55% / 0% 0.085em;
+        -webkit-box-decoration-break: clone;
+        box-decoration-break: clone;
+        padding: 0 0.04em;
+        margin: 0 -0.04em;
+      }
+      h1.struck .sw {
+        background-size: 100% 0.085em;
+      }
+      h1.struck .l2 {
+        color: var(--soft);
+      }
+      h1 .l3w {
+        display: grid;
+        grid-template-rows: 0fr;
+      }
+      h1 .l3 {
+        min-height: 0;
+        overflow: hidden;
+        color: var(--coral-ink);
+      }
+      h1 .l3 .t {
+        display: block;
+        color: transparent;
+        padding-top: 0.22em;
+      }
+      h1.struck .l3w {
+        grid-template-rows: 1fr;
+      }
+      h1.struck .l3 .t {
+        color: var(--coral-ink);
+      }
+      html.motion:not(.fast) h1 .sw {
+        transition: background-size 0.7s var(--ease);
+      }
+      html.motion:not(.fast) h1 .l2 {
+        transition: color 0.5s 0.45s var(--ease);
+      }
+      html.motion:not(.fast) h1 .l3w {
+        transition: grid-template-rows 0.6s 0.4s var(--ease);
+      }
+      html.motion:not(.fast) h1 .l3 .t {
+        transition: color 0.5s 0.65s var(--ease);
+      }
+      html.motion h1.done .sw,
+      html.motion h1.done .l2,
+      html.motion h1.done .l3w,
+      html.motion h1.done .l3 .t {
+        transition: none;
+      }
+      /* mymind's noun-pill line, in REPS's triad */
+      .nouns {
+        margin: 0 auto 30px;
+        font-size: clamp(17px, 1.5vw, 21px);
+        font-weight: 500;
+        color: var(--soft);
+        line-height: 2;
+      }
+      .pill {
+        display: inline-block;
+        padding: 0 0.7em;
+        line-height: 1.7;
+        border: 1px solid rgba(33, 26, 20, 0.2);
+        border-radius: 999px;
+        color: var(--ink);
+        font-weight: 600;
+        background: rgba(255, 255, 255, 0.5);
+        margin: 0 0.1em;
+      }
+      .hero .actions {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      /* ───────────── manifesto band (cream, typographic) ───────────── */
+      .manifesto {
+        padding: clamp(96px, 12vw, 168px) 0 clamp(80px, 10vw, 140px);
+        text-align: center;
+      }
+      .creed {
+        font-size: clamp(22px, 2.1vw, 28px);
+        font-weight: 500;
+        line-height: 1.42;
+        letter-spacing: -0.01em;
+        max-width: 640px;
+        margin: 0 auto;
+        color: var(--ink);
+      }
+      .promise {
+        list-style: none;
+        margin: 60px auto 0;
+        padding: 0;
+        width: fit-content;
+        text-align: left;
+        font-size: clamp(24px, 2.4vw, 32px);
+        font-weight: 500;
+        line-height: 1.3;
+        color: var(--ink);
+      }
+      .promise li {
+        margin: 0.22em 0;
+      }
+      .promise b {
+        color: var(--coral-ink);
+        font-weight: 700;
+        margin-right: 0.3em;
+      }
+      .welcome {
+        font-size: clamp(28px, 3vw, 40px);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1.15;
+        margin: 72px auto 0;
+        max-width: 18ch;
+      }
+
+      /* ───────────── claims (three sections, each a label + claim + one code-drawn scene) ───────────── */
+      .claim {
+        padding: clamp(64px, 8vw, 112px) 0;
+      }
+      .claim .in {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: clamp(40px, 6vw, 96px);
+        align-items: center;
+      }
+      .claim h2 {
+        font-size: clamp(32px, 4.2vw, 58px);
+        max-width: 14ch;
+      }
+      .claim h2 .yes {
+        color: var(--coral-ink);
+      }
+      .claim.flip .scene {
+        order: -1;
+      }
+      .scene {
+        position: relative;
+      }
+
+      /* the graveyard: a 4×3 grid of saved things, grey and dusty, that bloom into colour one by one */
+      .grave {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+      }
+      .tile {
+        position: relative;
+        aspect-ratio: 4 / 5;
+        border-radius: 14px;
+        background: var(--tint, var(--paper));
+        display: grid;
+        place-items: center;
+        padding: 10px 10px 28px;
+        overflow: hidden;
+        filter: grayscale(1);
+        opacity: 0.5;
+      }
+      .tile img {
+        height: auto;
+        border-radius: 4px;
+        box-shadow: 0 6px 14px rgba(33, 26, 20, 0.16);
+      }
+      .tile.book img {
+        width: 58%;
+        border-radius: 3px;
+      }
+      .tile.pod img {
+        width: 60%;
+        border-radius: 8px;
+      }
+      .tile.vid img {
+        width: 86%;
+        border-radius: 7px;
+      }
+      .tile.vid .play {
+        position: absolute;
+        left: 50%;
+        top: 44%;
+        width: 22px;
+        height: 22px;
+        margin: -11px 0 0 -11px;
+        border-radius: 50%;
+        background: rgba(33, 26, 20, 0.55);
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.3) inset;
+      }
+      .tile.vid .play::after {
+        content: "";
+        position: absolute;
+        left: 8px;
+        top: 6px;
+        border-left: 8px solid #fff;
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+      }
+      /* captions on saved things: the content register (Lora) */
+      .tile .cap {
+        position: absolute;
+        left: 7px;
+        right: 7px;
+        bottom: 7px;
+        font-family: var(--serif);
+        font-size: 10.5px;
+        line-height: 1.2;
+        color: var(--soft);
+        text-align: center;
+        font-style: italic;
+      }
+      .scene.play .grave .tile,
+      .scene.settled .grave .tile {
+        filter: none;
+        opacity: 1;
+      }
+      html.motion .scene.play:not(.settled) .grave .tile {
+        transition: filter 0.9s var(--ease), opacity 0.9s var(--ease);
+        transition-delay: calc(var(--i, 0) * 110ms);
+      }
+      /* the abstract saved things, code-drawn (no app UI): a link card, a highlighted page, a screenshot, a note, a PDF, a chip */
+      .ab {
+        width: 72%;
+        background: #fff;
+        border: 1px solid rgba(33, 26, 20, 0.1);
+        border-radius: 8px;
+        padding: 8px;
+        display: grid;
+        gap: 5px;
+        box-shadow: 0 6px 14px rgba(33, 26, 20, 0.1);
+      }
+      .ab i {
+        display: block;
+        height: 4px;
+        border-radius: 2px;
+        background: rgba(33, 26, 20, 0.22);
+      }
+      .ab i.s {
+        width: 62%;
+      }
+      .ab i.m {
+        width: 80%;
+      }
+      .ab i.hd {
+        height: 22px;
+        border-radius: 4px;
+        background: rgba(33, 26, 20, 0.08);
+      }
+      .ab i.mk {
+        background: rgba(255, 142, 83, 0.55);
+        height: 6px;
+      }
+      .ab.shot {
+        width: 54%;
+        aspect-ratio: 9 / 16;
+        border-radius: 10px;
+        align-content: start;
+      }
+      .ab.shot i.hd {
+        height: 12px;
+      }
+      .ab.note {
+        background: #fff7e9;
+        border-color: rgba(212, 162, 78, 0.3);
+      }
+      .ab.pdf {
+        position: relative;
+        width: 56%;
+        aspect-ratio: 3 / 4;
+        align-content: start;
+        border-radius: 3px;
+      }
+      .ab.pdf::before {
+        content: "";
+        position: absolute;
+        right: -1px;
+        top: -1px;
+        width: 14px;
+        height: 14px;
+        background: linear-gradient(225deg, var(--paper) 50%, rgba(33, 26, 20, 0.14) 50%);
+        border-bottom-left-radius: 3px;
+      }
+      .ab.pdf i.tag {
+        height: auto;
+        background: none;
+        font: 700 8px/1 var(--sans);
+        letter-spacing: 0.1em;
+        color: var(--mute);
+        font-style: normal;
+        margin-top: 2px;
+      }
+      .ab.chip {
+        width: 76%;
+        border-radius: 999px;
+        grid-template-columns: auto 1fr;
+        align-items: center;
+        padding: 7px 10px;
+      }
+      .ab.chip i.tri {
+        width: 0;
+        height: 0;
+        background: none;
+        border-left: 8px solid rgba(33, 26, 20, 0.6);
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        border-radius: 0;
+      }
+      .ab.chip i.bar {
+        height: 3px;
+        background: linear-gradient(90deg, rgba(33, 26, 20, 0.55) 0 38%, rgba(33, 26, 20, 0.14) 38%);
+      }
+
+      /* the scroll: a narrow column of cards rushing past, grey and blurred, that slows and settles into four calm cards */
+      .feed {
+        width: min(320px, 100%);
+        height: 520px;
+        margin: 0 auto;
+        border-radius: 28px;
+        background: #fff;
+        border: 1px solid rgba(33, 26, 20, 0.08);
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 24px 60px rgba(33, 26, 20, 0.08);
+      }
+      .stream {
+        position: absolute;
+        left: 16px;
+        right: 16px;
+        top: 16px;
+        display: grid;
+        gap: 12px;
+        opacity: 0.9;
+        will-change: transform;
+      }
+      .stream i {
+        display: block;
+        height: 76px;
+        border-radius: 12px;
+        background: #e9e3de;
+      }
+      .stream i:nth-child(3n) {
+        height: 110px;
+      }
+      .stream i:nth-child(3n + 1) {
+        height: 92px;
+      }
+      .calm {
+        position: absolute;
+        inset: 16px;
+        display: grid;
+        align-content: center;
+        gap: 12px;
+      }
+      .calm .c {
+        background: var(--cream);
+        border: 1px solid rgba(33, 26, 20, 0.08);
+        border-radius: 14px;
+        padding: 13px 16px 14px;
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      .calm .k,
+      .calm .t,
+      .calm .b {
+        display: block;
+      }
+      .calm .k {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--mute);
+        line-height: 1;
+      }
+      .calm .t {
+        font-family: var(--serif);
+        font-weight: 600;
+        font-size: 19px;
+        line-height: 1.2;
+        color: var(--ink);
+        margin: 6px 0 3px;
+      }
+      .calm .b {
+        font-size: 12px;
+        color: var(--soft);
+        line-height: 1.2;
+      }
+      html.motion .scene.play:not(.settled) .feed .stream {
+        animation: rush 2.1s cubic-bezier(0.15, 0.75, 0.25, 1) 1 forwards;
+      }
+      @keyframes rush {
+        0% {
+          transform: translateY(0);
+          filter: blur(0);
+          opacity: 0.9;
+        }
+        25% {
+          filter: blur(3px);
+        }
+        80% {
+          transform: translateY(-860px);
+          filter: blur(1px);
+          opacity: 0.6;
+        }
+        100% {
+          transform: translateY(-940px);
+          filter: blur(0);
+          opacity: 0;
+        }
+      }
+      html.motion .scene.play:not(.settled) .feed .calm .c {
+        animation: rise 0.7s var(--ease) 1 forwards;
+        animation-delay: calc(1.5s + var(--i, 0) * 140ms);
+      }
+      @keyframes rise {
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .scene.settled .feed .stream {
+        display: none;
+      }
+      .scene.settled .feed .calm .c {
+        opacity: 1;
+        transform: none;
+        animation: none;
+      }
+
+      /* the machine: one card, a question asked of you, a cursor waiting; nothing autocompletes */
+      .ask {
+        width: min(440px, 100%);
+        margin: 0 auto;
+        background: #fff;
+        border: 1px solid rgba(33, 26, 20, 0.08);
+        border-radius: 22px;
+        padding: 26px 28px 30px;
+        box-shadow: 0 24px 60px rgba(33, 26, 20, 0.08);
+      }
+      .ask .k {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--mute);
+        line-height: 1;
+      }
+      .ask .q {
+        font-size: clamp(22px, 2vw, 26px);
+        font-weight: 600;
+        line-height: 1.3;
+        letter-spacing: -0.01em;
+        margin: 12px 0 28px;
+        color: var(--ink);
+      }
+      .ask .ul {
+        background: linear-gradient(rgba(216, 68, 63, 0.5), rgba(216, 68, 63, 0.5)) no-repeat 0 100% / 0% 2px;
+        -webkit-box-decoration-break: clone;
+        box-decoration-break: clone;
+        padding-bottom: 3px;
+      }
+      .scene.play .ask .ul,
+      .scene.settled .ask .ul {
+        background-size: 100% 2px;
+      }
+      html.motion .scene.play:not(.settled) .ask .ul {
+        transition: background-size 0.9s 0.2s var(--ease);
+      }
+      .ask .a {
+        height: 44px;
+        border-bottom: 1.5px solid rgba(33, 26, 20, 0.18);
+        display: flex;
+        align-items: center;
+      }
+      .ask .cur {
+        display: block;
+        width: 2px;
+        height: 26px;
+        background: var(--ink);
+      }
+      /* the cursor blinks eight times (bounded, not a loop) and only while the card is on screen */
+      html.motion .scene.play .ask .cur {
+        animation: blink 1.1s steps(1, end) 8;
+        animation-play-state: paused;
+      }
+      html.motion .scene.play.live .ask .cur {
+        animation-play-state: running;
+      }
+      @keyframes blink {
+        50% {
+          opacity: 0;
+        }
+      }
+      .ask .note {
+        margin: 14px 0 0;
+        font-size: 13px;
+        color: var(--mute);
+      }
+
+      /* ───────────── treasure trove (nine equal boxes) ───────────── */
+      .trove-head {
+        text-align: center;
+        display: grid;
+        justify-items: center;
+      }
+      .trove-head h2 {
+        max-width: none;
+      }
+      .trove {
+        list-style: none;
+        margin: 48px 0 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+      }
+      .box {
+        background: #fff;
+        border: 1px solid rgba(33, 26, 20, 0.07);
+        border-radius: 20px;
+        padding: 16px 18px 24px;
+        box-shadow: 0 14px 40px rgba(33, 26, 20, 0.05);
+      }
+      .box .pic {
+        height: 164px;
+        border-radius: 14px;
+        background: var(--paper);
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        margin-bottom: 18px;
+        position: relative;
+      }
+      .box h3 {
+        margin: 0 0 6px;
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+      }
+      .box p {
+        margin: 0;
+        font-size: 15px;
+        line-height: 1.45;
+        color: var(--soft);
+      }
+      .pic img {
+        height: auto;
+        box-shadow: 0 8px 18px rgba(33, 26, 20, 0.18);
+      }
+      .pic .cover {
+        width: 84px;
+        border-radius: 3px;
+      }
+      .pic .art {
+        width: 104px;
+        border-radius: 10px;
+      }
+      .pic .thumb {
+        width: 184px;
+        border-radius: 8px;
+      }
+      .pic .disc {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 34px;
+        height: 34px;
+        margin: -17px 0 0 -17px;
+        border-radius: 50%;
+        background: rgba(33, 26, 20, 0.55);
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.3) inset;
+      }
+      .pic .disc::after {
+        content: "";
+        position: absolute;
+        left: 13px;
+        top: 10px;
+        border-left: 11px solid #fff;
+        border-top: 7px solid transparent;
+        border-bottom: 7px solid transparent;
+      }
+      /* the article card: code-drawn, the publication named in type (no masthead), the headline in Lora */
+      .artcard {
+        width: 210px;
+        background: #fff;
+        border: 1px solid rgba(33, 26, 20, 0.08);
+        border-radius: 10px;
+        padding: 12px 14px 13px;
+        display: grid;
+        gap: 5px;
+        text-align: left;
+        box-shadow: 0 8px 18px rgba(33, 26, 20, 0.08);
+      }
+      .artcard .pub {
+        font-size: 11px;
+        font-weight: 600;
+        font-variant-caps: all-small-caps;
+        letter-spacing: 0.08em;
+        color: var(--mute);
+        line-height: 1;
+      }
+      .artcard .hd {
+        font-family: var(--serif);
+        font-weight: 600;
+        font-size: 15px;
+        line-height: 1.25;
+        color: var(--ink);
+      }
+      .artcard .by {
+        font-size: 11px;
+        color: var(--mute);
+        line-height: 1;
+      }
+      /* the highlight: a page with one line kept */
+      .hlcard {
+        width: 220px;
+        background: #fff;
+        border-radius: 8px;
+        padding: 14px 16px;
+        font-family: var(--serif);
+        font-size: 12.5px;
+        line-height: 1.55;
+        color: var(--soft);
+        box-shadow: 0 8px 18px rgba(33, 26, 20, 0.08);
+        text-align: left;
+      }
+      .hlcard mark {
+        background: linear-gradient(transparent 20%, rgba(255, 142, 83, 0.45) 20%, rgba(255, 142, 83, 0.45) 92%, transparent 92%);
+        color: var(--ink);
+        font-weight: 600;
+      }
+      /* the quote */
+      .qcard {
+        margin: 0;
+        max-width: 230px;
+        text-align: center;
+        font-family: var(--serif);
+        font-style: italic;
+        font-size: 14px;
+        line-height: 1.4;
+        color: var(--ink);
+        padding: 0 10px;
+      }
+      .qcard .who {
+        display: block;
+        font-family: var(--sans);
+        font-style: normal;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        color: var(--mute);
+        margin-top: 8px;
+      }
+      /* the screenshot: an abstract frame, no app UI */
+      .shotcard {
+        width: 82px;
+        aspect-ratio: 9 / 16;
+        background: #fff;
+        border: 1px solid rgba(33, 26, 20, 0.12);
+        border-radius: 12px;
+        padding: 9px 8px;
+        display: grid;
+        gap: 6px;
+        align-content: start;
+        box-shadow: 0 8px 18px rgba(33, 26, 20, 0.1);
+      }
+      .shotcard i,
+      .pdfcard i {
+        display: block;
+        height: 4px;
+        border-radius: 2px;
+        background: rgba(33, 26, 20, 0.2);
+      }
+      .shotcard i.hd {
+        height: 16px;
+        border-radius: 4px;
+        background: rgba(33, 26, 20, 0.08);
+      }
+      .shotcard i.s,
+      .pdfcard i.s {
+        width: 60%;
+      }
+      .shotcard i.mk {
+        background: rgba(255, 142, 83, 0.55);
+        height: 6px;
+        width: 78%;
+      }
+      /* the PDF: a page with a folded corner */
+      .pdfcard {
+        position: relative;
+        width: 96px;
+        aspect-ratio: 3 / 4;
+        background: #fff;
+        border: 1px solid rgba(33, 26, 20, 0.12);
+        border-radius: 3px;
+        padding: 14px 12px;
+        display: grid;
+        gap: 6px;
+        align-content: start;
+        box-shadow: 0 8px 18px rgba(33, 26, 20, 0.1);
+      }
+      .pdfcard::before {
+        content: "";
+        position: absolute;
+        right: -1px;
+        top: -1px;
+        width: 18px;
+        height: 18px;
+        background: linear-gradient(225deg, var(--paper) 50%, rgba(33, 26, 20, 0.14) 50%);
+        border-bottom-left-radius: 3px;
+      }
+      .pdfcard .tag {
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        color: var(--mute);
+        line-height: 1;
+        margin-bottom: 2px;
+      }
+      /* the note */
+      .notecard {
+        width: 200px;
+        background: #fff7e9;
+        border: 1px solid rgba(212, 162, 78, 0.3);
+        border-radius: 10px;
+        padding: 14px 16px;
+        font-family: var(--serif);
+        font-size: 14px;
+        line-height: 1.45;
+        color: var(--ink);
+        box-shadow: 0 8px 18px rgba(33, 26, 20, 0.08);
+        text-align: left;
+      }
+      .notecard .when {
+        display: block;
+        font-family: var(--sans);
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--mute);
+        margin-bottom: 6px;
+      }
+
+      /* ───────────── one real still (the only app UI on the page): small, quiet, low ───────────── */
+      .still {
+        padding: clamp(40px, 6vw, 72px) 0 clamp(72px, 9vw, 120px);
+      }
+      .still .in {
+        display: grid;
+        justify-items: center;
+      }
+      .phone {
+        width: min(220px, 64vw);
+        border-radius: 36px;
+        background: #0b0b0d;
+        padding: 8px;
+        box-shadow: 0 30px 60px -30px rgba(33, 26, 20, 0.55);
+      }
+      .phone .screen {
+        border-radius: 29px;
+        overflow: hidden;
+        aspect-ratio: 540 / 1170;
+        background: #000;
+      }
+      .phone img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .stillcap {
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--mute);
+        text-align: center;
+        margin: 16px 0 0;
+      }
+
+      /* ───────────── proof (cream, ruled Lora quotes — v6c) ───────────── */
+      .proof h2 {
+        margin-bottom: 40px;
+      }
+      .reviews {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 56px;
+      }
+      .reviews li {
+        border-top: 1px solid rgba(33, 26, 20, 0.12);
+        padding: 30px 0 34px 46px;
+        position: relative;
+        transition: opacity 0.6s var(--ease), transform 0.7s var(--ease);
+      }
+      html.motion .reveal:not(.shown) .reviews li {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      .reviews li::before {
+        content: "\201C";
+        position: absolute;
+        left: 0;
+        top: 18px;
+        font-family: var(--serif);
+        font-size: 64px;
+        line-height: 1;
+        color: var(--coral-ink);
+        font-weight: 600;
+      }
+      .reviews blockquote {
+        margin: 0 0 12px;
+        font-family: var(--serif);
+        font-weight: 500;
+        font-size: clamp(18px, 1.5vw, 22px);
+        line-height: 1.45;
+        color: var(--ink);
+      }
+      .reviews cite {
+        font-style: normal;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--mute);
+        letter-spacing: 0.02em;
+      }
+
+      /* ───────────── why (founder letter — v6c) ───────────── */
+      .why .in {
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        gap: 56px;
+        align-items: start;
+        max-width: 1000px;
+      }
+      .why img {
+        width: 200px;
+        height: 200px;
+        border-radius: 28px;
+        object-fit: cover;
+        box-shadow: 0 20px 50px rgba(33, 26, 20, 0.14);
+      }
+      .letter {
+        max-width: 620px;
+      }
+      .letter p {
+        font-family: var(--serif);
+        font-size: clamp(18px, 1.45vw, 21px);
+        line-height: 1.55;
+        color: var(--soft);
+        margin: 0 0 18px;
+      }
+      .letter p strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .sig {
+        margin: 26px 0 16px;
+        font-weight: 700;
+        font-size: 16px;
+      }
+      .sig span {
+        color: var(--mute);
+        font-weight: 500;
+      }
+
+      /* ───────────── planet strip (v6c) ───────────── */
+      .planet {
+        border-top: 1px solid rgba(33, 26, 20, 0.08);
+        border-bottom: 1px solid rgba(33, 26, 20, 0.08);
+        padding: 44px 0;
+      }
+      .planet .in {
+        display: flex;
+        align-items: center;
+        gap: 32px;
+      }
+      .planet img {
+        height: 44px;
+        width: auto;
+        flex: none;
+      }
+      .planet p {
+        margin: 0;
+        font-size: 16px;
+        color: var(--soft);
+        max-width: 640px;
+      }
+
+      /* ───────────── close (ink — v6c) ───────────── */
+      .close .in {
+        text-align: center;
+        display: grid;
+        justify-items: center;
+      }
+      .close h2 {
+        font-size: clamp(40px, 6.2vw, 92px);
+        max-width: none;
+        margin-bottom: 18px;
+      }
+      .close .lede {
+        margin-bottom: 36px;
+      }
+
+      /* ───────────── footer (v6c) ───────────── */
+      footer {
+        padding: 36px 0 48px;
+      }
+      footer .in {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px 22px;
+        font-size: 14px;
+        color: var(--mute);
+      }
+      footer a {
+        text-decoration: none;
+        color: var(--mute);
+        font-weight: 500;
+      }
+      footer a:hover {
+        color: var(--ink);
+      }
+      footer .motto {
+        font-weight: 700;
+        color: var(--ink);
+        font-size: 15px;
+        margin-right: 10px;
+      }
+      footer .feat {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 22px;
+        padding-top: 10px;
+      }
+
+      /* ───────────── scroll reveals (motion only): fade up, 8-px rise, 600 ms; `--i` staggers siblings by 120 ms ───────────── */
+      html.motion .reveal {
+        opacity: 0;
+        transform: translateY(8px);
+        transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+        transition-delay: calc(var(--i, 0) * 120ms);
+      }
+      html.motion .reveal.shown {
+        opacity: 1;
+        transform: none;
+      }
+      /* the capture flag: everything is already where it ends up, no transition left to run */
+      html.fast .reveal,
+      html.fast .reveal *,
+      html.fast .scene,
+      html.fast .scene * {
+        transition: none !important;
+        animation: none !important;
+      }
+      /* a scene that has scrolled away mid-beat holds its frame until it is back */
+      html.motion .scene:not(.live):not(.settled) * {
+        animation-play-state: paused;
+      }
+
+      /* ───────────── phone ───────────── */
+      @media (max-width: 960px) {
+        .trove {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 14px;
+        }
+      }
+      @media (max-width: 860px) {
+        .nav nav {
+          gap: 16px;
+        }
+        .nav .in {
+          height: 64px;
+        }
+        .hero {
+          min-height: min(calc(100svh - 64px), 820px);
+          padding: 28px 0 52px;
+        }
+        h1 {
+          margin: 22px 0 22px;
+          line-height: 1;
+        }
+        .claim .in,
+        .why .in {
+          grid-template-columns: 1fr;
+          gap: 40px;
+        }
+        .claim.flip .scene {
+          order: 0;
+        }
+        .grave {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 10px;
+        }
+        .reviews {
+          grid-template-columns: 1fr;
+        }
+        .why img {
+          width: 120px;
+          height: 120px;
+          border-radius: 20px;
+        }
+        .planet .in {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 18px;
+        }
+        .cta {
+          width: min(100%, 360px);
+        }
+      }
+      @media (max-width: 520px) {
+        .box {
+          padding: 12px 12px 18px;
+        }
+        .box .pic {
+          height: 140px;
+          margin-bottom: 14px;
+        }
+        .box h3 {
+          font-size: 17px;
+        }
+        .box p {
+          font-size: 13.5px;
+        }
+        .pic .cover {
+          width: 70px;
+        }
+        .pic .art {
+          width: 88px;
+        }
+        .pic .thumb {
+          width: 150px;
+        }
+        .artcard,
+        .hlcard,
+        .notecard {
+          width: 150px;
+          padding: 10px 11px;
+        }
+        .artcard .hd {
+          font-size: 12.5px;
+        }
+        .hlcard {
+          font-size: 11px;
+        }
+        .notecard {
+          font-size: 12px;
+        }
+        .qcard {
+          font-size: 12.5px;
+          max-width: 160px;
+        }
+        .feed {
+          height: 460px;
+        }
+        .ask {
+          padding: 22px 20px 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#top">Skip to content</a>
+
+    <header class="nav">
+      <div class="in">
+        <a class="brand" href="/" aria-label="REPS home">
+          <img src="product/assets/app-icon.png" alt="" width="26" height="26" />
+          REPS
+        </a>
+        <nav aria-label="Primary">
+          <a class="link" href="/about">About</a>
+          <a class="link" href="/about#press">Press</a>
+          <a class="cta small" href="https://apps.apple.com/app/id6759216018" target="_blank" rel="noopener">Get the app</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <!-- ═══════ HERO · cream · a sentence, one glow, one button ═══════ -->
+      <section class="hero" id="top">
+        <div class="glow" aria-hidden="true"></div>
+        <div class="hero-in">
+          <a class="lockup" href="#why">
+            <img src="product/assets/app-icon.png" alt="" width="26" height="26" />
+            Your Knowledge Companion
+          </a>
+          <h1
+            id="h1"
+            aria-label="You read, watch and listen to more than any generation in history. You retain almost none of it. Now it stays with you."
+          >
+            <span class="line l1">You read, watch and listen to more than any generation in history.</span>
+            <span class="line l2"><span class="sw">You retain almost none of it.</span></span>
+            <span class="l3w"><span class="line l3"><span class="t">Now it stays with you.</span></span></span>
+          </h1>
+          <p class="nouns">
+            Everything you <span class="pill">read</span>, <span class="pill">watch</span> and <span class="pill">listen to</span>. Kept.
+          </p>
+          <div class="actions">
+            <a
+              class="cta"
+              href="https://apps.apple.com/app/id6759216018"
+              target="_blank"
+              rel="noopener"
+              aria-label="Download REPS on the App Store"
+            >
+              <svg viewBox="0 0 384 512" aria-hidden="true">
+                <path
+                  d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"
+                />
+              </svg>
+              Download on the App Store
+            </a>
+            <p class="reassure">Free on the App Store.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════ MANIFESTO · cream · typographic only ═══════ -->
+      <section class="manifesto" id="manifesto">
+        <div class="in">
+          <p class="label reveal">Our manifesto</p>
+          <p class="creed reveal" style="--i: 1">
+            Our attention has been taken. By feeds that never end, by bookmarks we never open, by machines that offer
+            to think for us. What you took in was yours. It still is.
+          </p>
+          <ul class="promise" aria-label="What REPS will never do">
+            <li class="reveal" style="--i: 0"><b>NO</b>folders</li>
+            <li class="reveal" style="--i: 1"><b>NO</b>tags</li>
+            <li class="reveal" style="--i: 2"><b>NO</b>decks</li>
+            <li class="reveal" style="--i: 3"><b>NO</b>feed that decides for you</li>
+            <li class="reveal" style="--i: 4"><b>NO</b>selling your attention</li>
+          </ul>
+          <p class="welcome reveal" style="--i: 2">Welcome to your knowledge companion.</p>
+        </div>
+      </section>
+
+      <!-- ═══════ CLAIM 1 · the graveyard ═══════ -->
+      <section class="claim" id="graveyard">
+        <div class="in">
+          <div class="reveal">
+            <p class="label">The graveyard</p>
+            <h2>Bookmark graveyards are useless. <span class="yes">Yours comes back to life.</span></h2>
+            <p class="lede">Everything you saved and never opened, still there, still yours, and this time it comes back to you.</p>
+          </div>
+          <div class="scene" data-scene="grave" role="img" aria-label="A grid of saved things, grey and forgotten, coming back into colour one by one">
+            <div class="grave">
+              <div class="tile book" style="--i: 0; --tint: #f3e9e3">
+                <img src="product/assets/covers/sapiens.jpg" alt="" width="400" height="604" loading="lazy" decoding="async" />
+                <span class="cap">Read 10 years ago</span>
+              </div>
+              <div class="tile" style="--i: 5; --tint: #f1ece6">
+                <span class="ab"><i class="hd"></i><i class="m"></i><i class="s"></i></span>
+                <span class="cap">Saved 14 months ago · Opened: never</span>
+              </div>
+              <div class="tile pod" style="--i: 2; --tint: #efe8e2">
+                <img src="product/assets/covers/podcast-the-daily.jpg" alt="" width="400" height="400" loading="lazy" decoding="async" />
+                <span class="cap">Paused at 12:40 · never finished</span>
+              </div>
+              <div class="tile" style="--i: 8; --tint: #f5ece4">
+                <span class="ab"><i class="m"></i><i class="mk"></i><i class="s"></i><i class="m"></i></span>
+                <span class="cap">Highlighted · page 112</span>
+              </div>
+              <div class="tile vid" style="--i: 1; --tint: #ede8e4">
+                <img src="product/assets/covers/video-kurzgesagt-the-egg.jpg" alt="" width="640" height="360" loading="lazy" decoding="async" />
+                <span class="play" aria-hidden="true"></span>
+                <span class="cap">Watched twice · 2023</span>
+              </div>
+              <div class="tile" style="--i: 7; --tint: #f2ebe6">
+                <span class="ab shot"><i class="hd"></i><i class="m"></i><i></i><i class="s"></i><i class="m"></i></span>
+                <span class="cap">Screenshot · 1 of 3,112</span>
+              </div>
+              <div class="tile book" style="--i: 3; --tint: #f4ebe5">
+                <img src="product/assets/covers/1984.jpg" alt="" width="400" height="600" loading="lazy" decoding="async" />
+                <span class="cap">Read at school</span>
+              </div>
+              <div class="tile" style="--i: 10; --tint: #f6efe6">
+                <span class="ab note"><i class="m"></i><i class="s"></i></span>
+                <span class="cap">Note · “look this up”</span>
+              </div>
+              <div class="tile" style="--i: 9; --tint: #f0eae5">
+                <span class="ab pdf"><i class="tag">PDF</i><i class="m"></i><i></i><i class="s"></i><i class="m"></i><i class="s"></i></span>
+                <span class="cap">Downloaded · never opened</span>
+              </div>
+              <div class="tile book" style="--i: 4; --tint: #f3ebe4">
+                <img src="product/assets/covers/thinking-fast-and-slow.jpg" alt="" width="400" height="593" loading="lazy" decoding="async" />
+                <span class="cap">Read 2 years ago · chapter 9</span>
+              </div>
+              <div class="tile" style="--i: 11; --tint: #f1ebe7">
+                <span class="ab"><i class="hd"></i><i class="s"></i><i class="m"></i></span>
+                <span class="cap">Saved 3 years ago · Opened: never</span>
+              </div>
+              <div class="tile" style="--i: 6; --tint: #f4ece5">
+                <span class="ab chip"><i class="tri"></i><i class="bar"></i></span>
+                <span class="cap">Episode 71 · unfinished</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════ CLAIM 2 · the scroll ═══════ -->
+      <section class="claim flip" id="scroll">
+        <div class="in">
+          <div class="reveal">
+            <p class="label">The scroll</p>
+            <h2>Doomscrolling is making us dumb. <span class="yes">Bloom scrolling makes you sharp.</span></h2>
+            <p class="lede">A feed worth remembering. Built from what you chose, not what was chosen for you.</p>
+          </div>
+          <div class="scene" data-scene="feed" role="img" aria-label="An endless blurred feed slows and settles into four calm cards: Sapiens, Atomic Habits, The Daily and The Egg">
+            <div class="feed">
+              <div class="stream" aria-hidden="true">
+                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+              <div class="calm">
+                <div class="c" style="--i: 0">
+                  <span class="k">Book</span>
+                  <span class="t">Sapiens</span>
+                  <span class="b">Yuval Noah Harari</span>
+                </div>
+                <div class="c" style="--i: 1">
+                  <span class="k">Book</span>
+                  <span class="t">Atomic Habits</span>
+                  <span class="b">James Clear</span>
+                </div>
+                <div class="c" style="--i: 2">
+                  <span class="k">Podcast</span>
+                  <span class="t">The Daily</span>
+                  <span class="b">The New York Times</span>
+                </div>
+                <div class="c" style="--i: 3">
+                  <span class="k">Video</span>
+                  <span class="t">The Egg</span>
+                  <span class="b">Kurzgesagt</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════ CLAIM 3 · the machine ═══════ -->
+      <section class="claim" id="machine">
+        <div class="in">
+          <div class="reveal">
+            <p class="label">The machine</p>
+            <h2>AI should make you smarter, <span class="yes">not think for you.</span></h2>
+            <p class="lede">REPS never answers for you. It asks you, at the moment it matters, and you do the remembering.</p>
+          </div>
+          <div class="scene" data-scene="ask">
+            <div class="ask" role="img" aria-label="A card asking: What did Harari say wheat did to us? Below it, an empty answer line with a waiting cursor">
+              <span class="k">REPS asks</span>
+              <p class="q"><span class="ul">What did Harari say wheat did to us?</span></p>
+              <div class="a" aria-hidden="true"><span class="cur"></span></div>
+              <p class="note">Your answer. Nothing fills it in for you.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════ TREASURE TROVE · nine equal boxes ═══════ -->
+      <section class="block" id="trove">
+        <div class="in">
+          <div class="trove-head reveal">
+            <p class="label">Your knowledge</p>
+            <h2>Everything you take in, kept.</h2>
+          </div>
+          <ul class="trove" aria-label="What REPS keeps">
+            <li class="box reveal" style="--i: 0">
+              <div class="pic">
+                <img class="cover" src="product/assets/covers/sapiens.jpg" alt="The cover of Sapiens by Yuval Noah Harari" width="400" height="604" loading="lazy" decoding="async" />
+              </div>
+              <h3>Books</h3>
+              <p>The idea you underlined. Still yours a year on.</p>
+            </li>
+            <li class="box reveal" style="--i: 1">
+              <div class="pic">
+                <img class="art" src="product/assets/covers/podcast-the-daily.jpg" alt="The artwork of The Daily, a podcast from The New York Times" width="400" height="400" loading="lazy" decoding="async" />
+              </div>
+              <h3>Podcasts</h3>
+              <p>The moment you nearly pulled over for. Not lost at the next exit.</p>
+            </li>
+            <li class="box reveal" style="--i: 2">
+              <div class="pic">
+                <img class="thumb" src="product/assets/covers/video-kurzgesagt-the-egg.jpg" alt="The thumbnail of The Egg, a video by Kurzgesagt" width="640" height="360" loading="lazy" decoding="async" />
+                <span class="disc" aria-hidden="true"></span>
+              </div>
+              <h3>Videos</h3>
+              <p>The thing that made you sit up. Still with you after the tab closes.</p>
+            </li>
+            <li class="box reveal" style="--i: 0">
+              <div class="pic">
+                <div class="artcard" aria-label="An article card: Is Google Making Us Stupid? by Nicholas Carr, The Atlantic">
+                  <span class="pub">The Atlantic</span>
+                  <span class="hd">Is Google Making Us Stupid?</span>
+                  <span class="by">by Nicholas Carr</span>
+                </div>
+              </div>
+              <h3>Articles</h3>
+              <p>The piece you'd have lost in a tab. This time it stays.</p>
+            </li>
+            <li class="box reveal" style="--i: 1">
+              <div class="pic">
+                <div class="hlcard">
+                  …trade networks and empires. <mark>Money is the most universal and most efficient system of mutual trust ever devised.</mark> Even people who do not believe in the same god…
+                </div>
+              </div>
+              <h3>Highlights</h3>
+              <p>One line that stopped you. It keeps stopping you.</p>
+            </li>
+            <li class="box reveal" style="--i: 2">
+              <div class="pic">
+                <blockquote class="qcard">
+                  “You do not rise to the level of your goals. You fall to the level of your systems.”
+                  <span class="who">James Clear · Atomic Habits</span>
+                </blockquote>
+              </div>
+              <h3>Quotes</h3>
+              <p>The line you keep repeating, and who actually said it.</p>
+            </li>
+            <li class="box reveal" style="--i: 0">
+              <div class="pic">
+                <div class="shotcard" aria-hidden="true"><i class="hd"></i><i></i><i class="s"></i><i class="mk"></i><i></i><i class="s"></i></div>
+              </div>
+              <h3>Screenshots</h3>
+              <p>The one you took so you wouldn't forget. Now you don't.</p>
+            </li>
+            <li class="box reveal" style="--i: 1">
+              <div class="pic">
+                <div class="pdfcard" aria-hidden="true"><span class="tag">PDF</span><i></i><i></i><i class="s"></i><i></i><i class="s"></i></div>
+              </div>
+              <h3>PDFs</h3>
+              <p>The report, the paper, the slides. What they said, not where you put them.</p>
+            </li>
+            <li class="box reveal" style="--i: 2">
+              <div class="pic">
+                <div class="notecard"><span class="when">Tuesday · on the train</span>Ask Anna about the wheat thing. Harari, ch. 5.</div>
+              </div>
+              <h3>Notes</h3>
+              <p>The thought from the train. Back when it matters.</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ═══════ ONE REAL STILL · small, low, captioned (the only app UI on the page) ═══════ -->
+      <section class="still reveal" id="still">
+        <div class="in">
+          <div class="phone">
+            <div class="screen">
+              <img
+                src="beats/2026-09/home-feed-poster.jpg"
+                width="540"
+                height="1170"
+                loading="lazy"
+                decoding="async"
+                alt="The REPS home feed on an iPhone: a calm feed built from what one person chose to keep"
+              />
+            </div>
+          </div>
+          <p class="stillcap">Real capture, September 2026</p>
+        </div>
+      </section>
+
+      <!-- ═══════ PROOF · cream · ruled Lora quotes (v6c, verbatim) ═══════ -->
+      <section class="block proof reveal" id="proof">
+        <div class="in">
+          <p class="eyebrow">Said on the App Store</p>
+          <h2>In their words.</h2>
+          <ul class="reviews">
+            <li style="transition-delay: 0.1s">
+              <blockquote>Really enjoying using this app as a better way to spend 5/10 minutes at bus stop etc. vs brain rotting on Insta/X.</blockquote>
+              <cite>App Store review · jsdldn</cite>
+            </li>
+            <li style="transition-delay: 0.2s">
+              <blockquote>It's replaced scrolling Instagram on my phone, and it's helping me re-engage with books I read years ago, and actively seek out interesting knowledge to add to my second brain.</blockquote>
+              <cite>App Store review · 24601_London</cite>
+            </li>
+            <li style="transition-delay: 0.3s">
+              <blockquote>Very nice and fun way to retrain your brain – love a competition with friends. Love that app!</blockquote>
+              <cite>App Store review · Sizeret74</cite>
+            </li>
+            <li style="transition-delay: 0.4s">
+              <blockquote>Such a fun and easy way to remember the things that matter the most to me! New content is also great to discover! Definitely one of my favorite apps!</blockquote>
+              <cite>App Store review · Cathb1234</cite>
+            </li>
+            <li style="transition-delay: 0.5s">
+              <blockquote>As a non-techy over 60 year old, this app is simple and intuitive to navigate.</blockquote>
+              <cite>App Store review · Mooselake4</cite>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ═══════ WHY · cream · the letter (v6c, verbatim) ═══════ -->
+      <section class="block why reveal" id="why">
+        <div class="in">
+          <img src="compare/assets/mike-mcgraw.jpg" alt="Mike McGraw, founder of REPS" width="200" height="200" loading="lazy" />
+          <div>
+            <p class="eyebrow">Why this exists</p>
+            <h2>I watched my nieces and nephews grow up on Shorts.</h2>
+            <div class="letter">
+              <p>
+                I spent twelve years investing in technology, and I watched my nephews and nieces grow up on
+                YouTube Shorts. Then I read that the Flynn effect has reversed: for the first time, population
+                IQ scores have started to fall.
+              </p>
+              <p>
+                Neil Postman saw it coming in 1985. Orwell feared the people who would ban books; Huxley
+                feared there would be no need to, because no one would want to read one. <strong>That's the feed.</strong>
+              </p>
+              <p>
+                I left my job on my 34th birthday to build the antidote. I build REPS and use it every day,
+                and I'd like it to be where what you read, watch and hear stays with you.
+              </p>
+            </div>
+            <p class="sig">Mike McGraw <span>· founder, REPS</span></p>
+            <a class="arrow" href="/about">About &amp; press kit →</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════ PLANET · strip (v6c, verbatim) ═══════ -->
+      <section class="planet reveal" id="planet">
+        <div class="in">
+          <img src="justonetree-logo.png" alt="JUST ONE Tree" width="368" height="100" loading="lazy" />
+          <p>
+            The AI that powers REPS uses a little energy, so we plant real trees for it, far more than we use.
+            <a class="arrow" href="/planet">The planet pledge →</a>
+          </p>
+        </div>
+      </section>
+
+      <!-- ═══════ CLOSE · ink · the key line again (v6c, verbatim) ═══════ -->
+      <section class="block f-ink close reveal" id="get">
+        <div class="in">
+          <p class="eyebrow">Free on the App Store</p>
+          <h2>Your Knowledge Companion.</h2>
+          <p class="lede">You take in more than ever. Now it stays with you.</p>
+          <a
+            class="cta"
+            href="https://apps.apple.com/app/id6759216018"
+            target="_blank"
+            rel="noopener"
+            aria-label="Download REPS on the App Store"
+          >
+            <svg viewBox="0 0 384 512" aria-hidden="true">
+              <path
+                d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"
+              />
+            </svg>
+            Download on the App Store
+          </a>
+          <p class="reassure">Free on the App Store.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="in">
+        <span class="motto">Save. Play. Remember.</span>
+        <a href="/about">About</a>
+        <a href="/planet">Planet</a>
+        <a href="/about#press">Press</a>
+        <a href="/support">Support</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <div class="feat">
+          <a href="/features/active-recall">The daily game</a>
+          <a href="/features/second-brain">Your knowledge graph</a>
+          <a href="/features/read-it-later">Read it later</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- PostHog — analytics + engagement (autocapture, pageleave/scroll, session replay) -->
+    <script>
+      !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+      posthog.init("phc_gTI0FJoXiGPjdACbgVyunpDSl0mPs2HEYtmzUtK3SyE", {
+        api_host: "https://us.i.posthog.com",
+        ui_host: "https://us.posthog.com",
+        defaults: "2025-05-24",
+        persistence: "localStorage+cookie",
+        capture_pageview: true,
+        capture_pageleave: true,
+        autocapture: true,
+        disable_session_recording: false,
+        loaded: function (ph) { ph.register({ lp_variant: "v7a" }); }
+      });
+    </script>
+
+    <script>
+      (function () {
+        "use strict";
+        var root = document.documentElement;
+        var MOTION = root.classList.contains("motion");
+        var FAST = root.classList.contains("fast"); /* headless capture: everything settles at once */
+        var ph = function (ev, props) { try { window.posthog && posthog.capture(ev, props || {}); } catch (e) {} };
+
+        /* ─────────── the turn: strike line 2, open line 3. Once, whichever comes first: scroll (24px), the timer (1.6s), or the capture flag (at once). ─────────── */
+        var h1 = document.getElementById("h1");
+        var turned = false;
+        function turn(how) {
+          if (turned) return;
+          turned = true;
+          h1.classList.add("struck");
+          ph("lp_hero_turned", { how: how });
+          if (FAST || !MOTION) h1.classList.add("done");
+          else setTimeout(function () { h1.classList.add("done"); }, 1300);
+        }
+        if (FAST) turn("capture");
+        else if (!MOTION) turn("static");
+        else setTimeout(function () { turn("timer"); }, 1600);
+        window.addEventListener("scroll", function () { if (window.scrollY > 24) turn("scroll"); }, { passive: true });
+
+        /* ─────────── the nav pill earns its colour once the hero has scrolled away ─────────── */
+        var hero = document.getElementById("top");
+        function tick() { document.body.classList.toggle("past-hero", window.scrollY > hero.offsetHeight - 80); }
+        window.addEventListener("scroll", tick, { passive: true });
+        tick();
+
+        /* ─────────── scroll reveals: fade up once, never again ─────────── */
+        var reveals = document.querySelectorAll(".reveal");
+        if (MOTION && !FAST && "IntersectionObserver" in window) {
+          var ro = new IntersectionObserver(function (es) {
+            es.forEach(function (e) {
+              if (e.isIntersecting) { e.target.classList.add("shown"); ro.unobserve(e.target); }
+            });
+          }, { threshold: 0.16, rootMargin: "0px 0px -6% 0px" });
+          Array.prototype.forEach.call(reveals, function (el) { ro.observe(el); });
+        } else {
+          Array.prototype.forEach.call(reveals, function (el) { el.classList.add("shown"); });
+        }
+
+        /* ─────────── the three scenes: each plays ONCE on entry (`.play`), then is settled (`.settled`, the end state,
+           no animation left to run). `.live` tracks visibility so a mid-beat scene pauses off-screen. Reduced motion
+           and the capture flag draw the end state directly. ─────────── */
+        var scenes = document.querySelectorAll(".scene");
+        var DUR = { grave: 2.2, feed: 2.5, ask: 1.3 }; /* seconds until each scene has reached its end state */
+        function settle(el) { el.classList.add("settled"); }
+        function play(el) {
+          if (el.classList.contains("play")) return;
+          el.classList.add("play");
+          var k = el.getAttribute("data-scene");
+          ph("lp_scene_played", { scene: k });
+          setTimeout(function () { settle(el); }, ((DUR[k] || 2) * 1000) + 200);
+        }
+        function inView(el) {
+          var r = el.getBoundingClientRect(), vh = window.innerHeight || 1;
+          return r.bottom > 0 && r.top < vh;
+        }
+        if (MOTION && !FAST && "IntersectionObserver" in window) {
+          var so = new IntersectionObserver(function (es) {
+            es.forEach(function (e) {
+              e.target.classList.toggle("live", e.isIntersecting && !document.hidden);
+              if (e.isIntersecting) play(e.target);
+            });
+          }, { threshold: 0.35 });
+          Array.prototype.forEach.call(scenes, function (el) { so.observe(el); });
+          document.addEventListener("visibilitychange", function () {
+            Array.prototype.forEach.call(scenes, function (el) {
+              el.classList.toggle("live", !document.hidden && inView(el));
+            });
+          });
+        } else {
+          Array.prototype.forEach.call(scenes, function (el) { el.classList.add("play"); settle(el); });
+        }
+      })();
+    </script>
+  </body>
+</html>
