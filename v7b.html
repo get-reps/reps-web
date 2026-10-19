@@ -1,0 +1,1689 @@
+<!doctype html>
+<!-- REPS home, candidate v7b — Direction B "THE SPHERE" (2026-10-19, round 5; BRIEF_V5 + Mike's answers govern).
+     Recollect's motion with REPS's real material. The hero is the page's ONE Galaxy Black beat, at the top: poster
+     sans type on the left ("Retain your knowledge."), and on the right a code-drawn sphere of 36 real items — the nine
+     real artworks in product/assets/covers/ (each used three times, whole, in its true aspect, never cropped or
+     recoloured) plus nine code-drawn article cards naming real, widely known pieces in type (no mastheads, no logos).
+     The sphere is a Fibonacci distribution projected in JS: every item is billboarded (always flat to the camera), the
+     back hemisphere dims to 35% and scales to 0.8, and it turns once per ~40 s.
+     The morph on the visitor's scroll (a 2.5-viewport sticky stage; the copy and button stay on screen throughout):
+       stage 1 (0→45%): the turn quickens, then every item streams to the centre on its own bowed path, stretching
+                        vertically and fading as it goes (the motion-blur feel), and the REPS mark lands with a small
+                        overshoot;
+       stage 2 (45→100%): the mark opens — it grows a little and fades — as ONE card rises from behind it: Sapiens, the
+                        real cover, with three pills that spring out and anchor at its edges. Not tags: what you now know.
+     Below the fold the page is cream: three Recollect-shaped sections (label, claim, four lines: outcomes and feelings,
+     type alone, no stills), the manifesto band, the identity cards, reviews (with the page's ONE real app still, small
+     and captioned), the founder letter, planet, close.
+     Motion budget: one rAF loop at ≤30 fps that runs ONLY while the sphere is on screen and un-morphed (stage 1, i.e.
+     the first 45% of the stage); it is paused off-screen and when the tab hides; during stage 2 the stage repaints only
+     on scroll; after the stage completes nothing animates (the pills are one-shot CSS transitions). Reduced motion (and
+     no `?motion=1`): the end state drawn once, with the sphere as a static ring at 20% behind it. `?motion=1` settles
+     straight to the end of stage 2 — card + three pills, sphere gone, headline + button on the left; `?motion=1&hold=1`
+     forces motion on and pins the stage at its start (the turning sphere) for a capture. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>REPS · Your Knowledge Companion</title>
+    <meta
+      name="description"
+      content="Retain your knowledge. REPS is a free iPhone app that turns what you read, watch and listen to into knowledge that lasts."
+    />
+    <link rel="canonical" href="https://www.getreps.io/" />
+    <meta property="og:title" content="REPS · Your Knowledge Companion" />
+    <meta
+      property="og:description"
+      content="Retain your knowledge. Turn what you read, watch and listen to into knowledge that lasts."
+    />
+    <meta property="og:url" content="https://www.getreps.io/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://www.getreps.io/og-card-v3.png?v=2" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://www.getreps.io/og-card-v3.png?v=2" />
+    <meta name="theme-color" content="#040409" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      /* Early, so the stage never flashes before it is placed. `?motion=1` overrides reduced motion. */
+      (function () {
+        var q = new URLSearchParams(location.search);
+        if (q.get("motion") === "1" || !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          document.documentElement.classList.add("motion");
+        }
+      })();
+    </script>
+    <style>
+      :root {
+        --cream: #fffaf7;
+        --ink: #211a14;
+        --soft: #5f554e;
+        --mute: #776d66;
+        --coral: #ff6b6b;
+        --peach: #ff8e53;
+        --coral-ink: #d8443f;
+        --galaxy: #040409;
+        --teal: #4ecdc4;
+        --teal-deep: #2d8377;
+        --indigo: #4c5fab;
+        --gold: #d4a24e;
+        --sans: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+        --serif: "Lora", Georgia, "Times New Roman", serif;
+        --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+        --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+        --navh: 68px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html.motion {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background: var(--galaxy); /* what the nav blurs over at the top; the page itself is cream */
+        color: var(--ink);
+        font-family: var(--sans);
+        font-size: 18px;
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+      main,
+      footer {
+        background: var(--cream);
+      }
+      img {
+        display: block;
+        max-width: 100%;
+      }
+      a {
+        color: inherit;
+      }
+      .skip {
+        position: absolute;
+        left: -999px;
+        top: 8px;
+        background: var(--ink);
+        color: var(--cream);
+        padding: 10px 14px;
+        border-radius: 10px;
+        z-index: 50;
+        font-weight: 600;
+      }
+      .skip:focus {
+        left: 12px;
+      }
+      .in {
+        width: min(1120px, 100% - 48px);
+        margin: 0 auto;
+      }
+
+      /* ───────────── nav: dark and quiet over the hero, cream once past it ───────────── */
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: rgba(4, 4, 9, 0.55);
+        -webkit-backdrop-filter: blur(14px);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid rgba(255, 250, 247, 0.08);
+        transition: background 0.35s var(--ease), border-color 0.35s var(--ease);
+      }
+      .nav .in {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: var(--navh);
+      }
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        font-weight: 600;
+        font-size: 17px;
+        letter-spacing: 0.04em;
+        color: rgba(255, 250, 247, 0.84);
+        text-decoration: none;
+        transition: color 0.35s var(--ease);
+      }
+      .brand img {
+        width: 26px;
+        height: 26px;
+        border-radius: 7px;
+        opacity: 0.9;
+      }
+      .nav nav {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+      }
+      .nav .link {
+        font-weight: 600;
+        font-size: 15px;
+        color: rgba(255, 250, 247, 0.74);
+        text-decoration: none;
+        transition: color 0.35s var(--ease);
+      }
+      .nav .link:hover {
+        color: var(--cream);
+      }
+      body.past-hero .nav {
+        background: rgba(255, 250, 247, 0.84);
+        border-bottom-color: rgba(33, 26, 20, 0.06);
+      }
+      body.past-hero .brand,
+      body.past-hero .nav .link {
+        color: var(--soft);
+      }
+      body.past-hero .nav .link:hover {
+        color: var(--ink);
+      }
+
+      /* ───────────── CTA (the one style) ───────────── */
+      .cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        height: 58px;
+        padding: 0 28px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, var(--coral), var(--peach));
+        color: #fff;
+        font-weight: 700;
+        font-size: 17px;
+        letter-spacing: 0.005em;
+        text-decoration: none;
+        box-shadow: 0 12px 30px rgba(255, 107, 107, 0.32);
+        transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+        will-change: transform;
+      }
+      .cta svg {
+        width: 20px;
+        height: 20px;
+        fill: #fff;
+        flex: none;
+      }
+      .cta:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 36px rgba(255, 107, 107, 0.42);
+      }
+      .cta:focus-visible,
+      .link:focus-visible,
+      .arrow:focus-visible,
+      .brand:focus-visible {
+        outline: 3px solid var(--coral-ink);
+        outline-offset: 4px;
+      }
+      /* On the dark hero the nav's "Get the app" is a hairline text link; it earns the coral pill once the hero has gone. */
+      .cta.small {
+        height: auto;
+        padding: 3px 0;
+        font-size: 15px;
+        font-weight: 600;
+        background: transparent;
+        color: var(--cream);
+        border: 0;
+        border-bottom: 1px solid rgba(255, 250, 247, 0.42);
+        border-radius: 0;
+        box-shadow: none;
+        transition: background 0.35s var(--ease), color 0.35s var(--ease), border-color 0.35s var(--ease), box-shadow 0.35s var(--ease),
+          padding 0.35s var(--ease), border-radius 0.35s var(--ease);
+      }
+      .cta.small:hover {
+        transform: none;
+        border-color: var(--cream);
+      }
+      body.past-hero .cta.small {
+        height: 42px;
+        padding: 0 18px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, var(--coral), var(--peach));
+        color: #fff;
+        border-color: transparent;
+        box-shadow: 0 6px 16px rgba(255, 107, 107, 0.25);
+      }
+      .reassure {
+        margin: 14px 0 0;
+        font-size: 15px;
+        color: var(--mute);
+        font-weight: 500;
+      }
+      .f-ink .reassure,
+      .hero .reassure {
+        color: rgba(255, 250, 247, 0.62);
+      }
+
+      /* ───────────── type system ───────────── */
+      .eyebrow {
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        color: var(--coral-ink);
+        margin: 0 0 18px;
+      }
+      h2 {
+        font-size: clamp(36px, 4.9vw, 68px);
+        line-height: 1.03;
+        letter-spacing: -0.025em;
+        font-weight: 700;
+        margin: 0 0 24px;
+        max-width: 15ch;
+      }
+      .lede {
+        font-size: clamp(18px, 1.5vw, 22px);
+        line-height: 1.5;
+        color: var(--soft);
+        max-width: 620px;
+        margin: 0;
+      }
+      .lede strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .arrow {
+        display: inline-block;
+        font-weight: 700;
+        color: var(--coral-ink);
+        text-decoration: none;
+        border-bottom: 2px solid rgba(216, 68, 63, 0.3);
+        padding-bottom: 1px;
+      }
+      .arrow:hover {
+        border-color: var(--coral-ink);
+      }
+
+      /* ───────────── blocks (colour fields) ───────────── */
+      .block {
+        padding: clamp(84px, 11vw, 144px) 0;
+        position: relative;
+      }
+      .f-ink {
+        background: var(--ink);
+        color: var(--cream);
+      }
+      .f-ink .eyebrow {
+        color: var(--peach);
+      }
+      .f-ink .lede {
+        color: rgba(255, 250, 247, 0.74);
+      }
+
+      /* ───────────── hero: Galaxy Black, the sticky stage ───────────── */
+      .hero {
+        position: relative;
+        background: var(--galaxy);
+        color: var(--cream);
+        /* 2.5 viewport heights of scroll so the morph plays as the visitor scrolls; capped so a tall capture window
+           does not become a kilometre of black */
+        height: min(250vh, 2250px);
+      }
+      .stick {
+        position: sticky;
+        top: var(--navh);
+        height: min(calc(100vh - var(--navh)), 900px);
+        overflow: hidden;
+        display: grid;
+        align-items: center;
+      }
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1fr 520px;
+        gap: 56px;
+        align-items: center;
+        width: min(1240px, 100% - 64px);
+        margin: 0 auto;
+      }
+      .copy {
+        position: relative;
+        z-index: 2;
+      }
+      .copy .eyebrow {
+        color: var(--coral);
+        margin-bottom: 14px;
+      }
+      h1 {
+        font-size: clamp(48px, 8.2vw, 118px);
+        line-height: 0.96;
+        letter-spacing: -0.04em;
+        font-weight: 700;
+        margin: 0 0 24px;
+        color: var(--cream);
+      }
+      .sub {
+        font-size: clamp(18px, 1.6vw, 22px);
+        font-weight: 400;
+        line-height: 1.45;
+        color: rgba(255, 250, 247, 0.8);
+        max-width: 520px;
+        margin: 0 0 32px;
+      }
+      .hero .actions {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      /* the stage: a square box; the sphere, the mark and the card all share its centre */
+      .stage {
+        position: relative;
+        width: 520px;
+        height: 520px;
+        justify-self: end;
+        opacity: 0;
+      }
+      .stage.ready {
+        opacity: 1;
+      }
+      .sphere {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 1; /* its own stacking context: every item stays under the mark (3) and the card (4) */
+      }
+      /* an item on the sphere: billboarded (always flat to the camera); its position, scale, depth-opacity and the
+         stream-in stretch are set per frame by the script as transform + opacity only (no layout) */
+      .si {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin: 0;
+        opacity: 0;
+        will-change: transform, opacity;
+        transform-origin: 50% 50%;
+      }
+      .si img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      .si.book {
+        width: 66px;
+        border-radius: 4px;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: 0 10px 26px rgba(0, 0, 0, 0.55);
+      }
+      .si.pod {
+        width: 60px;
+      }
+      .si.pod img {
+        border-radius: 10px;
+        box-shadow: 0 10px 26px rgba(0, 0, 0, 0.55);
+      }
+      .si.video {
+        width: 102px;
+        border-radius: 8px;
+        overflow: hidden;
+        background: #000;
+        box-shadow: 0 10px 26px rgba(0, 0, 0, 0.55);
+      }
+      .si.video .play {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 24px;
+        height: 24px;
+        margin: -12px 0 0 -12px;
+        border-radius: 50%;
+        background: rgba(33, 26, 20, 0.55);
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25) inset;
+      }
+      .si.video .play::after {
+        content: "";
+        position: absolute;
+        left: 9px;
+        top: 7px;
+        border-left: 8px solid #fff;
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+      }
+      .si.video .dur {
+        position: absolute;
+        right: 5px;
+        bottom: 5px;
+        font-size: 8px;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        line-height: 1;
+        color: #fff;
+        background: rgba(33, 26, 20, 0.72);
+        padding: 3px 4px;
+        border-radius: 3px;
+      }
+      /* a saved article: code-drawn, the publication named in type (no masthead), the headline in Lora because it is
+         someone else's words */
+      .si.art {
+        width: 120px;
+        display: grid;
+        gap: 4px;
+        background: var(--cream);
+        border-radius: 9px;
+        padding: 9px 10px 10px;
+        text-align: left;
+        box-shadow: 0 10px 26px rgba(0, 0, 0, 0.55);
+      }
+      .si.art .pub {
+        font-size: 8.5px;
+        font-weight: 600;
+        font-variant-caps: all-small-caps;
+        letter-spacing: 0.08em;
+        color: var(--mute);
+        line-height: 1;
+      }
+      .si.art .hd {
+        font-family: var(--serif);
+        font-weight: 600;
+        font-size: 11px;
+        line-height: 1.22;
+        color: var(--ink);
+      }
+      .si.art .by {
+        font-size: 8.5px;
+        color: var(--mute);
+        line-height: 1;
+      }
+      /* the REPS mark the material streams into */
+      .mark {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 96px;
+        height: 96px;
+        margin: -48px 0 0 -48px;
+        border-radius: 22px;
+        opacity: 0;
+        transform: scale(0);
+        will-change: transform, opacity;
+        box-shadow: 0 0 70px rgba(255, 107, 107, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.08);
+        z-index: 3;
+      }
+      .mark img {
+        width: 100%;
+        height: 100%;
+        border-radius: 22px;
+      }
+      /* the one thing you now know: Sapiens, whole, in a cream card; three pills anchored at its edges */
+      .known {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 208px;
+        transform: translate(-50%, -50%) translateY(var(--ky, 0px)) scale(var(--ks, 1));
+        transform-origin: 50% 50%;
+        background: var(--cream);
+        border-radius: 18px;
+        padding: 14px 14px 16px;
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.06);
+        opacity: 0;
+        will-change: transform, opacity;
+        z-index: 4;
+        color: var(--ink);
+      }
+      .known .cov {
+        border-radius: 6px;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: 0 8px 20px rgba(33, 26, 20, 0.22);
+      }
+      .known .cov img {
+        width: 100%;
+        height: auto;
+      }
+      .known .ttl {
+        font-family: var(--serif);
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 1.15;
+        margin: 14px 0 3px;
+      }
+      .known .au {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--mute);
+        line-height: 1.2;
+      }
+      .pill {
+        position: absolute;
+        white-space: nowrap;
+        background: var(--cream);
+        color: var(--ink);
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1;
+        padding: 11px 15px;
+        border-radius: 999px;
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(33, 26, 20, 0.06);
+        opacity: 0;
+        transform: translate(var(--fx), var(--fy)) scale(0.4);
+        will-change: transform, opacity;
+      }
+      .pill.p1 {
+        right: -30px;
+        top: -17px;
+        --fx: -80px;
+        --fy: 110px;
+      }
+      .pill.p2 {
+        right: calc(100% - 14px);
+        top: 50%;
+        margin-top: -18px;
+        --fx: 130px;
+        --fy: 0px;
+      }
+      .pill.p3 {
+        right: -18px;
+        bottom: -17px;
+        --fx: -70px;
+        --fy: -110px;
+      }
+      /* the spring: a one-shot CSS transition with overshoot, 120 ms stagger; nothing ticks afterwards */
+      .known.out .pill {
+        opacity: 1;
+        transform: none;
+      }
+      html.motion .known.out:not(.done) .pill {
+        transition: transform 0.6s var(--spring), opacity 0.25s ease;
+      }
+      html.motion .known.out:not(.done) .p2 {
+        transition-delay: 0.12s;
+      }
+      html.motion .known.out:not(.done) .p3 {
+        transition-delay: 0.24s;
+      }
+      .cap {
+        position: absolute;
+        left: -80px;
+        right: -80px;
+        white-space: nowrap;
+        top: calc(50% + 224px);
+        margin: 0;
+        text-align: center;
+        font-size: 15px;
+        font-weight: 500;
+        color: rgba(255, 250, 247, 0.7);
+        opacity: 0;
+        z-index: 4;
+      }
+
+      /* ───────────── three sections (cream, Recollect's shape, type alone) ───────────── */
+      .verb {
+        padding: clamp(64px, 8vw, 104px) 0;
+      }
+      .verb + .verb {
+        padding-top: 0;
+      }
+      .verb .in {
+        max-width: 960px;
+      }
+      .verb h2 {
+        max-width: 14ch;
+      }
+      .items {
+        list-style: none;
+        margin: 36px 0 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 22px 40px;
+        max-width: 860px;
+      }
+      .items li {
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+        font-size: clamp(18px, 1.5vw, 21px);
+        line-height: 1.4;
+        color: var(--ink);
+        font-weight: 500;
+      }
+      .items svg {
+        width: 24px;
+        height: 24px;
+        flex: none;
+        stroke: var(--coral-ink);
+        fill: none;
+        stroke-width: 1.75;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        margin-top: 3px;
+      }
+      /* the one real still on the page: a small code-drawn phone frame, captioned; the still inside is shifted up so
+         the status bar sits above the clip — never a video, never a mockup */
+      .phone {
+        width: 200px;
+        margin: 0;
+        flex: none;
+      }
+      .phone .scr {
+        position: relative;
+        aspect-ratio: 300 / 620;
+        border-radius: 30px;
+        overflow: hidden;
+        background: var(--cream);
+        box-shadow: 0 0 0 7px #15131a, 0 24px 54px rgba(33, 26, 20, 0.22);
+      }
+      .phone .scr img {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        width: var(--w, 100%);
+        height: auto;
+        max-width: none;
+        transform: translate(-50%, calc(-1 * var(--crop, 0px)));
+      }
+      .phone figcaption {
+        margin: 18px 0 0;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--mute);
+        text-align: center;
+        line-height: 1.3;
+      }
+      .proof .head {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 48px;
+        align-items: end;
+        margin-bottom: 40px;
+      }
+      .proof .head h2 {
+        margin-bottom: 0;
+      }
+
+      /* ───────────── manifesto band (cream, typographic) ───────────── */
+      .mani {
+        padding: clamp(96px, 12vw, 168px) 0;
+      }
+      .mani .in {
+        max-width: 980px;
+      }
+      .claim {
+        display: block;
+        font-size: clamp(32px, 4.3vw, 58px);
+        line-height: 1.04;
+        letter-spacing: -0.03em;
+        font-weight: 700;
+        color: var(--ink);
+        margin: 0 0 10px;
+      }
+      .nos {
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px 30px;
+        margin: 44px 0 0;
+        padding: 0;
+        font-size: 19px;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .nos b {
+        color: var(--coral-ink);
+        font-weight: 700;
+        margin-right: 5px;
+      }
+      .mani .end {
+        margin: 56px 0 0;
+        font-size: clamp(26px, 3.2vw, 44px);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+      }
+      .mani .end .b {
+        color: var(--coral-ink);
+      }
+
+      /* ───────────── who you become (cream, six identity cards) ───────────── */
+      .become h2 {
+        max-width: 17ch;
+      }
+      .become h2 .who {
+        color: var(--coral-ink);
+      }
+      .cards {
+        list-style: none;
+        margin: 44px 0 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 22px;
+      }
+      .card {
+        position: relative;
+        background: #fff;
+        border: 1px solid rgba(33, 26, 20, 0.06);
+        border-radius: 22px;
+        padding: 34px 28px 32px;
+        box-shadow: 0 14px 40px rgba(33, 26, 20, 0.06);
+        overflow: hidden;
+      }
+      /* one accent per card: a thin bar along the top edge (gold is only ever this bar, never text on cream) */
+      .card::before {
+        content: "";
+        position: absolute;
+        left: 28px;
+        right: 28px;
+        top: 0;
+        height: 5px;
+        border-radius: 0 0 5px 5px;
+        background: var(--acc);
+      }
+      .card h3 {
+        margin: 0 0 12px;
+        font-size: clamp(22px, 1.8vw, 27px);
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        font-weight: 700;
+        color: var(--ink);
+      }
+      .card p {
+        margin: 0;
+        font-size: 17px;
+        line-height: 1.5;
+        color: var(--soft);
+      }
+
+      /* ───────────── proof (cream, ruled Lora quotes) ───────────── */
+      .reviews {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 56px;
+      }
+      .reviews li {
+        border-top: 1px solid rgba(33, 26, 20, 0.12);
+        padding: 30px 0 34px 46px;
+        position: relative;
+        transition: opacity 0.6s var(--ease), transform 0.7s var(--ease);
+      }
+      html.motion .reveal:not(.shown) .reviews li {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      .reviews li::before {
+        content: "\201C";
+        position: absolute;
+        left: 0;
+        top: 18px;
+        font-family: var(--serif);
+        font-size: 64px;
+        line-height: 1;
+        color: var(--coral-ink);
+        font-weight: 600;
+      }
+      .reviews blockquote {
+        margin: 0 0 12px;
+        font-family: var(--serif);
+        font-weight: 500;
+        font-size: clamp(18px, 1.5vw, 22px);
+        line-height: 1.45;
+        color: var(--ink);
+      }
+      .reviews cite {
+        font-style: normal;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--mute);
+        letter-spacing: 0.02em;
+      }
+
+      /* ───────────── why (founder letter) ───────────── */
+      .why .in {
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        gap: 56px;
+        align-items: start;
+        max-width: 1000px;
+      }
+      .why img {
+        width: 200px;
+        height: 200px;
+        border-radius: 28px;
+        object-fit: cover;
+        box-shadow: 0 20px 50px rgba(33, 26, 20, 0.14);
+      }
+      .letter {
+        max-width: 620px;
+      }
+      .letter p {
+        font-family: var(--serif);
+        font-size: clamp(18px, 1.45vw, 21px);
+        line-height: 1.55;
+        color: var(--soft);
+        margin: 0 0 18px;
+      }
+      .letter p strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .sig {
+        margin: 26px 0 16px;
+        font-weight: 700;
+        font-size: 16px;
+      }
+      .sig span {
+        color: var(--mute);
+        font-weight: 500;
+      }
+
+      /* ───────────── planet strip ───────────── */
+      .planet {
+        border-top: 1px solid rgba(33, 26, 20, 0.08);
+        border-bottom: 1px solid rgba(33, 26, 20, 0.08);
+        padding: 44px 0;
+      }
+      .planet .in {
+        display: flex;
+        align-items: center;
+        gap: 32px;
+      }
+      .planet img {
+        height: 44px;
+        width: auto;
+        flex: none;
+      }
+      .planet p {
+        margin: 0;
+        font-size: 16px;
+        color: var(--soft);
+        max-width: 640px;
+      }
+
+      /* ───────────── close (ink) ───────────── */
+      .close .in {
+        text-align: center;
+        display: grid;
+        justify-items: center;
+      }
+      .close h2 {
+        font-size: clamp(40px, 6.2vw, 92px);
+        max-width: none;
+        margin-bottom: 18px;
+      }
+      .close .lede {
+        margin-bottom: 36px;
+      }
+
+      /* ───────────── footer ───────────── */
+      footer {
+        padding: 36px 0 48px;
+      }
+      footer .in {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px 22px;
+        font-size: 14px;
+        color: var(--mute);
+      }
+      footer a {
+        text-decoration: none;
+        color: var(--mute);
+        font-weight: 500;
+      }
+      footer a:hover {
+        color: var(--ink);
+      }
+      footer .motto {
+        font-weight: 700;
+        color: var(--ink);
+        font-size: 15px;
+        margin-right: 10px;
+      }
+      footer .feat {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 22px;
+        padding-top: 10px;
+      }
+
+      /* ───────────── scroll reveals (motion only) ───────────── */
+      html.motion .reveal {
+        opacity: 0;
+        transform: translateY(22px);
+        transition: opacity 0.7s var(--ease), transform 0.8s var(--ease);
+      }
+      html.motion .reveal.shown {
+        opacity: 1;
+        transform: none;
+      }
+
+      /* ───────────── phone ───────────── */
+      @media (max-width: 860px) {
+        :root {
+          --navh: 64px;
+        }
+        .nav nav {
+          gap: 16px;
+        }
+        .hero {
+          height: min(250svh, 2250px);
+        }
+        /* the stage column grows with its content on a phone (a short phone never clips the button); the stage height
+           the morph reads is whatever the column measures */
+        .stick {
+          height: auto;
+          min-height: min(calc(100svh - var(--navh)), 900px);
+          padding: 28px 0 32px;
+        }
+        .hero-grid {
+          grid-template-columns: 1fr;
+          gap: 64px;
+          width: min(1240px, 100% - 48px);
+          text-align: center;
+        }
+        .stage {
+          order: -1;
+          width: 260px;
+          height: 260px;
+          justify-self: center;
+        }
+        .copy {
+          display: grid;
+          justify-items: center;
+        }
+        h1 {
+          font-size: clamp(44px, 12vw, 56px);
+          margin-bottom: 18px;
+        }
+        .sub {
+          margin-bottom: 26px;
+        }
+        .hero .actions {
+          align-items: center;
+        }
+        /* half-size sphere: the script scales positions and items by the stage width */
+        .mark {
+          width: 64px;
+          height: 64px;
+          margin: -32px 0 0 -32px;
+          border-radius: 15px;
+        }
+        .mark img {
+          border-radius: 15px;
+        }
+        .known {
+          width: 138px;
+          padding: 10px 10px 12px;
+          border-radius: 14px;
+        }
+        .known .ttl {
+          font-size: 15px;
+          margin-top: 10px;
+        }
+        .known .au {
+          font-size: 11px;
+        }
+        .pill {
+          font-size: 11px;
+          padding: 8px 10px;
+        }
+        .pill.p1 {
+          right: -20px;
+          top: -14px;
+        }
+        .pill.p2 {
+          right: calc(100% - 70px);
+          margin-top: -14px;
+        }
+        .pill.p3 {
+          right: -14px;
+          bottom: -14px;
+        }
+        .cap {
+          top: calc(50% + 152px);
+          font-size: 13px;
+        }
+        .why .in {
+          grid-template-columns: 1fr;
+          gap: 40px;
+        }
+        .items {
+          grid-template-columns: 1fr;
+          gap: 16px;
+        }
+        .proof .head {
+          grid-template-columns: 1fr;
+          gap: 32px;
+          justify-items: start;
+        }
+        .reviews {
+          grid-template-columns: 1fr;
+        }
+        .why img {
+          width: 120px;
+          height: 120px;
+          border-radius: 20px;
+        }
+        .planet .in {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 18px;
+        }
+        .cta {
+          width: min(100%, 360px);
+        }
+        .cta.small {
+          width: auto;
+        }
+      }
+      /* a short phone: a smaller stage and headline so the whole stack fits one screen */
+      @media (max-width: 860px) and (max-height: 720px) {
+        .stage {
+          width: 220px;
+          height: 220px;
+        }
+        .hero-grid {
+          gap: 52px;
+        }
+        h1 {
+          font-size: clamp(40px, 11vw, 48px);
+        }
+        .known {
+          width: 118px;
+        }
+        .cap {
+          top: calc(50% + 132px);
+        }
+      }
+      @media (max-width: 720px) {
+        .cards {
+          grid-template-columns: 1fr;
+          gap: 16px;
+        }
+        .card {
+          padding: 30px 24px 28px;
+        }
+        .nos {
+          font-size: 17px;
+          gap: 10px 22px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#top">Skip to content</a>
+
+    <header class="nav">
+      <div class="in">
+        <a class="brand" href="/" aria-label="REPS home">
+          <img src="product/assets/app-icon.png" alt="" width="26" height="26" />
+          REPS
+        </a>
+        <nav aria-label="Primary">
+          <a class="link" href="/about">About</a>
+          <a class="link" href="/about#press">Press</a>
+          <a class="cta small" href="https://apps.apple.com/app/id6759216018" target="_blank" rel="noopener">Get the app</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <!-- ═══════ HERO · Galaxy Black · the sphere of what you took in becomes the one thing you now know ═══════ -->
+      <section class="hero" id="top">
+        <div class="stick">
+          <div class="hero-grid">
+            <div class="copy">
+              <p class="eyebrow">Your Knowledge Companion</p>
+              <h1>Retain your knowledge.</h1>
+              <p class="sub">Turn what you read, watch and listen to into knowledge that lasts.</p>
+              <div class="actions">
+                <a
+                  class="cta"
+                  href="https://apps.apple.com/app/id6759216018"
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="Download REPS on the App Store"
+                >
+                  <svg viewBox="0 0 384 512" aria-hidden="true">
+                    <path
+                      d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"
+                    />
+                  </svg>
+                  Download on the App Store
+                </a>
+                <p class="reassure">Free on the App Store.</p>
+              </div>
+            </div>
+
+            <div class="stage" id="stage">
+              <!-- the sphere is decorative; the real artwork (Apple Books / Apple Podcasts / YouTube thumbnails) is shown
+                   whole and in its true aspect (width/height attributes reserve it); each of the nine is placed three
+                   times by the script (the two extra copies are clones of these nodes); the nine article cards are
+                   code-drawn and name the publication in type -->
+              <div class="sphere" id="sphere" aria-hidden="true">
+                <figure class="si book"><img src="product/assets/covers/sapiens.jpg" alt="" width="400" height="604" decoding="async" fetchpriority="high" /></figure>
+                <figure class="si art"><span class="pub">The Atlantic</span><span class="hd">Is Google Making Us Stupid?</span><span class="by">Nicholas Carr</span></figure>
+                <figure class="si pod"><img src="product/assets/covers/podcast-huberman-lab.jpg" alt="" width="400" height="400" decoding="async" fetchpriority="high" /></figure>
+                <figure class="si video"><img src="product/assets/covers/video-kurzgesagt-the-egg.jpg" alt="" width="640" height="360" decoding="async" fetchpriority="high" /><span class="play"></span><span class="dur">8:06</span></figure>
+                <figure class="si book"><img src="product/assets/covers/atomic-habits.jpg" alt="" width="400" height="604" decoding="async" fetchpriority="high" /></figure>
+                <figure class="si art"><span class="pub">The New York Times</span><span class="hd">The 36 Questions That Lead to Love</span><span class="by">Daniel Jones</span></figure>
+                <figure class="si pod"><img src="product/assets/covers/podcast-the-daily.jpg" alt="" width="400" height="400" decoding="async" fetchpriority="high" /></figure>
+                <figure class="si book"><img src="product/assets/covers/1984.jpg" alt="" width="400" height="600" decoding="async" fetchpriority="high" /></figure>
+                <figure class="si art"><span class="pub">paulgraham.com</span><span class="hd">How to Do Great Work</span><span class="by">Paul Graham</span></figure>
+                <figure class="si video"><img src="product/assets/covers/video-veritasium-entropy.jpg" alt="" width="640" height="360" decoding="async" fetchpriority="high" /><span class="play"></span><span class="dur">27:15</span></figure>
+                <figure class="si art"><span class="pub">Wait But Why</span><span class="hd">The Tail End</span><span class="by">Tim Urban</span></figure>
+                <figure class="si book"><img src="product/assets/covers/thinking-fast-and-slow.jpg" alt="" width="400" height="593" decoding="async" fetchpriority="high" /></figure>
+                <figure class="si art"><span class="pub">The New Yorker</span><span class="hd">The Really Big One</span><span class="by">Kathryn Schulz</span></figure>
+                <figure class="si pod"><img src="product/assets/covers/podcast-diary-of-a-ceo.jpg" alt="" width="400" height="400" decoding="async" fetchpriority="high" /></figure>
+                <figure class="si art"><span class="pub">Harvard Business Review</span><span class="hd">What Makes a Leader?</span><span class="by">Daniel Goleman</span></figure>
+                <figure class="si art"><span class="pub">The Atlantic</span><span class="hd">The Coddling of the American Mind</span><span class="by">Greg Lukianoff &amp; Jonathan Haidt</span></figure>
+                <figure class="si art"><span class="pub">Wait But Why</span><span class="hd">The AI Revolution: The Road to Superintelligence</span><span class="by">Tim Urban</span></figure>
+                <figure class="si art"><span class="pub">Farnam Street</span><span class="hd">The Map Is Not the Territory</span><span class="by">Shane Parrish</span></figure>
+              </div>
+              <div class="mark" id="mark" aria-hidden="true">
+                <img src="product/assets/app-icon.png" alt="" width="128" height="128" decoding="async" />
+              </div>
+              <div class="known" id="known">
+                <div class="cov">
+                  <img src="product/assets/covers/sapiens.jpg" alt="Sapiens, by Yuval Noah Harari — the book cover" width="400" height="604" decoding="async" />
+                </div>
+                <p class="ttl">Sapiens</p>
+                <p class="au">Yuval Noah Harari</p>
+                <span class="pill p1">Why wheat domesticated us</span>
+                <span class="pill p2">The gossip theory of language</span>
+                <span class="pill p3">Money is the most universal trust</span>
+              </div>
+              <p class="cap" id="cap">One book. Three things that stayed.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════ THREE SECTIONS · cream · Recollect's shape, type alone: what it feels like, never what the app does ═══════ -->
+      <section class="block verb reveal" id="save">
+        <div class="in">
+          <p class="eyebrow">Save anything</p>
+          <h2>Everything you take in, in one place.</h2>
+          <ul class="items">
+            <li>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4h6a2 2 0 0 1 2 2v14l-5-3-5 3V6a2 2 0 0 1 2-2z" /></svg>
+              <span>The article you'd have lost by Friday, kept.</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0" /><path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0" /><path d="M3 6v13" /><path d="M12 6v13" /><path d="M21 6v13" /></svg>
+              <span>The page of the book you wanted to carry with you.</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13a8 8 0 0 1 16 0" /><rect x="4" y="13" width="4" height="6" rx="2" /><rect x="16" y="13" width="4" height="6" rx="2" /></svg>
+              <span>The episode you half-remember, found in a second.</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l6 6L20 6" /></svg>
+              <span>Nothing to sort. Nothing to file. Nothing to lose.</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="block verb reveal" id="play">
+        <div class="in">
+          <p class="eyebrow">Play, not homework</p>
+          <h2>A few minutes you look forward to.</h2>
+          <ul class="items">
+            <li>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M10 9l5 3-5 3z" /></svg>
+              <span>The queue, the lift, the walk: time that gives something back.</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1" /><rect x="14" y="4" width="6" height="6" rx="1" /><rect x="4" y="14" width="6" height="6" rx="1" /><rect x="14" y="14" width="6" height="6" rx="1" /></svg>
+              <span>Your own week, as a crossword.</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="4" /><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /><path d="M21 21v-2a4 4 0 0 0-3-3.85" /></svg>
+              <span>Beating a friend with the thing you both read.</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 3" /></svg>
+              <span>Never a chore. Never a deadline.</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="block verb reveal" id="remember">
+        <div class="in">
+          <p class="eyebrow">Remember for good</p>
+          <h2>It stays with you.</h2>
+          <ul class="items">
+            <li>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20l1.3-3.9c-2.324-3.437-1.426-7.872 2.1-10.374c3.526-2.501 8.59-2.296 11.845.48c3.255 2.777 3.695 7.266 1.029 10.501c-2.666 3.235-7.615 4.215-11.574 2.293L3 20" /></svg>
+              <span>The thread, when someone asks at dinner.</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14l-4-4l4-4" /><path d="M5 10h11a4 4 0 1 1 0 8h-1" /></svg>
+              <span>A year later, still yours.</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.9 5.6L19.5 10.5l-5.6 1.9L12 18l-1.9-5.6L4.5 10.5l5.6-1.9z" /></svg>
+              <span>Sharper every week, and you can feel it.</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2" /><circle cx="12" cy="16" r="1" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg>
+              <span>Yours. Not a platform's, not a feed's.</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ═══════ MANIFESTO · cream · typographic ═══════ -->
+      <section class="mani reveal" id="manifesto">
+        <div class="in">
+          <p class="eyebrow">Our manifesto</p>
+          <h2 style="max-width: none; margin: 0">
+            <span class="claim">Bookmark graveyards are useless.</span>
+            <span class="claim">Doomscrolling is making us dumb.</span>
+            <span class="claim">AI should make you smarter, not think for you.</span>
+          </h2>
+          <ul class="nos" aria-label="What REPS will never do">
+            <li><b>NO</b> folders</li>
+            <li><b>NO</b> tags</li>
+            <li><b>NO</b> decks</li>
+            <li><b>NO</b> feed that decides for you</li>
+            <li><b>NO</b> selling your attention</li>
+          </ul>
+          <p class="end">Stop doomscrolling. <span class="b">Start bloom scrolling.</span></p>
+        </div>
+      </section>
+
+      <!-- ═══════ WHO YOU BECOME · cream · six identity-outcome cards ═══════ -->
+      <section class="block become" id="become">
+        <div class="in">
+          <p class="eyebrow reveal">Who you become</p>
+          <h2 class="reveal" style="transition-delay: 0.08s">Not what the app does. <span class="who">Who you are with it.</span></h2>
+          <ul class="cards" aria-label="Who you become with REPS">
+            <li class="card reveal" style="--acc: var(--coral-ink); transition-delay: 0.05s">
+              <h3>The one at dinner who still has it.</h3>
+              <p>Someone asks why Rome actually fell. You read that piece last month. This time, you have the thread.</p>
+            </li>
+            <li class="card reveal" style="--acc: var(--indigo); transition-delay: 0.13s">
+              <h3>Pull the thread a year later.</h3>
+              <p>The line you underlined, the episode you half-remember. Still there, still yours.</p>
+            </li>
+            <li class="card reveal" style="--acc: var(--teal-deep); transition-delay: 0.21s">
+              <h3>A feed worth remembering.</h3>
+              <p>In the queue, in the lift, on the walk. You come away with more than you went in with.</p>
+            </li>
+            <li class="card reveal" style="--acc: var(--gold); transition-delay: 0.29s">
+              <h3>Play, not a chore.</h3>
+              <p>A crossword built from your week. A friend on the same board. A few minutes you look forward to.</p>
+            </li>
+            <li class="card reveal" style="--acc: var(--coral-ink); transition-delay: 0.37s">
+              <h3>Nothing gathering dust.</h3>
+              <p>Not in a notes app. Not in a camera roll. Everything you kept, with you.</p>
+            </li>
+            <li class="card reveal" style="--acc: var(--indigo); transition-delay: 0.45s">
+              <h3>The quiet confidence of knowing.</h3>
+              <p>Not the loudest in the room. The one who read the thing, watched the thing, and kept it.</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ═══════ PROOF · cream · ruled Lora quotes ═══════ -->
+      <section class="block proof reveal" id="proof">
+        <div class="in">
+          <div class="head">
+            <div>
+              <p class="eyebrow">Said on the App Store</p>
+              <h2>In their words.</h2>
+            </div>
+            <!-- the one real app still on the page: small, captioned, low on the page; the status bar sits above the clip -->
+            <figure class="phone">
+              <div class="scr">
+                <img src="beats/2026-09/your-knowledge-full.jpg" alt="The Your Knowledge screen in REPS: saved books and podcasts, each with how much of it you have kept" width="720" height="1560" loading="lazy" style="--w: 200px; --crop: 19px" />
+              </div>
+              <figcaption>Your library in REPS, as it looks today.</figcaption>
+            </figure>
+          </div>
+          <ul class="reviews">
+            <li style="transition-delay: 0.1s">
+              <blockquote>Really enjoying using this app as a better way to spend 5/10 minutes at bus stop etc. vs brain rotting on Insta/X.</blockquote>
+              <cite>App Store review · jsdldn</cite>
+            </li>
+            <li style="transition-delay: 0.2s">
+              <blockquote>It's replaced scrolling Instagram on my phone, and it's helping me re-engage with books I read years ago, and actively seek out interesting knowledge to add to my second brain.</blockquote>
+              <cite>App Store review · 24601_London</cite>
+            </li>
+            <li style="transition-delay: 0.3s">
+              <blockquote>Very nice and fun way to retrain your brain – love a competition with friends. Love that app!</blockquote>
+              <cite>App Store review · Sizeret74</cite>
+            </li>
+            <li style="transition-delay: 0.4s">
+              <blockquote>Such a fun and easy way to remember the things that matter the most to me! New content is also great to discover! Definitely one of my favorite apps!</blockquote>
+              <cite>App Store review · Cathb1234</cite>
+            </li>
+            <li style="transition-delay: 0.5s">
+              <blockquote>As a non-techy over 60 year old, this app is simple and intuitive to navigate.</blockquote>
+              <cite>App Store review · Mooselake4</cite>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ═══════ WHY · cream · the letter ═══════ -->
+      <section class="block why reveal" id="why">
+        <div class="in">
+          <img src="compare/assets/mike-mcgraw.jpg" alt="Mike McGraw, founder of REPS" width="200" height="200" loading="lazy" />
+          <div>
+            <p class="eyebrow">Why this exists</p>
+            <h2>I watched my nieces and nephews grow up on Shorts.</h2>
+            <div class="letter">
+              <p>
+                I spent twelve years investing in technology, and I watched my nephews and nieces grow up on
+                YouTube Shorts. Then I read that the Flynn effect has reversed: for the first time, population
+                IQ scores have started to fall.
+              </p>
+              <p>
+                Neil Postman saw it coming in 1985. Orwell feared the people who would ban books; Huxley
+                feared there would be no need to, because no one would want to read one. <strong>That's the feed.</strong>
+              </p>
+              <p>
+                I left my job on my 34th birthday to build the antidote. I build REPS and use it every day,
+                and I'd like it to be where what you read, watch and hear stays with you.
+              </p>
+            </div>
+            <p class="sig">Mike McGraw <span>· founder, REPS</span></p>
+            <a class="arrow" href="/about">About &amp; press kit →</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════ PLANET · strip ═══════ -->
+      <section class="planet reveal" id="planet">
+        <div class="in">
+          <img src="justonetree-logo.png" alt="JUST ONE Tree" width="368" height="100" loading="lazy" />
+          <p>
+            The AI that powers REPS uses a little energy, so we plant real trees for it, far more than we use.
+            <a class="arrow" href="/planet">The planet pledge →</a>
+          </p>
+        </div>
+      </section>
+
+      <!-- ═══════ CLOSE · ink · the key line again ═══════ -->
+      <section class="block f-ink close reveal" id="get">
+        <div class="in">
+          <p class="eyebrow">Free on the App Store</p>
+          <h2>Your Knowledge Companion.</h2>
+          <p class="lede">You take in more than ever. Now it stays with you.</p>
+          <a
+            class="cta"
+            href="https://apps.apple.com/app/id6759216018"
+            target="_blank"
+            rel="noopener"
+            aria-label="Download REPS on the App Store"
+          >
+            <svg viewBox="0 0 384 512" aria-hidden="true">
+              <path
+                d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"
+              />
+            </svg>
+            Download on the App Store
+          </a>
+          <p class="reassure">Free on the App Store.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="in">
+        <span class="motto">Your Knowledge Companion</span>
+        <a href="/about">About</a>
+        <a href="/planet">Planet</a>
+        <a href="/about#press">Press</a>
+        <a href="/support">Support</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <div class="feat">
+          <a href="/features/active-recall">The daily game</a>
+          <a href="/features/second-brain">Your knowledge graph</a>
+          <a href="/features/read-it-later">Read it later</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- PostHog — analytics + engagement (autocapture, pageleave/scroll, session replay) -->
+    <script>
+      !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+      posthog.init("phc_gTI0FJoXiGPjdACbgVyunpDSl0mPs2HEYtmzUtK3SyE", {
+        api_host: "https://us.i.posthog.com",
+        ui_host: "https://us.posthog.com",
+        defaults: "2025-05-24",
+        persistence: "localStorage+cookie",
+        capture_pageview: true,
+        capture_pageleave: true,
+        autocapture: true,
+        disable_session_recording: false,
+        loaded: function (ph) { ph.register({ lp_variant: "v7b" }); }
+      });
+    </script>
+
+    <script>
+      (function () {
+        "use strict";
+        var MOTION = document.documentElement.classList.contains("motion");
+        var FAST = /(?:^|[?&])motion=1(?:&|$)/.test(location.search); /* headless capture: the stage settles at its end at once */
+        var HOLD = /(?:^|[?&])hold=1(?:&|$)/.test(location.search); /* capture of the resting sphere: motion on, stage pinned at its start */
+        if (HOLD) FAST = false;
+        var clamp = function (v, a, b) { return v < a ? a : v > b ? b : v; };
+        var easeOut = function (p) { return 1 - Math.pow(1 - p, 3); };
+        var easeIn = function (p) { return p * p * p; };
+        var backOut = function (p) { var c = 1.70158, d = c + 1; return 1 + d * Math.pow(p - 1, 3) + c * Math.pow(p - 1, 2); };
+        var ph = function (ev, props) { try { window.posthog && posthog.capture(ev, props || {}); } catch (e) {} };
+
+        /* ─────────── the stage: a sphere of real material, projected in JS, then the two-stage morph on scroll ─────────── */
+        var nav = document.querySelector(".nav");
+        var hero = document.getElementById("top");
+        var stick = hero.querySelector(".stick");
+        var stage = document.getElementById("stage");
+        var sphere = document.getElementById("sphere");
+        var mark = document.getElementById("mark");
+        var known = document.getElementById("known");
+        var cap = document.getElementById("cap");
+
+        /* 18 authored nodes; the nine real artworks are placed three times each (two clones apiece), so 36 on the sphere */
+        var base = Array.prototype.slice.call(sphere.querySelectorAll(".si"));
+        var reals = base.filter(function (el) { return el.querySelector("img"); });
+        for (var k = 0; k < 2; k++) reals.forEach(function (el) { sphere.appendChild(el.cloneNode(true)); });
+        var items = Array.prototype.slice.call(sphere.querySelectorAll(".si"));
+        var N = items.length, GA = Math.PI * (3 - Math.sqrt(5)); /* the golden angle: a Fibonacci sphere */
+        var specs = items.map(function (el, i) {
+          var y = 1 - (2 * (i + 0.5)) / N, r = Math.sqrt(Math.max(0, 1 - y * y)), th = i * GA;
+          return {
+            el: el, x: r * Math.cos(th), y: y, z: r * Math.sin(th),
+            o: ((i * 0.618034) % 1) * 0.5,           /* stream-in stagger, 0..0.5 of stage 1 */
+            bow: (i % 2 ? 1 : -1) * (0.35 + ((i * 7) % 5) / 10), /* each item's own bowed path to the centre */
+            lastOp: ""
+          };
+        });
+
+        var R = 260, F = 1100, SZ = 1, TILT = -0.3; /* radius, perspective distance, stage scale, a slight look from above */
+        var rot = 0, P = 0, last = 0, lastPaint = 0, raf = 0;
+        var running = false, heroVisible = true, pageVisible = !document.hidden, begun = false, known_out = false, completed = false;
+        var doneT = 0;
+
+        function size() {
+          var r = stage.getBoundingClientRect();
+          SZ = (r.width || 520) / 520;
+          R = 260 * SZ; F = 1100 * SZ;
+        }
+
+        /* one frame. u: stage 1 progress (0..1), v: stage 2 progress (0..1). `ring` draws the sphere at 20% as a static ring
+           (reduced motion). Everything written here is transform/opacity/z-index — no layout. */
+        function render(u, v, ring) {
+          var cr = Math.cos(rot), sr = Math.sin(rot), ct = Math.cos(TILT), st = Math.sin(TILT);
+          var i, s, x, z0, y, z, sc, px, py, d, op, scl, sy, q, e, len, nx, ny, bw;
+          var sphereOn = ring || u < 1;
+          for (i = 0; i < N; i++) {
+            s = specs[i];
+            if (!sphereOn) { if (s.lastOp !== "0") { s.lastOp = "0"; s.el.style.opacity = "0"; } continue; }
+            x = s.x * cr - s.z * sr; z0 = s.x * sr + s.z * cr;
+            y = s.y * ct - z0 * st; z = s.y * st + z0 * ct;
+            sc = F / (F - z * R);                  /* perspective: nearer is bigger */
+            px = x * R * sc; py = y * R * sc;
+            d = (z + 1) / 2;                       /* 0 = far side, 1 = nearest */
+            op = 0.35 + 0.65 * d;                  /* back hemisphere dimmed to 35% */
+            scl = (0.8 + 0.2 * d) * SZ * sc;       /* and scaled to 0.8 */
+            sy = 1;
+            if (!ring && u > 0) {
+              /* stage 1: every item streams to the centre on its own bowed path, stretching and fading as it goes */
+              q = clamp((u - s.o) / 0.5, 0, 1); e = easeIn(q);
+              len = Math.sqrt(px * px + py * py) || 1; nx = -py / len; ny = px / len;
+              bw = Math.sin(Math.PI * q) * s.bow * 60 * SZ;
+              px = px * (1 - e) + nx * bw; py = py * (1 - e) + ny * bw;
+              sy = 1 + 0.8 * q;
+              op *= 1 - q;
+              scl *= 1 - 0.35 * e;
+            }
+            if (ring) op *= 0.2;
+            s.el.style.transform = "translate(-50%,-50%) translate3d(" + px.toFixed(1) + "px," + py.toFixed(1) + "px,0) scale(" + scl.toFixed(3) + "," + (scl * sy).toFixed(3) + ")";
+            s.el.style.opacity = (s.lastOp = op.toFixed(3));
+            s.el.style.zIndex = (d * 100) | 0;
+          }
+          /* the mark: lands with a small overshoot at the end of stage 1; opens (grows a little, fades) at the start of stage 2 */
+          var m = clamp((u - 0.55) / 0.45, 0, 1), ms = backOut(m), mo = m > 0 ? 1 : 0;
+          if (v > 0) { ms = 1 + 0.15 * easeOut(clamp(v / 0.3, 0, 1)); mo = 1 - clamp((v - 0.12) / 0.28, 0, 1); }
+          if (ring) { ms = 1; mo = 0; }
+          mark.style.transform = "scale(" + ms.toFixed(3) + ")";
+          mark.style.opacity = mo.toFixed(3);
+          /* the card rises from behind the mark */
+          var c = easeOut(clamp((v - 0.08) / 0.5, 0, 1));
+          known.style.setProperty("--ky", (80 * (1 - c)).toFixed(1) + "px");
+          known.style.setProperty("--ks", (0.55 + 0.45 * c).toFixed(3));
+          known.style.opacity = clamp(c * 2, 0, 1).toFixed(3);
+          /* the three pills spring out (one-shot CSS transition) once the card has settled */
+          setOut(v >= 0.6);
+          cap.style.opacity = clamp((v - 0.75) / 0.25, 0, 1).toFixed(3);
+        }
+        function setOut(on) {
+          if (on === known_out) return;
+          known_out = on;
+          known.classList.toggle("out", on);
+          clearTimeout(doneT);
+          if (on) {
+            if (FAST || !MOTION) known.classList.add("done");
+            else doneT = setTimeout(function () { known.classList.add("done"); }, 950); /* after the last pill has settled */
+            ph("lp_sphere_known");
+          } else {
+            known.classList.remove("done");
+          }
+        }
+        function renderNow() {
+          if (FAST) { render(1, 1, false); return; }
+          if (!MOTION) { render(0, 1, true); return; }
+          render(clamp(P / 0.45, 0, 1), clamp((P - 0.45) / 0.55, 0, 1), false);
+        }
+
+        /* the loop: ≤30 fps, only while the sphere is on screen and un-morphed (stage 1), only while the tab is visible */
+        function frame(now) {
+          raf = 0;
+          var dt = last ? Math.min(now - last, 50) / 1000 : 0;
+          last = now;
+          var u = clamp(P / 0.45, 0, 1);
+          rot += dt * ((2 * Math.PI) / 40) * (1 + 3 * clamp(u / 0.3, 0, 1)); /* one turn per ~40 s; quickens as the stream begins */
+          if (now - lastPaint >= 31) { lastPaint = now; renderNow(); }
+          if (heroVisible && pageVisible && P < 0.45) raf = requestAnimationFrame(frame);
+          else { running = false; last = 0; }
+        }
+        function wake() {
+          if (!MOTION || FAST || running || !begun) return;
+          if (!heroVisible || !pageVisible || P >= 0.45) return;
+          running = true;
+          raf = requestAnimationFrame(frame);
+        }
+        function readP() {
+          if (HOLD) { P = 0; return; }
+          var range = Math.max(1, hero.offsetHeight - stick.offsetHeight);
+          var y = window.scrollY - (hero.offsetTop - nav.offsetHeight);
+          P = clamp(y / range, 0, 1);
+          if (P >= 1 && !completed) { completed = true; ph("lp_sphere_completed"); }
+        }
+
+        function begin() {
+          if (begun) return;
+          begun = true;
+          size();
+          readP();
+          renderNow();
+          stage.classList.add("ready");
+          wake();
+        }
+        /* begin once the fonts and the artwork are in (a blank card on the sphere would be the wrong first frame);
+           neither is allowed to hold the stage for long */
+        var ready = [];
+        if (document.fonts && document.fonts.ready) ready.push(document.fonts.ready);
+        reals.forEach(function (el) {
+          var img = el.querySelector("img");
+          if (img && img.decode) ready.push(img.decode().catch(function () {}));
+        });
+        Promise.all(ready).then(function () { setTimeout(begin, 40); }, function () { begin(); });
+        setTimeout(begin, 1600);
+
+        /* scroll drives the stage; in stage 2 the stage repaints only here (one paint per scroll frame) */
+        var pending = false;
+        window.addEventListener("scroll", function () {
+          if (!begun || FAST || !MOTION) return;
+          readP();
+          if (P < 0.45) { wake(); return; }
+          if (pending) return;
+          pending = true;
+          requestAnimationFrame(function () { pending = false; renderNow(); });
+        }, { passive: true });
+
+        (function () {
+          function tick() { document.body.classList.toggle("past-hero", window.scrollY > hero.offsetTop + hero.offsetHeight - nav.offsetHeight - 40); }
+          window.addEventListener("scroll", tick, { passive: true });
+          tick();
+        })();
+        new IntersectionObserver(function (es) {
+          es.forEach(function (e) {
+            heroVisible = e.isIntersecting;
+            if (heroVisible) wake();
+          });
+        }, { threshold: 0.02 }).observe(stick);
+        document.addEventListener("visibilitychange", function () {
+          pageVisible = !document.hidden;
+          if (pageVisible) wake();
+        });
+        var rT = 0;
+        window.addEventListener("resize", function () {
+          clearTimeout(rT);
+          rT = setTimeout(function () {
+            if (!begun) return;
+            size(); readP(); renderNow(); wake();
+          }, 120);
+        });
+
+        /* ─────────── scroll reveals ─────────── */
+        var reveals = document.querySelectorAll(".reveal");
+        if (MOTION && "IntersectionObserver" in window) {
+          var ro = new IntersectionObserver(function (es) {
+            es.forEach(function (e) {
+              if (e.isIntersecting) { e.target.classList.add("shown"); ro.unobserve(e.target); }
+            });
+          }, { threshold: 0.16, rootMargin: "0px 0px -6% 0px" });
+          Array.prototype.forEach.call(reveals, function (el) { ro.observe(el); });
+        } else {
+          Array.prototype.forEach.call(reveals, function (el) { el.classList.add("shown"); });
+        }
+      })();
+    </script>
+  </body>
+</html>
