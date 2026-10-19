@@ -3,7 +3,8 @@
 CONCEPT NOTE (cs-c-lora: cs-c with Lora as the page voice, the Diary of a CEO cover removed, and ?h=1..6 headline options)
 Lora variant: display lines, captions and the close are Lora (500 display; the key phrase is Lora italic in the coral gradient); sans stays on the eyebrow label, buttons, the top-bar link and in-game labels.
 Round 2: scene captions sit ABOVE the scenes as headings; the icon is the real 512px icon as a glossy CSS tile that tilts slowly (idle loop + pointer, within 6 degrees); covers are 1.3x and sit in the front slots, paper is 0.85x; the mid-story gap is closed.
-?h=1 (default) "Turn what you save into what you know." · 2 bookmarks · 3 reading more · 4 organize and retain · 5 read, watch and hear · 6 "Turn media into knowledge." The close always repeats the hero line.
+Round 3 (founder edits): app icon beside the wordmark; scene titles "Discover quality content." and "Built on memory science."; after the story, in normal page flow: the short manifesto, a slow quotes band (KK, KA + verbatim App Store reviews of id6759216018), then the close "Stop letting your knowledge fade today." (no coral italic there). Real articles/talks carry their own og:image banner; quotes are typographic.
+?h=1 (default) "Turn what you save into what you know." · 2 bookmarks · 3 reading more · 4 organize and retain · 5 read, watch and hear · 6 "Turn media into knowledge."
 CONCEPT NOTE (cs-c, founder storyboard)
 1. Idea: everything you take in is pulled into one place, and comes back out as play.
 2. Hero: "Turn media into knowledge." at rest beside a slowly turning sphere of real covers and code-drawn article cards.
@@ -13,7 +14,7 @@ CONCEPT NOTE (cs-c, founder storyboard)
 6. Close: the scenes fold back into light, the light into the icon, and the headline returns with the one coral action.
 7. Words: one line per screen at most; REPS says under forty words of its own, everything else is the material.
 8. Motion is on by default; one 30 fps loop runs only while the story is on screen and the tab is visible: the sphere turns, then the icon breathes, the links pulse and the active scene has one small living beat.
-9. Refused: phone frames, app screenshots, a knowledge graph, feature lists, testimonials, numbers, the manifesto (it made the page long).
+9. Refused: phone frames, app screenshots, a knowledge graph, feature lists, numbers. (Round 3 added the short manifesto and the quotes band by founder request.)
 10. Flags: ?static=1 static page (the only motion off switch), ?motion=1 capture mode, &at=0..1 pins the story progress (idle motion still runs).
 -->
 <html lang="en">
@@ -36,6 +37,7 @@ CONCEPT NOTE (cs-c, founder storyboard)
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{background:var(--cream);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}   /* no browser font boosting: the type sizes are set on purpose */
 a{color:inherit;text-decoration:none}
 img{display:block}
 
@@ -43,6 +45,9 @@ img{display:block}
 .nav{position:fixed;inset:0 0 auto 0;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(20px,5vw,72px);z-index:50;pointer-events:none}
 .nav>*{pointer-events:auto}
 .wordmark{font-weight:700;font-size:20px;letter-spacing:.14em}
+/* the brand: the real app icon (512px source, shown small so it stays crisp) beside the wordmark */
+.brand{display:inline-flex;align-items:center;gap:11px}
+.brand img{width:30px;height:30px;border-radius:7px;box-shadow:0 0 0 .5px rgba(4,4,9,.35),0 4px 10px -4px rgba(4,4,9,.45)}
 .nav-get{font-size:14px;font-weight:500;padding:9px 16px;border:1px solid rgba(33,26,20,.22);border-radius:999px;background:rgba(255,250,247,.8);
   transition:background .2s,color .2s,opacity .35s ease,transform .45s cubic-bezier(.2,.8,.2,1),visibility 0s linear .45s;opacity:0;visibility:hidden;transform:translateY(-10px)}
 .nav-get.on{opacity:1;visibility:visible;transform:none;transition:background .2s,color .2s,opacity .35s ease,transform .45s cubic-bezier(.2,.8,.2,1),visibility 0s}
@@ -61,6 +66,9 @@ img{display:block}
 html.pinned .story{height:100vh}
 html.pinned body{overflow:hidden}
 html.pinned .after{display:none}
+html.only main>section:not(.on),html.only .after{display:none}
+html.only .voices.on{padding-top:150px}
+html.settle .rv{transition:none}   /* capture mode: show the settled state, not a mid-fade frame */
 html.static .story{height:auto}
 html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960px)}
 
@@ -77,15 +85,16 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 /* hero */
 .hero{position:absolute;z-index:45;left:clamp(24px,7.8vw,140px);top:50%;width:min(46vw,720px)}
 .eyebrow{font-family:var(--sans);font-style:normal;font-weight:600;font-size:13px;line-height:1.2;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-2);margin-bottom:26px}
-.hero h1,.close h2{font-family:var(--serif);font-weight:500;letter-spacing:-.022em;line-height:1.06;font-size:clamp(40px,4.62vw,72px);
+.hero h1,.closing h2{font-family:var(--serif);font-weight:500;letter-spacing:-.022em;line-height:1.06;font-size:clamp(40px,4.62vw,72px);
   text-wrap:balance;font-kerning:normal;font-feature-settings:"kern","liga"}
 /* the key phrase: Lora italic in the brand coral gradient, biased to its coral end so the light end still reads on cream.
-   padding gives the italic overhang and descenders room inside the clipped background; the matching negative margin keeps spacing unchanged */
-.hero h1 em,.close h2 em{font-style:italic;font-weight:500;letter-spacing:-.01em;
+   padding gives the italic overhang and descenders room inside the clipped background; the matching negative margin keeps spacing unchanged.
+   the hero headline is the only place this treatment appears */
+.hero h1 em{font-style:italic;font-weight:500;letter-spacing:-.01em;
   background:linear-gradient(100deg,#E8504B 0%,#FF6B6B 52%,#FF8E53 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
   padding:.06em .14em .16em .08em;margin:0 -.14em 0 -.08em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .hero h1{max-width:100%}
-.close h2{max-width:min(92vw,10em)}   /* the hero measure (46vw at 4.62vw type), so the close breaks like the hero */
+.closing h2{max-width:min(92vw,11em)}
 .hero .cta{margin-top:46px}
 
 /* the sphere's body: a soft volume and a shadow on the ground */
@@ -107,24 +116,39 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 .it-art,.it-hl,.it-qc,.it-pdf,.it-note,.it-shot{border-radius:12px;padding:12px 13px;background:var(--paper);border:1px solid var(--line);box-shadow:0 1px 2px rgba(33,26,20,.06),0 16px 28px -16px rgba(33,26,20,.35);display:flex;flex-direction:column;justify-content:space-between}
 .it-art .pub{font-size:8.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
 .it-art .ttl{font-family:var(--serif);font-weight:600;font-size:14px;line-height:1.18;color:var(--ink)}
+/* real articles and talks: the piece's own published lead image as a banner, then publication, title and author */
+.it-art.ban{padding:0;overflow:hidden;justify-content:flex-start}
+.it-art.ban .bi{flex:none;width:100%;height:80px;object-fit:cover;border-radius:0}
+.it-art.ban .bt{flex:1;display:flex;flex-direction:column;gap:3px;padding:8px 11px 10px}
+.it-art.ban .ttl{flex:none;display:block;font-size:13px;line-height:1.18}
+.it-art.ban .au{font-size:9px;margin-top:auto}
+/* quotes and notes have no real image: warm paper, a muted colour band (never coral), a large Lora mark, and a finer attribution */
+.it-qc,.it-pdf,.it-hl{overflow:hidden}   /* (items are already absolutely positioned, so the colour band can sit inside them) */
+.it-qc{background:#FBF5EC;border-color:rgba(120,90,50,.14);padding:15px 13px 11px}
+.it-qc::before,.it-hl::before{content:"";position:absolute;left:0;right:0;top:0;height:5px;background:var(--band,#C4A46E)}
+.it-pdf{background:#FBF6EF}
 .it-hl{background:#FBF2E8;border-color:rgba(212,162,78,.28)}
 .it-hl .qt{font-family:var(--serif);font-style:italic;font-size:12.5px;line-height:1.32;color:var(--ink)}
 .it-hl .by{font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(160,112,40,.9)}
 .it-art .au{font-size:10px;font-weight:500;color:var(--ink-2)}
 .it-art .ttl{flex:1;display:flex;align-items:center}
 .it-hl .qt mark{background:linear-gradient(transparent 12%,rgba(255,210,125,.75) 12%,rgba(255,210,125,.75) 88%,transparent 88%);color:inherit;padding:0 1px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
-.it-qc .mk{font-family:var(--serif);font-size:34px;line-height:.6;color:rgba(33,26,20,.28);height:14px}
+.it-qc .mk{font-family:var(--serif);font-weight:600;font-size:46px;line-height:.66;height:20px;color:var(--band,#C4A46E)}
 .it-qc .qt{font-family:var(--serif);font-weight:600;font-size:13.5px;line-height:1.22;color:var(--ink)}
-.it-qc .by,.it-pdf .by{font-size:9.5px;font-weight:500;color:var(--ink-2)}
+.it-qc .by{display:flex;flex-direction:column;gap:1px}
+.it-qc .who{font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2)}
+.it-qc .wh{font-size:8.5px;font-weight:500;color:var(--ink-3)}
+.it-pdf .by{font-size:9.5px;font-weight:500;color:var(--ink-2)}
 .it-pdf{padding:11px 12px}
 .it-pdf .tag{align-self:flex-start;font-size:8.5px;font-weight:700;letter-spacing:.12em;color:var(--ink-2);border:1px solid rgba(33,26,20,.32);border-radius:4px;padding:2px 5px}
 .it-pdf .ttl{font-family:var(--serif);font-weight:600;font-size:14px;line-height:1.16;color:var(--ink)}
 .it-pdf .rl{display:grid;gap:4px}
 .it-pdf .rl i{display:block;height:3px;border-radius:2px;background:rgba(33,26,20,.09)}
 .it-pdf .rl i:nth-child(2){width:86%}.it-pdf .rl i:nth-child(3){width:64%}
+.it-note::before{content:"";position:absolute;left:50%;top:-5px;width:48px;height:13px;margin-left:-24px;background:rgba(147,168,143,.62);transform:rotate(-3deg);box-shadow:0 1px 1px rgba(33,26,20,.08)}
 .it-note{background:#FFFBF0;background-image:repeating-linear-gradient(transparent 0 21px,rgba(76,95,171,.13) 21px 22px);background-position:0 9px;padding:9px 13px}
 .it-note .hw{font-family:"Caveat","Segoe Print","Bradley Hand",cursive;font-weight:500;font-size:19px;line-height:22px;color:#3A3128;transform:rotate(-1.5deg);transform-origin:0 0}
-.it-shot{background:#F3EEE8;border-color:rgba(33,26,20,.06);justify-content:center;padding:16px 16px;position:relative}
+.it-shot{background:#F3EEE8;border-color:rgba(33,26,20,.06);justify-content:center;padding:16px 16px}
 .it-shot .tx{font-size:13.5px;font-weight:500;line-height:1.3;color:var(--ink)}
 .it-shot .tx .lora{font-size:13.5px}
 .it-shot .k{position:absolute;width:12px;height:12px;border:0 solid rgba(33,26,20,.55)}
@@ -168,7 +192,7 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 .cell.hot{background:#FBEED4;border-color:rgba(212,162,78,.6)}
 .cell .l{display:inline-block;will-change:transform,opacity}
 .cell.cur{border-color:rgba(201,146,62,.95);box-shadow:0 0 0 2px rgba(212,162,78,.35),0 10px 18px -12px rgba(33,26,20,.35)}
-.cell i{position:absolute;left:3px;top:2px;font-family:var(--sans);font-style:normal;font-size:7px;line-height:1;font-weight:600;color:var(--ink-3)}
+.cell i{position:absolute;left:3.5px;top:2.5px;font-family:var(--sans);font-style:normal;font-size:8.5px;line-height:1;font-weight:600;color:rgba(33,26,20,.72)}
 .cell.t{padding-top:3px}   /* the letter sits a touch low, leaving the clue number its own corner */
 .clue{font-size:13px;color:var(--ink-2)}
 .clue b{color:var(--ink);font-weight:600;margin-right:6px}
@@ -190,6 +214,10 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 .fc .th img.w{width:64px;height:36px;object-fit:cover;border-radius:6px}
 .fc .th .rule{width:42px;height:42px;border-radius:8px;background:#F4ECE2;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:19px;color:rgba(33,26,20,.55)}
 .fc .tx{min-width:0}
+/* the article in the feed carries its own published lead image as a banner */
+.fc.ban{display:block;padding:0;overflow:hidden}
+.fc.ban .bi{width:100%;height:58px;object-fit:cover}
+.fc.ban .tx{padding:10px 14px 12px}
 .fc .s{font-size:11px;color:var(--ink-3);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .fc .s .lora{font-size:11.5px;color:var(--ink-2)}
 .fc .i{font-family:var(--serif);font-size:14.5px;font-weight:400;line-height:1.32;color:var(--ink)}
@@ -218,10 +246,42 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 /* desktop: each title sits directly over its own scene, at a size that belongs to the scene */
 .cap-s.over{font-size:clamp(22px,1.95vw,30px)}
 
-/* close */
-.close{position:absolute;left:0;right:0;top:0;z-index:30;text-align:center;display:flex;flex-direction:column;align-items:center;will-change:transform,opacity}
-.close .cta{margin-top:40px}
-.close small{display:block;margin-top:16px;font-family:var(--sans);font-size:14px;font-weight:500;color:var(--ink-3);letter-spacing:.01em}
+/* after the story: manifesto, voices, close. normal page flow, generous space */
+.label{font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3)}
+.manifesto{padding:clamp(130px,24vh,240px) clamp(24px,8vw,140px) clamp(110px,20vh,200px);display:flex;justify-content:center}
+.manifesto .in{width:100%;max-width:27em;font-size:clamp(23px,2.3vw,34px)}
+.manifesto .label{font-size:12px;margin-bottom:clamp(30px,4vw,48px)}
+.manifesto p.m{font-family:var(--serif);font-weight:400;font-size:1em;line-height:1.4;letter-spacing:-.012em;color:var(--ink);text-wrap:pretty}
+.manifesto p.m + p.m{margin-top:1.1em}
+.manifesto p.m.soft{color:var(--ink-2)}
+.manifesto p.m b{font-weight:600;color:var(--ink)}
+.manifesto .sign{margin-top:clamp(36px,5vw,60px);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.2em;color:var(--ink)}
+/* one-shot reveal as each line arrives; already visible in ?static=1 */
+.rv{opacity:0;transform:translateY(18px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.8,.2,1)}
+.rv.shown,html.static .rv{opacity:1;transform:none}
+
+.voices{padding:0 0 clamp(110px,18vh,190px)}
+.voices .label{text-align:center;margin-bottom:30px}
+.v-view{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+.v-track{display:flex;gap:18px;width:max-content;padding:10px 0 34px clamp(20px,8vw,140px);will-change:transform}
+.v-card{flex:none;width:clamp(264px,25vw,330px);display:flex;flex-direction:column;gap:14px;padding:20px 22px 18px;border-radius:18px;
+  background:var(--paper);border:1px solid var(--line);box-shadow:0 1px 2px rgba(33,26,20,.05),0 22px 40px -26px rgba(33,26,20,.4)}
+.v-mk{font-family:var(--serif);font-weight:600;font-size:44px;line-height:.6;height:16px;color:#B79B6E}
+.v-q{flex:1;font-family:var(--serif);font-size:17px;line-height:1.45;color:var(--ink)}
+.v-by{display:flex;align-items:center;flex-wrap:wrap;gap:4px 9px;font-family:var(--sans);font-size:12px;font-weight:600;color:var(--ink-2)}
+.v-by .st{color:#C9923E;letter-spacing:.1em;font-size:11px}
+.v-by .src{font-weight:500;color:var(--ink-3)}
+/* still: under reduced motion or ?static=1 the band is a plain row you can swipe */
+html.still .v-view{overflow-x:auto;-webkit-mask-image:none;mask-image:none;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+html.still .v-view::-webkit-scrollbar{display:none}
+html.still .v-track{padding-left:clamp(20px,8vw,140px);padding-right:clamp(20px,8vw,140px)}
+html.still .v-card{scroll-snap-align:center}
+
+.closing{min-height:min(86vh,860px);padding:clamp(90px,14vh,140px) 24px clamp(110px,18vh,170px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.closing .tile{width:96px;height:96px;border-radius:22px;margin-bottom:clamp(30px,4vw,44px);
+  box-shadow:0 0 0 .5px rgba(4,4,9,.4),0 1px 1.5px rgba(4,4,9,.28),0 5px 9px -3px rgba(4,4,9,.28),0 20px 32px -14px rgba(4,4,9,.48),0 40px 64px -30px rgba(70,40,15,.38)}
+.closing .cta{margin-top:42px}
+.closing small{display:block;margin-top:16px;font-family:var(--sans);font-size:14px;font-weight:500;color:var(--ink-3);letter-spacing:.01em}
 
 .after{padding:48px clamp(20px,5vw,72px) 56px;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--ink-3);border-top:1px solid var(--line)}
 .after .wordmark{font-size:15px;color:var(--ink)}
@@ -230,17 +290,24 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 @media (max-width:759px){
   .nav{height:64px}
   .wordmark{font-size:17px}
+  .brand{gap:9px}
+  .brand img{width:26px;height:26px;border-radius:6px}
   .nav-get{font-size:13px;padding:7px 13px}
   .hero{left:24px;right:24px;width:auto;top:15svh}
   .eyebrow{font-size:11.5px;letter-spacing:.18em;margin-bottom:14px}
-  .hero h1,.close h2{font-size:clamp(32px,9vw,42px);line-height:1.08;letter-spacing:-.02em}
+  .hero h1,.closing h2{font-size:clamp(32px,9vw,42px);line-height:1.08;letter-spacing:-.02em}
   .hero h1{max-width:none}
-  .close h2{max-width:calc(100vw - 48px)}
+  .closing h2{max-width:calc(100vw - 48px)}
+  .manifesto{padding-left:24px;padding-right:24px}
+  .manifesto .in{font-size:22px}
+  .v-card{width:276px}
+  .v-q{font-size:16px}
+  .closing .tile{width:84px;height:84px;border-radius:19px}
   .hero .cta{margin-top:26px}
   .cta{height:52px;padding:0 26px;font-size:15px}
   .icon{width:92px;height:92px;border-radius:21px}
   .ishadow{width:92px;height:22px}
-  .close .cta{margin-top:28px}
+  .closing .cta{margin-top:30px}
   .cap-a{width:330px;margin-left:-165px;font-size:24px}
   .cap-s{width:340px;margin-left:-170px;font-size:28px}
   .after{flex-direction:column;gap:10px}
@@ -249,12 +316,46 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 </head>
 <body>
 <header class="nav">
-  <a class="wordmark" href="#" aria-label="REPS home">REPS</a>
-  <a class="nav-get" href="https://apps.apple.com/app/id6744420866">Get the app</a>
+  <a class="brand" href="#" aria-label="REPS home"><img src="product/assets/app-icon-512.png" alt="" width="30" height="30"><span class="wordmark">REPS</span></a>
+  <a class="nav-get" href="https://apps.apple.com/app/id6759216018">Get the app</a>
 </header>
 
 <main>
   <section class="story" id="story" aria-label="Turn what you save into what you know."></section>
+
+  <section class="manifesto" id="manifesto" aria-label="Our manifesto">
+    <div class="in">
+      <p class="label rv">Our manifesto</p>
+      <p class="m rv">We read, watch and listen to more than any generation in history. And retain less of it than ever.</p>
+      <p class="m soft rv">It isn’t you. You read, you watch, you listen, you save. It just has nowhere to live.</p>
+      <p class="m rv"><b>So we built the place.</b> What you take in comes back to you, a little each day, until it is part of how you think.</p>
+      <p class="sign rv">REPS</p>
+    </div>
+  </section>
+
+  <!-- voices: KK and KA supplied by the founder; the rest are verbatim App Store reviews of id6759216018 (source + raw feeds:
+       reps-backend/work/website-clean-slate-261019/reviews-used.json). Trims are marked with an ellipsis; nothing is reworded. -->
+  <section class="voices" id="voices" aria-label="What people say about REPS">
+    <p class="label">In their words</p>
+    <div class="v-view">
+      <div class="v-track">
+        <figure class="v-card"><span class="v-mk" aria-hidden="true">“</span><blockquote class="v-q">Waking up to Reps has truly made my brain work better [and] opened great discussion with friends</blockquote><figcaption class="v-by">KK</figcaption></figure>
+        <figure class="v-card"><span class="v-mk" aria-hidden="true">“</span><blockquote class="v-q">this is my new “first app I open in the morning”</blockquote><figcaption class="v-by">KA</figcaption></figure>
+        <figure class="v-card"><span class="v-mk" aria-hidden="true">“</span><blockquote class="v-q">…I am literally more interesting in conversation thanks to REPS…</blockquote><figcaption class="v-by"><span class="st" aria-label="5 stars">★★★★★</span><span>24601_London</span><span class="src">App Store review</span></figcaption></figure>
+        <figure class="v-card"><span class="v-mk" aria-hidden="true">“</span><blockquote class="v-q">Really enjoying using this app as a better way to spend 5/10 minutes at bus stop etc. vs brain rotting on Insta/X.</blockquote><figcaption class="v-by"><span class="st" aria-label="5 stars">★★★★★</span><span>jsdldn</span><span class="src">App Store review</span></figcaption></figure>
+        <figure class="v-card"><span class="v-mk" aria-hidden="true">“</span><blockquote class="v-q">As a non techy over 60 year old, this app is simple and intuitive to navigate.</blockquote><figcaption class="v-by"><span class="st" aria-label="5 stars">★★★★★</span><span>Mooselake4</span><span class="src">App Store review</span></figcaption></figure>
+        <figure class="v-card"><span class="v-mk" aria-hidden="true">“</span><blockquote class="v-q">Wish it had existed for a long time. It's exactly what I wanted as my 'memory vault'.</blockquote><figcaption class="v-by"><span class="st" aria-label="5 stars">★★★★★</span><span>El Bet</span><span class="src">App Store review</span></figcaption></figure>
+        <figure class="v-card"><span class="v-mk" aria-hidden="true">“</span><blockquote class="v-q">I’ve been looking for a place to save the different types of content and information that I come across :)) love it so far!</blockquote><figcaption class="v-by"><span class="st" aria-label="5 stars">★★★★★</span><span>NicoleCKayL</span><span class="src">App Store review</span></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="closing" id="get" aria-label="Get REPS">
+    <img class="tile" src="product/assets/app-icon-512.png" alt="REPS app icon" width="96" height="96">
+    <h2>Stop letting your knowledge fade today.</h2>
+    <a class="cta" href="https://apps.apple.com/app/id6759216018">Download on the App Store</a>
+    <small>Free on iPhone</small>
+  </section>
 </main>
 
 <footer class="after">
@@ -274,7 +375,7 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
     <div class="hero">
       <p class="eyebrow">Your knowledge companion</p>
       <h1>Turn what you save into what you <em>know</em>.</h1>
-      <a class="cta" href="https://apps.apple.com/app/id6744420866">Download on the App Store</a>
+      <a class="cta" href="https://apps.apple.com/app/id6759216018">Download on the App Store</a>
     </div>
 
     <div class="ishadow"></div>
@@ -299,17 +400,17 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
     </div>
 
     <!-- 2: a feed of ideas, one per medium -->
-    <div class="scene sc-feed" aria-label="A feed of ideas from what you saved">
+    <div class="scene sc-feed" aria-label="Discover quality content">
       <div class="fc card"><div class="th"><img src="product/assets/covers/thinking-fast-and-slow.jpg" alt=""></div>
         <div class="tx"><p class="s"><span class="lora">Thinking, Fast and Slow</span></p><p class="i">Your mind runs two systems: one fast, one deliberate.</p></div></div>
       <div class="fc card"><div class="th"><img class="w" src="product/assets/covers/video-veritasium-entropy.jpg" alt=""></div>
         <div class="tx"><p class="s">Veritasium · video</p><p class="i">The Sun gives Earth more than energy. It gives low entropy.</p></div></div>
-      <div class="fc card"><div class="th"><span class="rule">“</span></div>
+      <div class="fc ban card"><img class="bi" src="product/assets/covers/article-atlantic-is-google-making-us-stupid.jpg" alt="">
         <div class="tx"><p class="s">The Atlantic · <span class="lora">Is Google Making Us Stupid?</span></p><p class="i">The web trains us to skim, at the cost of deep reading.</p></div></div>
     </div>
 
     <!-- 3: the daily round -->
-    <div class="scene sc-day" aria-label="One short round a day">
+    <div class="scene sc-day" aria-label="Built on memory science">
       <div class="ring">
         <svg viewBox="0 0 216 216" aria-hidden="true">
           <defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E9BC63"/><stop offset="1" stop-color="#C9923E"/></linearGradient></defs>
@@ -328,14 +429,8 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
     <p class="cap cap-a">Everything you read, watch and listen to.<b>Retained.</b></p>
     <p class="cap cap-s">Your books become word games.</p>
     <p class="cap cap-s">Your podcasts become trivia.</p>
-    <p class="cap cap-s">A feed worth remembering.</p>
-    <p class="cap cap-s">One short round a day.</p>
-
-    <div class="close">
-      <h2>Turn what you save into what you <em>know</em>.</h2>
-      <a class="cta" href="https://apps.apple.com/app/id6744420866">Download on the App Store</a>
-      <small>Free on iPhone</small>
-    </div>
+    <p class="cap cap-s">Discover quality content.</p>
+    <p class="cap cap-s">Built on memory science.</p>
   </div>
 </template>
 
@@ -348,8 +443,12 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
   const root = document.documentElement;
   if (AT !== null) root.classList.add('pinned');
   if (STATIC) root.classList.add('static');
+  if (SETTLE) root.classList.add('settle');
+  // capture aid: ?only=manifesto|voices|get shows just that section under the top bar
+  const ONLY = document.getElementById(Q.get('only') || '');
+  if (ONLY && ONLY.parentElement && ONLY.parentElement.tagName === 'MAIN') { root.classList.add('only'); ONLY.classList.add('on'); }
 
-  // headline options, switchable by ?h=1..6 (1 is the default). The close returns to the same line.
+  // headline options, switchable by ?h=1..6 (1 is the default). The close has its own line ("Stop letting your knowledge fade today.").
   // Each line marks its key phrase (Lora italic + the coral gradient, full stop outside); a no-break space ties the last two words so no word sits alone.
   const HEADLINES = {
     1: 'Turn what you save into *what you know*.',
@@ -367,7 +466,6 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
     const html = esc(tie(H)).replace(/\*([^*]+)\*/g, '<em>$1</em>');
     const tpl = document.getElementById('tpl').content;
     tpl.querySelector('.hero h1').innerHTML = html;
-    tpl.querySelector('.close h2').innerHTML = html;
     document.title = 'REPS · ' + plain;
     document.getElementById('story').setAttribute('aria-label', plain);
   }
@@ -379,19 +477,22 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
     B('1984.jpg', 400/600), {k:'pod', src:'podcast-the-daily.jpg'}, B('atomic-habits.jpg', 400/604),
     {k:'vid', src:'video-veritasium-entropy.jpg'}, B('thinking-fast-and-slow.jpg', 400/593),
   ];
-  // code-drawn paper: real pieces, correctly attributed, plain typeset names (no logos, no mastheads)
-  // noPhone: on a phone this paper would render at 5-8px type, so it is left off the sphere there
+  // paper: real pieces, correctly attributed. Articles and talks carry their own published lead image (og:image, see
+  // product/assets/covers/article-images-SOURCES.txt) as a banner; publication names are plain type (no logos, no mastheads).
+  // Quotes and notes have no real image, so they are typographic: warm paper, a muted colour band (never coral), a large Lora mark.
+  // noPhone: on a phone this paper would render at 5-8px type (or poke out behind a cover), so it is left off the sphere there
+  const BAND = { sage:'#93A88F', blue:'#8A9BB8', plum:'#A48A9E', ochre:'#C4A46E' };
   const CARDS = [
-    {k:'art',  pub:'The Atlantic', ttl:'Is Google Making Us Stupid?', noPhone:true},
-    {k:'qc',   qt:'Who controls the past controls the future.', by:'George Orwell · 1984'},
+    {k:'art',  pub:'The Atlantic', ttl:'Is Google Making Us Stupid?', au:'Nicholas Carr', img:'article-atlantic-is-google-making-us-stupid.jpg', noPhone:true},
+    {k:'qc',   qt:'Who controls the past controls the future.', who:'George Orwell', wh:'1984', band:BAND.sage, sz:[144, 116]},
     {k:'pdf',  ttl:'The Art of War', by:'Sun Tzu', noPhone:true},
-    {k:'art',  pub:'The New Yorker', ttl:'Why Facts Don’t Change Our Minds', noPhone:true},
+    {k:'art',  pub:'The New Yorker', ttl:'Why Facts Don’t Change Our Minds', au:'Elizabeth Kolbert', img:'article-newyorker-why-facts-dont-change-our-minds.jpg', noPhone:true},
     {k:'note', tx:'Ask Dad what he thinks about the wheat bit in Sapiens.'},
-    {k:'hl',   qt:'You do not rise to the level of your goals. You fall to the level of your systems.', by:'James Clear · Atomic Habits'},
-    {k:'qc',   qt:'Stay hungry. Stay foolish.', by:'Whole Earth Catalog, via Steve Jobs · Stanford, 2005', sz:[150, 112]},
-    {k:'shot'},
-    {k:'art',  pub:'TED', ttl:'Do Schools Kill Creativity?', au:'Ken Robinson'},
-    {k:'qc',   qt:'The unexamined life is not worth living.', by:'Socrates, via Plato’s Apology', sz:[158, 116], noPhone:true},
+    {k:'hl',   qt:'You do not rise to the level of your goals. You fall to the level of your systems.', by:'James Clear · Atomic Habits', band:BAND.ochre},
+    {k:'qc',   qt:'Stay hungry. Stay foolish.', who:'Whole Earth Catalog', wh:'via Steve Jobs · Stanford, 2005', band:BAND.blue, sz:[150, 116]},
+    {k:'shot', off:true},   // kept for the slot (the rest-frame layout depends on 18 slots) but not shown: at rest it sits behind ENTROPY and only its corner brackets showed
+    {k:'art',  pub:'TED', ttl:'Do Schools Kill Creativity?', au:'Ken Robinson', img:'talk-ted-do-schools-kill-creativity.jpg'},
+    {k:'qc',   qt:'The unexamined life is not worth living.', who:'Socrates', wh:'via Plato’s Apology', band:BAND.plum, sz:[158, 122], noPhone:true},
   ];
   // 18 on the sphere, every one unique: the eight real covers (Diary of a CEO removed) and ten paper pieces.
   // Covers take the slots that face the viewer while the hero is read (rest yaw 1.35, turning on from there),
@@ -430,7 +531,7 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
   // (each phone scene still holds for 0.09 before the next, so the later ones shift by the same 0.015)
   const SCENE_OPEN_M = [0.415, 0.505, 0.595, 0.685];
 
-  function geo(w, h, heroH = 180, closeH = 190) {
+  function geo(w, h, heroH = 180) {
     const m = w < 760;
     if (!m) {
       const k = Math.min(1.05, Math.max(0.78, Math.min(h / 900, w / 1440)));
@@ -439,9 +540,10 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
       const dx = Math.min(w * 0.275, 410), dy = h * 0.235;
       const sp = [[-dx, -dy], [dx, -dy], [-dx, dy], [dx, dy]].map(d => [icon[0] + d[0], icon[1] + d[1]]);
       return { m, k, heroC: [w * 0.725, h * 0.52], R: Math.min(h * 0.29, w * 0.175), persp: 1000, iSc: k * 0.8,
-        iconA: icon, iconS: icon, iconC: [w / 2, h * 0.31], iconSize: 112,
+        // the story ends with the scenes folded back into the icon, resting at the centre; the manifesto follows in the page
+        iconA: icon, iconS: icon, iconC: [w / 2, h * 0.5], iconSize: 112,
         nodeT: sp, sceneP: sp, sceneSc: k * 0.88,
-        capA: h * 0.165, capS: h * 0.135, closeTop: h * 0.31 + 56 + 44 };
+        capA: h * 0.165, capS: h * 0.135 };
     }
     // phone: the hero text and the sphere are laid out as one composition that fills the first screen.
     // the sphere's visible extent runs ~1.12R above its centre (the top items) to ~1.45R below (the ground shadow);
@@ -455,13 +557,15 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
     const iconS = [w / 2, h * (0.33 + 0.015 * clamp((h - 667) / 177))];
     const rr = 74;
     const nodeT = [[-1, -0.35], [1, -0.35], [-1, 0.75], [1, 0.75]].map(d => [iconS[0] + d[0] * rr * 1.25, iconS[1] + d[1] * rr]);
-    // the close (icon over headline, button, small print) sits centred
-    const iconC = [w / 2, Math.max(h * 0.3, (h - (92 + 34 + closeH)) * 0.5 + 46)];
+    // the story ends with the icon resting at the centre; the manifesto follows in the page
+    const iconC = [w / 2, h * 0.5];
+    // phone scenes open from just below the icon (never across it), then settle in their place
+    const sceneFrom = [w / 2, iconS[1] + 92 / 2 + 26];
     return { m, k: 1, heroTop, heroC, R, persp: 800, iSc: 0.54 * clamp(R / 128, 0.9, 1.12),
-      iconA: [w / 2, h * 0.47], iconS, iconC, iconSize: 92,
+      iconA: [w / 2, h * 0.47], iconS, iconC, iconSize: 92, sceneFrom,
       nodeT, sceneP: nodeT.map(() => [w / 2, h * 0.69]), sceneSc: Math.min(1, (w - 30) / 340),
       // captions keep a clear band under the top bar on short phones
-      capA: Math.max(h * 0.17, 132), capS: Math.max(h * 0.155, 116), closeTop: iconC[1] + 46 + 34 };
+      capA: Math.max(h * 0.17, 132), capS: Math.max(h * 0.155, 116) };
   }
 
   function itemSize(it) {
@@ -469,8 +573,8 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
     if (it.k === 'book') return [146 * it.a, 146];   // 1.3x the round-1 size
     if (it.k === 'pod') return [117, 117];
     if (it.k === 'vid') return [195, 109];
-    if (it.k === 'art') return it.au ? [140, 100] : [138, 92];
-    if (it.k === 'qc') return [140, 104];
+    if (it.k === 'art') return it.img ? [150, 160] : it.au ? [140, 100] : [138, 92];
+    if (it.k === 'qc') return [144, 116];
     if (it.k === 'pdf') return [112, 146];
     if (it.k === 'note') return [146, 102];
     if (it.k === 'shot') return [150, 86];
@@ -482,7 +586,7 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
       host.appendChild(document.getElementById('tpl').content.cloneNode(true));
       const q = s => host.querySelector(s), qa = s => [...host.querySelectorAll(s)];
       this.host = host;
-      this.hero = q('.hero'); this.icon = q('.icon'); this.ishadow = q('.ishadow'); this.tilt = [0, 0]; this.halo = q('.halo'); this.close = q('.close');
+      this.hero = q('.hero'); this.icon = q('.icon'); this.ishadow = q('.ishadow'); this.tilt = [0, 0]; this.halo = q('.halo');
       this.orb = q('.orb'); this.floor = q('.floor');
       this.svg = q('.lines'); this.lines = qa('.lines line'); this.nodes = qa('.node');
       this.sparks = this.lines.map(() => { const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle'); c.setAttribute('r', '2.6'); c.setAttribute('class', 'spark'); this.svg.appendChild(c); return c; });
@@ -531,8 +635,13 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
         if (it.src) { const im = new Image(); im.src = C + it.src; im.alt = ''; im.decoding = 'async'; el.appendChild(im); }
         else {
           const add = (cls, txt, tag = 'span') => { const e = document.createElement(tag); e.className = cls; if (txt != null) e.textContent = txt; el.appendChild(e); return e; };
-          if (it.k === 'art') { add('pub', it.pub); add('ttl', it.ttl); if (it.au) add('au', it.au); }
-          else if (it.k === 'qc') { add('mk', '“'); add('qt', it.qt); add('by', it.by); }
+          if (it.k === 'art' && it.img) {
+            el.classList.add('ban');
+            const im = new Image(); im.src = C + it.img; im.alt = ''; im.decoding = 'async'; im.className = 'bi'; el.appendChild(im);
+            const bt = add('bt'); [['pub', it.pub], ['ttl', it.ttl], ['au', it.au]].forEach(([c, x]) => { const e = document.createElement('span'); e.className = c; e.textContent = x; bt.appendChild(e); });
+          }
+          else if (it.k === 'art') { add('pub', it.pub); add('ttl', it.ttl); if (it.au) add('au', it.au); }
+          else if (it.k === 'qc') { add('mk', '“'); add('qt', it.qt); const by = add('by'); [['who', it.who], ['wh', it.wh]].forEach(([c, x]) => { const e = document.createElement('span'); e.className = c; e.textContent = x; by.appendChild(e); }); }
           else if (it.k === 'hl') { const q2 = add('qt'); const m = document.createElement('mark'); m.textContent = it.qt; q2.append('“', m, '”'); add('by', it.by); }
           else if (it.k === 'pdf') { add('tag', 'PDF'); add('ttl', it.ttl); const rl = add('rl'); rl.innerHTML = '<i></i><i></i><i></i>'; add('by', it.by); }
           else if (it.k === 'note') add('hw', it.tx);
@@ -540,6 +649,7 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
         }
         const [w, h] = itemSize(it);
         el.style.width = w + 'px'; el.style.height = h + 'px';
+        if (it.band) el.style.setProperty('--band', it.band);
         const wash = document.createElement('i'); wash.className = 'wash'; el.appendChild(wash);
         wrap.appendChild(el);
         return el;
@@ -551,12 +661,14 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
     measure() {
       this.w = this.host.clientWidth; this.h = this.host.clientHeight;
       this.heroH = this.hero.offsetHeight;
-      this.g = geo(this.w, this.h, this.heroH, this.close.offsetHeight);
+      this.g = geo(this.w, this.h, this.heroH);
       // phone: the hero's top comes from the composition (desktop keeps its CSS centring)
       this.hero.style.top = this.g.heroTop != null ? this.g.heroTop.toFixed(1) + 'px' : '';
       this.svg.setAttribute('viewBox', `0 0 ${this.w} ${this.h}`);
       this.capS.forEach(c => c.classList.toggle('over', !this.g.m));
       this.sceneWH = this.scenes.map(el => [el.offsetWidth, el.offsetHeight]);
+      // desktop: a lower scene never runs off the bottom edge (the feed grew with its article banner)
+      if (!this.g.m) [2, 3].forEach(k => { const P = this.g.sceneP[k]; P[1] = Math.min(P[1], this.h - 28 - this.sceneWH[k][1] * this.g.sceneSc / 2); });
     }
     render(p, yaw, pitch, t = 0) {
       const g = this.g, w = this.w, h = this.h;
@@ -590,7 +702,7 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
       let pulse = 0;
       for (let i = 0; i < N; i++) {
         const el = this.items[i], d = DIRS[i];
-        if (g.m && ITEMS[i].noPhone) { el.style.visibility = 'hidden'; continue; }
+        if (ITEMS[i].off || (g.m && ITEMS[i].noPhone)) { el.style.visibility = 'hidden'; continue; }
         // rotate Y then X
         const x1 = d[0] * cy + d[2] * sy, z1 = -d[0] * sy + d[2] * cy;
         const y2 = d[1] * cp - z1 * sp, z2 = d[1] * sp + z1 * cp;
@@ -600,7 +712,8 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
         const sx = sc[0] + X * s, sy2 = sc[1] + Y * s;
         let scale = s * g.iSc * (0.62 + 0.38 * depth) * FIT[i];
         // front-facing items are fully opaque and recede under a cream wash; only back-facing items fade
-        let op = 0.25 + 0.75 * sm(0.05, 0.38, depth);
+        // the far side fades out almost entirely, so nothing ghostly peeks out from under a front cover
+        let op = sm(0.15, 0.42, depth);
         let wash = 0.8 * Math.pow(1 - depth, 1.3);
         let px = sx, py = sy2, z = 1 + Math.round(depth * 28), rot = -x1 * 24;
         const st = ABS0 + RANK[i] * ABS_STEP, arr = st + ABS_DUR;
@@ -684,7 +797,7 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
         open *= 1 - back2;
         const dim = (!g.m && k < 3 && !this.noDim) ? sm(o0 + 0.08, o0 + 0.1, p) * (1 - back2) : 0;
         const ep = eo(open);
-        const pos = lp(T, g.sceneP[k], ep);
+        const pos = lp(g.m ? g.sceneFrom : T, g.sceneP[k], ep);
         // finished scenes step back gently (slightly smaller, a touch lighter), never grey
         const s = g.sceneSc * lerp(0.06, 1, back(open)) * (1 - 0.07 * dim);
         const sEl = this.scenes[k];
@@ -737,11 +850,7 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
       vis(this.capA, ca);
       this.capA.style.transform = `translate3d(0,${(g.capA + 18 * (1 - ca)).toFixed(1)}px,0) translateY(-50%)`;
 
-      // close
-      const cl = sm(0.885, 0.935, p);
-      vis(this.close, cl);
-      this.close.style.transform = `translate3d(0,${(g.closeTop + 26 * (1 - cl)).toFixed(1)}px,0)`;
-      return { hero: ho, close: cl };
+      return { hero: ho };
     }
 
     // one small living beat for the active scene; u = seconds since it became active.
@@ -797,11 +906,56 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 
   // one action at a time: the top-bar link hides while the hero or a closing button is on screen
   const navGet = document.querySelector('.nav-get');
-  let navOn = null;
+  let navOn = null, closeIn = false;
   const syncNav = on => { if (on !== navOn) { navOn = on; navGet.classList.toggle('on', on); } };
 
+  // after the story: the manifesto lines arrive one by one (a one-shot fade, nothing keeps running), the voices band
+  // drifts slowly, and the close's button hides the top-bar link while it is on screen.
+  function afterStory(onCloseChange) {
+    const hasIO = 'IntersectionObserver' in window;
+    const rvs = [...document.querySelectorAll('.rv')];
+    if (!STATIC && hasIO) {
+      const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('shown'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -10% 0px' });
+      rvs.forEach(el => io.observe(el));
+    } else rvs.forEach(el => el.classList.add('shown'));
+    if (hasIO) new IntersectionObserver(es => { closeIn = es[es.length - 1].isIntersecting; onCloseChange(); }).observe(document.querySelector('.closing .cta'));
+
+    // voices: a slow marquee (30 fps cap; stops off-screen, in a hidden tab and under a hovering mouse; pauses a few seconds after a touch).
+    // under reduced motion or ?static=1 it is a still row you can swipe. ?motion=1 forces the drift on (capture mode).
+    const view = document.querySelector('.v-view'), track = document.querySelector('.v-track');
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (STATIC || (reduce && !SETTLE) || !hasIO) { root.classList.add('still'); return; }
+    const orig = [...track.children];
+    orig.forEach(c => { const k = c.cloneNode(true); k.setAttribute('aria-hidden', 'true'); track.appendChild(k); });
+    let x = 0, last = 0, raf = 0, seen = false, hover = false, held = 0, period = 1;
+    const measureBand = () => { period = Math.max(1, track.children[orig.length].offsetLeft - track.children[0].offsetLeft); };
+    measureBand(); addEventListener('resize', measureBand);
+    document.fonts && document.fonts.ready.then(measureBand);
+    const later = SETTLE ? f => setTimeout(() => f(performance.now()), 33) : f => requestAnimationFrame(f);
+    const step = ts => {
+      raf = 0;
+      if (!seen || hover || document.hidden) return;
+      if (ts - last >= 33) {
+        const dt = last ? Math.min(100, ts - last) : 33;
+        last = ts;
+        if (ts > held) {
+          x -= dt * 0.024;   // about 24 px a second
+          if (-x >= period) x += period;
+          track.style.transform = `translate3d(${x.toFixed(2)}px,0,0)`;
+        }
+      }
+      raf = later(step);
+    };
+    const go = () => { if (!raf && seen && !hover && !document.hidden) { last = 0; raf = later(step); } };
+    new IntersectionObserver(es => { seen = es[es.length - 1].isIntersecting; go(); }).observe(view);
+    document.addEventListener('visibilitychange', go);
+    view.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') hover = true; });
+    view.addEventListener('pointerleave', () => { hover = false; go(); });
+    view.addEventListener('pointerdown', () => { held = performance.now() + 3500; });
+  }
+
   if (STATIC) {
-    const ps = innerWidth < 760 ? [0, 0.365, 0.47, 0.56, 0.65, 0.76, 1] : [0, 0.365, 0.80, 1];
+    const ps = innerWidth < 760 ? [0, 0.365, 0.47, 0.56, 0.65, 0.76] : [0, 0.365, 0.80];
     const stages = ps.map(p => {
       const s = document.createElement('div'); s.className = 'sticky'; story.appendChild(s);
       const st = new Stage(s); st.p = p; st.noDim = true; return st;
@@ -809,12 +963,12 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
     const draw = () => stages.forEach(st => { st.measure(); st.render(st.p, REST_YAW, REST_PITCH); });
     draw(); addEventListener('resize', draw);
     document.fonts && document.fonts.ready.then(draw);
-    let heroIn = true, closeIn = false;
+    let heroIn = true;
     const sync = () => syncNav(!heroIn && !closeIn);
     sync();
+    afterStory(sync);
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(es => { heroIn = es[es.length - 1].isIntersecting; sync(); }).observe(stages[0].host.querySelector('.hero .cta'));
-      new IntersectionObserver(es => { closeIn = es[es.length - 1].isIntersecting; sync(); }).observe(stages[stages.length - 1].host.querySelector('.close .cta'));
     } else syncNav(true);
     return;
   }
@@ -838,13 +992,12 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
   };
   const sphereVisible = p => p < 0.37;
 
-  const closeCta = sticky.querySelector('.close .cta');
+  let heroO = 1;
   function draw() {
-    const r = S.render(progress(), yaw + oYaw, pitch + oPitch, idle / 1000);
-    let closeIn = r.close > 0.15;
-    if (closeIn) { const b = closeCta.getBoundingClientRect(); closeIn = b.bottom > 0 && b.top < innerHeight; }
-    syncNav(r.hero < 0.15 && !closeIn);
+    heroO = S.render(progress(), yaw + oYaw, pitch + oPitch, idle / 1000).hero;
+    syncNav(heroO < 0.15 && !closeIn);
   }
+  afterStory(() => syncNav(heroO < 0.15 && !closeIn));
 
   // one loop for all idle motion: 30 fps cap, only while the story is on screen and the tab is visible.
   // the sphere turns while it exists; after absorption the icon breathes, links pulse, the active scene lives.

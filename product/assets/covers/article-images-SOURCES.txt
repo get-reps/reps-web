@@ -1,0 +1,19 @@
+Source notes for the article / talk lead images used on cs-c-lora.html (fetched 2026-10-19).
+Each file is the piece's own published share image (og:image), downscaled to 640px wide. Nothing was redrawn, cropped for content, or generated.
+
+article-atlantic-is-google-making-us-stupid.jpg
+  Piece:   "Is Google Making Us Stupid?" by Nicholas Carr, The Atlantic, July/August 2008
+  Page:    https://www.theatlantic.com/magazine/archive/2008/07/is-google-making-us-stupid/306868/
+  og:image https://cdn.theatlantic.com/thumbor/-krK-VdrbsjAvT9zYgi1Oq7EE98=/133x285:2028x1272/1200x625/media/img/2017/10/0708_WEL_Carr_Mach01-1/original.jpg
+  Note:    the live page blocked automated fetches (403), so the og:image URL was read from the Wayback Machine
+           snapshot of the same page (web.archive.org/web/20261013160018/...) and the image itself downloaded from The Atlantic's CDN.
+
+article-newyorker-why-facts-dont-change-our-minds.jpg
+  Piece:   "Why Facts Don't Change Our Minds" by Elizabeth Kolbert, The New Yorker, 27 Feb 2017
+  Page:    https://www.newyorker.com/magazine/2017/02/27/why-facts-dont-change-our-minds
+  og:image https://media.newyorker.com/photos/59097e2f8b51cf59fc42419f/16:9/w_1280,c_limit/170227_r29468.jpg
+
+talk-ted-do-schools-kill-creativity.jpg
+  Piece:   "Do Schools Kill Creativity?" by Sir Ken Robinson, TED2006
+  Page:    https://www.ted.com/talks/sir_ken_robinson_do_schools_kill_creativity
+  og:image https://pi.tedcdn.com/r/pe.tedcdn.com/images/ted/6b6eb940bceab359ca676a9b486aae475c1df883_2880x1620.jpg (requested at w=1200)
