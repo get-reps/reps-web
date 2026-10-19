@@ -11,7 +11,7 @@
   6. Refused: phone mockups, app screenshots, feature lists, 1-2-3 steps, testimonials, numbers, pricing, Android, any invented cover or logo.
   7. Motion budget: one idle loop, requestAnimationFrame capped at 30 fps, paused when the story stage is off-screen or the tab is hidden.
   8. Flags: motion is ON by default. ?static=1 is the only static storyboard. ?motion=1 settles the page for capture; &at=0.0-1.0 pins scroll-story progress.
-  9. Material used: the nine real artworks in product/assets/covers/, plus code-drawn article, quote, highlight, note, PDF and screenshot cards (no logos).
+  9. Material used: the eight real artworks in product/assets/covers/, plus code-drawn article, quote, highlight, note, PDF and screenshot cards (no logos).
  10. Single action everywhere: Download on the App Store.
 -->
 <html lang="en">
@@ -85,7 +85,7 @@
   .k-hl{font-family:var(--serif);font-size:var(--fs-m,15px);line-height:1.5;color:var(--ink)}
   .k-hl mark{background:linear-gradient(transparent 12%,#FFE27A 12%,#FFE27A 92%,transparent 92%);color:inherit;padding:0 .08em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
   .k-note{font-family:var(--sans);font-size:var(--fs-m,15px);line-height:1.35;font-weight:500;color:var(--ink)}
-  .k-tag{display:inline-block;font-size:var(--fs-s,10px);font-weight:700;letter-spacing:.12em;padding:.35em .6em;border-radius:5px;background:#E5484D;color:#fff;align-self:flex-start}
+  .k-tag{display:inline-block;font-size:var(--fs-s,10px);font-weight:700;letter-spacing:.12em;padding:.35em .6em;border-radius:5px;background:rgba(33,26,20,.07);box-shadow:inset 0 0 0 1px rgba(33,26,20,.22);color:var(--ink);align-self:flex-start}
   .k-lines{margin-top:auto;display:grid;gap:5px}
   .k-lines i{display:block;height:3px;border-radius:2px;background:rgba(33,26,20,.12)}
   .k-snip{position:relative;display:block;font-family:var(--sans);font-size:var(--fs-m,15px);line-height:1.3;font-weight:500;color:var(--ink);padding:.62em .7em;margin:.55em -.15em}
@@ -295,7 +295,6 @@
         <div class="m">
           <img src="product/assets/covers/podcast-huberman-lab.jpg" alt="Huberman Lab podcast">
           <img src="product/assets/covers/podcast-the-daily.jpg" alt="The Daily podcast">
-          <img src="product/assets/covers/podcast-diary-of-a-ceo.jpg" alt="The Diary of a CEO podcast">
         </div>
       </div>
       <div class="box b-arti reveal"><span class="label">Articles</span>
@@ -335,7 +334,6 @@
       <img class="sq" src="product/assets/covers/podcast-huberman-lab.jpg" alt="" style="--r:4deg;transition-delay:.30s">
       <img src="product/assets/covers/atomic-habits.jpg" alt="" style="--r:-7deg;transition-delay:.36s">
       <img class="wd" src="product/assets/covers/video-kurzgesagt-the-egg.jpg" alt="" style="--r:5deg;transition-delay:.42s">
-      <img class="sq" src="product/assets/covers/podcast-diary-of-a-ceo.jpg" alt="" style="--r:-4deg;transition-delay:.48s">
     </div>
     <span class="label">Your Knowledge Companion</span>
     <h2 style="margin-top:22px">Be the one who remembers.</h2>
@@ -375,7 +373,6 @@
     {id:'note', t:'note', text:'Ask Dad what he thinks about the wheat bit in Sapiens.', w:190, h:130},
     {id:'atomic', t:'img', src:COV+'atomic-habits.jpg', ar:400/604, w:150, alt:'Atomic Habits by James Clear'},
     {id:'orwell', t:'quote', text:'Who controls the past controls the future.', by:'George Orwell, 1984', w:200, h:150},
-    {id:'doac', t:'img', src:COV+'podcast-diary-of-a-ceo.jpg', ar:1, w:140, alt:'The Diary of a CEO podcast'},
     {id:'pdf', t:'pdf', title:'Attention Is All You Need', by:'Vaswani et al., 2017', w:150, h:200},
     {id:'thinking', t:'img', src:COV+'thinking-fast-and-slow.jpg', ar:400/593, w:150, alt:'Thinking, Fast and Slow by Daniel Kahneman'},
     {id:'pg', t:'article', pub:'paulgraham.com', title:'How to Do Great Work', by:'Paul Graham', w:210, h:140},
@@ -458,19 +455,7 @@
           el.style.borderRadius = (10*u*(mobile?1.3:1))+'px';
         }
       });
-      // S1: the scatter, a jittered grid that stays clear of the caption
-      var cols = mobile ? 4 : 6, rows = mobile ? 4 : 3;
-      var x0 = mobile ? -0.72 : -0.80, x1 = -x0;
-      var y0 = mobile ? -0.62 : -0.47, y1 = mobile ? 0.28 : 0.22;
-      CARDS.forEach(function(c,i){
-        var col = i % cols, row = Math.floor(i/cols) % rows;
-        var fx = lerp(x0,x1,col/(cols-1)) + (rnd(i)-.5)*(mobile?0.14:0.12) + (row%2 ? (mobile?0.1:0.07) : 0);
-        var fy = lerp(y0,y1,row/(rows-1)) + (rnd(i+40)-.5)*(mobile?0.10:0.14);
-        var r = (rnd(i+80)-.5)*16;
-        L.S1[i] = {x:fx*W/2, y:fy*H/2, r:r, s:1, o:1};
-        L.S2[i] = {x:fx*W/2*1.55, y:fy*H/2*1.5 - H*0.04, r:r*2.2, s:.72, o:.0};
-      });
-      // S0: hero. Slot cards sit in the headline; the rest wait below the fold in a cascade.
+      // S0: hero. Slot cards sit in the headline (measured first, so the scatter can start from where they are).
       var rr = root.getBoundingClientRect();
       if (hero){
         hero.style.transform='none';
@@ -481,23 +466,100 @@
         function widest(){ return Math.max.apply(null, lns.map(function(l){ var r=document.createRange(); r.selectNodeContents(l); return r.getBoundingClientRect().width; })); }
         var guard = 0; while (widest() > avail && guard++ < 30){ fs *= 0.965; h1.style.fontSize = fs+'px'; }
       }
+      L.S0 = [];
       CARDS.forEach(function(c,i){
         var slotEl = hero && c.slot!==undefined ? hero.querySelector('[data-slot="'+c.slot+'"]') : null;
-        if (slotEl){
-          var b = slotEl.getBoundingClientRect();
-          var cx = b.left - rr.left + b.width/2 - W/2, cy = b.top - rr.top + b.height/2 - H/2;
-          L.S0[i] = {x:cx, y:cy, r:0, s:b.width/L.size[i].w, o:1, slot:true};
-          els[i].style.borderRadius = (b.height*0.1/(b.width/L.size[i].w))+'px';
-        } else {
-          var k = i - 3;
-          L.S0[i] = {x:(mobile?-0.1:0.18)*W/2 + (k%4-1.5)*70*u, y:H/2 + 140*u + k*46*u, r:(rnd(i+5)-.5)*24, s:.9, o:1};
-        }
+        if (!slotEl) return;
+        var b = slotEl.getBoundingClientRect();
+        var cx = b.left - rr.left + b.width/2 - W/2, cy = b.top - rr.top + b.height/2 - H/2;
+        L.S0[i] = {x:cx, y:cy, r:0, s:b.width/L.size[i].w, o:1, slot:true};
+        els[i].style.borderRadius = (b.height*0.1/(b.width/L.size[i].w))+'px';
       });
+      L.Rx0 = mobile ? W*0.40 : Math.min(W*0.39, 565*u); L.Ry0 = mobile ? H*0.27 : H*0.285;
+      // S1: the scatter. A jittered grid, then relaxed so no card overlaps another card or the caption
+      // (the gap allows for each card's idle float, so they never touch while drifting either).
+      var cols = mobile ? 4 : 6, rows = mobile ? 4 : 3;
+      var x0 = mobile ? -0.72 : -0.80, x1 = -x0;
+      var y0 = mobile ? -0.62 : -0.47, y1 = mobile ? 0.28 : 0.30;
+      var sc = mobile ? 0.7 : 0.86;                     // scatter scale
+      var gx = 18*u + (mobile?6:10), gy = 22*u + (mobile?6:10);   // gap: idle float range + air
+      var cap0 = caps[0], cr = document.createRange(); cr.selectNodeContents(cap0);
+      var crw = cr.getBoundingClientRect().width;
+      var CAP = {x0:cap0.offsetLeft - W/2, x1:cap0.offsetLeft - W/2 + Math.min(crw, cap0.offsetWidth), y0:cap0.offsetTop - H/2, y1:cap0.offsetTop + cap0.offsetHeight - H/2};
+      var BX = {x0:-W/2 + (mobile?8:24), x1:W/2 - (mobile?8:24), y0:-H/2 + (mobile?66:84), y1:mobile ? CAP.y0 - 10 : H/2 - 20};
+      var P = CARDS.map(function(c,i){
+        var col = i % cols, row = Math.floor(i/cols) % rows;
+        var fx = lerp(x0,x1,col/(cols-1)) + (rnd(i)-.5)*(mobile?0.14:0.12) + (row%2 ? (mobile?0.1:0.07) : 0);
+        var fy = lerp(y0,y1,row/(rows-1)) + (rnd(i+40)-.5)*(mobile?0.10:0.14);
+        var r = (rnd(i+80)-.5)*(mobile?10:14), ra = (Math.abs(r) + 4)*Math.PI/180;   // +4deg: room for the idle sway
+        var w = L.size[i].w*sc, h = L.size[i].h*sc;
+        // headline artwork settles near where it sat; on the phone it rises to the top band, above its own column
+        var sd = L.S0[i] && L.S0[i].slot ? L.S0[i] : null;
+        return {x:sd ? sd.x : fx*W/2, y:sd && !mobile ? sd.y : fy*H/2, r:r, pin:!!sd && mobile,
+          hw:(w*Math.cos(ra) + h*Math.sin(ra))/2 + gx/2, hh:(w*Math.sin(ra) + h*Math.cos(ra))/2 + gy/2};
+      });
+      function inBox(q){
+        q.x = clamp(q.x, BX.x0 + q.hw, BX.x1 - q.hw);
+        q.y = clamp(q.y, BX.y0 + q.hh, BX.y1 - q.hh);
+      }
+      for (var it=0; it<3000; it++){
+        var moved = false;
+        for (var a=0;a<P.length;a++){
+          for (var b=a+1;b<P.length;b++){
+            var A = P[a], Bq = P[b], dx = Bq.x - A.x, dy = Bq.y - A.y;
+            var ox = A.hw + Bq.hw - Math.abs(dx), oy = A.hh + Bq.hh - Math.abs(dy);
+            if (ox > 0 && oy > 0){
+              moved = true;
+              // a headline artwork is pinned to the top band: anything it meets is pushed down, never above it
+              var ka = Bq.pin ? 1.04 : A.pin ? 0 : 0.52, kb = A.pin ? 1.04 : Bq.pin ? 0 : 0.52;
+              if (A.pin && Bq.pin || ox/(A.hw+Bq.hw) < oy/(A.hh+Bq.hh)){ var sx = (dx>=0?1:-1)*ox; A.x -= sx*(A.pin&&Bq.pin?0.52:ka); Bq.x += sx*(A.pin&&Bq.pin?0.52:kb); }
+              else { var sy = (A.pin ? 1 : Bq.pin ? -1 : (dy>=0?1:-1))*oy; A.y -= sy*ka; Bq.y += sy*kb; }
+            }
+          }
+        }
+        P.forEach(function(q){
+          if (!mobile){
+            // stay out of the caption: push up, or right past its end, whichever is shorter
+            var px = CAP.x1 + gx/2 - (q.x - q.hw), py = (q.y + q.hh) - (CAP.y0 - gy/2);
+            if (q.x + q.hw > CAP.x0 && q.x - q.hw < CAP.x1 + gx/2 && q.y + q.hh > CAP.y0 - gy/2 && q.y - q.hh < CAP.y1){
+              moved = true; if (px < py) q.x += px; else q.y -= py;
+            }
+          }
+          inBox(q);
+          if (q.pin) q.y = BX.y0 + q.hh;
+        });
+        if (!moved) break;
+      }
+      P.forEach(function(q,i){
+        L.S1[i] = {x:q.x, y:q.y, r:q.r, s:sc, o:1};
+        L.S2[i] = {x:q.x*1.55, y:q.y*1.5 - H*0.04, r:q.r*2.2, s:.72*sc, o:.0};
+      });
+      // S0, the rest: each card waits straight below (or above) its scatter spot, so the cascade moves in parallel lanes,
+      // and starts once the headline artwork has settled. A card above a headline artwork in its lane drops in from the top.
+      var slotP = P.filter(function(q,i){ return L.S0[i] && L.S0[i].slot; });
+      var Dn = Math.max.apply(null, P.map(function(q){ return H/2 - (q.y - q.hh); })) + 30*u;
+      var Up = Math.max.apply(null, P.map(function(q){ return (q.y + q.hh) + H/2; })) + 30*u;
+      var rise = [], drop = [];
+      CARDS.forEach(function(c,i){
+        if (L.S0[i] && L.S0[i].slot) return;
+        var q = P[i], under = slotP.some(function(o){ return Math.abs(o.x - q.x) < o.hw + q.hw && o.y > q.y; });
+        L.S0[i] = {x:q.x, y:q.y + (under ? -Up : Dn), r:q.r + (rnd(i+5)-.5)*12, s:sc, o:1};
+        (under ? drop : rise).push(i);
+      });
+      // order: risers that settle highest go first, droppers that settle lowest go first, so the lanes only ever open up
+      rise.sort(function(a,b){return P[a].y - P[b].y}); drop.sort(function(a,b){return P[b].y - P[a].y});
+      L.rise = [];
+      rise.forEach(function(i,k){ L.rise[i] = 0.09 + k*0.003; });
+      drop.forEach(function(i,k){ L.rise[i] = 0.09 + k*0.003; });
+      // ring seats: ordered by where each card sits in the scatter, so the ring forms without cards crossing paths
+      function ang(q){ var t = Math.atan2(q.y/L.Ry0, q.x/L.Rx0) - 0.21*Math.PI; t %= 2*Math.PI; return t < 0 ? t + 2*Math.PI : t; }  // less the swirl at assembly
+      var seat = CARDS.map(function(c,i){return i}).sort(function(a,b){ return ang(P[a]) - ang(P[b]); });
+      L.seat = []; seat.forEach(function(i,k){ L.seat[i] = k; });
       L.cy = -H*(mobile?0.12:0.08);
       logo.style.setProperty('--lg', Math.round(mobile ? Math.min(92, W*0.22) : Math.max(92, 118*u))+'px');
       L.fy = mobile ? -H*0.25 : L.cy;
-      L.Rx = mobile ? W*0.40 : Math.min(W*0.385, 560);
-      L.Ry = mobile ? H*0.19 : H*0.285;
+      L.Rx = L.Rx0;
+      L.Ry = L.Ry0;   // phone: a taller ring, so the fifteen cards fit without covering each other
       // arc-length table so the orbiting cards stay evenly spaced on the ellipse (no bunching at the sides)
       var M = 240, acc = [0], tot = 0;
       for (var k=1;k<=M;k++){
@@ -524,25 +586,25 @@
     function ring(i,p,T){
       var N = CARDS.length;
       var swirl = (p-0.40)*Math.PI*1.6 + T*OMEGA;
-      var f = i/N + swirl/(Math.PI*2); f -= Math.floor(f);
+      var f = L.seat[i]/N + swirl/(Math.PI*2); f -= Math.floor(f);
       var A = L.arc, lo = 0, hi = A.length-1;
       while (hi - lo > 1){ var mid = (lo+hi)>>1; if (A[mid] <= f) lo = mid; else hi = mid; }
       var a = (lo + (f - A[lo])/((A[hi]-A[lo])||1))/(A.length-1)*Math.PI*2;
       var depth = (Math.sin(a)+1)/2;
-      return {x:Math.cos(a)*L.Rx, y:L.cy + Math.sin(a)*L.Ry, r:Math.cos(a)*7, s:(L.mobile?0.44:0.47)+0.22*depth, o:.62+.38*depth, z:Math.round(depth*20)+1};
+      return {x:Math.cos(a)*L.Rx, y:L.cy + Math.sin(a)*L.Ry, r:Math.cos(a)*7, s:L.mobile ? 0.36+0.18*depth : 0.44+0.21*depth, o:.62+.38*depth, z:Math.round(depth*20)+1};
     }
 
     function render(p, pointer){
-      var N = CARDS.length, T = idleT(), c = clockT(), u = L.u;
+      var N = CARDS.length, T = idleT(), c = clockT(), u = L.u, gulp = 0;
       var hi = CARDS.findIndex(function(c){return c.id===HERO_ID});
       for (var i=0;i<N;i++){
         var d = (i/N)*0.06; // cascade stagger
         var st, z = 1;
         var S0 = L.S0[i], S2 = L.S2[i], B = L.S1[i];
         // idle float for the scattered material: slow, small, out of phase per card
-        var S1 = {x:B.x + Math.sin(c*0.42 + i*1.9)*9*u, y:B.y + Math.cos(c*0.35 + i*2.7)*11*u, r:B.r + Math.sin(c*0.3 + i)*1.6, s:1, o:1};
+        var S1 = {x:B.x + Math.sin(c*0.42 + i*1.9)*9*u, y:B.y + Math.cos(c*0.35 + i*2.7)*11*u, r:B.r + Math.sin(c*0.3 + i)*1.6, s:B.s, o:1};
         if (p < 0.20){
-          var t = ease(seg(p, 0.03 + d, 0.17 + d));
+          var t = S0.slot ? ease(seg(p, 0.03, 0.11)) : ease(seg(p, L.rise[i], L.rise[i] + 0.075));
           st = mix(S0, S1, t);
           if (S0.slot && t < 0.02){
             // the artwork set in the headline breathes gently at rest
@@ -553,17 +615,26 @@
           var drift = seg(p,0.20,0.33);
           st = mix(S1, S1, 0); st.y -= drift*10*L.u; st.r += drift*2;
         } else if (p < 0.47){
-          st = mix({x:S1.x,y:S1.y-10*L.u,r:S1.r+2,s:1,o:1}, S2, ease(seg(p, 0.33 + d*0.5, 0.45 + d*0.5)));
+          st = mix({x:S1.x,y:S1.y-10*L.u,r:S1.r+2,s:S1.s,o:1}, S2, ease(seg(p, 0.33 + d*0.5, 0.45 + d*0.5)));
         } else if (p < 0.60){
           var R = ring(i,p,T); z = R.z;
-          st = mix(S2, R, ease(seg(p, 0.47 + d, 0.58 + d)));
+          var ta = seg(p, 0.47 + L.seat[i]/N*0.06, 0.58 + L.seat[i]/N*0.06);
+          st = mix(S2, R, ease(ta)); st.o = R.o*ease(seg(ta, 0.5, 1));   // gathers in faint, lands solid
         } else if (p < 0.75){
           var R2 = ring(i,p,T); z = R2.z; st = R2;
         } else {
+          // the ring collapses INTO the icon: every card (the hero book too) slides under it, shrinking and fading as it arrives
           var R3 = ring(i,p,T); z = R3.z;
-          var C = (i===hi) ? {x:0,y:L.fy + Math.sin(c*0.8)*5*u,r:Math.sin(c*0.55)*1.1,s:L.bookS,o:1} : {x:0,y:L.cy,r:R3.r,s:.16,o:0};
-          if (i===hi) z = 30;
-          st = mix(R3, C, ease(seg(p, 0.75 + (i===hi?0.03:d*0.6), 0.86 + (i===hi?0.03:d*0.6))));
+          var ca = 0.75 + d*0.6, cb = ca + 0.085, tt = seg(p, ca, cb), te = ease(tt);
+          st = {x:lerp(R3.x, 0, te), y:lerp(R3.y, L.cy, te), r:R3.r*(1-te), s:R3.s*(1 - 0.9*tt*tt), o:R3.o*(1 - seg(tt, 0.55, 1))};
+          if (tt > 0.5) z = 2;   // below the icon for the last stretch, so it disappears into it
+          gulp += Math.exp(-Math.pow((p - cb)/0.008, 2));
+          if (i===hi && p > 0.88){
+            // ...then the one book comes back out of the icon, the hand-off to the next beat
+            var bt = ease(seg(p, 0.88, 0.935));
+            var C = {x:0,y:L.fy + Math.sin(c*0.8)*5*u,r:Math.sin(c*0.55)*1.1,s:L.bookS,o:1};
+            st = mix({x:0,y:L.cy,r:0,s:0.14,o:0}, C, bt); st.o = seg(bt, 0, 0.3); z = 30;
+          }
         }
         els[i].style.transform = 'translate3d('+st.x.toFixed(1)+'px,'+st.y.toFixed(1)+'px,0) rotate('+st.r.toFixed(2)+'deg) scale('+st.s.toFixed(4)+')';
         els[i].style.opacity = st.o.toFixed(3);
@@ -575,21 +646,24 @@
         hero.style.transform = 'translate3d(0,'+(-ht*60)+'px,0)';
         hero.style.visibility = ht>=1 ? 'hidden' : 'visible';
       }
-      var pin = seg(p,0.45,0.53) * (1-seg(p,0.76,0.83));
+      // the icon holds at full strength until the last card is inside (~0.87), absorbs it with a pulse, then hands off to the book
+      var out = seg(p,0.885,0.925);
+      var pin = seg(p,0.45,0.53) * (1-out);
       var breathe = Math.sin(c*1.05);
-      logo.style.opacity = (ease(seg(p,0.45,0.495)) * (1-seg(p,0.76,0.80))).toFixed(3);
+      var absorb = Math.sin(Math.PI*seg(p,0.835,0.89)) + 0.35*Math.min(gulp,1);
+      logo.style.opacity = (ease(seg(p,0.45,0.495)) * (1-out)).toFixed(3);
       logo.style.visibility = pin > 0 ? 'visible' : 'hidden';
-      logo.style.transform = 'translate3d(0,'+L.cy.toFixed(1)+'px,0) scale('+((0.8+0.2*ease(pin))*(1+0.012*breathe)).toFixed(4)+')';
-      glow.style.transform = 'scale('+(0.94+0.08*breathe).toFixed(4)+')';
-      glow.style.opacity = (0.8+0.2*breathe).toFixed(3);
-      var win = [[0.16,0.31],[0.34,0.47],[0.53,0.75],[0.86,1.2]];
+      logo.style.transform = 'translate3d(0,'+L.cy.toFixed(1)+'px,0) scale('+((0.8+0.2*ease(pin))*(1+0.012*breathe)*(1+0.07*absorb)).toFixed(4)+')';
+      glow.style.transform = 'scale('+(0.94+0.08*breathe+0.3*absorb).toFixed(4)+')';
+      glow.style.opacity = Math.min(1, 0.8+0.2*breathe+0.4*absorb).toFixed(3);
+      var win = [[0.2,0.31],[0.34,0.47],[0.53,0.86],[0.9,1.2]];
       caps.forEach(function(el,k){
         var a = win[k][0], b = win[k][1];
         var v = seg(p, a, a+0.035) * (1 - seg(p, b-0.03, b));
         el.style.opacity = v.toFixed(3);
         el.style.transform = 'translate3d(0,'+((1-v)*24)+'px,0)';
       });
-      root.classList.toggle('ideas-on', p > 0.88);
+      root.classList.toggle('ideas-on', p > 0.935);
       // the idea chips drift a few pixels once they are out (independent 'translate' so the spring-in transition is untouched)
       ideas.forEach(function(el,k){ el.style.translate = (Math.sin(c*0.5 + k*2.2)*3*u).toFixed(1)+'px '+(Math.cos(c*0.62 + k*1.7)*5*u).toFixed(1)+'px'; });
       if (opts.onHero) opts.onHero(hero ? seg(p, 0.015, 0.11) : 1);
