@@ -5,12 +5,12 @@ CONCEPT NOTE (cs-c, founder storyboard)
 2. Hero: "Turn media into knowledge." at rest beside a slowly turning sphere of real covers and code-drawn article cards.
 3. Signature motion, part one: scroll pulls each cover off the sphere and down a curved path into the REPS icon, one by one, each arrival a small pulse.
 4. Part two: points of warm light travel out of the icon on thin lines and open into four scenes made from what went in.
-5. Scenes: a 1984 crossword fragment, a Huberman Lab trivia card, a three-card feed of ideas, a daily round arc "3 minutes today".
+5. Scenes: a 1984 crossword fragment, a Huberman Lab trivia card, a three-card feed of ideas, a daily round ring that fills (no digits).
 6. Close: the scenes fold back into light, the light into the icon, and the headline returns with the one coral action.
 7. Words: one line per screen at most; REPS says under forty words of its own, everything else is the material.
-8. Motion is on by default; the sphere ticks at 30 fps only while it is on screen and the tab is visible; everything else follows scroll.
+8. Motion is on by default; one 30 fps loop runs only while the story is on screen and the tab is visible: the sphere turns, then the icon breathes, the links pulse and the active scene has one small living beat.
 9. Refused: phone frames, app screenshots, a knowledge graph, feature lists, testimonials, numbers, the manifesto (it made the page long).
-10. Flags: ?static=1 static page, ?motion=1 settled frame for capture, &at=0..1 pins the story progress.
+10. Flags: ?static=1 static page (the only motion off switch), ?motion=1 capture mode, &at=0..1 pins the story progress (idle motion still runs).
 -->
 <html lang="en">
 <head>
@@ -21,7 +21,7 @@ CONCEPT NOTE (cs-c, founder storyboard)
 <meta name="theme-color" content="#FFFAF7">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Lora:ital,wght@0,400;0,600;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --cream:#FFFAF7; --ink:#211A14; --ink-2:rgba(33,26,20,.62); --ink-3:rgba(33,26,20,.42);
@@ -38,7 +38,9 @@ img{display:block}
 .nav{position:fixed;inset:0 0 auto 0;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(20px,5vw,72px);z-index:50;pointer-events:none}
 .nav>*{pointer-events:auto}
 .wordmark{font-weight:700;font-size:20px;letter-spacing:.14em}
-.nav-get{font-size:14px;font-weight:500;padding:9px 16px;border:1px solid rgba(33,26,20,.22);border-radius:999px;transition:background .2s,color .2s}
+.nav-get{font-size:14px;font-weight:500;padding:9px 16px;border:1px solid rgba(33,26,20,.22);border-radius:999px;background:rgba(255,250,247,.8);
+  transition:background .2s,color .2s,opacity .35s ease,transform .45s cubic-bezier(.2,.8,.2,1),visibility 0s linear .45s;opacity:0;visibility:hidden;transform:translateY(-10px)}
+.nav-get.on{opacity:1;visibility:visible;transform:none;transition:background .2s,color .2s,opacity .35s ease,transform .45s cubic-bezier(.2,.8,.2,1),visibility 0s}
 .nav-get:hover{background:var(--ink);color:var(--cream)}
 
 /* the one action */
@@ -59,6 +61,7 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 
 .lines{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
 .lines line{stroke:rgba(214,164,82,.62);stroke-width:1.2;stroke-linecap:round}
+.lines .spark{fill:#FFF6E2;opacity:0;filter:drop-shadow(0 0 3px rgba(255,200,110,.95))}
 .halo{position:absolute;left:0;top:0;width:560px;height:560px;margin:-280px 0 0 -280px;border-radius:50%;z-index:1;pointer-events:none;
   background:radial-gradient(closest-side,rgba(255,210,125,.42),rgba(255,210,125,.14) 45%,rgba(255,210,125,0) 100%)}
 
@@ -82,12 +85,34 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 .it-pod{box-shadow:0 1px 2px rgba(33,26,20,.16),0 16px 28px -14px rgba(33,26,20,.42)}
 .it-vid,.it-vid img{border-radius:10px}
 .it-vid{box-shadow:0 1px 2px rgba(33,26,20,.16),0 16px 28px -14px rgba(33,26,20,.42)}
-.it-art,.it-hl{border-radius:12px;padding:12px 13px;background:var(--paper);border:1px solid var(--line);box-shadow:0 1px 2px rgba(33,26,20,.06),0 16px 28px -16px rgba(33,26,20,.35);display:flex;flex-direction:column;justify-content:space-between}
+.it-art,.it-hl,.it-qc,.it-pdf,.it-note,.it-shot{border-radius:12px;padding:12px 13px;background:var(--paper);border:1px solid var(--line);box-shadow:0 1px 2px rgba(33,26,20,.06),0 16px 28px -16px rgba(33,26,20,.35);display:flex;flex-direction:column;justify-content:space-between}
 .it-art .pub{font-size:8.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
 .it-art .ttl{font-family:var(--serif);font-weight:600;font-size:14px;line-height:1.18;color:var(--ink)}
 .it-hl{background:#FBF2E8;border-color:rgba(212,162,78,.28)}
 .it-hl .qt{font-family:var(--serif);font-style:italic;font-size:12.5px;line-height:1.32;color:var(--ink)}
 .it-hl .by{font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(160,112,40,.9)}
+.it-art .au{font-size:10px;font-weight:500;color:var(--ink-2)}
+.it-art .ttl{flex:1;display:flex;align-items:center}
+.it-hl .qt mark{background:linear-gradient(transparent 12%,rgba(255,210,125,.75) 12%,rgba(255,210,125,.75) 88%,transparent 88%);color:inherit;padding:0 1px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.it-qc .mk{font-family:var(--serif);font-size:34px;line-height:.6;color:rgba(33,26,20,.28);height:14px}
+.it-qc .qt{font-family:var(--serif);font-weight:600;font-size:13.5px;line-height:1.22;color:var(--ink)}
+.it-qc .by,.it-pdf .by{font-size:9.5px;font-weight:500;color:var(--ink-2)}
+.it-pdf{padding:11px 12px}
+.it-pdf .tag{align-self:flex-start;font-size:8.5px;font-weight:700;letter-spacing:.12em;color:var(--ink-2);border:1px solid rgba(33,26,20,.32);border-radius:4px;padding:2px 5px}
+.it-pdf .ttl{font-family:var(--serif);font-weight:600;font-size:14px;line-height:1.16;color:var(--ink)}
+.it-pdf .rl{display:grid;gap:4px}
+.it-pdf .rl i{display:block;height:3px;border-radius:2px;background:rgba(33,26,20,.09)}
+.it-pdf .rl i:nth-child(2){width:86%}.it-pdf .rl i:nth-child(3){width:64%}
+.it-note{background:#FFFBF0;background-image:repeating-linear-gradient(transparent 0 21px,rgba(76,95,171,.13) 21px 22px);background-position:0 9px;padding:9px 13px}
+.it-note .hw{font-family:"Caveat","Segoe Print","Bradley Hand",cursive;font-weight:500;font-size:19px;line-height:22px;color:#3A3128;transform:rotate(-1.5deg);transform-origin:0 0}
+.it-shot{background:#F3EEE8;border-color:rgba(33,26,20,.06);justify-content:center;padding:16px 16px;position:relative}
+.it-shot .tx{font-size:13.5px;font-weight:500;line-height:1.3;color:var(--ink)}
+.it-shot .tx .lora{font-size:13.5px}
+.it-shot .k{position:absolute;width:12px;height:12px;border:0 solid rgba(33,26,20,.55)}
+.it-shot .k1{left:5px;top:5px;border-left-width:2px;border-top-width:2px}
+.it-shot .k2{right:5px;top:5px;border-right-width:2px;border-top-width:2px}
+.it-shot .k3{left:5px;bottom:5px;border-left-width:2px;border-bottom-width:2px}
+.it-shot .k4{right:5px;bottom:5px;border-right-width:2px;border-bottom-width:2px}
 
 /* icon */
 .icon{position:absolute;left:0;top:0;z-index:40;width:112px;height:112px;border-radius:27px;overflow:hidden;will-change:transform,opacity;
@@ -110,6 +135,8 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 .cell.t{background:var(--paper);border:1px solid rgba(33,26,20,.13);box-shadow:0 1px 0 rgba(33,26,20,.06),0 10px 18px -12px rgba(33,26,20,.35);
   display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:600;font-size:21px;color:var(--ink)}
 .cell.hot{background:#FBEED4;border-color:rgba(212,162,78,.6)}
+.cell .l{display:inline-block;will-change:transform,opacity}
+.cell.cur{border-color:rgba(201,146,62,.95);box-shadow:0 0 0 2px rgba(212,162,78,.35),0 10px 18px -12px rgba(33,26,20,.35)}
 .cell i{position:absolute;left:4px;top:2px;font-family:var(--sans);font-style:normal;font-size:8.5px;font-weight:600;color:var(--ink-3)}
 .clue{font-size:13px;color:var(--ink-2)}
 .clue b{color:var(--ink);font-weight:600;margin-right:6px}
@@ -132,14 +159,14 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 .fc .tx{min-width:0}
 .fc .s{font-size:11px;color:var(--ink-3);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .fc .s .lora{font-size:11.5px;color:var(--ink-2)}
-.fc .i{font-size:14px;font-weight:500;line-height:1.3;color:var(--ink)}
+.fc .i{font-family:var(--serif);font-size:14.5px;font-weight:400;line-height:1.32;color:var(--ink)}
+.fc{will-change:transform}
 
 .sc-day{display:flex;align-items:center;justify-content:center}
 .ring{position:relative;width:216px;height:216px}
 .ring svg{position:absolute;inset:0}
-.ring .c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.ring .c b{font-size:66px;font-weight:700;letter-spacing:-.05em;line-height:1}
-.ring .c span{font-size:14px;font-weight:500;color:var(--ink-2);margin-top:6px}
+.ring .core{position:absolute;left:50%;top:50%;width:120px;height:120px;margin:-60px 0 0 -60px;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(255,210,125,.55),rgba(255,210,125,.16) 55%,rgba(255,210,125,0));will-change:transform,opacity}
 
 /* captions */
 .cap{position:absolute;left:50%;top:0;z-index:45;text-align:center;width:min(92vw,900px);margin-left:calc(min(92vw,900px) / -2);will-change:transform,opacity;pointer-events:none}
@@ -207,13 +234,13 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 
     <!-- 0: word game from 1984 -->
     <div class="scene sc-xw" aria-label="A crossword made from 1984">
-      <div class="src"><img src="product/assets/covers/1984.jpg" alt="" width="22" height="33"><span>From <span class="lora">1984</span></span></div>
+      <div class="src"><img src="product/assets/covers/1984.jpg" alt="" width="40" height="60"><span>From <span class="lora">1984</span></span></div>
       <div class="grid"></div>
-      <p class="clue"><b>1 Across</b>Orwell’s man at the Ministry of Truth</p>
+      <p class="clue"><b>3 Across</b>Orwell’s man at the Ministry of Truth</p>
     </div>
 
     <!-- 1: trivia from a podcast -->
-    <div class="scene sc-tv" aria-label="A trivia question from Huberman Lab">
+    <div class="scene sc-tv" aria-label="A trivia round from Huberman Lab">
       <div class="card">
         <div class="src"><img src="product/assets/covers/podcast-huberman-lab.jpg" alt=""><span>Huberman Lab</span></div>
         <p class="q">Within an hour of waking, Huberman says to get…</p>
@@ -232,13 +259,13 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
     </div>
 
     <!-- 3: the daily round -->
-    <div class="scene sc-day" aria-label="Three minutes today">
+    <div class="scene sc-day" aria-label="One short round a day">
       <div class="ring">
         <svg viewBox="0 0 216 216" aria-hidden="true">
           <defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E9BC63"/><stop offset="1" stop-color="#C9923E"/></linearGradient></defs>
           <g class="arcs" fill="none" stroke-width="11" stroke-linecap="round"></g>
         </svg>
-        <div class="c"><b>3</b><span>minutes today</span></div>
+        <div class="core"></div>
       </div>
     </div>
 
@@ -273,18 +300,21 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
     B('1984.jpg', 400/600), {k:'pod', src:'podcast-the-daily.jpg'}, B('atomic-habits.jpg', 400/604),
     {k:'vid', src:'video-veritasium-entropy.jpg'}, {k:'pod', src:'podcast-diary-of-a-ceo.jpg'}, B('thinking-fast-and-slow.jpg', 400/593),
   ];
+  // code-drawn paper: real pieces, correctly attributed, plain typeset names (no logos, no mastheads)
   const CARDS = [
-    {k:'art', pub:'The Atlantic', ttl:'Is Google Making Us Stupid?'},
-    {k:'hl',  qt:'Who controls the past controls the future.', by:'1984'},
-    {k:'art', pub:'Wait But Why', ttl:'The Tail End'},
-    {k:'art', pub:'The New Yorker', ttl:'Why Facts Don’t Change Our Minds'},
-    {k:'hl',  qt:'You do not rise to the level of your goals. You fall to the level of your systems.', by:'Atomic Habits'},
-    {k:'art', pub:'Paul Graham', ttl:'How to Do Great Work'},
-    {k:'art', pub:'Harvard Business Review', ttl:'Managing Oneself'},
+    {k:'art',  pub:'The Atlantic', ttl:'Is Google Making Us Stupid?'},
+    {k:'qc',   qt:'Who controls the past controls the future.', by:'George Orwell · 1984'},
+    {k:'pdf',  ttl:'Attention Is All You Need', by:'Vaswani et al. · 2017'},
+    {k:'art',  pub:'The New Yorker', ttl:'Why Facts Don’t Change Our Minds'},
+    {k:'note', tx:'Ask Dad what he thinks about the wheat bit in Sapiens.'},
+    {k:'hl',   qt:'You do not rise to the level of your goals. You fall to the level of your systems.', by:'James Clear · Atomic Habits'},
+    {k:'art',  pub:'Paul Graham', ttl:'How to Do Great Work'},
+    {k:'shot'},
+    {k:'art',  pub:'Wait But Why', ttl:'The Tail End', au:'Tim Urban'},
   ];
-  // 36 on the sphere: each real cover three times, a code-drawn card every fourth slot
+  // 18 on the sphere, every one unique: the nine real covers alternating with nine paper pieces
   const ITEMS = [];
-  for (let i = 0, c = 0, k = 0; i < 36; i++) ITEMS.push(i % 4 === 2 ? CARDS[k++ % CARDS.length] : COVERS[(c++ * 4) % COVERS.length]);
+  COVERS.forEach((c, i) => ITEMS.push(c, CARDS[i]));
   const N = ITEMS.length;
   // order in which the icon pulls them in (front-ish first, mixed media)
   // a fixed shuffle so books, podcasts, videos and articles arrive interleaved
@@ -316,7 +346,7 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
       const icon = [w / 2, h * 0.47];
       const dx = Math.min(w * 0.275, 410), dy = h * 0.235;
       const sp = [[-dx, -dy], [dx, -dy], [-dx, dy], [dx, dy]].map(d => [icon[0] + d[0], icon[1] + d[1]]);
-      return { m, k, heroC: [w * 0.725, h * 0.52], R: Math.min(h * 0.3, w * 0.18), persp: 1000, iSc: k * 0.6,
+      return { m, k, heroC: [w * 0.725, h * 0.52], R: Math.min(h * 0.29, w * 0.175), persp: 1000, iSc: k * 0.8,
         iconA: icon, iconS: icon, iconC: [w / 2, h * 0.31], iconSize: 112,
         nodeT: sp, sceneP: sp, sceneSc: k * 0.98,
         capA: icon[1] + 150, capS: h * 0.905, closeTop: h * 0.31 + 56 + 44 };
@@ -324,7 +354,7 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
     const iconS = [w / 2, h * 0.17];
     const rr = 74;
     const nodeT = [[-1, -0.35], [1, -0.35], [-1, 0.75], [1, 0.75]].map(d => [iconS[0] + d[0] * rr * 1.25, iconS[1] + d[1] * rr]);
-    return { m, k: 1, heroC: [w / 2, h * 0.675], R: Math.min(w * 0.35, h * 0.175), persp: 800, iSc: 0.4,
+    return { m, k: 1, heroC: [w / 2, h * 0.675], R: Math.min(w * 0.34, h * 0.17), persp: 800, iSc: 0.54,
       iconA: [w / 2, h * 0.36], iconS, iconC: [w / 2, h * 0.33], iconSize: 92,
       nodeT, sceneP: nodeT.map(() => [w / 2, h * 0.555]), sceneSc: Math.min(1, (w - 36) / 340),
       capA: h * 0.36 + 118, capS: h * 0.85, closeTop: h * 0.33 + 46 + 34 };
@@ -334,8 +364,12 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
     if (it.k === 'book') return [112 * it.a, 112];
     if (it.k === 'pod') return [90, 90];
     if (it.k === 'vid') return [150, 84];
-    if (it.k === 'art') return [138, 92];
-    return [144, 100];
+    if (it.k === 'art') return it.au ? [140, 100] : [138, 92];
+    if (it.k === 'qc') return [140, 104];
+    if (it.k === 'pdf') return [112, 146];
+    if (it.k === 'note') return [146, 102];
+    if (it.k === 'shot') return [150, 86];
+    return [158, 112];
   }
 
   class Stage {
@@ -346,15 +380,21 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
       this.hero = q('.hero'); this.icon = q('.icon'); this.halo = q('.halo'); this.close = q('.close');
       this.orb = q('.orb'); this.floor = q('.floor');
       this.svg = q('.lines'); this.lines = qa('.lines line'); this.nodes = qa('.node');
+      this.sparks = this.lines.map(() => { const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle'); c.setAttribute('r', '2.6'); c.setAttribute('class', 'spark'); this.svg.appendChild(c); return c; });
       this.scenes = qa('.scene'); this.capA = q('.cap-a'); this.capS = qa('.cap-s');
       // crossword: 1984 fragment
       const rows = ['.B...R.', 'WINSTON', '.G...O.', '.....M.'];
-      const nums = { '1,0': 1, '0,1': 2, '0,5': 3 };
+      // numbered in reading order: 1 BIG (down), 2 ROOM (down), 3 WINSTON (across)
+      const nums = { '0,1': 1, '0,5': 2, '1,0': 3 };
       const grid = q('.grid');
+      this.xwFill = [];   // across letters that are not given by a crossing word
       rows.forEach((r, ri) => [...r].forEach((ch, ci) => {
         const d = document.createElement('div');
         d.className = 'cell' + (ch === '.' ? '' : ' t') + (ri === 1 ? ' hot' : '');
-        if (ch !== '.') d.textContent = ch;
+        if (ch !== '.') {
+          const l = document.createElement('span'); l.className = 'l'; l.textContent = ch; d.appendChild(l);
+          if (ri === 1 && ci !== 1 && ci !== 5) this.xwFill.push([d, l]);
+        }
         const n = nums[ri + ',' + ci];
         if (n) { const i = document.createElement('i'); i.textContent = n; d.prepend(i); }
         grid.appendChild(d);
@@ -367,15 +407,32 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
         p.setAttribute('d', `M${cx + r * Math.cos(a0)} ${cx + r * Math.sin(a0)} A${r} ${r} 0 0 1 ${cx + r * Math.cos(a1)} ${cx + r * Math.sin(a1)}`);
         p.setAttribute('stroke', s < 2 ? 'url(#rg)' : 'rgba(33,26,20,.09)');
         arcs.appendChild(p);
+        if (s === 2) {
+          const f = p.cloneNode(); f.setAttribute('stroke', 'url(#rg)');
+          this.ringLen = r * (106 * Math.PI / 180);
+          f.setAttribute('stroke-dasharray', `${this.ringLen.toFixed(1)} 999`);
+          arcs.appendChild(f); this.ringFill = f;
+        }
       });
+      this.ringCore = q('.ring .core');
+      this.ansOn = q('.ans li.on');
+      this.feedCards = qa('.sc-feed .fc');
+      this.beatAt = [0, 0, 0, 0]; this.beatK = -1;
       // sphere items
       const wrap = q('.items');
       this.items = ITEMS.map(it => {
         const el = document.createElement('div');
         el.className = 'item it-' + it.k;
         if (it.src) { const im = new Image(); im.src = C + it.src; im.alt = ''; im.decoding = 'async'; el.appendChild(im); }
-        else if (it.k === 'art') el.innerHTML = `<span class="pub"></span><span class="ttl"></span>`, el.children[0].textContent = it.pub, el.children[1].textContent = it.ttl;
-        else el.innerHTML = `<span class="qt"></span><span class="by"></span>`, el.children[0].textContent = '“' + it.qt + '”', el.children[1].textContent = it.by;
+        else {
+          const add = (cls, txt, tag = 'span') => { const e = document.createElement(tag); e.className = cls; if (txt != null) e.textContent = txt; el.appendChild(e); return e; };
+          if (it.k === 'art') { add('pub', it.pub); add('ttl', it.ttl); if (it.au) add('au', it.au); }
+          else if (it.k === 'qc') { add('mk', '“'); add('qt', it.qt); add('by', it.by); }
+          else if (it.k === 'hl') { const q2 = add('qt'); const m = document.createElement('mark'); m.textContent = it.qt; q2.append('“', m, '”'); add('by', it.by); }
+          else if (it.k === 'pdf') { add('tag', 'PDF'); add('ttl', it.ttl); const rl = add('rl'); rl.innerHTML = '<i></i><i></i><i></i>'; add('by', it.by); }
+          else if (it.k === 'note') add('hw', it.tx);
+          else if (it.k === 'shot') { ['k k1', 'k k2', 'k k3', 'k k4'].forEach(c => add(c)); const t = add('tx'); const b = document.createElement('span'); b.className = 'lora'; b.textContent = 'Thinking, Fast and Slow'; t.append('You have to read ', b, '.'); }
+        }
         const [w, h] = itemSize(it);
         el.style.width = w + 'px'; el.style.height = h + 'px';
         wrap.appendChild(el);
@@ -390,8 +447,12 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
       this.heroH = this.hero.offsetHeight;
       this.sceneWH = this.scenes.map(el => [el.offsetWidth, el.offsetHeight]);
     }
-    render(p, yaw, pitch) {
+    render(p, yaw, pitch, t = 0) {
       const g = this.g, w = this.w, h = this.h;
+      const TAU = Math.PI * 2;
+      // idle: once the sphere is absorbed the story goes on breathing by itself (t = idle seconds)
+      const settled = sm(0.34, 0.40, p);
+      const breath = Math.sin(TAU * t / 4.2);
       const vis = (el, o) => { el.style.opacity = o.toFixed(3); el.style.visibility = o < 0.004 ? 'hidden' : 'visible'; };
 
       // hero text leaves first
@@ -454,15 +515,22 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 
       // icon
       const io = sm(0.05, 0.105, p);
-      const iscale = (0.62 + 0.38 * back(sm(0.05, 0.125, p))) * (1 + 0.075 * pulse);
+      const iscale = (0.62 + 0.38 * back(sm(0.05, 0.125, p))) * (1 + 0.075 * pulse) * (1 + 0.024 * settled * breath);
       vis(this.icon, io);
       this.icon.style.transform = `translate3d(${ic[0] - g.iconSize / 2}px,${ic[1] - g.iconSize / 2}px,0) scale(${iscale.toFixed(4)})`;
 
       // halo: arrivals flash it; emission holds it
       const emit = sm(0.40, 0.50, p) * (1 - sm(0.90, 0.96, p));
-      const ho2 = Math.min(1, 0.5 * pulse * sm(0.08, 0.12, p) + emit * 0.95 + sm(0.95, 1, p) * 0.5);
+      const glowB = settled * (0.5 + 0.5 * breath);
+      const ho2 = Math.min(1, 0.5 * pulse * sm(0.08, 0.12, p) + emit * (0.82 + 0.13 * glowB) + sm(0.95, 1, p) * 0.5 + settled * (1 - emit) * (0.16 + 0.22 * glowB));
       vis(this.halo, ho2);
-      this.halo.style.transform = `translate3d(${ic[0]}px,${ic[1]}px,0) scale(${(0.7 + 0.35 * emit + 0.15 * pulse).toFixed(3)})`;
+      this.halo.style.transform = `translate3d(${ic[0]}px,${ic[1]}px,0) scale(${(0.7 + 0.35 * emit + 0.15 * pulse + 0.05 * glowB).toFixed(3)})`;
+
+      // which scene is "active" (the latest one open, before the fold back)
+      let act = -1;
+      for (let k = 0; k < 4; k++) if (p >= SCENE_OPEN[k] + 0.02 && p < 0.885) act = k;
+      if (act !== this.beatK) { this.beatK = act; if (act >= 0) this.beatAt[act] = t; }
+      this.beats(act, act >= 0 ? t - this.beatAt[act] : 0);
 
       // nodes of light, then scenes
       const back2 = sm(0.885, 0.925, p);         // scenes fold back into nodes
@@ -482,9 +550,10 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
         const dim = (!g.m && k < 3 && !this.noDim) ? sm(o0 + 0.092, o0 + 0.112, p) * (1 - back2) : 0;
         const ep = eo(open);
         const pos = lp(T, g.sceneP[k], ep);
-        const s = g.sceneSc * lerp(0.06, 1, back(open)) * (1 - 0.06 * dim);
+        // finished scenes step back gently (slightly smaller, a touch lighter), never grey
+        const s = g.sceneSc * lerp(0.06, 1, back(open)) * (1 - 0.07 * dim);
         const sEl = this.scenes[k];
-        vis(sEl, sm(0, 0.35, open) * (1 - 0.45 * dim));
+        vis(sEl, sm(0, 0.35, open) * (1 - 0.15 * dim));
         sEl.style.zIndex = 10 + (dim ? 0 : 5);
         sEl.style.transform = `translate3d(${pos[0].toFixed(1)}px,${pos[1].toFixed(1)}px,0) translate(-50%,-50%) scale(${s.toFixed(4)})`;
         // the light docks on the scene's edge facing the icon, so lines never cross a scene
@@ -497,12 +566,21 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
           np = lp(np, edge, eo(Math.min(1, open * 1.4)));
         }
         np = lp(np, ic, ei(retract));
+        // the links pulse: a slow wave runs out from the icon, node by node
+        const lw = Math.sin(TAU * t / 3.2 - k * 1.1);
         vis(node, no);
         node.style.zIndex = 16;
-        node.style.transform = `translate3d(${np[0].toFixed(1)}px,${np[1].toFixed(1)}px,0) scale(${(0.6 + 0.4 * out).toFixed(3)})`;
+        node.style.transform = `translate3d(${np[0].toFixed(1)}px,${np[1].toFixed(1)}px,0) scale(${((0.6 + 0.4 * out) * (1 + 0.14 * settled * lw)).toFixed(3)})`;
         line.setAttribute('x1', ic[0]); line.setAttribute('y1', ic[1]);
         line.setAttribute('x2', np[0].toFixed(1)); line.setAttribute('y2', np[1].toFixed(1));
-        line.style.opacity = (no * 0.9).toFixed(3);
+        line.style.opacity = (no * 0.9 * (1 - 0.38 * settled * (0.5 - 0.5 * lw))).toFixed(3);
+        // a spark of light travels out along each link, one at a time
+        const spk = this.sparks[k], f = ((t / 3.6 + k * 0.25) % 1) / 0.55;
+        if (no > 0.01 && f < 1 && settled > 0) {
+          const e2 = eio(f);
+          spk.setAttribute('cx', lerp(ic[0], np[0], e2).toFixed(1)); spk.setAttribute('cy', lerp(ic[1], np[1], e2).toFixed(1));
+          spk.style.opacity = (no * settled * Math.sin(Math.PI * f) * 0.95).toFixed(3);
+        } else spk.style.opacity = '0';
 
         // caption for this scene
         const cEnd = k < 3 ? o0 + 0.1 : 0.885;
@@ -520,11 +598,63 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
       const cl = sm(0.945, 0.99, p);
       vis(this.close, cl);
       this.close.style.transform = `translate3d(0,${(g.closeTop + 26 * (1 - cl)).toFixed(1)}px,0)`;
+      return { hero: ho, close: cl };
+    }
+
+    // one small living beat for the active scene; u = seconds since it became active.
+    // every beat starts from (and returns to) the scene's resting, complete look.
+    beats(act, u) {
+      const TAU = Math.PI * 2;
+      // 0 crossword: the across word clears softly, then fills back in letter by letter
+      {
+        const C = 7.6, ph = act === 0 ? u % C : 0, STEP = 0.62, F0 = 3.6;
+        this.xwFill.forEach(([d, l], j) => {
+          let o = 1, sc = 1, cur = false;
+          if (act === 0 && ph >= 2.9) {
+            const at = F0 + j * STEP;
+            if (ph < F0) o = 1 - sm(2.9, 3.4, ph);
+            else if (ph < at) { o = 0; cur = ph >= at - STEP; }
+            else { const q = clamp((ph - at) / 0.32); o = q; sc = 0.6 + 0.4 * back(q); }
+          }
+          l.style.opacity = o.toFixed(3);
+          l.style.transform = sc === 1 ? '' : `scale(${sc.toFixed(3)})`;
+          d.classList.toggle('cur', cur);
+        });
+      }
+      // 1 trivia: the right answer glows softly
+      {
+        const gl = act === 1 ? 0.5 - 0.5 * Math.cos(TAU * u / 2.8) : 0;
+        this.ansOn.style.boxShadow = gl ? `0 0 0 ${(2 + 4 * gl).toFixed(1)}px rgba(78,205,196,${(0.12 + 0.16 * gl).toFixed(3)}),0 12px 22px -12px rgba(45,131,119,.8)` : '';
+      }
+      // 2 feed: the cards drift a few pixels, out of step with each other
+      this.feedCards.forEach((c, j) => {
+        const ramp = Math.min(1, u);
+        c.style.transform = act === 2 ? `translate3d(${(1.5 * Math.sin(TAU * u / 7 + j * 2.1) * ramp).toFixed(2)}px,${(3.2 * Math.sin(TAU * u / 5.2 + j * 1.7) * ramp).toFixed(2)}px,0)` : '';
+      });
+      // 3 daily round: the last third of the ring fills, glows, and lets go
+      {
+        let f = 0, glow = 0;
+        if (act === 3) {
+          const ph = u % 7.2;
+          f = ph < 1.0 ? 0 : ph < 3.6 ? eio((ph - 1.0) / 2.6) : ph < 6.2 ? 1 : 1 - sm(6.2, 7.0, ph);
+          glow = ph < 3.6 ? 0 : sm(3.6, 4.2, ph) * (1 - sm(5.6, 6.6, ph));
+        }
+        const L = this.ringLen;
+        this.ringFill.setAttribute('stroke-dashoffset', (L * (1 - f)).toFixed(1));
+        this.ringFill.style.opacity = f > 0.002 ? 1 : 0;
+        this.ringCore.style.opacity = (0.35 + 0.65 * glow).toFixed(3);
+        this.ringCore.style.transform = `scale(${(0.85 + 0.2 * glow).toFixed(3)})`;
+      }
     }
   }
 
   const story = document.getElementById('story');
   const REST_YAW = 0.55, REST_PITCH = -0.32;
+
+  // one action at a time: the top-bar link hides while the hero or a closing button is on screen
+  const navGet = document.querySelector('.nav-get');
+  let navOn = null;
+  const syncNav = on => { if (on !== navOn) { navOn = on; navGet.classList.toggle('on', on); } };
 
   if (STATIC) {
     const ps = innerWidth < 760 ? [0, 0.40, 0.53, 0.63, 0.73, 0.84, 1] : [0, 0.40, 0.875, 1];
@@ -535,15 +665,24 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
     const draw = () => stages.forEach(st => { st.measure(); st.render(st.p, REST_YAW, REST_PITCH); });
     draw(); addEventListener('resize', draw);
     document.fonts && document.fonts.ready.then(draw);
+    let heroIn = true, closeIn = false;
+    const sync = () => syncNav(!heroIn && !closeIn);
+    sync();
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(es => { heroIn = es[es.length - 1].isIntersecting; sync(); }).observe(stages[0].host.querySelector('.hero .cta'));
+      new IntersectionObserver(es => { closeIn = es[es.length - 1].isIntersecting; sync(); }).observe(stages[stages.length - 1].host.querySelector('.close .cta'));
+    } else syncNav(true);
     return;
   }
 
   const sticky = document.createElement('div'); sticky.className = 'sticky'; story.appendChild(sticky);
   const S = new Stage(sticky);
-  const live = !SETTLE && AT === null;
+  // motion runs by default (pinned captures too); ?static=1 is the only off switch
+  const live = true;
+  const interactive = AT === null;
 
   let yaw = REST_YAW, pitch = REST_PITCH, tYaw = 0, tPitch = 0, oYaw = 0, oPitch = 0;
-  let onScreen = true, raf = 0, last = 0, queued = false;
+  let onScreen = true, raf = 0, last = 0, queued = false, idle = 0;
 
   const progress = () => {
     if (AT !== null) return AT;
@@ -553,26 +692,35 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
   };
   const sphereVisible = p => p < 0.37;
 
-  function draw() { S.render(progress(), yaw + oYaw, pitch + oPitch); }
+  const closeCta = sticky.querySelector('.close .cta');
+  function draw() {
+    const r = S.render(progress(), yaw + oYaw, pitch + oPitch, idle / 1000);
+    let closeIn = r.close > 0.15;
+    if (closeIn) { const b = closeCta.getBoundingClientRect(); closeIn = b.bottom > 0 && b.top < innerHeight; }
+    syncNav(r.hero < 0.15 && !closeIn);
+  }
 
-  // the sphere turns on its own: 30 fps cap, only while on screen and the tab is visible
+  // one loop for all idle motion: 30 fps cap, only while the story is on screen and the tab is visible.
+  // the sphere turns while it exists; after absorption the icon breathes, links pulse, the active scene lives.
   function tick(ts) {
     raf = 0;
-    const p = progress();
-    if (!live || !onScreen || document.hidden || !sphereVisible(p)) { draw(); return; }
+    if (!live || !onScreen || document.hidden) { draw(); return; }
     if (ts - last >= 33) {
       const dt = last ? Math.min(100, ts - last) : 33;
       last = ts;
-      yaw += dt * 0.00016;
+      idle += dt;
+      if (sphereVisible(progress())) yaw += dt * 0.00016;
       oYaw += (tYaw - oYaw) * 0.08; oPitch += (tPitch - oPitch) * 0.08;
       draw();
     }
-    raf = requestAnimationFrame(tick);
+    raf = next(tick);
   }
-  function wake() { if (!raf) { last = 0; raf = requestAnimationFrame(tick); } }
+  // headless capture (?motion=1) has no painted frames, so it steps on a 30 fps timer instead of rAF
+  const next = SETTLE ? f => setTimeout(() => f(performance.now()), 33) : f => requestAnimationFrame(f);
+  function wake() { if (!raf) { last = 0; raf = next(tick); } }
   function onScroll() {
     if (queued) return; queued = true;
-    requestAnimationFrame(() => { queued = false; draw(); if (live) wake(); });
+    requestAnimationFrame(() => { queued = false; draw(); wake(); });
   }
 
   S.measure(); draw();
@@ -581,10 +729,10 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
   if (AT === null) addEventListener('scroll', onScroll, { passive: true });
 
   if (live) {
-    new IntersectionObserver(es => { onScreen = es[0].isIntersecting; if (onScreen) wake(); }).observe(story);
+    new IntersectionObserver(es => { onScreen = es[es.length - 1].isIntersecting; if (onScreen) wake(); }).observe(story);
     document.addEventListener('visibilitychange', () => { if (!document.hidden) wake(); });
     // a little hand on the sphere: the pointer leans it
-    addEventListener('pointermove', e => {
+    if (interactive) addEventListener('pointermove', e => {
       tYaw = (e.clientX / innerWidth - 0.5) * 0.5;
       tPitch = (e.clientY / innerHeight - 0.5) * -0.22;
       wake();
