@@ -399,7 +399,7 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
   // timeline (round 2): the nodes leave as the last cover lands and the first scene opens at 0.42, so there is no empty stretch
   const SCENE_OPEN = [0.42, 0.51, 0.60, 0.69];
 
-  function geo(w, h) {
+  function geo(w, h, heroH = 180, closeH = 190) {
     const m = w < 760;
     if (!m) {
       const k = Math.min(1.05, Math.max(0.78, Math.min(h / 900, w / 1440)));
@@ -412,13 +412,24 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
         nodeT: sp, sceneP: sp, sceneSc: k * 0.88,
         capA: h * 0.165, capS: h * 0.135, closeTop: h * 0.31 + 56 + 44 };
     }
-    const iconS = [w / 2, h * 0.325];
+    // phone: the hero text and the sphere are laid out as one composition that fills the first screen.
+    // the sphere's visible extent runs ~1.12R above its centre (the top items) to ~1.45R below (the ground shadow);
+    // the spare height is shared out: a little above the headline, a matching breath under the button, the rest as ground.
+    const NAV = 64;
+    const R = Math.min(w * 0.37, Math.max(96, (h - NAV - heroH - 110) / 2.57));
+    const slack = Math.max(0, h - NAV - heroH - 2.57 * R);
+    const heroTop = NAV + Math.max(18, slack * 0.3);
+    const heroC = [w / 2, heroTop + heroH + Math.max(26, slack * 0.27) + 1.12 * R];
+    // on short phones the icon rides a little higher so the node beneath it clears the scene
+    const iconS = [w / 2, h * (0.33 + 0.015 * clamp((h - 667) / 177))];
     const rr = 74;
     const nodeT = [[-1, -0.35], [1, -0.35], [-1, 0.75], [1, 0.75]].map(d => [iconS[0] + d[0] * rr * 1.25, iconS[1] + d[1] * rr]);
-    return { m, k: 1, heroC: [w / 2, h * 0.675], R: Math.min(w * 0.34, h * 0.17), persp: 800, iSc: 0.54,
-      iconA: [w / 2, h * 0.47], iconS, iconC: [w / 2, h * 0.33], iconSize: 92,
-      nodeT, sceneP: nodeT.map(() => [w / 2, h * 0.655]), sceneSc: Math.min(1, (w - 36) / 340),
-      capA: h * 0.17, capS: h * 0.15, closeTop: h * 0.33 + 46 + 34 };
+    // the close (icon over headline, button, small print) sits centred
+    const iconC = [w / 2, Math.max(h * 0.3, (h - (92 + 34 + closeH)) * 0.5 + 46)];
+    return { m, k: 1, heroTop, heroC, R, persp: 800, iSc: 0.54 * clamp(R / 128, 0.9, 1.12),
+      iconA: [w / 2, h * 0.47], iconS, iconC, iconSize: 92,
+      nodeT, sceneP: nodeT.map(() => [w / 2, h * 0.69]), sceneSc: Math.min(1, (w - 30) / 340),
+      capA: h * 0.17, capS: h * 0.155, closeTop: iconC[1] + 46 + 34 };
   }
 
   function itemSize(it) {
@@ -504,9 +515,11 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
     }
     measure() {
       this.w = this.host.clientWidth; this.h = this.host.clientHeight;
-      this.g = geo(this.w, this.h);
-      this.svg.setAttribute('viewBox', `0 0 ${this.w} ${this.h}`);
       this.heroH = this.hero.offsetHeight;
+      this.g = geo(this.w, this.h, this.heroH, this.close.offsetHeight);
+      // phone: the hero's top comes from the composition (desktop keeps its CSS centring)
+      this.hero.style.top = this.g.heroTop != null ? this.g.heroTop.toFixed(1) + 'px' : '';
+      this.svg.setAttribute('viewBox', `0 0 ${this.w} ${this.h}`);
       this.sceneWH = this.scenes.map(el => [el.offsetWidth, el.offsetHeight]);
     }
     render(p, yaw, pitch, t = 0) {
@@ -751,6 +764,8 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
   // motion runs by default (pinned captures too); ?static=1 is the only off switch
   const live = true;
   const interactive = AT === null;
+  // the icon's pointer lean is for a real mouse only: never on touch screens (the idle tilt still runs there)
+  const FINE = matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   let yaw = REST_YAW, pitch = REST_PITCH, tYaw = 0, tPitch = 0, oYaw = 0, oPitch = 0, tTx = 0, tTy = 0;
   let onScreen = true, raf = 0, last = 0, queued = false, idle = 0;
@@ -808,7 +823,7 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
       tYaw = (e.clientX / innerWidth - 0.5) * 0.5;
       tPitch = (e.clientY / innerHeight - 0.5) * -0.22;
       // the icon tile leans toward a mouse (desktop only): right of centre turns it right, above centre tips it up
-      if (e.pointerType === 'mouse') { tTx = clamp((e.clientX / innerWidth - 0.5) * 2, -1, 1); tTy = clamp((0.5 - e.clientY / innerHeight) * 2, -1, 1); }
+      if (e.pointerType === 'mouse' && FINE) { tTx = clamp((e.clientX / innerWidth - 0.5) * 2, -1, 1); tTy = clamp((0.5 - e.clientY / innerHeight) * 2, -1, 1); }
       wake();
     }, { passive: true });
     wake();
