@@ -1,7 +1,8 @@
 <!doctype html>
 <!--
 CONCEPT NOTE (cs-c-lora: cs-c with Lora as the page voice, the Diary of a CEO cover removed, and ?h=1..6 headline options)
-Lora variant: display lines, captions and the close are Lora (500 display, italic on one earned word); sans stays on buttons, the top-bar link and in-game labels only.
+Lora variant: display lines, captions and the close are Lora (500 display; the key phrase is Lora italic in the coral gradient); sans stays on the eyebrow label, buttons, the top-bar link and in-game labels.
+Round 2: scene captions sit ABOVE the scenes as headings; the icon is the real 512px icon as a glossy CSS tile that tilts slowly (idle loop + pointer, within 6 degrees); covers are 1.3x and sit in the front slots, paper is 0.85x; the mid-story gap is closed.
 ?h=1 (default) "Turn what you save into what you know." · 2 bookmarks · 3 reading more · 4 organize and retain · 5 read, watch and hear · 6 "Turn media into knowledge." The close always repeats the hero line.
 CONCEPT NOTE (cs-c, founder storyboard)
 1. Idea: everything you take in is pulled into one place, and comes back out as play.
@@ -29,7 +30,7 @@ CONCEPT NOTE (cs-c, founder storyboard)
 :root{
   --cream:#FFFAF7; --ink:#211A14; --ink-2:rgba(33,26,20,.62); --ink-3:rgba(33,26,20,.42);
   --line:rgba(33,26,20,.10); --paper:#FFFDFB; --gold:#D4A24E; --glow:#FFD27D; --teal:#2D8377;
-  /* sans is for interactive things only (buttons, the top-bar link, in-game labels); Lora is the voice */
+  /* sans is for labels and interactive things (the eyebrow, buttons, the top-bar link, in-game labels); Lora is the voice */
   --sans:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   --serif:"Lora",Georgia,serif;
 }
@@ -54,7 +55,7 @@ img{display:block}
 .cta:hover{transform:translateY(-2px);box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 20px 40px -14px rgba(255,107,107,.85)}
 
 /* story */
-.story{position:relative;height:780vh}
+.story{position:relative;height:720vh}
 .sticky{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
 .stage{position:absolute;inset:0;perspective:1400px}
 html.pinned .story{height:100vh}
@@ -71,12 +72,16 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 
 /* hero */
 .hero{position:absolute;z-index:45;left:clamp(24px,7.8vw,140px);top:50%;width:min(46vw,720px)}
-.eyebrow{font-family:var(--serif);font-style:italic;font-weight:400;font-size:19px;line-height:1.3;letter-spacing:0;color:var(--ink-2);margin-bottom:22px}
+.eyebrow{font-family:var(--sans);font-style:normal;font-weight:600;font-size:13px;line-height:1.2;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-2);margin-bottom:26px}
 .hero h1,.close h2{font-family:var(--serif);font-weight:500;letter-spacing:-.022em;line-height:1.06;font-size:clamp(40px,4.62vw,72px);
   text-wrap:balance;font-kerning:normal;font-feature-settings:"kern","liga"}
-.hero h1 em,.close h2 em{font-style:italic;font-weight:500;letter-spacing:-.01em}
+/* the key phrase: Lora italic in the brand coral gradient, biased to its coral end so the light end still reads on cream.
+   padding gives the italic overhang and descenders room inside the clipped background; the matching negative margin keeps spacing unchanged */
+.hero h1 em,.close h2 em{font-style:italic;font-weight:500;letter-spacing:-.01em;
+  background:linear-gradient(100deg,#E8504B 0%,#FF6B6B 52%,#FF8E53 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+  padding:.06em .14em .16em .08em;margin:0 -.14em 0 -.08em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .hero h1{max-width:100%}
-.close h2{max-width:min(92vw,13.5em);padding:0 4px}
+.close h2{max-width:min(92vw,10em)}   /* the hero measure (46vw at 4.62vw type), so the close breaks like the hero */
 .hero .cta{margin-top:46px}
 
 /* the sphere's body: a soft volume and a shadow on the ground */
@@ -123,9 +128,19 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 .it-shot .k4{right:5px;bottom:5px;border-right-width:2px;border-bottom-width:2px}
 
 /* icon */
-.icon{position:absolute;left:0;top:0;z-index:40;width:112px;height:112px;border-radius:27px;overflow:hidden;will-change:transform,opacity;
-  box-shadow:0 2px 4px rgba(4,4,9,.18),0 26px 50px -18px rgba(4,4,9,.55),0 0 0 1px rgba(4,4,9,.08)}
-.icon img{width:100%;height:100%}
+/* the real icon (512px downscale of the 1024 master, never redrawn) as a glossy physical tile:
+   iOS-style rounded square, a top-left specular, a faint inner bevel, a layered shadow, and a slow tilt from the idle loop + pointer.
+   no will-change: a transform layer would be rasterised at its first (small) scale and look soft */
+.icon{position:absolute;left:0;top:0;z-index:40;width:112px;height:112px;border-radius:25px;
+  box-shadow:0 0 0 .5px rgba(4,4,9,.4),0 1px 1.5px rgba(4,4,9,.28),0 5px 9px -3px rgba(4,4,9,.28),0 20px 32px -14px rgba(4,4,9,.48),0 40px 64px -30px rgba(70,40,15,.38)}
+.icon img{width:100%;height:100%;border-radius:inherit}
+.icon::before,.icon::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none}
+.icon::before{background:
+  radial-gradient(ellipse 72% 58% at var(--lx,30%) var(--ly,16%),rgba(255,255,255,.30) 0%,rgba(255,255,255,.10) 40%,rgba(255,255,255,0) 70%),
+  linear-gradient(180deg,rgba(255,255,255,.07) 0%,rgba(255,255,255,0) 34%,rgba(0,0,0,0) 72%,rgba(0,0,0,.16) 100%)}
+.icon::after{box-shadow:inset 0 1px 0 rgba(255,255,255,.30),inset 1px 0 0 rgba(255,255,255,.07),inset -1px 0 0 rgba(0,0,0,.25),inset 0 -2px 3px rgba(0,0,0,.42),inset 0 0 0 1px rgba(255,255,255,.06)}
+.ishadow{position:absolute;left:0;top:0;z-index:39;width:112px;height:26px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(33,26,20,.30),rgba(33,26,20,.12) 55%,rgba(33,26,20,0))}
 
 /* nodes of light */
 .node{position:absolute;left:0;top:0;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;z-index:6;will-change:transform,opacity;
@@ -181,7 +196,7 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 .cap{font-family:var(--serif);text-wrap:balance}
 .cap-a{font-size:clamp(24px,2.7vw,38px);font-weight:400;line-height:1.18;letter-spacing:-.015em;color:var(--ink-2)}
 .cap-a b{display:block;color:var(--ink);font-style:italic;font-weight:500;font-size:1.42em;letter-spacing:-.02em;line-height:1.05;margin-top:.14em}
-.cap-s{font-size:clamp(24px,2.5vw,36px);font-weight:400;line-height:1.15;letter-spacing:-.018em}
+.cap-s{font-size:clamp(28px,3vw,46px);font-weight:500;line-height:1.12;letter-spacing:-.02em;color:var(--ink)}
 
 /* close */
 .close{position:absolute;left:0;right:0;top:0;z-index:30;text-align:center;display:flex;flex-direction:column;align-items:center;will-change:transform,opacity}
@@ -197,15 +212,17 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
   .wordmark{font-size:17px}
   .nav-get{font-size:13px;padding:7px 13px}
   .hero{left:24px;right:24px;width:auto;top:15svh}
-  .eyebrow{font-size:16px;margin-bottom:12px}
+  .eyebrow{font-size:11.5px;letter-spacing:.18em;margin-bottom:14px}
   .hero h1,.close h2{font-size:clamp(32px,9vw,42px);line-height:1.08;letter-spacing:-.02em}
   .hero h1{max-width:none}
-  .close h2{max-width:min(88vw,9.6em)}
+  .close h2{max-width:calc(100vw - 48px)}
   .hero .cta{margin-top:26px}
   .cta{height:52px;padding:0 26px;font-size:15px}
-  .icon{width:92px;height:92px;border-radius:22px}
+  .icon{width:92px;height:92px;border-radius:21px}
+  .ishadow{width:92px;height:22px}
   .close .cta{margin-top:28px}
-  .cap-a{width:310px;margin-left:-155px;font-size:25px}
+  .cap-a{width:330px;margin-left:-165px;font-size:24px}
+  .cap-s{width:340px;margin-left:-170px;font-size:28px}
   .after{flex-direction:column;gap:10px}
 }
 </style>
@@ -240,7 +257,8 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
       <a class="cta" href="https://apps.apple.com/app/id6744420866">Download on the App Store</a>
     </div>
 
-    <div class="icon"><img src="product/assets/app-icon.png" alt="REPS"></div>
+    <div class="ishadow"></div>
+    <div class="icon"><img src="product/assets/app-icon-512.png" alt="REPS" width="112" height="112"></div>
 
     <div class="node"></div><div class="node"></div><div class="node"></div><div class="node"></div>
 
@@ -306,14 +324,14 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
   if (STATIC) root.classList.add('static');
 
   // headline options, switchable by ?h=1..6 (1 is the default). The close returns to the same line.
-  // Each line marks one word for Lora italic; a no-break space ties the last two words so no word sits alone.
+  // Each line marks its key phrase (Lora italic + the coral gradient, full stop outside); a no-break space ties the last two words so no word sits alone.
   const HEADLINES = {
-    1: 'Turn what you save into what you *know.*',
-    2: 'Turn bookmarks into *lasting* knowledge.',
-    3: 'Turn reading more into *knowing* more.',
+    1: 'Turn what you save into *what you know*.',
+    2: 'Turn bookmarks into *lasting knowledge*.',
+    3: 'Turn reading more into *knowing more*.',
     4: 'Organize and *retain* your knowledge.',
-    5: 'Remember what you read, watch and *hear.*',
-    6: 'Turn media into *knowledge.*',
+    5: 'Remember what you *read, watch and hear*.',
+    6: 'Turn media into *knowledge*.',
   };
   const H = HEADLINES[parseInt(Q.get('h'), 10)] || HEADLINES[1];
   {
@@ -349,11 +367,13 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
     {k:'qc',   qt:'The unexamined life is not worth living.', by:'Socrates, via Plato’s Apology', sz:[158, 116]},
   ];
   // 18 on the sphere, every one unique: the eight real covers (Diary of a CEO removed) and ten paper pieces.
-  // A fixed layout spreads the covers evenly over the Fibonacci sphere,
-  // so no hemisphere reads as "all paper"; slots marked 'K' take the next paper card.
-  const LAYOUT = 'CKKKCKCCCKCKKKCKCK';   // searched: largest minimum gap between any two covers, no paper card whose nearest neighbour is paper
+  // Covers take the slots that face the viewer while the hero is read (rest yaw 0.55 turning to ~2.0),
+  // so at rest the sphere reads as books, podcasts and videos; one cover sits on the far side. 'K' slots take the next paper card.
+  const LAYOUT = 'KCKKCKCKKCKKCCCKKC';   // front slots by mean depth over that window: 9,14,12,17,4,6,1; far side: 13
   const ITEMS = [];
   { let ci = 0, ki = 0; for (const ch of LAYOUT) ITEMS.push(ch === 'C' ? COVERS[ci++] : CARDS[ki++]); }
+  // real covers read 1.3x (laid out at that size, so the image stays sharp); paper reads 0.85x (scaled, so its type scales with it)
+  const FIT = ITEMS.map(it => it.src ? 1 : 0.85);
   const N = ITEMS.length;
   // order in which the icon pulls them in (front-ish first, mixed media)
   // a fixed shuffle so books, podcasts, videos and articles arrive interleaved
@@ -376,34 +396,36 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
   const eio = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
   const back = t => { const c = 1.45; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
 
-  const SCENE_OPEN = [0.48, 0.58, 0.68, 0.78];
+  // timeline (round 2): the nodes leave as the last cover lands and the first scene opens at 0.42, so there is no empty stretch
+  const SCENE_OPEN = [0.42, 0.51, 0.60, 0.69];
 
   function geo(w, h) {
     const m = w < 760;
     if (!m) {
       const k = Math.min(1.05, Math.max(0.78, Math.min(h / 900, w / 1440)));
-      const icon = [w / 2, h * 0.47];
+      // the heading band is the top ~22% of the screen; the icon and the four scenes sit beneath it
+      const icon = [w / 2, h * 0.58];
       const dx = Math.min(w * 0.275, 410), dy = h * 0.235;
       const sp = [[-dx, -dy], [dx, -dy], [-dx, dy], [dx, dy]].map(d => [icon[0] + d[0], icon[1] + d[1]]);
       return { m, k, heroC: [w * 0.725, h * 0.52], R: Math.min(h * 0.29, w * 0.175), persp: 1000, iSc: k * 0.8,
         iconA: icon, iconS: icon, iconC: [w / 2, h * 0.31], iconSize: 112,
-        nodeT: sp, sceneP: sp, sceneSc: k * 0.98,
-        capA: icon[1] + 150, capS: h * 0.905, closeTop: h * 0.31 + 56 + 44 };
+        nodeT: sp, sceneP: sp, sceneSc: k * 0.88,
+        capA: h * 0.165, capS: h * 0.135, closeTop: h * 0.31 + 56 + 44 };
     }
-    const iconS = [w / 2, h * 0.17];
+    const iconS = [w / 2, h * 0.325];
     const rr = 74;
     const nodeT = [[-1, -0.35], [1, -0.35], [-1, 0.75], [1, 0.75]].map(d => [iconS[0] + d[0] * rr * 1.25, iconS[1] + d[1] * rr]);
     return { m, k: 1, heroC: [w / 2, h * 0.675], R: Math.min(w * 0.34, h * 0.17), persp: 800, iSc: 0.54,
-      iconA: [w / 2, h * 0.36], iconS, iconC: [w / 2, h * 0.33], iconSize: 92,
-      nodeT, sceneP: nodeT.map(() => [w / 2, h * 0.555]), sceneSc: Math.min(1, (w - 36) / 340),
-      capA: h * 0.36 + 118, capS: h * 0.85, closeTop: h * 0.33 + 46 + 34 };
+      iconA: [w / 2, h * 0.47], iconS, iconC: [w / 2, h * 0.33], iconSize: 92,
+      nodeT, sceneP: nodeT.map(() => [w / 2, h * 0.655]), sceneSc: Math.min(1, (w - 36) / 340),
+      capA: h * 0.17, capS: h * 0.15, closeTop: h * 0.33 + 46 + 34 };
   }
 
   function itemSize(it) {
     if (it.sz) return it.sz;
-    if (it.k === 'book') return [112 * it.a, 112];
-    if (it.k === 'pod') return [90, 90];
-    if (it.k === 'vid') return [150, 84];
+    if (it.k === 'book') return [146 * it.a, 146];   // 1.3x the round-1 size
+    if (it.k === 'pod') return [117, 117];
+    if (it.k === 'vid') return [195, 109];
     if (it.k === 'art') return it.au ? [140, 100] : [138, 92];
     if (it.k === 'qc') return [140, 104];
     if (it.k === 'pdf') return [112, 146];
@@ -417,7 +439,7 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
       host.appendChild(document.getElementById('tpl').content.cloneNode(true));
       const q = s => host.querySelector(s), qa = s => [...host.querySelectorAll(s)];
       this.host = host;
-      this.hero = q('.hero'); this.icon = q('.icon'); this.halo = q('.halo'); this.close = q('.close');
+      this.hero = q('.hero'); this.icon = q('.icon'); this.ishadow = q('.ishadow'); this.tilt = [0, 0]; this.halo = q('.halo'); this.close = q('.close');
       this.orb = q('.orb'); this.floor = q('.floor');
       this.svg = q('.lines'); this.lines = qa('.lines line'); this.nodes = qa('.node');
       this.sparks = this.lines.map(() => { const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle'); c.setAttribute('r', '2.6'); c.setAttribute('class', 'spark'); this.svg.appendChild(c); return c; });
@@ -502,8 +524,8 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
       this.hero.style.transform = `translate3d(0,${heroY - 46 * (1 - ho)}px,0)`;
 
       // icon path
-      let ic = g.m ? lp(g.iconA, g.iconS, eio(sm(0.40, 0.47, p))) : g.iconA;
-      ic = lp(ic, g.iconC, eio(sm(0.925, 0.975, p)));
+      let ic = g.m ? lp(g.iconA, g.iconS, eio(sm(0.365, 0.415, p))) : g.iconA;
+      ic = lp(ic, g.iconC, eio(sm(0.86, 0.91, p)));
 
       // sphere + absorption
       const drift = eio(sm(0.07, 0.31, p));
@@ -525,7 +547,7 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
         const s = g.persp / (g.persp - Z);
         const depth = (z2 + 1) / 2;
         const sx = sc[0] + X * s, sy2 = sc[1] + Y * s;
-        let scale = s * g.iSc * (0.62 + 0.38 * depth);
+        let scale = s * g.iSc * (0.62 + 0.38 * depth) * FIT[i];
         let op = 0.26 + 0.74 * Math.pow(depth, 1.4);
         let px = sx, py = sy2, z = 1 + Math.round(depth * 28), rot = -x1 * 24;
         const st = ABS0 + RANK[i] * ABS_STEP, arr = st + ABS_DUR;
@@ -557,26 +579,35 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
       const io = sm(0.05, 0.105, p);
       const iscale = (0.62 + 0.38 * back(sm(0.05, 0.125, p))) * (1 + 0.075 * pulse) * (1 + 0.024 * settled * breath);
       vis(this.icon, io);
-      this.icon.style.transform = `translate3d(${ic[0] - g.iconSize / 2}px,${ic[1] - g.iconSize / 2}px,0) scale(${iscale.toFixed(4)})`;
+      // a physical tile: a very slow tilt (idle loop) plus a small lean toward the mouse, never past 6 degrees
+      const rx = clamp(3.2 * Math.sin(TAU * t / 10.5) + 2.6 * this.tilt[1], -6, 6);
+      const ry = clamp(3.8 * Math.sin(TAU * t / 13.5 + 1.2) + 2.8 * this.tilt[0], -6, 6);
+      this.icon.style.transform = `translate3d(${ic[0] - g.iconSize / 2}px,${ic[1] - g.iconSize / 2}px,0) scale(${iscale.toFixed(4)}) perspective(560px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+      this.icon.style.setProperty('--lx', (30 - 2.4 * ry).toFixed(1) + '%');
+      this.icon.style.setProperty('--ly', (16 + 2.4 * rx).toFixed(1) + '%');
+      // contact shadow on the ground: tightens as the tile breathes up, slides a touch against the tilt
+      vis(this.ishadow, io);
+      const shH = g.iconSize === 112 ? 26 : 22;
+      this.ishadow.style.transform = `translate3d(${(ic[0] - g.iconSize / 2 - 0.9 * ry).toFixed(1)}px,${(ic[1] + g.iconSize * 0.5 * iscale - shH / 2 + 5).toFixed(1)}px,0) scale(${(iscale * (1.04 - 0.04 * settled * breath)).toFixed(3)},${(iscale * (1 - 0.06 * settled * breath)).toFixed(3)})`;
 
       // halo: arrivals flash it; emission holds it
-      const emit = sm(0.40, 0.50, p) * (1 - sm(0.90, 0.96, p));
+      const emit = sm(0.37, 0.45, p) * (1 - sm(0.84, 0.90, p));
       const glowB = settled * (0.5 + 0.5 * breath);
-      const ho2 = Math.min(1, 0.5 * pulse * sm(0.08, 0.12, p) + emit * (0.82 + 0.13 * glowB) + sm(0.95, 1, p) * 0.5 + settled * (1 - emit) * (0.16 + 0.22 * glowB));
+      const ho2 = Math.min(1, 0.5 * pulse * sm(0.08, 0.12, p) + emit * (0.82 + 0.13 * glowB) + sm(0.89, 0.94, p) * 0.5 + settled * (1 - emit) * (0.16 + 0.22 * glowB));
       vis(this.halo, ho2);
       this.halo.style.transform = `translate3d(${ic[0]}px,${ic[1]}px,0) scale(${(0.7 + 0.35 * emit + 0.15 * pulse + 0.05 * glowB).toFixed(3)})`;
 
       // which scene is "active" (the latest one open, before the fold back)
       let act = -1;
-      for (let k = 0; k < 4; k++) if (p >= SCENE_OPEN[k] + 0.02 && p < 0.885) act = k;
+      for (let k = 0; k < 4; k++) if (p >= SCENE_OPEN[k] + 0.02 && p < 0.82) act = k;
       if (act !== this.beatK) { this.beatK = act; if (act >= 0) this.beatAt[act] = t; }
       this.beats(act, act >= 0 ? t - this.beatAt[act] : 0);
 
       // nodes of light, then scenes
-      const back2 = sm(0.885, 0.925, p);         // scenes fold back into nodes
-      const retract = sm(0.912, 0.95, p);        // nodes return to the icon
+      const back2 = sm(0.82, 0.86, p);         // scenes fold back into nodes
+      const retract = sm(0.845, 0.885, p);        // nodes return to the icon
       for (let k = 0; k < 4; k++) {
-        const out = eo(sm(0.42 + 0.016 * k, 0.48 + 0.016 * k, p));
+        const out = eo(sm(0.37 + 0.012 * k, 0.42 + 0.012 * k, p));
         const T = g.nodeT[k];
         let np = lp(ic, T, out);
         const no = out * (1 - sm(0.6, 1, retract));
@@ -585,9 +616,9 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
         // scene
         const o0 = SCENE_OPEN[k];
         let open = sm(o0, o0 + 0.045, p);
-        if (g.m && k < 3) open *= 1 - sm(o0 + 0.082, o0 + 0.1, p);
+        if (g.m && k < 3) open *= 1 - sm(o0 + 0.072, o0 + 0.09, p);
         open *= 1 - back2;
-        const dim = (!g.m && k < 3 && !this.noDim) ? sm(o0 + 0.092, o0 + 0.112, p) * (1 - back2) : 0;
+        const dim = (!g.m && k < 3 && !this.noDim) ? sm(o0 + 0.08, o0 + 0.1, p) * (1 - back2) : 0;
         const ep = eo(open);
         const pos = lp(T, g.sceneP[k], ep);
         // finished scenes step back gently (slightly smaller, a touch lighter), never grey
@@ -623,19 +654,19 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
         } else spk.style.opacity = '0';
 
         // caption for this scene
-        const cEnd = k < 3 ? o0 + 0.1 : 0.885;
+        const cEnd = k < 3 ? o0 + 0.09 : 0.82;
         const co = sm(o0 + 0.012, o0 + 0.04, p) * (1 - sm(cEnd - 0.012, cEnd + 0.004, p));
         vis(this.capS[k], co);
         this.capS[k].style.transform = `translate3d(0,${(g.capS + 14 * (1 - co)).toFixed(1)}px,0) translateY(-50%)`;
       }
 
       // absorption caption
-      const ca = sm(0.285, 0.34, p) * (1 - sm(0.405, 0.44, p));
+      const ca = sm(0.285, 0.33, p) * (1 - sm(0.39, 0.415, p));
       vis(this.capA, ca);
-      this.capA.style.transform = `translate3d(0,${(g.capA + 18 * (1 - ca)).toFixed(1)}px,0)`;
+      this.capA.style.transform = `translate3d(0,${(g.capA + 18 * (1 - ca)).toFixed(1)}px,0) translateY(-50%)`;
 
       // close
-      const cl = sm(0.945, 0.99, p);
+      const cl = sm(0.885, 0.935, p);
       vis(this.close, cl);
       this.close.style.transform = `translate3d(0,${(g.closeTop + 26 * (1 - cl)).toFixed(1)}px,0)`;
       return { hero: ho, close: cl };
@@ -697,7 +728,7 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
   const syncNav = on => { if (on !== navOn) { navOn = on; navGet.classList.toggle('on', on); } };
 
   if (STATIC) {
-    const ps = innerWidth < 760 ? [0, 0.40, 0.53, 0.63, 0.73, 0.84, 1] : [0, 0.40, 0.875, 1];
+    const ps = innerWidth < 760 ? [0, 0.365, 0.47, 0.56, 0.65, 0.78, 1] : [0, 0.365, 0.80, 1];
     const stages = ps.map(p => {
       const s = document.createElement('div'); s.className = 'sticky'; story.appendChild(s);
       const st = new Stage(s); st.p = p; st.noDim = true; return st;
@@ -721,7 +752,7 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
   const live = true;
   const interactive = AT === null;
 
-  let yaw = REST_YAW, pitch = REST_PITCH, tYaw = 0, tPitch = 0, oYaw = 0, oPitch = 0;
+  let yaw = REST_YAW, pitch = REST_PITCH, tYaw = 0, tPitch = 0, oYaw = 0, oPitch = 0, tTx = 0, tTy = 0;
   let onScreen = true, raf = 0, last = 0, queued = false, idle = 0;
 
   const progress = () => {
@@ -751,6 +782,7 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
       idle += dt;
       if (sphereVisible(progress())) yaw += dt * 0.00016;
       oYaw += (tYaw - oYaw) * 0.08; oPitch += (tPitch - oPitch) * 0.08;
+      S.tilt[0] += (tTx - S.tilt[0]) * 0.06; S.tilt[1] += (tTy - S.tilt[1]) * 0.06;
       draw();
     }
     raf = next(tick);
@@ -775,6 +807,8 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
     if (interactive) addEventListener('pointermove', e => {
       tYaw = (e.clientX / innerWidth - 0.5) * 0.5;
       tPitch = (e.clientY / innerHeight - 0.5) * -0.22;
+      // the icon tile leans toward a mouse (desktop only): right of centre turns it right, above centre tips it up
+      if (e.pointerType === 'mouse') { tTx = clamp((e.clientX / innerWidth - 0.5) * 2, -1, 1); tTy = clamp((0.5 - e.clientY / innerHeight) * 2, -1, 1); }
       wake();
     }, { passive: true });
     wake();
