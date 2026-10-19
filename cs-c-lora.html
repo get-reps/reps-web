@@ -91,6 +91,8 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 /* sphere items */
 .item{position:absolute;left:0;top:0;will-change:transform,opacity;transform-origin:50% 50%;backface-visibility:hidden}
 .item img{width:100%;height:100%;object-fit:cover}
+/* depth is shown by scale and a cream wash laid over the item, never by making the item see-through */
+.item .wash{position:absolute;inset:-1px;border-radius:inherit;background:var(--cream);opacity:0;pointer-events:none;z-index:2}
 .it-book img{border-radius:3px 5px 5px 3px}
 .it-book{border-radius:3px 5px 5px 3px;box-shadow:0 1px 2px rgba(33,26,20,.18),0 18px 30px -14px rgba(33,26,20,.45)}
 .it-book::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(90deg,rgba(0,0,0,.18),rgba(255,255,255,.10) 4%,rgba(0,0,0,0) 9%)}
@@ -151,6 +153,8 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 .src{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:500;color:var(--ink-2)}
 .src img{border-radius:3px;box-shadow:0 6px 12px -6px rgba(33,26,20,.5)}
 .lora{font-family:var(--serif);font-style:normal;font-weight:600;color:var(--ink)}
+/* small source labels are small print: sans, the title in a heavier weight */
+.src .lora,.fc .s .lora{font-family:var(--sans);font-weight:600}
 
 .sc-xw{display:flex;flex-direction:column;align-items:center;gap:16px}
 .grid{display:grid;grid-template-columns:repeat(7,40px);grid-auto-rows:40px;gap:4px}
@@ -175,9 +179,10 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 
 .sc-feed{display:grid;gap:9px}
 .fc{display:flex;gap:13px;align-items:center;padding:11px 14px 11px 11px;border-radius:16px}
-.fc .th{flex:none;width:44px;display:flex;justify-content:center}
+.fc .th{flex:none;width:64px;display:flex;justify-content:center}
 .fc .th img{width:42px;height:auto;border-radius:3px;box-shadow:0 6px 12px -6px rgba(33,26,20,.5)}
-.fc .th img.w{width:44px;height:44px;object-fit:cover;border-radius:8px}
+/* a video keeps its 16:9 frame so the thumbnail's own lettering reads whole */
+.fc .th img.w{width:64px;height:36px;object-fit:cover;border-radius:6px}
 .fc .th .rule{width:42px;height:42px;border-radius:8px;background:#F4ECE2;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:19px;color:rgba(33,26,20,.55)}
 .fc .tx{min-width:0}
 .fc .s{font-size:11px;color:var(--ink-3);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -190,6 +195,14 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 .ring svg{position:absolute;inset:0}
 .ring .core{position:absolute;left:50%;top:50%;width:120px;height:120px;margin:-60px 0 0 -60px;border-radius:50%;
   background:radial-gradient(closest-side,rgba(255,210,125,.55),rgba(255,210,125,.16) 55%,rgba(255,210,125,0));will-change:transform,opacity}
+/* what today's round is made of: one real cover per arc, the third lights up as its arc fills */
+.sc-day{flex-direction:column;gap:14px}
+.ring .chips{position:absolute;left:50%;top:50%;display:flex;align-items:center;gap:7px;transform:translate(-50%,-50%)}
+.ring .chips img{display:block;box-shadow:0 8px 14px -8px rgba(33,26,20,.55)}
+.ring .chips .bk{width:30px;height:45px;border-radius:2px 3px 3px 2px}
+.ring .chips .sq{width:38px;height:38px;border-radius:8px}
+.ring .chips .c3{will-change:opacity}
+.day-lbl{font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2)}
 
 /* captions */
 .cap{position:absolute;left:50%;top:0;z-index:45;text-align:center;width:min(92vw,900px);margin-left:calc(min(92vw,900px) / -2);will-change:transform,opacity;pointer-events:none}
@@ -197,15 +210,17 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 .cap-a{font-size:clamp(24px,2.7vw,38px);font-weight:400;line-height:1.18;letter-spacing:-.015em;color:var(--ink-2)}
 .cap-a b{display:block;color:var(--ink);font-style:italic;font-weight:500;font-size:1.42em;letter-spacing:-.02em;line-height:1.05;margin-top:.14em}
 .cap-s{font-size:clamp(28px,3vw,46px);font-weight:500;line-height:1.12;letter-spacing:-.02em;color:var(--ink)}
+/* desktop: each title sits directly over its own scene, at a size that belongs to the scene */
+.cap-s.over{font-size:clamp(22px,1.95vw,30px)}
 
 /* close */
 .close{position:absolute;left:0;right:0;top:0;z-index:30;text-align:center;display:flex;flex-direction:column;align-items:center;will-change:transform,opacity}
 .close .cta{margin-top:40px}
-.close small{display:block;margin-top:16px;font-family:var(--serif);font-style:italic;font-size:16px;color:var(--ink-3);letter-spacing:0}
+.close small{display:block;margin-top:16px;font-family:var(--sans);font-size:14px;font-weight:500;color:var(--ink-3);letter-spacing:.01em}
 
 .after{padding:48px clamp(20px,5vw,72px) 56px;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--ink-3);border-top:1px solid var(--line)}
 .after .wordmark{font-size:15px;color:var(--ink)}
-.after .fine{font-family:var(--serif);font-style:italic;font-size:15px}
+.after .fine{font-family:var(--sans);font-size:13px}
 
 @media (max-width:759px){
   .nav{height:64px}
@@ -296,7 +311,13 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
           <g class="arcs" fill="none" stroke-width="11" stroke-linecap="round"></g>
         </svg>
         <div class="core"></div>
+        <div class="chips" aria-hidden="true">
+          <img class="bk" src="product/assets/covers/1984.jpg" alt="">
+          <img class="sq" src="product/assets/covers/podcast-huberman-lab.jpg" alt="">
+          <img class="bk c3" src="product/assets/covers/thinking-fast-and-slow.jpg" alt="">
+        </div>
       </div>
+      <p class="day-lbl">Today’s round</p>
     </div>
 
     <p class="cap cap-a">Everything you read, watch and listen to.<b>Retained.</b></p>
@@ -308,7 +329,7 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
     <div class="close">
       <h2>Turn what you save into what you <em>know</em>.</h2>
       <a class="cta" href="https://apps.apple.com/app/id6744420866">Download on the App Store</a>
-      <small>Free on the App Store</small>
+      <small>Free on iPhone</small>
     </div>
   </div>
 </template>
@@ -357,13 +378,13 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
   const CARDS = [
     {k:'art',  pub:'The Atlantic', ttl:'Is Google Making Us Stupid?'},
     {k:'qc',   qt:'Who controls the past controls the future.', by:'George Orwell · 1984'},
-    {k:'pdf',  ttl:'Attention Is All You Need', by:'Vaswani et al. · 2017'},
+    {k:'pdf',  ttl:'The Art of War', by:'Sun Tzu'},
     {k:'art',  pub:'The New Yorker', ttl:'Why Facts Don’t Change Our Minds'},
     {k:'note', tx:'Ask Dad what he thinks about the wheat bit in Sapiens.'},
     {k:'hl',   qt:'You do not rise to the level of your goals. You fall to the level of your systems.', by:'James Clear · Atomic Habits'},
-    {k:'art',  pub:'Paul Graham', ttl:'How to Do Great Work'},
+    {k:'qc',   qt:'Stay hungry. Stay foolish.', by:'Steve Jobs · Stanford, 2005'},
     {k:'shot'},
-    {k:'art',  pub:'Wait But Why', ttl:'The Tail End', au:'Tim Urban'},
+    {k:'art',  pub:'TED', ttl:'Do Schools Kill Creativity?', au:'Ken Robinson'},
     {k:'qc',   qt:'The unexamined life is not worth living.', by:'Socrates, via Plato’s Apology', sz:[158, 116]},
   ];
   // 18 on the sphere, every one unique: the eight real covers (Diary of a CEO removed) and ten paper pieces.
@@ -396,8 +417,8 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
   const eio = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
   const back = t => { const c = 1.45; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
 
-  // timeline (round 2): the nodes leave as the last cover lands and the first scene opens at 0.42, so there is no empty stretch
-  const SCENE_OPEN = [0.42, 0.51, 0.60, 0.69];
+  // timeline: the lights leave as the last cover lands and the first scene opens at 0.40, straight after the absorption caption, so there is no bare stretch
+  const SCENE_OPEN = [0.40, 0.49, 0.58, 0.67];
 
   function geo(w, h, heroH = 180, closeH = 190) {
     const m = w < 760;
@@ -429,7 +450,8 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
     return { m, k: 1, heroTop, heroC, R, persp: 800, iSc: 0.54 * clamp(R / 128, 0.9, 1.12),
       iconA: [w / 2, h * 0.47], iconS, iconC, iconSize: 92,
       nodeT, sceneP: nodeT.map(() => [w / 2, h * 0.69]), sceneSc: Math.min(1, (w - 30) / 340),
-      capA: h * 0.17, capS: h * 0.155, closeTop: iconC[1] + 46 + 34 };
+      // captions keep a clear band under the top bar on short phones
+      capA: Math.max(h * 0.17, 132), capS: Math.max(h * 0.155, 116), closeTop: iconC[1] + 46 + 34 };
   }
 
   function itemSize(it) {
@@ -508,9 +530,12 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
         }
         const [w, h] = itemSize(it);
         el.style.width = w + 'px'; el.style.height = h + 'px';
+        const wash = document.createElement('i'); wash.className = 'wash'; el.appendChild(wash);
         wrap.appendChild(el);
         return el;
       });
+      this.washes = this.items.map(el => el.querySelector('.wash'));
+      this.chip3 = q('.ring .chips .c3');
       this.measure();
     }
     measure() {
@@ -520,6 +545,7 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
       // phone: the hero's top comes from the composition (desktop keeps its CSS centring)
       this.hero.style.top = this.g.heroTop != null ? this.g.heroTop.toFixed(1) + 'px' : '';
       this.svg.setAttribute('viewBox', `0 0 ${this.w} ${this.h}`);
+      this.capS.forEach(c => c.classList.toggle('over', !this.g.m));
       this.sceneWH = this.scenes.map(el => [el.offsetWidth, el.offsetHeight]);
     }
     render(p, yaw, pitch, t = 0) {
@@ -537,12 +563,13 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
       this.hero.style.transform = `translate3d(0,${heroY - 46 * (1 - ho)}px,0)`;
 
       // icon path
-      let ic = g.m ? lp(g.iconA, g.iconS, eio(sm(0.365, 0.415, p))) : g.iconA;
-      ic = lp(ic, g.iconC, eio(sm(0.86, 0.91, p)));
+      let ic0 = g.m ? lp(g.iconA, g.iconS, eio(sm(0.365, 0.415, p))) : g.iconA;
+      ic0 = lp(ic0, g.iconC, eio(sm(0.86, 0.91, p)));
 
-      // sphere + absorption
+      // sphere + absorption: the icon is born at the sphere's centre and travels with it, so it never reads as a second object
       const drift = eio(sm(0.07, 0.31, p));
-      const sc = lp(g.heroC, ic, drift);
+      const sc = lp(g.heroC, ic0, drift);
+      const ic = sc;
       const R = g.R * (1 - 0.32 * drift);
       const bodyO = 1 - sm(0.09, 0.26, p);
       vis(this.orb, bodyO); vis(this.floor, bodyO);
@@ -561,7 +588,9 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
         const depth = (z2 + 1) / 2;
         const sx = sc[0] + X * s, sy2 = sc[1] + Y * s;
         let scale = s * g.iSc * (0.62 + 0.38 * depth) * FIT[i];
-        let op = 0.26 + 0.74 * Math.pow(depth, 1.4);
+        // front-facing items are fully opaque and recede under a cream wash; only back-facing items fade
+        let op = 0.25 + 0.75 * sm(0.05, 0.38, depth);
+        let wash = 0.8 * Math.pow(1 - depth, 1.3);
         let px = sx, py = sy2, z = 1 + Math.round(depth * 28), rot = -x1 * 24;
         const st = ABS0 + RANK[i] * ABS_STEP, arr = st + ABS_DUR;
         const t = clamp((p - st) / ABS_DUR);
@@ -577,13 +606,15 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
           py = u * u * sy2 + 2 * u * e * c1[1] + e * e * ic[1];
           scale = lerp(scale, 0.1 * g.iSc, Math.pow(t, 1.4));
           op = lerp(op, 1, Math.min(1, t * 2.5)) * (1 - sm(0.72, 1, t));
+          wash = lerp(wash, 0, Math.min(1, t * 2.5));
           rot *= (1 - t);
           z = 30;
         }
         if (p >= arr) { const x = (p - arr) / 0.003; pulse = Math.max(pulse, x * Math.exp(1 - x)); }
         if (t >= 1) { el.style.visibility = 'hidden'; continue; }
         el.style.visibility = 'visible';
-        el.style.opacity = op.toFixed(3);
+        el.style.opacity = op >= 0.999 ? '1' : op.toFixed(3);
+        this.washes[i].style.opacity = wash.toFixed(3);
         el.style.zIndex = z;
         el.style.transform = `translate3d(${px.toFixed(1)}px,${py.toFixed(1)}px,0) translate(-50%,-50%) rotateY(${rot.toFixed(2)}deg) scale(${scale.toFixed(4)})`;
       }
@@ -620,16 +651,18 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
       const back2 = sm(0.82, 0.86, p);         // scenes fold back into nodes
       const retract = sm(0.845, 0.885, p);        // nodes return to the icon
       for (let k = 0; k < 4; k++) {
-        const out = eo(sm(0.37 + 0.012 * k, 0.42 + 0.012 * k, p));
+        const out = eo(sm(0.366 + 0.012 * k, 0.405 + 0.012 * k, p));
         const T = g.nodeT[k];
         let np = lp(ic, T, out);
-        const no = out * (1 - sm(0.6, 1, retract));
+        let no = out * (1 - sm(0.6, 1, retract));
         const node = this.nodes[k], line = this.lines[k];
 
         // scene
         const o0 = SCENE_OPEN[k];
         let open = sm(o0, o0 + 0.045, p);
         if (g.m && k < 3) open *= 1 - sm(o0 + 0.072, o0 + 0.09, p);
+        // phone shows one scene at a time: after the first one opens, a light only shows while its own scene does
+        if (g.m) no *= Math.max(1 - sm(SCENE_OPEN[0], SCENE_OPEN[0] + 0.03, p), sm(0, 0.3, open));
         open *= 1 - back2;
         const dim = (!g.m && k < 3 && !this.noDim) ? sm(o0 + 0.08, o0 + 0.1, p) * (1 - back2) : 0;
         const ep = eo(open);
@@ -667,14 +700,22 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
         } else spk.style.opacity = '0';
 
         // caption for this scene
-        const cEnd = k < 3 ? o0 + 0.09 : 0.82;
+        // phone: one title at a time in the top band. desktop: each title stays directly over its own scene and steps back with it
+        const cEnd = g.m && k < 3 ? o0 + 0.09 : 0.82;
         const co = sm(o0 + 0.012, o0 + 0.04, p) * (1 - sm(cEnd - 0.012, cEnd + 0.004, p));
-        vis(this.capS[k], co);
-        this.capS[k].style.transform = `translate3d(0,${(g.capS + 14 * (1 - co)).toFixed(1)}px,0) translateY(-50%)`;
+        if (g.m) {
+          vis(this.capS[k], co);
+          this.capS[k].style.transform = `translate3d(0,${(g.capS + 14 * (1 - co)).toFixed(1)}px,0) translateY(-50%)`;
+        } else {
+          const P = g.sceneP[k], H = this.sceneWH[k][1];
+          const top = P[1] - H * g.sceneSc * (1 - 0.07 * dim) / 2 - 16 * g.k;
+          vis(this.capS[k], co * (1 - 0.3 * dim));
+          this.capS[k].style.transform = `translate3d(${(P[0] - w / 2).toFixed(1)}px,${(top + 12 * (1 - co)).toFixed(1)}px,0) translateY(-100%)`;
+        }
       }
 
       // absorption caption
-      const ca = sm(0.285, 0.33, p) * (1 - sm(0.39, 0.415, p));
+      const ca = sm(0.285, 0.33, p) * (1 - sm(0.38, 0.405, p));
       vis(this.capA, ca);
       this.capA.style.transform = `translate3d(0,${(g.capA + 18 * (1 - ca)).toFixed(1)}px,0) translateY(-50%)`;
 
@@ -728,6 +769,7 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
         this.ringFill.style.opacity = f > 0.002 ? 1 : 0;
         this.ringCore.style.opacity = (0.35 + 0.65 * glow).toFixed(3);
         this.ringCore.style.transform = `scale(${(0.85 + 0.2 * glow).toFixed(3)})`;
+        this.chip3.style.opacity = (0.5 + 0.5 * f).toFixed(3);
       }
     }
   }
@@ -741,7 +783,7 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
   const syncNav = on => { if (on !== navOn) { navOn = on; navGet.classList.toggle('on', on); } };
 
   if (STATIC) {
-    const ps = innerWidth < 760 ? [0, 0.365, 0.47, 0.56, 0.65, 0.78, 1] : [0, 0.365, 0.80, 1];
+    const ps = innerWidth < 760 ? [0, 0.365, 0.45, 0.54, 0.63, 0.76, 1] : [0, 0.365, 0.80, 1];
     const stages = ps.map(p => {
       const s = document.createElement('div'); s.className = 'sticky'; story.appendChild(s);
       const st = new Stage(s); st.p = p; st.noDim = true; return st;
