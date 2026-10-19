@@ -992,6 +992,31 @@ html.still .v-card{scroll-snap-align:center}
   };
   const sphereVisible = p => p < 0.37;
 
+  // a gentle settle on desktop (mouse/trackpad only, never touch): when scrolling stops partway between two scenes,
+  // the page eases onto the nearer one, the moment that scene is fully open. Native scroll throughout, no wheel capture;
+  // it only acts in the scene stretch, only for short distances, and any new input wins. ?static=1 and captures skip it.
+  if (FINE && interactive && !SETTLE && !STATIC) {
+    const BEATS = SCENE_OPEN.map(o => o + 0.05);
+    let settleT = 0, settling = false;
+    const cancel = () => { clearTimeout(settleT); settling = false; };
+    ['wheel', 'keydown', 'pointerdown'].forEach(ev => addEventListener(ev, cancel, { passive: true }));
+    addEventListener('scroll', () => {
+      clearTimeout(settleT);
+      if (settling) return;
+      settleT = setTimeout(() => {
+        const p = progress();
+        if (p < BEATS[0] - 0.04 || p > BEATS[3] + 0.04) return;
+        const span = story.offsetHeight - innerHeight;
+        const near = BEATS.reduce((a, b) => Math.abs(b - p) < Math.abs(a - p) ? b : a);
+        const dy = (near - p) * span;
+        if (Math.abs(dy) < 6 || Math.abs(dy) > innerHeight * 0.45) return;
+        settling = true;
+        scrollTo({ top: scrollY + dy, behavior: 'smooth' });
+        setTimeout(() => { settling = false; }, 900);
+      }, 220);
+    }, { passive: true });
+  }
+
   let heroO = 1;
   function draw() {
     heroO = S.render(progress(), yaw + oYaw, pitch + oPitch, idle / 1000).hero;
