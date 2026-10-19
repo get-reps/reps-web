@@ -1,0 +1,597 @@
+<!doctype html>
+<!--
+CONCEPT NOTE (cs-c, founder storyboard)
+1. Idea: everything you take in is pulled into one place, and comes back out as play.
+2. Hero: "Turn media into knowledge." at rest beside a slowly turning sphere of real covers and code-drawn article cards.
+3. Signature motion, part one: scroll pulls each cover off the sphere and down a curved path into the REPS icon, one by one, each arrival a small pulse.
+4. Part two: points of warm light travel out of the icon on thin lines and open into four scenes made from what went in.
+5. Scenes: a 1984 crossword fragment, a Huberman Lab trivia card, a three-card feed of ideas, a daily round arc "3 minutes today".
+6. Close: the scenes fold back into light, the light into the icon, and the headline returns with the one coral action.
+7. Words: one line per screen at most; REPS says under forty words of its own, everything else is the material.
+8. Motion is on by default; the sphere ticks at 30 fps only while it is on screen and the tab is visible; everything else follows scroll.
+9. Refused: phone frames, app screenshots, a knowledge graph, feature lists, testimonials, numbers, the manifesto (it made the page long).
+10. Flags: ?static=1 static page, ?motion=1 settled frame for capture, &at=0..1 pins the story progress.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>REPS · Turn media into knowledge.</title>
+<meta name="description" content="Save what you read, watch and listen to. REPS turns it into short daily games, so it stays with you. Free on the App Store.">
+<meta name="theme-color" content="#FFFAF7">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FFFAF7; --ink:#211A14; --ink-2:rgba(33,26,20,.62); --ink-3:rgba(33,26,20,.42);
+  --line:rgba(33,26,20,.10); --paper:#FFFDFB; --gold:#D4A24E; --glow:#FFD27D; --teal:#2D8377;
+  --sans:"Space Grotesk",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --serif:"Lora",Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--cream);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+a{color:inherit;text-decoration:none}
+img{display:block}
+
+/* nav */
+.nav{position:fixed;inset:0 0 auto 0;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(20px,5vw,72px);z-index:50;pointer-events:none}
+.nav>*{pointer-events:auto}
+.wordmark{font-weight:700;font-size:20px;letter-spacing:.14em}
+.nav-get{font-size:14px;font-weight:500;padding:9px 16px;border:1px solid rgba(33,26,20,.22);border-radius:999px;transition:background .2s,color .2s}
+.nav-get:hover{background:var(--ink);color:var(--cream)}
+
+/* the one action */
+.cta{display:inline-flex;align-items:center;justify-content:center;height:56px;padding:0 30px;border-radius:999px;
+  background:linear-gradient(100deg,#FF6B6B 0%,#FF8E53 100%);color:#fff;font-weight:600;font-size:16px;letter-spacing:.005em;
+  box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 14px 34px -14px rgba(255,107,107,.75);transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s}
+.cta:hover{transform:translateY(-2px);box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 20px 40px -14px rgba(255,107,107,.85)}
+
+/* story */
+.story{position:relative;height:780vh}
+.sticky{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+.stage{position:absolute;inset:0;perspective:1400px}
+html.pinned .story{height:100vh}
+html.pinned body{overflow:hidden}
+html.pinned .after{display:none}
+html.static .story{height:auto}
+html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960px)}
+
+.lines{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
+.lines line{stroke:rgba(214,164,82,.62);stroke-width:1.2;stroke-linecap:round}
+.halo{position:absolute;left:0;top:0;width:560px;height:560px;margin:-280px 0 0 -280px;border-radius:50%;z-index:1;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(255,210,125,.42),rgba(255,210,125,.14) 45%,rgba(255,210,125,0) 100%)}
+
+/* hero */
+.hero{position:absolute;z-index:45;left:clamp(24px,7.8vw,140px);top:50%;width:min(46vw,720px)}
+.eyebrow{font-size:13px;font-weight:600;letter-spacing:.24em;color:var(--ink-2);margin-bottom:26px}
+.hero h1,.close h2{font-weight:700;letter-spacing:-.04em;line-height:.95;font-size:clamp(40px,5.9vw,88px)}
+.hero .cta{margin-top:44px}
+
+/* the sphere's body: a soft volume and a shadow on the ground */
+.orb,.floor{position:absolute;left:0;top:0;width:100px;height:100px;border-radius:50%;pointer-events:none;will-change:transform,opacity}
+.orb{background:radial-gradient(closest-side,rgba(248,232,216,.62),rgba(248,232,216,.3) 50%,rgba(248,232,216,.08) 78%,rgba(248,232,216,0))}
+.floor{background:radial-gradient(closest-side,rgba(33,26,20,.11),rgba(33,26,20,.045) 55%,rgba(33,26,20,0))}
+/* sphere items */
+.item{position:absolute;left:0;top:0;will-change:transform,opacity;transform-origin:50% 50%;backface-visibility:hidden}
+.item img{width:100%;height:100%;object-fit:cover}
+.it-book img{border-radius:3px 5px 5px 3px}
+.it-book{border-radius:3px 5px 5px 3px;box-shadow:0 1px 2px rgba(33,26,20,.18),0 18px 30px -14px rgba(33,26,20,.45)}
+.it-book::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(90deg,rgba(0,0,0,.18),rgba(255,255,255,.10) 4%,rgba(0,0,0,0) 9%)}
+.it-pod,.it-pod img{border-radius:12px}
+.it-pod{box-shadow:0 1px 2px rgba(33,26,20,.16),0 16px 28px -14px rgba(33,26,20,.42)}
+.it-vid,.it-vid img{border-radius:10px}
+.it-vid{box-shadow:0 1px 2px rgba(33,26,20,.16),0 16px 28px -14px rgba(33,26,20,.42)}
+.it-art,.it-hl{border-radius:12px;padding:12px 13px;background:var(--paper);border:1px solid var(--line);box-shadow:0 1px 2px rgba(33,26,20,.06),0 16px 28px -16px rgba(33,26,20,.35);display:flex;flex-direction:column;justify-content:space-between}
+.it-art .pub{font-size:8.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.it-art .ttl{font-family:var(--serif);font-weight:600;font-size:14px;line-height:1.18;color:var(--ink)}
+.it-hl{background:#FBF2E8;border-color:rgba(212,162,78,.28)}
+.it-hl .qt{font-family:var(--serif);font-style:italic;font-size:12.5px;line-height:1.32;color:var(--ink)}
+.it-hl .by{font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(160,112,40,.9)}
+
+/* icon */
+.icon{position:absolute;left:0;top:0;z-index:40;width:112px;height:112px;border-radius:27px;overflow:hidden;will-change:transform,opacity;
+  box-shadow:0 2px 4px rgba(4,4,9,.18),0 26px 50px -18px rgba(4,4,9,.55),0 0 0 1px rgba(4,4,9,.08)}
+.icon img{width:100%;height:100%}
+
+/* nodes of light */
+.node{position:absolute;left:0;top:0;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;z-index:6;will-change:transform,opacity;
+  background:#fff;box-shadow:0 0 0 2px rgba(255,236,196,.9),0 0 14px 5px rgba(255,210,125,.85),0 0 46px 16px rgba(255,190,110,.35)}
+
+/* scenes */
+.scene{position:absolute;left:0;top:0;width:340px;z-index:10;will-change:transform,opacity;transform-origin:50% 50%}
+.src{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:500;color:var(--ink-2)}
+.src img{border-radius:3px;box-shadow:0 6px 12px -6px rgba(33,26,20,.5)}
+.lora{font-family:var(--serif);font-style:normal;font-weight:600;color:var(--ink)}
+
+.sc-xw{display:flex;flex-direction:column;align-items:center;gap:16px}
+.grid{display:grid;grid-template-columns:repeat(7,40px);grid-auto-rows:40px;gap:4px}
+.cell{position:relative;border-radius:7px}
+.cell.t{background:var(--paper);border:1px solid rgba(33,26,20,.13);box-shadow:0 1px 0 rgba(33,26,20,.06),0 10px 18px -12px rgba(33,26,20,.35);
+  display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:600;font-size:21px;color:var(--ink)}
+.cell.hot{background:#FBEED4;border-color:rgba(212,162,78,.6)}
+.cell i{position:absolute;left:4px;top:2px;font-family:var(--sans);font-style:normal;font-size:8.5px;font-weight:600;color:var(--ink-3)}
+.clue{font-size:13px;color:var(--ink-2)}
+.clue b{color:var(--ink);font-weight:600;margin-right:6px}
+
+.card{background:var(--paper);border:1px solid var(--line);border-radius:22px;box-shadow:0 1px 2px rgba(33,26,20,.05),0 30px 60px -30px rgba(33,26,20,.45)}
+.sc-tv .card{padding:20px 20px 18px}
+.sc-tv .src img{width:40px;height:40px;border-radius:9px}
+.q{font-size:17px;font-weight:600;line-height:1.28;letter-spacing:-.01em;margin:16px 0 14px}
+.ans{list-style:none;display:grid;gap:7px}
+.ans li{height:38px;border-radius:12px;border:1px solid rgba(33,26,20,.12);display:flex;align-items:center;justify-content:space-between;padding:0 14px;font-size:14px;font-weight:500;color:var(--ink-2)}
+.ans li.on{background:var(--teal);border-color:var(--teal);color:#fff;box-shadow:0 12px 22px -12px rgba(45,131,119,.8)}
+.ans li.on::after{content:"";width:14px;height:8px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:translateY(-2px) rotate(-45deg)}
+
+.sc-feed{display:grid;gap:9px}
+.fc{display:flex;gap:13px;align-items:center;padding:11px 14px 11px 11px;border-radius:16px}
+.fc .th{flex:none;width:44px;display:flex;justify-content:center}
+.fc .th img{width:42px;height:auto;border-radius:3px;box-shadow:0 6px 12px -6px rgba(33,26,20,.5)}
+.fc .th img.w{width:44px;height:44px;object-fit:cover;border-radius:8px}
+.fc .th .rule{width:42px;height:42px;border-radius:8px;background:#F4ECE2;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:19px;color:rgba(33,26,20,.55)}
+.fc .tx{min-width:0}
+.fc .s{font-size:11px;color:var(--ink-3);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fc .s .lora{font-size:11.5px;color:var(--ink-2)}
+.fc .i{font-size:14px;font-weight:500;line-height:1.3;color:var(--ink)}
+
+.sc-day{display:flex;align-items:center;justify-content:center}
+.ring{position:relative;width:216px;height:216px}
+.ring svg{position:absolute;inset:0}
+.ring .c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring .c b{font-size:66px;font-weight:700;letter-spacing:-.05em;line-height:1}
+.ring .c span{font-size:14px;font-weight:500;color:var(--ink-2);margin-top:6px}
+
+/* captions */
+.cap{position:absolute;left:50%;top:0;z-index:45;text-align:center;width:min(92vw,900px);margin-left:calc(min(92vw,900px) / -2);will-change:transform,opacity;pointer-events:none}
+.cap-a{font-size:clamp(24px,3vw,42px);font-weight:500;line-height:1.12;letter-spacing:-.025em;color:var(--ink-2)}
+.cap-a b{display:block;color:var(--ink);font-weight:700;font-size:1.32em;letter-spacing:-.04em;margin-top:.12em}
+.cap-s{font-size:clamp(21px,2.2vw,32px);font-weight:600;letter-spacing:-.025em}
+
+/* close */
+.close{position:absolute;left:0;right:0;top:0;z-index:30;text-align:center;display:flex;flex-direction:column;align-items:center;will-change:transform,opacity}
+.close .cta{margin-top:40px}
+.close small{display:block;margin-top:16px;font-size:14px;color:var(--ink-3);letter-spacing:.01em}
+
+.after{padding:48px clamp(20px,5vw,72px) 56px;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--ink-3);border-top:1px solid var(--line)}
+.after .wordmark{font-size:15px;color:var(--ink)}
+
+@media (max-width:759px){
+  .nav{height:64px}
+  .wordmark{font-size:17px}
+  .nav-get{font-size:13px;padding:7px 13px}
+  .hero{left:24px;right:24px;width:auto;top:13svh}
+  .eyebrow{font-size:11px;letter-spacing:.22em;margin-bottom:16px}
+  .hero h1,.close h2{font-size:clamp(34px,10.3vw,46px)}
+  .hero .cta{margin-top:26px}
+  .cta{height:52px;padding:0 26px;font-size:15px}
+  .icon{width:92px;height:92px;border-radius:22px}
+  .close .cta{margin-top:28px}
+  .cap-a{width:310px;margin-left:-155px;font-size:25px}
+  .after{flex-direction:column;gap:10px}
+}
+</style>
+</head>
+<body>
+<header class="nav">
+  <a class="wordmark" href="#" aria-label="REPS home">REPS</a>
+  <a class="nav-get" href="https://apps.apple.com/app/id6744420866">Get the app</a>
+</header>
+
+<main>
+  <section class="story" id="story" aria-label="Turn media into knowledge"></section>
+</main>
+
+<footer class="after">
+  <span class="wordmark">REPS</span>
+  <span>Free on the App Store · iPhone</span>
+</footer>
+
+<template id="tpl">
+  <div class="stage">
+    <div class="halo"></div>
+    <svg class="lines" aria-hidden="true">
+      <line/><line/><line/><line/>
+    </svg>
+    <div class="orb"></div><div class="floor"></div>
+    <div class="items"></div>
+
+    <div class="hero">
+      <p class="eyebrow">YOUR KNOWLEDGE COMPANION</p>
+      <h1>Turn media<br>into knowledge.</h1>
+      <a class="cta" href="https://apps.apple.com/app/id6744420866">Download on the App Store</a>
+    </div>
+
+    <div class="icon"><img src="product/assets/app-icon.png" alt="REPS"></div>
+
+    <div class="node"></div><div class="node"></div><div class="node"></div><div class="node"></div>
+
+    <!-- 0: word game from 1984 -->
+    <div class="scene sc-xw" aria-label="A crossword made from 1984">
+      <div class="src"><img src="product/assets/covers/1984.jpg" alt="" width="22" height="33"><span>From <span class="lora">1984</span></span></div>
+      <div class="grid"></div>
+      <p class="clue"><b>1 Across</b>Orwell’s man at the Ministry of Truth</p>
+    </div>
+
+    <!-- 1: trivia from a podcast -->
+    <div class="scene sc-tv" aria-label="A trivia question from Huberman Lab">
+      <div class="card">
+        <div class="src"><img src="product/assets/covers/podcast-huberman-lab.jpg" alt=""><span>Huberman Lab</span></div>
+        <p class="q">Within an hour of waking, Huberman says to get…</p>
+        <ul class="ans"><li>Your first coffee</li><li class="on">Morning sunlight</li><li>Your inbox cleared</li></ul>
+      </div>
+    </div>
+
+    <!-- 2: a feed of ideas, one per medium -->
+    <div class="scene sc-feed" aria-label="A feed of ideas from what you saved">
+      <div class="fc card"><div class="th"><img src="product/assets/covers/thinking-fast-and-slow.jpg" alt=""></div>
+        <div class="tx"><p class="s"><span class="lora">Thinking, Fast and Slow</span></p><p class="i">Your mind runs two systems: one fast, one deliberate.</p></div></div>
+      <div class="fc card"><div class="th"><img class="w" src="product/assets/covers/video-veritasium-entropy.jpg" alt=""></div>
+        <div class="tx"><p class="s">Veritasium · video</p><p class="i">The Sun gives Earth more than energy. It gives low entropy.</p></div></div>
+      <div class="fc card"><div class="th"><span class="rule">“</span></div>
+        <div class="tx"><p class="s">The Atlantic · <span class="lora">Is Google Making Us Stupid?</span></p><p class="i">The web trains us to skim, at the cost of deep reading.</p></div></div>
+    </div>
+
+    <!-- 3: the daily round -->
+    <div class="scene sc-day" aria-label="Three minutes today">
+      <div class="ring">
+        <svg viewBox="0 0 216 216" aria-hidden="true">
+          <defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E9BC63"/><stop offset="1" stop-color="#C9923E"/></linearGradient></defs>
+          <g class="arcs" fill="none" stroke-width="11" stroke-linecap="round"></g>
+        </svg>
+        <div class="c"><b>3</b><span>minutes today</span></div>
+      </div>
+    </div>
+
+    <p class="cap cap-a">Everything you read, watch and listen to.<b>Retained.</b></p>
+    <p class="cap cap-s">Your books become word games.</p>
+    <p class="cap cap-s">Your podcasts become trivia.</p>
+    <p class="cap cap-s">A feed worth remembering.</p>
+    <p class="cap cap-s">One short round a day.</p>
+
+    <div class="close">
+      <h2>Turn media into knowledge.</h2>
+      <a class="cta" href="https://apps.apple.com/app/id6744420866">Download on the App Store</a>
+      <small>Free on the App Store</small>
+    </div>
+  </div>
+</template>
+
+<script>
+(() => {
+  const Q = new URLSearchParams(location.search);
+  const STATIC = Q.get('static') === '1';
+  const SETTLE = Q.get('motion') === '1';
+  const AT = Q.has('at') ? Math.min(1, Math.max(0, parseFloat(Q.get('at')) || 0)) : null;
+  const root = document.documentElement;
+  if (AT !== null) root.classList.add('pinned');
+  if (STATIC) root.classList.add('static');
+
+  const C = 'product/assets/covers/';
+  const B = (src, a) => ({k:'book', src, a});
+  const COVERS = [
+    B('sapiens.jpg', 400/604), {k:'pod', src:'podcast-huberman-lab.jpg'}, {k:'vid', src:'video-kurzgesagt-the-egg.jpg'},
+    B('1984.jpg', 400/600), {k:'pod', src:'podcast-the-daily.jpg'}, B('atomic-habits.jpg', 400/604),
+    {k:'vid', src:'video-veritasium-entropy.jpg'}, {k:'pod', src:'podcast-diary-of-a-ceo.jpg'}, B('thinking-fast-and-slow.jpg', 400/593),
+  ];
+  const CARDS = [
+    {k:'art', pub:'The Atlantic', ttl:'Is Google Making Us Stupid?'},
+    {k:'hl',  qt:'Who controls the past controls the future.', by:'1984'},
+    {k:'art', pub:'Wait But Why', ttl:'The Tail End'},
+    {k:'art', pub:'The New Yorker', ttl:'Why Facts Don’t Change Our Minds'},
+    {k:'hl',  qt:'You do not rise to the level of your goals. You fall to the level of your systems.', by:'Atomic Habits'},
+    {k:'art', pub:'Paul Graham', ttl:'How to Do Great Work'},
+    {k:'art', pub:'Harvard Business Review', ttl:'Managing Oneself'},
+  ];
+  // 36 on the sphere: each real cover three times, a code-drawn card every fourth slot
+  const ITEMS = [];
+  for (let i = 0, c = 0, k = 0; i < 36; i++) ITEMS.push(i % 4 === 2 ? CARDS[k++ % CARDS.length] : COVERS[(c++ * 4) % COVERS.length]);
+  const N = ITEMS.length;
+  // order in which the icon pulls them in (front-ish first, mixed media)
+  // a fixed shuffle so books, podcasts, videos and articles arrive interleaved
+  const ORDER = Array.from({length: N}, (_, i) => i).sort((a, b) => ((a * 7919) % 31) - ((b * 7919) % 31));
+  const RANK = new Array(N); ORDER.forEach((i, r) => RANK[i] = r);
+  const ABS0 = 0.085, ABS_DUR = 0.065, ABS_STEP = (0.30 - ABS0) / (N - 1);
+
+  // Fibonacci sphere
+  const DIRS = ITEMS.map((_, i) => {
+    const y = 1 - (i + 0.5) / N * 2, r = Math.sqrt(1 - y * y), th = i * Math.PI * (3 - Math.sqrt(5));
+    return [Math.cos(th) * r, y * 0.92, Math.sin(th) * r];
+  });
+
+  const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const lp = (A, B, t) => [lerp(A[0], B[0], t), lerp(A[1], B[1], t)];
+  const sm = (a, b, x) => { const t = clamp((x - a) / (b - a)); return t * t * (3 - 2 * t); };
+  const eo = t => 1 - Math.pow(1 - t, 3);
+  const ei = t => t * t * t;
+  const eio = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  const back = t => { const c = 1.45; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
+
+  const SCENE_OPEN = [0.48, 0.58, 0.68, 0.78];
+
+  function geo(w, h) {
+    const m = w < 760;
+    if (!m) {
+      const k = Math.min(1.05, Math.max(0.78, Math.min(h / 900, w / 1440)));
+      const icon = [w / 2, h * 0.47];
+      const dx = Math.min(w * 0.275, 410), dy = h * 0.235;
+      const sp = [[-dx, -dy], [dx, -dy], [-dx, dy], [dx, dy]].map(d => [icon[0] + d[0], icon[1] + d[1]]);
+      return { m, k, heroC: [w * 0.725, h * 0.52], R: Math.min(h * 0.3, w * 0.18), persp: 1000, iSc: k * 0.6,
+        iconA: icon, iconS: icon, iconC: [w / 2, h * 0.31], iconSize: 112,
+        nodeT: sp, sceneP: sp, sceneSc: k * 0.98,
+        capA: icon[1] + 150, capS: h * 0.905, closeTop: h * 0.31 + 56 + 44 };
+    }
+    const iconS = [w / 2, h * 0.17];
+    const rr = 74;
+    const nodeT = [[-1, -0.35], [1, -0.35], [-1, 0.75], [1, 0.75]].map(d => [iconS[0] + d[0] * rr * 1.25, iconS[1] + d[1] * rr]);
+    return { m, k: 1, heroC: [w / 2, h * 0.675], R: Math.min(w * 0.35, h * 0.175), persp: 800, iSc: 0.4,
+      iconA: [w / 2, h * 0.36], iconS, iconC: [w / 2, h * 0.33], iconSize: 92,
+      nodeT, sceneP: nodeT.map(() => [w / 2, h * 0.555]), sceneSc: Math.min(1, (w - 36) / 340),
+      capA: h * 0.36 + 118, capS: h * 0.85, closeTop: h * 0.33 + 46 + 34 };
+  }
+
+  function itemSize(it) {
+    if (it.k === 'book') return [112 * it.a, 112];
+    if (it.k === 'pod') return [90, 90];
+    if (it.k === 'vid') return [150, 84];
+    if (it.k === 'art') return [138, 92];
+    return [144, 100];
+  }
+
+  class Stage {
+    constructor(host) {
+      host.appendChild(document.getElementById('tpl').content.cloneNode(true));
+      const q = s => host.querySelector(s), qa = s => [...host.querySelectorAll(s)];
+      this.host = host;
+      this.hero = q('.hero'); this.icon = q('.icon'); this.halo = q('.halo'); this.close = q('.close');
+      this.orb = q('.orb'); this.floor = q('.floor');
+      this.svg = q('.lines'); this.lines = qa('.lines line'); this.nodes = qa('.node');
+      this.scenes = qa('.scene'); this.capA = q('.cap-a'); this.capS = qa('.cap-s');
+      // crossword: 1984 fragment
+      const rows = ['.B...R.', 'WINSTON', '.G...O.', '.....M.'];
+      const nums = { '1,0': 1, '0,1': 2, '0,5': 3 };
+      const grid = q('.grid');
+      rows.forEach((r, ri) => [...r].forEach((ch, ci) => {
+        const d = document.createElement('div');
+        d.className = 'cell' + (ch === '.' ? '' : ' t') + (ri === 1 ? ' hot' : '');
+        if (ch !== '.') d.textContent = ch;
+        const n = nums[ri + ',' + ci];
+        if (n) { const i = document.createElement('i'); i.textContent = n; d.prepend(i); }
+        grid.appendChild(d);
+      }));
+      // daily round: three arcs, two done
+      const arcs = q('.arcs'), cx = 108, r = 92;
+      [0, 1, 2].forEach(s => {
+        const a0 = (-90 + s * 120 + 7) * Math.PI / 180, a1 = (-90 + (s + 1) * 120 - 7) * Math.PI / 180;
+        const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        p.setAttribute('d', `M${cx + r * Math.cos(a0)} ${cx + r * Math.sin(a0)} A${r} ${r} 0 0 1 ${cx + r * Math.cos(a1)} ${cx + r * Math.sin(a1)}`);
+        p.setAttribute('stroke', s < 2 ? 'url(#rg)' : 'rgba(33,26,20,.09)');
+        arcs.appendChild(p);
+      });
+      // sphere items
+      const wrap = q('.items');
+      this.items = ITEMS.map(it => {
+        const el = document.createElement('div');
+        el.className = 'item it-' + it.k;
+        if (it.src) { const im = new Image(); im.src = C + it.src; im.alt = ''; im.decoding = 'async'; el.appendChild(im); }
+        else if (it.k === 'art') el.innerHTML = `<span class="pub"></span><span class="ttl"></span>`, el.children[0].textContent = it.pub, el.children[1].textContent = it.ttl;
+        else el.innerHTML = `<span class="qt"></span><span class="by"></span>`, el.children[0].textContent = '“' + it.qt + '”', el.children[1].textContent = it.by;
+        const [w, h] = itemSize(it);
+        el.style.width = w + 'px'; el.style.height = h + 'px';
+        wrap.appendChild(el);
+        return el;
+      });
+      this.measure();
+    }
+    measure() {
+      this.w = this.host.clientWidth; this.h = this.host.clientHeight;
+      this.g = geo(this.w, this.h);
+      this.svg.setAttribute('viewBox', `0 0 ${this.w} ${this.h}`);
+      this.heroH = this.hero.offsetHeight;
+      this.sceneWH = this.scenes.map(el => [el.offsetWidth, el.offsetHeight]);
+    }
+    render(p, yaw, pitch) {
+      const g = this.g, w = this.w, h = this.h;
+      const vis = (el, o) => { el.style.opacity = o.toFixed(3); el.style.visibility = o < 0.004 ? 'hidden' : 'visible'; };
+
+      // hero text leaves first
+      const ho = 1 - sm(0.02, 0.095, p);
+      vis(this.hero, ho);
+      const heroY = g.m ? 0 : -this.heroH / 2 - 10;
+      this.hero.style.transform = `translate3d(0,${heroY - 46 * (1 - ho)}px,0)`;
+
+      // icon path
+      let ic = g.m ? lp(g.iconA, g.iconS, eio(sm(0.40, 0.47, p))) : g.iconA;
+      ic = lp(ic, g.iconC, eio(sm(0.925, 0.975, p)));
+
+      // sphere + absorption
+      const drift = eio(sm(0.07, 0.31, p));
+      const sc = lp(g.heroC, ic, drift);
+      const R = g.R * (1 - 0.32 * drift);
+      const bodyO = 1 - sm(0.09, 0.26, p);
+      vis(this.orb, bodyO); vis(this.floor, bodyO);
+      const od = R * 3.1 / 100;
+      this.orb.style.transform = `translate3d(${sc[0] - 50}px,${sc[1] - 50}px,0) scale(${od.toFixed(3)})`;
+      this.floor.style.transform = `translate3d(${sc[0] - 50}px,${sc[1] + R * 1.36 - 50}px,0) scale(${(R * 1.9 / 100).toFixed(3)},${(R * 0.26 / 100).toFixed(3)})`;
+      const cy = Math.cos(yaw), sy = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
+      let pulse = 0;
+      for (let i = 0; i < N; i++) {
+        const el = this.items[i], d = DIRS[i];
+        // rotate Y then X
+        const x1 = d[0] * cy + d[2] * sy, z1 = -d[0] * sy + d[2] * cy;
+        const y2 = d[1] * cp - z1 * sp, z2 = d[1] * sp + z1 * cp;
+        const X = x1 * R, Y = y2 * R, Z = z2 * R;
+        const s = g.persp / (g.persp - Z);
+        const depth = (z2 + 1) / 2;
+        const sx = sc[0] + X * s, sy2 = sc[1] + Y * s;
+        let scale = s * g.iSc * (0.62 + 0.38 * depth);
+        let op = 0.26 + 0.74 * Math.pow(depth, 1.4);
+        let px = sx, py = sy2, z = 1 + Math.round(depth * 28), rot = -x1 * 24;
+        const st = ABS0 + RANK[i] * ABS_STEP, arr = st + ABS_DUR;
+        const t = clamp((p - st) / ABS_DUR);
+        if (t > 0) {
+          // gravity: a curved fall that accelerates into the icon
+          const e = t * t * (1.35 - 0.35 * t);
+          const mx = (sx + ic[0]) / 2, my = (sy2 + ic[1]) / 2;
+          const dx = ic[0] - sx, dy = ic[1] - sy2;
+          const bend = (i % 2 ? 1 : -1) * 0.22;
+          const c1 = [mx - dy * bend, my + dx * bend];
+          const u = 1 - e;
+          px = u * u * sx + 2 * u * e * c1[0] + e * e * ic[0];
+          py = u * u * sy2 + 2 * u * e * c1[1] + e * e * ic[1];
+          scale = lerp(scale, 0.1 * g.iSc, Math.pow(t, 1.4));
+          op = lerp(op, 1, Math.min(1, t * 2.5)) * (1 - sm(0.72, 1, t));
+          rot *= (1 - t);
+          z = 30;
+        }
+        if (p >= arr) { const x = (p - arr) / 0.003; pulse = Math.max(pulse, x * Math.exp(1 - x)); }
+        if (t >= 1) { el.style.visibility = 'hidden'; continue; }
+        el.style.visibility = 'visible';
+        el.style.opacity = op.toFixed(3);
+        el.style.zIndex = z;
+        el.style.transform = `translate3d(${px.toFixed(1)}px,${py.toFixed(1)}px,0) translate(-50%,-50%) rotateY(${rot.toFixed(2)}deg) scale(${scale.toFixed(4)})`;
+      }
+
+      // icon
+      const io = sm(0.05, 0.105, p);
+      const iscale = (0.62 + 0.38 * back(sm(0.05, 0.125, p))) * (1 + 0.075 * pulse);
+      vis(this.icon, io);
+      this.icon.style.transform = `translate3d(${ic[0] - g.iconSize / 2}px,${ic[1] - g.iconSize / 2}px,0) scale(${iscale.toFixed(4)})`;
+
+      // halo: arrivals flash it; emission holds it
+      const emit = sm(0.40, 0.50, p) * (1 - sm(0.90, 0.96, p));
+      const ho2 = Math.min(1, 0.5 * pulse * sm(0.08, 0.12, p) + emit * 0.95 + sm(0.95, 1, p) * 0.5);
+      vis(this.halo, ho2);
+      this.halo.style.transform = `translate3d(${ic[0]}px,${ic[1]}px,0) scale(${(0.7 + 0.35 * emit + 0.15 * pulse).toFixed(3)})`;
+
+      // nodes of light, then scenes
+      const back2 = sm(0.885, 0.925, p);         // scenes fold back into nodes
+      const retract = sm(0.912, 0.95, p);        // nodes return to the icon
+      for (let k = 0; k < 4; k++) {
+        const out = eo(sm(0.42 + 0.016 * k, 0.48 + 0.016 * k, p));
+        const T = g.nodeT[k];
+        let np = lp(ic, T, out);
+        const no = out * (1 - sm(0.6, 1, retract));
+        const node = this.nodes[k], line = this.lines[k];
+
+        // scene
+        const o0 = SCENE_OPEN[k];
+        let open = sm(o0, o0 + 0.045, p);
+        if (g.m && k < 3) open *= 1 - sm(o0 + 0.082, o0 + 0.1, p);
+        open *= 1 - back2;
+        const dim = (!g.m && k < 3 && !this.noDim) ? sm(o0 + 0.092, o0 + 0.112, p) * (1 - back2) : 0;
+        const ep = eo(open);
+        const pos = lp(T, g.sceneP[k], ep);
+        const s = g.sceneSc * lerp(0.06, 1, back(open)) * (1 - 0.06 * dim);
+        const sEl = this.scenes[k];
+        vis(sEl, sm(0, 0.35, open) * (1 - 0.45 * dim));
+        sEl.style.zIndex = 10 + (dim ? 0 : 5);
+        sEl.style.transform = `translate3d(${pos[0].toFixed(1)}px,${pos[1].toFixed(1)}px,0) translate(-50%,-50%) scale(${s.toFixed(4)})`;
+        // the light docks on the scene's edge facing the icon, so lines never cross a scene
+        if (open > 0.001) {
+          const [W, H] = this.sceneWH[k];
+          const dx = ic[0] - pos[0], dy = ic[1] - pos[1];
+          const hw = W * s / 2 + 12, hh = H * s / 2 + 12;
+          const t = Math.min(Math.abs(dx) > 1e-3 ? hw / Math.abs(dx) : 1e9, Math.abs(dy) > 1e-3 ? hh / Math.abs(dy) : 1e9);
+          const edge = t < 1 ? [pos[0] + dx * t, pos[1] + dy * t] : ic;
+          np = lp(np, edge, eo(Math.min(1, open * 1.4)));
+        }
+        np = lp(np, ic, ei(retract));
+        vis(node, no);
+        node.style.zIndex = 16;
+        node.style.transform = `translate3d(${np[0].toFixed(1)}px,${np[1].toFixed(1)}px,0) scale(${(0.6 + 0.4 * out).toFixed(3)})`;
+        line.setAttribute('x1', ic[0]); line.setAttribute('y1', ic[1]);
+        line.setAttribute('x2', np[0].toFixed(1)); line.setAttribute('y2', np[1].toFixed(1));
+        line.style.opacity = (no * 0.9).toFixed(3);
+
+        // caption for this scene
+        const cEnd = k < 3 ? o0 + 0.1 : 0.885;
+        const co = sm(o0 + 0.012, o0 + 0.04, p) * (1 - sm(cEnd - 0.012, cEnd + 0.004, p));
+        vis(this.capS[k], co);
+        this.capS[k].style.transform = `translate3d(0,${(g.capS + 14 * (1 - co)).toFixed(1)}px,0) translateY(-50%)`;
+      }
+
+      // absorption caption
+      const ca = sm(0.285, 0.34, p) * (1 - sm(0.405, 0.44, p));
+      vis(this.capA, ca);
+      this.capA.style.transform = `translate3d(0,${(g.capA + 18 * (1 - ca)).toFixed(1)}px,0)`;
+
+      // close
+      const cl = sm(0.945, 0.99, p);
+      vis(this.close, cl);
+      this.close.style.transform = `translate3d(0,${(g.closeTop + 26 * (1 - cl)).toFixed(1)}px,0)`;
+    }
+  }
+
+  const story = document.getElementById('story');
+  const REST_YAW = 0.55, REST_PITCH = -0.32;
+
+  if (STATIC) {
+    const ps = innerWidth < 760 ? [0, 0.40, 0.53, 0.63, 0.73, 0.84, 1] : [0, 0.40, 0.875, 1];
+    const stages = ps.map(p => {
+      const s = document.createElement('div'); s.className = 'sticky'; story.appendChild(s);
+      const st = new Stage(s); st.p = p; st.noDim = true; return st;
+    });
+    const draw = () => stages.forEach(st => { st.measure(); st.render(st.p, REST_YAW, REST_PITCH); });
+    draw(); addEventListener('resize', draw);
+    document.fonts && document.fonts.ready.then(draw);
+    return;
+  }
+
+  const sticky = document.createElement('div'); sticky.className = 'sticky'; story.appendChild(sticky);
+  const S = new Stage(sticky);
+  const live = !SETTLE && AT === null;
+
+  let yaw = REST_YAW, pitch = REST_PITCH, tYaw = 0, tPitch = 0, oYaw = 0, oPitch = 0;
+  let onScreen = true, raf = 0, last = 0, queued = false;
+
+  const progress = () => {
+    if (AT !== null) return AT;
+    const r = story.getBoundingClientRect();
+    const span = story.offsetHeight - innerHeight;
+    return span > 0 ? clamp(-r.top / span) : 0;
+  };
+  const sphereVisible = p => p < 0.37;
+
+  function draw() { S.render(progress(), yaw + oYaw, pitch + oPitch); }
+
+  // the sphere turns on its own: 30 fps cap, only while on screen and the tab is visible
+  function tick(ts) {
+    raf = 0;
+    const p = progress();
+    if (!live || !onScreen || document.hidden || !sphereVisible(p)) { draw(); return; }
+    if (ts - last >= 33) {
+      const dt = last ? Math.min(100, ts - last) : 33;
+      last = ts;
+      yaw += dt * 0.00016;
+      oYaw += (tYaw - oYaw) * 0.08; oPitch += (tPitch - oPitch) * 0.08;
+      draw();
+    }
+    raf = requestAnimationFrame(tick);
+  }
+  function wake() { if (!raf) { last = 0; raf = requestAnimationFrame(tick); } }
+  function onScroll() {
+    if (queued) return; queued = true;
+    requestAnimationFrame(() => { queued = false; draw(); if (live) wake(); });
+  }
+
+  S.measure(); draw();
+  document.fonts && document.fonts.ready.then(() => { S.measure(); draw(); });
+  addEventListener('resize', () => { S.measure(); draw(); });
+  if (AT === null) addEventListener('scroll', onScroll, { passive: true });
+
+  if (live) {
+    new IntersectionObserver(es => { onScreen = es[0].isIntersecting; if (onScreen) wake(); }).observe(story);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) wake(); });
+    // a little hand on the sphere: the pointer leans it
+    addEventListener('pointermove', e => {
+      tYaw = (e.clientX / innerWidth - 0.5) * 0.5;
+      tPitch = (e.clientY / innerHeight - 0.5) * -0.22;
+      wake();
+    }, { passive: true });
+    wake();
+  }
+})();
+</script>
+</body>
+</html>
