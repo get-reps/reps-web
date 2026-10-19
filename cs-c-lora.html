@@ -68,7 +68,11 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 .lines line{stroke:rgba(214,164,82,.62);stroke-width:1.2;stroke-linecap:round}
 .lines .spark{fill:#FFF6E2;opacity:0;filter:drop-shadow(0 0 3px rgba(255,200,110,.95))}
 .halo{position:absolute;left:0;top:0;width:560px;height:560px;margin:-280px 0 0 -280px;border-radius:50%;z-index:1;pointer-events:none;
-  background:radial-gradient(closest-side,rgba(255,210,125,.42),rgba(255,210,125,.14) 45%,rgba(255,210,125,0) 100%)}
+  background:radial-gradient(closest-side,rgba(255,210,125,.42) 0%,rgba(255,210,125,.36) 10%,rgba(255,210,125,.28) 21%,rgba(255,210,125,.2) 33%,rgba(255,210,125,.135) 45%,rgba(255,210,125,.085) 57%,rgba(255,210,125,.048) 69%,rgba(255,210,125,.022) 81%,rgba(255,210,125,.007) 92%,rgba(255,210,125,0) 100%)}
+/* a faint grain over the glow breaks up the 8-bit steps that otherwise read as rings */
+.halo::after{content:"";position:absolute;inset:0;border-radius:50%;opacity:.07;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 .82  0 0 0 0 .49  0 0 0 1.4 -.45'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  -webkit-mask-image:radial-gradient(closest-side,#000,rgba(0,0,0,.6) 50%,transparent);mask-image:radial-gradient(closest-side,#000,rgba(0,0,0,.6) 50%,transparent)}
 
 /* hero */
 .hero{position:absolute;z-index:45;left:clamp(24px,7.8vw,140px);top:50%;width:min(46vw,720px)}
@@ -164,7 +168,8 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 .cell.hot{background:#FBEED4;border-color:rgba(212,162,78,.6)}
 .cell .l{display:inline-block;will-change:transform,opacity}
 .cell.cur{border-color:rgba(201,146,62,.95);box-shadow:0 0 0 2px rgba(212,162,78,.35),0 10px 18px -12px rgba(33,26,20,.35)}
-.cell i{position:absolute;left:4px;top:2px;font-family:var(--sans);font-style:normal;font-size:8.5px;font-weight:600;color:var(--ink-3)}
+.cell i{position:absolute;left:3px;top:2px;font-family:var(--sans);font-style:normal;font-size:7px;line-height:1;font-weight:600;color:var(--ink-3)}
+.cell.t{padding-top:3px}   /* the letter sits a touch low, leaving the clue number its own corner */
 .clue{font-size:13px;color:var(--ink-2)}
 .clue b{color:var(--ink);font-weight:600;margin-right:6px}
 
@@ -254,7 +259,7 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 
 <footer class="after">
   <span class="wordmark">REPS</span>
-  <span class="fine">Free on the App Store · iPhone</span>
+  <span class="fine">© REPS</span>
 </footer>
 
 <template id="tpl">
@@ -314,7 +319,7 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
         <div class="chips" aria-hidden="true">
           <img class="bk" src="product/assets/covers/1984.jpg" alt="">
           <img class="sq" src="product/assets/covers/podcast-huberman-lab.jpg" alt="">
-          <img class="bk c3" src="product/assets/covers/thinking-fast-and-slow.jpg" alt="">
+          <img class="bk c3" src="product/assets/covers/atomic-habits.jpg" alt="">
         </div>
       </div>
       <p class="day-lbl">Today’s round</p>
@@ -370,27 +375,29 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
   const C = 'product/assets/covers/';
   const B = (src, a) => ({k:'book', src, a});
   const COVERS = [
-    B('sapiens.jpg', 400/604), {k:'pod', src:'podcast-huberman-lab.jpg'}, {k:'vid', src:'video-kurzgesagt-the-egg.jpg'},
+    {k:'vid', src:'video-kurzgesagt-the-egg.jpg'}, {k:'pod', src:'podcast-huberman-lab.jpg'}, B('sapiens.jpg', 400/604),
     B('1984.jpg', 400/600), {k:'pod', src:'podcast-the-daily.jpg'}, B('atomic-habits.jpg', 400/604),
     {k:'vid', src:'video-veritasium-entropy.jpg'}, B('thinking-fast-and-slow.jpg', 400/593),
   ];
   // code-drawn paper: real pieces, correctly attributed, plain typeset names (no logos, no mastheads)
+  // noPhone: on a phone this paper would render at 5-8px type, so it is left off the sphere there
   const CARDS = [
-    {k:'art',  pub:'The Atlantic', ttl:'Is Google Making Us Stupid?'},
+    {k:'art',  pub:'The Atlantic', ttl:'Is Google Making Us Stupid?', noPhone:true},
     {k:'qc',   qt:'Who controls the past controls the future.', by:'George Orwell · 1984'},
-    {k:'pdf',  ttl:'The Art of War', by:'Sun Tzu'},
-    {k:'art',  pub:'The New Yorker', ttl:'Why Facts Don’t Change Our Minds'},
+    {k:'pdf',  ttl:'The Art of War', by:'Sun Tzu', noPhone:true},
+    {k:'art',  pub:'The New Yorker', ttl:'Why Facts Don’t Change Our Minds', noPhone:true},
     {k:'note', tx:'Ask Dad what he thinks about the wheat bit in Sapiens.'},
     {k:'hl',   qt:'You do not rise to the level of your goals. You fall to the level of your systems.', by:'James Clear · Atomic Habits'},
-    {k:'qc',   qt:'Stay hungry. Stay foolish.', by:'Steve Jobs · Stanford, 2005'},
+    {k:'qc',   qt:'Stay hungry. Stay foolish.', by:'Whole Earth Catalog, via Steve Jobs · Stanford, 2005', sz:[150, 112]},
     {k:'shot'},
     {k:'art',  pub:'TED', ttl:'Do Schools Kill Creativity?', au:'Ken Robinson'},
-    {k:'qc',   qt:'The unexamined life is not worth living.', by:'Socrates, via Plato’s Apology', sz:[158, 116]},
+    {k:'qc',   qt:'The unexamined life is not worth living.', by:'Socrates, via Plato’s Apology', sz:[158, 116], noPhone:true},
   ];
   // 18 on the sphere, every one unique: the eight real covers (Diary of a CEO removed) and ten paper pieces.
-  // Covers take the slots that face the viewer while the hero is read (rest yaw 0.55 turning to ~2.0),
+  // Covers take the slots that face the viewer while the hero is read (rest yaw 1.35, turning on from there),
   // so at rest the sphere reads as books, podcasts and videos; one cover sits on the far side. 'K' slots take the next paper card.
-  const LAYOUT = 'KCKKCKCKKCKKCCCKKC';   // front slots by mean depth over that window: 9,14,12,17,4,6,1; far side: 13
+  // The cover order and rest yaw were chosen so no two front-facing covers overlap in the first frame, on desktop or phone.
+  const LAYOUT = 'KCKKCKCKKCKKCCCKKC';   // at rest: front slots 9,12,4,14,17,6,1; far side: 13
   const ITEMS = [];
   { let ci = 0, ki = 0; for (const ch of LAYOUT) ITEMS.push(ch === 'C' ? COVERS[ci++] : CARDS[ki++]); }
   // real covers read 1.3x (laid out at that size, so the image stays sharp); paper reads 0.85x (scaled, so its type scales with it)
@@ -419,6 +426,9 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 
   // timeline: the lights leave as the last cover lands and the first scene opens at 0.40, straight after the absorption caption, so there is no bare stretch
   const SCENE_OPEN = [0.40, 0.49, 0.58, 0.67];
+  // phone: the first scene waits until the icon has settled in its scene position (it moves up until 0.415)
+  // (each phone scene still holds for 0.09 before the next, so the later ones shift by the same 0.015)
+  const SCENE_OPEN_M = [0.415, 0.505, 0.595, 0.685];
 
   function geo(w, h, heroH = 180, closeH = 190) {
     const m = w < 760;
@@ -580,6 +590,7 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
       let pulse = 0;
       for (let i = 0; i < N; i++) {
         const el = this.items[i], d = DIRS[i];
+        if (g.m && ITEMS[i].noPhone) { el.style.visibility = 'hidden'; continue; }
         // rotate Y then X
         const x1 = d[0] * cy + d[2] * sy, z1 = -d[0] * sy + d[2] * cy;
         const y2 = d[1] * cp - z1 * sp, z2 = d[1] * sp + z1 * cp;
@@ -619,10 +630,15 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
         el.style.transform = `translate3d(${px.toFixed(1)}px,${py.toFixed(1)}px,0) translate(-50%,-50%) rotateY(${rot.toFixed(2)}deg) scale(${scale.toFixed(4)})`;
       }
 
-      // icon
-      const io = sm(0.05, 0.105, p);
-      const iscale = (0.62 + 0.38 * back(sm(0.05, 0.125, p))) * (1 + 0.075 * pulse) * (1 + 0.024 * settled * breath);
+      // icon: nothing until the first cover lands (0.15), then it pops in from zero on that arrival, always fully opaque.
+      // until absorption is well under way it sits inside the sphere: front-facing items pass in front of it, back ones behind
+      const ICON_IN = ABS0 + ABS_DUR;
+      const io = p >= ICON_IN ? 1 : 0;
+      const iscale = back(sm(ICON_IN, ICON_IN + 0.055, p)) * (1 + 0.075 * pulse) * (1 + 0.024 * settled * breath);
       vis(this.icon, io);
+      const inside = p < 0.3;
+      this.icon.style.zIndex = inside ? 15 : 40;
+      this.ishadow.style.zIndex = inside ? 14 : 39;
       // a physical tile: a very slow tilt (idle loop) plus a small lean toward the mouse, never past 6 degrees
       const rx = clamp(3.2 * Math.sin(TAU * t / 10.5) + 2.6 * this.tilt[1], -6, 6);
       const ry = clamp(3.8 * Math.sin(TAU * t / 13.5 + 1.2) + 2.8 * this.tilt[0], -6, 6);
@@ -642,8 +658,9 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
       this.halo.style.transform = `translate3d(${ic[0]}px,${ic[1]}px,0) scale(${(0.7 + 0.35 * emit + 0.15 * pulse + 0.05 * glowB).toFixed(3)})`;
 
       // which scene is "active" (the latest one open, before the fold back)
+      const SO = g.m ? SCENE_OPEN_M : SCENE_OPEN;
       let act = -1;
-      for (let k = 0; k < 4; k++) if (p >= SCENE_OPEN[k] + 0.02 && p < 0.82) act = k;
+      for (let k = 0; k < 4; k++) if (p >= SO[k] + 0.02 && p < 0.82) act = k;
       if (act !== this.beatK) { this.beatK = act; if (act >= 0) this.beatAt[act] = t; }
       this.beats(act, act >= 0 ? t - this.beatAt[act] : 0);
 
@@ -651,18 +668,19 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
       const back2 = sm(0.82, 0.86, p);         // scenes fold back into nodes
       const retract = sm(0.845, 0.885, p);        // nodes return to the icon
       for (let k = 0; k < 4; k++) {
-        const out = eo(sm(0.366 + 0.012 * k, 0.405 + 0.012 * k, p));
+        // desktop: each light leaves the icon just before its own scene opens, so no light waits alone in empty space
+        const out = g.m ? eo(sm(0.366 + 0.012 * k, 0.405 + 0.012 * k, p)) : eo(sm(SO[k] - 0.035, SO[k] + 0.005, p));
         const T = g.nodeT[k];
         let np = lp(ic, T, out);
         let no = out * (1 - sm(0.6, 1, retract));
         const node = this.nodes[k], line = this.lines[k];
 
         // scene
-        const o0 = SCENE_OPEN[k];
+        const o0 = SO[k];
         let open = sm(o0, o0 + 0.045, p);
         if (g.m && k < 3) open *= 1 - sm(o0 + 0.072, o0 + 0.09, p);
         // phone shows one scene at a time: after the first one opens, a light only shows while its own scene does
-        if (g.m) no *= Math.max(1 - sm(SCENE_OPEN[0], SCENE_OPEN[0] + 0.03, p), sm(0, 0.3, open));
+        if (g.m) no *= Math.max(1 - sm(SO[0], SO[0] + 0.03, p), sm(0, 0.3, open));
         open *= 1 - back2;
         const dim = (!g.m && k < 3 && !this.noDim) ? sm(o0 + 0.08, o0 + 0.1, p) * (1 - back2) : 0;
         const ep = eo(open);
@@ -769,13 +787,13 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
         this.ringFill.style.opacity = f > 0.002 ? 1 : 0;
         this.ringCore.style.opacity = (0.35 + 0.65 * glow).toFixed(3);
         this.ringCore.style.transform = `scale(${(0.85 + 0.2 * glow).toFixed(3)})`;
-        this.chip3.style.opacity = (0.5 + 0.5 * f).toFixed(3);
+        this.chip3.style.opacity = (0.8 + 0.2 * f).toFixed(3);
       }
     }
   }
 
   const story = document.getElementById('story');
-  const REST_YAW = 0.55, REST_PITCH = -0.32;
+  const REST_YAW = 1.35, REST_PITCH = -0.32;
 
   // one action at a time: the top-bar link hides while the hero or a closing button is on screen
   const navGet = document.querySelector('.nav-get');
@@ -783,7 +801,7 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
   const syncNav = on => { if (on !== navOn) { navOn = on; navGet.classList.toggle('on', on); } };
 
   if (STATIC) {
-    const ps = innerWidth < 760 ? [0, 0.365, 0.45, 0.54, 0.63, 0.76, 1] : [0, 0.365, 0.80, 1];
+    const ps = innerWidth < 760 ? [0, 0.365, 0.47, 0.56, 0.65, 0.76, 1] : [0, 0.365, 0.80, 1];
     const stages = ps.map(p => {
       const s = document.createElement('div'); s.className = 'sticky'; story.appendChild(s);
       const st = new Stage(s); st.p = p; st.noDim = true; return st;
