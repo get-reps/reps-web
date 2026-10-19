@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<!--
+  CS-B · getreps.io home · "The Gathering" (Recollect register)
+  1. Idea: everything you take in is scattered and slipping away; REPS gathers it and hands the ideas back until they are yours.
+  2. Hero: four lines of big black type, "You read it. You watched it. You heard it. Now remember it.", with the real cover, video and podcast art set inline as words.
+  3. Signature motion: on scroll the three inline artworks leave the sentence, the rest of the material cascades in, drifts and fades (forgetting),
+     then swirls into a ring around REPS, collapses into one book, and three of its ideas spring out. Scroll-driven, no idle loop.
+  4. Then: a short manifesto, three bold claims (doomscrolling, bookmark graveyards, AI as ally), a treasure-trove grid of what you can save, a closing shelf.
+  5. Colour lives only in the real artwork and the one coral App Store action; everything REPS says is warm ink sans, Lora only for other people's words.
+  6. Refused: phone mockups, app screenshots, feature lists, 1-2-3 steps, testimonials, numbers, pricing, Android, any invented cover or logo.
+  7. Motion budget: every update is driven by scroll or pointer events, one rAF per event, nothing ticks while idle; reduced motion gets a static storyboard.
+  8. Capture flags: ?motion=1 forces motion on; &at=0.0-1.0 pins the story at that point (capture aid); tall windows get the storyboard so full-page captures read.
+  9. Material used: the nine real artworks in product/assets/covers/, plus code-drawn article, quote, highlight, note, PDF and screenshot cards (no logos).
+ 10. Single action everywhere: Download on the App Store.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>REPS · Your Knowledge Companion</title>
+<meta name="description" content="REPS turns what you read, watch and listen to into knowledge that lasts. Free on the App Store.">
+<link rel="icon" href="product/assets/app-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFFAF7; --ink:#211A14; --ink2:#5A4E45; --line:rgba(33,26,20,.12);
+    --tile:#F4EDE6; --paper:#FFFDFB; --coral:#FF6B6B; --peach:#FF8E53; --coral-ink:#D8443F;
+    --sans:'Space Grotesk',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --serif:'Lora',Georgia,serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{background:var(--cream)}
+  body{background:var(--cream);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
+  img{display:block}
+  a{color:inherit}
+
+  /* ---------- nav ---------- */
+  .nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:22px clamp(20px,4.4vw,64px);pointer-events:none}
+  .nav > *{pointer-events:auto}
+  .wordmark{font-weight:700;font-size:22px;letter-spacing:.06em;text-decoration:none}
+  .nav-cta{font-weight:600;font-size:14px;text-decoration:none;padding:10px 18px;border-radius:999px;border:1.5px solid var(--ink);background:rgba(255,250,247,.8);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:background .2s,color .2s}
+  .nav-cta:hover{background:var(--ink);color:var(--cream)}
+
+  /* ---------- primary action (the only coral on the page) ---------- */
+  .cta{display:inline-flex;align-items:center;gap:10px;font-family:var(--sans);font-weight:600;font-size:17px;color:#fff;text-decoration:none;padding:17px 30px;border-radius:999px;background:linear-gradient(100deg,var(--coral),var(--peach));box-shadow:0 10px 30px -10px rgba(255,107,107,.65);transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s}
+  .cta:hover{transform:translateY(-2px);box-shadow:0 16px 36px -12px rgba(255,107,107,.75)}
+  .cta svg{width:18px;height:18px}
+  .cta-note{font-size:14px;color:var(--ink2);font-weight:500}
+
+  .label{font-size:12.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink2)}
+
+  /* ---------- story stage ---------- */
+  .story{position:relative;height:540vh}
+  .stage{position:sticky;top:0;height:100vh;overflow:hidden;--fh:100vh}
+  .story.static{height:auto}
+  .story.static .stage{position:relative;height:var(--frame-h,100vh);--fh:var(--frame-h,100vh);border-bottom:1px solid var(--line)}
+  .story.static .stage:last-child{border-bottom:0}
+
+  .hero{position:absolute;left:clamp(20px,8.3vw,120px);right:clamp(20px,5vw,80px);top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;padding-top:40px;will-change:transform,opacity}
+  .hero .label{margin-bottom:26px}
+  .h1{font-weight:700;font-size:min(8vw,calc(var(--fh)*.128));line-height:.98;letter-spacing:-.035em}
+  .h1 .ln{display:block;white-space:nowrap}
+  .h1 .soft{font-weight:500}
+  .slot{display:inline-block;vertical-align:-.06em;border-radius:.09em;margin:0 .06em 0 .14em}
+  .slot.book{width:.6em;height:.9em}
+  .slot.video{width:1.36em;height:.765em}
+  .slot.pod{width:.82em;height:.82em}
+  .hero-foot{margin-top:38px;display:flex;align-items:center;gap:28px;flex-wrap:wrap}
+  .hero-sub{font-size:21px;line-height:1.4;font-weight:500;max-width:30ch}
+
+  .cards{position:absolute;left:50%;top:50%;width:0;height:0}
+  .card{position:absolute;left:0;top:0;transform-origin:50% 50%;will-change:transform,opacity;border-radius:10px;backface-visibility:hidden}
+  .card.img{overflow:hidden;box-shadow:0 1px 0 rgba(0,0,0,.04),0 18px 40px -18px rgba(33,26,20,.45)}
+  .card.img img{width:100%;height:100%;object-fit:cover}
+  .card.paper{background:var(--paper);box-shadow:0 0 0 1px rgba(33,26,20,.06),0 18px 40px -20px rgba(33,26,20,.35);padding:var(--pad,14px);display:flex;flex-direction:column;overflow:hidden}
+  .k-pub{font-family:var(--sans);font-size:var(--fs-s,10px);font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)}
+  .k-title{font-family:var(--serif);font-weight:600;font-size:var(--fs-l,19px);line-height:1.18;margin-top:auto;color:var(--ink)}
+  .k-by{font-family:var(--sans);font-size:var(--fs-s,10px);color:var(--ink2);margin-top:8px;font-weight:500}
+  .k-quote{font-family:var(--serif);font-style:italic;font-size:var(--fs-m,16px);line-height:1.32;color:var(--ink)}
+  .k-quote::before{content:"\201C";display:block;font-size:2.2em;line-height:.6;margin-bottom:.15em;font-style:normal;color:var(--ink2)}
+  .k-hl{font-family:var(--serif);font-size:var(--fs-m,15px);line-height:1.5;color:var(--ink)}
+  .k-hl mark{background:linear-gradient(transparent 12%,#FFE27A 12%,#FFE27A 92%,transparent 92%);color:inherit;padding:0 .08em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+  .k-note{font-family:var(--sans);font-size:var(--fs-m,15px);line-height:1.35;font-weight:500;color:var(--ink)}
+  .k-tag{display:inline-block;font-size:var(--fs-s,10px);font-weight:700;letter-spacing:.12em;padding:.35em .6em;border-radius:5px;background:#E5484D;color:#fff;align-self:flex-start}
+  .k-lines{margin-top:auto;display:grid;gap:5px}
+  .k-lines i{display:block;height:3px;border-radius:2px;background:rgba(33,26,20,.12)}
+  .k-bubble{background:#E9E4DF;border-radius:16px 16px 16px 5px;padding:.7em .85em;font-family:var(--sans);font-size:var(--fs-m,15px);line-height:1.3;font-weight:500;color:var(--ink);margin-top:auto}
+  .k-page{font-family:var(--serif);font-size:var(--fs-m,14px);line-height:1.55;color:#3a2f27}
+  .card.page{background:#F7F1E6}
+
+  .pill{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-weight:700;letter-spacing:.08em;font-size:15px;color:var(--cream);background:var(--ink);border-radius:999px;padding:12px 22px;opacity:0;white-space:nowrap;will-change:opacity,transform;z-index:40}
+
+  .caption{position:absolute;left:clamp(20px,8.3vw,120px);right:clamp(20px,8.3vw,120px);bottom:clamp(36px,calc(var(--fh)*.08),84px);font-weight:700;font-size:min(4.3vw,calc(var(--fh)*.072));line-height:1.04;letter-spacing:-.03em;opacity:0;will-change:opacity,transform;z-index:45;max-width:21ch}
+  .caption.r{left:auto;text-align:right}
+
+  .idea{position:absolute;left:50%;top:50%;font-family:var(--serif);font-size:19px;line-height:1.3;background:var(--paper);color:var(--ink);padding:12px 18px;border-radius:14px;box-shadow:0 0 0 1px rgba(33,26,20,.07),0 16px 34px -18px rgba(33,26,20,.45);max-width:290px;opacity:0;transform:translate(var(--x),var(--y)) scale(.4);transition:transform .7s cubic-bezier(.34,1.56,.64,1),opacity .35s ease;z-index:42}
+  .idea small{display:block;font-family:var(--sans);font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink2);margin-bottom:5px}
+  .stage.ideas-on .idea{opacity:1;transform:translate(var(--x),var(--y)) scale(1)}
+  .stage.ideas-on .idea:nth-of-type(2){transition-delay:.08s}
+  .stage.ideas-on .idea:nth-of-type(3){transition-delay:.16s}
+
+  /* ---------- manifesto ---------- */
+  .manifesto{padding:clamp(120px,20vh,220px) clamp(22px,8.3vw,120px) clamp(80px,14vh,160px);display:flex;flex-direction:column;align-items:center;text-align:center}
+  .manifesto .label{display:block;margin-bottom:44px}
+  .mf{font-weight:500;font-size:clamp(28px,3.9vw,58px);line-height:1.13;letter-spacing:-.025em;max-width:24ch}
+  .mf-sign{margin-top:56px;font-weight:700;font-size:15px;letter-spacing:.06em}
+  .mf p + p{margin-top:.75em}
+  .mf .w{transition:opacity .5s ease}
+  .mf strong{font-weight:700}
+
+  /* ---------- claims ---------- */
+  .claims{padding:0 clamp(20px,8.3vw,120px) clamp(100px,16vh,180px)}
+  .claim{display:grid;grid-template-columns:minmax(160px,22%) 1fr;gap:clamp(16px,4vw,64px);padding:clamp(54px,9vh,96px) 0;border-top:1px solid var(--line);align-items:start}
+  .claim .label{padding-top:1.2em}
+  .claim h2{font-weight:700;font-size:clamp(40px,5.6vw,84px);line-height:1;letter-spacing:-.035em;max-width:14ch}
+  .claim p{margin-top:26px;font-size:clamp(18px,1.5vw,22px);line-height:1.45;font-weight:500;color:var(--ink2);max-width:36ch}
+  .claim h2 .x{position:relative;white-space:nowrap}
+  .claim h2 .x::after{content:"";position:absolute;left:-.04em;right:-.04em;top:54%;height:.075em;background:var(--ink);transform:scaleX(0);transform-origin:0 50%;transition:transform .9s cubic-bezier(.65,0,.35,1) .25s}
+  .claim.in h2 .x::after{transform:scaleX(1)}
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .9s cubic-bezier(.2,.8,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ---------- treasure trove ---------- */
+  .trove{padding:clamp(40px,6vh,80px) clamp(20px,5.5vw,80px) clamp(80px,14vh,160px)}
+  .trove-head{padding:0 clamp(0px,2.8vw,40px);margin-bottom:56px;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap}
+  .trove-head h2{font-weight:700;font-size:clamp(44px,6vw,92px);line-height:.98;letter-spacing:-.035em;margin-top:18px}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:clamp(220px,19vw,280px);gap:16px;
+    grid-template-areas:"books books pods pods" "books books arti high" "vids vids quote note" "vids vids shot pdf"}
+  .box{position:relative;background:var(--tile);border-radius:28px;overflow:hidden;padding:22px}
+  .box .label{position:relative;z-index:3;font-size:11.5px}
+  .box .m{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+  .b-books{grid-area:books}.b-pods{grid-area:pods}.b-vids{grid-area:vids}.b-arti{grid-area:arti}.b-high{grid-area:high}.b-quote{grid-area:quote}.b-note{grid-area:note}.b-shot{grid-area:shot}.b-pdf{grid-area:pdf}
+  .b-books .m img{position:absolute;width:21.5%;border-radius:8px;box-shadow:0 22px 44px -20px rgba(33,26,20,.55);transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+  .b-books .m img:nth-child(1){transform:translate(-150%,6%) rotate(-7deg)}
+  .b-books .m img:nth-child(2){transform:translate(-54%,-2%) rotate(-2deg)}
+  .b-books .m img:nth-child(3){transform:translate(54%,-2%) rotate(2deg)}
+  .b-books .m img:nth-child(4){transform:translate(150%,6%) rotate(7deg)}
+  .b-books:hover .m img:nth-child(1){transform:translate(-160%,2%) rotate(-10deg)}
+  .b-books:hover .m img:nth-child(2){transform:translate(-58%,-8%) rotate(-3deg)}
+  .b-books:hover .m img:nth-child(3){transform:translate(58%,-8%) rotate(3deg)}
+  .b-books:hover .m img:nth-child(4){transform:translate(160%,2%) rotate(10deg)}
+  .b-pods .m{gap:14px;padding:40px 26px 22px}
+  .b-pods .m img{width:27%;aspect-ratio:1;border-radius:12px;box-shadow:0 18px 36px -18px rgba(33,26,20,.5);transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+  .b-pods .m img:nth-child(2){transform:translateY(-10px)}
+  .b-pods:hover .m img:nth-child(1){transform:rotate(-4deg) translateY(-6px)}
+  .b-pods:hover .m img:nth-child(3){transform:rotate(4deg) translateY(-6px)}
+  .b-vids .m{flex-direction:column;gap:18px;padding:56px 40px 30px}
+  .b-vids .m img{width:78%;aspect-ratio:16/9;object-fit:cover;border-radius:14px;box-shadow:0 22px 44px -20px rgba(33,26,20,.55);transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+  .b-vids .m img:nth-child(1){transform:translateX(-9%) rotate(-2deg)}
+  .b-vids .m img:nth-child(2){transform:translateX(9%) rotate(2deg)}
+  .b-vids:hover .m img:nth-child(1){transform:translateX(-12%) rotate(-3deg)}
+  .b-vids:hover .m img:nth-child(2){transform:translateX(12%) rotate(3deg)}
+  .tcard{background:var(--paper);border-radius:14px;box-shadow:0 0 0 1px rgba(33,26,20,.06),0 18px 36px -20px rgba(33,26,20,.4);padding:18px;width:80%;display:flex;flex-direction:column;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+  .box:hover .tcard{transform:translateY(-6px) rotate(-1deg)}
+  .b-arti .tcard{min-height:62%;--fs-l:21px;--fs-s:10.5px;transform:rotate(-2deg)}
+  .b-high .tcard{--fs-m:15.5px;transform:rotate(1.5deg);margin-top:18px}
+  .b-quote .tcard{--fs-m:19px;transform:rotate(-1.5deg);margin-top:16px}
+  .b-note .tcard{--fs-m:17px;transform:rotate(2deg);background:#FFF6D9}
+  .b-shot .tcard{--fs-m:16px;background:transparent;box-shadow:none;padding:0;width:78%}
+  .b-pdf .tcard{width:58%;aspect-ratio:3/4;--fs-l:17px;--fs-s:10px;transform:rotate(2deg);margin-top:16px}
+  .b-shot .shot{background:var(--paper);border-radius:16px;padding:16px;box-shadow:0 0 0 1px rgba(33,26,20,.06),0 18px 36px -20px rgba(33,26,20,.4);transform:rotate(-2deg)}
+  .b-shot .shot .k-bubble + .k-bubble{margin-top:8px}
+  .k-bubble.me{background:#DCE9F7;border-radius:16px 16px 5px 16px;margin-left:auto;width:fit-content}
+
+  /* ---------- close ---------- */
+  .close{padding:clamp(110px,18vh,200px) clamp(20px,8.3vw,120px) clamp(80px,12vh,140px);text-align:center;display:flex;flex-direction:column;align-items:center}
+  .shelf{display:flex;align-items:flex-end;justify-content:center;gap:clamp(8px,1.2vw,18px);margin-bottom:clamp(56px,9vh,96px);position:relative;padding:0 24px}
+  .shelf::after{content:"";position:absolute;left:0;right:0;bottom:-14px;height:2px;background:var(--ink);border-radius:2px;opacity:.9}
+  .shelf img{height:clamp(84px,10vw,150px);width:auto;border-radius:6px;box-shadow:0 14px 26px -16px rgba(33,26,20,.55);opacity:0;transform:translateY(-60px) rotate(var(--r,0deg));transition:opacity .5s ease,transform .8s cubic-bezier(.34,1.4,.64,1)}
+  .shelf img.sq{height:clamp(70px,8.2vw,124px)}
+  .shelf img.wd{height:clamp(56px,6.6vw,98px)}
+  .shelf.in img{opacity:1;transform:none}
+  .close h2{font-weight:700;font-size:clamp(48px,7vw,108px);line-height:.96;letter-spacing:-.04em;max-width:12ch}
+  .close .sub{margin-top:26px;font-size:clamp(18px,1.6vw,22px);font-weight:500;color:var(--ink2);max-width:34ch;line-height:1.4}
+  .close .cta{margin-top:40px}
+  footer{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:28px clamp(20px,4.4vw,64px) 36px;border-top:1px solid var(--line);font-size:14px;color:var(--ink2);font-weight:500}
+  footer .wordmark{font-size:18px;color:var(--ink)}
+
+  /* ---------- phone ---------- */
+  @media (max-width:760px){
+    .nav{padding:16px 20px}
+    .wordmark{font-size:20px}
+    .nav-cta{font-size:13px;padding:8px 14px}
+    .hero{left:22px;right:22px;padding-top:30px}
+    .h1{font-size:min(13vw,calc(var(--fh)*.075))}
+    .slot.video{width:1.04em;height:.585em}
+    .slot{margin-left:.1em}
+    .hero .label{margin-bottom:20px;font-size:11.5px}
+    .hero-foot{margin-top:30px;flex-direction:column;align-items:flex-start;gap:18px}
+    .hero-sub{font-size:18px}
+    .cta{font-size:16px;padding:16px 26px}
+    .caption{left:22px;right:22px;font-size:min(8.6vw,calc(var(--fh)*.046));bottom:max(40px,calc(var(--fh)*.07))}
+    .idea{font-size:15px;max-width:none;width:calc(100vw - 112px);padding:10px 14px}
+    .idea small{font-size:9.5px}
+    .pill{font-size:13px;padding:10px 18px}
+    .manifesto{align-items:flex-start;text-align:left}
+    .claim{grid-template-columns:1fr;gap:6px}
+    .claim .label{padding-top:0}
+    .grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:190px;gap:12px;
+      grid-template-areas:"books books" "books books" "pods pods" "arti high" "vids vids" "vids vids" "quote note" "shot pdf"}
+    .box{border-radius:22px;padding:16px}
+    .box .label{font-size:10px}
+    .tcard{padding:13px;width:86%}
+    .b-arti .tcard{--fs-l:16px;--fs-s:9px}
+    .b-high .tcard{--fs-m:12.5px}
+    .b-quote .tcard{--fs-m:14px}
+    .b-note .tcard{--fs-m:13.5px}
+    .b-shot .tcard{--fs-m:12.5px;width:90%}
+    .b-shot .shot{padding:10px}
+    .b-pdf .tcard{width:66%;--fs-l:13px;--fs-s:8.5px}
+    .b-pods .m{padding:34px 14px 14px;gap:10px}
+    .b-vids .m{padding:44px 18px 18px}
+    .b-vids .m img{width:88%}
+    .shelf{gap:6px;padding:0 6px}
+    .shelf img{height:62px}
+    .shelf img.sq{height:50px}
+    .shelf img.wd{height:40px}
+    .shelf img:nth-child(4),.shelf img:nth-child(9){display:none}
+    footer{justify-content:center;text-align:center}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html:not(.force-motion) .reveal{opacity:1;transform:none;transition:none}
+    html:not(.force-motion) .shelf img{opacity:1;transform:none;transition:none}
+    html:not(.force-motion) .claim h2 .x::after{transform:scaleX(1);transition:none}
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="wordmark" href="#top" aria-label="REPS home">REPS</a>
+  <a class="nav-cta" href="https://apps.apple.com/app/id6744420866">Download</a>
+</nav>
+
+<main id="top">
+  <section class="story" id="story" aria-label="You read it. You watched it. You heard it. Now remember it."></section>
+
+  <section class="manifesto" id="manifesto">
+    <span class="label">Our manifesto</span>
+    <div class="mf" id="mf">
+      <p>We take in more than any generation in history. And retain less of it than ever.</p>
+      <p>It isn't you. You read, you watch, you listen, you save. It just has nowhere to live.</p>
+      <p><strong>So we built the place.</strong> What you take in comes back to you, a little each day, until it is part of how you think.</p>
+    </div>
+    <span class="mf-sign">REPS</span>
+  </section>
+
+  <section class="claims">
+    <div class="claim reveal">
+      <span class="label">The feed</span>
+      <div>
+        <h2>Doomscrolling is making us dumb.</h2>
+        <p>REPS is bloom scrolling. A few minutes a day that leave you sharper than when you started.</p>
+      </div>
+    </div>
+    <div class="claim reveal">
+      <span class="label">The save button</span>
+      <div>
+        <h2>Bookmark graveyards are useless.</h2>
+        <p>Everything you save here comes back, until it's yours.</p>
+      </div>
+    </div>
+    <div class="claim reveal">
+      <span class="label">The machine</span>
+      <div>
+        <h2>AI should make you smarter. Not think for you.</h2>
+        <p>REPS uses it to build your daily rounds. The remembering is all yours.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="trove" id="trove">
+    <div class="trove-head reveal">
+      <div>
+        <span class="label">What you can save</span>
+        <h2>Everything worth<br>remembering.</h2>
+      </div>
+    </div>
+    <div class="grid" id="grid">
+      <div class="box b-books reveal"><span class="label">Books</span>
+        <div class="m">
+          <img src="product/assets/covers/1984.jpg" alt="1984 by George Orwell">
+          <img src="product/assets/covers/sapiens.jpg" alt="Sapiens by Yuval Noah Harari">
+          <img src="product/assets/covers/atomic-habits.jpg" alt="Atomic Habits by James Clear">
+          <img src="product/assets/covers/thinking-fast-and-slow.jpg" alt="Thinking, Fast and Slow by Daniel Kahneman">
+        </div>
+      </div>
+      <div class="box b-pods reveal"><span class="label">Podcasts</span>
+        <div class="m">
+          <img src="product/assets/covers/podcast-huberman-lab.jpg" alt="Huberman Lab podcast">
+          <img src="product/assets/covers/podcast-the-daily.jpg" alt="The Daily podcast">
+          <img src="product/assets/covers/podcast-diary-of-a-ceo.jpg" alt="The Diary of a CEO podcast">
+        </div>
+      </div>
+      <div class="box b-arti reveal"><span class="label">Articles</span>
+        <div class="m"><div class="tcard"><span class="k-pub">The Atlantic</span><span class="k-title">Is Google Making Us Stupid?</span><span class="k-by">Nicholas Carr</span></div></div>
+      </div>
+      <div class="box b-high reveal"><span class="label">Highlights</span>
+        <div class="m"><div class="tcard"><span class="k-hl"><mark>You do not rise to the level of your goals. You fall to the level of your systems.</mark></span><span class="k-by">James Clear, Atomic Habits</span></div></div>
+      </div>
+      <div class="box b-vids reveal"><span class="label">Videos</span>
+        <div class="m">
+          <img src="product/assets/covers/video-kurzgesagt-the-egg.jpg" alt="Kurzgesagt: The Egg">
+          <img src="product/assets/covers/video-veritasium-entropy.jpg" alt="Veritasium: Entropy">
+        </div>
+      </div>
+      <div class="box b-quote reveal"><span class="label">Quotes</span>
+        <div class="m"><div class="tcard"><span class="k-quote">Who controls the past controls the future.</span><span class="k-by">George Orwell, 1984</span></div></div>
+      </div>
+      <div class="box b-note reveal"><span class="label">Notes</span>
+        <div class="m"><div class="tcard"><span class="k-note">Ask Dad what he thinks about the wheat bit in Sapiens.</span></div></div>
+      </div>
+      <div class="box b-shot reveal"><span class="label">Screenshots</span>
+        <div class="m"><div class="tcard"><div class="shot"><div class="k-bubble">You have to read Thinking, Fast and Slow.</div><div class="k-bubble me">Saving it now</div></div></div></div>
+      </div>
+      <div class="box b-pdf reveal"><span class="label">PDFs</span>
+        <div class="m"><div class="tcard"><span class="k-tag">PDF</span><span class="k-title">Attention Is All You Need</span><span class="k-by">Vaswani et al., 2017</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="close">
+    <div class="shelf" id="shelf">
+      <img src="product/assets/covers/thinking-fast-and-slow.jpg" alt="" style="--r:-6deg;transition-delay:.0s">
+      <img class="sq" src="product/assets/covers/podcast-the-daily.jpg" alt="" style="--r:5deg;transition-delay:.06s">
+      <img src="product/assets/covers/1984.jpg" alt="" style="--r:-4deg;transition-delay:.12s">
+      <img class="wd" src="product/assets/covers/video-veritasium-entropy.jpg" alt="" style="--r:7deg;transition-delay:.18s">
+      <img src="product/assets/covers/sapiens.jpg" alt="" style="--r:-5deg;transition-delay:.24s">
+      <img class="sq" src="product/assets/covers/podcast-huberman-lab.jpg" alt="" style="--r:4deg;transition-delay:.30s">
+      <img src="product/assets/covers/atomic-habits.jpg" alt="" style="--r:-7deg;transition-delay:.36s">
+      <img class="wd" src="product/assets/covers/video-kurzgesagt-the-egg.jpg" alt="" style="--r:5deg;transition-delay:.42s">
+      <img class="sq" src="product/assets/covers/podcast-diary-of-a-ceo.jpg" alt="" style="--r:-4deg;transition-delay:.48s">
+    </div>
+    <span class="label">Your Knowledge Companion</span>
+    <h2 style="margin-top:22px">Be the one who remembers.</h2>
+    <p class="sub">Free on the App Store, for iPhone.</p>
+    <a class="cta" href="https://apps.apple.com/app/id6744420866">Download on the App Store</a>
+  </section>
+</main>
+
+<footer>
+  <span class="wordmark">REPS</span>
+  <span>Your Knowledge Companion</span>
+  <span>&copy; 2026 REPS AI Ltd</span>
+</footer>
+
+<script>
+(function(){
+  var Q = new URLSearchParams(location.search);
+  var FORCE = Q.get('motion') === '1';
+  if (FORCE) document.documentElement.classList.add('force-motion');
+  var REDUCED = !FORCE && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var COV = 'product/assets/covers/';
+
+  /* ---------- the material ---------- */
+  var CARDS = [
+    {id:'sapiens', t:'img', src:COV+'sapiens.jpg', ar:400/604, w:150, alt:'Sapiens by Yuval Noah Harari', slot:0},
+    {id:'egg', t:'img', src:COV+'video-kurzgesagt-the-egg.jpg', ar:640/360, w:240, alt:'Kurzgesagt: The Egg', slot:1},
+    {id:'huberman', t:'img', src:COV+'podcast-huberman-lab.jpg', ar:1, w:150, alt:'Huberman Lab podcast', slot:2},
+    {id:'carr', t:'article', pub:'The Atlantic', title:'Is Google Making Us Stupid?', by:'Nicholas Carr', w:220, h:150},
+    {id:'1984', t:'img', src:COV+'1984.jpg', ar:400/600, w:150, alt:'1984 by George Orwell'},
+    {id:'clear', t:'highlight', text:'You do not rise to the level of your goals. You fall to the level of your systems.', by:'James Clear, Atomic Habits', w:220, h:160},
+    {id:'daily', t:'img', src:COV+'podcast-the-daily.jpg', ar:1, w:140, alt:'The Daily podcast'},
+    {id:'entropy', t:'img', src:COV+'video-veritasium-entropy.jpg', ar:640/360, w:240, alt:'Veritasium: Entropy'},
+    {id:'note', t:'note', text:'Ask Dad what he thinks about the wheat bit in Sapiens.', w:190, h:130},
+    {id:'atomic', t:'img', src:COV+'atomic-habits.jpg', ar:400/604, w:150, alt:'Atomic Habits by James Clear'},
+    {id:'orwell', t:'quote', text:'Who controls the past controls the future.', by:'George Orwell, 1984', w:200, h:150},
+    {id:'doac', t:'img', src:COV+'podcast-diary-of-a-ceo.jpg', ar:1, w:140, alt:'The Diary of a CEO podcast'},
+    {id:'pdf', t:'pdf', title:'Attention Is All You Need', by:'Vaswani et al., 2017', w:150, h:200},
+    {id:'thinking', t:'img', src:COV+'thinking-fast-and-slow.jpg', ar:400/593, w:150, alt:'Thinking, Fast and Slow by Daniel Kahneman'},
+    {id:'pg', t:'article', pub:'paulgraham.com', title:'How to Do Great Work', by:'Paul Graham', w:210, h:140},
+    {id:'shot', t:'shot', text:'You have to read Thinking, Fast and Slow.', w:200, h:110}
+  ];
+  var HERO_ID = 'sapiens';
+  var IDEAS = [
+    {k:'Sapiens · idea', t:'Shared myths let strangers cooperate.'},
+    {k:'Sapiens · idea', t:'The Cognitive Revolution, 70,000 years ago.'},
+    {k:'Sapiens · quote', t:'We did not domesticate wheat. It domesticated us.'}
+  ];
+
+  function cardInner(c){
+    if (c.t === 'img') return '<img src="'+c.src+'" alt="'+c.alt+'" draggable="false">';
+    if (c.t === 'article') return '<span class="k-pub">'+c.pub+'</span><span class="k-title">'+c.title+'</span><span class="k-by">'+c.by+'</span>';
+    if (c.t === 'highlight') return '<span class="k-hl"><mark>'+c.text+'</mark></span><span class="k-by">'+c.by+'</span>';
+    if (c.t === 'note') return '<span class="k-pub">Note</span><span class="k-note" style="margin-top:8px">'+c.text+'</span>';
+    if (c.t === 'quote') return '<span class="k-quote">'+c.text+'</span><span class="k-by" style="margin-top:auto">'+c.by+'</span>';
+    if (c.t === 'pdf') return '<span class="k-tag">PDF</span><span class="k-title" style="margin-top:14px">'+c.title+'</span><span class="k-by">'+c.by+'</span><span class="k-lines"><i></i><i></i><i style="width:70%"></i><i></i><i style="width:55%"></i></span>';
+    if (c.t === 'shot') return '<span class="k-pub">Screenshot</span><span class="k-bubble">'+c.text+'</span>';
+    return '';
+  }
+
+  /* ---------- helpers ---------- */
+  function clamp(v,a,b){return v<a?a:v>b?b:v}
+  function seg(p,a,b){return clamp((p-a)/(b-a),0,1)}
+  function ease(t){return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2}
+  function lerp(a,b,t){return a+(b-a)*t}
+  function mix(A,B,t){return {x:lerp(A.x,B.x,t),y:lerp(A.y,B.y,t),r:lerp(A.r,B.r,t),s:lerp(A.s,B.s,t),o:lerp(A.o,B.o,t)}}
+  function rnd(i){var x=Math.sin(i*127.1+311.7)*43758.5453;return x-Math.floor(x)}
+
+  /* ---------- a stage = one sticky viewport (or one storyboard frame) ---------- */
+  function Stage(root, opts){
+    var withHero = opts.hero;
+    root.innerHTML =
+      (withHero ?
+      '<div class="hero"><span class="label">Your Knowledge Companion</span>'+
+      '<h1 class="h1"><span class="ln soft">You read it<span class="slot book" data-slot="0"></span></span>'+
+      '<span class="ln soft">You watched it<span class="slot video" data-slot="1"></span></span>'+
+      '<span class="ln soft">You heard it<span class="slot pod" data-slot="2"></span></span>'+
+      '<span class="ln">Now remember it.</span></h1>'+
+      '<div class="hero-foot"><p class="hero-sub">REPS turns what you read, watch and listen to into knowledge that lasts.</p>'+
+      '<a class="cta" href="https://apps.apple.com/app/id6744420866">Download on the App Store</a></div></div>' : '') +
+      '<div class="cards"></div><div class="pill">REPS</div>'+
+      '<p class="caption" data-c="0">Every day, something worth remembering.</p>'+
+      '<p class="caption" data-c="1">By next week, most of it is gone.</p>'+
+      '<p class="caption" data-c="2">REPS gathers what you save.</p>'+
+      '<p class="caption" data-c="3">Then plays the ideas back to you, until they’re yours.</p>'+
+      IDEAS.map(function(d){return '<div class="idea"><small>'+d.k+'</small>'+d.t+'</div>'}).join('');
+    var hero = root.querySelector('.hero');
+    var cardsEl = root.querySelector('.cards');
+    var pill = root.querySelector('.pill');
+    var caps = [].slice.call(root.querySelectorAll('.caption'));
+    var ideas = [].slice.call(root.querySelectorAll('.idea'));
+    var els = CARDS.map(function(c){
+      var d = document.createElement('div');
+      d.className = 'card ' + (c.t==='img' ? 'img' : 'paper') + (c.t==='page'?' page':'');
+      d.innerHTML = cardInner(c);
+      cardsEl.appendChild(d);
+      return d;
+    });
+    var L = {};   // layout
+
+    function layout(){
+      var W = root.clientWidth, H = root.clientHeight;
+      var mobile = W < 760;
+      var u = mobile ? Math.min(W/390, H/844)*0.56 : Math.min(W/1440, H/900);
+      L = {W:W, H:H, u:u, mobile:mobile, size:[], S0:[], S1:[], S2:[]};
+      CARDS.forEach(function(c,i){
+        var w = c.w*u, h = c.t==='img' ? w/c.ar : c.h*u;
+        L.size[i] = {w:w,h:h};
+        var el = els[i];
+        el.style.width = w+'px'; el.style.height = h+'px';
+        el.style.marginLeft = (-w/2)+'px'; el.style.marginTop = (-h/2)+'px';
+        if (c.t !== 'img'){
+          el.style.setProperty('--pad', (14*u*(mobile?1.25:1))+'px');
+          el.style.setProperty('--fs-s', Math.max(7, 9.5*u*(mobile?1.2:1))+'px');
+          el.style.setProperty('--fs-m', Math.max(8.5, 14*u*(mobile?1.15:1))+'px');
+          el.style.setProperty('--fs-l', Math.max(10, 18*u*(mobile?1.15:1))+'px');
+          el.style.borderRadius = (10*u*(mobile?1.3:1))+'px';
+        }
+      });
+      // S1: the scatter, a jittered grid that stays clear of the caption
+      var cols = mobile ? 4 : 6, rows = mobile ? 4 : 3;
+      var x0 = mobile ? -0.72 : -0.80, x1 = -x0;
+      var y0 = mobile ? -0.62 : -0.47, y1 = mobile ? 0.28 : 0.22;
+      CARDS.forEach(function(c,i){
+        var col = i % cols, row = Math.floor(i/cols) % rows;
+        var fx = lerp(x0,x1,col/(cols-1)) + (rnd(i)-.5)*(mobile?0.14:0.12) + (row%2 ? (mobile?0.1:0.07) : 0);
+        var fy = lerp(y0,y1,row/(rows-1)) + (rnd(i+40)-.5)*(mobile?0.10:0.14);
+        var r = (rnd(i+80)-.5)*16;
+        L.S1[i] = {x:fx*W/2, y:fy*H/2, r:r, s:1, o:1};
+        L.S2[i] = {x:fx*W/2*1.55, y:fy*H/2*1.5 - H*0.04, r:r*2.2, s:.72, o:.0};
+      });
+      // S0: hero. Slot cards sit in the headline; the rest wait below the fold in a cascade.
+      var rr = root.getBoundingClientRect();
+      if (hero){
+        hero.style.transform='none';
+        // fit: shrink the headline until every line (with its artwork) fits the column
+        var h1 = hero.querySelector('.h1'); h1.style.fontSize='';
+        var fs = parseFloat(getComputedStyle(h1).fontSize), avail = hero.clientWidth - (mobile?0:40);
+        var lns = [].slice.call(h1.querySelectorAll('.ln'));
+        function widest(){ return Math.max.apply(null, lns.map(function(l){ var r=document.createRange(); r.selectNodeContents(l); return r.getBoundingClientRect().width; })); }
+        var guard = 0; while (widest() > avail && guard++ < 30){ fs *= 0.965; h1.style.fontSize = fs+'px'; }
+      }
+      CARDS.forEach(function(c,i){
+        var slotEl = hero && c.slot!==undefined ? hero.querySelector('[data-slot="'+c.slot+'"]') : null;
+        if (slotEl){
+          var b = slotEl.getBoundingClientRect();
+          var cx = b.left - rr.left + b.width/2 - W/2, cy = b.top - rr.top + b.height/2 - H/2;
+          L.S0[i] = {x:cx, y:cy, r:0, s:b.width/L.size[i].w, o:1, slot:true};
+          els[i].style.borderRadius = (b.height*0.1/(b.width/L.size[i].w))+'px';
+        } else {
+          var k = i - 3;
+          L.S0[i] = {x:(mobile?-0.1:0.18)*W/2 + (k%4-1.5)*70*u, y:H/2 + 140*u + k*46*u, r:(rnd(i+5)-.5)*24, s:.9, o:1};
+        }
+      });
+      L.cy = -H*(mobile?0.12:0.08);
+      L.fy = mobile ? -H*0.25 : L.cy;
+      L.Rx = mobile ? W*0.40 : Math.min(W*0.34, 520);
+      L.Ry = mobile ? H*0.17 : H*0.25;
+      // idea chips around the retained book
+      var hs = L.size[CARDS.findIndex(function(c){return c.id===HERO_ID})];
+      var bookS = mobile ? 1.25 : 1.55;
+      L.bookS = bookS;
+      var bw = hs.w*bookS, bh = hs.h*bookS;
+      var spots = mobile ?
+        [[-W/2+22, L.fy + bh/2 + 18],[-W/2+22+34, L.fy + bh/2 + 96],[-W/2+22+68, L.fy + bh/2 + 174]] :
+        [[-bw/2 - 340, L.cy - bh*0.36],[bw/2 + 46, L.cy - bh*0.30],[bw/2 + 46, L.cy + bh*0.14]];
+      ideas.forEach(function(el,i){
+        el.style.setProperty('--x', spots[i][0]+'px');
+        el.style.setProperty('--y', spots[i][1]+'px');
+      });
+    }
+
+    function ring(i,p){
+      var N = CARDS.length;
+      var swirl = (p-0.40)*Math.PI*1.6;
+      var a = i/N*Math.PI*2 + swirl;
+      var depth = (Math.sin(a)+1)/2;
+      return {x:Math.cos(a)*L.Rx, y:L.cy + Math.sin(a)*L.Ry, r:Math.cos(a)*8, s:(L.mobile?0.46:0.5)+0.24*depth, o:.55+.45*depth, z:Math.round(depth*20)+1};
+    }
+
+    function render(p, pointer){
+      var N = CARDS.length;
+      var hi = CARDS.findIndex(function(c){return c.id===HERO_ID});
+      for (var i=0;i<N;i++){
+        var d = (i/N)*0.06; // cascade stagger
+        var st, z = 1;
+        var S0 = L.S0[i], S1 = L.S1[i], S2 = L.S2[i];
+        if (p < 0.20){
+          var t = ease(seg(p, 0.03 + d, 0.17 + d));
+          st = mix(S0, S1, t);
+          if (pointer && S0.slot && t < 0.02){ st.x += pointer.x*6; st.y += pointer.y*4; st.r += pointer.x*3; }
+        } else if (p < 0.33){
+          var drift = seg(p,0.20,0.33);
+          st = mix(S1, S1, 0); st.y -= drift*10*L.u; st.r += drift*2;
+        } else if (p < 0.47){
+          st = mix({x:S1.x,y:S1.y-10*L.u,r:S1.r+2,s:1,o:1}, S2, ease(seg(p, 0.33 + d*0.5, 0.45 + d*0.5)));
+        } else if (p < 0.60){
+          var R = ring(i,p); z = R.z;
+          st = mix(S2, R, ease(seg(p, 0.47 + d, 0.58 + d)));
+        } else if (p < 0.75){
+          var R2 = ring(i,p); z = R2.z; st = R2;
+        } else {
+          var R3 = ring(i,p); z = R3.z;
+          var C = (i===hi) ? {x:0,y:L.fy,r:0,s:L.bookS,o:1} : {x:0,y:L.cy,r:R3.r,s:.16,o:0};
+          if (i===hi) z = 30;
+          st = mix(R3, C, ease(seg(p, 0.75 + (i===hi?0.03:d*0.6), 0.86 + (i===hi?0.03:d*0.6))));
+        }
+        els[i].style.transform = 'translate3d('+st.x.toFixed(1)+'px,'+st.y.toFixed(1)+'px,0) rotate('+st.r.toFixed(2)+'deg) scale('+st.s.toFixed(4)+')';
+        els[i].style.opacity = st.o.toFixed(3);
+        els[i].style.zIndex = z;
+      }
+      if (hero){
+        var ht = seg(p, 0.015, 0.11);
+        hero.style.opacity = (1-ht).toFixed(3);
+        hero.style.transform = 'translate3d(0,'+(-ht*60)+'px,0)';
+        hero.style.visibility = ht>=1 ? 'hidden' : 'visible';
+      }
+      var pin = seg(p,0.50,0.58) * (1-seg(p,0.76,0.83));
+      pill.style.opacity = pin.toFixed(3);
+      pill.style.transform = 'translate(-50%,-50%) translateY('+L.cy+'px) scale('+(0.85+0.15*pin)+')';
+      var win = [[0.16,0.31],[0.34,0.47],[0.53,0.75],[0.86,1.2]];
+      caps.forEach(function(el,k){
+        var a = win[k][0], b = win[k][1];
+        var v = seg(p, a, a+0.035) * (1 - seg(p, b-0.03, b));
+        el.style.opacity = v.toFixed(3);
+        el.style.transform = 'translate3d(0,'+((1-v)*24)+'px,0)';
+      });
+      root.classList.toggle('ideas-on', p > 0.88);
+    }
+    return {layout:layout, render:render, root:root};
+  }
+
+  /* ---------- mount ---------- */
+  var story = document.getElementById('story');
+  var TALL = window.innerHeight > 1600;
+  var STATIC = REDUCED || TALL;
+  var stages = [];
+
+  if (!STATIC){
+    var st = document.createElement('div'); st.className='stage';
+    story.appendChild(st);
+    var S = Stage(st, {hero:true});
+    stages.push(S);
+    var pointer = {x:0,y:0}, ticking = false;
+    function progress(){
+      var r = story.getBoundingClientRect();
+      var total = story.offsetHeight - window.innerHeight;
+      return clamp(-r.top / total, 0, 1);
+    }
+    var AT = parseFloat(Q.get('at'));  // capture aid: pin the story at a progress value without scrolling
+    function frame(){ ticking=false; S.render(isNaN(AT) ? progress() : AT, pointer); }
+    function req(){ if(!ticking){ ticking=true; requestAnimationFrame(frame);} }
+    function relayout(){ S.layout(); frame(); }
+    window.addEventListener('scroll', req, {passive:true});
+    window.addEventListener('resize', relayout);
+    window.addEventListener('pointermove', function(e){
+      if (window.scrollY > window.innerHeight*0.2) return;
+      pointer.x = (e.clientX/window.innerWidth - .5)*2; pointer.y = (e.clientY/window.innerHeight - .5)*2; req();
+    }, {passive:true});
+    var go = function(){ relayout(); };
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(go); else go();
+    window.addEventListener('load', relayout);
+  } else {
+    story.classList.add('static');
+    var frameH = TALL ? (window.innerWidth < 760 ? 844 : 900) : window.innerHeight;
+    story.style.setProperty('--frame-h', frameH+'px');
+    var FR = [0, 0.24, 0.40, 0.66, 1];
+    FR.forEach(function(p,k){
+      var el = document.createElement('div'); el.className='stage';
+      story.appendChild(el);
+      var s = Stage(el, {hero:k===0});
+      stages.push({s:s,p:p});
+    });
+    var draw = function(){ stages.forEach(function(o){ o.s.layout(); o.s.render(o.p); }); };
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw); else draw();
+    window.addEventListener('load', draw);
+    window.addEventListener('resize', draw);
+  }
+
+  /* ---------- manifesto: ink fills as you read (scroll-driven) ---------- */
+  var mf = document.getElementById('mf');
+  var words = [];
+  [].forEach.call(mf.querySelectorAll('p'), function(p){
+    var walk = document.createTreeWalker(p, NodeFilter.SHOW_TEXT);
+    var nodes = []; while (walk.nextNode()) nodes.push(walk.currentNode);
+    nodes.forEach(function(n){
+      var frag = document.createDocumentFragment();
+      n.textContent.split(/(\s+)/).forEach(function(tok){
+        if (!tok) return;
+        if (/^\s+$/.test(tok)){ frag.appendChild(document.createTextNode(tok)); return; }
+        var s = document.createElement('span'); s.className='w'; s.textContent=tok; frag.appendChild(s); words.push(s);
+      });
+      n.parentNode.replaceChild(frag, n);
+    });
+  });
+  var inkTick = false;
+  function ink(){
+    inkTick = false;
+    if (STATIC) { words.forEach(function(w){ w.style.opacity = 1; }); return; }
+    var line = window.innerHeight*0.72;
+    words.forEach(function(w){
+      var t = w.getBoundingClientRect().top;
+      w.style.opacity = t < line ? 1 : (t < line + 140 ? 0.16 + 0.84*(1-(t-line)/140) : 0.16);
+    });
+  }
+  ink();
+  window.addEventListener('scroll', function(){ if(!inkTick){ inkTick=true; requestAnimationFrame(ink);} }, {passive:true});
+
+  /* ---------- reveals (one-shot, no loops) ---------- */
+  var targets = [].slice.call(document.querySelectorAll('.reveal')).concat([document.getElementById('shelf')]);
+  if (STATIC || !('IntersectionObserver' in window)){
+    targets.forEach(function(t){ t.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {threshold:.25});
+    targets.forEach(function(t){ io.observe(t); });
+  }
+})();
+</script>
+</body>
+</html>
