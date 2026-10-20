@@ -1,403 +1,142 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Support — REPS</title>
-    <meta name="description" content="Get help with REPS — send us a message, browse FAQ, or email support@getreps.io." />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800;900&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      :root {
-        --background: #FFFAF7;
-        --foreground: #2C3E50;
-        --primary: #FF6B6B;
-        --primary-hover: #ff5757;
-        --muted-foreground: #8B95A1;
-        --border: #EAEAEA;
-        --secondary: #FFF5F0;
-        --card: #FFFFFF;
-      }
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Support — REPS</title>
+<meta name="description" content="Questions, bug reports, and ideas. Email support@getreps.io or send a message.">
+<link rel="canonical" href="https://www.getreps.io/support">
+<meta name="theme-color" content="#FFFAF7">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/pages.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="/" aria-label="REPS home"><img src="/product/assets/app-icon-512.png" alt="" width="30" height="30"><span class="wordmark">REPS</span></a>
+  <nav class="links" aria-label="Pages">
+    <a href="/about">About</a>
+    <a href="/newsroom" class="desk">Newsroom</a>
+    <a href="/planet">Planet</a>
+  </nav>
+  <a class="get" href="https://apps.apple.com/app/id6759216018">Get the app</a>
+</header>
+<main class="ask">
+  <h1>Support</h1>
+  <p class="lede">Got a question, a bug report, or an idea? Send a message. We read every one.</p>
 
-      * { margin: 0; padding: 0; box-sizing: border-box; }
+  <a class="email-cta" href="mailto:support@getreps.io?subject=REPS%20support">Email support@getreps.io</a>
+  <p class="note">Or use the form. We read both.</p>
 
-      body {
-        font-family: "Figtree", sans-serif;
-        background: var(--background);
-        color: var(--foreground);
-        line-height: 1.7;
-        -webkit-font-smoothing: antialiased;
-      }
+  <form id="support-form" style="margin-top:28px">
+    <div class="field">
+      <label for="name">Name <span class="opt">(optional)</span></label>
+      <input type="text" id="name" name="name" maxlength="100" autocomplete="name">
+    </div>
+    <div class="field">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required maxlength="200" autocomplete="email">
+    </div>
+    <div class="field">
+      <label for="category">Category</label>
+      <select id="category" name="category" required>
+        <option value="" disabled selected>Select a category…</option>
+        <option value="bug">Bug report</option>
+        <option value="feature">Feature request</option>
+        <option value="account">Account</option>
+        <option value="chrome-extension">Chrome extension</option>
+        <option value="privacy">Privacy</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="message">Message</label>
+      <textarea id="message" name="message" required maxlength="4000" placeholder="Tell us what’s going on…"></textarea>
+    </div>
+    <div class="honeypot-wrap" aria-hidden="true">
+      <input type="text" name="website" tabindex="-1" autocomplete="off">
+    </div>
+    <input type="hidden" name="submit_elapsed_ms" value="0">
+    <button type="submit" class="send">Send message</button>
+  </form>
+  <div id="status" class="status" role="status" aria-live="polite"></div>
 
-      header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 1.25rem 1.5rem;
-        position: sticky;
-        top: 0;
-        z-index: 50;
-        background: rgba(255, 250, 247, 0.9);
-        backdrop-filter: blur(12px);
-      }
-
-      header a {
-        font-weight: 700;
-        font-size: 1.5rem;
-        letter-spacing: -0.025em;
-        color: var(--primary);
-        text-decoration: none;
-      }
-
-      main {
-        max-width: 680px;
-        margin: 0 auto;
-        padding: 2rem 1.5rem 4rem;
-      }
-
-      h1 {
-        font-size: 2rem;
-        font-weight: 700;
-        letter-spacing: -0.025em;
-        margin-bottom: 0.5rem;
-        color: var(--foreground);
-      }
-
-      .intro {
-        font-size: 1rem;
-        color: var(--muted-foreground);
-        margin-bottom: 2rem;
-        line-height: 1.8;
-      }
-
-      h2 {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin-top: 2.5rem;
-        margin-bottom: 0.75rem;
-        color: var(--foreground);
-        letter-spacing: -0.015em;
-      }
-
-      p {
-        margin-bottom: 1rem;
-        color: var(--foreground);
-        font-size: 0.9375rem;
-      }
-
-      a { color: var(--primary); text-decoration: none; }
-      a:hover { text-decoration: underline; }
-
-      .divider {
-        border: none;
-        border-top: 1px solid var(--border);
-        margin: 2.5rem 0;
-      }
-
-      /* Carried over from original support.html */
-      .email-cta {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        padding: 0.9rem 1.5rem;
-        background: var(--primary);
-        color: white;
-        font-size: 1rem;
-        font-weight: 600;
-        border-radius: 8px;
-        text-decoration: none;
-        transition: background 0.15s ease;
-        margin-top: 0.5rem;
-      }
-      .email-cta:hover { background: var(--primary-hover); text-decoration: none; }
-
-      .response-time {
-        font-size: 0.875rem;
-        color: var(--muted-foreground);
-        margin-top: 0.75rem;
-      }
-
-      .faq dt {
-        font-weight: 600;
-        margin-top: 1.25rem;
-        color: var(--foreground);
-      }
-
-      .faq dd {
-        color: var(--muted-foreground);
-        font-size: 0.9375rem;
-        margin-left: 0;
-      }
-
-      /* Form styles */
-      .form {
-        display: flex;
-        flex-direction: column;
-        gap: 1.25rem;
-        margin-bottom: 1.5rem;
-      }
-
-      .field {
-        display: flex;
-        flex-direction: column;
-        gap: 0.375rem;
-      }
-
-      .label {
-        font-size: 0.875rem;
-        font-weight: 600;
-        color: var(--foreground);
-      }
-
-      .input,
-      .select,
-      .textarea {
-        width: 100%;
-        padding: 0.75rem 1rem;
-        border: 1.5px solid var(--border);
-        border-radius: 8px;
-        font-family: "Figtree", sans-serif;
-        font-size: 0.9375rem;
-        color: var(--foreground);
-        background: var(--card);
-        transition: border-color 0.15s ease;
-        -webkit-appearance: none;
-      }
-
-      .input:focus,
-      .select:focus,
-      .textarea:focus {
-        outline: none;
-        border-color: var(--primary);
-      }
-
-      .textarea { resize: vertical; min-height: 120px; }
-
-      .submit {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0.9rem 1.75rem;
-        background: var(--primary);
-        color: white;
-        font-family: "Figtree", sans-serif;
-        font-size: 1rem;
-        font-weight: 600;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: background 0.15s ease;
-        align-self: flex-start;
-      }
-      .submit:hover { background: var(--primary-hover); }
-      .submit:disabled { opacity: 0.6; cursor: not-allowed; }
-
-      .status--success {
-        padding: 0.875rem 1rem;
-        background: #f0fdf4;
-        border: 1.5px solid #86efac;
-        border-radius: 8px;
-        color: #166534;
-        font-size: 0.9375rem;
-        font-weight: 500;
-      }
-
-      .status--error {
-        padding: 0.875rem 1rem;
-        background: #fef2f2;
-        border: 1.5px solid #fca5a5;
-        border-radius: 8px;
-        color: #991b1b;
-        font-size: 0.9375rem;
-      }
-
-      .honeypot-wrap {
-        position: absolute;
-        left: -9999px;
-        top: -9999px;
-      }
-
-      footer {
-        padding: 2.5rem 1.5rem;
-        border-top: 1px solid var(--border);
-        background: var(--secondary);
-        text-align: center;
-      }
-
-      footer .links {
-        display: flex;
-        justify-content: center;
-        gap: 1.5rem;
-        margin-bottom: 1rem;
-        flex-wrap: wrap;
-      }
-
-      footer .links a {
-        font-size: 0.8125rem;
-        color: var(--muted-foreground);
-      }
-
-      footer .copy {
-        font-size: 0.75rem;
-        color: var(--muted-foreground);
-        opacity: 0.6;
-      }
-    </style>
-  </head>
-  <body>
-    <header>
-      <a href="/">REPS</a>
-    </header>
-
-    <main>
-      <h1>Support</h1>
-      <p class="intro">Got a question, a bug report, or an idea? Send us a message — we read every one.</p>
-
-      <form id="support-form" class="form">
-        <div class="field">
-          <label class="label" for="name">Name <span style="font-weight:400;color:var(--muted-foreground)">(optional)</span></label>
-          <input class="input" type="text" id="name" name="name" maxlength="100" autocomplete="name" />
-        </div>
-
-        <div class="field">
-          <label class="label" for="email">Email</label>
-          <input class="input" type="email" id="email" name="email" required maxlength="200" autocomplete="email" />
-        </div>
-
-        <div class="field">
-          <label class="label" for="category">Category</label>
-          <select class="select" id="category" name="category" required>
-            <option value="" disabled selected>Select a category…</option>
-            <option value="bug">Bug report</option>
-            <option value="feature">Feature request</option>
-            <option value="account">Account</option>
-            <option value="chrome-extension">Chrome extension</option>
-            <option value="privacy">Privacy</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label class="label" for="message">Message</label>
-          <textarea class="textarea" id="message" name="message" required maxlength="4000" rows="6" placeholder="Tell us what's going on…"></textarea>
-        </div>
-
-        <!-- Honeypot: off-screen, not display:none, aria-hidden, tabindex=-1 -->
-        <div class="honeypot-wrap" aria-hidden="true">
-          <input type="text" name="website" tabindex="-1" autocomplete="off" />
-        </div>
-
-        <input type="hidden" name="submit_elapsed_ms" value="0" />
-
-        <button type="submit" class="submit">Send message</button>
-      </form>
-
-      <div id="status" role="status" aria-live="polite"></div>
-
-      <a class="email-cta" href="mailto:support@getreps.io?subject=REPS%20support">
-        Email support@getreps.io
-      </a>
-      <p class="response-time">Prefer email instead of the form? We read both inboxes.</p>
-
-      <hr class="divider" />
-
-      <h2>Frequently asked</h2>
-
-      <dl class="faq">
-        <dt>How do I pair the Chrome extension with my REPS account?</dt>
-        <dd>Open the REPS mobile app, go to Settings → Connect browser, and generate a pairing code. In the extension's Options page, paste the 8-character code. That's a one-time step — once paired, saving is one click.</dd>
-
-        <dt>Something I saved didn't show up in the app. What happened?</dt>
-        <dd>Saved content takes a few minutes to process through the REPS pipeline before it becomes reps you can train on. If it's been longer than 30 minutes, email us the URL you tried to save and we'll look at it.</dd>
-
-        <dt>How do I delete my account or a piece of saved content?</dt>
-        <dd>Email <a href="mailto:privacy@getreps.io">privacy@getreps.io</a>. We delete or anonymise account data within 30 days of request. For deletion of individual saved items, include the source URL in your email.</dd>
-
-        <dt>How do I unpair a browser?</dt>
-        <dd>In the REPS app, open Settings → Connected browsers and disconnect it. The pairing is revoked centrally and that browser can no longer save to your account, even if you no longer have access to it.</dd>
-
-        <dt>Is there an Android or iOS app?</dt>
-        <dd>The REPS mobile app is currently iOS-only, with Android planned. If you'd like to be notified when Android ships, sign up on our <a href="/">homepage</a>.</dd>
-      </dl>
-
-      <hr class="divider" />
-
-      <h2>Other ways to reach us</h2>
-      <p>For privacy or data-deletion requests specifically: <a href="mailto:privacy@getreps.io">privacy@getreps.io</a></p>
-      <p>For everything else: <a href="mailto:support@getreps.io">support@getreps.io</a></p>
-    </main>
-
-    <footer>
-      <div class="links">
-        <a href="/">Home</a>
-        <a href="/privacy">Privacy</a>
-        <a href="/privacy-chrome">Chrome Extension Privacy</a>
-        <a href="/terms">Terms</a>
-      </div>
-      <div class="copy">&copy; 2026 REPS</div>
-    </footer>
-
-    <script>
-      const pageLoadTime = Date.now();
-      const form = document.getElementById('support-form');
-      const statusEl = document.getElementById('status');
-
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        statusEl.className = '';
-        statusEl.textContent = '';
-
-        const submitBtn = form.querySelector('button[type="submit"]');
-        submitBtn.disabled = true;
-
-        const elapsedInput = form.querySelector('input[name="submit_elapsed_ms"]');
-        if (elapsedInput) {
-          elapsedInput.value = String(Date.now() - pageLoadTime);
-        }
-
-        const fd = new FormData(form);
-        const payload = {
-          name: fd.get('name') || null,
-          email: fd.get('email'),
-          category: fd.get('category'),
-          message: fd.get('message'),
-          website: fd.get('website') || '',
-          submit_elapsed_ms: Number(fd.get('submit_elapsed_ms') || 0),
-          source_page: (() => {
-            const u = new URL(window.location.href);
-            return `${u.origin}${u.pathname}`;
-          })(),
-        };
-
-        try {
-          const res = await fetch('/api/support', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
-          });
-          if (res.ok) {
-            statusEl.className = 'status--success';
-            statusEl.textContent = 'Thanks — we got it. You\'ll hear from us soon.';
-            form.reset();
-          } else if (res.status === 429) {
-            statusEl.className = 'status--error';
-            statusEl.innerHTML = 'Too many submissions from this network. Try again later, or email <a href="mailto:support@getreps.io">support@getreps.io</a>.';
-          } else {
-            statusEl.className = 'status--error';
-            statusEl.innerHTML = 'Something went wrong. Please email <a href="mailto:support@getreps.io">support@getreps.io</a>.';
-          }
-        } catch {
-          statusEl.className = 'status--error';
-          statusEl.innerHTML = 'Couldn\'t reach the server. Please email <a href="mailto:support@getreps.io">support@getreps.io</a>.';
-        } finally {
-          submitBtn.disabled = false;
-        }
+  <hr>
+  <h2 style="font-family:var(--serif);font-weight:500;font-size:30px;letter-spacing:-.02em;margin:8px 0 4px">Frequently asked</h2>
+  <dl class="faq">
+    <dt>How do I pair the Chrome extension with my REPS account?</dt>
+    <dd>Open the REPS mobile app, go to Settings → Connect browser, and generate a pairing code. In the extension’s Options page, paste the 8-character code. That’s a one-time step — once paired, saving is one click.</dd>
+    <dt>Something I saved didn’t show up in the app. What happened?</dt>
+    <dd>Saved content takes a few minutes to process through the REPS pipeline before it becomes reps you can train on. If it’s been longer than 30 minutes, email us the URL you tried to save and we’ll look at it.</dd>
+    <dt>How do I delete my account or a piece of saved content?</dt>
+    <dd>Email <a href="mailto:privacy@getreps.io">privacy@getreps.io</a>. We delete or anonymise account data within 30 days of request. For deletion of individual saved items, include the source URL in your email.</dd>
+    <dt>How do I unpair a browser?</dt>
+    <dd>In the REPS app, open Settings → Connected browsers and disconnect it. The pairing is revoked centrally and that browser can no longer save to your account, even if you no longer have access to it.</dd>
+    <dt>Is there an Android or iOS app?</dt>
+    <dd>The REPS app is on iPhone today. Android is planned. Email <a href="mailto:support@getreps.io">support@getreps.io</a> if you want to know when it ships.</dd>
+  </dl>
+  <hr>
+  <h2 style="font-family:var(--serif);font-weight:500;font-size:30px;letter-spacing:-.02em;margin:8px 0 12px">Other ways to reach us</h2>
+  <p>For privacy or data-deletion requests: <a href="mailto:privacy@getreps.io">privacy@getreps.io</a></p>
+  <p>For everything else: <a href="mailto:support@getreps.io">support@getreps.io</a></p>
+</main>
+<footer class="foot">
+  <a class="brand" href="/"><span class="wordmark">REPS</span></a>
+  <nav aria-label="Pages">
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+    <a href="/planet">Planet</a>
+    <a href="/support" aria-current="page">Support</a>
+  </nav>
+  <p>© REPS · <a href="/privacy">Privacy</a> · <a href="/privacy-chrome">Chrome privacy</a> · <a href="/terms">Terms</a> · <a href="/fair-use">Fair use</a></p>
+</footer>
+<script>
+  const pageLoadTime = Date.now();
+  const form = document.getElementById('support-form');
+  const statusEl = document.getElementById('status');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    statusEl.className = 'status';
+    statusEl.textContent = '';
+    const submitBtn = form.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    const elapsedInput = form.querySelector('input[name="submit_elapsed_ms"]');
+    if (elapsedInput) elapsedInput.value = String(Date.now() - pageLoadTime);
+    const fd = new FormData(form);
+    const payload = {
+      name: fd.get('name') || null,
+      email: fd.get('email'),
+      category: fd.get('category'),
+      message: fd.get('message'),
+      website: fd.get('website') || '',
+      submit_elapsed_ms: Number(fd.get('submit_elapsed_ms') || 0),
+      source_page: (() => { const u = new URL(window.location.href); return `${u.origin}${u.pathname}`; })(),
+    };
+    try {
+      const res = await fetch('/api/support', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
       });
-    </script>
-  </body>
+      if (res.ok) {
+        statusEl.className = 'status status--success';
+        statusEl.textContent = 'Thanks — we got it. You’ll hear from us soon.';
+        form.reset();
+      } else if (res.status === 429) {
+        statusEl.className = 'status status--error';
+        statusEl.innerHTML = 'Too many submissions from this network. Try again later, or email <a href="mailto:support@getreps.io">support@getreps.io</a>.';
+      } else {
+        statusEl.className = 'status status--error';
+        statusEl.innerHTML = 'Something went wrong. Please email <a href="mailto:support@getreps.io">support@getreps.io</a>.';
+      }
+    } catch {
+      statusEl.className = 'status status--error';
+      statusEl.innerHTML = 'Couldn’t reach the server. Please email <a href="mailto:support@getreps.io">support@getreps.io</a>.';
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+</script>
+</body>
 </html>

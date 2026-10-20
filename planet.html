@@ -37,7 +37,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Lora:ital,wght@0,500;1,400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap"
       rel="stylesheet"
     />
     <style>
@@ -178,11 +178,19 @@
       .hero h1 {
         font-family: var(--display);
         font-weight: 700;
-        font-size: clamp(42px, 9.5vw, 82px);
+        font-size: clamp(34px, 8vw, 82px);
         line-height: 0.96;
         letter-spacing: -0.035em;
         color: var(--ink);
         margin-top: 16px;
+      }
+      @media (max-width: 640px) {
+        .hero { padding-left: 22px; padding-right: 22px; }
+        .hero h1 { font-size: 40px; letter-spacing: -0.03em; }
+      }
+      .hero h1 .grow,
+      .hero h1 .line {
+        display: block;
       }
       .hero h1 .grow {
         color: var(--teal);
@@ -430,8 +438,9 @@
       .cta h2 {
         font-size: clamp(30px, 5.4vw, 44px);
         margin-bottom: 12px;
-        justify-content: center;
       }
+      .cta h2 .line { display: block; }
+      .cta h2 .grow { color: var(--teal); }
       .cta .cta-sub {
         max-width: 460px;
         margin: 0 auto 26px;
@@ -483,6 +492,34 @@
         color: var(--muted);
         line-height: 1.6;
       }
+    
+.hero h1, h2, .cta h2, .figure .n { font-family: "Lora", Georgia, serif; font-weight: 500; letter-spacing: -0.022em; }
+.figure .n { font-weight: 500; letter-spacing: -0.04em; }
+.wordmark, .label, .figure .meta .cap, footer .motto, .nav-cta, .appstore-btn {
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+.wordmark { letter-spacing: 0.14em; font-weight: 700; }
+.nav-links { display: flex; align-items: center; gap: 22px; }
+.nav-links a { text-decoration: none; font-size: 15px; font-weight: 500; color: var(--ink, #211a14); }
+.nav-links a[aria-current="page"] { border-bottom: 2px solid #1f5f56; padding-bottom: 2px; }
+.nav-cta { white-space: nowrap; }
+.appstore-btn {
+  background: linear-gradient(100deg, #FF6B6B 0%, #FF8E53 100%);
+  color: #fff; border-radius: 999px; height: 56px; padding: 0 28px;
+  font-weight: 600; font-size: 16px;
+  box-shadow: 0 1px 0 rgba(255,255,255,.35) inset, 0 14px 34px -14px rgba(255,107,107,.75);
+}
+@media (max-width: 759px) {
+  nav { padding: 10px 16px; }
+  .nav-inner { gap: 10px; }
+  .wordmark, .nav-links { flex-shrink: 0; }
+  .wordmark { font-size: 16px; letter-spacing: 0.04em; }
+  .nav-links { gap: 10px; }
+  .nav-links a { font-size: 13px; }
+  .nav-cta { font-size: 13px; padding: 8px 12px; }
+  .hide-sm { display: none; }
+}
+
     </style>
   </head>
   <body>
@@ -497,9 +534,10 @@
           />
           REPS
         </a>
-        <div style="display: flex; align-items: center; gap: 18px">
-          <a href="/about" style="text-decoration: none; font-size: 15px; font-weight: 500; color: var(--ink, #211a14)">About</a>
-          <a href="/about#press" style="text-decoration: none; font-size: 15px; font-weight: 500; color: var(--ink, #211a14)">Press</a>
+        <div class="nav-links">
+          <a href="/about">About</a>
+          <a href="/newsroom" class="hide-sm">Newsroom</a>
+          <a href="/planet" aria-current="page">Planet</a>
         <a
           class="nav-cta"
           href="https://apps.apple.com/app/id6759216018"
@@ -525,7 +563,7 @@
         <circle cx="17" cy="6" r="3.4" fill="#ff8e53" />
       </svg>
       <span class="label">Our planet pledge</span>
-      <h1>Learn something.<br /><span class="grow">Grow something.</span></h1>
+      <h1><span class="line">Learn something.</span><span class="line grow">Grow something.</span></h1>
       <p class="lede">
         The AI that powers REPS uses a little energy. So for every month it runs,
         we plant real trees for it, far more than we ever use.
@@ -545,15 +583,15 @@
           <span class="label">Why we do this</span>
           <h2>Growing your mind should grow something real</h2>
           <p class="lead-note">
-            REPS exists to turn scrolling into something worth keeping. It felt
-            right that it should leave something behind in the world too.
+            REPS is a knowledge companion. What you read, watch, and listen to
+            stays with you. It felt right that it should leave something behind
+            in the world too.
           </p>
           <p>
-            Every time you save something, a little AI reads it, pulls out the
-            ideas worth remembering, and turns them into your daily games. That
-            takes a small amount of energy. We could ignore it, honestly it is
-            tiny. Instead we turn it into something good. We plant real trees, in
-            real forests, for the people who use REPS.
+            Every time you save something, a little AI reads it and draws out
+            the ideas. That takes a small amount of energy. We could ignore it.
+            Honestly, it is tiny. Instead we turn it into something good. We
+            plant real trees, in real forests, for the people who use REPS.
           </p>
         </section>
 
@@ -707,10 +745,10 @@
     </div>
 
     <section class="cta">
-      <h2>Start growing your mind.</h2>
+      <h2><span class="line">Learn something.</span><span class="line grow">Grow something.</span></h2>
       <p class="cta-sub">
-        Save anything you read, watch, or hear. REPS turns it into quick games
-        that help you remember it, and plants trees along the way.
+        REPS is your knowledge companion. The energy it uses is paid back in
+        trees, and then some.
       </p>
       <a
         class="appstore-btn"
@@ -719,19 +757,15 @@
         rel="noopener"
         >Download on the App Store</a
       >
-      <p class="reassure">Free on the App Store.</p>
+
     </section>
 
     <footer>
-      <span class="motto">Save. Play. Remember.</span>
-      <div style="margin: 10px 0 4px">
-        <a href="/features/active-recall">Active recall</a> ·
-        <a href="/features/second-brain">Second Brain</a> ·
-        <a href="/features/read-it-later">Read it later</a>
-      </div>
-      <div style="margin: 0 0 6px">
+      <span class="motto">Your knowledge companion.</span>
+      <div style="margin: 10px 0 6px">
         <a href="/">Home</a> · <a href="/about">About</a> ·
-        <a href="/about#press">Press</a> · <a href="/support">Support</a>
+        <a href="/newsroom">Newsroom</a> · <a href="/planet">Planet</a> ·
+        <a href="/support">Support</a>
       </div>
       REPS · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
       <p class="fineprint">

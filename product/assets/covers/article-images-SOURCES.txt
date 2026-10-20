@@ -17,3 +17,32 @@ talk-ted-do-schools-kill-creativity.jpg
   Piece:   "Do Schools Kill Creativity?" by Sir Ken Robinson, TED2006
   Page:    https://www.ted.com/talks/sir_ken_robinson_do_schools_kill_creativity
   og:image https://pi.tedcdn.com/r/pe.tedcdn.com/images/ted/6b6eb940bceab359ca676a9b486aae475c1df883_2880x1620.jpg (requested at w=1200)
+
+Added 2026-10-19 for the unique-cover sphere. Each file is the publisher's own artwork, downscaled. Nothing was redrawn or generated.
+
+podcast-the-rest-is-history.jpg
+  Piece:   The Rest Is History, Goalhanger
+  Page:    https://podcasts.apple.com/us/podcast/the-rest-is-history/id1537788786
+  Art:     Apple artworkUrl, 1200px, saved at 800px
+
+video-kurzgesagt-immune-system.jpg
+  Piece:   "The Immune System Explained I – Bacteria Infection", Kurzgesagt – In a Nutshell
+  Page:    https://www.youtube.com/watch?v=zQGOcOUBi6s
+  Art:     https://i.ytimg.com/vi/zQGOcOUBi6s/maxresdefault.jpg (960px wide)
+
+video-3blue1brown-neural-network.jpg
+  Piece:   "But what is a neural network? | Deep learning chapter 1", 3Blue1Brown
+  Page:    https://www.youtube.com/watch?v=aircAruvnKk
+  Art:     https://i.ytimg.com/vi/aircAruvnKk/maxresdefault.jpg (960px wide)
+
+Added for the round that asked for about a fifth more visible covers. Publisher artwork, downscaled. Nothing redrawn.
+
+podcast-radiolab.jpg
+  Piece:   Radiolab, WNYC Studios
+  Page:    https://podcasts.apple.com/us/podcast/radiolab/id152249110
+  Art:     Apple artwork, 1000px, saved at 800px
+
+deep-work.jpg
+  Piece:   Deep Work, Cal Newport
+  Page:    https://openlibrary.org/isbn/9781455586691
+  Art:     https://covers.openlibrary.org/b/isbn/9781455586691-L.jpg

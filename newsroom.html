@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Newsroom · REPS</title>
+    <meta name="description" content="Letters and launches from REPS, and a press kit you can quote. REPS is your knowledge companion.">
+    <link rel="canonical" href="https://www.getreps.io/newsroom">
+    <meta property="og:title" content="Newsroom · REPS">
+    <meta property="og:description" content="Letters and launches from REPS, and a press kit you can quote.">
+    <meta property="og:url" content="https://www.getreps.io/newsroom">
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600&amp;display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --cream: #fffaf7;
+        --coral-ink: #d8443f;
+        --ink: #211a14;
+        --body: rgba(33, 26, 20, 0.74);
+        --muted: rgba(33, 26, 20, 0.52);
+        --hairline: rgba(33, 26, 20, 0.1);
+        --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        --serif: "Lora", Georgia, serif;
+        --max: 1120px;
+      }
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      html { background: var(--cream); }
+      body {
+        background: var(--cream);
+        color: var(--body);
+        font-family: var(--sans);
+        font-size: 17px;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+      }
+      img { display: block; max-width: 100%; }
+      a { color: inherit; }
+      :focus-visible { outline: 2px solid var(--coral-ink); outline-offset: 3px; border-radius: 4px; }
+      .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+      nav {
+        position: sticky; top: 0; z-index: 50;
+        background: rgba(255, 250, 247, 0.92);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--hairline);
+        padding: 14px 24px;
+      }
+      .nav-inner {
+        max-width: var(--max); margin: 0 auto;
+        display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      }
+      .wordmark {
+        display: flex; align-items: center; gap: 8px;
+        text-decoration: none; color: var(--ink);
+        font-weight: 700; letter-spacing: 0.14em; font-size: 15px;
+      }
+      .wordmark img { width: 26px; height: 26px; border-radius: 6px; }
+      .nav-links { display: flex; align-items: center; gap: 22px; }
+      .nav-links a { text-decoration: none; font-size: 15px; font-weight: 500; color: var(--ink); }
+      .nav-links a[aria-current="page"] { border-bottom: 2px solid var(--coral-ink); padding-bottom: 2px; }
+      .nav-cta {
+        color: #fff !important; background: linear-gradient(100deg, #ff6b6b, #ff8e53);
+        border-radius: 999px; padding: 9px 16px; font-size: 14px; font-weight: 600;
+        border-bottom: 0 !important; white-space: nowrap;
+      }
+      main { padding: 72px 0 40px; }
+      .eyebrow {
+        font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase;
+        color: var(--coral-ink); margin-bottom: 14px;
+      }
+      h1, h2 {
+        font-family: var(--serif); font-weight: 500; letter-spacing: -0.022em;
+        color: var(--ink); line-height: 1.12;
+      }
+      h1 { font-size: clamp(40px, 6vw, 64px); max-width: 16ch; }
+      .lede { max-width: 38rem; margin-top: 18px; font-size: 18px; }
+      .stories { list-style: none; margin-top: 48px; border-top: 1px solid var(--hairline); }
+      .stories li { padding: 28px 0 32px; border-bottom: 1px solid var(--hairline); }
+      .stories a.story {
+        display: grid; grid-template-columns: 280px 1fr; gap: 28px;
+        align-items: center; text-decoration: none;
+      }
+      .stories .shot {
+        width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top;
+        border-radius: 14px; border: 1px solid var(--hairline); background: #fff;
+      }
+      .stories .when {
+        font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
+      }
+      .stories h2 { font-size: clamp(28px, 4vw, 40px); margin: 10px 0 12px; max-width: 22ch; }
+      .stories a.story:hover h2 { color: var(--coral-ink); }
+      .stories p { max-width: 40rem; }
+      .stories .more {
+        display: inline-block; margin-top: 14px; color: var(--coral-ink);
+        font-weight: 600; text-decoration: none;
+      }
+      .stories .more:hover { text-decoration: underline; }
+      .kit { margin-top: 72px; padding-top: 8px; }
+      .kit > .eyebrow { margin-top: 28px; }
+      .press-grid {
+        display: grid; grid-template-columns: 1fr; gap: 44px; margin-top: 28px;
+      }
+      @media (min-width: 900px) {
+        .press-grid { grid-template-columns: 7fr 5fr; gap: 72px; }
+      }
+      .kv { list-style: none; border-top: 1px solid var(--hairline); }
+      .kv li {
+        display: grid; grid-template-columns: 120px 1fr; gap: 16px;
+        padding: 13px 0; border-bottom: 1px solid var(--hairline); font-size: 16px;
+      }
+      .kv li span:first-child {
+        font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+        color: var(--muted); padding-top: 4px;
+      }
+      .kv li span:last-child { color: var(--ink); }
+      .kv a, .quotes a { color: var(--coral-ink); font-weight: 600; text-decoration: none; }
+      .kv a:hover, .quotes a:hover { text-decoration: underline; }
+      .boiler h2 { font-size: 26px; margin: 36px 0 12px; }
+      .boiler p {
+        font-size: 16px; color: var(--ink);
+        border-left: 2px solid var(--hairline); padding-left: 16px;
+      }
+      .quotes { list-style: none; margin-top: 8px; }
+      .quotes li {
+        font-family: var(--serif); font-size: 18px; color: var(--ink);
+        padding: 14px 0; border-bottom: 1px solid var(--hairline);
+      }
+      .quotes span { display: block; margin-top: 4px; font-family: var(--sans); font-size: 13px; color: var(--muted); }
+      .assets { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+      .assets a {
+        display: block; text-decoration: none; border: 1px solid var(--hairline);
+        border-radius: 14px; padding: 12px; background: #fff;
+      }
+      .assets a:hover { transform: translateY(-2px); }
+      .thumb {
+        aspect-ratio: 4 / 3; border-radius: 8px; overflow: hidden;
+        background: var(--cream); display: grid; place-items: center;
+      }
+      .thumb img { width: 100%; height: 100%; object-fit: contain; object-position: top center; }
+      .thumb.icon img { width: 56%; height: auto; border-radius: 18%; }
+      .label { font-weight: 600; font-size: 14px; color: var(--ink); margin-top: 10px; }
+      .meta { font-size: 12px; color: var(--muted); }
+      .contact {
+        margin-top: 28px; padding: 22px; border: 1px solid var(--hairline);
+        border-radius: 16px; background: #fff;
+      }
+      .contact strong { display: block; color: var(--ink); font-size: 17px; margin-bottom: 6px; }
+      .contact a { color: var(--coral-ink); font-weight: 600; text-decoration: none; }
+      .contact p { font-size: 15px; }
+      footer {
+        border-top: 1px solid var(--hairline); padding: 28px 24px 48px;
+        color: var(--muted); font-size: 14px;
+      }
+      footer .inner { max-width: var(--max); margin: 0 auto; }
+      footer .motto { display: block; letter-spacing: 0.04em; margin-bottom: 8px; color: var(--ink); }
+      footer a { text-decoration: none; }
+      footer a:hover { color: var(--ink); }
+      @media (max-width: 759px) {
+        nav { padding: 10px 16px; }
+        .wordmark, .nav-links { flex-shrink: 0; }
+        .wordmark { font-size: 16px; letter-spacing: 0.04em; }
+        .nav-links { gap: 10px; }
+        .nav-links a { font-size: 13px; }
+        .nav-cta { font-size: 13px; padding: 8px 12px; }
+        .hide-sm { display: none; }
+        .stories a.story { grid-template-columns: 1fr; gap: 16px; }
+        .kv li { grid-template-columns: 1fr; gap: 4px; }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="nav-inner">
+        <a class="wordmark" href="/">
+          <img src="product/assets/app-icon.png" alt="" width="26" height="26">
+          REPS
+        </a>
+        <div class="nav-links">
+          <a href="/about">About</a>
+          <a href="/newsroom" class="hide-sm" aria-current="page">Newsroom</a>
+          <a href="/planet">Planet</a>
+          <a class="nav-cta" href="https://apps.apple.com/app/id6759216018" target="_blank" rel="noopener">Get the app</a>
+        </div>
+      </div>
+    </nav>
+    <main>
+      <div class="wrap">
+        <div class="eyebrow">Newsroom</div>
+        <h1>Newsroom</h1>
+        <p class="lede">Letters and launches. The press kit is at the bottom.</p>
+        <ul class="stories">
+          <li>
+            <a class="story" href="https://mikemcgr.substack.com/p/the-anti-brain-rot-manifesto">
+              <img class="shot" src="media/anti-brain-rot.png" alt="" />
+              <div>
+                <div class="when">Letter · 26 July 2026</div>
+                <h2>The Anti-Brain-Rot Manifesto</h2>
+                <p>On falling attention, and why what you choose to remember is who you become. Mike’s essay.</p>
+                <span class="more">Read it</span>
+              </div>
+            </a>
+          </li>
+        </ul>
+
+        <section class="kit" id="kit">
+          <div class="eyebrow">Press kit</div>
+          <h2>Facts, words, and pictures.</h2>
+          <p class="lede">A description you can quote, and pictures you can download. Please don’t redraw the logo or recolor it.</p>
+          <div class="press-grid">
+            <div>
+              <ul class="kv">
+                <li><span>Name</span><span>REPS (pronounced like the gym word)</span></li>
+                <li><span>Tagline</span><span>Your knowledge companion</span></li>
+                <li><span>What it is</span><span>A knowledge companion. What you read, watch, and listen to stays with you.</span></li>
+                <li><span>Platform</span><span>iPhone, on the App Store. Interface in English. <a href="https://apps.apple.com/app/id6759216018" target="_blank" rel="noopener">App Store listing</a></span></li>
+                <li><span>Founder</span><span>Mike McGraw. Twelve years in finance, investing more than a billion dollars across technology and private equity. He helped launch CDPQ's technology investment team, then joined Inovia Capital, where he opened the European office. Full-time on REPS since July 2026.</span></li>
+                <li><span>Family</span><span>Both of his parents are founders. His mother published a wellness magazine. His father started a graph database company. REPS is where the two meet.</span></li>
+                <li><span>Company</span><span>REPS AI Ltd, a UK company</span></li>
+                <li><span>Spelling</span><span>REPS, always capitalised.</span></li>
+                <li><span>Website</span><span>getreps.io</span></li>
+                <li><span>Give-back</span><span>Plants real trees every month with JUST ONE Tree, far more than the app's AI uses. <a href="/planet">The planet pledge</a></span></li>
+              </ul>
+              <div class="boiler">
+                <h2>One sentence</h2>
+                <p>REPS is a knowledge companion. It holds what you read, watch, and listen to, so it stays with you instead of fading into a notes app or a camera roll.</p>
+                <h2>A paragraph</h2>
+                <p>REPS is a knowledge companion for people who consume high quality content. You save from the apps you already use. REPS draws out the ideas and holds them in one library that is yours. You can spend a few minutes a day with what you saved, ask questions of it, and see how it connects. Mike McGraw comes from a family of entrepreneurs. He spent 12 years in finance, investing more than a billion dollars across technology and private equity, and turned down a partner promotion to go full-time on it in June 2026. It is on the App Store for iPhone.</p>
+                <h2>Founder, in brief</h2>
+                <p>Mike McGraw comes from a family of entrepreneurs. He spent 12 years in finance, investing more than a billion dollars across technology and private equity, first helping launch PSP's natural resources investment team, then CDPQ's technology investment team, and finally at Inovia Capital, where he opened the firm's European office. Both of his parents are founders: his mother published a wellness magazine, and his father started a graph database company. REPS is where those two meet. In 2025 he started building with AI in his spare hours. On 30 June 2026 he left to work on REPS full-time.</p>
+                <h2>Lines you can quote</h2>
+                <ul class="quotes">
+                  <li>Most apps compete for your attention. REPS compounds it.<span>REPS</span></li>
+                  <li>You are what you remember.<span>Mike McGraw</span></li>
+                  <li>I’ve come to see social media the way tobacco looked in the 1950s<span>Mike McGraw, <a href="https://mikemcgr.substack.com/p/the-anti-brain-rot-manifesto">The Anti-Brain-Rot Manifesto</a></span></li>
+                  <li>What we choose to remember is, in the end, who we become.<span>Mike McGraw, <a href="https://mikemcgr.substack.com/p/the-anti-brain-rot-manifesto">The Anti-Brain-Rot Manifesto</a></span></li>
+                </ul>
+              </div>
+            </div>
+            <div>
+              <h2>Pictures</h2>
+              <ul class="assets">
+                <li>
+                  <a href="logo.png" download="">
+                    <div class="thumb icon"><img src="product/assets/app-icon.png" alt="REPS app icon"></div>
+                    <div class="label">App icon</div>
+                    <div class="meta">PNG</div>
+                  </a>
+                </li>
+                <li>
+                  <a href="compare/assets/mike-mcgraw.jpg" download="">
+                    <div class="thumb"><img src="compare/assets/mike-mcgraw.jpg" alt="Mike McGraw"></div>
+                    <div class="label">Founder photo</div>
+                    <div class="meta">JPG</div>
+                  </a>
+                </li>
+                <li>
+                  <a href="beats/2026-09/your-knowledge.jpg" download="">
+                    <div class="thumb"><img src="beats/2026-09/your-knowledge.jpg" alt="The library in REPS"></div>
+                    <div class="label">Library</div>
+                    <div class="meta">JPG</div>
+                  </a>
+                </li>
+                <li>
+                  <a href="beats/2026-09/second-brain-poster.jpg" download="">
+                    <div class="thumb"><img src="beats/2026-09/second-brain-poster.jpg" alt="How what you saved connects"></div>
+                    <div class="label">How it connects</div>
+                    <div class="meta">JPG</div>
+                  </a>
+                </li>
+                <li>
+                  <a href="beats/2026-09/share-anywhere-poster.jpg" download="">
+                    <div class="thumb"><img src="beats/2026-09/share-anywhere-poster.jpg" alt="Saving a page into REPS from the share sheet"></div>
+                    <div class="label">Save from anywhere</div>
+                    <div class="meta">JPG</div>
+                  </a>
+                </li>
+                <li>
+                  <a href="beats/2026-09/set-1984-poster.jpg" download="">
+                    <div class="thumb"><img src="beats/2026-09/set-1984-poster.jpg" alt="Books saved in REPS"></div>
+                    <div class="label">Books</div>
+                    <div class="meta">JPG</div>
+                  </a>
+                </li>
+                <li>
+                  <a href="beats/2026-09/game-crossword-poster.jpg" download="">
+                    <div class="thumb"><img src="beats/2026-09/game-crossword-poster.jpg" alt="A few minutes with something you saved"></div>
+                    <div class="label">A few minutes with it</div>
+                    <div class="meta">JPG</div>
+                  </a>
+                </li>
+              </ul>
+              <div class="contact">
+                <strong>Press</strong>
+                <p><a href="mailto:support@getreps.io?subject=Press">support@getreps.io</a>. Put Press in the subject.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+    <footer>
+      <div class="inner">
+        <span class="motto">Your knowledge companion.</span>
+        <div>
+          <a href="/">Home</a> · <a href="/about">About</a> ·
+          <a href="/newsroom">Newsroom</a> · <a href="/planet">Planet</a> ·
+          <a href="/support">Support</a>
+        </div>
+        <div>REPS · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a></div>
+      </div>
+    </footer>
+</body></html>

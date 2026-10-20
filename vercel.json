@@ -7,7 +7,7 @@
     },
     {
       "source": "/",
-      "destination": "/v3c"
+      "destination": "/cs-c-lora"
     },
     {
       "source": "/r/:slug",

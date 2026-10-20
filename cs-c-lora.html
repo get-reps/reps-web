@@ -3,8 +3,10 @@
 CONCEPT NOTE (cs-c-lora: cs-c with Lora as the page voice, the Diary of a CEO cover removed, and ?h=1..6 headline options)
 Lora variant: display lines, captions and the close are Lora (500 display; the key phrase is Lora italic in the coral gradient); sans stays on the eyebrow label, buttons, the top-bar link and in-game labels.
 Round 2: scene captions sit ABOVE the scenes as headings; the icon is the real 512px icon as a glossy CSS tile that tilts slowly (idle loop + pointer, within 6 degrees); covers are 1.3x and sit in the front slots, paper is 0.85x; the mid-story gap is closed.
-Round 3 (founder edits): app icon beside the wordmark; scene titles "Discover quality content." and "Built on memory science."; after the story, in normal page flow: the short manifesto, a slow quotes band (KK, KA + verbatim App Store reviews of id6759216018), then the close "Stop letting your knowledge fade today." (no coral italic there). Real articles/talks carry their own og:image banner; quotes are typographic.
-?h=1 (default) "Turn what you save into what you know." · 2 bookmarks · 3 reading more · 4 organize and retain · 5 read, watch and hear · 6 "Turn media into knowledge."
+Round 3 (founder edits): app icon beside the wordmark; scene titles "Discover quality content." and "Built on memory science."; after the story, in normal page flow: the short manifesto, a slow quotes band (KK, KA + verbatim App Store reviews of id6759216018), then the close "Stop letting your knowledge fade." (no coral italic there). Real articles/talks carry their own og:image banner; quotes are typographic.
+Round 4 (founder): every sphere cover is unique (The Egg is out; The Rest Is History is in). Podcasts read as a record, videos carry a play mark. The logo is in front from the first frame, with a coral glow. Scenes, in order: Consume with intention, Your knowledge organized, books become word games, podcasts become trivia. The memory-science ring is gone.
+Round 5 (founder): the first screen stays the headline and the cover ball. The ball stays in the top right. After that scroll a silhouette is already down where the logo links out to the four scenes. Its crown hinges at the left and swings open 120 degrees. Covers that would sit on the skull wait above it, then travel in from the top right. The only holes are the icon's nodes and links. When the silhouette leaves, the full rounded icon is already in place, and only then do the links start.
+?h=1 (default) "Turn what you consume into what you know." · 2 bookmarks · 3 reading more · 4 organize and retain · 5 read, watch and hear · 6 "Turn media into knowledge."
 CONCEPT NOTE (cs-c, founder storyboard)
 1. Idea: everything you take in is pulled into one place, and comes back out as play.
 2. Hero: "Turn media into knowledge." at rest beside a slowly turning sphere of real covers and code-drawn article cards.
@@ -21,8 +23,21 @@ CONCEPT NOTE (cs-c, founder storyboard)
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>REPS · Turn what you save into what you know.</title>
-<meta name="description" content="Save what you read, watch and listen to. REPS turns it into short daily games, so it stays with you. Free on the App Store.">
+<title>REPS · Turn what you consume into what you know.</title>
+<meta name="description" content="REPS is your knowledge companion. What you read, watch, and listen to stays with you.">
+<link rel="canonical" href="https://www.getreps.io/">
+<meta property="og:title" content="REPS · Turn what you consume into what you know.">
+<meta property="og:description" content="REPS is your knowledge companion. What you read, watch, and listen to stays with you.">
+<meta property="og:url" content="https://www.getreps.io/">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://www.getreps.io/product/assets/app-icon-512.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="REPS · Turn what you consume into what you know.">
+<meta name="twitter:description" content="REPS is your knowledge companion. What you read, watch, and listen to stays with you.">
+<meta name="twitter:image" content="https://www.getreps.io/product/assets/app-icon-512.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"REPS","url":"https://www.getreps.io/","description":"REPS is your knowledge companion. What you read, watch, and listen to stays with you."}
+</script>
 <meta name="theme-color" content="#FFFAF7">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -52,6 +67,8 @@ img{display:block}
   transition:background .2s,color .2s,opacity .35s ease,transform .45s cubic-bezier(.2,.8,.2,1),visibility 0s linear .45s;opacity:0;visibility:hidden;transform:translateY(-10px)}
 .nav-get.on{opacity:1;visibility:visible;transform:none;transition:background .2s,color .2s,opacity .35s ease,transform .45s cubic-bezier(.2,.8,.2,1),visibility 0s}
 .nav-get:hover{background:var(--ink);color:var(--cream)}
+.nav-links{display:flex;align-items:center;gap:22px;font-size:14px;font-weight:500;color:var(--ink-2)}
+.nav-links a:hover{color:var(--ink)}
 
 /* the one action */
 .cta{display:inline-flex;align-items:center;justify-content:center;height:56px;padding:0 30px;border-radius:999px;
@@ -60,10 +77,11 @@ img{display:block}
 .cta:hover{transform:translateY(-2px);box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 20px 40px -14px rgba(255,107,107,.85)}
 
 /* story */
-.story{position:relative;height:720vh}
+.story{position:relative;height:700vh}
 .sticky{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
 .stage{position:absolute;inset:0;perspective:1400px}
 html.pinned .story{height:100vh}
+html.pinned .manifesto{margin-top:0}
 html.pinned body{overflow:hidden}
 html.pinned .after{display:none}
 html.only main>section:not(.on),html.only .after{display:none}
@@ -73,10 +91,11 @@ html.static .story{height:auto}
 html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960px)}
 
 .lines{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
-.lines line{stroke:rgba(214,164,82,.62);stroke-width:1.2;stroke-linecap:round}
-.lines .spark{fill:#FFF6E2;opacity:0;filter:drop-shadow(0 0 3px rgba(255,200,110,.95))}
-.halo{position:absolute;left:0;top:0;width:560px;height:560px;margin:-280px 0 0 -280px;border-radius:50%;z-index:1;pointer-events:none;
-  background:radial-gradient(closest-side,rgba(255,210,125,.42) 0%,rgba(255,210,125,.36) 10%,rgba(255,210,125,.28) 21%,rgba(255,210,125,.2) 33%,rgba(255,210,125,.135) 45%,rgba(255,210,125,.085) 57%,rgba(255,210,125,.048) 69%,rgba(255,210,125,.022) 81%,rgba(255,210,125,.007) 92%,rgba(255,210,125,0) 100%)}
+.lines path{fill:none;stroke:#2a221c;stroke-linecap:round;stroke-linejoin:round}
+.lines .spark{display:none}
+.node{display:none}
+.halo{position:absolute;left:0;top:0;width:520px;height:520px;margin:-260px 0 0 -260px;border-radius:50%;z-index:1;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(255,120,96,.36) 0%,rgba(255,107,107,.22) 16%,rgba(255,142,83,.12) 36%,rgba(232,80,75,.05) 56%,rgba(255,107,107,0) 78%)}
 /* a faint grain over the glow breaks up the 8-bit steps that otherwise read as rings */
 .halo::after{content:"";position:absolute;inset:0;border-radius:50%;opacity:.07;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 .82  0 0 0 0 .49  0 0 0 1.4 -.45'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -94,6 +113,9 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
   background:linear-gradient(100deg,#E8504B 0%,#FF6B6B 52%,#FF8E53 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
   padding:.06em .14em .16em .08em;margin:0 -.14em 0 -.08em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .hero h1{max-width:100%}
+/* headline 1 is always two lines: the break is fixed, and the size shrinks to keep each line intact */
+.hero h1.split{text-wrap:wrap}
+.hero h1.split .ln{display:block;white-space:nowrap}
 .closing h2{max-width:min(92vw,11em)}
 .hero .cta{margin-top:46px}
 
@@ -109,10 +131,20 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 .it-book img{border-radius:3px 5px 5px 3px}
 .it-book{border-radius:3px 5px 5px 3px;box-shadow:0 1px 2px rgba(33,26,20,.18),0 18px 30px -14px rgba(33,26,20,.45)}
 .it-book::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(90deg,rgba(0,0,0,.18),rgba(255,255,255,.10) 4%,rgba(0,0,0,0) 9%)}
-.it-pod,.it-pod img{border-radius:12px}
-.it-pod{box-shadow:0 1px 2px rgba(33,26,20,.16),0 16px 28px -14px rgba(33,26,20,.42)}
+/* a podcast is a sleeve in front of a record, the same idea as Your Knowledge: grooves, a centre hole, the cover overlapping the disc */
+.it-pod{background:none;box-shadow:none;overflow:visible}
+.it-pod .disc{position:absolute;right:0;top:50%;width:76%;aspect-ratio:1;transform:translateY(-50%);border-radius:50%;
+  background:
+    radial-gradient(circle at 50% 50%,#F4EFE6 0 5.2%,#2C2E2C 6% 10.2%,transparent 10.8%),
+    repeating-radial-gradient(circle at 50% 50%,#3C3E3A 0 .7px,#1A1C1A 1.5px 3.4px);
+  box-shadow:0 10px 18px -10px rgba(33,26,20,.6),inset 0 0 0 1px rgba(255,255,255,.12)}
+.it-pod .sleeve{position:relative;z-index:1;width:68%;height:90%;margin-top:5%;object-fit:cover;border-radius:3px;
+  box-shadow:0 1px 2px rgba(33,26,20,.22),0 14px 22px -12px rgba(33,26,20,.5)}
 .it-vid,.it-vid img{border-radius:10px}
 .it-vid{box-shadow:0 1px 2px rgba(33,26,20,.16),0 16px 28px -14px rgba(33,26,20,.42)}
+.it-vid .play{position:absolute;right:8px;top:8px;z-index:1;width:32px;height:32px;border-radius:50%;
+  background:rgba(18,16,14,.55);border:1px solid rgba(255,255,255,.28);box-shadow:0 8px 16px -8px rgba(0,0,0,.5)}
+.it-vid .play::after{content:"";position:absolute;left:12px;top:8px;border-style:solid;border-width:7px 0 7px 11px;border-color:transparent transparent transparent #fff}
 .it-art,.it-hl,.it-qc,.it-pdf,.it-note,.it-shot{border-radius:12px;padding:12px 13px;background:var(--paper);border:1px solid var(--line);box-shadow:0 1px 2px rgba(33,26,20,.06),0 16px 28px -16px rgba(33,26,20,.35);display:flex;flex-direction:column;justify-content:space-between}
 .it-art .pub{font-size:8.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
 .it-art .ttl{font-family:var(--serif);font-weight:600;font-size:14px;line-height:1.18;color:var(--ink)}
@@ -162,7 +194,14 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
    iOS-style rounded square, a top-left specular, a faint inner bevel, a layered shadow, and a slow tilt from the idle loop + pointer.
    no will-change: a transform layer would be rasterised at its first (small) scale and look soft */
 .icon{position:absolute;left:0;top:0;z-index:40;width:112px;height:112px;border-radius:25px;
-  box-shadow:0 0 0 .5px rgba(4,4,9,.4),0 1px 1.5px rgba(4,4,9,.28),0 5px 9px -3px rgba(4,4,9,.28),0 20px 32px -14px rgba(4,4,9,.48),0 40px 64px -30px rgba(70,40,15,.38)}
+  box-shadow:0 0 0 .5px rgba(4,4,9,.4),0 1px 1.5px rgba(4,4,9,.28),0 5px 9px -3px rgba(4,4,9,.28),0 20px 32px -14px rgba(4,4,9,.48),
+    0 0 28px 8px rgba(255,107,107,var(--glow,.22)),0 0 64px 22px rgba(255,142,83,calc(var(--glow,.22) * .55))}
+canvas.mark{position:absolute;left:0;top:0;z-index:17;pointer-events:none;visibility:hidden}
+.head{position:absolute;left:0;top:0;pointer-events:none}
+.head canvas{position:absolute;left:0;top:0;display:block}
+.head .plug{z-index:15}
+.head .skull{z-index:20}
+.head .lid{z-index:34;transform-origin:16% 15.5%}
 .icon img{width:100%;height:100%;border-radius:inherit}
 .icon::before,.icon::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none}
 .icon::before{background:
@@ -173,8 +212,8 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
   background:radial-gradient(closest-side,rgba(33,26,20,.30),rgba(33,26,20,.12) 55%,rgba(33,26,20,0))}
 
 /* nodes of light */
-.node{position:absolute;left:0;top:0;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;z-index:6;will-change:transform,opacity;
-  background:#fff;box-shadow:0 0 0 2px rgba(255,236,196,.9),0 0 14px 5px rgba(255,210,125,.85),0 0 46px 16px rgba(255,190,110,.35)}
+.node{position:absolute;left:0;top:0;width:15px;height:15px;margin:-7.5px 0 0 -7.5px;border-radius:50%;z-index:6;will-change:transform,opacity;
+  background:#fff;box-shadow:0 0 0 2px rgba(255,196,184,.95),0 0 16px 6px rgba(255,107,107,.85),0 0 46px 16px rgba(255,142,83,.42)}
 
 /* scenes */
 .scene{position:absolute;left:0;top:0;width:340px;z-index:10;will-change:transform,opacity;transform-origin:50% 50%}
@@ -198,20 +237,20 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 .clue b{color:var(--ink);font-weight:600;margin-right:6px}
 
 .card{background:var(--paper);border:1px solid var(--line);border-radius:22px;box-shadow:0 1px 2px rgba(33,26,20,.05),0 30px 60px -30px rgba(33,26,20,.45)}
-.sc-tv .card{padding:20px 20px 18px}
+.sc-tv{width:320px}
 .sc-tv .src img{width:40px;height:40px;border-radius:9px}
-.q{font-size:17px;font-weight:600;line-height:1.28;letter-spacing:-.01em;margin:16px 0 14px}
+.q{font-family:var(--serif);font-size:20px;font-weight:500;line-height:1.28;letter-spacing:-.015em;margin:16px 0 14px}
 .ans{list-style:none;display:grid;gap:7px}
 .ans li{height:38px;border-radius:12px;border:1px solid rgba(33,26,20,.12);display:flex;align-items:center;justify-content:space-between;padding:0 14px;font-size:14px;font-weight:500;color:var(--ink-2)}
 .ans li.on{background:var(--teal);border-color:var(--teal);color:#fff;box-shadow:0 12px 22px -12px rgba(45,131,119,.8)}
 .ans li.on::after{content:"";width:14px;height:8px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:translateY(-2px) rotate(-45deg)}
 
-.sc-feed{display:grid;gap:9px}
-.fc{display:flex;gap:13px;align-items:center;padding:11px 14px 11px 11px;border-radius:16px}
-.fc .th{flex:none;width:64px;display:flex;justify-content:center}
-.fc .th img{width:42px;height:auto;border-radius:3px;box-shadow:0 6px 12px -6px rgba(33,26,20,.5)}
-/* a video keeps its 16:9 frame so the thumbnail's own lettering reads whole */
-.fc .th img.w{width:64px;height:36px;object-fit:cover;border-radius:6px}
+.sc-feed{display:grid;gap:14px;width:340px}
+.fc{display:flex;gap:14px;align-items:center;padding:0;background:none;border:0;box-shadow:none;border-radius:0}
+.fc .th{flex:none;width:104px;display:flex;justify-content:center}
+.fc .th img{width:104px;height:60px;object-fit:cover;border-radius:8px;box-shadow:0 8px 16px -8px rgba(33,26,20,.45)}
+.fc .why{font-size:12.5px;font-weight:600;letter-spacing:.01em;color:var(--ink-2);margin-bottom:5px}
+.fc .why b{color:var(--ink);font-weight:700}
 .fc .th .rule{width:42px;height:42px;border-radius:8px;background:#F4ECE2;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:19px;color:rgba(33,26,20,.55)}
 .fc .tx{min-width:0}
 /* the article in the feed carries its own published lead image as a banner */
@@ -223,19 +262,14 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 .fc .i{font-family:var(--serif);font-size:14.5px;font-weight:400;line-height:1.32;color:var(--ink)}
 .fc{will-change:transform}
 
-.sc-day{display:flex;align-items:center;justify-content:center}
-.ring{position:relative;width:216px;height:216px}
-.ring svg{position:absolute;inset:0}
-.ring .core{position:absolute;left:50%;top:50%;width:120px;height:120px;margin:-60px 0 0 -60px;border-radius:50%;
-  background:radial-gradient(closest-side,rgba(255,210,125,.55),rgba(255,210,125,.16) 55%,rgba(255,210,125,0));will-change:transform,opacity}
-/* what today's round is made of: one real cover per arc, the third lights up as its arc fills */
-.sc-day{flex-direction:column;gap:14px}
-.ring .chips{position:absolute;left:50%;top:50%;display:flex;align-items:center;gap:7px;transform:translate(-50%,-50%)}
-.ring .chips img{display:block;box-shadow:0 8px 14px -8px rgba(33,26,20,.55)}
-.ring .chips .bk{width:30px;height:45px;border-radius:2px 3px 3px 2px}
-.ring .chips .sq{width:38px;height:38px;border-radius:8px}
-.ring .chips .c3{will-change:opacity}
-.day-lbl{font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2)}
+/* a small second brain: fifty nodes on a sphere, three of them named, rotating in the page script */
+.sc-graph{width:340px;height:280px}
+.sc-graph canvas{width:340px;height:280px;display:block}
+.scroll-cue{position:absolute;left:50%;bottom:26px;z-index:46;display:flex;flex-direction:column;align-items:center;gap:7px;
+  font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-2);pointer-events:none}
+.scroll-cue i{width:11px;height:11px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;animation:cue 1.35s ease-in-out infinite}
+@keyframes cue{0%,100%{transform:rotate(45deg) translate(0,0);opacity:.4}50%{transform:rotate(45deg) translate(3px,3px);opacity:1}}
+@media (prefers-reduced-motion:reduce){.scroll-cue i{animation:none;opacity:.85;transform:rotate(45deg)}}
 
 /* captions */
 .cap{position:absolute;left:50%;top:0;z-index:45;text-align:center;width:min(92vw,900px);margin-left:calc(min(92vw,900px) / -2);will-change:transform,opacity;pointer-events:none}
@@ -246,21 +280,26 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 /* desktop: each title sits directly over its own scene, at a size that belongs to the scene */
 .cap-s.over{font-size:clamp(22px,1.95vw,30px)}
 
-/* after the story: manifesto, voices, close. normal page flow, generous space */
+/* after the story: manifesto, voices, the demo, close. the manifesto is pulled up under the resting icon so that gap stays short */
 .label{font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3)}
-.manifesto{padding:clamp(130px,24vh,240px) clamp(24px,8vw,140px) clamp(110px,20vh,200px);display:flex;justify-content:center}
+.manifesto{position:relative;z-index:2;margin-top:calc(-50vh + 140px);padding:12px clamp(24px,8vw,140px) clamp(110px,20vh,200px);display:flex;justify-content:center}
 .manifesto .in{width:100%;max-width:27em;font-size:clamp(23px,2.3vw,34px)}
 .manifesto .label{font-size:12px;margin-bottom:clamp(30px,4vw,48px)}
 .manifesto p.m{font-family:var(--serif);font-weight:400;font-size:1em;line-height:1.4;letter-spacing:-.012em;color:var(--ink);text-wrap:pretty}
 .manifesto p.m + p.m{margin-top:1.1em}
-.manifesto p.m.soft{color:var(--ink-2)}
 .manifesto p.m b{font-weight:600;color:var(--ink)}
 .manifesto .sign{margin-top:clamp(36px,5vw,60px);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.2em;color:var(--ink)}
 /* one-shot reveal as each line arrives; already visible in ?static=1 */
 .rv{opacity:0;transform:translateY(18px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.8,.2,1)}
 .rv.shown,html.static .rv{opacity:1;transform:none}
 
-.voices{padding:0 0 clamp(110px,18vh,190px)}
+.voices{padding:0 0 clamp(80px,12vh,140px)}
+.action{padding:0 clamp(20px,6vw,80px) clamp(100px,14vh,160px);display:flex;flex-direction:column;align-items:center}
+.action .label{margin-bottom:26px}
+.action-frame{aspect-ratio:9/16;width:min(280px,78vw);border-radius:22px;overflow:hidden;background:#14110e;
+  box-shadow:0 1px 2px rgba(33,26,20,.08),0 28px 50px -24px rgba(33,26,20,.45)}
+.action-frame video{width:100%;height:100%;object-fit:cover;display:block;background:#14110e}
+.action-frame.wide{aspect-ratio:16/9;width:min(960px,88vw);border-radius:18px}
 .voices .label{text-align:center;margin-bottom:30px}
 .v-view{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
 .v-track{display:flex;gap:18px;width:max-content;padding:10px 0 34px clamp(20px,8vw,140px);will-change:transform}
@@ -270,7 +309,6 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 .v-q{flex:1;font-family:var(--serif);font-size:17px;line-height:1.45;color:var(--ink)}
 .v-by{display:flex;align-items:center;flex-wrap:wrap;gap:4px 9px;font-family:var(--sans);font-size:12px;font-weight:600;color:var(--ink-2)}
 .v-by .st{color:#C9923E;letter-spacing:.1em;font-size:11px}
-.v-by .src{font-weight:500;color:var(--ink-3)}
 /* still: under reduced motion or ?static=1 the band is a plain row you can swipe */
 html.still .v-view{overflow-x:auto;-webkit-mask-image:none;mask-image:none;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 html.still .v-view::-webkit-scrollbar{display:none}
@@ -283,9 +321,11 @@ html.still .v-card{scroll-snap-align:center}
 .closing .cta{margin-top:42px}
 .closing small{display:block;margin-top:16px;font-family:var(--sans);font-size:14px;font-weight:500;color:var(--ink-3);letter-spacing:.01em}
 
-.after{padding:48px clamp(20px,5vw,72px) 56px;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--ink-3);border-top:1px solid var(--line)}
+.after{padding:48px clamp(20px,5vw,72px) 56px;display:flex;justify-content:space-between;align-items:center;gap:16px 28px;flex-wrap:wrap;font-size:13px;color:var(--ink-3);border-top:1px solid var(--line)}
 .after .wordmark{font-size:15px;color:var(--ink)}
 .after .fine{font-family:var(--sans);font-size:13px}
+.foot-links{display:flex;gap:18px;flex-wrap:wrap}
+.after a:hover{color:var(--ink)}
 
 @media (max-width:759px){
   .nav{height:64px}
@@ -293,6 +333,8 @@ html.still .v-card{scroll-snap-align:center}
   .brand{gap:9px}
   .brand img{width:26px;height:26px;border-radius:6px}
   .nav-get{font-size:13px;padding:7px 13px}
+  .nav-links{gap:14px;font-size:13px}
+  .nav-links .desk{display:none}
   .hero{left:24px;right:24px;width:auto;top:15svh}
   .eyebrow{font-size:11.5px;letter-spacing:.18em;margin-bottom:14px}
   .hero h1,.closing h2{font-size:clamp(32px,9vw,42px);line-height:1.08;letter-spacing:-.02em}
@@ -310,25 +352,34 @@ html.still .v-card{scroll-snap-align:center}
   .closing .cta{margin-top:30px}
   .cap-a{width:330px;margin-left:-165px;font-size:24px}
   .cap-s{width:340px;margin-left:-170px;font-size:28px}
-  .after{flex-direction:column;gap:10px}
+  .after{flex-direction:column;align-items:flex-start;gap:10px}
 }
 </style>
 </head>
 <body>
 <header class="nav">
-  <a class="brand" href="#" aria-label="REPS home"><img src="product/assets/app-icon-512.png" alt="" width="30" height="30"><span class="wordmark">REPS</span></a>
+  <a class="brand" href="/" aria-label="REPS home"><img src="product/assets/app-icon-512.png" alt="" width="30" height="30"><span class="wordmark">REPS</span></a>
+  <nav class="nav-links" aria-label="Pages">
+    <a href="/about">About</a>
+    <a href="/newsroom" class="desk">Newsroom</a>
+    <a href="/planet">Planet</a>
+  </nav>
   <a class="nav-get" href="https://apps.apple.com/app/id6759216018">Get the app</a>
 </header>
 
 <main>
-  <section class="story" id="story" aria-label="Turn what you save into what you know."></section>
+  <section class="story" id="story" aria-label="Turn what you consume into what you know."></section>
 
   <section class="manifesto" id="manifesto" aria-label="Our manifesto">
     <div class="in">
       <p class="label rv">Our manifesto</p>
+      <p class="m rv">Society is in a <b>thinking crisis.</b></p>
+      <p class="m rv">Social media has broken our attention for 15 years. Our memory was collateral damage. And now AI is coming for our thinking.</p>
       <p class="m rv">We read, watch and listen to more than any generation in history. And retain less of it than ever.</p>
-      <p class="m soft rv">It isn’t you. You read, you watch, you listen, you save. It just has nowhere to live.</p>
+      <p class="m rv">It isn’t you. You are already putting in the effort of consuming quality content. It just has nowhere to live.</p>
       <p class="m rv"><b>So we built the place.</b> What you take in comes back to you, a little each day, until it is part of how you think.</p>
+      <p class="m rv">Others fight for your attention. <b>REPS compounds it.</b></p>
+      <p class="m rv">Welcome to the <b>thinking renaissance.</b></p>
       <p class="sign rv">REPS</p>
     </div>
   </section>
@@ -339,98 +390,100 @@ html.still .v-card{scroll-snap-align:center}
     <p class="label">In their words</p>
     <div class="v-view">
       <div class="v-track">
-        <figure class="v-card"><span class="v-mk" aria-hidden="true">“</span><blockquote class="v-q">Waking up to Reps has truly made my brain work better [and] opened great discussion with friends</blockquote><figcaption class="v-by">KK</figcaption></figure>
-        <figure class="v-card"><span class="v-mk" aria-hidden="true">“</span><blockquote class="v-q">this is my new “first app I open in the morning”</blockquote><figcaption class="v-by">KA</figcaption></figure>
-        <figure class="v-card"><span class="v-mk" aria-hidden="true">“</span><blockquote class="v-q">…I am literally more interesting in conversation thanks to REPS…</blockquote><figcaption class="v-by"><span class="st" aria-label="5 stars">★★★★★</span><span>24601_London</span><span class="src">App Store review</span></figcaption></figure>
-        <figure class="v-card"><span class="v-mk" aria-hidden="true">“</span><blockquote class="v-q">Really enjoying using this app as a better way to spend 5/10 minutes at bus stop etc. vs brain rotting on Insta/X.</blockquote><figcaption class="v-by"><span class="st" aria-label="5 stars">★★★★★</span><span>jsdldn</span><span class="src">App Store review</span></figcaption></figure>
-        <figure class="v-card"><span class="v-mk" aria-hidden="true">“</span><blockquote class="v-q">As a non techy over 60 year old, this app is simple and intuitive to navigate.</blockquote><figcaption class="v-by"><span class="st" aria-label="5 stars">★★★★★</span><span>Mooselake4</span><span class="src">App Store review</span></figcaption></figure>
-        <figure class="v-card"><span class="v-mk" aria-hidden="true">“</span><blockquote class="v-q">Wish it had existed for a long time. It's exactly what I wanted as my 'memory vault'.</blockquote><figcaption class="v-by"><span class="st" aria-label="5 stars">★★★★★</span><span>El Bet</span><span class="src">App Store review</span></figcaption></figure>
-        <figure class="v-card"><span class="v-mk" aria-hidden="true">“</span><blockquote class="v-q">I’ve been looking for a place to save the different types of content and information that I come across :)) love it so far!</blockquote><figcaption class="v-by"><span class="st" aria-label="5 stars">★★★★★</span><span>NicoleCKayL</span><span class="src">App Store review</span></figcaption></figure>
+        <figure class="v-card"><span class="v-mk" aria-hidden="true">“</span><blockquote class="v-q">Waking up to Reps has truly made my brain work better [and] opened great discussion with friends</blockquote><figcaption class="v-by"><span class="st" aria-label="5 stars">★★★★★</span><span>KK</span></figcaption></figure>
+        <figure class="v-card"><span class="v-mk" aria-hidden="true">“</span><blockquote class="v-q">this is my new “first app I open in the morning”</blockquote><figcaption class="v-by"><span class="st" aria-label="5 stars">★★★★★</span><span>KA</span></figcaption></figure>
+        <figure class="v-card"><span class="v-mk" aria-hidden="true">“</span><blockquote class="v-q">I am literally more interesting in conversation thanks to REPS</blockquote><figcaption class="v-by"><span class="st" aria-label="5 stars">★★★★★</span><span>24601_London</span></figcaption></figure>
+        <figure class="v-card"><span class="v-mk" aria-hidden="true">“</span><blockquote class="v-q">Really enjoying using this app as a better way to spend 5/10 minutes at bus stop etc. vs brain rotting on Insta/X.</blockquote><figcaption class="v-by"><span class="st" aria-label="5 stars">★★★★★</span><span>jsdldn</span></figcaption></figure>
+        <figure class="v-card"><span class="v-mk" aria-hidden="true">“</span><blockquote class="v-q">As a non techy over 60 year old, this app is simple and intuitive to navigate.</blockquote><figcaption class="v-by"><span class="st" aria-label="5 stars">★★★★★</span><span>Mooselake4</span></figcaption></figure>
+        <figure class="v-card"><span class="v-mk" aria-hidden="true">“</span><blockquote class="v-q">Wish it had existed for a long time. It's exactly what I wanted as my 'memory vault'.</blockquote><figcaption class="v-by"><span class="st" aria-label="5 stars">★★★★★</span><span>El Bet</span></figcaption></figure>
+        <figure class="v-card"><span class="v-mk" aria-hidden="true">“</span><blockquote class="v-q">I’ve been looking for a place to save the different types of content and information that I come across :)) love it so far!</blockquote><figcaption class="v-by"><span class="st" aria-label="5 stars">★★★★★</span><span>NicoleCKayL</span></figcaption></figure>
       </div>
+    </div>
+  </section>
+
+  <section class="action" id="action" aria-label="See it in action">
+    <p class="label">See it in action</p>
+    <div class="action-frame">
+      <video id="action-vid" controls playsinline loop muted preload="metadata"></video>
     </div>
   </section>
 
   <section class="closing" id="get" aria-label="Get REPS">
     <img class="tile" src="product/assets/app-icon-512.png" alt="REPS app icon" width="96" height="96">
-    <h2>Stop letting your knowledge fade today.</h2>
-    <a class="cta" href="https://apps.apple.com/app/id6759216018">Download on the App Store</a>
-    <small>Free on iPhone</small>
+    <h2>Stop letting your knowledge fade.</h2>
+    <a class="cta" href="https://apps.apple.com/app/id6759216018">Download REPS today</a>
   </section>
 </main>
 
 <footer class="after">
   <span class="wordmark">REPS</span>
-  <span class="fine">© REPS</span>
+  <nav class="foot-links" aria-label="Pages">
+    <a href="/about">About</a>
+    <a href="/newsroom">Newsroom</a>
+    <a href="/planet">Planet</a>
+    <a href="/support">Support</a>
+  </nav>
+  <span class="fine">© REPS · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a></span>
 </footer>
 
 <template id="tpl">
   <div class="stage">
     <div class="halo"></div>
     <svg class="lines" aria-hidden="true">
-      <line/><line/><line/><line/>
+      <path/><path/><path/><path/>
     </svg>
     <div class="orb"></div><div class="floor"></div>
     <div class="items"></div>
 
     <div class="hero">
       <p class="eyebrow">Your knowledge companion</p>
-      <h1>Turn what you save into what you <em>know</em>.</h1>
+      <h1 class="split"><span class="ln">Turn what you consume</span><span class="ln">into <em>what you know</em>.</span></h1>
       <a class="cta" href="https://apps.apple.com/app/id6759216018">Download on the App Store</a>
     </div>
 
+    <div class="head" aria-hidden="true"><canvas class="skull"></canvas><canvas class="lid"></canvas><canvas class="plug"></canvas></div>
+    <canvas class="mark" aria-hidden="true"></canvas>
     <div class="ishadow"></div>
     <div class="icon"><img src="product/assets/app-icon-512.png" alt="REPS" width="112" height="112"></div>
 
     <div class="node"></div><div class="node"></div><div class="node"></div><div class="node"></div>
 
-    <!-- 0: word game from 1984 -->
+    <!-- 0 top-left: recommendations, title and thumbnail and why, no extracted summary -->
+    <div class="scene sc-feed" aria-label="Consume with intention">
+      <div class="fc"><div class="th"><img src="product/assets/covers/article-atlantic-is-google-making-us-stupid.jpg" alt=""></div>
+        <div class="tx"><p class="why">Because you read about Sapiens</p><p class="i">Is Google Making Us Stupid?</p></div></div>
+      <div class="fc"><div class="th"><img src="product/assets/covers/article-newyorker-why-facts-dont-change-our-minds.jpg" alt=""></div>
+        <div class="tx"><p class="why"><b>Sarah</b> is reading</p><p class="i">Why Facts Don’t Change Our Minds</p></div></div>
+      <div class="fc"><div class="th"><img src="product/assets/covers/video-veritasium-entropy.jpg" alt=""></div>
+        <div class="tx"><p class="why"><b>Alex</b> is watching</p><p class="i">Entropy</p></div></div>
+    </div>
+
+    <!-- 1 top-right: a small second brain, fifty nodes on a sphere, slowly rotating -->
+    <div class="scene sc-graph" aria-label="Your knowledge, organized">
+      <canvas class="brain" width="680" height="560"></canvas>
+    </div>
+
+    <!-- 2 bottom-left: word game from 1984 -->
     <div class="scene sc-xw" aria-label="A crossword made from 1984">
       <div class="src"><img src="product/assets/covers/1984.jpg" alt="" width="40" height="60"><span>From <span class="lora">1984</span></span></div>
       <div class="grid"></div>
       <p class="clue"><b>3 Across</b>Orwell’s man at the Ministry of Truth</p>
     </div>
 
-    <!-- 1: trivia from a podcast -->
+    <!-- 3 bottom-right: trivia. The answers keep their boxes; the card around them does not. -->
     <div class="scene sc-tv" aria-label="A trivia round from Huberman Lab">
-      <div class="card">
-        <div class="src"><img src="product/assets/covers/podcast-huberman-lab.jpg" alt=""><span>Huberman Lab</span></div>
-        <p class="q">Within an hour of waking, Huberman says to get…</p>
-        <ul class="ans"><li>Your first coffee</li><li class="on">Morning sunlight</li><li>Your inbox cleared</li></ul>
-      </div>
+      <div class="src"><img src="product/assets/covers/podcast-huberman-lab.jpg" alt=""><span>Huberman Lab</span></div>
+      <p class="q">Within an hour of waking, Huberman says to get…</p>
+      <ul class="ans"><li>Your first coffee</li><li class="on">Morning sunlight</li><li>Your inbox cleared</li></ul>
     </div>
 
-    <!-- 2: a feed of ideas, one per medium -->
-    <div class="scene sc-feed" aria-label="Discover quality content">
-      <div class="fc card"><div class="th"><img src="product/assets/covers/thinking-fast-and-slow.jpg" alt=""></div>
-        <div class="tx"><p class="s"><span class="lora">Thinking, Fast and Slow</span></p><p class="i">Your mind runs two systems: one fast, one deliberate.</p></div></div>
-      <div class="fc card"><div class="th"><img class="w" src="product/assets/covers/video-veritasium-entropy.jpg" alt=""></div>
-        <div class="tx"><p class="s">Veritasium · video</p><p class="i">The Sun gives Earth more than energy. It gives low entropy.</p></div></div>
-      <div class="fc ban card"><img class="bi" src="product/assets/covers/article-atlantic-is-google-making-us-stupid.jpg" alt="">
-        <div class="tx"><p class="s">The Atlantic · <span class="lora">Is Google Making Us Stupid?</span></p><p class="i">The web trains us to skim, at the cost of deep reading.</p></div></div>
-    </div>
+    <p class="scroll-cue">Scroll<i></i></p>
 
-    <!-- 3: the daily round -->
-    <div class="scene sc-day" aria-label="Built on memory science">
-      <div class="ring">
-        <svg viewBox="0 0 216 216" aria-hidden="true">
-          <defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E9BC63"/><stop offset="1" stop-color="#C9923E"/></linearGradient></defs>
-          <g class="arcs" fill="none" stroke-width="11" stroke-linecap="round"></g>
-        </svg>
-        <div class="core"></div>
-        <div class="chips" aria-hidden="true">
-          <img class="bk" src="product/assets/covers/1984.jpg" alt="">
-          <img class="sq" src="product/assets/covers/podcast-huberman-lab.jpg" alt="">
-          <img class="bk c3" src="product/assets/covers/atomic-habits.jpg" alt="">
-        </div>
-      </div>
-      <p class="day-lbl">Today’s round</p>
-    </div>
-
-    <p class="cap cap-a">Everything you read, watch and listen to.<b>Retained.</b></p>
+    <p class="cap cap-a">A new way to interact with your knowledge.</p>
+    <p class="cap cap-s">Consume with intention.</p>
+    <p class="cap cap-s">Your knowledge, organized.</p>
     <p class="cap cap-s">Your books become word games.</p>
     <p class="cap cap-s">Your podcasts become trivia.</p>
-    <p class="cap cap-s">Discover quality content.</p>
-    <p class="cap cap-s">Built on memory science.</p>
   </div>
 </template>
 
@@ -441,6 +494,8 @@ html.still .v-card{scroll-snap-align:center}
   const SETTLE = Q.get('motion') === '1';
   const AT = Q.has('at') ? Math.min(1, Math.max(0, parseFloat(Q.get('at')) || 0)) : null;
   const root = document.documentElement;
+  // locked from the size tryout: title 90, cover ball 125
+  const TITLE = 0.9, BALL = 1.25;
   if (AT !== null) root.classList.add('pinned');
   if (STATIC) root.classList.add('static');
   if (SETTLE) root.classList.add('settle');
@@ -448,10 +503,10 @@ html.still .v-card{scroll-snap-align:center}
   const ONLY = document.getElementById(Q.get('only') || '');
   if (ONLY && ONLY.parentElement && ONLY.parentElement.tagName === 'MAIN') { root.classList.add('only'); ONLY.classList.add('on'); }
 
-  // headline options, switchable by ?h=1..6 (1 is the default). The close has its own line ("Stop letting your knowledge fade today.").
+  // headline options, switchable by ?h=1..6 (1 is the default). The close has its own line ("Stop letting your knowledge fade.").
   // Each line marks its key phrase (Lora italic + the coral gradient, full stop outside); a no-break space ties the last two words so no word sits alone.
   const HEADLINES = {
-    1: 'Turn what you save into *what you know*.',
+    1: 'Turn what you consume into *what you know*.',
     2: 'Turn bookmarks into *lasting knowledge*.',
     3: 'Turn reading more into *knowing more*.',
     4: 'Organize and *retain* your knowledge.',
@@ -463,19 +518,34 @@ html.still .v-card{scroll-snap-align:center}
     const plain = H.replace(/\*/g, '');
     const esc = t => t.replace(/&/g, '&amp;').replace(/</g, '&lt;');
     const tie = t => t.replace(/ (\S+)$/, ' $1');
-    const html = esc(tie(H)).replace(/\*([^*]+)\*/g, '<em>$1</em>');
+    const two = H === HEADLINES[1];
+    const html = two
+      ? '<span class="ln">Turn what you consume</span><span class="ln">into <em>what you know</em>.</span>'
+      : esc(tie(H)).replace(/\*([^*]+)\*/g, '<em>$1</em>');
     const tpl = document.getElementById('tpl').content;
-    tpl.querySelector('.hero h1').innerHTML = html;
+    const h1 = tpl.querySelector('.hero h1');
+    h1.classList.toggle('split', two);
+    h1.innerHTML = html;
     document.title = 'REPS · ' + plain;
     document.getElementById('story').setAttribute('aria-label', plain);
   }
 
   const C = 'product/assets/covers/';
-  const B = (src, a) => ({k:'book', src, a});
+  const B = (src, a, name) => ({k:'book', src, a, name});
+  // one of each. The Egg and Diary of a CEO stay off. Nothing in this list is repeated.
   const COVERS = [
-    {k:'vid', src:'video-kurzgesagt-the-egg.jpg'}, {k:'pod', src:'podcast-huberman-lab.jpg'}, B('sapiens.jpg', 400/604),
-    B('1984.jpg', 400/600), {k:'pod', src:'podcast-the-daily.jpg'}, B('atomic-habits.jpg', 400/604),
-    {k:'vid', src:'video-veritasium-entropy.jpg'}, B('thinking-fast-and-slow.jpg', 400/593),
+    B('sapiens.jpg', 400/604, 'Sapiens'),
+    B('thinking-fast-and-slow.jpg', 400/593, 'Thinking, Fast and Slow'),
+    {k:'pod', src:'podcast-huberman-lab.jpg', name:'Huberman Lab'},
+    B('atomic-habits.jpg', 400/604, 'Atomic Habits'),
+    {k:'vid', src:'video-veritasium-entropy.jpg', name:'Veritasium'},
+    B('1984.jpg', 400/600, '1984'),
+    {k:'pod', src:'podcast-the-daily.jpg', name:'The Daily'},
+    {k:'vid', src:'video-kurzgesagt-immune-system.jpg', name:'Kurzgesagt'},
+    {k:'pod', src:'podcast-the-rest-is-history.jpg', name:'The Rest Is History'},
+    {k:'vid', src:'video-3blue1brown-neural-network.jpg', name:'3Blue1Brown'},
+    {k:'pod', src:'podcast-radiolab.jpg', name:'Radiolab'},
+    B('deep-work.jpg', 331/500, 'Deep Work'),
   ];
   // paper: real pieces, correctly attributed. Articles and talks carry their own published lead image (og:image, see
   // product/assets/covers/article-images-SOURCES.txt) as a banner; publication names are plain type (no logos, no mastheads).
@@ -483,22 +553,14 @@ html.still .v-card{scroll-snap-align:center}
   // noPhone: on a phone this paper would render at 5-8px type (or poke out behind a cover), so it is left off the sphere there
   const BAND = { sage:'#93A88F', blue:'#8A9BB8', plum:'#A48A9E', ochre:'#C4A46E' };
   const CARDS = [
-    {k:'art',  pub:'The Atlantic', ttl:'Is Google Making Us Stupid?', au:'Nicholas Carr', img:'article-atlantic-is-google-making-us-stupid.jpg', noPhone:true},
+    {k:'art',  pub:'The Atlantic', ttl:'Is Google Making Us Stupid?', au:'Nicholas Carr', img:'article-atlantic-is-google-making-us-stupid.jpg'},
+    {k:'art',  pub:'The New Yorker', ttl:'Why Facts Don’t Change Our Minds', au:'Elizabeth Kolbert', img:'article-newyorker-why-facts-dont-change-our-minds.jpg'},
     {k:'qc',   qt:'Who controls the past controls the future.', who:'George Orwell', wh:'1984', band:BAND.sage, sz:[144, 116]},
-    {k:'pdf',  ttl:'The Art of War', by:'Sun Tzu', noPhone:true},
-    {k:'art',  pub:'The New Yorker', ttl:'Why Facts Don’t Change Our Minds', au:'Elizabeth Kolbert', img:'article-newyorker-why-facts-dont-change-our-minds.jpg', noPhone:true},
-    {k:'note', tx:'Ask Dad what he thinks about the wheat bit in Sapiens.'},
-    {k:'hl',   qt:'You do not rise to the level of your goals. You fall to the level of your systems.', by:'James Clear · Atomic Habits', band:BAND.ochre},
-    {k:'qc',   qt:'Stay hungry. Stay foolish.', who:'Whole Earth Catalog', wh:'via Steve Jobs · Stanford, 2005', band:BAND.blue, sz:[150, 116]},
-    {k:'shot', off:true},   // kept for the slot (the rest-frame layout depends on 18 slots) but not shown: at rest it sits behind ENTROPY and only its corner brackets showed
     {k:'art',  pub:'TED', ttl:'Do Schools Kill Creativity?', au:'Ken Robinson', img:'talk-ted-do-schools-kill-creativity.jpg'},
-    {k:'qc',   qt:'The unexamined life is not worth living.', who:'Socrates', wh:'via Plato’s Apology', band:BAND.plum, sz:[158, 122], noPhone:true},
   ];
-  // 18 on the sphere, every one unique: the eight real covers (Diary of a CEO removed) and ten paper pieces.
-  // Covers take the slots that face the viewer while the hero is read (rest yaw 1.35, turning on from there),
-  // so at rest the sphere reads as books, podcasts and videos; one cover sits on the far side. 'K' slots take the next paper card.
-  // The cover order and rest yaw were chosen so no two front-facing covers overlap in the first frame, on desktop or phone.
-  const LAYOUT = 'KCKKCKCKKCKKCCCKKC';   // at rest: front slots 9,12,4,14,17,6,1; far side: 13
+  // 16 on the sphere: twelve unique covers (about a fifth more facing the camera than the ten-cover set) and four knowledge pieces.
+  // At rest yaw 1.35 the front slots are 2, 5, 7, 8, 10, 12, 13, 15 and 16, all covers. Paper sits on the far side.
+  const LAYOUT = 'KCCKCKCCKCCCCCCC';
   const ITEMS = [];
   { let ci = 0, ki = 0; for (const ch of LAYOUT) ITEMS.push(ch === 'C' ? COVERS[ci++] : CARDS[ki++]); }
   // real covers read 1.3x (laid out at that size, so the image stays sharp); paper reads 0.85x (scaled, so its type scales with it)
@@ -508,7 +570,8 @@ html.still .v-card{scroll-snap-align:center}
   // a fixed shuffle so books, podcasts, videos and articles arrive interleaved
   const ORDER = Array.from({length: N}, (_, i) => i).sort((a, b) => ((a * 7919) % 31) - ((b * 7919) % 31));
   const RANK = new Array(N); ORDER.forEach((i, r) => RANK[i] = r);
-  const ABS0 = 0.085, ABS_DUR = 0.065, ABS_STEP = (0.30 - ABS0) / (N - 1);
+  // the lid finishes opening before the first cover leaves; the last one still leaves at 0.30
+  const ABS0 = 0.20, ABS_DUR = 0.065, ABS_STEP = (0.30 - ABS0) / (N - 1);
 
   // Fibonacci sphere
   const DIRS = ITEMS.map((_, i) => {
@@ -525,11 +588,10 @@ html.still .v-card{scroll-snap-align:center}
   const eio = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
   const back = t => { const c = 1.45; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
 
-  // timeline: the lights leave as the last cover lands and the first scene opens at 0.40, straight after the absorption caption, so there is no bare stretch
-  const SCENE_OPEN = [0.40, 0.49, 0.58, 0.67];
-  // phone: the first scene waits until the icon has settled in its scene position (it moves up until 0.415)
-  // (each phone scene still holds for 0.09 before the next, so the later ones shift by the same 0.015)
-  const SCENE_OPEN_M = [0.415, 0.505, 0.595, 0.685];
+  // the head is gone and the full logo is in place before the first light leaves
+  const SCENE_OPEN = [0.43, 0.52, 0.61, 0.70];
+  // phone uses the same gap; the logo is already where the links start, so nothing waits on a move
+  const SCENE_OPEN_M = [0.445, 0.535, 0.625, 0.715];
 
   function geo(w, h, heroH = 180) {
     const m = w < 760;
@@ -539,7 +601,7 @@ html.still .v-card{scroll-snap-align:center}
       const icon = [w / 2, h * 0.58];
       const dx = Math.min(w * 0.275, 410), dy = h * 0.235;
       const sp = [[-dx, -dy], [dx, -dy], [-dx, dy], [dx, dy]].map(d => [icon[0] + d[0], icon[1] + d[1]]);
-      return { m, k, heroC: [w * 0.725, h * 0.52], R: Math.min(h * 0.29, w * 0.175), persp: 1000, iSc: k * 0.8,
+      return { m, k, heroC: [w * 0.725, h * 0.52], R: Math.min(h * 0.24, w * 0.145) * BALL, persp: 1000, iSc: k * 0.8 * BALL,
         // the story ends with the scenes folded back into the icon, resting at the centre; the manifesto follows in the page
         iconA: icon, iconS: icon, iconC: [w / 2, h * 0.5], iconSize: 112,
         nodeT: sp, sceneP: sp, sceneSc: k * 0.88,
@@ -549,7 +611,8 @@ html.still .v-card{scroll-snap-align:center}
     // the sphere's visible extent runs ~1.12R above its centre (the top items) to ~1.45R below (the ground shadow);
     // the spare height is shared out: a little above the headline, a matching breath under the button, the rest as ground.
     const NAV = 64;
-    const R = Math.min(w * 0.37, Math.max(96, (h - NAV - heroH - 110) / 2.57));
+    const R0 = Math.min(w * 0.37, Math.max(96, (h - NAV - heroH - 110) / 2.57));
+    const R = R0 * BALL;
     const slack = Math.max(0, h - NAV - heroH - 2.57 * R);
     const heroTop = NAV + Math.max(18, slack * 0.3);
     const heroC = [w / 2, heroTop + heroH + Math.max(26, slack * 0.27) + 1.12 * R];
@@ -561,7 +624,7 @@ html.still .v-card{scroll-snap-align:center}
     const iconC = [w / 2, h * 0.5];
     // phone scenes open from just below the icon (never across it), then settle in their place
     const sceneFrom = [w / 2, iconS[1] + 92 / 2 + 26];
-    return { m, k: 1, heroTop, heroC, R, persp: 800, iSc: 0.54 * clamp(R / 128, 0.9, 1.12),
+    return { m, k: 1, heroTop, heroC, R, persp: 800, iSc: 0.54 * clamp(R0 / 128, 0.9, 1.12) * BALL,
       iconA: [w / 2, h * 0.47], iconS, iconC, iconSize: 92, sceneFrom,
       nodeT, sceneP: nodeT.map(() => [w / 2, h * 0.69]), sceneSc: Math.min(1, (w - 30) / 340),
       // captions keep a clear band under the top bar on short phones
@@ -571,7 +634,7 @@ html.still .v-card{scroll-snap-align:center}
   function itemSize(it) {
     if (it.sz) return it.sz;
     if (it.k === 'book') return [146 * it.a, 146];   // 1.3x the round-1 size
-    if (it.k === 'pod') return [117, 117];
+    if (it.k === 'pod') return [168, 124];
     if (it.k === 'vid') return [195, 109];
     if (it.k === 'art') return it.img ? [150, 160] : it.au ? [140, 100] : [138, 92];
     if (it.k === 'qc') return [144, 116];
@@ -581,15 +644,46 @@ html.still .v-card{scroll-snap-align:center}
     return [158, 112];
   }
 
+  // Four pencil links, each with its own gesture. One of them loops on the way.
+  function pencilPath(k, a, b) {
+    const dx = b[0] - a[0], dy = b[1] - a[1];
+    const len = Math.hypot(dx, dy) || 1;
+    const px = -dy / len, py = dx / len;
+    const n = 26;
+    let d = '';
+    const put = (x, y, move) => { d += (move ? 'M' : 'L') + x.toFixed(1) + ' ' + y.toFixed(1) + ' '; };
+    for (let i = 0; i <= n; i++) {
+      const t = i / n;
+      let bow = 0;
+      if (k === 0) bow = Math.sin(Math.PI * t) * Math.min(48, len * 0.18);
+      else if (k === 1) bow = Math.sin(Math.PI * t) * Math.min(16, len * 0.05);
+      else if (k === 2) bow = Math.sin(Math.PI * 2 * t) * Math.min(34, len * 0.13);
+      else bow = (Math.sin(Math.PI * t * 0.85) * 0.7 + Math.sin(Math.PI * t) * 0.45) * Math.min(58, len * 0.2);
+      const wob = Math.sin(t * 14.2 + k * 2.1) * 1.15 + Math.sin(t * 7.3 + k * 0.6) * 0.65;
+      const x = a[0] + dx * t + px * (bow + wob);
+      const y = a[1] + dy * t + py * (bow + wob);
+      put(x, y, i === 0);
+      if (k === 1 && i === Math.round(n * 0.46) && len > 70) {
+        const r = Math.max(8, Math.min(13, len * 0.04));
+        for (let s = 0.35; s <= Math.PI * 2 + 0.2; s += 0.42) {
+          put(x + Math.cos(s) * r, y + Math.sin(s) * r * 0.86, false);
+        }
+      }
+    }
+    return d;
+  }
+
   class Stage {
     constructor(host) {
       host.appendChild(document.getElementById('tpl').content.cloneNode(true));
       const q = s => host.querySelector(s), qa = s => [...host.querySelectorAll(s)];
       this.host = host;
       this.hero = q('.hero'); this.icon = q('.icon'); this.ishadow = q('.ishadow'); this.tilt = [0, 0]; this.halo = q('.halo');
+      this.headEl = q('.head'); this.skull = q('.skull'); this.lid = q('.lid'); this.plug = q('.plug'); this.mark = q('.mark');
+      this.headArt = null; this.headEl.style.visibility = 'hidden';
       this.orb = q('.orb'); this.floor = q('.floor');
-      this.svg = q('.lines'); this.lines = qa('.lines line'); this.nodes = qa('.node');
-      this.sparks = this.lines.map(() => { const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle'); c.setAttribute('r', '2.6'); c.setAttribute('class', 'spark'); this.svg.appendChild(c); return c; });
+      this.svg = q('.lines'); this.lines = qa('.lines path'); this.nodes = qa('.node');
+      this.sparks = [];
       this.scenes = qa('.scene'); this.capA = q('.cap-a'); this.capS = qa('.cap-s');
       // crossword: 1984 fragment
       const rows = ['.B...R.', 'WINSTON', '.G...O.', '.....M.'];
@@ -608,31 +702,27 @@ html.still .v-card{scroll-snap-align:center}
         if (n) { const i = document.createElement('i'); i.textContent = n; d.prepend(i); }
         grid.appendChild(d);
       }));
-      // daily round: three arcs, two done
-      const arcs = q('.arcs'), cx = 108, r = 92;
-      [0, 1, 2].forEach(s => {
-        const a0 = (-90 + s * 120 + 7) * Math.PI / 180, a1 = (-90 + (s + 1) * 120 - 7) * Math.PI / 180;
-        const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        p.setAttribute('d', `M${cx + r * Math.cos(a0)} ${cx + r * Math.sin(a0)} A${r} ${r} 0 0 1 ${cx + r * Math.cos(a1)} ${cx + r * Math.sin(a1)}`);
-        p.setAttribute('stroke', s < 2 ? 'url(#rg)' : 'rgba(33,26,20,.09)');
-        arcs.appendChild(p);
-        if (s === 2) {
-          const f = p.cloneNode(); f.setAttribute('stroke', 'url(#rg)');
-          this.ringLen = r * (106 * Math.PI / 180);
-          f.setAttribute('stroke-dasharray', `${this.ringLen.toFixed(1)} 999`);
-          arcs.appendChild(f); this.ringFill = f;
-        }
-      });
-      this.ringCore = q('.ring .core');
       this.ansOn = q('.ans li.on');
       this.feedCards = qa('.sc-feed .fc');
+      this.graph = q('canvas.brain');
+      this.gctx = this.graph.getContext('2d');
+      this.initGraph();
+      this.cue = q('.scroll-cue');
       this.beatAt = [0, 0, 0, 0]; this.beatK = -1;
       // sphere items
       const wrap = q('.items');
       this.items = ITEMS.map(it => {
         const el = document.createElement('div');
         el.className = 'item it-' + it.k;
-        if (it.src) { const im = new Image(); im.src = C + it.src; im.alt = ''; im.decoding = 'async'; el.appendChild(im); }
+        if (it.src && it.k === 'pod') {
+          const disc = document.createElement('i'); disc.className = 'disc'; disc.setAttribute('aria-hidden', 'true'); el.appendChild(disc);
+          const im = new Image(); im.src = C + it.src; im.alt = it.name ? it.name + ' podcast' : ''; im.className = 'sleeve'; im.decoding = 'async'; el.appendChild(im);
+        }
+        else if (it.src && it.k === 'vid') {
+          const im = new Image(); im.src = C + it.src; im.alt = it.name ? it.name + ' video' : ''; im.decoding = 'async'; el.appendChild(im);
+          const play = document.createElement('i'); play.className = 'play'; play.setAttribute('aria-hidden', 'true'); el.appendChild(play);
+        }
+        else if (it.src) { const im = new Image(); im.src = C + it.src; im.alt = it.name || ''; im.decoding = 'async'; el.appendChild(im); }
         else {
           const add = (cls, txt, tag = 'span') => { const e = document.createElement(tag); e.className = cls; if (txt != null) e.textContent = txt; el.appendChild(e); return e; };
           if (it.k === 'art' && it.img) {
@@ -655,11 +745,138 @@ html.still .v-card{scroll-snap-align:center}
         return el;
       });
       this.washes = this.items.map(el => el.querySelector('.wash'));
-      this.chip3 = q('.ring .chips .c3');
+      this.drawGraph(0);
       this.measure();
     }
+    // The gather is a silhouette that appears after the first screen. The holes are only the
+    // icon's nodes and links. When the silhouette leaves, the full rounded tile remains.
+    prepareHead() {
+      const head = new Image(), icon = new Image();
+      let pending = 2, failed = false;
+      const step = ok => {
+        if (!ok) failed = true;
+        if (--pending) return;
+        if (!failed) { try { this.bakeHead(head, icon); } catch (err) { this.headArt = null; } }
+        if (this.onReady) this.onReady();
+      };
+      head.onload = () => step(true); head.onerror = () => step(false);
+      icon.onload = () => step(true); icon.onerror = () => step(false);
+      head.src = 'product/assets/head-silhouette.png';
+      icon.src = 'product/assets/app-icon-512.png';
+    }
+    bakeHead(headImg, iconImg) {
+      const paint = img => {
+        const c = document.createElement('canvas');
+        c.width = img.naturalWidth; c.height = img.naturalHeight;
+        c.getContext('2d').drawImage(img, 0, 0);
+        return c;
+      };
+      const src = paint(headImg), sw = src.width, sh = src.height;
+      const sd = src.getContext('2d').getImageData(0, 0, sw, sh);
+      const px = sd.data;
+      let x0 = sw, y0 = sh, x1 = 0, y1 = 0;
+      for (let y = 0, i = 0; y < sh; y++) for (let x = 0; x < sw; x++, i += 4) {
+        const m = Math.max(px[i], px[i + 1], px[i + 2]);
+        if (m > 248) px[i + 3] = 0;
+        else {
+          px[i + 3] = m < 24 ? 255 : Math.round(255 * (1 - m / 255));
+          px[i] = px[i + 1] = px[i + 2] = 0;
+          if (px[i + 3] > 16) { if (x < x0) x0 = x; if (y < y0) y0 = y; if (x > x1) x1 = x; if (y > y1) y1 = y; }
+        }
+      }
+      if (x1 <= x0) return;
+      const hw = x1 - x0 + 1, hh = y1 - y0 + 1;
+      const crop = document.createElement('canvas'); crop.width = hw; crop.height = hh;
+      crop.getContext('2d').putImageData(sd, -x0, -y0);
+
+      const ic = paint(iconImg), iw = ic.width, ih = ic.height;
+      const id = ic.getContext('2d').getImageData(0, 0, iw, ih).data;
+      // Near-black is the tile, not part of the mark. The hole is the nodes and links only.
+      const ink = new Uint8Array(iw * ih);
+      for (let p = 0, i = 0; p < ink.length; p++, i += 4) {
+        if (id[i + 3] < 16) continue;
+        if (id[i] > 24 || id[i + 1] > 24 || id[i + 2] > 24) ink[p] = 1;
+      }
+      let bx0 = iw, by0 = ih, bx1 = 0, by1 = 0;
+      for (let y = 0; y < ih; y++) for (let x = 0; x < iw; x++) if (ink[y * iw + x]) {
+        if (x < bx0) bx0 = x; if (y < by0) by0 = y; if (x > bx1) bx1 = x; if (y > by1) by1 = y;
+      }
+      if (bx1 <= bx0) return;
+      const bw = bx1 - bx0 + 1, bh = by1 - by0 + 1;
+      const mask = document.createElement('canvas'); mask.width = bw; mask.height = bh;
+      const md = mask.getContext('2d').createImageData(bw, bh);
+      for (let y = 0; y < bh; y++) for (let x = 0; x < bw; x++) if (ink[(y + by0) * iw + (x + bx0)]) {
+        const o = (y * bw + x) * 4; md.data[o] = md.data[o + 1] = md.data[o + 2] = 0; md.data[o + 3] = 255;
+      }
+      mask.getContext('2d').putImageData(md, 0, 0);
+
+      const cut = Math.round(hh * 0.155);
+      let brainW = Math.round(hw * 0.44), brainH = Math.round(brainW * bh / bw);
+      let brainX = Math.round(hw * 0.62 - brainW / 2);
+      let brainY = cut + Math.round(hh * 0.03);
+      if (brainY < cut + 4) brainY = cut + 4;
+      if (brainX < 2) brainX = 2;
+      if (brainX + brainW > hw - 2) brainX = hw - brainW - 2;
+
+      const skull = document.createElement('canvas'); skull.width = hw; skull.height = hh;
+      const sk = skull.getContext('2d');
+      sk.drawImage(crop, 0, 0);
+      sk.clearRect(0, 0, hw, cut);
+      sk.globalCompositeOperation = 'destination-out';
+      sk.drawImage(mask, brainX, brainY, brainW, brainH);
+      const lid = document.createElement('canvas'); lid.width = hw; lid.height = hh;
+      const lk = lid.getContext('2d');
+      lk.drawImage(crop, 0, 0);
+      lk.clearRect(0, cut + 2, hw, hh);
+
+      const mark = document.createElement('canvas'); mark.width = bw; mark.height = bh;
+      const mk = mark.getContext('2d');
+      mk.drawImage(ic, bx0, by0, bw, bh, 0, 0, bw, bh);
+      const kd = mk.getImageData(0, 0, bw, bh);
+      for (let i = 0; i < kd.data.length; i += 4) if (kd.data[i] <= 24 && kd.data[i + 1] <= 24 && kd.data[i + 2] <= 24) kd.data[i + 3] = 0;
+      mk.putImageData(kd, 0, 0);
+      mk.globalCompositeOperation = 'destination-in';
+      mk.drawImage(mask, 0, 0);
+
+      const plug = document.createElement('canvas'); plug.width = bw; plug.height = bh;
+      const pk = plug.getContext('2d');
+      pk.fillStyle = '#FFFAF7'; pk.fillRect(0, 0, bw, bh);
+      pk.globalCompositeOperation = 'destination-in';
+      pk.drawImage(mask, 0, 0);
+
+      // keep the network inside the silhouette, so a node never floats outside the head
+      const clip = document.createElement('canvas'); clip.width = bw; clip.height = bh;
+      const ck = clip.getContext('2d');
+      ck.drawImage(crop, brainX, brainY, brainW, brainH, 0, 0, bw, bh);
+      const above = Math.round((cut - brainY) / brainH * bh);
+      if (above > 0) ck.clearRect(0, 0, bw, above);
+      mk.drawImage(clip, 0, 0);
+      pk.drawImage(clip, 0, 0);
+
+      let hinge = 0.16;
+      {
+        const row = Math.max(0, Math.min(hh - 1, cut));
+        const rd = crop.getContext('2d').getImageData(0, row, hw, 1).data;
+        for (let x = 0; x < hw; x++) if (rd[x * 4 + 3] > 24) { hinge = x / hw; break; }
+      }
+      this.skull.width = hw; this.skull.height = hh; this.skull.getContext('2d').drawImage(skull, 0, 0);
+      this.lid.width = hw; this.lid.height = hh; this.lid.getContext('2d').drawImage(lid, 0, 0);
+      this.plug.width = bw; this.plug.height = bh; this.plug.getContext('2d').drawImage(plug, 0, 0);
+      this.mark.width = bw; this.mark.height = bh; this.mark.getContext('2d').drawImage(mark, 0, 0);
+      this.headArt = {
+        aspect: hw / hh, cut: cut / hh, hinge,
+        brain: { x: brainX / hw, y: brainY / hh, w: brainW / hw, h: brainH / hh },
+        net: { x: bx0 / iw, y: by0 / ih, w: bw / iw, h: bh / ih }
+      };
+    }
     measure() {
-      this.w = this.host.clientWidth; this.h = this.host.clientHeight;
+      const viewW = window.innerWidth || this.host.clientWidth;
+      const viewH = window.innerHeight || this.host.clientHeight;
+      // a line that is too wide can stretch the page; the window is the real size
+      this.w = Math.min(this.host.clientWidth, viewW);
+      this.h = Math.min(this.host.clientHeight, viewH);
+      this.sizeHero();
+      this.fitHero();
       this.heroH = this.hero.offsetHeight;
       this.g = geo(this.w, this.h, this.heroH);
       // phone: the hero's top comes from the composition (desktop keeps its CSS centring)
@@ -669,6 +886,50 @@ html.still .v-card{scroll-snap-align:center}
       this.sceneWH = this.scenes.map(el => [el.offsetWidth, el.offsetHeight]);
       // desktop: a lower scene never runs off the bottom edge (the feed grew with its article banner)
       if (!this.g.m) [2, 3].forEach(k => { const P = this.g.sceneP[k]; P[1] = Math.min(P[1], this.h - 28 - this.sceneWH[k][1] * this.g.sceneSc / 2); });
+    }
+    // On a wide screen the column is no longer stuck at 720px, so the headline can keep growing
+    // until it would meet the cover ball. Laptop widths keep the stylesheet size.
+    sizeHero() {
+      const w = this.w, h = this.h;
+      if (w < 1566) { this.hero.style.width = ''; return; }
+      const R = Math.min(h * 0.24, w * 0.145) * BALL;
+      const heroLeft = Math.min(140, Math.max(24, w * 0.078));
+      // the longer line is drawn at 90% of the column, so the column is wider than the gap it may fill
+      const coverLeft = w * 0.725 - R - Math.max(110, R * 0.32);
+      const room = (coverLeft - heroLeft - 36) / TITLE;
+      const width = Math.max(720, Math.min(room, w * 0.54));
+      this.hero.style.width = width.toFixed(1) + 'px';
+    }
+    // headline 1 stays on two fixed lines, at the largest size that fits the column.
+    fitHero() {
+      const h1 = this.hero.querySelector('h1');
+      if (!h1 || !h1.classList.contains('split')) return;
+      const lines = [...h1.querySelectorAll('.ln')];
+      if (!lines.length) return;
+      const textWidth = () => {
+        lines.forEach(l => { l.style.display = 'inline-block'; });
+        const w = Math.max(...lines.map(l => l.offsetWidth));
+        lines.forEach(l => { l.style.display = ''; });
+        return w;
+      };
+      const apply = px => { h1.style.fontSize = (px * TITLE).toFixed(2) + 'px'; };
+      h1.style.fontSize = '';
+      const cssMax = parseFloat(getComputedStyle(h1).fontSize);
+      const viewW = window.innerWidth || this.w;
+      let box = h1.clientWidth;
+      if (viewW < 760) box = Math.min(box, viewW - 48);
+      // the 72px cap belongs to a 720px column; a wider column on a big screen may set larger type
+      const max = box > 736 ? Math.min(cssMax * box / 720, this.h * 0.15) : cssMax;
+      if (!box || !max) return;
+      h1.style.fontSize = max.toFixed(2) + 'px';
+      if (textWidth() <= box) { apply(max); return; }
+      let lo = 22, hi = max;
+      for (let i = 0; i < 16; i++) {
+        const mid = (lo + hi) / 2;
+        h1.style.fontSize = mid.toFixed(2) + 'px';
+        if (textWidth() <= box - 1) lo = mid; else hi = mid;
+      }
+      apply(lo);
     }
     render(p, yaw, pitch, t = 0) {
       const g = this.g, w = this.w, h = this.h;
@@ -681,6 +942,7 @@ html.still .v-card{scroll-snap-align:center}
       // hero text leaves first
       const ho = 1 - sm(0.02, 0.095, p);
       vis(this.hero, ho);
+      if (this.cue) vis(this.cue, ho);
       const heroY = g.m ? 0 : -this.heroH / 2 - 10;
       this.hero.style.transform = `translate3d(0,${heroY - 46 * (1 - ho)}px,0)`;
 
@@ -688,16 +950,75 @@ html.still .v-card{scroll-snap-align:center}
       let ic0 = g.m ? lp(g.iconA, g.iconS, eio(sm(0.365, 0.415, p))) : g.iconA;
       ic0 = lp(ic0, g.iconC, eio(sm(0.86, 0.91, p)));
 
-      // sphere + absorption: the icon is born at the sphere's centre and travels with it, so it never reads as a second object
-      const drift = eio(sm(0.07, 0.31, p));
-      const sc = lp(g.heroC, ic0, drift);
-      const ic = sc;
-      const R = g.R * (1 - 0.32 * drift);
-      const bodyO = 1 - sm(0.09, 0.26, p);
-      vis(this.orb, bodyO); vis(this.floor, bodyO);
-      const od = R * 3.1 / 100;
-      this.orb.style.transform = `translate3d(${sc[0] - 50}px,${sc[1] - 50}px,0) scale(${od.toFixed(3)})`;
-      this.floor.style.transform = `translate3d(${sc[0] - 50}px,${sc[1] + R * 1.36 - 50}px,0) scale(${(R * 1.9 / 100).toFixed(3)},${(R * 0.26 / 100).toFixed(3)})`;
+      // The ball stays where the first screen put it. The head fades in already at the link hub.
+      // If the pictures failed, the ball still falls into the tile.
+      const art = this.headArt;
+      const linkAt = g.m ? g.iconS : g.iconA;
+      let sc, R, ic;
+      if (art) {
+        sc = g.heroC;
+        R = g.R;
+        ic = sc;
+      } else {
+        const drift = eio(sm(0.07, 0.31, p));
+        sc = lp(g.heroC, ic0, drift);
+        R = g.R * (1 - 0.32 * drift);
+        ic = sc;
+      }
+      let headO = 0, headOut = 0, mouth = ic, mouthW = 0, headH = 0, headX = 0, headY = 0, headW = 0, lidOpen = 0;
+      if (art) {
+        headH = g.R * 1.35;
+        headW = headH * art.aspect;
+        const b0 = art.brain;
+        headX = linkAt[0] - (b0.x + b0.w / 2) * headW;
+        headY = linkAt[1] - (b0.y + b0.h / 2) * headH;
+        if (headY < 78) headY = 78;
+        if (headY + headH > h - 8) headY = Math.max(78, h - 8 - headH);
+        const headC = [headX + headW / 2, headY + headH / 2];
+        const headIn = sm(0.09, 0.14, p);
+        headOut = sm(0.36, 0.415, p);
+        headO = headIn * (1 - headOut);
+        lidOpen = sm(0.10, 0.19, p);
+        const open = lidOpen;
+        const setBox = (cv, w, h, x, y, extra) => {
+          cv.style.width = w.toFixed(1) + 'px';
+          cv.style.height = h.toFixed(1) + 'px';
+          cv.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0)${extra || ''}`;
+        };
+        setBox(this.skull, headW, headH, headX, headY);
+        this.lid.style.transformOrigin = `${(art.hinge * 100).toFixed(2)}% ${(art.cut * 100).toFixed(2)}%`;
+        setBox(this.lid, headW, headH, headX, headY, ` rotate(${(open * -120).toFixed(2)}deg)`);
+        const b = art.brain;
+        const bw = b.w * headW, bh = b.h * headH, bx = headX + b.x * headW, by = headY + b.y * headH;
+        setBox(this.plug, bw, bh, bx, by);
+        this.brainScreen = { w: bw, h: bh, cx: bx + bw / 2, cy: by + bh / 2 };
+        mouth = [headX + headW * 0.50, headY + art.cut * headH + 2];
+        mouthW = headW * 0.62;
+        const o = headO < 0.004 ? 0 : headO;
+        this.skull.style.opacity = o.toFixed(3);
+        this.lid.style.opacity = o.toFixed(3);
+        this.plug.style.opacity = (o * (1 - sm(0.30, 0.365, p))).toFixed(3);
+        this.headEl.style.visibility = o < 0.004 ? 'hidden' : 'visible';
+        const bodyO = 1 - sm(0.20, 0.36, p);
+        vis(this.orb, bodyO);
+        const od = R * 3.1 / 100;
+        this.orb.style.transform = `translate3d(${sc[0] - 50}px,${sc[1] - 50}px,0) scale(${od.toFixed(3)})`;
+        if (headIn > 0.5) {
+          vis(this.floor, o);
+          this.floor.style.transform = `translate3d(${(headC[0] - 50).toFixed(1)}px,${(headY + headH - 4 - 50).toFixed(1)}px,0) scale(${(headW * 0.62 / 100).toFixed(3)},${(headW * 0.1 / 100).toFixed(3)})`;
+        } else {
+          vis(this.floor, bodyO);
+          this.floor.style.transform = `translate3d(${sc[0] - 50}px,${sc[1] + R * 1.36 - 50}px,0) scale(${(R * 1.9 / 100).toFixed(3)},${(R * 0.26 / 100).toFixed(3)})`;
+        }
+      } else {
+        this.headEl.style.visibility = 'hidden';
+        this.brainScreen = null;
+        const bodyO = 1 - sm(0.09, 0.26, p);
+        vis(this.orb, bodyO); vis(this.floor, bodyO);
+        const od = R * 3.1 / 100;
+        this.orb.style.transform = `translate3d(${sc[0] - 50}px,${sc[1] - 50}px,0) scale(${od.toFixed(3)})`;
+        this.floor.style.transform = `translate3d(${sc[0] - 50}px,${sc[1] + R * 1.36 - 50}px,0) scale(${(R * 1.9 / 100).toFixed(3)},${(R * 0.26 / 100).toFixed(3)})`;
+      }
       const cy = Math.cos(yaw), sy = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
       let pulse = 0;
       for (let i = 0; i < N; i++) {
@@ -715,27 +1036,66 @@ html.still .v-card{scroll-snap-align:center}
         // the far side fades out almost entirely, so nothing ghostly peeks out from under a front cover
         let op = sm(0.15, 0.42, depth);
         let wash = 0.8 * Math.pow(1 - depth, 1.3);
-        let px = sx, py = sy2, z = 1 + Math.round(depth * 28), rot = -x1 * 24;
+        let px = sx, py = sy2, rot = -x1 * 24;
+        // the ball stays put, so orbiting covers keep their own depth; a cover in flight passes under the open lid
+        let z = 1 + Math.round(depth * 28);
         const st = ABS0 + RANK[i] * ABS_STEP, arr = st + ABS_DUR;
-        const t = clamp((p - st) / ABS_DUR);
-        if (t > 0) {
-          // gravity: a curved fall that accelerates into the icon
-          const e = t * t * (1.35 - 0.35 * t);
-          const mx = (sx + ic[0]) / 2, my = (sy2 + ic[1]) / 2;
-          const dx = ic[0] - sx, dy = ic[1] - sy2;
-          const bend = (i % 2 ? 1 : -1) * 0.22;
-          const c1 = [mx - dy * bend, my + dx * bend];
+        const uAbs = clamp((p - st) / ABS_DUR);
+        // anything that would sit on the skull slides up off it and waits there until its own flight
+        let sx0 = sx, sy0 = sy2;
+        if (art && headH > 0) {
+          const halfW = ((parseFloat(el.style.width) || 140) * Math.max(scale, 0.35)) * 0.5;
+          const halfH = ((parseFloat(el.style.height) || 120) * Math.max(scale, 0.35)) * 0.5;
+          const onSkull = sx + halfW > headX + 12 && sx - halfW < headX + headW - 4
+            && sy2 + halfH > headY + 8 && sy2 - halfH < headY + headH * 0.82;
+          // the open crown swings up to the left; don't leave a cover sitting on it
+          const onLid = lidOpen > 0.4 && sx < headX + headW * 0.46 && sx > headX - headW * 0.45
+            && sy2 < headY + headH * 0.22 && sy2 > headY - headH * 0.62;
+          // a cover below the opening, in front of the head, would have to cross the face
+          const cutsFace = g.m && sy2 > mouth[1] + 6 && sx - halfW < headX + headW * 0.92 && sx + halfW > headX - 8;
+          let cx = sx, cy2 = sy2;
+          if (onSkull || onLid || cutsFace) {
+            if (g.m && cutsFace) {
+              const slot = (i * 47) % Math.max(48, Math.min(150, w * 0.36));
+              cx = Math.min(w - halfW - 4, Math.max(8 + halfW, headX + headW * 0.2) + slot);
+              cy2 = Math.max(78, mouth[1] - headH * 0.4 - ((i * 13) % 36));
+            } else {
+              cx = Math.min(w - halfW - 6, Math.max(sx, headX + headW * 0.7));
+              cy2 = Math.max(80, headY - halfH - 12);
+            }
+          }
+          const peel = uAbs > 0 ? 1 : sm(0.09, 0.16, p);
+          sx0 = lerp(sx, cx, peel);
+          sy0 = lerp(sy2, cy2, peel);
+        }
+        px = sx0; py = sy0;
+        if (uAbs > 0) {
+          const e = uAbs * uAbs * (1.35 - 0.35 * uAbs);
+          const dest = art ? mouth : ic;
+          let c1;
+          if (art) {
+            // stay above the face and come in from the right, so a low or left cover rises before it drops in
+            const high = Math.max(84, dest[1] - headH * 0.42);
+            c1 = [Math.max(dest[0] + headW * 0.22, Math.min(sx0, w - 24)), Math.min(sy0 - 4, high)];
+          } else {
+            const mx = (sx0 + ic[0]) / 2, my = (sy0 + ic[1]) / 2;
+            const dx = ic[0] - sx0, dy = ic[1] - sy0;
+            const bend = (i % 2 ? 1 : -1) * 0.22;
+            c1 = [mx - dy * bend, my + dx * bend];
+          }
           const u = 1 - e;
-          px = u * u * sx + 2 * u * e * c1[0] + e * e * ic[0];
-          py = u * u * sy2 + 2 * u * e * c1[1] + e * e * ic[1];
-          scale = lerp(scale, 0.1 * g.iSc, Math.pow(t, 1.4));
-          op = lerp(op, 1, Math.min(1, t * 2.5)) * (1 - sm(0.72, 1, t));
-          wash = lerp(wash, 0, Math.min(1, t * 2.5));
-          rot *= (1 - t);
-          z = 30;
+          px = u * u * sx0 + 2 * u * e * c1[0] + e * e * dest[0];
+          py = u * u * sy0 + 2 * u * e * c1[1] + e * e * dest[1];
+          const elW = parseFloat(el.style.width) || 140;
+          const fit = art ? Math.max(0.08, (mouthW * 0.30) / elW) : 0.1 * g.iSc;
+          scale = lerp(scale, fit, Math.pow(uAbs, art ? 1.15 : 1.4));
+          op = lerp(op, 1, Math.min(1, uAbs * 2.5)) * (1 - sm(0.72, 1, uAbs));
+          wash = lerp(wash, 0, Math.min(1, uAbs * 2.5));
+          rot *= (1 - uAbs);
+          z = art ? 32 : 30;
         }
         if (p >= arr) { const x = (p - arr) / 0.003; pulse = Math.max(pulse, x * Math.exp(1 - x)); }
-        if (t >= 1) { el.style.visibility = 'hidden'; continue; }
+        if (uAbs >= 1) { el.style.visibility = 'hidden'; continue; }
         el.style.visibility = 'visible';
         el.style.opacity = op >= 0.999 ? '1' : op.toFixed(3);
         this.washes[i].style.opacity = wash.toFixed(3);
@@ -743,32 +1103,81 @@ html.still .v-card{scroll-snap-align:center}
         el.style.transform = `translate3d(${px.toFixed(1)}px,${py.toFixed(1)}px,0) translate(-50%,-50%) rotateY(${rot.toFixed(2)}deg) scale(${scale.toFixed(4)})`;
       }
 
-      // icon: nothing until the first cover lands (0.15), then it pops in from zero on that arrival, always fully opaque.
-      // until absorption is well under way it sits inside the sphere: front-facing items pass in front of it, back ones behind
-      const ICON_IN = ABS0 + ABS_DUR;
-      const io = p >= ICON_IN ? 1 : 0;
-      const iscale = back(sm(ICON_IN, ICON_IN + 0.055, p)) * (1 + 0.075 * pulse) * (1 + 0.024 * settled * breath);
-      vis(this.icon, io);
-      const inside = p < 0.3;
-      this.icon.style.zIndex = inside ? 15 : 40;
-      this.ishadow.style.zIndex = inside ? 14 : 39;
-      // a physical tile: a very slow tilt (idle loop) plus a small lean toward the mouse, never past 6 degrees
-      const rx = clamp(3.2 * Math.sin(TAU * t / 10.5) + 2.6 * this.tilt[1], -6, 6);
-      const ry = clamp(3.8 * Math.sin(TAU * t / 13.5 + 1.2) + 2.8 * this.tilt[0], -6, 6);
-      this.icon.style.transform = `translate3d(${ic[0] - g.iconSize / 2}px,${ic[1] - g.iconSize / 2}px,0) scale(${iscale.toFixed(4)}) perspective(560px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
-      this.icon.style.setProperty('--lx', (30 - 2.4 * ry).toFixed(1) + '%');
-      this.icon.style.setProperty('--ly', (16 + 2.4 * rx).toFixed(1) + '%');
-      // contact shadow on the ground: tightens as the tile breathes up, slides a touch against the tilt
-      vis(this.ishadow, io);
-      const shH = g.iconSize === 112 ? 26 : 22;
-      this.ishadow.style.transform = `translate3d(${(ic[0] - g.iconSize / 2 - 0.9 * ry).toFixed(1)}px,${(ic[1] + g.iconSize * 0.5 * iscale - shH / 2 + 5).toFixed(1)}px,0) scale(${(iscale * (1.04 - 0.04 * settled * breath)).toFixed(3)},${(iscale * (1 - 0.06 * settled * breath)).toFixed(3)})`;
-
-      // halo: arrivals flash it; emission holds it
-      const emit = sm(0.37, 0.45, p) * (1 - sm(0.84, 0.90, p));
-      const glowB = settled * (0.5 + 0.5 * breath);
-      const ho2 = Math.min(1, 0.5 * pulse * sm(0.08, 0.12, p) + emit * (0.82 + 0.13 * glowB) + sm(0.89, 0.94, p) * 0.5 + settled * (1 - emit) * (0.16 + 0.22 * glowB));
-      vis(this.halo, ho2);
-      this.halo.style.transform = `translate3d(${ic[0]}px,${ic[1]}px,0) scale(${(0.7 + 0.35 * emit + 0.15 * pulse + 0.05 * glowB).toFixed(3)})`;
+      // The network shows through the holes, then the silhouette leaves and the full rounded tile remains.
+      // Fallback: the glossy tile, hidden until the covers start flying in.
+      let hub = ic;
+      const glowB = 0.5 + 0.5 * Math.sin(TAU * t / 3.4);
+      const brainNow = art && this.brainScreen;
+      if (brainNow) {
+        const colorIn = sm(0.30, 0.365, p);
+        // the brain is already on the link hub, so the tile only settles its size, then follows the end fold
+        const home = lp(linkAt, g.iconC, eio(sm(0.86, 0.91, p)));
+        const settle = sm(0.42, 0.48, p);
+        const bs = this.brainScreen;
+        const markO = colorIn * headO;
+        vis(this.mark, markO);
+        this.mark.style.width = bs.w.toFixed(1) + 'px';
+        this.mark.style.height = bs.h.toFixed(1) + 'px';
+        this.mark.style.transform = `translate3d(${(bs.cx - bs.w / 2).toFixed(1)}px,${(bs.cy - bs.h / 2).toFixed(1)}px,0)`;
+        const net = art.net;
+        const S0 = bs.w / net.w;
+        const ix0 = (bs.cx - bs.w / 2) - net.x * S0 + S0 / 2;
+        const iy0 = (bs.cy - bs.h / 2) - net.y * S0 + S0 / 2;
+        const S = lerp(S0, g.iconSize, settle);
+        const ix = lerp(ix0, home[0], settle);
+        const iy = lerp(iy0, home[1], settle);
+        hub = [ix, iy];
+        const tileIn = headOut;
+        const live = settle > 0.98;
+        const breathe = (1 + (live ? 0.02 * Math.sin(TAU * t / 3.6) : 0)) * (1 + 0.05 * Math.min(1, pulse) * tileIn);
+        const rx = live ? clamp(3.2 * Math.sin(TAU * t / 10.5) + 2.6 * this.tilt[1], -6, 6) : 0;
+        const ry = live ? clamp(3.8 * Math.sin(TAU * t / 13.5 + 1.2) + 2.8 * this.tilt[0], -6, 6) : 0;
+        this.icon.classList.remove('brain');
+        this.icon.style.width = S.toFixed(1) + 'px';
+        this.icon.style.height = S.toFixed(1) + 'px';
+        this.icon.style.borderRadius = (S * 0.223).toFixed(1) + 'px';
+        this.icon.style.zIndex = 40;
+        vis(this.icon, tileIn);
+        this.icon.style.transform = `translate3d(${(ix - S / 2).toFixed(1)}px,${(iy - S / 2).toFixed(1)}px,0) scale(${breathe.toFixed(4)}) perspective(560px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+        this.icon.style.setProperty('--lx', (30 - 2.4 * ry).toFixed(1) + '%');
+        this.icon.style.setProperty('--ly', (16 + 2.4 * rx).toFixed(1) + '%');
+        this.icon.style.setProperty('--glow', (tileIn * (0.16 + 0.12 * glowB + 0.1 * Math.min(1, pulse))).toFixed(3));
+        vis(this.ishadow, tileIn);
+        this.ishadow.style.zIndex = 39;
+        const shH = 26 * (S / 112);
+        this.ishadow.style.width = S.toFixed(1) + 'px';
+        this.ishadow.style.height = shH.toFixed(1) + 'px';
+        this.ishadow.style.transform = `translate3d(${(ix - S / 2 - 0.9 * ry).toFixed(1)}px,${(iy + S * 0.5 * breathe - shH / 2 + 5).toFixed(1)}px,0)`;
+        const ho2 = tileIn * Math.min(1, 0.38 + 0.1 * glowB + 0.14 * Math.min(1, pulse));
+        vis(this.halo, ho2);
+        this.halo.style.transform = `translate3d(${ix.toFixed(1)}px,${iy.toFixed(1)}px,0) scale(${(0.78 + 0.12 * glowB + 0.08 * Math.min(1, pulse)).toFixed(3)})`;
+      } else {
+        vis(this.mark, 0);
+        this.icon.classList.remove('brain');
+        this.icon.style.width = '';
+        this.icon.style.height = '';
+        this.icon.style.borderRadius = '';
+        const ICON_IN = ABS0;
+        const born = sm(ICON_IN, ICON_IN + 0.04, p);
+        const io = p < ICON_IN ? 0 : 1;
+        const iscale = (p < ICON_IN ? 0 : back(Math.max(born, 0.001))) * (1 + 0.075 * pulse) * (1 + 0.02 * Math.sin(TAU * t / 3.6));
+        vis(this.icon, io);
+        this.icon.style.zIndex = 40;
+        this.ishadow.style.zIndex = 39;
+        const rx = clamp(3.2 * Math.sin(TAU * t / 10.5) + 2.6 * this.tilt[1], -6, 6);
+        const ry = clamp(3.8 * Math.sin(TAU * t / 13.5 + 1.2) + 2.8 * this.tilt[0], -6, 6);
+        this.icon.style.transform = `translate3d(${ic[0] - g.iconSize / 2}px,${ic[1] - g.iconSize / 2}px,0) scale(${iscale.toFixed(4)}) perspective(560px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+        this.icon.style.setProperty('--lx', (30 - 2.4 * ry).toFixed(1) + '%');
+        this.icon.style.setProperty('--ly', (16 + 2.4 * rx).toFixed(1) + '%');
+        vis(this.ishadow, io);
+        const shH = g.iconSize === 112 ? 26 : 22;
+        this.ishadow.style.transform = `translate3d(${(ic[0] - g.iconSize / 2 - 0.9 * ry).toFixed(1)}px,${(ic[1] + g.iconSize * 0.5 * iscale - shH / 2 + 5).toFixed(1)}px,0) scale(${(iscale * (1.04 - 0.04 * settled * breath)).toFixed(3)},${(iscale * (1 - 0.06 * settled * breath)).toFixed(3)})`;
+        this.icon.style.setProperty('--glow', (0.16 + 0.12 * glowB + 0.1 * Math.min(1, pulse)).toFixed(3));
+        const ho2 = io * Math.min(1, 0.38 + 0.1 * glowB + 0.14 * Math.min(1, pulse));
+        vis(this.halo, ho2);
+        this.halo.style.transform = `translate3d(${ic[0]}px,${ic[1]}px,0) scale(${(0.78 + 0.12 * glowB + 0.08 * Math.min(1, pulse)).toFixed(3)})`;
+      }
+      this.drawGraph(t);
 
       // which scene is "active" (the latest one open, before the fold back)
       const SO = g.m ? SCENE_OPEN_M : SCENE_OPEN;
@@ -782,9 +1191,9 @@ html.still .v-card{scroll-snap-align:center}
       const retract = sm(0.845, 0.885, p);        // nodes return to the icon
       for (let k = 0; k < 4; k++) {
         // desktop: each light leaves the icon just before its own scene opens, so no light waits alone in empty space
-        const out = g.m ? eo(sm(0.366 + 0.012 * k, 0.405 + 0.012 * k, p)) : eo(sm(SO[k] - 0.035, SO[k] + 0.005, p));
+        const out = eo(sm(SO[k] - 0.006, SO[k] + 0.028, p));
         const T = g.nodeT[k];
-        let np = lp(ic, T, out);
+        let np = lp(hub, T, out);
         let no = out * (1 - sm(0.6, 1, retract));
         const node = this.nodes[k], line = this.lines[k];
 
@@ -807,28 +1216,17 @@ html.still .v-card{scroll-snap-align:center}
         // the light docks on the scene's edge facing the icon, so lines never cross a scene
         if (open > 0.001) {
           const [W, H] = this.sceneWH[k];
-          const dx = ic[0] - pos[0], dy = ic[1] - pos[1];
+          const dx = hub[0] - pos[0], dy = hub[1] - pos[1];
           const hw = W * s / 2 + 12, hh = H * s / 2 + 12;
           const t = Math.min(Math.abs(dx) > 1e-3 ? hw / Math.abs(dx) : 1e9, Math.abs(dy) > 1e-3 ? hh / Math.abs(dy) : 1e9);
-          const edge = t < 1 ? [pos[0] + dx * t, pos[1] + dy * t] : ic;
+          const edge = t < 1 ? [pos[0] + dx * t, pos[1] + dy * t] : hub;
           np = lp(np, edge, eo(Math.min(1, open * 1.4)));
         }
-        np = lp(np, ic, ei(retract));
-        // the links pulse: a slow wave runs out from the icon, node by node
-        const lw = Math.sin(TAU * t / 3.2 - k * 1.1);
-        vis(node, no);
-        node.style.zIndex = 16;
-        node.style.transform = `translate3d(${np[0].toFixed(1)}px,${np[1].toFixed(1)}px,0) scale(${((0.6 + 0.4 * out) * (1 + 0.14 * settled * lw)).toFixed(3)})`;
-        line.setAttribute('x1', ic[0]); line.setAttribute('y1', ic[1]);
-        line.setAttribute('x2', np[0].toFixed(1)); line.setAttribute('y2', np[1].toFixed(1));
-        line.style.opacity = (no * 0.9 * (1 - 0.38 * settled * (0.5 - 0.5 * lw))).toFixed(3);
-        // a spark of light travels out along each link, one at a time
-        const spk = this.sparks[k], f = ((t / 3.6 + k * 0.25) % 1) / 0.55;
-        if (no > 0.01 && f < 1 && settled > 0) {
-          const e2 = eio(f);
-          spk.setAttribute('cx', lerp(ic[0], np[0], e2).toFixed(1)); spk.setAttribute('cy', lerp(ic[1], np[1], e2).toFixed(1));
-          spk.style.opacity = (no * settled * Math.sin(Math.PI * f) * 0.95).toFixed(3);
-        } else spk.style.opacity = '0';
+        np = lp(np, hub, ei(retract));
+        vis(node, 0);
+        line.setAttribute('d', pencilPath(k, hub, np));
+        line.setAttribute('stroke-width', [1.15, 1.45, 1.2, 1.55][k]);
+        line.style.opacity = (no * 0.82).toFixed(3);
 
         // caption for this scene
         // phone: one title at a time in the top band. desktop: each title stays directly over its own scene and steps back with it
@@ -857,12 +1255,12 @@ html.still .v-card{scroll-snap-align:center}
     // every beat starts from (and returns to) the scene's resting, complete look.
     beats(act, u) {
       const TAU = Math.PI * 2;
-      // 0 crossword: the across word clears softly, then fills back in letter by letter
+      // 2 crossword: the across word clears softly, then fills back in letter by letter
       {
-        const C = 7.6, ph = act === 0 ? u % C : 0, STEP = 0.62, F0 = 3.6;
+        const C = 7.6, ph = act === 2 ? u % C : 0, STEP = 0.62, F0 = 3.6;
         this.xwFill.forEach(([d, l], j) => {
           let o = 1, sc = 1, cur = false;
-          if (act === 0 && ph >= 2.9) {
+          if (act === 2 && ph >= 2.9) {
             const at = F0 + j * STEP;
             if (ph < F0) o = 1 - sm(2.9, 3.4, ph);
             else if (ph < at) { o = 0; cur = ph >= at - STEP; }
@@ -873,30 +1271,136 @@ html.still .v-card{scroll-snap-align:center}
           d.classList.toggle('cur', cur);
         });
       }
-      // 1 trivia: the right answer glows softly
+      // 3 trivia: the right answer glows softly
       {
-        const gl = act === 1 ? 0.5 - 0.5 * Math.cos(TAU * u / 2.8) : 0;
+        const gl = act === 3 ? 0.5 - 0.5 * Math.cos(TAU * u / 2.8) : 0;
         this.ansOn.style.boxShadow = gl ? `0 0 0 ${(2 + 4 * gl).toFixed(1)}px rgba(78,205,196,${(0.12 + 0.16 * gl).toFixed(3)}),0 12px 22px -12px rgba(45,131,119,.8)` : '';
       }
-      // 2 feed: the cards drift a few pixels, out of step with each other
+      // 0 recommendations drift a few pixels, out of step with each other
       this.feedCards.forEach((c, j) => {
         const ramp = Math.min(1, u);
-        c.style.transform = act === 2 ? `translate3d(${(1.5 * Math.sin(TAU * u / 7 + j * 2.1) * ramp).toFixed(2)}px,${(3.2 * Math.sin(TAU * u / 5.2 + j * 1.7) * ramp).toFixed(2)}px,0)` : '';
+        c.style.transform = act === 0 ? `translate3d(${(1.5 * Math.sin(TAU * u / 7 + j * 2.1) * ramp).toFixed(2)}px,${(3.2 * Math.sin(TAU * u / 5.2 + j * 1.7) * ramp).toFixed(2)}px,0)` : '';
       });
-      // 3 daily round: the last third of the ring fills, glows, and lets go
-      {
-        let f = 0, glow = 0;
-        if (act === 3) {
-          const ph = u % 7.2;
-          f = ph < 1.0 ? 0 : ph < 3.6 ? eio((ph - 1.0) / 2.6) : ph < 6.2 ? 1 : 1 - sm(6.2, 7.0, ph);
-          glow = ph < 3.6 ? 0 : sm(3.6, 4.2, ph) * (1 - sm(5.6, 6.6, ph));
+    }
+
+    // fifty nodes on a true sphere. Links are uneven on purpose: some dots have one, some have several, a few reach further.
+    // three names stay on a fixed side of their dot, and only switch sides when they would otherwise leave the picture.
+    initGraph() {
+      const GN = 50;
+      const PAL = ['#FF6B6B', '#FB923C', '#2DD4BF', '#3B82F6', '#A78BFA', '#F59E0B', '#22D3EE', '#4ADE80', '#94A3B8'];
+      const LABELS = { 14: 'philosophy', 33: 'history', 45: 'business' };
+      const LABEL_COLOR = { 14: '#A78BFA', 33: '#3B82F6', 45: '#F59E0B' };
+      let seed = 20261020;
+      const rand = () => { seed = (seed * 48271) % 2147483647; return seed / 2147483647; };
+      this.gnodes = Array.from({length: GN}, (_, i) => {
+        const y = 1 - (i + 0.5) / GN * 2, rad = Math.sqrt(Math.max(0, 1 - y * y)), th = i * Math.PI * (3 - Math.sqrt(5));
+        return {
+          x: Math.cos(th) * rad, y, z: Math.sin(th) * rad,
+          c: LABEL_COLOR[i] || PAL[i % PAL.length],
+          s: LABELS[i] ? 1.35 : 0.82 + (i % 5) * 0.08,
+          label: LABELS[i] || '',
+          anchor: i === 33 ? -1 : 1,
+          park: false
+        };
+      });
+      const neigh = this.gnodes.map((a, i) => {
+        const list = [];
+        for (let k = 0; k < GN; k++) {
+          if (k === i) continue;
+          const b = this.gnodes[k];
+          list.push([(a.x - b.x) ** 2 + (a.y - b.y) ** 2 + (a.z - b.z) ** 2, k]);
         }
-        const L = this.ringLen;
-        this.ringFill.setAttribute('stroke-dashoffset', (L * (1 - f)).toFixed(1));
-        this.ringFill.style.opacity = f > 0.002 ? 1 : 0;
-        this.ringCore.style.opacity = (0.35 + 0.65 * glow).toFixed(3);
-        this.ringCore.style.transform = `scale(${(0.85 + 0.2 * glow).toFixed(3)})`;
-        this.chip3.style.opacity = (0.8 + 0.2 * f).toFixed(3);
+        list.sort((p, q) => p[0] - q[0]);
+        return list;
+      });
+      const seen = new Set();
+      this.gedges = [];
+      const add = (i, k, width) => {
+        const key = i < k ? i + '-' + k : k + '-' + i;
+        if (seen.has(key)) return;
+        seen.add(key);
+        this.gedges.push([i < k ? i : k, i < k ? k : i, width]);
+      };
+      // a coin-flip among nearby dots, plus some that skip a neighbor and a few longer reaches
+      for (let i = 0; i < GN; i++) {
+        for (let n = 0; n < 16; n++) {
+          const [d, k] = neigh[i][n];
+          if (k < i) continue;
+          if (d < 0.48 && rand() < 0.34) add(i, k, 0.75 + rand() * 0.8);
+          else if (d < 1.15 && rand() < 0.14) add(i, k, 0.5 + rand() * 0.65);
+          else if (d < 2.2 && rand() < 0.07) add(i, k, 0.4 + rand() * 0.4);
+        }
+      }
+      for (let i = 0; i < GN; i++) {
+        const linked = this.gedges.some(([a, b]) => a === i || b === i);
+        if (!linked) add(i, neigh[i][rand() < 0.5 ? 0 : 1 + Math.floor(rand() * 3)][1], 0.75);
+      }
+    }
+
+    drawGraph(time) {
+      const c = this.graph, ctx = this.gctx;
+      if (!c || !ctx) return;
+      const w = c.width, h = c.height;
+      ctx.clearRect(0, 0, w, h);
+      const yaw = time * 0.18 - 0.13, pitch = -0.38;
+      const cosY = Math.cos(yaw), sinY = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
+      const cx = w * 0.5, cy = h * 0.5;
+      const R = Math.min(w, h) * 0.40;
+      const cam = 3.15;
+      const pts = this.gnodes.map(n => {
+        const x1 = n.x * cosY + n.z * sinY, z1 = -n.x * sinY + n.z * cosY;
+        const y2 = n.y * cp - z1 * sp, z2 = n.y * sp + z1 * cp;
+        const s = cam / (cam - z2);
+        return { x: cx + x1 * R * s, y: cy + y2 * R * s, z: z2, depth: (z2 + 1) / 2, c: n.c, s: n.s, label: n.label, anchor: n.anchor, node: n };
+      });
+      for (const [a, b, width] of this.gedges) {
+        const A = pts[a], B = pts[b], d = (A.depth + B.depth) / 2;
+        ctx.lineWidth = 1.15 * width;
+        ctx.strokeStyle = `rgba(58,49,40,${(0.045 + 0.2 * d).toFixed(3)})`;
+        ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.lineTo(B.x, B.y); ctx.stroke();
+      }
+      const order = pts.map((_, i) => i).sort((a, b) => pts[a].z - pts[b].z);
+      for (const i of order) {
+        const p = pts[i];
+        ctx.globalAlpha = 0.22 + 0.78 * p.depth;
+        ctx.fillStyle = p.c;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, (4.4 + 7.2 * p.depth) * p.s, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      ctx.font = '500 24px Lora, Georgia, serif';
+      ctx.textBaseline = 'middle';
+      ctx.lineJoin = 'round';
+      for (const p of pts) {
+        const fade = Math.max(0, Math.min(1, (p.z - 0.02) / 0.28));
+        if (!p.label || fade < 0.04) continue;
+        const tw = ctx.measureText(p.label).width;
+        const dot = (4.4 + 7.2 * p.depth) * p.s;
+        const dir = p.anchor;
+        const align = dir > 0 ? 'left' : 'right';
+        const lx0 = p.x + dir * (dot + 12);
+        const left0 = align === 'left' ? lx0 : lx0 - tw;
+        const right0 = left0 + tw;
+        // stay on the same side of the dot. If that side would leave the picture, sit above the dot instead of jumping across it.
+        if (left0 < 8 || right0 > w - 8) p.node.park = true;
+        else if (left0 > 28 && right0 < w - 28) p.node.park = false;
+        let lx = lx0, ly = p.y, textAlign = align;
+        if (p.node.park) {
+          textAlign = 'center';
+          lx = Math.min(w - 10 - tw / 2, Math.max(10 + tw / 2, p.x));
+          ly = p.y - dot - 16;
+          if (ly < 16) ly = p.y + dot + 16;
+        }
+        ctx.textAlign = textAlign;
+        ctx.textBaseline = 'middle';
+        ctx.strokeStyle = 'rgba(255,250,247,0.94)';
+        ctx.lineWidth = 8;
+        ctx.strokeText(p.label, lx, ly);
+        ctx.fillStyle = '#211A14';
+        ctx.globalAlpha = fade;
+        ctx.fillText(p.label, lx, ly);
+        ctx.globalAlpha = 1;
       }
     }
   }
@@ -924,11 +1428,28 @@ html.still .v-card{scroll-snap-align:center}
     // under reduced motion or ?static=1 it is a still row you can swipe. ?motion=1 forces the drift on (capture mode).
     const view = document.querySelector('.v-view'), track = document.querySelector('.v-track');
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // the same demo the live site uses: vertical cut on a phone, wide cut on a computer. It plays only while on screen.
+    const vid = document.getElementById('action-vid');
+    if (vid) {
+      const vertical = matchMedia('(pointer: coarse)').matches || matchMedia('(max-width: 819px)').matches;
+      vid.src = 'https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/hero/' + (vertical ? 'mobile-v7.mp4' : 'desktop-v16.mp4');
+      vid.closest('.action-frame').classList.toggle('wide', !vertical);
+      if (!vertical) vid.poster = 'https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/watch/poster-v16.jpg';
+      if (hasIO && !STATIC && !reduce) {
+        new IntersectionObserver(es => {
+          if (es[es.length - 1].isIntersecting) vid.play().catch(() => {});
+          else vid.pause();
+        }, { threshold: 0.4 }).observe(vid);
+      }
+    }
     if (STATIC || (reduce && !SETTLE) || !hasIO) { root.classList.add('still'); return; }
     const orig = [...track.children];
     orig.forEach(c => { const k = c.cloneNode(true); k.setAttribute('aria-hidden', 'true'); track.appendChild(k); });
-    let x = 0, last = 0, raf = 0, seen = false, hover = false, held = 0, period = 1;
-    const measureBand = () => { period = Math.max(1, track.children[orig.length].offsetLeft - track.children[0].offsetLeft); };
+    let x = 0, last = 0, raf = 0, seen = false, hover = false, held = 0, period = 1, primed = false;
+    const measureBand = () => {
+      period = Math.max(1, track.children[orig.length].offsetLeft - track.children[0].offsetLeft);
+      if (!primed) { x = -period; primed = true; track.style.transform = `translate3d(${x.toFixed(2)}px,0,0)`; }
+    };
     measureBand(); addEventListener('resize', measureBand);
     document.fonts && document.fonts.ready.then(measureBand);
     const later = SETTLE ? f => setTimeout(() => f(performance.now()), 33) : f => requestAnimationFrame(f);
@@ -939,8 +1460,8 @@ html.still .v-card{scroll-snap-align:center}
         const dt = last ? Math.min(100, ts - last) : 33;
         last = ts;
         if (ts > held) {
-          x -= dt * 0.024;   // about 24 px a second
-          if (-x >= period) x += period;
+          x += dt * 0.024;   // cards travel left to right, about 24 px a second
+          if (x >= 0) x -= period;
           track.style.transform = `translate3d(${x.toFixed(2)}px,0,0)`;
         }
       }
@@ -961,6 +1482,7 @@ html.still .v-card{scroll-snap-align:center}
       const st = new Stage(s); st.p = p; st.noDim = true; return st;
     });
     const draw = () => stages.forEach(st => { st.measure(); st.render(st.p, REST_YAW, REST_PITCH); });
+    stages.forEach(st => { st.onReady = draw; st.prepareHead(); });
     draw(); addEventListener('resize', draw);
     document.fonts && document.fonts.ready.then(draw);
     let heroIn = true;
@@ -988,7 +1510,11 @@ html.still .v-card{scroll-snap-align:center}
     if (AT !== null) return AT;
     const r = story.getBoundingClientRect();
     const span = story.offsetHeight - innerHeight;
-    return span > 0 ? clamp(-r.top / span) : 0;
+    const raw = span > 0 ? clamp(-r.top / span) : 0;
+    // the icon has arrived by 0.91; only a short stretch of scroll is left before the manifesto, which is pulled up under it
+    const HOLD = 0.05, END = 0.91;
+    if (raw <= 1 - HOLD) return raw / (1 - HOLD) * END;
+    return END + (raw - (1 - HOLD)) / HOLD * (1 - END);
   };
   const sphereVisible = p => p < 0.37;
 
@@ -1048,6 +1574,8 @@ html.still .v-card{scroll-snap-align:center}
     requestAnimationFrame(() => { queued = false; draw(); wake(); });
   }
 
+  S.onReady = () => { S.measure(); draw(); };
+  S.prepareHead();
   S.measure(); draw();
   document.fonts && document.fonts.ready.then(() => { S.measure(); draw(); });
   addEventListener('resize', () => { S.measure(); draw(); });
