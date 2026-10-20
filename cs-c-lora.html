@@ -90,10 +90,9 @@ html.settle .rv{transition:none}   /* capture mode: show the settled state, not 
 html.static .story{height:auto}
 html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960px)}
 
-.lines{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
-.lines path{fill:none;stroke:#2a221c;stroke-linecap:round;stroke-linejoin:round}
-.lines .spark{display:none}
-.node{display:none}
+.lines{position:absolute;inset:0;width:100%;height:100%;z-index:4;pointer-events:none}
+.lines line{stroke:rgba(255,107,107,.62);stroke-width:1.25;stroke-linecap:round}
+.lines .spark{fill:#FFE4DC;opacity:0;filter:drop-shadow(0 0 2px rgba(255,140,120,.55))}
 .halo{position:absolute;left:0;top:0;width:520px;height:520px;margin:-260px 0 0 -260px;border-radius:50%;z-index:1;pointer-events:none;
   background:radial-gradient(closest-side,rgba(255,120,96,.36) 0%,rgba(255,107,107,.22) 16%,rgba(255,142,83,.12) 36%,rgba(232,80,75,.05) 56%,rgba(255,107,107,0) 78%)}
 /* a faint grain over the glow breaks up the 8-bit steps that otherwise read as rings */
@@ -212,8 +211,8 @@ canvas.mark{position:absolute;left:0;top:0;z-index:17;pointer-events:none;visibi
   background:radial-gradient(closest-side,rgba(33,26,20,.30),rgba(33,26,20,.12) 55%,rgba(33,26,20,0))}
 
 /* nodes of light */
-.node{position:absolute;left:0;top:0;width:15px;height:15px;margin:-7.5px 0 0 -7.5px;border-radius:50%;z-index:6;will-change:transform,opacity;
-  background:#fff;box-shadow:0 0 0 2px rgba(255,196,184,.95),0 0 16px 6px rgba(255,107,107,.85),0 0 46px 16px rgba(255,142,83,.42)}
+.node{position:absolute;left:0;top:0;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;z-index:6;will-change:transform,opacity;
+  background:#fff;box-shadow:0 0 0 1.5px rgba(255,196,184,.62),0 0 10px 3px rgba(255,107,107,.48),0 0 26px 8px rgba(255,142,83,.2)}
 
 /* scenes */
 .scene{position:absolute;left:0;top:0;width:340px;z-index:10;will-change:transform,opacity;transform-origin:50% 50%}
@@ -430,7 +429,7 @@ html.still .v-card{scroll-snap-align:center}
   <div class="stage">
     <div class="halo"></div>
     <svg class="lines" aria-hidden="true">
-      <path/><path/><path/><path/>
+      <line/><line/><line/><line/>
     </svg>
     <div class="orb"></div><div class="floor"></div>
     <div class="items"></div>
@@ -644,35 +643,6 @@ html.still .v-card{scroll-snap-align:center}
     return [158, 112];
   }
 
-  // Four pencil links, each with its own gesture. One of them loops on the way.
-  function pencilPath(k, a, b) {
-    const dx = b[0] - a[0], dy = b[1] - a[1];
-    const len = Math.hypot(dx, dy) || 1;
-    const px = -dy / len, py = dx / len;
-    const n = 26;
-    let d = '';
-    const put = (x, y, move) => { d += (move ? 'M' : 'L') + x.toFixed(1) + ' ' + y.toFixed(1) + ' '; };
-    for (let i = 0; i <= n; i++) {
-      const t = i / n;
-      let bow = 0;
-      if (k === 0) bow = Math.sin(Math.PI * t) * Math.min(48, len * 0.18);
-      else if (k === 1) bow = Math.sin(Math.PI * t) * Math.min(16, len * 0.05);
-      else if (k === 2) bow = Math.sin(Math.PI * 2 * t) * Math.min(34, len * 0.13);
-      else bow = (Math.sin(Math.PI * t * 0.85) * 0.7 + Math.sin(Math.PI * t) * 0.45) * Math.min(58, len * 0.2);
-      const wob = Math.sin(t * 14.2 + k * 2.1) * 1.15 + Math.sin(t * 7.3 + k * 0.6) * 0.65;
-      const x = a[0] + dx * t + px * (bow + wob);
-      const y = a[1] + dy * t + py * (bow + wob);
-      put(x, y, i === 0);
-      if (k === 1 && i === Math.round(n * 0.46) && len > 70) {
-        const r = Math.max(8, Math.min(13, len * 0.04));
-        for (let s = 0.35; s <= Math.PI * 2 + 0.2; s += 0.42) {
-          put(x + Math.cos(s) * r, y + Math.sin(s) * r * 0.86, false);
-        }
-      }
-    }
-    return d;
-  }
-
   class Stage {
     constructor(host) {
       host.appendChild(document.getElementById('tpl').content.cloneNode(true));
@@ -682,8 +652,8 @@ html.still .v-card{scroll-snap-align:center}
       this.headEl = q('.head'); this.skull = q('.skull'); this.lid = q('.lid'); this.plug = q('.plug'); this.mark = q('.mark');
       this.headArt = null; this.headEl.style.visibility = 'hidden';
       this.orb = q('.orb'); this.floor = q('.floor');
-      this.svg = q('.lines'); this.lines = qa('.lines path'); this.nodes = qa('.node');
-      this.sparks = [];
+      this.svg = q('.lines'); this.lines = qa('.lines line'); this.nodes = qa('.node');
+      this.sparks = this.lines.map(() => { const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle'); c.setAttribute('r', '2.2'); c.setAttribute('class', 'spark'); this.svg.appendChild(c); return c; });
       this.scenes = qa('.scene'); this.capA = q('.cap-a'); this.capS = qa('.cap-s');
       // crossword: 1984 fragment
       const rows = ['.B...R.', 'WINSTON', '.G...O.', '.....M.'];
@@ -1186,12 +1156,11 @@ html.still .v-card{scroll-snap-align:center}
       if (act !== this.beatK) { this.beatK = act; if (act >= 0) this.beatAt[act] = t; }
       this.beats(act, act >= 0 ? t - this.beatAt[act] : 0);
 
-      // nodes of light, then scenes
+      // straight coral links. Each light leaves the logo, then docks on its scene.
       const back2 = sm(0.82, 0.86, p);         // scenes fold back into nodes
       const retract = sm(0.845, 0.885, p);        // nodes return to the icon
       for (let k = 0; k < 4; k++) {
-        // desktop: each light leaves the icon just before its own scene opens, so no light waits alone in empty space
-        const out = eo(sm(SO[k] - 0.006, SO[k] + 0.028, p));
+        const out = g.m ? eo(sm(0.366 + 0.012 * k, 0.405 + 0.012 * k, p)) : eo(sm(SO[k] - 0.035, SO[k] + 0.005, p));
         const T = g.nodeT[k];
         let np = lp(hub, T, out);
         let no = out * (1 - sm(0.6, 1, retract));
@@ -1201,7 +1170,6 @@ html.still .v-card{scroll-snap-align:center}
         const o0 = SO[k];
         let open = sm(o0, o0 + 0.045, p);
         if (g.m && k < 3) open *= 1 - sm(o0 + 0.072, o0 + 0.09, p);
-        // phone shows one scene at a time: after the first one opens, a light only shows while its own scene does
         if (g.m) no *= Math.max(1 - sm(SO[0], SO[0] + 0.03, p), sm(0, 0.3, open));
         open *= 1 - back2;
         const dim = (!g.m && k < 3 && !this.noDim) ? sm(o0 + 0.08, o0 + 0.1, p) * (1 - back2) : 0;
@@ -1213,20 +1181,29 @@ html.still .v-card{scroll-snap-align:center}
         vis(sEl, sm(0, 0.35, open) * (1 - 0.15 * dim));
         sEl.style.zIndex = 10 + (dim ? 0 : 5);
         sEl.style.transform = `translate3d(${pos[0].toFixed(1)}px,${pos[1].toFixed(1)}px,0) translate(-50%,-50%) scale(${s.toFixed(4)})`;
-        // the light docks on the scene's edge facing the icon, so lines never cross a scene
         if (open > 0.001) {
           const [W, H] = this.sceneWH[k];
           const dx = hub[0] - pos[0], dy = hub[1] - pos[1];
           const hw = W * s / 2 + 12, hh = H * s / 2 + 12;
-          const t = Math.min(Math.abs(dx) > 1e-3 ? hw / Math.abs(dx) : 1e9, Math.abs(dy) > 1e-3 ? hh / Math.abs(dy) : 1e9);
-          const edge = t < 1 ? [pos[0] + dx * t, pos[1] + dy * t] : hub;
+          const tt = Math.min(Math.abs(dx) > 1e-3 ? hw / Math.abs(dx) : 1e9, Math.abs(dy) > 1e-3 ? hh / Math.abs(dy) : 1e9);
+          const edge = tt < 1 ? [pos[0] + dx * tt, pos[1] + dy * tt] : hub;
           np = lp(np, edge, eo(Math.min(1, open * 1.4)));
         }
         np = lp(np, hub, ei(retract));
-        vis(node, 0);
-        line.setAttribute('d', pencilPath(k, hub, np));
-        line.setAttribute('stroke-width', [1.15, 1.45, 1.2, 1.55][k]);
-        line.style.opacity = (no * 0.82).toFixed(3);
+        const lw = Math.sin(TAU * t / 3.2 - k * 1.1);
+        vis(node, no);
+        node.style.zIndex = 16;
+        node.style.transform = `translate3d(${np[0].toFixed(1)}px,${np[1].toFixed(1)}px,0) scale(${((0.72 + 0.28 * out) * (1 + 0.08 * settled * lw)).toFixed(3)})`;
+        line.setAttribute('x1', hub[0]); line.setAttribute('y1', hub[1]);
+        line.setAttribute('x2', np[0].toFixed(1)); line.setAttribute('y2', np[1].toFixed(1));
+        line.style.opacity = (no * 0.85 * (1 - 0.22 * settled * (0.5 - 0.5 * lw))).toFixed(3);
+        const spk = this.sparks[k], f = ((t / 3.6 + k * 0.25) % 1) / 0.55;
+        if (no > 0.01 && f < 1 && settled > 0) {
+          const e2 = eio(f);
+          spk.setAttribute('cx', lerp(hub[0], np[0], e2).toFixed(1));
+          spk.setAttribute('cy', lerp(hub[1], np[1], e2).toFixed(1));
+          spk.style.opacity = (no * settled * Math.sin(Math.PI * f) * 0.55).toFixed(3);
+        } else spk.style.opacity = '0';
 
         // caption for this scene
         // phone: one title at a time in the top band. desktop: each title stays directly over its own scene and steps back with it
