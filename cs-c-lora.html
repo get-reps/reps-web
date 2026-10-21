@@ -515,7 +515,8 @@ html.still .v-card{scroll-snap-align:center}
   // size, ?radius=x scales the ball. csize/radius default to 1.
   const TUNE = { n: parseInt(Q.get('covers'), 10), cs: parseFloat(Q.get('csize')), r: parseFloat(Q.get('radius')),
     d: parseFloat(Q.get('dens')), o: parseFloat(Q.get('back')) };   // dens: tile-area base (default 65); back: far-side opacity floor (default 0.6)
-  if (!(TUNE.cs > 0)) TUNE.cs = 1; if (!(TUNE.r > 0)) TUNE.r = 1; if (!(TUNE.d > 0)) TUNE.d = 65; if (!(TUNE.o >= 0 && TUNE.o <= 1)) TUNE.o = 0.6;
+  // csize defaults to 0.7 (Mike, 2026-10-21, after the slider tryout with 30 covers); radius to 1
+  if (!(TUNE.cs > 0)) TUNE.cs = 0.7; if (!(TUNE.r > 0)) TUNE.r = 1; if (!(TUNE.d > 0)) TUNE.d = 65; if (!(TUNE.o >= 0 && TUNE.o <= 1)) TUNE.o = 0.6;
   // desktop ball radius multiplier (2026-10-21: raised with the small covers so the ball reads full, not a ring)
   const RB_D = 1.08;
   if (AT !== null) root.classList.add('pinned');
@@ -685,7 +686,7 @@ html.still .v-card{scroll-snap-align:center}
     B('elon-musk.jpg', 210/320, 'Elon Musk'),
   ];
   // the sphere shows the first COVER_COUNT of the pool (the tuner's ?covers= overrides; the pool holds 122)
-  const COVER_COUNT = 75;
+  const COVER_COUNT = 30;   // Mike, 2026-10-21 (slider tryout): 30 covers at 0.7x size
   const SHELF_K = 0.7;   // phone: a cover waiting on the shelf above the head is drawn at this fraction of its ball size
   // paper: real pieces, correctly attributed. Articles and talks carry their own published lead image (og:image, see
   // product/assets/covers/article-images-SOURCES.txt) as a banner; publication names are plain type (no logos, no mastheads).
@@ -1640,9 +1641,10 @@ html.still .v-card{scroll-snap-align:center}
     const vid = document.getElementById('action-vid');
     if (vid) {
       const vertical = matchMedia('(pointer: coarse)').matches || matchMedia('(max-width: 819px)').matches;
-      vid.src = 'https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/hero/' + (vertical ? 'mobile-v7.mp4' : 'desktop-v16.mp4');
+      // v19 demo cuts (Mike, 2026-10-21): FULL-DEMO-v19-r24-daily-correct (wide) / FULL-DEMO-MOBILE-v19-r13-daily-correct (phone)
+      vid.src = 'https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/hero/' + (vertical ? 'mobile-v19.mp4' : 'desktop-v19.mp4');
       vid.closest('.action-frame').classList.toggle('wide', !vertical);
-      if (!vertical) vid.poster = 'https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/watch/poster-v16.jpg';
+      if (!vertical) vid.poster = 'https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/watch/poster-v19.jpg';
       if (hasIO && !STATIC && !reduce) {
         new IntersectionObserver(es => {
           if (es[es.length - 1].isIntersecting) vid.play().catch(() => {});
