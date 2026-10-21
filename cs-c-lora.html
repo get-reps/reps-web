@@ -307,9 +307,12 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 .manifesto .m-list{margin-top:1.1em;padding-left:1.25em}
 .manifesto .m-list p.m+p.m{margin-top:.5em}
 .manifesto .m-list+p.m{margin-top:1.1em}
+.manifesto .m-list p.rv{transition:opacity .5s ease,transform .5s cubic-bezier(.2,.8,.2,1)}
+html.settle .manifesto .m-list p.rv{transition:none}
 .manifesto .w{display:inline-block;position:relative;white-space:nowrap}
 .manifesto .w-shrink{transform-origin:0 76%}
-.manifesto .w-crack .sh{position:absolute;inset:0;color:var(--ink);visibility:hidden;pointer-events:none}
+.manifesto .w-crack .sh{position:absolute;inset:0;color:var(--ink);visibility:hidden;pointer-events:none;user-select:none;-webkit-user-select:none}
+.manifesto .w-crack .sh::before{content:attr(data-w)}
 .manifesto .w-crack.on{color:transparent}
 .manifesto .w-crack.on .sh{visibility:visible}
 /* one-shot reveal as each line arrives; already visible in ?static=1 */
@@ -535,10 +538,10 @@ html.still .v-card{scroll-snap-align:center}
   // csize defaults to 0.7 (Mike, 2026-10-21, after the slider tryout with 30 covers); radius to 1
   if (!(TUNE.cs > 0)) TUNE.cs = 0.7; if (!(TUNE.r > 0)) TUNE.r = 1; if (!(TUNE.d > 0)) TUNE.d = 65; if (!(TUNE.o >= 0 && TUNE.o <= 1)) TUNE.o = 0.6;
   // manifesto end states (Mike, 2026-10-21; tuner: reps-backend/work/website-clean-slate-261019/manifesto-tuner.html):
-  // ?crack= how far the shards of "attention" travel, in em (default 0.28); ?fade= how much of the ink "memory" loses, 0..0.95
+  // ?crack= how far the shards of "attention" travel, in em (default 0.4); ?fade= how much of the ink "memory" loses, 0..0.95
   // (default 0.7, so it rests at 30% ink); ?shrink= how much of its size "thinking" loses, 0..0.8 (default 0.35, so it rests at 65%)
   const MAN = { crack: parseFloat(Q.get('crack')), fade: parseFloat(Q.get('fade')), shrink: parseFloat(Q.get('shrink')) };
-  if (!(MAN.crack >= 0 && MAN.crack <= 1)) MAN.crack = 0.28;
+  if (!(MAN.crack >= 0 && MAN.crack <= 1)) MAN.crack = 0.4;
   if (!(MAN.fade >= 0 && MAN.fade <= 0.95)) MAN.fade = 0.7;
   if (!(MAN.shrink >= 0 && MAN.shrink <= 0.8)) MAN.shrink = 0.35;
   // desktop ball radius multiplier (2026-10-21: raised with the small covers so the ball reads full, not a ring)
@@ -1648,7 +1651,8 @@ html.still .v-card{scroll-snap-align:center}
 
   // the three fates in the manifesto (Mike, 2026-10-21). Each line appears as itself; while it travels from the lower part of the
   // screen to its upper-middle, its key word changes, driven by the scroll position alone (so scrolling back heals it):
-  //  - "attention." is replaced by eighteen clipped copies of itself (a seeded 6 x 3 grid of jagged shards) that spread sideways and tilt
+  //  - "attention." is replaced by eighteen clipped, empty copies of its box (a seeded 6 x 3 grid of jagged shards, each painting
+  //    the word from ::before so the page text holds the word once) that spread sideways, part by row, tilt and shrink a little
   //  - "memory" loses ink down to a light, still legible grey
   //  - "thinking." scales down about its baseline and holds there; AI is still coming for it, so it never finishes
   // Event-driven: a passive scroll listener attached only while the list is near the screen; nothing runs at rest.
@@ -1677,18 +1681,21 @@ html.still .v-card{scroll-snap-align:center}
       const L = pts[c].slice(k0, k0 + 3), R = pts[c + 1].slice(k0, k0 + 3).reverse();
       const poly = L.concat(R).map(p => p[0].toFixed(1) + '% ' + p[1].toFixed(1) + '%').join(',');
       const el = document.createElement('span');
-      el.className = 'sh'; el.textContent = word; el.setAttribute('aria-hidden', 'true'); el.style.clipPath = 'polygon(' + poly + ')';
+      el.className = 'sh'; el.dataset.w = word; el.setAttribute('aria-hidden', 'true'); el.style.clipPath = 'polygon(' + poly + ')';
       // the columns spread to the right from the word's left edge (which stays put, so the broken word never runs into the word
-      // before it; nothing follows it), each row drifts a little up or down and every shard tilts a few degrees: the word reads
-      // as broken along all its cuts, never as a doubled word
-      const cx = (pts[c][k0 + 1][0] + pts[c + 1][k0 + 1][0]) / 200, ry = r - (ROWS - 1) / 2;
-      shards.push({ el, dx: cx * (0.85 + rnd() * 0.3) + rnd() * 0.08, dy: ry * 0.09 * (0.7 + rnd() * 0.6) + (rnd() - 0.5) * 0.1, rot: (rnd() - 0.5) * 8 });
+      // before it; nothing follows it); the middle row lags sideways so the two horizontal cracks show; the top row drifts up and
+      // the bottom row down; every shard tilts a few degrees and shrinks 7% about its own centre so each cut opens on every edge.
+      // The word reads as broken along all its cuts, never as a doubled word.
+      const cx = (pts[c][k0 + 1][0] + pts[c + 1][k0 + 1][0]) / 200, ry = r - (ROWS - 1) / 2, lag = r === 1 ? 0.55 : 1;
+      el.style.transformOrigin = (cx * 100).toFixed(1) + '% ' + YS[k0 + 1].toFixed(0) + '%';
+      shards.push({ el, dx: cx * lag * (0.85 + rnd() * 0.3) + rnd() * 0.08, dy: ry * 0.34 * (0.7 + rnd() * 0.6) + (rnd() - 0.5) * 0.1, rot: (rnd() - 0.5) * 8 });
       crack.appendChild(el);
     }
     const ease = t => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
     const lines = [crack, fade, shrink].map(w => w.closest('p'));
-    // a line's change runs while its top travels from 74% of the viewport height (it faded in at 90%, so it is seen whole first) up to 40%
-    const prog = p => STATIC ? 1 : clamp((innerHeight * 0.74 - p.getBoundingClientRect().top) / (innerHeight * 0.34));
+    // a line's change runs while its top travels from 60% of the viewport height up to 28%: it faded in at 90% over 0.5 s, so at a
+    // normal scroll (about 400 px/s on a phone) it is seen whole for a beat before it starts to change
+    const prog = p => STATIC ? 1 : clamp((innerHeight * 0.60 - p.getBoundingClientRect().top) / (innerHeight * 0.32));
     let cur = [-1, -1, -1];
     function apply(force) {
       const u = lines.map(prog);
@@ -1696,7 +1703,8 @@ html.still .v-card{scroll-snap-align:center}
       if (u[0] !== cur[0]) {
         const e = ease(u[0]), A = MAN.crack * e;
         crack.classList.toggle('on', e > 0.0005);
-        for (const sh of shards) sh.el.style.transform = 'translate(' + (sh.dx * A).toFixed(3) + 'em,' + (sh.dy * A).toFixed(3) + 'em) rotate(' + (sh.rot * e).toFixed(2) + 'deg)';
+        const sc = (1 - 0.07 * e).toFixed(4);
+        for (const sh of shards) sh.el.style.transform = 'translate(' + (sh.dx * A).toFixed(3) + 'em,' + (sh.dy * A).toFixed(3) + 'em) rotate(' + (sh.rot * e).toFixed(2) + 'deg) scale(' + sc + ')';
       }
       if (u[1] !== cur[1]) fade.style.color = 'rgba(33,26,20,' + (1 - MAN.fade * ease(u[1])).toFixed(3) + ')';
       if (u[2] !== cur[2]) shrink.style.transform = 'scale(' + (1 - MAN.shrink * ease(u[2])).toFixed(4) + ')';
