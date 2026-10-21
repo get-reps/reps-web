@@ -15,7 +15,8 @@ CONCEPT NOTE (cs-c, founder storyboard)
 5. Scenes: a 1984 crossword fragment, a Huberman Lab trivia card, a three-card feed of ideas, a daily round ring that fills (no digits).
 6. Close: the scenes fold back into light, the light into the icon, and the headline returns with the one coral action.
 7. Words: one line per screen at most; REPS says under forty words of its own, everything else is the material.
-8. Motion is on by default; one 30 fps loop runs only while the story is on screen and the tab is visible: the sphere turns, then the icon breathes, the links pulse and the active scene has one small living beat.
+8. Motion is on by default; one loop runs only while the story is on screen and the tab is visible: the sphere turns, then the icon breathes, the links pulse and the active scene has one small living beat. It runs at the screen's refresh rate while the visitor scrolls (wheel, touch, keys, and while the story is still gliding to the scroll position), and stays at 30 fps at rest and under pointer movement alone.
+Smoothness pass (2026-10-21, findings in reps-backend/work/website-clean-slate-261019/SCROLL_SMOOTHNESS_FINDINGS.md): the story follows the scroll through a short ease instead of painting each notch where it lands; the desktop auto-settle is gone; progress is measured against the fixed stage height so a phone's collapsing toolbar no longer makes it jump; the silhouette layers are pre-baked WebP placed by transform (no runtime pixel work, no per-frame layout); the links are transformed elements, not SVG; the icon glow is its own layer.
 9. Refused: phone frames, app screenshots, a knowledge graph, feature lists, numbers. (Round 3 added the short manifesto and the quotes band by founder request.)
 10. Flags: ?static=1 static page (the only motion off switch), ?motion=1 capture mode, &at=0..1 pins the story progress (idle motion still runs).
 -->
@@ -90,9 +91,11 @@ html.settle .rv{transition:none}   /* capture mode: show the settled state, not 
 html.static .story{height:auto}
 html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960px)}
 
-.lines{position:absolute;inset:0;width:100%;height:100%;z-index:4;pointer-events:none}
-.lines line{stroke:rgba(255,107,107,.62);stroke-width:1.25;stroke-linecap:round}
-.lines .spark{fill:#FFE4DC;opacity:0;filter:drop-shadow(0 0 2px rgba(255,140,120,.55))}
+/* links are plain elements moved by transform (a 100px bar scaled to length), not SVG lines: changing SVG geometry
+   re-laid-out and repainted the whole viewport-sized SVG every frame */
+.lines{position:absolute;inset:0;z-index:4;pointer-events:none}
+.lines .lk{position:absolute;left:0;top:0;width:100px;height:1.25px;margin-top:-.625px;border-radius:1px;background:rgba(255,107,107,.62);transform-origin:0 50%;will-change:transform,opacity;visibility:hidden}
+.lines .spark{position:absolute;left:0;top:0;width:4.4px;height:4.4px;margin:-2.2px 0 0 -2.2px;border-radius:50%;background:#FFE4DC;box-shadow:0 0 2px 1px rgba(255,140,120,.55);opacity:0;will-change:transform,opacity}
 .halo{position:absolute;left:0;top:0;width:520px;height:520px;margin:-260px 0 0 -260px;border-radius:50%;z-index:1;pointer-events:none;
   background:radial-gradient(closest-side,rgba(255,120,96,.36) 0%,rgba(255,107,107,.22) 16%,rgba(255,142,83,.12) 36%,rgba(232,80,75,.05) 56%,rgba(255,107,107,0) 78%)}
 /* a faint grain over the glow breaks up the 8-bit steps that otherwise read as rings */
@@ -191,16 +194,21 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 /* icon */
 /* the real icon (512px downscale of the 1024 master, never redrawn) as a glossy physical tile:
    iOS-style rounded square, a top-left specular, a faint inner bevel, a layered shadow, and a slow tilt from the idle loop + pointer.
-   no will-change: a transform layer would be rasterised at its first (small) scale and look soft */
+   The tile keeps one layout size and is scaled by transform: ~0.94x on a phone, 1.1x on a 1440 window and up to ~1.85x on a
+   2560 window from the moment it is visible (p ~0.38) until it settles (0.42-0.48), then ~1.0 at rest. Chromium re-rasters at the new scale; Safari is unverified
+   (if it looks soft there, set the layout size once per measure() to the larger of iconSize and the reveal size).
+   The coral glow lives on its own element underneath (.iglow) whose opacity carries the pulse: a shadow blurred over 64px
+   repainted every frame when it was part of this box */
 .icon{position:absolute;left:0;top:0;z-index:40;width:112px;height:112px;border-radius:25px;
-  box-shadow:0 0 0 .5px rgba(4,4,9,.4),0 1px 1.5px rgba(4,4,9,.28),0 5px 9px -3px rgba(4,4,9,.28),0 20px 32px -14px rgba(4,4,9,.48),
-    0 0 28px 8px rgba(255,107,107,var(--glow,.22)),0 0 64px 22px rgba(255,142,83,calc(var(--glow,.22) * .55))}
-canvas.mark{position:absolute;left:0;top:0;z-index:17;pointer-events:none;visibility:hidden}
+  box-shadow:0 0 0 .5px rgba(4,4,9,.4),0 1px 1.5px rgba(4,4,9,.28),0 5px 9px -3px rgba(4,4,9,.28),0 20px 32px -14px rgba(4,4,9,.48)}
+.iglow{position:absolute;left:0;top:0;z-index:39;width:112px;height:112px;border-radius:25px;pointer-events:none;will-change:transform,opacity;   /* same level as .ishadow and later in the template, so the glow paints over the ground shadow as it used to */
+  box-shadow:0 0 28px 8px rgba(255,107,107,.4),0 0 64px 22px rgba(255,142,83,.22)}
+.mark{position:absolute;left:0;top:0;z-index:17;pointer-events:none;visibility:hidden;transform-origin:0 0;will-change:transform,opacity}
 .head{position:absolute;left:0;top:0;pointer-events:none}
-.head canvas{position:absolute;left:0;top:0;display:block}
+.head img{position:absolute;left:0;top:0;display:block;transform-origin:0 0;will-change:transform,opacity}
 .head .plug{z-index:15}
 .head .skull{z-index:20}
-.head .lid{z-index:34;transform-origin:16% 15.5%}
+.head .lid{z-index:34}
 .icon img{width:100%;height:100%;border-radius:inherit}
 .icon::before,.icon::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none}
 .icon::before{background:
@@ -346,7 +354,7 @@ html.still .v-card{scroll-snap-align:center}
   .closing .tile{width:84px;height:84px;border-radius:19px}
   .hero .cta{margin-top:26px}
   .cta{height:52px;padding:0 26px;font-size:15px}
-  .icon{width:92px;height:92px;border-radius:21px}
+  .icon,.iglow{width:92px;height:92px;border-radius:21px}
   .ishadow{width:92px;height:22px}
   .closing .cta{margin-top:30px}
   .cap-a{width:330px;margin-left:-165px;font-size:24px}
@@ -428,9 +436,7 @@ html.still .v-card{scroll-snap-align:center}
 <template id="tpl">
   <div class="stage">
     <div class="halo"></div>
-    <svg class="lines" aria-hidden="true">
-      <line/><line/><line/><line/>
-    </svg>
+    <div class="lines" aria-hidden="true"><i class="lk"></i><i class="lk"></i><i class="lk"></i><i class="lk"></i></div>
     <div class="orb"></div><div class="floor"></div>
     <div class="items"></div>
 
@@ -440,9 +446,11 @@ html.still .v-card{scroll-snap-align:center}
       <a class="cta" href="https://apps.apple.com/app/id6759216018">Download on the App Store</a>
     </div>
 
-    <div class="head" aria-hidden="true"><canvas class="skull"></canvas><canvas class="lid"></canvas><canvas class="plug"></canvas></div>
-    <canvas class="mark" aria-hidden="true"></canvas>
+    <!-- the silhouette layers are pre-baked (reps-backend/work/website-clean-slate-261019/bake-head-assets.cjs) and placed by transform only -->
+    <div class="head" aria-hidden="true"><img class="skull" src="product/assets/head/skull.webp" width="615" height="900" alt="" decoding="async"><img class="lid" src="product/assets/head/lid.webp" width="615" height="900" alt="" decoding="async"><img class="plug" src="product/assets/head/plug.webp" width="311" height="258" alt="" decoding="async"></div>
+    <img class="mark" src="product/assets/head/mark.webp" width="311" height="258" alt="" aria-hidden="true" decoding="async">
     <div class="ishadow"></div>
+    <div class="iglow"></div>
     <div class="icon"><img src="product/assets/app-icon-512.png" alt="REPS" width="112" height="112"></div>
 
     <div class="node"></div><div class="node"></div><div class="node"></div><div class="node"></div>
@@ -569,8 +577,9 @@ html.still .v-card{scroll-snap-align:center}
   // a fixed shuffle so books, podcasts, videos and articles arrive interleaved
   const ORDER = Array.from({length: N}, (_, i) => i).sort((a, b) => ((a * 7919) % 31) - ((b * 7919) % 31));
   const RANK = new Array(N); ORDER.forEach((i, r) => RANK[i] = r);
-  // the lid finishes opening before the first cover leaves; the last one still leaves at 0.30
-  const ABS0 = 0.20, ABS_DUR = 0.065, ABS_STEP = (0.30 - ABS0) / (N - 1);
+  // the lid finishes opening before the first cover leaves; the last one leaves at 0.285 and lands by 0.365 as before.
+  // each flight takes 0.08 of the story (was 0.065): a little more scroll per cover reads as a glide rather than a hop
+  const ABS0 = 0.20, ABS_DUR = 0.08, ABS_STEP = (0.285 - ABS0) / (N - 1);
 
   // Fibonacci sphere
   const DIRS = ITEMS.map((_, i) => {
@@ -643,17 +652,27 @@ html.still .v-card{scroll-snap-align:center}
     return [158, 112];
   }
 
+  // geometry of the pre-baked silhouette layers (product/assets/head/*.webp, from bake-head-assets.cjs; fractions of the
+  // cropped head for cut/hinge/brain, of the 512px icon for net; px = the files' pixel sizes, the layout size of the <img>s).
+  // This is a copy of product/assets/head/head.json: after re-baking, paste the new numbers here and update the <img> sizes.
+  const HEAD = {
+    aspect: 0.6834224598930482, cut: 0.15508021390374332, hinge: 0.13771517996870108,
+    brain: { x: 0.40062597809076683, y: 0.18502673796791444, w: 0.4397496087636933, h: 0.24919786096256685 },
+    net: { x: 0.078125, y: 0.1640625, w: 0.84375, h: 0.69921875 },
+    px: { skull: [615, 900], mark: [311, 258] },
+  };
+
   class Stage {
     constructor(host) {
       host.appendChild(document.getElementById('tpl').content.cloneNode(true));
       const q = s => host.querySelector(s), qa = s => [...host.querySelectorAll(s)];
       this.host = host;
-      this.hero = q('.hero'); this.icon = q('.icon'); this.ishadow = q('.ishadow'); this.tilt = [0, 0]; this.halo = q('.halo');
+      this.hero = q('.hero'); this.icon = q('.icon'); this.iglow = q('.iglow'); this.ishadow = q('.ishadow'); this.tilt = [0, 0]; this.halo = q('.halo');
       this.headEl = q('.head'); this.skull = q('.skull'); this.lid = q('.lid'); this.plug = q('.plug'); this.mark = q('.mark');
       this.headArt = null; this.headEl.style.visibility = 'hidden';
       this.orb = q('.orb'); this.floor = q('.floor');
-      this.svg = q('.lines'); this.lines = qa('.lines line'); this.nodes = qa('.node');
-      this.sparks = this.lines.map(() => { const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle'); c.setAttribute('r', '2.2'); c.setAttribute('class', 'spark'); this.svg.appendChild(c); return c; });
+      this.linesEl = q('.lines'); this.lines = qa('.lines .lk'); this.nodes = qa('.node');
+      this.sparks = this.lines.map(() => { const c = document.createElement('i'); c.className = 'spark'; this.linesEl.appendChild(c); return c; });
       this.scenes = qa('.scene'); this.capA = q('.cap-a'); this.capS = qa('.cap-s');
       // crossword: 1984 fragment
       const rows = ['.B...R.', 'WINSTON', '.G...O.', '.....M.'];
@@ -715,129 +734,27 @@ html.still .v-card{scroll-snap-align:center}
         return el;
       });
       this.washes = this.items.map(el => el.querySelector('.wash'));
-      this.drawGraph(0);
       this.measure();
     }
     // The gather is a silhouette that appears after the first screen. The holes are only the
     // icon's nodes and links. When the silhouette leaves, the full rounded tile remains.
+    // The four layers (skull, lid, plug, mark) are WebP files pre-baked once from product/assets/head-silhouette.png and
+    // the icon by reps-backend/work/website-clean-slate-261019/bake-head-assets.cjs; HEAD carries their geometry.
+    // (Until 2026-10-21 the page cut them at runtime from the 1.2 MB silhouette with per-pixel JS, which blocked the
+    // main thread for up to a second right as the first scroll began.) If a layer fails to load, the ball falls into the tile.
     prepareHead() {
-      const head = new Image(), icon = new Image();
-      let pending = 2, failed = false;
+      const imgs = [this.skull, this.lid, this.plug, this.mark];
+      let pending = imgs.length, failed = false;
       const step = ok => {
         if (!ok) failed = true;
         if (--pending) return;
-        if (!failed) { try { this.bakeHead(head, icon); } catch (err) { this.headArt = null; } }
+        this.headArt = failed ? null : HEAD;
         if (this.onReady) this.onReady();
       };
-      head.onload = () => step(true); head.onerror = () => step(false);
-      icon.onload = () => step(true); icon.onerror = () => step(false);
-      head.src = 'product/assets/head-silhouette.png';
-      icon.src = 'product/assets/app-icon-512.png';
-    }
-    bakeHead(headImg, iconImg) {
-      const paint = img => {
-        const c = document.createElement('canvas');
-        c.width = img.naturalWidth; c.height = img.naturalHeight;
-        c.getContext('2d').drawImage(img, 0, 0);
-        return c;
-      };
-      const src = paint(headImg), sw = src.width, sh = src.height;
-      const sd = src.getContext('2d').getImageData(0, 0, sw, sh);
-      const px = sd.data;
-      let x0 = sw, y0 = sh, x1 = 0, y1 = 0;
-      for (let y = 0, i = 0; y < sh; y++) for (let x = 0; x < sw; x++, i += 4) {
-        const m = Math.max(px[i], px[i + 1], px[i + 2]);
-        if (m > 248) px[i + 3] = 0;
-        else {
-          px[i + 3] = m < 24 ? 255 : Math.round(255 * (1 - m / 255));
-          px[i] = px[i + 1] = px[i + 2] = 0;
-          if (px[i + 3] > 16) { if (x < x0) x0 = x; if (y < y0) y0 = y; if (x > x1) x1 = x; if (y > y1) y1 = y; }
-        }
-      }
-      if (x1 <= x0) return;
-      const hw = x1 - x0 + 1, hh = y1 - y0 + 1;
-      const crop = document.createElement('canvas'); crop.width = hw; crop.height = hh;
-      crop.getContext('2d').putImageData(sd, -x0, -y0);
-
-      const ic = paint(iconImg), iw = ic.width, ih = ic.height;
-      const id = ic.getContext('2d').getImageData(0, 0, iw, ih).data;
-      // Near-black is the tile, not part of the mark. The hole is the nodes and links only.
-      const ink = new Uint8Array(iw * ih);
-      for (let p = 0, i = 0; p < ink.length; p++, i += 4) {
-        if (id[i + 3] < 16) continue;
-        if (id[i] > 24 || id[i + 1] > 24 || id[i + 2] > 24) ink[p] = 1;
-      }
-      let bx0 = iw, by0 = ih, bx1 = 0, by1 = 0;
-      for (let y = 0; y < ih; y++) for (let x = 0; x < iw; x++) if (ink[y * iw + x]) {
-        if (x < bx0) bx0 = x; if (y < by0) by0 = y; if (x > bx1) bx1 = x; if (y > by1) by1 = y;
-      }
-      if (bx1 <= bx0) return;
-      const bw = bx1 - bx0 + 1, bh = by1 - by0 + 1;
-      const mask = document.createElement('canvas'); mask.width = bw; mask.height = bh;
-      const md = mask.getContext('2d').createImageData(bw, bh);
-      for (let y = 0; y < bh; y++) for (let x = 0; x < bw; x++) if (ink[(y + by0) * iw + (x + bx0)]) {
-        const o = (y * bw + x) * 4; md.data[o] = md.data[o + 1] = md.data[o + 2] = 0; md.data[o + 3] = 255;
-      }
-      mask.getContext('2d').putImageData(md, 0, 0);
-
-      const cut = Math.round(hh * 0.155);
-      let brainW = Math.round(hw * 0.44), brainH = Math.round(brainW * bh / bw);
-      let brainX = Math.round(hw * 0.62 - brainW / 2);
-      let brainY = cut + Math.round(hh * 0.03);
-      if (brainY < cut + 4) brainY = cut + 4;
-      if (brainX < 2) brainX = 2;
-      if (brainX + brainW > hw - 2) brainX = hw - brainW - 2;
-
-      const skull = document.createElement('canvas'); skull.width = hw; skull.height = hh;
-      const sk = skull.getContext('2d');
-      sk.drawImage(crop, 0, 0);
-      sk.clearRect(0, 0, hw, cut);
-      sk.globalCompositeOperation = 'destination-out';
-      sk.drawImage(mask, brainX, brainY, brainW, brainH);
-      const lid = document.createElement('canvas'); lid.width = hw; lid.height = hh;
-      const lk = lid.getContext('2d');
-      lk.drawImage(crop, 0, 0);
-      lk.clearRect(0, cut + 2, hw, hh);
-
-      const mark = document.createElement('canvas'); mark.width = bw; mark.height = bh;
-      const mk = mark.getContext('2d');
-      mk.drawImage(ic, bx0, by0, bw, bh, 0, 0, bw, bh);
-      const kd = mk.getImageData(0, 0, bw, bh);
-      for (let i = 0; i < kd.data.length; i += 4) if (kd.data[i] <= 24 && kd.data[i + 1] <= 24 && kd.data[i + 2] <= 24) kd.data[i + 3] = 0;
-      mk.putImageData(kd, 0, 0);
-      mk.globalCompositeOperation = 'destination-in';
-      mk.drawImage(mask, 0, 0);
-
-      const plug = document.createElement('canvas'); plug.width = bw; plug.height = bh;
-      const pk = plug.getContext('2d');
-      pk.fillStyle = '#FFFAF7'; pk.fillRect(0, 0, bw, bh);
-      pk.globalCompositeOperation = 'destination-in';
-      pk.drawImage(mask, 0, 0);
-
-      // keep the network inside the silhouette, so a node never floats outside the head
-      const clip = document.createElement('canvas'); clip.width = bw; clip.height = bh;
-      const ck = clip.getContext('2d');
-      ck.drawImage(crop, brainX, brainY, brainW, brainH, 0, 0, bw, bh);
-      const above = Math.round((cut - brainY) / brainH * bh);
-      if (above > 0) ck.clearRect(0, 0, bw, above);
-      mk.drawImage(clip, 0, 0);
-      pk.drawImage(clip, 0, 0);
-
-      let hinge = 0.16;
-      {
-        const row = Math.max(0, Math.min(hh - 1, cut));
-        const rd = crop.getContext('2d').getImageData(0, row, hw, 1).data;
-        for (let x = 0; x < hw; x++) if (rd[x * 4 + 3] > 24) { hinge = x / hw; break; }
-      }
-      this.skull.width = hw; this.skull.height = hh; this.skull.getContext('2d').drawImage(skull, 0, 0);
-      this.lid.width = hw; this.lid.height = hh; this.lid.getContext('2d').drawImage(lid, 0, 0);
-      this.plug.width = bw; this.plug.height = bh; this.plug.getContext('2d').drawImage(plug, 0, 0);
-      this.mark.width = bw; this.mark.height = bh; this.mark.getContext('2d').drawImage(mark, 0, 0);
-      this.headArt = {
-        aspect: hw / hh, cut: cut / hh, hinge,
-        brain: { x: brainX / hw, y: brainY / hh, w: brainW / hw, h: brainH / hh },
-        net: { x: bx0 / iw, y: by0 / ih, w: bw / iw, h: bh / ih }
-      };
+      imgs.forEach(im => {
+        if (im.complete) step(im.naturalWidth > 0);
+        else { im.addEventListener('load', () => step(true), { once: true }); im.addEventListener('error', () => step(false), { once: true }); }
+      });
     }
     measure() {
       const viewW = window.innerWidth || this.host.clientWidth;
@@ -851,7 +768,6 @@ html.still .v-card{scroll-snap-align:center}
       this.g = geo(this.w, this.h, this.heroH);
       // phone: the hero's top comes from the composition (desktop keeps its CSS centring)
       this.hero.style.top = this.g.heroTop != null ? this.g.heroTop.toFixed(1) + 'px' : '';
-      this.svg.setAttribute('viewBox', `0 0 ${this.w} ${this.h}`);
       this.capS.forEach(c => c.classList.toggle('over', !this.g.m));
       this.sceneWH = this.scenes.map(el => [el.offsetWidth, el.offsetHeight]);
       // desktop: a lower scene never runs off the bottom edge (the feed grew with its article banner)
@@ -892,14 +808,15 @@ html.still .v-card{scroll-snap-align:center}
       const max = box > 736 ? Math.min(cssMax * box / 720, this.h * 0.15) : cssMax;
       if (!box || !max) return;
       h1.style.fontSize = max.toFixed(2) + 'px';
-      if (textWidth() <= box) { apply(max); return; }
-      let lo = 22, hi = max;
-      for (let i = 0; i < 16; i++) {
-        const mid = (lo + hi) / 2;
-        h1.style.fontSize = mid.toFixed(2) + 'px';
-        if (textWidth() <= box - 1) lo = mid; else hi = mid;
-      }
-      apply(lo);
+      const wide = textWidth();
+      if (wide <= box) { apply(max); return; }
+      // text width is linear in font size, so one measurement gives the fitting size; one more read corrects for
+      // rounding (this replaced a 16-step binary search, i.e. 17 forced layouts, which was a third of the load-time block)
+      let size = Math.max(22, (max * (box - 1)) / wide);
+      h1.style.fontSize = size.toFixed(2) + 'px';
+      const w2 = textWidth();
+      if (w2 > box - 1) size = Math.max(22, size * (box - 1) / w2);
+      apply(size);
     }
     render(p, yaw, pitch, t = 0) {
       const g = this.g, w = this.w, h = this.h;
@@ -950,17 +867,16 @@ html.still .v-card{scroll-snap-align:center}
         headO = headIn * (1 - headOut);
         lidOpen = sm(0.10, 0.19, p);
         const open = lidOpen;
-        const setBox = (cv, w, h, x, y, extra) => {
-          cv.style.width = w.toFixed(1) + 'px';
-          cv.style.height = h.toFixed(1) + 'px';
-          cv.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0)${extra || ''}`;
-        };
-        setBox(this.skull, headW, headH, headX, headY);
-        this.lid.style.transformOrigin = `${(art.hinge * 100).toFixed(2)}% ${(art.cut * 100).toFixed(2)}%`;
-        setBox(this.lid, headW, headH, headX, headY, ` rotate(${(open * -120).toFixed(2)}deg)`);
+        // the layers keep their natural layout size and are placed by transform only (origin 0 0): no layout per frame
+        const [SW, SH] = art.px.skull, [MW, MH] = art.px.mark;
+        const place = (el, w, h, x, y, nw, nh) => { el.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) scale(${(w / nw).toFixed(5)},${(h / nh).toFixed(5)})`; };
+        place(this.skull, headW, headH, headX, headY, SW, SH);
+        // the lid swings about its hinge: move to the hinge, rotate, move back, then scale to size
+        const hx = art.hinge * headW, hy = art.cut * headH;
+        this.lid.style.transform = `translate3d(${(headX + hx).toFixed(1)}px,${(headY + hy).toFixed(1)}px,0) rotate(${(open * -120).toFixed(2)}deg) translate(${(-hx).toFixed(1)}px,${(-hy).toFixed(1)}px) scale(${(headW / SW).toFixed(5)},${(headH / SH).toFixed(5)})`;
         const b = art.brain;
         const bw = b.w * headW, bh = b.h * headH, bx = headX + b.x * headW, by = headY + b.y * headH;
-        setBox(this.plug, bw, bh, bx, by);
+        place(this.plug, bw, bh, bx, by, MW, MH);
         this.brainScreen = { w: bw, h: bh, cx: bx + bw / 2, cy: by + bh / 2 };
         mouth = [headX + headW * 0.50, headY + art.cut * headH + 2];
         mouthW = headW * 0.62;
@@ -1086,9 +1002,7 @@ html.still .v-card{scroll-snap-align:center}
         const bs = this.brainScreen;
         const markO = colorIn * headO;
         vis(this.mark, markO);
-        this.mark.style.width = bs.w.toFixed(1) + 'px';
-        this.mark.style.height = bs.h.toFixed(1) + 'px';
-        this.mark.style.transform = `translate3d(${(bs.cx - bs.w / 2).toFixed(1)}px,${(bs.cy - bs.h / 2).toFixed(1)}px,0)`;
+        this.mark.style.transform = `translate3d(${(bs.cx - bs.w / 2).toFixed(1)}px,${(bs.cy - bs.h / 2).toFixed(1)}px,0) scale(${(bs.w / art.px.mark[0]).toFixed(5)},${(bs.h / art.px.mark[1]).toFixed(5)})`;
         const net = art.net;
         const S0 = bs.w / net.w;
         const ix0 = (bs.cx - bs.w / 2) - net.x * S0 + S0 / 2;
@@ -1103,30 +1017,27 @@ html.still .v-card{scroll-snap-align:center}
         const rx = live ? clamp(3.2 * Math.sin(TAU * t / 10.5) + 2.6 * this.tilt[1], -6, 6) : 0;
         const ry = live ? clamp(3.8 * Math.sin(TAU * t / 13.5 + 1.2) + 2.8 * this.tilt[0], -6, 6) : 0;
         this.icon.classList.remove('brain');
-        this.icon.style.width = S.toFixed(1) + 'px';
-        this.icon.style.height = S.toFixed(1) + 'px';
-        this.icon.style.borderRadius = (S * 0.223).toFixed(1) + 'px';
         this.icon.style.zIndex = 40;
         vis(this.icon, tileIn);
-        this.icon.style.transform = `translate3d(${(ix - S / 2).toFixed(1)}px,${(iy - S / 2).toFixed(1)}px,0) scale(${breathe.toFixed(4)}) perspective(560px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+        // the tile keeps its layout size (g.iconSize) and is scaled about its centre to S; the glow layer follows it
+        const kS = S / g.iconSize, half = g.iconSize / 2;
+        const tileT = `translate3d(${(ix - half).toFixed(1)}px,${(iy - half).toFixed(1)}px,0) scale(${(kS * breathe).toFixed(4)})`;
+        this.icon.style.transform = `${tileT} perspective(560px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
         this.icon.style.setProperty('--lx', (30 - 2.4 * ry).toFixed(1) + '%');
         this.icon.style.setProperty('--ly', (16 + 2.4 * rx).toFixed(1) + '%');
-        this.icon.style.setProperty('--glow', (tileIn * (0.16 + 0.12 * glowB + 0.1 * Math.min(1, pulse))).toFixed(3));
+        // tileIn twice: the glow used to be a shadow on the tile, whose alpha carried tileIn and whose element faded by tileIn
+        vis(this.iglow, tileIn * tileIn * (0.16 + 0.12 * glowB + 0.1 * Math.min(1, pulse)) / 0.4);
+        this.iglow.style.transform = tileT;
         vis(this.ishadow, tileIn);
         this.ishadow.style.zIndex = 39;
-        const shH = 26 * (S / 112);
-        this.ishadow.style.width = S.toFixed(1) + 'px';
-        this.ishadow.style.height = shH.toFixed(1) + 'px';
-        this.ishadow.style.transform = `translate3d(${(ix - S / 2 - 0.9 * ry).toFixed(1)}px,${(iy + S * 0.5 * breathe - shH / 2 + 5).toFixed(1)}px,0)`;
+        const shH0 = g.iconSize === 112 ? 26 : 22;
+        this.ishadow.style.transform = `translate3d(${(ix - half - 0.9 * ry).toFixed(1)}px,${(iy + S * 0.5 * breathe - shH0 / 2 + 5).toFixed(1)}px,0) scale(${kS.toFixed(4)})`;
         const ho2 = tileIn * Math.min(1, 0.38 + 0.1 * glowB + 0.14 * Math.min(1, pulse));
         vis(this.halo, ho2);
         this.halo.style.transform = `translate3d(${ix.toFixed(1)}px,${iy.toFixed(1)}px,0) scale(${(0.78 + 0.12 * glowB + 0.08 * Math.min(1, pulse)).toFixed(3)})`;
       } else {
         vis(this.mark, 0);
         this.icon.classList.remove('brain');
-        this.icon.style.width = '';
-        this.icon.style.height = '';
-        this.icon.style.borderRadius = '';
         const ICON_IN = ABS0;
         const born = sm(ICON_IN, ICON_IN + 0.04, p);
         const io = p < ICON_IN ? 0 : 1;
@@ -1136,18 +1047,20 @@ html.still .v-card{scroll-snap-align:center}
         this.ishadow.style.zIndex = 39;
         const rx = clamp(3.2 * Math.sin(TAU * t / 10.5) + 2.6 * this.tilt[1], -6, 6);
         const ry = clamp(3.8 * Math.sin(TAU * t / 13.5 + 1.2) + 2.8 * this.tilt[0], -6, 6);
-        this.icon.style.transform = `translate3d(${ic[0] - g.iconSize / 2}px,${ic[1] - g.iconSize / 2}px,0) scale(${iscale.toFixed(4)}) perspective(560px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+        const tileT = `translate3d(${ic[0] - g.iconSize / 2}px,${ic[1] - g.iconSize / 2}px,0) scale(${iscale.toFixed(4)})`;
+        this.icon.style.transform = `${tileT} perspective(560px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
         this.icon.style.setProperty('--lx', (30 - 2.4 * ry).toFixed(1) + '%');
         this.icon.style.setProperty('--ly', (16 + 2.4 * rx).toFixed(1) + '%');
         vis(this.ishadow, io);
         const shH = g.iconSize === 112 ? 26 : 22;
         this.ishadow.style.transform = `translate3d(${(ic[0] - g.iconSize / 2 - 0.9 * ry).toFixed(1)}px,${(ic[1] + g.iconSize * 0.5 * iscale - shH / 2 + 5).toFixed(1)}px,0) scale(${(iscale * (1.04 - 0.04 * settled * breath)).toFixed(3)},${(iscale * (1 - 0.06 * settled * breath)).toFixed(3)})`;
-        this.icon.style.setProperty('--glow', (0.16 + 0.12 * glowB + 0.1 * Math.min(1, pulse)).toFixed(3));
+        vis(this.iglow, io * (0.16 + 0.12 * glowB + 0.1 * Math.min(1, pulse)) / 0.4);
+        this.iglow.style.transform = tileT;
         const ho2 = io * Math.min(1, 0.38 + 0.1 * glowB + 0.14 * Math.min(1, pulse));
         vis(this.halo, ho2);
         this.halo.style.transform = `translate3d(${ic[0]}px,${ic[1]}px,0) scale(${(0.78 + 0.12 * glowB + 0.08 * Math.min(1, pulse)).toFixed(3)})`;
       }
-      this.drawGraph(t);
+      // (the small second brain is drawn inside the scene loop below, only while its scene is visible)
 
       // which scene is "active" (the latest one open, before the fold back)
       const SO = g.m ? SCENE_OPEN_M : SCENE_OPEN;
@@ -1168,7 +1081,9 @@ html.still .v-card{scroll-snap-align:center}
 
         // scene
         const o0 = SO[k];
-        let open = sm(o0, o0 + 0.045, p);
+        // desktop scenes take 0.06 of the story to open (was 0.045: about two wheel notches, which read as a jump);
+        // the phone keeps 0.045 because its scenes share one spot and each must also close before the next
+        let open = sm(o0, o0 + (g.m ? 0.045 : 0.06), p);
         if (g.m && k < 3) open *= 1 - sm(o0 + 0.072, o0 + 0.09, p);
         if (g.m) no *= Math.max(1 - sm(SO[0], SO[0] + 0.03, p), sm(0, 0.3, open));
         open *= 1 - back2;
@@ -1179,6 +1094,7 @@ html.still .v-card{scroll-snap-align:center}
         const s = g.sceneSc * lerp(0.06, 1, back(open)) * (1 - 0.07 * dim);
         const sEl = this.scenes[k];
         vis(sEl, sm(0, 0.35, open) * (1 - 0.15 * dim));
+        if (k === 1 && open > 0.001) this.drawGraph(t);   // the canvas only redraws while its scene is on screen
         sEl.style.zIndex = 10 + (dim ? 0 : 5);
         sEl.style.transform = `translate3d(${pos[0].toFixed(1)}px,${pos[1].toFixed(1)}px,0) translate(-50%,-50%) scale(${s.toFixed(4)})`;
         if (open > 0.001) {
@@ -1194,14 +1110,14 @@ html.still .v-card{scroll-snap-align:center}
         vis(node, no);
         node.style.zIndex = 16;
         node.style.transform = `translate3d(${np[0].toFixed(1)}px,${np[1].toFixed(1)}px,0) scale(${((0.72 + 0.28 * out) * (1 + 0.08 * settled * lw)).toFixed(3)})`;
-        line.setAttribute('x1', hub[0]); line.setAttribute('y1', hub[1]);
-        line.setAttribute('x2', np[0].toFixed(1)); line.setAttribute('y2', np[1].toFixed(1));
-        line.style.opacity = (no * 0.85 * (1 - 0.22 * settled * (0.5 - 0.5 * lw))).toFixed(3);
+        // the link is a 100px bar anchored at the hub, turned toward the node and scaled to the distance (transform only)
+        const ldx = np[0] - hub[0], ldy = np[1] - hub[1], len = Math.hypot(ldx, ldy);
+        vis(line, len < 0.5 ? 0 : no * 0.85 * (1 - 0.22 * settled * (0.5 - 0.5 * lw)));
+        line.style.transform = `translate3d(${hub[0].toFixed(1)}px,${hub[1].toFixed(1)}px,0) rotate(${(Math.atan2(ldy, ldx) * 180 / Math.PI).toFixed(2)}deg) scale(${(len / 100).toFixed(4)},1)`;
         const spk = this.sparks[k], f = ((t / 3.6 + k * 0.25) % 1) / 0.55;
         if (no > 0.01 && f < 1 && settled > 0) {
           const e2 = eio(f);
-          spk.setAttribute('cx', lerp(hub[0], np[0], e2).toFixed(1));
-          spk.setAttribute('cy', lerp(hub[1], np[1], e2).toFixed(1));
+          spk.style.transform = `translate3d(${lerp(hub[0], np[0], e2).toFixed(1)}px,${lerp(hub[1], np[1], e2).toFixed(1)}px,0)`;
           spk.style.opacity = (no * settled * Math.sin(Math.PI * f) * 0.55).toFixed(3);
         } else spk.style.opacity = '0';
 
@@ -1481,12 +1397,14 @@ html.still .v-card{scroll-snap-align:center}
   const FINE = matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   let yaw = REST_YAW, pitch = REST_PITCH, tYaw = 0, tPitch = 0, oYaw = 0, oPitch = 0, tTx = 0, tTy = 0;
-  let onScreen = true, raf = 0, last = 0, queued = false, idle = 0;
+  let onScreen = true, raf = 0, last = 0, idle = 0;
 
   const progress = () => {
     if (AT !== null) return AT;
     const r = story.getBoundingClientRect();
-    const span = story.offsetHeight - innerHeight;
+    // the stage is pinned for (story height - stage height); the stage is 100svh, which does not move when a phone's
+    // browser toolbar collapses, where innerHeight does (using innerHeight here made the story jump at that moment)
+    const span = story.offsetHeight - sticky.offsetHeight;
     const raw = span > 0 ? clamp(-r.top / span) : 0;
     // the icon has arrived by 0.91; only a short stretch of scroll is left before the manifesto, which is pulled up under it
     const HOLD = 0.05, END = 0.91;
@@ -1495,50 +1413,55 @@ html.still .v-card{scroll-snap-align:center}
   };
   const sphereVisible = p => p < 0.37;
 
-  // a gentle settle on desktop (mouse/trackpad only, never touch): when scrolling stops partway between two scenes,
-  // the page eases onto the nearer one, the moment that scene is fully open. Native scroll throughout, no wheel capture;
-  // it only acts in the scene stretch, only for short distances, and any new input wins. ?static=1 and captures skip it.
-  if (FINE && interactive && !SETTLE && !STATIC) {
-    const BEATS = SCENE_OPEN.map(o => o + 0.05);
-    let settleT = 0, settling = false;
-    const cancel = () => { clearTimeout(settleT); settling = false; };
-    ['wheel', 'keydown', 'pointerdown'].forEach(ev => addEventListener(ev, cancel, { passive: true }));
-    addEventListener('scroll', () => {
-      clearTimeout(settleT);
-      if (settling) return;
-      settleT = setTimeout(() => {
-        const p = progress();
-        if (p < BEATS[0] - 0.04 || p > BEATS[3] + 0.04) return;
-        const span = story.offsetHeight - innerHeight;
-        const near = BEATS.reduce((a, b) => Math.abs(b - p) < Math.abs(a - p) ? b : a);
-        const dy = (near - p) * span;
-        if (Math.abs(dy) < 6 || Math.abs(dy) > innerHeight * 0.45) return;
-        settling = true;
-        scrollTo({ top: scrollY + dy, behavior: 'smooth' });
-        setTimeout(() => { settling = false; }, 900);
-      }, 220);
-    }, { passive: true });
-  }
+  // (the desktop "settle", which eased the page onto the nearest scene after scrolling stopped, was removed 2026-10-21:
+  //  a page that moves after you have stopped reads as the opposite of smooth, and it fought the browser's own wheel animation)
 
+  // the story follows the scroll through a short ease: shown progress closes the gap to the real scroll position a
+  // little each frame (time-based, so 60 and 120 Hz screens feel the same), so a wheel notch or a flick glides instead
+  // of stepping. Pinned captures (?at=) and the first paint snap straight to the target.
+  let pShown = progress();
   let heroO = 1;
+  let lastInput = -1e9;   // time of the last wheel / touch / key / scroll
+  const EASE = 0.16;   // share of the remaining gap closed per 16.7 ms
+  const SNAP = 0.00025;
+  function follow(dt, target = progress()) {
+    if (AT !== null) { pShown = target; return false; }
+    const gap = target - pShown;
+    if (Math.abs(gap) < SNAP) { pShown = target; return false; }
+    // (no "snap on a big jump" rule here: every jump also fires a scroll event, so an input-timer test cannot tell a
+    //  restoration from a fling and ended up cutting glides mid-way. Reload restoration already lands before the first frame.)
+    pShown += gap * (1 - Math.pow(1 - EASE, dt / 16.7));
+    return true;
+  }
   function draw() {
-    heroO = S.render(progress(), yaw + oYaw, pitch + oPitch, idle / 1000).hero;
+    heroO = S.render(pShown, yaw + oYaw, pitch + oPitch, idle / 1000).hero;
     syncNav(heroO < 0.15 && !closeIn);
   }
   afterStory(() => syncNav(heroO < 0.15 && !closeIn));
 
-  // one loop for all idle motion: 30 fps cap, only while the story is on screen and the tab is visible.
-  // the sphere turns while it exists; after absorption the icon breathes, links pulse, the active scene lives.
+  // one loop for all motion, only while the story is on screen and the tab is visible.
+  // While the visitor scrolls (wheel, touch, keys, or the story is still catching up to the scroll position) it runs at
+  // the screen's refresh rate; at rest, and under pointer movement alone, it stays at 30 fps for the ambient motion
+  // (sphere turn, icon breath, link pulse, the active scene's small beat), which keeps the idle cost where the
+  // computational-budget rule wants it. Full rate on pointer movement was deliberately NOT added.
+  const ACTIVE_FOR = 900;   // ms after the last input during which full rate is kept
   function tick(ts) {
     raf = 0;
-    if (!live || !onScreen || document.hidden) { draw(); return; }
-    if (ts - last >= 33) {
-      const dt = last ? Math.min(100, ts - last) : 33;
+    // off screen or in a hidden tab: land on the real position and stop, so nothing stale shows when the story returns
+    if (!live || !onScreen || document.hidden) { pShown = progress(); draw(); return; }
+    const target = progress();   // one read per frame (it measures the page)
+    const chasing = Math.abs(target - pShown) >= SNAP;
+    const active = chasing || ts - lastInput < ACTIVE_FOR;
+    if (active || ts - last >= 33) {
+      const dt = last ? Math.min(100, ts - last) : 16.7;
       last = ts;
       idle += dt;
-      if (sphereVisible(progress())) yaw += dt * 0.00016;
-      oYaw += (tYaw - oYaw) * 0.08; oPitch += (tPitch - oPitch) * 0.08;
-      S.tilt[0] += (tTx - S.tilt[0]) * 0.06; S.tilt[1] += (tTy - S.tilt[1]) * 0.06;
+      if (sphereVisible(pShown)) yaw += dt * 0.00016;
+      // per-frame eases, normalised to a 33 ms step so they settle at the same speed at any frame rate
+      const kA = 1 - Math.pow(1 - 0.08, dt / 33), kT = 1 - Math.pow(1 - 0.06, dt / 33);
+      oYaw += (tYaw - oYaw) * kA; oPitch += (tPitch - oPitch) * kA;
+      S.tilt[0] += (tTx - S.tilt[0]) * kT; S.tilt[1] += (tTy - S.tilt[1]) * kT;
+      follow(dt, target);
       draw();
     }
     raf = next(tick);
@@ -1546,16 +1469,29 @@ html.still .v-card{scroll-snap-align:center}
   // headless capture (?motion=1) has no painted frames, so it steps on a 30 fps timer instead of rAF
   const next = SETTLE ? f => setTimeout(() => f(performance.now()), 33) : f => requestAnimationFrame(f);
   function wake() { if (!raf) { last = 0; raf = next(tick); } }
-  function onScroll() {
-    if (queued) return; queued = true;
-    requestAnimationFrame(() => { queued = false; draw(); wake(); });
-  }
+  function onScroll() { lastInput = performance.now(); wake(); }
+  const noteInput = () => { lastInput = performance.now(); wake(); };
+  ['wheel', 'touchstart', 'touchmove', 'keydown'].forEach(ev => addEventListener(ev, noteInput, { passive: true }));
 
-  S.onReady = () => { S.measure(); draw(); };
+  // phones hide and show the browser toolbar while scrolling; that fires resize with only innerHeight changed while the
+  // stage's own height (100svh) stays put. Re-measuring then (a dozen forced layouts, every position recomputed) would make
+  // the story jump, so on a touch screen a resize that changes neither the width nor the stage height only redraws.
+  // Width changes, a changed stage height (split view, rotation) and desktop resizes still re-measure.
+  const COARSE = matchMedia('(pointer: coarse)').matches;
+  let lastW = innerWidth;
+  // the stage measured itself in its constructor; the head layers arriving changes nothing about the geometry, so they
+  // only redraw. Fonts arriving can change the headline's height, so that one re-measures. (Each measure forces a few
+  // layouts; four at load used to be a third of the first-paint block.)
+  S.onReady = () => { draw(); };
   S.prepareHead();
-  S.measure(); draw();
+  draw();
   document.fonts && document.fonts.ready.then(() => { S.measure(); draw(); });
-  addEventListener('resize', () => { S.measure(); draw(); });
+  addEventListener('resize', () => {
+    const widthChanged = innerWidth !== lastW; lastW = innerWidth;
+    // the stage's own height (100svh) is what the geometry was measured from; if it has not changed either, nothing moved
+    if (COARSE && !widthChanged && S.host.clientHeight === S.h) { draw(); return; }
+    S.measure(); draw();
+  });
   if (AT === null) addEventListener('scroll', onScroll, { passive: true });
 
   if (live) {
