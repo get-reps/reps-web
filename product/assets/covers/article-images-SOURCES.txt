@@ -46,3 +46,132 @@ deep-work.jpg
   Piece:   Deep Work, Cal Newport
   Page:    https://openlibrary.org/isbn/9781455586691
   Art:     https://covers.openlibrary.org/b/isbn/9781455586691-L.jpg
+
+Added 2026-10-21 for the fuller sphere (covers halved in size, count roughly doubled; Joe Rogan was fetched and then dropped at Mike's request). Each file is the publisher's own cover or show artwork, downscaled to a 320px long edge. Nothing was redrawn, cropped for content, or generated.
+
+Books (Open Library cover service, by ISBN; covers.openlibrary.org/b/isbn/<isbn>-L.jpg):
+  the-alchemist.jpg            Paulo Coelho, 25th anniversary ed.  ISBN 9780062315007
+  the-lean-startup.jpg         Eric Ries                            ISBN 9780307887894
+  educated.jpg                 Tara Westover                        ISBN 9780399590504
+  project-hail-mary.jpg        Andy Weir                            ISBN 9780593135204
+  mans-search-for-meaning.jpg  Viktor E. Frankl                     ISBN 9780807014271
+  meditations.jpg              Marcus Aurelius (Gregory Hays tr.)   ISBN 9780812968255
+  the-psychology-of-money.jpg  Morgan Housel                        ISBN 9780857197689
+  why-we-sleep.jpg             Matthew Walker                       ISBN 9781501144318
+  becoming.jpg                 Michelle Obama                       ISBN 9781524763138
+Podcasts (Apple Podcasts catalogue artworkUrl600 via the iTunes Search API):
+  podcast-lex-fridman.jpg             Lex Fridman Podcast
+  podcast-stuff-you-should-know.jpg   Stuff You Should Know (iHeart)
+  podcast-this-american-life.jpg      This American Life
+All pre-existing sphere covers were re-saved at the same 320px long edge on the same date (the tiles are now half the size).
+
+Added 2026-10-21 for the dense sphere (Mike: no gaps, room for 75 covers; pool of 123 real covers). Fetched by
+reps-backend/work/website-clean-slate-261019/fetch-covers.py; every file is the publisher's own cover / show art / the
+channel's own thumbnail, downscaled to a 320px long edge. Nothing redrawn, cropped for content, or generated. Nine fetched
+files were dropped after a visual check (a faded scan, a photo of a book, washed-out editions, a sideways crop, a near-black
+cover, a dark abstract thumbnail, one wrong-show match): blink.jpg, daring-greatly.jpg, ikigai.jpg, mindset.jpg, night.jpg, podcast-revisionist-history.jpg, podcast-worklife.jpg, the-courage-to-be-disliked.jpg, video-vsauce-speed-of-dark.jpg.
+
+Books (Open Library cover service, by ISBN; covers.openlibrary.org/b/isbn/<isbn>-L.jpg):
+  the-power-of-habit.jpg                       The Power of Habit, Charles Duhigg         ISBN 9780812981605
+  quiet.jpg                                    Quiet, Susan Cain                          ISBN 9780307352156
+  the-subtle-art.jpg                           The Subtle Art of Not Giving a F*ck, Mark  ISBN 9780062457714
+  guns-germs-and-steel.jpg                     Guns, Germs, and Steel, Jared Diamond      ISBN 9780393354324
+  a-brief-history-of-time.jpg                  A Brief History of Time, Stephen Hawking   ISBN 9780553380163
+  a-short-history-of-nearly-everything.jpg     A Short History of Nearly Everything, Bill ISBN 9780767908184
+  into-thin-air.jpg                            Into Thin Air, Jon Krakauer                ISBN 9780385494786
+  the-selfish-gene.jpg                         The Selfish Gene, Richard Dawkins          ISBN 9780198788607
+  shoe-dog.jpg                                 Shoe Dog, Phil Knight                      ISBN 9781501135927
+  zero-to-one.jpg                              Zero to One, Peter Thiel                   ISBN 9780804139298
+  range.jpg                                    Range, David Epstein                       ISBN 9780735214484
+  grit.jpg                                     Grit, Angela Duckworth                     ISBN 9781501111105
+  start-with-why.jpg                           Start with Why, Simon Sinek                ISBN 9781591846444
+  how-to-win-friends.jpg                       How to Win Friends and Influence People, D ISBN 9780671027032
+  the-four-agreements.jpg                      The Four Agreements, Don Miguel Ruiz       ISBN 9781878424310
+  the-power-of-now.jpg                         The Power of Now, Eckhart Tolle            ISBN 9781577314806
+  cant-hurt-me.jpg                             Can't Hurt Me, David Goggins               ISBN 9781544512280
+  rich-dad-poor-dad.jpg                        Rich Dad Poor Dad, Robert T. Kiyosaki      ISBN 9781612680194
+  born-a-crime.jpg                             Born a Crime, Trevor Noah                  ISBN 9780399588174
+  bad-blood.jpg                                Bad Blood, John Carreyrou                  ISBN 9781524731656
+  homo-deus.jpg                                Homo Deus, Yuval Noah Harari               ISBN 9780062464316
+  cosmos.jpg                                   Cosmos, Carl Sagan                         ISBN 9780345539434
+  astrophysics-for-people-in-a-hurry.jpg       Astrophysics for People in a Hurry, Neil d ISBN 9780393609394
+  the-righteous-mind.jpg                       The Righteous Mind, Jonathan Haidt         ISBN 9780307455772
+  influence.jpg                                Influence, Robert B. Cialdini              ISBN 9780061241895
+  predictably-irrational.jpg                   Predictably Irrational, Dan Ariely         ISBN 9780061353246
+  never-split-the-difference.jpg               Never Split the Difference, Chris Voss     ISBN 9780062407801
+  the-almanack-of-naval-ravikant.jpg           The Almanack of Naval Ravikant, Eric Jorge ISBN 9781544514215
+  the-body-keeps-the-score.jpg                 The Body Keeps the Score, Bessel van der K ISBN 9780143127741
+  breath.jpg                                   Breath, James Nestor                       ISBN 9780735213616
+  outlive.jpg                                  Outlive, Peter Attia                       ISBN 9780593236598
+  thinking-in-bets.jpg                         Thinking in Bets, Annie Duke               ISBN 9780735216372
+  factfulness.jpg                              Factfulness, Hans Rosling                  ISBN 9781250107817
+  the-black-swan.jpg                           The Black Swan, Nassim Nicholas Taleb      ISBN 9780812973815
+  antifragile.jpg                              Antifragile, Nassim Nicholas Taleb         ISBN 9780812979688
+  when-breath-becomes-air.jpg                  When Breath Becomes Air, Paul Kalanithi    ISBN 9780812988406
+  being-mortal.jpg                             Being Mortal, Atul Gawande                 ISBN 9780805095159
+  tuesdays-with-morrie.jpg                     Tuesdays with Morrie, Mitch Albom          ISBN 9780767905923
+  i-am-malala.jpg                              I Am Malala, Malala Yousafzai              ISBN 9780316322409
+  unbroken.jpg                                 Unbroken, Laura Hillenbrand                ISBN 9780812974492
+  killers-of-the-flower-moon.jpg               Killers of the Flower Moon, David Grann    ISBN 9780385534246
+  hidden-figures.jpg                           Hidden Figures, Margot Lee Shetterly       ISBN 9780062363602
+  the-code-breaker.jpg                         The Code Breaker, Walter Isaacson          ISBN 9781982115852
+  hooked.jpg                                   Hooked, Nir Eyal                           ISBN 9781591847786
+  digital-minimalism.jpg                       Digital Minimalism, Cal Newport            ISBN 9780525536512
+  stolen-focus.jpg                             Stolen Focus, Johann Hari                  ISBN 9780593138519
+  dopamine-nation.jpg                          Dopamine Nation, Anna Lembke               ISBN 9781524746728
+  good-to-great.jpg                            Good to Great, Jim Collins                 ISBN 9780066620992
+  the-hard-thing-about-hard-things.jpg         The Hard Thing About Hard Things, Ben Horo ISBN 9780062273208
+  high-output-management.jpg                   High Output Management, Andrew S. Grove    ISBN 9780679762881
+  measure-what-matters.jpg                     Measure What Matters, John Doerr           ISBN 9780525536222
+  flow.jpg                                     Flow, Mihaly Csikszentmihalyi              ISBN 9780061339202
+  drive.jpg                                    Drive, Daniel H. Pink                      ISBN 9781594484803
+  ultralearning.jpg                            Ultralearning, Scott H. Young              ISBN 9780062852687
+  moonwalking-with-einstein.jpg                Moonwalking with Einstein, Joshua Foer     ISBN 9780143120537
+  the-happiness-hypothesis.jpg                 The Happiness Hypothesis, Jonathan Haidt   ISBN 9780465028023
+  nudge.jpg                                    Nudge, Richard H. Thaler & Cass R. Sunstei ISBN 9780143115267
+  greenlights.jpg                              Greenlights, Matthew McConaughey           ISBN 9780593139134
+  the-gene.jpg                                 The Gene, Siddhartha Mukherjee             ISBN 9781476733524
+  the-diary-of-a-young-girl.jpg                The Diary of a Young Girl, Anne Frank      ISBN 9780553296983
+  enlightenment-now.jpg                        Enlightenment Now, Steven Pinker           ISBN 9780525427575
+  stiff.jpg                                    Stiff, Mary Roach                          ISBN 9780393324822
+  the-devil-in-the-white-city.jpg              The Devil in the White City, Erik Larson   ISBN 9780375725609
+  elon-musk.jpg                                Elon Musk, Walter Isaacson                 ISBN 9781982181284
+
+Podcasts (Apple Podcasts catalogue artwork via the iTunes Search API; the show page is the source of record):
+  podcast-how-i-built-this.jpg                 How I Built This with Guy Raz                  https://podcasts.apple.com/us/podcast/how-i-built-this-with-guy-raz/id1150510297?uo=4
+  podcast-freakonomics-radio.jpg               Freakonomics Radio                             https://podcasts.apple.com/us/podcast/freakonomics-radio/id354668519?uo=4
+  podcast-hidden-brain.jpg                     Hidden Brain                                   https://podcasts.apple.com/us/podcast/hidden-brain/id1028908750?uo=4
+  podcast-99-percent-invisible.jpg             99% Invisible                                  https://podcasts.apple.com/us/podcast/99-invisible/id394775318?uo=4
+  podcast-planet-money.jpg                     Planet Money                                   https://podcasts.apple.com/us/podcast/planet-money/id290783428?uo=4
+  podcast-hardcore-history.jpg                 Dan Carlin's Hardcore History                  https://podcasts.apple.com/us/podcast/dan-carlins-hardcore-history/id173001861?uo=4
+  podcast-ted-talks-daily.jpg                  TED Talks Daily                                https://podcasts.apple.com/us/podcast/ted-talks-daily/id160904630?uo=4
+  podcast-the-knowledge-project.jpg            The Knowledge Project                          https://podcasts.apple.com/us/podcast/the-knowledge-project/id990149481?uo=4
+  podcast-armchair-expert.jpg                  Armchair Expert with Dax Shepard               https://podcasts.apple.com/us/podcast/armchair-expert-with-dax-shepard/id1345682353?uo=4
+  podcast-modern-wisdom.jpg                    Modern Wisdom                                  https://podcasts.apple.com/us/podcast/modern-wisdom/id1347973549?uo=4
+  podcast-founders.jpg                         Founders                                       https://podcasts.apple.com/us/podcast/founders/id1141877104?uo=4
+  podcast-acquired.jpg                         Acquired                                       https://podcasts.apple.com/us/podcast/acquired/id1050462261?uo=4
+  podcast-my-first-million.jpg                 My First Million                               https://podcasts.apple.com/us/podcast/my-first-million/id1469759170?uo=4
+  podcast-science-vs.jpg                       Science Vs                                     https://podcasts.apple.com/us/podcast/science-vs/id1051557000?uo=4
+  podcast-philosophize-this.jpg                Philosophize This!                             https://podcasts.apple.com/us/podcast/philosophize-this/id659155419?uo=4
+  podcast-in-our-time.jpg                      In Our Time                                    https://podcasts.apple.com/us/podcast/in-our-time/id73330895?uo=4
+  podcast-masters-of-scale.jpg                 Masters of Scale                               https://podcasts.apple.com/us/podcast/masters-of-scale/id1227971746?uo=4
+  podcast-the-mel-robbins-podcast.jpg          The Mel Robbins Podcast                        https://podcasts.apple.com/us/podcast/the-mel-robbins-podcast/id1646101002?uo=4
+  podcast-on-purpose.jpg                       On Purpose with Jay Shetty                     https://podcasts.apple.com/us/podcast/on-purpose-with-jay-shetty/id1450994021?uo=4
+  podcast-darknet-diaries.jpg                  Darknet Diaries                                https://podcasts.apple.com/us/podcast/darknet-diaries/id1296350485?uo=4
+  podcast-the-infinite-monkey-cage.jpg         The Infinite Monkey Cage                       https://podcasts.apple.com/us/podcast/the-infinite-monkey-cage/id343580439?uo=4
+  podcast-the-tim-ferriss-show.jpg             The Tim Ferriss Show                           https://podcasts.apple.com/us/podcast/the-tim-ferriss-show/id863897795?uo=4
+  podcast-invest-like-the-best.jpg             Invest Like The Best                           https://podcasts.apple.com/us/podcast/invest-like-the-best/id6807925823?uo=4
+  podcast-lennys-podcast.jpg                   Lenny's Podcast: Product | Career | Growth     https://podcasts.apple.com/us/podcast/lennys-podcast-product-career-growth/id1627920305?uo=4
+  podcast-the-rich-roll-podcast.jpg            The Rich Roll Podcast                          https://podcasts.apple.com/us/podcast/the-rich-roll-podcast/id582272991?uo=4
+  podcast-zoe-science-nutrition.jpg            ZOE Science & Nutrition                        https://podcasts.apple.com/us/podcast/zoe-science-nutrition/id1611216298?uo=4
+  podcast-all-in.jpg                           All-In with Chamath, Jason, Sacks & Friedberg  https://podcasts.apple.com/us/podcast/all-in-with-chamath-jason-sacks-friedberg/id1502871393?uo=4
+  podcast-the-school-of-greatness.jpg          The School of Greatness                        https://podcasts.apple.com/us/podcast/the-school-of-greatness/id596047499?uo=4
+
+Videos (YouTube's own thumbnail for the video id, verified by YouTube oEmbed title + channel):
+  video-mark-rober-glitter-bomb.jpg            Mark Rober           Glitter Bomb 1.0 vs Porch Pirates  https://www.youtube.com/watch?v=xoxhDk-hwuo
+  video-smartereveryday-backwards-bicycle.jpg  SmarterEveryDay      The Backwards Brain Bicycle - Smarter Every Day 133  https://www.youtube.com/watch?v=MFzDaBzBlL0
+  video-ted-the-power-of-vulnerability.jpg     TED                  The Power of Vulnerability | Brené Brown | TED  https://www.youtube.com/watch?v=iCvmsMzlF7o
+  video-crashcourse-world-history.jpg          CrashCourse          The Agricultural Revolution: Crash Course World History #1  https://www.youtube.com/watch?v=Yocja_N5s1I
+  video-ted-how-great-leaders-inspire-action.jpg TED                  How Great Leaders Inspire Action | Simon Sinek | TED  https://www.youtube.com/watch?v=qp0HIF3SfI4
+  video-kurzgesagt-fermi-paradox.jpg           Kurzgesagt – In a Nu The Fermi Paradox — Where Are All The Aliens? (1/2)  https://www.youtube.com/watch?v=sNhhvQGsMEc
+  video-veritasium-why-the-future-of-math.jpg  Veritasium           Math's Fundamental Flaw  https://www.youtube.com/watch?v=HeQX2HjkcNo

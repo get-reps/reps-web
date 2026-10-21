@@ -150,9 +150,9 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
   box-shadow:0 1px 2px rgba(33,26,20,.22),0 14px 22px -12px rgba(33,26,20,.5)}
 .it-vid,.it-vid img{border-radius:10px}
 .it-vid{box-shadow:0 1px 2px rgba(33,26,20,.16),0 16px 28px -14px rgba(33,26,20,.42)}
-.it-vid .play{position:absolute;right:8px;top:8px;z-index:1;width:32px;height:32px;border-radius:50%;
+.it-vid .play{position:absolute;right:5px;top:5px;z-index:1;width:18px;height:18px;border-radius:50%;
   background:rgba(18,16,14,.55);border:1px solid rgba(255,255,255,.28);box-shadow:0 8px 16px -8px rgba(0,0,0,.5)}
-.it-vid .play::after{content:"";position:absolute;left:12px;top:8px;border-style:solid;border-width:7px 0 7px 11px;border-color:transparent transparent transparent #fff}
+.it-vid .play::after{content:"";position:absolute;left:7px;top:5px;border-style:solid;border-width:4px 0 4px 6px;border-color:transparent transparent transparent #fff}
 .it-art,.it-hl,.it-qc,.it-pdf,.it-note,.it-shot{border-radius:12px;padding:12px 13px;background:var(--paper);border:1px solid var(--line);box-shadow:0 1px 2px rgba(33,26,20,.06),0 16px 28px -16px rgba(33,26,20,.35);display:flex;flex-direction:column;justify-content:space-between}
 .it-art .pub{font-size:8.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
 .it-art .ttl{font-family:var(--serif);font-weight:600;font-size:14px;line-height:1.18;color:var(--ink)}
@@ -278,7 +278,7 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 /* a small second brain: fifty nodes on a sphere, three of them named, rotating in the page script */
 .sc-graph{width:340px;height:280px}
 .sc-graph canvas{width:340px;height:280px;display:block}
-.scroll-cue{position:absolute;left:50%;bottom:26px;z-index:46;display:flex;flex-direction:column;align-items:center;gap:7px;
+.scroll-cue{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);z-index:46;display:flex;flex-direction:column;align-items:center;gap:7px;
   font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-2);pointer-events:none}
 .scroll-cue i{width:11px;height:11px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;animation:cue 1.35s ease-in-out infinite}
 @keyframes cue{0%,100%{transform:rotate(45deg) translate(0,0);opacity:.4}50%{transform:rotate(45deg) translate(3px,3px);opacity:1}}
@@ -509,6 +509,14 @@ html.still .v-card{scroll-snap-align:center}
   const root = document.documentElement;
   // locked from the size tryout: title 90, cover ball 125
   const TITLE = 0.9, BALL = 1.25;
+  // tuning hooks for the local sphere-tuner page (reps-backend/work/website-clean-slate-261019/sphere-tuner.html):
+  // ?covers=N sets how many covers show (default COVER_COUNT), ?csize=x scales the cover tiles on top of the count-based
+  // size, ?radius=x scales the ball. csize/radius default to 1.
+  const TUNE = { n: parseInt(Q.get('covers'), 10), cs: parseFloat(Q.get('csize')), r: parseFloat(Q.get('radius')),
+    d: parseFloat(Q.get('dens')), o: parseFloat(Q.get('back')) };   // dens: tile-area base (default 65); back: far-side opacity floor (default 0.6)
+  if (!(TUNE.cs > 0)) TUNE.cs = 1; if (!(TUNE.r > 0)) TUNE.r = 1; if (!(TUNE.d > 0)) TUNE.d = 65; if (!(TUNE.o >= 0 && TUNE.o <= 1)) TUNE.o = 0.6;
+  // desktop ball radius multiplier (2026-10-21: 1.25 -> 0.72 with the half-size covers; a cover is ~0.5 of the radius, as before, so the ball reads full, not a ring)
+  const RB_D = 1.08;
   if (AT !== null) root.classList.add('pinned');
   if (STATIC) root.classList.add('static');
   if (SETTLE) root.classList.add('settle');
@@ -544,24 +552,140 @@ html.still .v-card{scroll-snap-align:center}
   }
 
   const C = 'product/assets/covers/';
-  const B = (src, a, name) => ({k:'book', src, a, name});
+  const B = (src, a, name, noPhone = false) => ({k:'book', src, a, name, noPhone});
   // one of each. The Egg and Diary of a CEO stay off. Nothing in this list is repeated.
   const COVERS = [
     B('sapiens.jpg', 400/604, 'Sapiens'),
     B('thinking-fast-and-slow.jpg', 400/593, 'Thinking, Fast and Slow'),
     {k:'pod', src:'podcast-huberman-lab.jpg', name:'Huberman Lab'},
     B('atomic-habits.jpg', 400/604, 'Atomic Habits'),
-    {k:'vid', src:'video-veritasium-entropy.jpg', name:'Veritasium', noPhone: true},
+    {k:'vid', src:'video-veritasium-entropy.jpg', name:'Veritasium'},
     B('1984.jpg', 400/600, '1984'),
-    {k:'pod', src:'podcast-the-daily.jpg', name:'The Daily', noPhone: true},
-    {k:'vid', src:'video-kurzgesagt-immune-system.jpg', name:'Kurzgesagt', noPhone: true},
+    {k:'pod', src:'podcast-the-daily.jpg', name:'The Daily'},
+    {k:'vid', src:'video-kurzgesagt-immune-system.jpg', name:'Kurzgesagt'},
     {k:'pod', src:'podcast-the-rest-is-history.jpg', name:'The Rest Is History'},
-    {k:'vid', src:'video-3blue1brown-neural-network.jpg', name:'3Blue1Brown', noPhone: true},
+    {k:'vid', src:'video-3blue1brown-neural-network.jpg', name:'3Blue1Brown'},
     {k:'pod', src:'podcast-radiolab.jpg', name:'Radiolab'},
     B('deep-work.jpg', 331/500, 'Deep Work'),
+    // 2026-10-21: twelve more real covers so the half-size tiles read as a full ball (sources: covers/article-images-SOURCES.txt)
+    B('the-alchemist.jpg', 211/320, 'The Alchemist'),
+    {k:'pod', src:'podcast-lex-fridman.jpg', name:'Lex Fridman Podcast'},
+    B('why-we-sleep.jpg', 212/320, 'Why We Sleep'),
+    B('the-lean-startup.jpg', 220/320, 'The Lean Startup'),
+    B('educated.jpg', 211/320, 'Educated'),
+    B('the-psychology-of-money.jpg', 196/320, 'The Psychology of Money'),
+    {k:'pod', src:'podcast-stuff-you-should-know.jpg', name:'Stuff You Should Know'},
+    B('becoming.jpg', 210/320, 'Becoming'),
+    B('project-hail-mary.jpg', 212/320, 'Project Hail Mary'),
+    B('mans-search-for-meaning.jpg', 207/320, 'Man’s Search for Meaning'),
+    {k:'pod', src:'podcast-this-american-life.jpg', name:'This American Life'},
+    B('meditations.jpg', 205/320, 'Meditations'),
+    // 2026-10-21 (Mike: "never" a gap in the sphere; room for up to 75 covers): 99 more real covers — publisher book
+    // covers (Open Library by ISBN), Apple Podcasts show art, YouTube's own thumbnails — interleaved so any prefix is a
+    // media mix. Sources + verification: product/assets/covers/article-images-SOURCES.txt. Fetched by
+    // reps-backend/work/website-clean-slate-261019/fetch-covers.py; nothing redrawn or generated.
+    B('the-power-of-habit.jpg', 205/320, 'The Power of Habit'),
+    B('quiet.jpg', 207/320, 'Quiet'),
+    {k:'pod', src:'podcast-how-i-built-this.jpg', name:'How I Built This with Guy Raz'},
+    B('the-subtle-art.jpg', 209/320, 'The Subtle Art of Not Giving a F*ck'),
+    B('guns-germs-and-steel.jpg', 212/320, 'Guns, Germs, and Steel'),
+    {k:'pod', src:'podcast-freakonomics-radio.jpg', name:'Freakonomics Radio'},
+    B('a-brief-history-of-time.jpg', 210/320, 'A Brief History of Time'),
+    B('a-short-history-of-nearly-everything.jpg', 209/320, 'A Short History of Nearly Everything'),
+    {k:'pod', src:'podcast-hidden-brain.jpg', name:'Hidden Brain'},
+    B('into-thin-air.jpg', 205/320, 'Into Thin Air'),
+    B('the-selfish-gene.jpg', 210/320, 'The Selfish Gene'),
+    {k:'pod', src:'podcast-99-percent-invisible.jpg', name:'99% Invisible'},
+    B('shoe-dog.jpg', 208/320, 'Shoe Dog'),
+    B('zero-to-one.jpg', 212/320, 'Zero to One'),
+    {k:'pod', src:'podcast-planet-money.jpg', name:'Planet Money'},
+    B('range.jpg', 214/320, 'Range'),
+    B('grit.jpg', 207/320, 'Grit'),
+    {k:'pod', src:'podcast-hardcore-history.jpg', name:'Dan Carlin\'s Hardcore History'},
+    B('start-with-why.jpg', 209/320, 'Start with Why'),
+    B('how-to-win-friends.jpg', 198/320, 'How to Win Friends and Influence People'),
+    {k:'pod', src:'podcast-ted-talks-daily.jpg', name:'TED Talks Daily'},
+    B('the-four-agreements.jpg', 218/320, 'The Four Agreements'),
+    B('the-power-of-now.jpg', 208/320, 'The Power of Now'),
+    {k:'pod', src:'podcast-the-knowledge-project.jpg', name:'The Knowledge Project'},
+    B('cant-hurt-me.jpg', 213/320, 'Can\'t Hurt Me'),
+    B('rich-dad-poor-dad.jpg', 213/320, 'Rich Dad Poor Dad'),
+    {k:'pod', src:'podcast-armchair-expert.jpg', name:'Armchair Expert with Dax Shepard'},
+    B('born-a-crime.jpg', 211/320, 'Born a Crime'),
+    B('bad-blood.jpg', 198/320, 'Bad Blood'),
+    {k:'pod', src:'podcast-modern-wisdom.jpg', name:'Modern Wisdom'},
+    {k:'vid', src:'video-mark-rober-glitter-bomb.jpg', name:'Mark Rober'},
+    B('homo-deus.jpg', 211/320, 'Homo Deus'),
+    B('cosmos.jpg', 208/320, 'Cosmos'),
+    {k:'pod', src:'podcast-founders.jpg', name:'Founders'},
+    B('astrophysics-for-people-in-a-hurry.jpg', 197/320, 'Astrophysics for People in a Hurry'),
+    B('the-righteous-mind.jpg', 207/320, 'The Righteous Mind'),
+    {k:'pod', src:'podcast-acquired.jpg', name:'Acquired'},
+    B('influence.jpg', 205/320, 'Influence'),
+    B('predictably-irrational.jpg', 212/320, 'Predictably Irrational'),
+    {k:'pod', src:'podcast-my-first-million.jpg', name:'My First Million'},
+    {k:'vid', src:'video-smartereveryday-backwards-bicycle.jpg', name:'SmarterEveryDay'},
+    B('never-split-the-difference.jpg', 205/320, 'Never Split the Difference'),
+    B('the-almanack-of-naval-ravikant.jpg', 207/320, 'The Almanack of Naval Ravikant'),
+    {k:'pod', src:'podcast-science-vs.jpg', name:'Science Vs'},
+    B('the-body-keeps-the-score.jpg', 208/320, 'The Body Keeps the Score'),
+    B('breath.jpg', 212/320, 'Breath'),
+    {k:'pod', src:'podcast-philosophize-this.jpg', name:'Philosophize This!'},
+    B('outlive.jpg', 246/320, 'Outlive'),
+    B('thinking-in-bets.jpg', 213/320, 'Thinking in Bets'),
+    {k:'pod', src:'podcast-in-our-time.jpg', name:'In Our Time'},
+    {k:'vid', src:'video-ted-the-power-of-vulnerability.jpg', name:'TED'},
+    B('factfulness.jpg', 208/320, 'Factfulness'),
+    B('the-black-swan.jpg', 207/320, 'The Black Swan'),
+    {k:'pod', src:'podcast-masters-of-scale.jpg', name:'Masters of Scale'},
+    B('antifragile.jpg', 207/320, 'Antifragile'),
+    B('when-breath-becomes-air.jpg', 217/320, 'When Breath Becomes Air'),
+    {k:'pod', src:'podcast-the-mel-robbins-podcast.jpg', name:'The Mel Robbins Podcast'},
+    B('being-mortal.jpg', 202/320, 'Being Mortal'),
+    B('tuesdays-with-morrie.jpg', 219/320, 'Tuesdays with Morrie'),
+    {k:'pod', src:'podcast-on-purpose.jpg', name:'On Purpose with Jay Shetty'},
+    {k:'vid', src:'video-crashcourse-world-history.jpg', name:'CrashCourse'},
+    B('i-am-malala.jpg', 200/320, 'I Am Malala'),
+    B('unbroken.jpg', 212/320, 'Unbroken'),
+    {k:'pod', src:'podcast-darknet-diaries.jpg', name:'Darknet Diaries'},
+    B('killers-of-the-flower-moon.jpg', 211/320, 'Killers of the Flower Moon'),
+    B('hidden-figures.jpg', 212/320, 'Hidden Figures'),
+    {k:'pod', src:'podcast-the-infinite-monkey-cage.jpg', name:'The Infinite Monkey Cage'},
+    B('the-code-breaker.jpg', 211/320, 'The Code Breaker'),
+    B('hooked.jpg', 205/320, 'Hooked'),
+    {k:'pod', src:'podcast-the-tim-ferriss-show.jpg', name:'The Tim Ferriss Show'},
+    {k:'vid', src:'video-ted-how-great-leaders-inspire-action.jpg', name:'TED'},
+    B('digital-minimalism.jpg', 212/320, 'Digital Minimalism'),
+    B('stolen-focus.jpg', 212/320, 'Stolen Focus'),
+    {k:'pod', src:'podcast-invest-like-the-best.jpg', name:'Invest Like The Best'},
+    B('dopamine-nation.jpg', 214/320, 'Dopamine Nation'),
+    B('good-to-great.jpg', 211/320, 'Good to Great'),
+    {k:'pod', src:'podcast-lennys-podcast.jpg', name:'Lenny\'s Podcast: Product | Career | Growth'},
+    B('the-hard-thing-about-hard-things.jpg', 193/320, 'The Hard Thing About Hard Things'),
+    B('high-output-management.jpg', 207/320, 'High Output Management'),
+    {k:'pod', src:'podcast-the-rich-roll-podcast.jpg', name:'The Rich Roll Podcast'},
+    {k:'vid', src:'video-kurzgesagt-fermi-paradox.jpg', name:'Kurzgesagt – In a Nutshell'},
+    B('measure-what-matters.jpg', 212/320, 'Measure What Matters'),
+    B('flow.jpg', 200/320, 'Flow'),
+    {k:'pod', src:'podcast-zoe-science-nutrition.jpg', name:'ZOE Science & Nutrition'},
+    B('drive.jpg', 211/320, 'Drive'),
+    B('ultralearning.jpg', 212/320, 'Ultralearning'),
+    {k:'pod', src:'podcast-all-in.jpg', name:'All-In with Chamath, Jason, Sacks & Friedberg'},
+    B('moonwalking-with-einstein.jpg', 209/320, 'Moonwalking with Einstein'),
+    B('the-happiness-hypothesis.jpg', 214/320, 'The Happiness Hypothesis'),
+    {k:'pod', src:'podcast-the-school-of-greatness.jpg', name:'The School of Greatness'},
+    {k:'vid', src:'video-veritasium-why-the-future-of-math.jpg', name:'Veritasium'},
+    B('nudge.jpg', 210/320, 'Nudge'),
+    B('greenlights.jpg', 223/320, 'Greenlights'),
+    B('the-gene.jpg', 204/320, 'The Gene'),
+    B('the-diary-of-a-young-girl.jpg', 189/320, 'The Diary of a Young Girl'),
+    B('enlightenment-now.jpg', 211/320, 'Enlightenment Now'),
+    B('stiff.jpg', 212/320, 'Stiff'),
+    B('the-devil-in-the-white-city.jpg', 202/320, 'The Devil in the White City'),
+    B('elon-musk.jpg', 210/320, 'Elon Musk'),
   ];
-  // phone shows eight covers (the four wide video stills and The Daily stay off: on a 390px screen they clipped the edges
-  // and twelve pieces of art fought each other; Attention Insight clarity 52 on the live first screen, 2026-10-21)
+  // the sphere shows the first COVER_COUNT of the pool (the tuner's ?covers= overrides; the pool holds 123)
+  const COVER_COUNT = 75;
   // paper: real pieces, correctly attributed. Articles and talks carry their own published lead image (og:image, see
   // product/assets/covers/article-images-SOURCES.txt) as a banner; publication names are plain type (no logos, no mastheads).
   // Quotes and notes have no real image, so they are typographic: warm paper, a muted colour band (never coral), a large Lora mark.
@@ -573,14 +697,27 @@ html.still .v-card{scroll-snap-align:center}
     {k:'qc',   qt:'Who controls the past controls the future.', who:'George Orwell', wh:'1984', band:BAND.sage, sz:[144, 116], noPhone: true},
     {k:'art',  pub:'TED', ttl:'Do Schools Kill Creativity?', au:'Ken Robinson', img:'talk-ted-do-schools-kill-creativity.jpg', noPhone: true},
   ];
-  // 16 on the sphere: twelve unique covers (about a fifth more facing the camera than the ten-cover set) and four knowledge pieces.
-  // At rest yaw 1.35 the front slots are 2, 5, 7, 8, 10, 12, 13, 15 and 16, all covers. Paper sits on the far side.
-  const LAYOUT = 'KCCKCKCCKCCCCCCC';
-  const ITEMS = [];
-  { let ci = 0, ki = 0; for (const ch of LAYOUT) ITEMS.push(ch === 'C' ? COVERS[ci++] : CARDS[ki++]); }
-  // real covers read 1.3x (laid out at that size, so the image stays sharp); paper reads 0.85x (scaled, so its type scales with it)
-  const FIT = ITEMS.map(it => it.src ? 1 : 0.85);
-  const N = ITEMS.length;
+  // the paper sits on the far side at rest: the four slots whose Fibonacci direction points away from the viewer
+  // at REST_YAW / REST_PITCH are given to CARDS; every other slot is a cover (the first NC of the pool).
+  const NC = Math.min(COVERS.length, TUNE.n > 0 ? TUNE.n : COVER_COUNT);
+  const N = NC + CARDS.length;
+  const ITEMS = new Array(N);
+  {
+    const ry = 1.35, rp = -0.32, cy = Math.cos(ry), sy = Math.sin(ry), cp = Math.cos(rp), sp = Math.sin(rp);
+    const back = Array.from({length: N}, (_, i) => {
+      const y = 1 - (i + 0.5) / N * 2, r = Math.sqrt(1 - y * y), th = i * Math.PI * (3 - Math.sqrt(5));
+      const d = [Math.cos(th) * r, y * 0.92, Math.sin(th) * r];
+      const z1 = -d[0] * sy + d[2] * cy;
+      return [d[1] * sp + z1 * cp, i];
+    }).sort((a, b) => a[0] - b[0]).slice(0, CARDS.length).map(x => x[1]);
+    let ci = 0, ki = 0;
+    for (let i = 0; i < N; i++) ITEMS[i] = back.includes(i) ? CARDS[ki++] : COVERS[ci++];
+  }
+  // tile size follows the count so the ball is always covered: the same total tile area is shared out over NC covers
+  // (75 covers -> ~0.93x the 28-cover tile). The tuner's ?csize= multiplies this.
+  const DENS = Math.sqrt(TUNE.d / NC);
+  // covers are laid out at their display size (the image stays sharp); paper is scaled down to sit with the small covers
+  const FIT = ITEMS.map(it => it.src ? 1 : 0.55 * DENS);
   // order in which the icon pulls them in (front-ish first, mixed media)
   // a fixed shuffle so books, podcasts, videos and articles arrive interleaved
   const ORDER = Array.from({length: N}, (_, i) => i).sort((a, b) => ((a * 7919) % 31) - ((b * 7919) % 31));
@@ -624,8 +761,9 @@ html.still .v-card{scroll-snap-align:center}
       const icon = [w / 2, h * 0.58];
       const dx = Math.min(w * 0.275, 410), dy = h * 0.235;
       const sp = [[-dx, -dy], [dx, -dy], [-dx, dy], [dx, dy]].map(d => [icon[0] + d[0], icon[1] + d[1]]);
-      return { m, k, heroC: [w * 0.725, h * 0.52], R: Math.min(h * 0.24, w * 0.145) * BALL, persp: 1000, iSc: k * 0.8 * BALL,
+      return { m, k, heroC: [w * 0.725, h * 0.52], R: Math.min(h * 0.24, w * 0.145) * RB_D * TUNE.r, persp: 1000, iSc: k * 0.98 * BALL,   // 0.8 -> 0.98 (2026-10-21): tiles relative to the ball now match the phone, so the dense ball has no holes
         // the story ends with the scenes folded back into the icon, resting at the centre; the manifesto follows in the page
+        headR: Math.min(h * 0.24, w * 0.145) * BALL,   // the silhouette's size is independent of the ball radius
         iconA: icon, iconS: icon, iconC: [w / 2, h * 0.5], iconSize: 112,
         nodeT: sp, sceneP: sp, sceneSc: k * 0.88,
         capA: h * 0.165, capS: h * 0.135 };
@@ -636,11 +774,11 @@ html.still .v-card{scroll-snap-align:center}
     const NAV = 64;
     const R0 = Math.min(w * 0.37, Math.max(96, (h - NAV - heroH - 110) / 2.57));
     // phone: the ball itself is a fifth smaller than on desktop (BALL 1.25 -> 1.0; Mike, 2026-10-21: it crowded the first
-    // screen and clipped covers at the edges); the covers keep their size, there are fewer of them (noPhone)
-    const R = R0 * 1.0;
+    // screen and clipped covers at the edges)
+    const R = R0 * 0.95 * TUNE.r;   // (2026-10-21) a full ball: 21 half-size covers with the far side showing through, so it reads round, not a ring
     const slack = Math.max(0, h - NAV - heroH - 2.57 * R);
-    const heroTop = NAV + Math.max(18, slack * 0.3);
-    const heroC = [w / 2, heroTop + heroH + Math.max(26, slack * 0.27) + 1.12 * R];
+    const heroTop = NAV + clamp(slack * 0.3, 18, 56);   // the headline stays near the top; spare height goes under the ball
+    const heroC = [w / 2, heroTop + heroH + clamp(slack * 0.27, 26, 70) + 1.12 * R];
     // on short phones the icon rides a little higher so the node beneath it clears the scene
     const iconS = [w / 2, h * (0.33 + 0.015 * clamp((h - 667) / 177))];
     const rr = 74;
@@ -649,7 +787,7 @@ html.still .v-card{scroll-snap-align:center}
     const iconC = [w / 2, h * 0.5];
     // phone scenes open from just below the icon (never across it), then settle in their place
     const sceneFrom = [w / 2, iconS[1] + 92 / 2 + 26];
-    return { m, k: 1, heroTop, heroC, R, persp: 800, iSc: 0.54 * clamp(R0 / 128, 0.9, 1.12) * BALL,
+    return { m, k: 1, heroTop, heroC, R, headR: R0 * 1.0, persp: 800, iSc: 0.54 * clamp(R0 / 128, 0.9, 1.12) * BALL,
       iconA: [w / 2, h * 0.47], iconS, iconC, iconSize: 92, sceneFrom,
       nodeT, sceneP: nodeT.map(() => [w / 2, h * 0.69]), sceneSc: Math.min(1, (w - 30) / 340),
       // captions keep a clear band under the top bar on short phones
@@ -658,9 +796,9 @@ html.still .v-card{scroll-snap-align:center}
 
   function itemSize(it) {
     if (it.sz) return it.sz;
-    if (it.k === 'book') return [146 * it.a, 146];   // 1.3x the round-1 size
-    if (it.k === 'pod') return [168, 124];
-    if (it.k === 'vid') return [195, 109];
+    if (it.k === 'book') return [74 * it.a * TUNE.cs * DENS, 74 * TUNE.cs * DENS];   // 74 = the 28-cover tile (Mike, 2026-10-21: smaller covers, many more)
+    if (it.k === 'pod') return [84 * TUNE.cs * DENS, 62 * TUNE.cs * DENS];
+    if (it.k === 'vid') return [98 * TUNE.cs * DENS, 55 * TUNE.cs * DENS];
     if (it.k === 'art') return it.img ? [150, 160] : it.au ? [140, 100] : [138, 92];
     if (it.k === 'qc') return [144, 116];
     if (it.k === 'pdf') return [112, 146];
@@ -751,6 +889,7 @@ html.still .v-card{scroll-snap-align:center}
         return el;
       });
       this.washes = this.items.map(el => el.querySelector('.wash'));
+      this.last = this.items.map(() => ({ op: -1, wash: -1, z: -1, vis: '', px: -1e9, py: -1e9, sc: -1, rot: -1e9 }));   // last written values, to skip no-op style writes
       this.measure();
     }
     // The gather is a silhouette that appears after the first screen. The holes are only the
@@ -796,7 +935,7 @@ html.still .v-card{scroll-snap-align:center}
     sizeHero() {
       const w = this.w, h = this.h;
       if (w < 1566) { this.hero.style.width = ''; return; }
-      const R = Math.min(h * 0.24, w * 0.145) * BALL;
+      const R = Math.min(h * 0.24, w * 0.145) * RB_D;
       const heroLeft = Math.min(140, Math.max(24, w * 0.078));
       // the longer line is drawn at 90% of the column, so the column is wider than the gap it may fill
       const coverLeft = w * 0.725 - R - Math.max(110, R * 0.32);
@@ -873,7 +1012,7 @@ html.still .v-card{scroll-snap-align:center}
       }
       let headO = 0, headOut = 0, mouth = ic, mouthW = 0, headH = 0, headX = 0, headY = 0, headW = 0, lidOpen = 0;
       if (art) {
-        headH = g.R * 1.35;
+        headH = g.headR * 1.35;
         headW = headH * art.aspect;
         const b0 = art.brain;
         headX = linkAt[0] - (b0.x + b0.w / 2) * headW;
@@ -931,7 +1070,9 @@ html.still .v-card{scroll-snap-align:center}
       let pulse = 0;
       for (let i = 0; i < N; i++) {
         const el = this.items[i], d = DIRS[i];
-        if (ITEMS[i].off || (g.m && ITEMS[i].noPhone)) { el.style.visibility = 'hidden'; continue; }
+        const L = this.last[i];
+        const hideEl = () => { if (L.vis !== 'hidden') { el.style.visibility = 'hidden'; L.vis = 'hidden'; } };
+        if (g.m && ITEMS[i].noPhone) { hideEl(); continue; }
         // rotate Y then X
         const x1 = d[0] * cy + d[2] * sy, z1 = -d[0] * sy + d[2] * cy;
         const y2 = d[1] * cp - z1 * sp, z2 = d[1] * sp + z1 * cp;
@@ -940,10 +1081,11 @@ html.still .v-card{scroll-snap-align:center}
         const depth = (z2 + 1) / 2;
         const sx = sc[0] + X * s, sy2 = sc[1] + Y * s;
         let scale = s * g.iSc * (0.62 + 0.38 * depth) * FIT[i];
-        // front-facing items are fully opaque and recede under a cream wash; only back-facing items fade
-        // the far side fades out almost entirely, so nothing ghostly peeks out from under a front cover
-        let op = sm(0.15, 0.42, depth);
-        let wash = 0.8 * Math.pow(1 - depth, 1.3);
+        // depth is read three ways: front items are full strength, items behind are smaller (scale above), lighter
+        // (a cream wash) and a little transparent. The far side stays visible so the ball reads as a complete, round
+        // volume (Mike, 2026-10-21): back-facing covers project into the middle of the disc and fill it.
+        let op = TUNE.o + (1 - TUNE.o) * sm(0.05, 0.8, depth);
+        let wash = (1.08 - TUNE.o) * Math.pow(1 - depth, 1.1);   // 0.5 -> 0.58: the cream wash fades with the same floor
         let px = sx, py = sy2, rot = -x1 * 24;
         // the ball stays put, so orbiting covers keep their own depth; a cover in flight passes under the open lid
         let z = 1 + Math.round(depth * 28);
@@ -1006,12 +1148,19 @@ html.still .v-card{scroll-snap-align:center}
           z = art ? 32 : 30;
         }
         if (p >= arr) { const x = (p - arr) / 0.003; pulse = Math.max(pulse, x * Math.exp(1 - x)); }
-        if (uAbs >= 1) { el.style.visibility = 'hidden'; continue; }
-        el.style.visibility = 'visible';
-        el.style.opacity = op >= 0.999 ? '1' : op.toFixed(3);
-        this.washes[i].style.opacity = wash.toFixed(3);
-        el.style.zIndex = z;
-        el.style.transform = `translate3d(${px.toFixed(1)}px,${py.toFixed(1)}px,0) translate(-50%,-50%) rotateY(${rot.toFixed(2)}deg) scale(${scale.toFixed(4)})`;
+        if (uAbs >= 1 || (op < 0.01 && uAbs <= 0)) { hideEl(); continue; }   // absorbed, or on the far side: not composited
+        if (L.vis !== 'visible') { el.style.visibility = 'visible'; L.vis = 'visible'; }
+        if (Math.abs(op - L.op) > 0.003) { el.style.opacity = op >= 0.999 ? '1' : op.toFixed(3); L.op = op; }
+        if (Math.abs(wash - L.wash) > 0.004) { this.washes[i].style.opacity = wash.toFixed(3); L.wash = wash; }
+        if (z !== L.z) { el.style.zIndex = z; L.z = z; }
+        // a transform is only rewritten when the tile has actually moved: the idle drift is a fraction of a pixel per
+        // frame, and with ~80 tiles a rewrite of every one every frame was the single biggest style cost. Far-side
+        // tiles (ghosted, small) take a coarser step; a tile in flight always writes.
+        const eps = uAbs > 0 ? 0 : depth < 0.45 ? 0.6 : 0.25;
+        if (Math.abs(px - L.px) > eps || Math.abs(py - L.py) > eps || Math.abs(scale - L.sc) > eps * 0.006 || Math.abs(rot - L.rot) > eps * 0.6) {
+          L.px = px; L.py = py; L.sc = scale; L.rot = rot;
+          el.style.transform = `translate3d(${px.toFixed(1)}px,${py.toFixed(1)}px,0) translate(-50%,-50%) rotateY(${rot.toFixed(2)}deg) scale(${scale.toFixed(4)})`;
+        }
       }
 
       // The network shows through the holes, then the silhouette leaves and the full rounded tile remains.
