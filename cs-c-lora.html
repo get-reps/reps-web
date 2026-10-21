@@ -310,7 +310,7 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 .manifesto .m-list p.rv{transition:opacity .5s ease,transform .5s cubic-bezier(.2,.8,.2,1)}
 html.settle .manifesto .m-list p.rv{transition:none}
 .manifesto .w{display:inline-block;position:relative;white-space:nowrap}
-.manifesto .w-shrink{transform-origin:0 76%}
+.manifesto .w-shrink,.manifesto .w-grow{transform-origin:0 76%}
 .manifesto .w-crack .sh{position:absolute;inset:0;color:var(--ink);visibility:hidden;pointer-events:none;user-select:none;-webkit-user-select:none}
 .manifesto .w-crack .sh::before{content:attr(data-w)}
 .manifesto .w-crack.on{color:transparent}
@@ -412,7 +412,7 @@ html.still .v-card{scroll-snap-align:center}
       <p class="m rv">It isn’t you. You are already putting in the effort of consuming quality content. It just has nowhere to live.</p>
       <p class="m rv"><b>So we built the place.</b> What you take in comes back to you, a little each day, until it is part of how you think.</p>
       <p class="m rv">Others fight for your attention. <b>REPS compounds it.</b></p>
-      <p class="m rv">Welcome to the <b>thinking renaissance.</b></p>
+      <p class="m rv">Welcome to the <b class="w w-grow">thinking renaissance.</b></p>
       <p class="sign rv">REPS</p>
     </div>
   </section>
@@ -538,12 +538,14 @@ html.still .v-card{scroll-snap-align:center}
   // csize defaults to 0.7 (Mike, 2026-10-21, after the slider tryout with 30 covers); radius to 1
   if (!(TUNE.cs > 0)) TUNE.cs = 0.7; if (!(TUNE.r > 0)) TUNE.r = 1; if (!(TUNE.d > 0)) TUNE.d = 65; if (!(TUNE.o >= 0 && TUNE.o <= 1)) TUNE.o = 0.6;
   // manifesto end states (Mike, 2026-10-21; tuner: reps-backend/work/website-clean-slate-261019/manifesto-tuner.html):
-  // ?crack= how far the shards of "attention" travel, in em (default 0.4); ?fade= how much of the ink "memory" loses, 0..0.95
-  // (default 0.7, so it rests at 30% ink); ?shrink= how much of its size "thinking" loses, 0..0.8 (default 0.35, so it rests at 65%)
-  const MAN = { crack: parseFloat(Q.get('crack')), fade: parseFloat(Q.get('fade')), shrink: parseFloat(Q.get('shrink')) };
-  if (!(MAN.crack >= 0 && MAN.crack <= 1)) MAN.crack = 0.4;
-  if (!(MAN.fade >= 0 && MAN.fade <= 0.95)) MAN.fade = 0.7;
-  if (!(MAN.shrink >= 0 && MAN.shrink <= 0.8)) MAN.shrink = 0.35;
+  // ?crack= how far the shards of "attention" travel, in em (default 0.8); ?fade= how much of the ink "memory" loses, 0..0.95
+  // (default 0.9, so it rests at 10% ink); ?shrink= how much of its size "thinking" loses, 0..0.8 (default 0.5, so it rests at 50%);
+  // ?grow= the size the closing "thinking renaissance." grows to from 50% (default 1.1). Mike's picks on the slider page, 2026-10-21.
+  const MAN = { crack: parseFloat(Q.get('crack')), fade: parseFloat(Q.get('fade')), shrink: parseFloat(Q.get('shrink')), grow: parseFloat(Q.get('grow')) };
+  if (!(MAN.crack >= 0 && MAN.crack <= 1.2)) MAN.crack = 0.8;
+  if (!(MAN.fade >= 0 && MAN.fade <= 0.95)) MAN.fade = 0.9;
+  if (!(MAN.shrink >= 0 && MAN.shrink <= 0.8)) MAN.shrink = 0.5;
+  if (!(MAN.grow >= 0.5 && MAN.grow <= 1.5)) MAN.grow = 1.1;
   // desktop ball radius multiplier (2026-10-21: raised with the small covers so the ball reads full, not a ring)
   const RB_D = 1.08;
   if (AT !== null) root.classList.add('pinned');
@@ -1692,14 +1694,16 @@ html.still .v-card{scroll-snap-align:center}
       crack.appendChild(el);
     }
     const ease = t => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-    const lines = [crack, fade, shrink].map(w => w.closest('p'));
+    // the closing line's "thinking renaissance." is the bookend: it starts at half size and grows past full size on the same scroll band
+    const grow = document.querySelector('.manifesto .w-grow');
+    const lines = [crack, fade, shrink, grow].map(w => w.closest('p'));
     // a line's change runs while its top travels from 60% of the viewport height up to 28%: it faded in at 90% over 0.5 s, so at a
     // normal scroll (about 400 px/s on a phone) it is seen whole for a beat before it starts to change
     const prog = p => STATIC ? 1 : clamp((innerHeight * 0.60 - p.getBoundingClientRect().top) / (innerHeight * 0.32));
-    let cur = [-1, -1, -1];
+    let cur = [-1, -1, -1, -1];
     function apply(force) {
       const u = lines.map(prog);
-      for (let i = 0; i < 3; i++) if (!force && Math.abs(u[i] - cur[i]) < 0.002) u[i] = cur[i];
+      for (let i = 0; i < 4; i++) if (!force && Math.abs(u[i] - cur[i]) < 0.002) u[i] = cur[i];
       if (u[0] !== cur[0]) {
         const e = ease(u[0]), A = MAN.crack * e;
         crack.classList.toggle('on', e > 0.0005);
@@ -1708,6 +1712,7 @@ html.still .v-card{scroll-snap-align:center}
       }
       if (u[1] !== cur[1]) fade.style.color = 'rgba(33,26,20,' + (1 - MAN.fade * ease(u[1])).toFixed(3) + ')';
       if (u[2] !== cur[2]) shrink.style.transform = 'scale(' + (1 - MAN.shrink * ease(u[2])).toFixed(4) + ')';
+      if (u[3] !== cur[3]) grow.style.transform = 'scale(' + (0.5 + (MAN.grow - 0.5) * ease(u[3])).toFixed(4) + ')';
       cur = u;
     }
     let pending = 0, watching = false;
@@ -1719,7 +1724,7 @@ html.still .v-card{scroll-snap-align:center}
       else { removeEventListener('scroll', onS); removeEventListener('resize', onS); }
     };
     apply(true);
-    if ('IntersectionObserver' in window && !STATIC) new IntersectionObserver(es => watch(es[es.length - 1].isIntersecting), { rootMargin: '25% 0px 25% 0px' }).observe(list);
+    if ('IntersectionObserver' in window && !STATIC) new IntersectionObserver(es => watch(es[es.length - 1].isIntersecting), { rootMargin: '25% 0px 25% 0px' }).observe(list.closest('.manifesto'));
     window.__manifestoTune = o => { Object.assign(MAN, o); apply(true); };
   }
   // after the story: the manifesto lines arrive one by one (a one-shot fade, nothing keeps running), the voices band
