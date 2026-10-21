@@ -1735,7 +1735,7 @@ html.still .v-card{scroll-snap-align:center}
     if (vid) {
       const vertical = matchMedia('(pointer: coarse)').matches || matchMedia('(max-width: 819px)').matches;
       // v19 demo cuts (Mike, 2026-10-21): FULL-DEMO-v19-r24-daily-correct (wide) / FULL-DEMO-MOBILE-v19-r13-daily-correct (phone)
-      vid.src = 'https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/hero/' + (vertical ? 'mobile-v19.mp4' : 'desktop-v19.mp4');
+      vid.src = 'https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/hero/' + (vertical ? 'mobile-v20c.mp4' : 'desktop-v19.mp4');
       vid.closest('.action-frame').classList.toggle('wide', !vertical);
       if (!vertical) vid.poster = 'https://vciosaulrfvddcenblmo.supabase.co/storage/v1/object/public/web-media/watch/poster-v19.jpg';
       if (hasIO && !STATIC && !reduce) {
