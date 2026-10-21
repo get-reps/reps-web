@@ -686,6 +686,7 @@ html.still .v-card{scroll-snap-align:center}
   ];
   // the sphere shows the first COVER_COUNT of the pool (the tuner's ?covers= overrides; the pool holds 122)
   const COVER_COUNT = 75;
+  const SHELF_K = 0.7;   // phone: a cover waiting on the shelf above the head is drawn at this fraction of its ball size
   // paper: real pieces, correctly attributed. Articles and talks carry their own published lead image (og:image, see
   // product/assets/covers/article-images-SOURCES.txt) as a banner; publication names are plain type (no logos, no mastheads).
   // Quotes and notes have no real image, so they are typographic: warm paper, a muted colour band (never coral), a large Lora mark.
@@ -699,12 +700,14 @@ html.still .v-card{scroll-snap-align:center}
   ];
   // the paper sits on the far side at rest: the four slots whose Fibonacci direction points away from the viewer
   // at REST_YAW / REST_PITCH are given to CARDS; every other slot is a cover (the first NC of the pool).
-  const NC = Math.min(COVERS.length, TUNE.n > 0 ? TUNE.n : COVER_COUNT);
-  // on a phone the paper pieces are not shown (they would render at 5-8px type), so the slots they would take are given
-  // to covers: an empty slot would turn to the front within ~20s of idle spin and open a hole (review of 280469d).
-  const PAPER = (window.innerWidth || 1024) < 760 ? [] : CARDS;
-  const N = NC + PAPER.length;
+  const NC = Math.min(COVERS.length - CARDS.length, TUNE.n > 0 ? TUNE.n : COVER_COUNT);
+  const N = NC + CARDS.length;
   const ITEMS = new Array(N);
+  // on a phone the paper pieces are not shown (they would render at 5-8px type), so each paper slot also carries a
+  // stand-in cover (the next ones in the pool): an empty slot would turn to the front within ~20s of idle spin and open
+  // a hole (review of 280469d). Which of the two is live is decided per layout in Stage.measure(), so a rotation from
+  // landscape to portrait after load swaps them instead of leaving four holes (review of aa32846).
+  const ALT = new Array(N).fill(null);
   {
     const ry = REST_YAW, rp = REST_PITCH, cy = Math.cos(ry), sy = Math.sin(ry), cp = Math.cos(rp), sp = Math.sin(rp);
     const back = Array.from({length: N}, (_, i) => {
@@ -712,15 +715,18 @@ html.still .v-card{scroll-snap-align:center}
       const d = [Math.cos(th) * r, y * 0.92, Math.sin(th) * r];
       const z1 = -d[0] * sy + d[2] * cy;
       return [d[1] * sp + z1 * cp, i];
-    }).sort((a, b) => a[0] - b[0]).slice(0, PAPER.length).map(x => x[1]);
+    }).sort((a, b) => a[0] - b[0]).slice(0, CARDS.length).map(x => x[1]);
     let ci = 0, ki = 0;
-    for (let i = 0; i < N; i++) ITEMS[i] = back.includes(i) ? PAPER[ki++] : COVERS[ci++];
+    for (let i = 0; i < N; i++) {
+      if (back.includes(i)) { ITEMS[i] = CARDS[ki]; ALT[i] = COVERS[NC + ki]; ki++; }
+      else ITEMS[i] = COVERS[ci++];
+    }
   }
   // tile size follows the count so the ball is always covered: the same total tile area is shared out over NC covers
   // (75 covers -> ~0.93x the 28-cover tile). The tuner's ?csize= multiplies this.
   const DENS = Math.min(1.6, Math.sqrt(TUNE.d / NC));   // capped: below ~25 covers the tiles would otherwise outgrow the ball
   // covers are laid out at their display size (the image stays sharp); paper is scaled down to sit with the small covers
-  const FIT = ITEMS.map(it => it.src ? 1 : 0.55 * DENS);
+  const fitOf = it => it.src ? 1 : 0.55 * DENS;
   // order in which the icon pulls them in (front-ish first, mixed media)
   // a fixed shuffle so books, podcasts, videos and articles arrive interleaved
   const ORDER = Array.from({length: N}, (_, i) => i).sort((a, b) => ((a * 7919) % 31) - ((b * 7919) % 31));
@@ -858,7 +864,7 @@ html.still .v-card{scroll-snap-align:center}
       this.beatAt = [0, 0, 0, 0]; this.beatK = -1;
       // sphere items
       const wrap = q('.items');
-      this.items = ITEMS.map(it => {
+      const mk = it => {
         const el = document.createElement('div');
         el.className = 'item it-' + it.k;
         if (it.src && it.k === 'pod') {
@@ -888,12 +894,37 @@ html.still .v-card{scroll-snap-align:center}
         el.style.width = w + 'px'; el.style.height = h + 'px';
         if (it.band) el.style.setProperty('--band', it.band);
         const wash = document.createElement('i'); wash.className = 'wash'; el.appendChild(wash);
+        el._fit = fitOf(it);
         wrap.appendChild(el);
         return el;
-      });
+      };
+      this.base = ITEMS.map(mk);
+      this.alts = ALT.map(it => { if (!it) return null; const el = mk(it); el.style.visibility = 'hidden'; return el; });
+      this.items = this.base.slice();
       this.washes = this.items.map(el => el.querySelector('.wash'));
       this.last = this.items.map(() => ({ op: -1, wash: -1, z: -1, vis: '', px: -1e9, py: -1e9, sc: -1, rot: -1e9 }));   // last written values, to skip no-op style writes
+      this.slotMode = null;
+      this.shelfSlot = new Array(N).fill(-1); this.shelfNext = 0;   // phone shelf: latched slot per cover (see render)
+      this.parked = new Array(N).fill(0);   // 1 while a cover waits off the ball (see PARKING in render)
+      this.parkT = new Array(N).fill(0);   // when it last parked / unparked, so it glides instead of jumping
+      this.fly = new Array(N).fill(null);   // where each cover's flight began (kept for the flight's duration)
       this.measure();
+    }
+    // Phone: the four paper slots show their stand-in covers; desktop shows the paper. Decided on every measure, so a
+    // rotation after load never leaves an empty slot (review of aa32846). A swap hides the element going out, resets the
+    // slot's write cache and drops the shelf latches.
+    applySlots() {
+      const m = !!this.g.m;
+      if (this.slotMode === m) return;
+      this.slotMode = m;
+      for (let i = 0; i < N; i++) {
+        if (!this.alts[i]) continue;
+        const use = m ? this.alts[i] : this.base[i], off = m ? this.base[i] : this.alts[i];
+        off.style.visibility = 'hidden';
+        this.items[i] = use; this.washes[i] = use.querySelector('.wash');
+        this.last[i] = { op: -1, wash: -1, z: -1, vis: 'hidden', px: -1e9, py: -1e9, sc: -1, rot: -1e9 };
+      }
+      this.shelfSlot.fill(-1); this.shelfNext = 0; this.parked.fill(0); this.parkT.fill(0);
     }
     // The gather is a silhouette that appears after the first screen. The holes are only the
     // icon's nodes and links. When the silhouette leaves, the full rounded tile remains.
@@ -925,6 +956,7 @@ html.still .v-card{scroll-snap-align:center}
       this.fitHero();
       this.heroH = this.hero.offsetHeight;
       this.g = geo(this.w, this.h, this.heroH);
+      this.applySlots();
       // phone: the hero's top comes from the composition (desktop keeps its CSS centring)
       this.hero.style.top = this.g.heroTop != null ? this.g.heroTop.toFixed(1) + 'px' : '';
       this.capS.forEach(c => c.classList.toggle('over', !this.g.m));
@@ -1070,12 +1102,22 @@ html.still .v-card{scroll-snap-align:center}
         this.floor.style.transform = `translate3d(${sc[0] - 50}px,${sc[1] + R * 1.36 - 50}px,0) scale(${(R * 1.9 / 100).toFixed(3)},${(R * 0.26 / 100).toFixed(3)})`;
       }
       const cy = Math.cos(yaw), sy = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
-      let pulse = 0, shelfK = 0;   // shelfK: phone-only counter for covers parked above the head (see onHead below)
+      let pulse = 0;
+      const now = performance.now() / 1000;
+      // phone shelf (see onHead below): one cell size for the whole shelf, from the largest tile at its front-of-ball
+      // scale (a video tile is the widest, a book the tallest; the rows may overlap the widest by a sliver). Parked
+      // covers shrink to SHELF_K of their size so five rows fit above the head: with 75 covers, most of the ball has to
+      // wait up there. The latches are dropped once every cover is back on the ball, so a scroll back up and down
+      // re-decides them for the current turn.
+      const shSc = g.iSc * 1.05 * TUNE.cs * DENS * SHELF_K;
+      const cellW = Math.max(18, 98 * shSc * 0.8 + 2), cellH = Math.max(18, 74 * shSc * 0.94 + 2);
+      const shelfCols = Math.max(3, Math.floor((w - 16) / cellW));
+      if (p < 0.09 && (this.shelfNext || this.parked.some(x => x))) { this.shelfSlot.fill(-1); this.shelfNext = 0; this.parked.fill(0); this.parkT.fill(0); }
       for (let i = 0; i < N; i++) {
         const el = this.items[i], d = DIRS[i];
         const L = this.last[i];
         const hideEl = () => { if (L.vis !== 'hidden') { el.style.visibility = 'hidden'; L.vis = 'hidden'; } };
-        if (g.m && ITEMS[i].noPhone) { hideEl(); continue; }
+        if (g.m && ITEMS[i].noPhone && !ALT[i]) { hideEl(); continue; }
         // rotate Y then X
         const x1 = d[0] * cy + d[2] * sy, z1 = -d[0] * sy + d[2] * cy;
         const y2 = d[1] * cp - z1 * sp, z2 = d[1] * sp + z1 * cp;
@@ -1083,7 +1125,7 @@ html.still .v-card{scroll-snap-align:center}
         const s = g.persp / (g.persp - Z);
         const depth = (z2 + 1) / 2;
         const sx = sc[0] + X * s, sy2 = sc[1] + Y * s;
-        let scale = s * g.iSc * (0.62 + 0.38 * depth) * FIT[i];
+        let scale = s * g.iSc * (0.62 + 0.38 * depth) * el._fit;
         // depth is read three ways: front items are full strength, items behind are smaller (scale above), lighter
         // (a cream wash) and a little transparent. The far side stays visible so the ball reads as a complete, round
         // volume (Mike, 2026-10-21): back-facing covers project into the middle of the disc and fill it.
@@ -1095,7 +1137,7 @@ html.still .v-card{scroll-snap-align:center}
         const st = ABS0 + RANK[i] * ABS_STEP, arr = st + ABS_DUR;
         const uAbs = clamp((p - st) / ABS_DUR);
         // anything that would sit on the skull slides up off it and waits there until its own flight
-        let sx0 = sx, sy0 = sy2;
+        let sx0 = sx, sy0 = sy2, pk = 1, parked = 0;
         if (art && headH > 0) {
           const halfW = ((parseFloat(el.style.width) || 140) * Math.max(scale, 0.35)) * 0.5;
           const halfH = ((parseFloat(el.style.height) || 120) * Math.max(scale, 0.35)) * 0.5;
@@ -1107,33 +1149,55 @@ html.still .v-card{scroll-snap-align:center}
           // a cover below the opening, in front of the head, would have to cross the face
           const cutsFace = g.m && sy2 > mouth[1] + 6 && sx - halfW < headX + headW * 0.92 && sx + halfW > headX - 8;
           let cx = sx, cy2 = sy2;
-          // phone (2026-10-21, dense ball): any waiting cover that is level with or below the head's top and overlaps it
-          // sideways goes to a shelf of rows ABOVE the head, so nothing ever waits on the forehead or the cheek. Rows
-          // fill from the head's top upward; if they would reach the top bar, the rest fall back to the desktop rule.
+          // PARKING (2026-10-21, dense ball; reworked after the review of aa32846). A waiting cover that would sit on the
+          // skull, the open crown or the face, or (phone) level with the head's top and overlapping it sideways, or across
+          // the caption band under the head, is parked: it glides to its spot over ~0.5s instead of jumping, and stays
+          // parked rather than being re-decided every frame (a cover on the margin of a rule toggled between the ball
+          // and its spot as the ball turned). Phone: parked for good until the scroll brings every cover back to the
+          // ball (p<0.09), on a shelf of rows ABOVE the head (each cover keeps the slot it was first given; one cell size
+          // for the whole shelf; tiles shrink to SHELF_K so five rows fit); a slot that would reach the top bar gets one
+          // fixed spot by index instead. Desktop: above the head to the right, and it unparks (with a margin, gliding
+          // back) once its ball position is clear of the head again.
           const onHead = g.m && sx + halfW > headX - 6 && sx - halfW < headX + headW + 6 && sy2 + halfH > headY - 4;
-          const cell = Math.max(28, Math.min(40, halfW * 2 + 6));
-          const cols = Math.max(4, Math.floor((w - 16) / cell));
-          const shelfRow = onHead ? Math.floor(shelfK / cols) : 0;
-          const shelfY = headY - 10 - cell * 0.5 - shelfRow * cell;
-          if (onHead && shelfY - cell * 0.5 > 72) {
-            cx = 8 + cell * 0.5 + (shelfK % cols) * cell; cy2 = shelfY; shelfK++;
-          } else if (onSkull || onLid || cutsFace) {
-            if (g.m && cutsFace) {
-              const slot = (i * 47) % Math.max(48, Math.min(150, w * 0.36));
-              cx = Math.min(w - halfW - 4, Math.max(8 + halfW, headX + headW * 0.2) + slot);
+          const onCap = g.m && sy2 + halfH > headY + headH + 8 && sy2 - halfH < this.capAY + this.capAH + 6;
+          const wants = onHead || onCap || onSkull || onLid || cutsFace;
+          if (wants && uAbs <= 0 && p >= 0.09 && !this.parked[i]) {
+            this.parked[i] = 1; this.parkT[i] = now;
+            if (g.m && this.shelfSlot[i] < 0) this.shelfSlot[i] = this.shelfNext++;
+          } else if (this.parked[i] && !g.m && uAbs <= 0 && now - this.parkT[i] > 0.6) {
+            // desktop hysteresis: clear of the skull and the lid by a margin -> glide back to the ball
+            const nearSkull = sx + halfW > headX - 12 && sx - halfW < headX + headW + 20 && sy2 + halfH > headY - 16 && sy2 - halfH < headY + headH * 0.82 + 24;
+            const nearLid = lidOpen > 0.4 && sx < headX + headW * 0.46 + 24 && sx > headX - headW * 0.45 - 24 && sy2 < headY + headH * 0.22 + 24 && sy2 > headY - headH * 0.62 - 24;
+            if (!nearSkull && !nearLid) { this.parked[i] = 0; this.parkT[i] = now; }
+          }
+          const gliding = !this.parked[i] && this.parkT[i] > 0 && now - this.parkT[i] < 0.5;
+          if (this.parked[i] || gliding) {
+            pk = this.parked[i] ? sm(0, 0.5, now - this.parkT[i]) : 1 - sm(0, 0.5, now - this.parkT[i]);
+            const slot = g.m ? this.shelfSlot[i] : -1;
+            const shelfY = headY - 10 - cellH * 0.5 - Math.max(0, Math.floor(slot / shelfCols)) * cellH;
+            if (slot >= 0 && shelfY - cellH * 0.5 > 72) { cx = 8 + cellW * 0.5 + (slot % shelfCols) * cellW; cy2 = shelfY; parked = 1; }
+            else if (g.m) {
+              const sp = (i * 47) % Math.max(48, Math.min(150, w * 0.36));
+              cx = Math.min(w - halfW - 4, Math.max(8 + halfW, headX + headW * 0.2) + sp);
               cy2 = Math.max(78, mouth[1] - headH * 0.4 - ((i * 13) % 36));
             } else {
               cx = Math.min(w - halfW - 6, Math.max(sx, headX + headW * 0.7));
               cy2 = Math.max(80, headY - halfH - 12);
             }
           }
-          const peel = uAbs > 0 ? 1 : sm(0.09, 0.16, p);
+          const peel = (uAbs > 0 ? 1 : sm(0.09, 0.16, p)) * pk;
           sx0 = lerp(sx, cx, peel);
           sy0 = lerp(sy2, cy2, peel);
+          if (parked) scale *= 1 - (1 - SHELF_K) * peel;
         }
         // phone: a cover on the sphere never pokes past the screen edge (it eases inward instead); the flight starts from
         // the same clamped spot, so nothing jumps when it leaves
         if (g.m) { const ew = (parseFloat(el.style.width) || 140) * scale / 2 + 6; sx0 = clamp(sx0, ew, w - ew); }
+        // a flight starts from where the cover was at that moment and keeps that start: the ball goes on turning and
+        // the waiting rules go on re-deciding underneath it, and either would otherwise move a cover that is already
+        // on its way (review of aa32846). Cleared when the scroll comes back before the flight.
+        if (uAbs > 0) { if (!this.fly[i]) this.fly[i] = [sx0, sy0]; sx0 = this.fly[i][0]; sy0 = this.fly[i][1]; }
+        else if (this.fly[i]) this.fly[i] = null;
         px = sx0; py = sy0;
         if (uAbs > 0) {
           const e = uAbs * uAbs * (1.35 - 0.35 * uAbs);
@@ -1145,7 +1209,7 @@ html.still .v-card{scroll-snap-align:center}
             // handles above the head, so a cover that waited beside or below the face never crosses it on the way in
             const top = Math.max(76, headY - headH * 0.16);
             const c2 = [dest[0], top];
-            c1 = [sx0, Math.min(sy0 - 24, top)];
+            c1 = [sx0 + (sy0 > headY ? (sx0 < headX + headW / 2 ? -40 : 40) : 0), Math.min(sy0 - 24, top)];
             px = u * u * u * sx0 + 3 * u * u * e * c1[0] + 3 * u * e * e * c2[0] + e * e * e * dest[0];
             py = u * u * u * sy0 + 3 * u * u * e * c1[1] + 3 * u * e * e * c2[1] + e * e * e * dest[1];
           } else {
