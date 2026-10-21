@@ -509,13 +509,14 @@ html.still .v-card{scroll-snap-align:center}
   const root = document.documentElement;
   // locked from the size tryout: title 90, cover ball 125
   const TITLE = 0.9, BALL = 1.25;
+  const REST_YAW = 1.35, REST_PITCH = -0.32;   // the ball's resting pose (also decides which slots are 'at the back')
   // tuning hooks for the local sphere-tuner page (reps-backend/work/website-clean-slate-261019/sphere-tuner.html):
-  // ?covers=N sets how many covers show (default COVER_COUNT), ?csize=x scales the cover tiles on top of the count-based
+  // ?covers=N sets how many covers show (default COVER_COUNT; any 1..pool is accepted, the tuner offers 8..75), ?csize=x scales the cover tiles on top of the count-based
   // size, ?radius=x scales the ball. csize/radius default to 1.
   const TUNE = { n: parseInt(Q.get('covers'), 10), cs: parseFloat(Q.get('csize')), r: parseFloat(Q.get('radius')),
     d: parseFloat(Q.get('dens')), o: parseFloat(Q.get('back')) };   // dens: tile-area base (default 65); back: far-side opacity floor (default 0.6)
   if (!(TUNE.cs > 0)) TUNE.cs = 1; if (!(TUNE.r > 0)) TUNE.r = 1; if (!(TUNE.d > 0)) TUNE.d = 65; if (!(TUNE.o >= 0 && TUNE.o <= 1)) TUNE.o = 0.6;
-  // desktop ball radius multiplier (2026-10-21: 1.25 -> 0.72 with the half-size covers; a cover is ~0.5 of the radius, as before, so the ball reads full, not a ring)
+  // desktop ball radius multiplier (2026-10-21: raised with the small covers so the ball reads full, not a ring)
   const RB_D = 1.08;
   if (AT !== null) root.classList.add('pinned');
   if (STATIC) root.classList.add('static');
@@ -552,7 +553,7 @@ html.still .v-card{scroll-snap-align:center}
   }
 
   const C = 'product/assets/covers/';
-  const B = (src, a, name, noPhone = false) => ({k:'book', src, a, name, noPhone});
+  const B = (src, a, name) => ({k:'book', src, a, name});
   // one of each. The Egg and Diary of a CEO stay off. Nothing in this list is repeated.
   const COVERS = [
     B('sapiens.jpg', 400/604, 'Sapiens'),
@@ -580,7 +581,7 @@ html.still .v-card{scroll-snap-align:center}
     B('mans-search-for-meaning.jpg', 207/320, 'Man’s Search for Meaning'),
     {k:'pod', src:'podcast-this-american-life.jpg', name:'This American Life'},
     B('meditations.jpg', 205/320, 'Meditations'),
-    // 2026-10-21 (Mike: "never" a gap in the sphere; room for up to 75 covers): 99 more real covers — publisher book
+    // 2026-10-21 (Mike: "never" a gap in the sphere; room for up to 75 covers): 98 more real covers — publisher book
     // covers (Open Library by ISBN), Apple Podcasts show art, YouTube's own thumbnails — interleaved so any prefix is a
     // media mix. Sources + verification: product/assets/covers/article-images-SOURCES.txt. Fetched by
     // reps-backend/work/website-clean-slate-261019/fetch-covers.py; nothing redrawn or generated.
@@ -657,7 +658,6 @@ html.still .v-card{scroll-snap-align:center}
     {k:'vid', src:'video-ted-how-great-leaders-inspire-action.jpg', name:'TED'},
     B('digital-minimalism.jpg', 212/320, 'Digital Minimalism'),
     B('stolen-focus.jpg', 212/320, 'Stolen Focus'),
-    {k:'pod', src:'podcast-invest-like-the-best.jpg', name:'Invest Like The Best'},
     B('dopamine-nation.jpg', 214/320, 'Dopamine Nation'),
     B('good-to-great.jpg', 211/320, 'Good to Great'),
     {k:'pod', src:'podcast-lennys-podcast.jpg', name:'Lenny\'s Podcast: Product | Career | Growth'},
@@ -684,7 +684,7 @@ html.still .v-card{scroll-snap-align:center}
     B('the-devil-in-the-white-city.jpg', 202/320, 'The Devil in the White City'),
     B('elon-musk.jpg', 210/320, 'Elon Musk'),
   ];
-  // the sphere shows the first COVER_COUNT of the pool (the tuner's ?covers= overrides; the pool holds 123)
+  // the sphere shows the first COVER_COUNT of the pool (the tuner's ?covers= overrides; the pool holds 122)
   const COVER_COUNT = 75;
   // paper: real pieces, correctly attributed. Articles and talks carry their own published lead image (og:image, see
   // product/assets/covers/article-images-SOURCES.txt) as a banner; publication names are plain type (no logos, no mastheads).
@@ -700,22 +700,25 @@ html.still .v-card{scroll-snap-align:center}
   // the paper sits on the far side at rest: the four slots whose Fibonacci direction points away from the viewer
   // at REST_YAW / REST_PITCH are given to CARDS; every other slot is a cover (the first NC of the pool).
   const NC = Math.min(COVERS.length, TUNE.n > 0 ? TUNE.n : COVER_COUNT);
-  const N = NC + CARDS.length;
+  // on a phone the paper pieces are not shown (they would render at 5-8px type), so the slots they would take are given
+  // to covers: an empty slot would turn to the front within ~20s of idle spin and open a hole (review of 280469d).
+  const PAPER = (window.innerWidth || 1024) < 760 ? [] : CARDS;
+  const N = NC + PAPER.length;
   const ITEMS = new Array(N);
   {
-    const ry = 1.35, rp = -0.32, cy = Math.cos(ry), sy = Math.sin(ry), cp = Math.cos(rp), sp = Math.sin(rp);
+    const ry = REST_YAW, rp = REST_PITCH, cy = Math.cos(ry), sy = Math.sin(ry), cp = Math.cos(rp), sp = Math.sin(rp);
     const back = Array.from({length: N}, (_, i) => {
       const y = 1 - (i + 0.5) / N * 2, r = Math.sqrt(1 - y * y), th = i * Math.PI * (3 - Math.sqrt(5));
       const d = [Math.cos(th) * r, y * 0.92, Math.sin(th) * r];
       const z1 = -d[0] * sy + d[2] * cy;
       return [d[1] * sp + z1 * cp, i];
-    }).sort((a, b) => a[0] - b[0]).slice(0, CARDS.length).map(x => x[1]);
+    }).sort((a, b) => a[0] - b[0]).slice(0, PAPER.length).map(x => x[1]);
     let ci = 0, ki = 0;
-    for (let i = 0; i < N; i++) ITEMS[i] = back.includes(i) ? CARDS[ki++] : COVERS[ci++];
+    for (let i = 0; i < N; i++) ITEMS[i] = back.includes(i) ? PAPER[ki++] : COVERS[ci++];
   }
   // tile size follows the count so the ball is always covered: the same total tile area is shared out over NC covers
   // (75 covers -> ~0.93x the 28-cover tile). The tuner's ?csize= multiplies this.
-  const DENS = Math.sqrt(TUNE.d / NC);
+  const DENS = Math.min(1.6, Math.sqrt(TUNE.d / NC));   // capped: below ~25 covers the tiles would otherwise outgrow the ball
   // covers are laid out at their display size (the image stays sharp); paper is scaled down to sit with the small covers
   const FIT = ITEMS.map(it => it.src ? 1 : 0.55 * DENS);
   // order in which the icon pulls them in (front-ish first, mixed media)
@@ -1067,7 +1070,7 @@ html.still .v-card{scroll-snap-align:center}
         this.floor.style.transform = `translate3d(${sc[0] - 50}px,${sc[1] + R * 1.36 - 50}px,0) scale(${(R * 1.9 / 100).toFixed(3)},${(R * 0.26 / 100).toFixed(3)})`;
       }
       const cy = Math.cos(yaw), sy = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
-      let pulse = 0;
+      let pulse = 0, shelfK = 0;   // shelfK: phone-only counter for covers parked above the head (see onHead below)
       for (let i = 0; i < N; i++) {
         const el = this.items[i], d = DIRS[i];
         const L = this.last[i];
@@ -1104,7 +1107,17 @@ html.still .v-card{scroll-snap-align:center}
           // a cover below the opening, in front of the head, would have to cross the face
           const cutsFace = g.m && sy2 > mouth[1] + 6 && sx - halfW < headX + headW * 0.92 && sx + halfW > headX - 8;
           let cx = sx, cy2 = sy2;
-          if (onSkull || onLid || cutsFace) {
+          // phone (2026-10-21, dense ball): any waiting cover that is level with or below the head's top and overlaps it
+          // sideways goes to a shelf of rows ABOVE the head, so nothing ever waits on the forehead or the cheek. Rows
+          // fill from the head's top upward; if they would reach the top bar, the rest fall back to the desktop rule.
+          const onHead = g.m && sx + halfW > headX - 6 && sx - halfW < headX + headW + 6 && sy2 + halfH > headY - 4;
+          const cell = Math.max(28, Math.min(40, halfW * 2 + 6));
+          const cols = Math.max(4, Math.floor((w - 16) / cell));
+          const shelfRow = onHead ? Math.floor(shelfK / cols) : 0;
+          const shelfY = headY - 10 - cell * 0.5 - shelfRow * cell;
+          if (onHead && shelfY - cell * 0.5 > 72) {
+            cx = 8 + cell * 0.5 + (shelfK % cols) * cell; cy2 = shelfY; shelfK++;
+          } else if (onSkull || onLid || cutsFace) {
             if (g.m && cutsFace) {
               const slot = (i * 47) % Math.max(48, Math.min(150, w * 0.36));
               cx = Math.min(w - halfW - 4, Math.max(8 + halfW, headX + headW * 0.2) + slot);
@@ -1126,19 +1139,29 @@ html.still .v-card{scroll-snap-align:center}
           const e = uAbs * uAbs * (1.35 - 0.35 * uAbs);
           const dest = art ? mouth : ic;
           let c1;
-          if (art) {
-            // stay above the face and come in from the right, so a low or left cover rises before it drops in
-            const high = Math.max(84, dest[1] - headH * 0.42);
-            c1 = [Math.max(dest[0] + headW * 0.22, Math.min(sx0, w - 24)), Math.min(sy0 - 4, high)];
-          } else {
-            const mx = (sx0 + ic[0]) / 2, my = (sy0 + ic[1]) / 2;
-            const dx = ic[0] - sx0, dy = ic[1] - sy0;
-            const bend = (i % 2 ? 1 : -1) * 0.22;
-            c1 = [mx - dy * bend, my + dx * bend];
-          }
           const u = 1 - e;
-          px = u * u * sx0 + 2 * u * e * c1[0] + e * e * dest[0];
-          py = u * u * sy0 + 2 * u * e * c1[1] + e * e * dest[1];
+          if (art && g.m) {
+            // phone (2026-10-21, dense ball): up, over the open crown, and down into the brain — a cubic with both
+            // handles above the head, so a cover that waited beside or below the face never crosses it on the way in
+            const top = Math.max(76, headY - headH * 0.16);
+            const c2 = [dest[0], top];
+            c1 = [sx0, Math.min(sy0 - 24, top)];
+            px = u * u * u * sx0 + 3 * u * u * e * c1[0] + 3 * u * e * e * c2[0] + e * e * e * dest[0];
+            py = u * u * u * sy0 + 3 * u * u * e * c1[1] + 3 * u * e * e * c2[1] + e * e * e * dest[1];
+          } else {
+            if (art) {
+              // stay above the face and come in from the right, so a low or left cover rises before it drops in
+              const high = Math.max(84, dest[1] - headH * 0.42);
+              c1 = [Math.max(dest[0] + headW * 0.22, Math.min(sx0, w - 24)), Math.min(sy0 - 4, high)];
+            } else {
+              const mx = (sx0 + ic[0]) / 2, my = (sy0 + ic[1]) / 2;
+              const dx = ic[0] - sx0, dy = ic[1] - sy0;
+              const bend = (i % 2 ? 1 : -1) * 0.22;
+              c1 = [mx - dy * bend, my + dx * bend];
+            }
+            px = u * u * sx0 + 2 * u * e * c1[0] + e * e * dest[0];
+            py = u * u * sy0 + 2 * u * e * c1[1] + e * e * dest[1];
+          }
           const elW = parseFloat(el.style.width) || 140;
           const fit = art ? Math.max(0.08, (mouthW * 0.30) / elW) : 0.1 * g.iSc;
           scale = lerp(scale, fit, Math.pow(uAbs, art ? 1.15 : 1.4));
@@ -1479,7 +1502,6 @@ html.still .v-card{scroll-snap-align:center}
   }
 
   const story = document.getElementById('story');
-  const REST_YAW = 1.35, REST_PITCH = -0.32;
 
   // one action at a time: the top-bar link hides while the hero or a closing button is on screen
   const navGet = document.querySelector('.nav-get');

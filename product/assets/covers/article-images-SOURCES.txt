@@ -47,7 +47,7 @@ deep-work.jpg
   Page:    https://openlibrary.org/isbn/9781455586691
   Art:     https://covers.openlibrary.org/b/isbn/9781455586691-L.jpg
 
-Added 2026-10-21 for the fuller sphere (covers halved in size, count roughly doubled; Joe Rogan was fetched and then dropped at Mike's request). Each file is the publisher's own cover or show artwork, downscaled to a 320px long edge. Nothing was redrawn, cropped for content, or generated.
+Added 2026-10-21 for the fuller sphere (covers halved in size, count roughly doubled; Joe Rogan was fetched and then dropped at Mike's request). Each file is the publisher's own cover or show artwork, downscaled to a 256px long edge (re-saved from 320px on 2026-10-21: the largest tile is ~85 CSS px wide). Nothing was redrawn, cropped for content, or generated.
 
 Books (Open Library cover service, by ISBN; covers.openlibrary.org/b/isbn/<isbn>-L.jpg):
   the-alchemist.jpg            Paulo Coelho, 25th anniversary ed.  ISBN 9780062315007
@@ -63,11 +63,11 @@ Podcasts (Apple Podcasts catalogue artworkUrl600 via the iTunes Search API):
   podcast-lex-fridman.jpg             Lex Fridman Podcast
   podcast-stuff-you-should-know.jpg   Stuff You Should Know (iHeart)
   podcast-this-american-life.jpg      This American Life
-All pre-existing sphere covers were re-saved at the same 320px long edge on the same date (the tiles are now half the size).
+All pre-existing sphere covers were re-saved at the same long edge on the same date (the tiles are now half the size).
 
 Added 2026-10-21 for the dense sphere (Mike: no gaps, room for 75 covers; pool of 123 real covers). Fetched by
 reps-backend/work/website-clean-slate-261019/fetch-covers.py; every file is the publisher's own cover / show art / the
-channel's own thumbnail, downscaled to a 320px long edge. Nothing redrawn, cropped for content, or generated. Nine fetched
+channel's own thumbnail, downscaled to a 256px long edge (re-saved from 320px on 2026-10-21: the largest tile is ~85 CSS px wide). Nothing redrawn, cropped for content, or generated. Nine fetched
 files were dropped after a visual check (a faded scan, a photo of a book, washed-out editions, a sideways crop, a near-black
 cover, a dark abstract thumbnail, one wrong-show match): blink.jpg, daring-greatly.jpg, ikigai.jpg, mindset.jpg, night.jpg, podcast-revisionist-history.jpg, podcast-worklife.jpg, the-courage-to-be-disliked.jpg, video-vsauce-speed-of-dark.jpg.
 
@@ -160,7 +160,6 @@ Podcasts (Apple Podcasts catalogue artwork via the iTunes Search API; the show p
   podcast-darknet-diaries.jpg                  Darknet Diaries                                https://podcasts.apple.com/us/podcast/darknet-diaries/id1296350485?uo=4
   podcast-the-infinite-monkey-cage.jpg         The Infinite Monkey Cage                       https://podcasts.apple.com/us/podcast/the-infinite-monkey-cage/id343580439?uo=4
   podcast-the-tim-ferriss-show.jpg             The Tim Ferriss Show                           https://podcasts.apple.com/us/podcast/the-tim-ferriss-show/id863897795?uo=4
-  podcast-invest-like-the-best.jpg             Invest Like The Best                           https://podcasts.apple.com/us/podcast/invest-like-the-best/id6807925823?uo=4
   podcast-lennys-podcast.jpg                   Lenny's Podcast: Product | Career | Growth     https://podcasts.apple.com/us/podcast/lennys-podcast-product-career-growth/id1627920305?uo=4
   podcast-the-rich-roll-podcast.jpg            The Rich Roll Podcast                          https://podcasts.apple.com/us/podcast/the-rich-roll-podcast/id582272991?uo=4
   podcast-zoe-science-nutrition.jpg            ZOE Science & Nutrition                        https://podcasts.apple.com/us/podcast/zoe-science-nutrition/id1611216298?uo=4
@@ -175,3 +174,6 @@ Videos (YouTube's own thumbnail for the video id, verified by YouTube oEmbed tit
   video-ted-how-great-leaders-inspire-action.jpg TED                  How Great Leaders Inspire Action | Simon Sinek | TED  https://www.youtube.com/watch?v=qp0HIF3SfI4
   video-kurzgesagt-fermi-paradox.jpg           Kurzgesagt – In a Nu The Fermi Paradox — Where Are All The Aliens? (1/2)  https://www.youtube.com/watch?v=sNhhvQGsMEc
   video-veritasium-why-the-future-of-math.jpg  Veritasium           Math's Fundamental Flaw  https://www.youtube.com/watch?v=HeQX2HjkcNo
+
+Dropped 2026-10-21 after review: podcast-invest-like-the-best.jpg — the iTunes search matched a Spreaker feed borrowing the
+show's name, not the real show (Colossus, Apple id 1154105909); file deleted, not replaced.
