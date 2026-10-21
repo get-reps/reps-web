@@ -862,6 +862,9 @@ html.still .v-card{scroll-snap-align:center}
         if (headY < 78) headY = 78;
         if (headY + headH > h - 8) headY = Math.max(78, h - 8 - headH);
         const headC = [headX + headW / 2, headY + headH / 2];
+        // the absorption caption sits UNDER the head on both layouts (Mike, 2026-10-21): in the top band it collided
+        // with the covers waiting above the skull on a phone and read as floating on desktop
+        this.capAY = headY + headH + 22 * g.k;
         const headIn = sm(0.09, 0.14, p);
         headOut = sm(0.36, 0.415, p);
         headO = headIn * (1 - headOut);
@@ -1139,7 +1142,13 @@ html.still .v-card{scroll-snap-align:center}
       // absorption caption
       const ca = sm(0.285, 0.33, p) * (1 - sm(0.38, 0.405, p));
       vis(this.capA, ca);
-      this.capA.style.transform = `translate3d(0,${(g.capA + 18 * (1 - ca)).toFixed(1)}px,0) translateY(-50%)`;
+      if (art && this.capAY != null) {
+        // under the head: anchored to the caption's top edge, never below the bottom of the stage
+        const y = Math.min(this.capAY, h - 16 - this.capA.offsetHeight);
+        this.capA.style.transform = `translate3d(0,${(y + 18 * (1 - ca)).toFixed(1)}px,0)`;
+      } else {
+        this.capA.style.transform = `translate3d(0,${(g.capA + 18 * (1 - ca)).toFixed(1)}px,0) translateY(-50%)`;
+      }
 
       return { hero: ho };
     }
