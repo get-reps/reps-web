@@ -79,6 +79,12 @@ img{display:block}
 
 /* story */
 .story{position:relative;height:700vh}
+/* phone: a longer story so each scene holds its readable state for about half a screen of scroll (plateau-dominant timing),
+   and invisible snap points at each plateau so a flick's natural deceleration settles on the message ("proximity": free
+   scrolling everywhere else, nothing takes over the scroll). Desktop-width layouts (including tablets) and ?static=1 have neither. */
+@media (max-width:759px){ .story{height:850vh} }
+@media (pointer:coarse){ html.snap{scroll-snap-type:y proximity} }   /* .snap is set only for the phone layout */
+.snap-pt{position:absolute;left:0;width:1px;height:1px;scroll-snap-align:start;pointer-events:none;visibility:hidden}
 .sticky{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
 .stage{position:absolute;inset:0;perspective:1400px}
 html.pinned .story{height:100vh}
@@ -545,25 +551,27 @@ html.still .v-card{scroll-snap-align:center}
     B('thinking-fast-and-slow.jpg', 400/593, 'Thinking, Fast and Slow'),
     {k:'pod', src:'podcast-huberman-lab.jpg', name:'Huberman Lab'},
     B('atomic-habits.jpg', 400/604, 'Atomic Habits'),
-    {k:'vid', src:'video-veritasium-entropy.jpg', name:'Veritasium'},
+    {k:'vid', src:'video-veritasium-entropy.jpg', name:'Veritasium', noPhone: true},
     B('1984.jpg', 400/600, '1984'),
-    {k:'pod', src:'podcast-the-daily.jpg', name:'The Daily'},
-    {k:'vid', src:'video-kurzgesagt-immune-system.jpg', name:'Kurzgesagt'},
+    {k:'pod', src:'podcast-the-daily.jpg', name:'The Daily', noPhone: true},
+    {k:'vid', src:'video-kurzgesagt-immune-system.jpg', name:'Kurzgesagt', noPhone: true},
     {k:'pod', src:'podcast-the-rest-is-history.jpg', name:'The Rest Is History'},
-    {k:'vid', src:'video-3blue1brown-neural-network.jpg', name:'3Blue1Brown'},
+    {k:'vid', src:'video-3blue1brown-neural-network.jpg', name:'3Blue1Brown', noPhone: true},
     {k:'pod', src:'podcast-radiolab.jpg', name:'Radiolab'},
     B('deep-work.jpg', 331/500, 'Deep Work'),
   ];
+  // phone shows eight covers (the four wide video stills and The Daily stay off: on a 390px screen they clipped the edges
+  // and twelve pieces of art fought each other; Attention Insight clarity 52 on the live first screen, 2026-10-21)
   // paper: real pieces, correctly attributed. Articles and talks carry their own published lead image (og:image, see
   // product/assets/covers/article-images-SOURCES.txt) as a banner; publication names are plain type (no logos, no mastheads).
   // Quotes and notes have no real image, so they are typographic: warm paper, a muted colour band (never coral), a large Lora mark.
   // noPhone: on a phone this paper would render at 5-8px type (or poke out behind a cover), so it is left off the sphere there
   const BAND = { sage:'#93A88F', blue:'#8A9BB8', plum:'#A48A9E', ochre:'#C4A46E' };
   const CARDS = [
-    {k:'art',  pub:'The Atlantic', ttl:'Is Google Making Us Stupid?', au:'Nicholas Carr', img:'article-atlantic-is-google-making-us-stupid.jpg'},
-    {k:'art',  pub:'The New Yorker', ttl:'Why Facts Don’t Change Our Minds', au:'Elizabeth Kolbert', img:'article-newyorker-why-facts-dont-change-our-minds.jpg'},
-    {k:'qc',   qt:'Who controls the past controls the future.', who:'George Orwell', wh:'1984', band:BAND.sage, sz:[144, 116]},
-    {k:'art',  pub:'TED', ttl:'Do Schools Kill Creativity?', au:'Ken Robinson', img:'talk-ted-do-schools-kill-creativity.jpg'},
+    {k:'art',  pub:'The Atlantic', ttl:'Is Google Making Us Stupid?', au:'Nicholas Carr', img:'article-atlantic-is-google-making-us-stupid.jpg', noPhone: true},
+    {k:'art',  pub:'The New Yorker', ttl:'Why Facts Don’t Change Our Minds', au:'Elizabeth Kolbert', img:'article-newyorker-why-facts-dont-change-our-minds.jpg', noPhone: true},
+    {k:'qc',   qt:'Who controls the past controls the future.', who:'George Orwell', wh:'1984', band:BAND.sage, sz:[144, 116], noPhone: true},
+    {k:'art',  pub:'TED', ttl:'Do Schools Kill Creativity?', au:'Ken Robinson', img:'talk-ted-do-schools-kill-creativity.jpg', noPhone: true},
   ];
   // 16 on the sphere: twelve unique covers (about a fifth more facing the camera than the ten-cover set) and four knowledge pieces.
   // At rest yaw 1.35 the front slots are 2, 5, 7, 8, 10, 12, 13, 15 and 16, all covers. Paper sits on the far side.
@@ -598,8 +606,15 @@ html.still .v-card{scroll-snap-align:center}
 
   // the head is gone and the full logo is in place before the first light leaves
   const SCENE_OPEN = [0.43, 0.52, 0.61, 0.70];
-  // phone uses the same gap; the logo is already where the links start, so nothing waits on a move
-  const SCENE_OPEN_M = [0.445, 0.535, 0.625, 0.715];
+  // phone: a wider gap (0.11, see TL_M); the logo is already where the links start, so nothing waits on a move
+  const SCENE_OPEN_M = [0.43, 0.54, 0.65, 0.76];
+  // timelines. Phone (2026-10-21): each scene owns 0.11 of the story, opens in 0.025, holds fully open until 0.09 and closes
+  // by 0.11, so the readable plateau is ~60% of the beat (was 30%: a flick landed mid-animation more often than not);
+  // the fold-back and the icon's return move later to make room. Desktop keeps its timing.
+  const TL_D = { open: 0.06, fold: [0.82, 0.86], retract: [0.845, 0.885], home: [0.86, 0.91], end: 0.91 };
+  // the last 5% of the story's scroll is a hold after the icon has arrived (progress() maps it onto end..1)
+  const HOLD = 0.05;
+  const TL_M = { open: 0.025, hold: 0.09, close: 0.11, fold: [0.87, 0.91], retract: [0.89, 0.93], home: [0.90, 0.95], end: 0.95 };
 
   function geo(w, h, heroH = 180) {
     const m = w < 760;
@@ -620,7 +635,9 @@ html.still .v-card{scroll-snap-align:center}
     // the spare height is shared out: a little above the headline, a matching breath under the button, the rest as ground.
     const NAV = 64;
     const R0 = Math.min(w * 0.37, Math.max(96, (h - NAV - heroH - 110) / 2.57));
-    const R = R0 * BALL;
+    // phone: the ball itself is a fifth smaller than on desktop (BALL 1.25 -> 1.0; Mike, 2026-10-21: it crowded the first
+    // screen and clipped covers at the edges); the covers keep their size, there are fewer of them (noPhone)
+    const R = R0 * 1.0;
     const slack = Math.max(0, h - NAV - heroH - 2.57 * R);
     const heroTop = NAV + Math.max(18, slack * 0.3);
     const heroC = [w / 2, heroTop + heroH + Math.max(26, slack * 0.27) + 1.12 * R];
@@ -770,6 +787,7 @@ html.still .v-card{scroll-snap-align:center}
       this.hero.style.top = this.g.heroTop != null ? this.g.heroTop.toFixed(1) + 'px' : '';
       this.capS.forEach(c => c.classList.toggle('over', !this.g.m));
       this.sceneWH = this.scenes.map(el => [el.offsetWidth, el.offsetHeight]);
+      this.capAH = this.capA.offsetHeight;   // read here, not per frame
       // desktop: a lower scene never runs off the bottom edge (the feed grew with its article banner)
       if (!this.g.m) [2, 3].forEach(k => { const P = this.g.sceneP[k]; P[1] = Math.min(P[1], this.h - 28 - this.sceneWH[k][1] * this.g.sceneSc / 2); });
     }
@@ -820,6 +838,7 @@ html.still .v-card{scroll-snap-align:center}
     }
     render(p, yaw, pitch, t = 0) {
       const g = this.g, w = this.w, h = this.h;
+      const tl = g.m ? TL_M : TL_D;
       const TAU = Math.PI * 2;
       // idle: once the sphere is absorbed the story goes on breathing by itself (t = idle seconds)
       const settled = sm(0.34, 0.40, p);
@@ -835,7 +854,7 @@ html.still .v-card{scroll-snap-align:center}
 
       // icon path
       let ic0 = g.m ? lp(g.iconA, g.iconS, eio(sm(0.365, 0.415, p))) : g.iconA;
-      ic0 = lp(ic0, g.iconC, eio(sm(0.86, 0.91, p)));
+      ic0 = lp(ic0, g.iconC, eio(sm(tl.home[0], tl.home[1], p)));
 
       // The ball stays where the first screen put it. The head fades in already at the link hub.
       // If the pictures failed, the ball still falls into the tile.
@@ -957,6 +976,9 @@ html.still .v-card{scroll-snap-align:center}
           sx0 = lerp(sx, cx, peel);
           sy0 = lerp(sy2, cy2, peel);
         }
+        // phone: a cover on the sphere never pokes past the screen edge (it eases inward instead); the flight starts from
+        // the same clamped spot, so nothing jumps when it leaves
+        if (g.m) { const ew = (parseFloat(el.style.width) || 140) * scale / 2 + 6; sx0 = clamp(sx0, ew, w - ew); }
         px = sx0; py = sy0;
         if (uAbs > 0) {
           const e = uAbs * uAbs * (1.35 - 0.35 * uAbs);
@@ -1000,7 +1022,7 @@ html.still .v-card{scroll-snap-align:center}
       if (brainNow) {
         const colorIn = sm(0.30, 0.365, p);
         // the brain is already on the link hub, so the tile only settles its size, then follows the end fold
-        const home = lp(linkAt, g.iconC, eio(sm(0.86, 0.91, p)));
+        const home = lp(linkAt, g.iconC, eio(sm(tl.home[0], tl.home[1], p)));
         const settle = sm(0.42, 0.48, p);
         const bs = this.brainScreen;
         const markO = colorIn * headO;
@@ -1068,13 +1090,13 @@ html.still .v-card{scroll-snap-align:center}
       // which scene is "active" (the latest one open, before the fold back)
       const SO = g.m ? SCENE_OPEN_M : SCENE_OPEN;
       let act = -1;
-      for (let k = 0; k < 4; k++) if (p >= SO[k] + 0.02 && p < 0.82) act = k;
+      for (let k = 0; k < 4; k++) if (p >= SO[k] + 0.02 && p < tl.fold[0]) act = k;
       if (act !== this.beatK) { this.beatK = act; if (act >= 0) this.beatAt[act] = t; }
       this.beats(act, act >= 0 ? t - this.beatAt[act] : 0);
 
       // straight coral links. Each light leaves the logo, then docks on its scene.
-      const back2 = sm(0.82, 0.86, p);         // scenes fold back into nodes
-      const retract = sm(0.845, 0.885, p);        // nodes return to the icon
+      const back2 = sm(tl.fold[0], tl.fold[1], p);         // scenes fold back into nodes
+      const retract = sm(tl.retract[0], tl.retract[1], p);  // nodes return to the icon
       for (let k = 0; k < 4; k++) {
         const out = g.m ? eo(sm(0.366 + 0.012 * k, 0.405 + 0.012 * k, p)) : eo(sm(SO[k] - 0.035, SO[k] + 0.005, p));
         const T = g.nodeT[k];
@@ -1085,9 +1107,9 @@ html.still .v-card{scroll-snap-align:center}
         // scene
         const o0 = SO[k];
         // desktop scenes take 0.06 of the story to open (was 0.045: about two wheel notches, which read as a jump);
-        // the phone keeps 0.045 because its scenes share one spot and each must also close before the next
-        let open = sm(o0, o0 + (g.m ? 0.045 : 0.06), p);
-        if (g.m && k < 3) open *= 1 - sm(o0 + 0.072, o0 + 0.09, p);
+        // the phone opens faster (TL_M.open) because its scenes share one spot and each must also close before the next
+        let open = sm(o0, o0 + tl.open, p);
+        if (g.m && k < 3) open *= 1 - sm(o0 + tl.hold, o0 + tl.close, p);
         if (g.m) no *= Math.max(1 - sm(SO[0], SO[0] + 0.03, p), sm(0, 0.3, open));
         open *= 1 - back2;
         const dim = (!g.m && k < 3 && !this.noDim) ? sm(o0 + 0.08, o0 + 0.1, p) * (1 - back2) : 0;
@@ -1126,7 +1148,7 @@ html.still .v-card{scroll-snap-align:center}
 
         // caption for this scene
         // phone: one title at a time in the top band. desktop: each title stays directly over its own scene and steps back with it
-        const cEnd = g.m && k < 3 ? o0 + 0.09 : 0.82;
+        const cEnd = g.m && k < 3 ? o0 + tl.close : tl.fold[0];
         const co = sm(o0 + 0.012, o0 + 0.04, p) * (1 - sm(cEnd - 0.012, cEnd + 0.004, p));
         if (g.m) {
           vis(this.capS[k], co);
@@ -1144,7 +1166,7 @@ html.still .v-card{scroll-snap-align:center}
       vis(this.capA, ca);
       if (art && this.capAY != null) {
         // under the head: anchored to the caption's top edge, never below the bottom of the stage
-        const y = Math.min(this.capAY, h - 16 - this.capA.offsetHeight);
+        const y = Math.min(this.capAY, h - 16 - (this.capAH || 0));
         this.capA.style.transform = `translate3d(0,${(y + 18 * (1 - ca)).toFixed(1)}px,0)`;
       } else {
         this.capA.style.transform = `translate3d(0,${(g.capA + 18 * (1 - ca)).toFixed(1)}px,0) translateY(-50%)`;
@@ -1378,7 +1400,7 @@ html.still .v-card{scroll-snap-align:center}
   }
 
   if (STATIC) {
-    const ps = innerWidth < 760 ? [0, 0.365, 0.47, 0.56, 0.65, 0.76] : [0, 0.365, 0.80];
+    const ps = innerWidth < 760 ? [0, 0.365, 0.49, 0.60, 0.71, 0.82] : [0, 0.365, 0.80];
     const stages = ps.map(p => {
       const s = document.createElement('div'); s.className = 'sticky'; story.appendChild(s);
       const st = new Stage(s); st.p = p; st.noDim = true; return st;
@@ -1415,8 +1437,8 @@ html.still .v-card{scroll-snap-align:center}
     // browser toolbar collapses, where innerHeight does (using innerHeight here made the story jump at that moment)
     const span = story.offsetHeight - sticky.offsetHeight;
     const raw = span > 0 ? clamp(-r.top / span) : 0;
-    // the icon has arrived by 0.91; only a short stretch of scroll is left before the manifesto, which is pulled up under it
-    const HOLD = 0.05, END = 0.91;
+    // the icon has arrived by END (0.91 desktop, 0.95 phone); only a short stretch of scroll is left before the manifesto, which is pulled up under it
+    const END = (S.g.m ? TL_M : TL_D).end;
     if (raw <= 1 - HOLD) return raw / (1 - HOLD) * END;
     return END + (raw - (1 - HOLD)) / HOLD * (1 - END);
   };
@@ -1488,6 +1510,25 @@ html.still .v-card{scroll-snap-align:center}
   // Width changes, a changed stage height (split view, rotation) and desktop resizes still re-measure.
   const COARSE = matchMedia('(pointer: coarse)').matches;
   let lastW = innerWidth;
+  // snap points (touch screens only): one per scene plateau and one at the story's rest, placed at the scroll offset
+  // that maps to that progress. "proximity" means the browser only settles onto one when a flick was already ending nearby.
+  // Only the phone layout snaps (a tablet or a phone held sideways runs the desktop timeline, whose scenes sit too close
+  // together for snapping to help). Four points, one per scene plateau; none at the story's end, where a point caught
+  // a gentle scroll out of the story and pulled it back onto an empty frame.
+  const snaps = [];
+  if (COARSE) for (let i = 0; i < 4; i++) { const d = document.createElement('i'); d.className = 'snap-pt'; story.appendChild(d); snaps.push(d); }
+  function placeSnaps() {
+    if (!snaps.length) return;
+    root.classList.toggle('snap', !!S.g.m);
+    if (!S.g.m) return;
+    const span = story.offsetHeight - sticky.offsetHeight;
+    SCENE_OPEN_M.forEach((o, i) => {
+      const p = o + (TL_M.open + TL_M.hold) / 2;
+      const raw = Math.min(1, p / TL_M.end * (1 - HOLD));
+      snaps[i].style.top = (raw * span).toFixed(0) + 'px';
+    });
+  }
+  placeSnaps();
   // the stage measured itself in its constructor; the head layers arriving changes nothing about the geometry, so they
   // only redraw. Fonts arriving can change the headline's height, so that one re-measures. (Each measure forces a few
   // layouts; four at load used to be a third of the first-paint block.)
@@ -1499,7 +1540,7 @@ html.still .v-card{scroll-snap-align:center}
     const widthChanged = innerWidth !== lastW; lastW = innerWidth;
     // the stage's own height (100svh) is what the geometry was measured from; if it has not changed either, nothing moved
     if (COARSE && !widthChanged && S.host.clientHeight === S.h) { draw(); return; }
-    S.measure(); draw();
+    S.measure(); placeSnaps(); draw();
   });
   if (AT === null) addEventListener('scroll', onScroll, { passive: true });
 
