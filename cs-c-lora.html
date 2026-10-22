@@ -317,7 +317,7 @@ html.settle .manifesto .m-list p.rv{transition:none}
 .manifesto .w-shrink{transform-origin:0 76%}
 /* the closing phrase in the brand coral gradient (Mike, 2026-10-22), as the hero headline's key phrase; the padding keeps the
    descenders inside the clipped background and the matching negative margin keeps the spacing unchanged */
-.manifesto p.m b.w-coral{background:linear-gradient(100deg,#E8504B 0%,#FF6B6B 52%,#FF8E53 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+.manifesto p.m b.w-coral{background:linear-gradient(100deg,#E8504B 0%,#FF6B6B 52%,#FF8E53 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;white-space:nowrap;
   padding:0 .06em .14em 0;margin:0 -.06em 0 0;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .manifesto .w-crack .sh{position:absolute;inset:0;color:var(--ink);visibility:hidden;pointer-events:none;user-select:none;-webkit-user-select:none}
 .manifesto .w-crack .sh::before{content:attr(data-w)}
@@ -1916,11 +1916,11 @@ html.still .v-card{scroll-snap-align:center}
   // together for snapping to help). Four points, one per scene plateau; none at the story's end, where a point caught
   // a gentle scroll out of the story and pulled it back onto an empty frame.
   const snaps = [];
-  if (COARSE) for (let i = 0; i < 4; i++) { const d = document.createElement('i'); d.className = 'snap-pt'; story.appendChild(d); snaps.push(d); }
+  // ?snap=0 turns the stops off (to compare snap against no snap on a phone)
+  if (COARSE && Q.get('snap') !== '0') for (let i = 0; i < 4; i++) { const d = document.createElement('i'); d.className = 'snap-pt'; story.appendChild(d); snaps.push(d); }
   function placeSnaps() {
     if (!snaps.length) return;
-    root.classList.toggle('snap', !!S.g.m);
-    if (!S.g.m) return;
+    if (!S.g.m) { setZone(false); return; }
     const span = story.offsetHeight - sticky.offsetHeight;
     const top0 = story.getBoundingClientRect().top + scrollY;
     SCENE_OPEN_M.forEach((o, i) => {
@@ -1929,6 +1929,7 @@ html.still .v-card{scroll-snap-align:center}
       snaps[i].style.top = (raw * span).toFixed(0) + 'px';
       snapY[i] = top0 + Math.round(raw * span);
     });
+    zoneOn = null; setZone(inZone(scrollY));
   }
   // edge stops (Mike, 2026-10-22: the last scene felt stuck). A proximity stop pulls back any scroll that ends within
   // about a third of a screen of it; between scenes the next stop wins, but past scene 4 (and before scene 1) there is
@@ -1937,7 +1938,15 @@ html.still .v-card{scroll-snap-align:center}
   // One passive listener, a scrollY read and at most two style writes when the state flips; nothing runs at rest.
   // A run is consecutive scroll events in one direction without a pause over 250 ms; the gate looks at where the run
   // began, so a swipe arriving from scene 3 that overshoots scene 4 is still caught by it.
+  // snap zone (review A1, 2026-10-22): iOS WebKit switches the WHOLE page to fast scroll deceleration (about a fifth of the
+  // normal glide) whenever the page has any snap offset, chosen when a drag starts. So html.snap is on only while the
+  // reader is within reach of the stops, 0.4 screen beyond scene 1 and scene 4; the hero, the story's tail and everything
+  // below get normal momentum. 0.4 is outside the ~0.3-screen proximity pull, so a flip never lands inside a stop's reach
+  // (no re-snap jump).
   const snapY = [], edgeOn = [true, true];
+  let zoneOn = null;
+  const inZone = y => snapY.length === 4 && y >= snapY[0] - 0.4 * innerHeight && y <= snapY[3] + 0.4 * innerHeight;
+  function setZone(on) { if (on !== zoneOn) { zoneOn = on; root.classList.toggle('snap', on); } }
   let lastSY = scrollY, runStart = scrollY, runDir = 0, runT = 0;
   function gateEdges() {
     const y = scrollY, dir = Math.sign(y - lastSY), now = performance.now();
@@ -1945,7 +1954,11 @@ html.still .v-card{scroll-snap-align:center}
     if (dir !== runDir || now - runT > 250) runStart = lastSY;
     runDir = dir; runT = now; lastSY = y;
     if (snapY.length < 4 || !S.g.m) return;
-    const on = [!(dir < 0 && runStart <= snapY[0] + 8), !(dir > 0 && runStart >= snapY[3] - 8)];
+    setZone(inZone(y));
+    // a run that began within 0.1 screen of an edge stop counts as starting on it (review A2: a small backward wobble at the
+    // start of a swipe used to start a new run just short of the stop and re-arm it)
+    const tol = 0.1 * innerHeight;
+    const on = [!(dir < 0 && runStart <= snapY[0] + tol), !(dir > 0 && runStart >= snapY[3] - tol)];
     for (let k = 0; k < 2; k++) if (on[k] !== edgeOn[k]) { edgeOn[k] = on[k]; snaps[k ? 3 : 0].style.scrollSnapAlign = on[k] ? '' : 'none'; }
   }
   placeSnaps();
