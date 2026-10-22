@@ -1914,13 +1914,34 @@ html.still .v-card{scroll-snap-align:center}
     root.classList.toggle('snap', !!S.g.m);
     if (!S.g.m) return;
     const span = story.offsetHeight - sticky.offsetHeight;
+    const top0 = story.getBoundingClientRect().top + scrollY;
     SCENE_OPEN_M.forEach((o, i) => {
       const p = o + (TL_M.open + TL_M.hold) / 2;
       const raw = Math.min(1, p / TL_M.end * (1 - HOLD));
       snaps[i].style.top = (raw * span).toFixed(0) + 'px';
+      snapY[i] = top0 + Math.round(raw * span);
     });
   }
+  // edge stops (Mike, 2026-10-22: the last scene felt stuck). A proximity stop pulls back any scroll that ends within
+  // about a third of a screen of it; between scenes the next stop wins, but past scene 4 (and before scene 1) there is
+  // nothing else in reach, so a calm swipe off the edge sprang back. The edge stops therefore ignore a reader moving away
+  // on their open side (scene 4 going down, scene 1 going up) and still catch one arriving from either direction.
+  // One passive listener, a scrollY read and at most two style writes when the state flips; nothing runs at rest.
+  // A run is consecutive scroll events in one direction without a pause over 250 ms; the gate looks at where the run
+  // began, so a swipe arriving from scene 3 that overshoots scene 4 is still caught by it.
+  const snapY = [], edgeOn = [true, true];
+  let lastSY = scrollY, runStart = scrollY, runDir = 0, runT = 0;
+  function gateEdges() {
+    const y = scrollY, dir = Math.sign(y - lastSY), now = performance.now();
+    if (!dir) return;
+    if (dir !== runDir || now - runT > 250) runStart = lastSY;
+    runDir = dir; runT = now; lastSY = y;
+    if (snapY.length < 4 || !S.g.m) return;
+    const on = [!(dir < 0 && runStart <= snapY[0] + 8), !(dir > 0 && runStart >= snapY[3] - 8)];
+    for (let k = 0; k < 2; k++) if (on[k] !== edgeOn[k]) { edgeOn[k] = on[k]; snaps[k ? 3 : 0].style.scrollSnapAlign = on[k] ? '' : 'none'; }
+  }
   placeSnaps();
+  if (snaps.length) addEventListener('scroll', gateEdges, { passive: true });
   // the stage measured itself in its constructor; the head layers arriving changes nothing about the geometry, so they
   // only redraw. Fonts arriving can change the headline's height, so that one re-measures. (Each measure forces a few
   // layouts; four at load used to be a third of the first-paint block.)
