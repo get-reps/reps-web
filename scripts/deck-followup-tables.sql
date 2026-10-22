@@ -1,7 +1,9 @@
 -- Angel deck 30-minute follow-up: the two small tables behind it.
--- Apply once to the same Supabase project as support_requests (SUPABASE_URL for reps-web).
--- NOT applied by the code. The service-role key (already used by api/support.ts) is the only
--- reader/writer: RLS is on with no policies, so the public anon key can touch nothing.
+-- Apply once to the internal Cockpit Supabase project (ref ewddegddqbuyvlohhfun), the project that
+-- DECK_SUPABASE_URL points at. NOT the app's production database, and not the project behind
+-- SUPABASE_URL (support form). NOT applied by the code; apply BEFORE deploying.
+-- The deck's own service-role key (DECK_SUPABASE_SERVICE_ROLE_KEY) is the only reader/writer:
+-- RLS is on with no policies, so the public anon key can touch nothing.
 
 create table if not exists public.deck_visits (
   id           text primary key,          -- hash of the session (or of the code request); no raw cookie

@@ -9,7 +9,7 @@
    triggered by a stranger. `?dry=1` (or DECK_FOLLOWUP_DRY_RUN=1) logs what
    would be posted and posts nothing.
    ========================================================================== */
-import { json, safeEqual } from "../lib/deck-gate.js";
+import { json, safeEqual, slackBotToken } from "../lib/deck-gate.js";
 import { runSweep } from "../lib/deck-followup.js";
 import { createSlackThreadPoster, storeFromEnv } from "../lib/deck-visit-store.js";
 
@@ -24,7 +24,7 @@ export async function GET(request: Request): Promise<Response> {
   }
 
   const store = storeFromEnv();
-  const token = process.env.SLACK_SUPPORT_BOT_TOKEN;
+  const token = slackBotToken();
   if (!store || !token) return json({ ok: false, error: "not_configured" }, { status: 503 });
 
   const dryRun =

@@ -1,8 +1,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 
-import { createRestStore, createSlackThreadPoster } from "./deck-visit-store.js";
-import { postSlackAlert } from "./deck-gate.js";
+import { createRestStore, createSlackThreadPoster, storeFromEnv } from "./deck-visit-store.js";
+import { postSlackAlert, slackBotToken } from "./deck-gate.js";
 
 type Call = { url: string; method: string; headers: Record<string, string>; body: string | null };
 
@@ -185,10 +185,77 @@ test("if chat.postMessage fails the alert still goes out by webhook, with no ts"
   }
 });
 
+test("the existing SLACK_BOT_TOKEN carries the alert and is the token that is sent", async () => {
+  const f = stubFetch(() => ({ body: { ok: true, ts: "1760.0002", channel: "C0SUPPORT" } }));
+  const posted = await withEnv(
+    { SLACK_SUPPORT_BOT_TOKEN: undefined, SLACK_BOT_TOKEN: "xoxb-existing", SLACK_SUPPORT_CHANNEL_ID: "C0SUPPORT", SLACK_SUPPORT_WEBHOOK_URL: "https://hooks.slack.test/abc" },
+    () => withFetch(f.impl, () => postSlackAlert({ text: "x" })),
+  );
+  assert.deepEqual(posted, { ok: true, channel: "C0SUPPORT", ts: "1760.0002" });
+  assert.equal(f.calls.length, 1);
+  assert.equal(f.calls[0].headers.Authorization, "Bearer xoxb-existing");
+});
+
+test("SLACK_SUPPORT_BOT_TOKEN wins over SLACK_BOT_TOKEN when both are set", async () => {
+  await withEnv({ SLACK_SUPPORT_BOT_TOKEN: "xoxb-override", SLACK_BOT_TOKEN: "xoxb-existing" }, async () => {
+    assert.equal(slackBotToken(), "xoxb-override");
+  });
+  await withEnv({ SLACK_SUPPORT_BOT_TOKEN: undefined, SLACK_BOT_TOKEN: "xoxb-existing" }, async () => {
+    assert.equal(slackBotToken(), "xoxb-existing");
+  });
+  await withEnv({ SLACK_SUPPORT_BOT_TOKEN: "", SLACK_BOT_TOKEN: "xoxb-existing" }, async () => {
+    assert.equal(slackBotToken(), "xoxb-existing", "an empty override is not a token");
+  });
+  await withEnv({ SLACK_SUPPORT_BOT_TOKEN: undefined, SLACK_BOT_TOKEN: undefined }, async () => {
+    assert.equal(slackBotToken(), null);
+  });
+});
+
+test("a bot token without a channel id keeps alerts on the webhook exactly as before", async () => {
+  const f = stubFetch(() => ({ status: 200 }));
+  const posted = await withEnv(
+    { SLACK_SUPPORT_BOT_TOKEN: undefined, SLACK_BOT_TOKEN: "xoxb-existing", SLACK_SUPPORT_CHANNEL_ID: undefined, SLACK_SUPPORT_WEBHOOK_URL: "https://hooks.slack.test/abc" },
+    () => withFetch(f.impl, () => postSlackAlert({ text: "x" })),
+  );
+  assert.deepEqual(posted, { ok: true, channel: null, ts: null });
+  assert.equal(f.calls.length, 1);
+  assert.match(f.calls[0].url, /hooks\.slack\.test/);
+});
+
+test("the deck store reads only the DECK_* database settings", async () => {
+  const none = { DECK_SUPABASE_URL: undefined, DECK_SUPABASE_SERVICE_ROLE_KEY: undefined };
+  await withEnv({ ...none, SUPABASE_URL: "https://support.supabase.co", SUPABASE_SERVICE_ROLE_KEY: "support-key" }, async () => {
+    assert.equal(storeFromEnv(), null, "the generic names alone must not switch tracking on");
+  });
+  await withEnv({ ...none, DECK_SUPABASE_URL: "https://cockpit.supabase.co", SUPABASE_URL: undefined, SUPABASE_SERVICE_ROLE_KEY: undefined }, async () => {
+    assert.equal(storeFromEnv(), null, "a URL without its key is not configured");
+  });
+  await withEnv(
+    { DECK_SUPABASE_URL: "https://cockpit.supabase.co", DECK_SUPABASE_SERVICE_ROLE_KEY: "deck-key", SUPABASE_URL: undefined, SUPABASE_SERVICE_ROLE_KEY: undefined },
+    async () => {
+      assert.ok(storeFromEnv(), "the DECK_* pair alone is enough");
+    },
+  );
+});
+
+test("the deck store sends requests to the DECK_* project with the DECK_* key", async () => {
+  const f = stubFetch(() => ({ body: [] }));
+  await withEnv(
+    { DECK_SUPABASE_URL: "https://cockpit.supabase.co", DECK_SUPABASE_SERVICE_ROLE_KEY: "deck-key", SUPABASE_URL: "https://support.supabase.co", SUPABASE_SERVICE_ROLE_KEY: "support-key" },
+    () => withFetch(f.impl, () => storeFromEnv()!.prune(T0)),
+  );
+  assert.ok(f.calls.length > 0);
+  for (const c of f.calls) {
+    assert.match(c.url, /^https:\/\/cockpit\.supabase\.co\//);
+    assert.ok(Object.values(c.headers).every((v) => !v.includes("support-key")));
+    assert.ok(Object.values(c.headers).some((v) => v.includes("deck-key")));
+  }
+});
+
 test("without the bot settings the alert goes out by webhook exactly as before", async () => {
   const f = stubFetch(() => ({ status: 200 }));
   const posted = await withEnv(
-    { SLACK_SUPPORT_BOT_TOKEN: undefined, SLACK_SUPPORT_CHANNEL_ID: undefined, SLACK_SUPPORT_WEBHOOK_URL: "https://hooks.slack.test/abc" },
+    { SLACK_SUPPORT_BOT_TOKEN: undefined, SLACK_BOT_TOKEN: undefined, SLACK_SUPPORT_CHANNEL_ID: undefined, SLACK_SUPPORT_WEBHOOK_URL: "https://hooks.slack.test/abc" },
     () => withFetch(f.impl, () => postSlackAlert({ text: "x" })),
   );
   assert.deepEqual(posted, { ok: true, channel: null, ts: null });
