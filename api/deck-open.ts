@@ -32,12 +32,15 @@ import {
   json,
   notifySlack,
   placeDiffers,
+  postSlackAlert,
   readCookie,
   readSession,
   secret,
   sessionCookie,
   uaOf,
 } from "../lib/deck-gate.js";
+import { sessionVisitId, trackAlert } from "../lib/deck-followup.js";
+import { storeFromEnv } from "../lib/deck-visit-store.js";
 
 export const runtime = "edge";
 
@@ -73,7 +76,7 @@ export async function POST(request: Request): Promise<Response> {
        were announced at unlock and carry no `via: "link"`. */
     if (viewer.via === "link" && !viewer.c) {
       const moved = placeDiffers(viewer.rg, here);
-      const sent = await notifySlack({
+      const posted = await postSlackAlert({
         text: moved
           ? `Angel deck: ${escapeSlack(viewer.e)}'s link is being read in ${escapeSlack(here)}, but was requested from ${escapeSlack(viewer.rg ?? "")} — possibly forwarded`
           : `Angel deck: ${escapeSlack(viewer.e)} is reading it (${escapeSlack(here)})`,
@@ -113,7 +116,14 @@ export async function POST(request: Request): Promise<Response> {
       /* Only mark it announced if Slack took it. For a link unlock this is the
          ONLY "someone is reading it" alert, so a Slack blip must mean "try
          again on the next read", never a reader who is silently never reported. */
-      if (sent) next = { ...next, c: 1 };
+      if (posted.ok) next = { ...next, c: 1 };
+      await trackAlert(storeFromEnv(), posted, {
+        kind: moved ? "reading_forwarded" : "reading_link",
+        scope: "session",
+        email: viewer.e,
+        id: await sessionVisitId(viewer),
+        windowStart: viewer.t,
+      });
     }
     return finish(gateSecret, viewer, next);
   }

@@ -3604,9 +3604,57 @@ setupFounderFilm();
     } catch(e){}
   }
 
+  /* ══ 1b. first-party reading record ══════════════════════════════════
+     The same slide clock, reported to OUR server (not PostHog) so the Slack alert
+     can be followed up, 30 minutes later, with what that visitor actually read.
+     Only slide name, index, milliseconds, and for video the played milliseconds
+     and length. The server reads who it is from the session cookie, so nothing
+     identifying travels in the body. A heartbeat reports the open slide every
+     45s, so someone parked on one slide still shows up inside the 30 minutes.
+     Invisible, and must never be able to break the deck.
+     ═══════════════════════════════════════════════════════════════════ */
+  var BC_URL = '/api/deck-track', BC_TICK_MS = 45000, BC_MAX_BATCH = 8;
+  var bcLast = 0, bcQueue = [], bcVideoSince = {};
+
+  function bcSlide(i, now){
+    var ms = now - Math.max(dwellFrom, bcLast);
+    bcLast = now;
+    if (ms >= 900) bcQueue.push({kind: 'slide', slide: slideName(i), slide_index: i + 1, ms: Math.min(Math.round(ms), 7200000)});
+  }
+  function bcVideo(i, v, now, keepPlaying){
+    var since = bcVideoSince[i];
+    if (!since) return;
+    bcVideoSince[i] = keepPlaying ? now : 0;
+    var ms = now - since;
+    if (ms < 900) return;
+    var len = isFinite(v.duration) ? Math.round(v.duration * 1000) : 0;
+    bcQueue.push({kind: 'video', slide: slideName(i), slide_index: i + 1, ms: Math.min(Math.round(ms), 7200000), duration_ms: len});
+  }
+  function bcVideoAll(now, keepPlaying){
+    slides.forEach(function(s, i){
+      var v = bcVideoSince[i] && s.querySelector('video');
+      if (v) bcVideo(i, v, now, keepPlaying && !v.paused);
+    });
+  }
+  function bcSend(){
+    try {
+      while (bcQueue.length) {
+        var body = JSON.stringify({events: bcQueue.splice(0, BC_MAX_BATCH)});
+        if (navigator.sendBeacon) navigator.sendBeacon(BC_URL, new Blob([body], {type: 'application/json'}));
+        else fetch(BC_URL, {method: 'POST', headers: {'Content-Type': 'application/json'}, credentials: 'same-origin', keepalive: true, body: body}).catch(function(){});
+      }
+    } catch(e){ bcQueue = []; }
+  }
+  setInterval(function(){
+    if (document.visibilityState !== 'visible' || dwellIndex < 0) return;
+    var now = Date.now();
+    bcSlide(dwellIndex, now); bcVideoAll(now, true); bcSend();
+  }, BC_TICK_MS);
+
   function closeDwell(){
     if (dwellIndex < 0) return;
     var ms = Date.now() - dwellFrom;
+    try { var bcNow = Date.now(); bcSlide(dwellIndex, bcNow); bcVideoAll(bcNow, false); bcSend(); } catch(e){}
     /* Sub-second visits are someone holding the arrow key down, not reading.
        Counting them would drag every average toward zero. */
     if (ms >= 900) {
@@ -3682,6 +3730,10 @@ setupFounderFilm();
       if (!v) return;
       v.addEventListener('play', function(){
         track('deck_video_play', {slide: slideName(i), slide_index: i + 1});
+        bcVideoSince[i] = Date.now();
+      });
+      ['pause', 'ended'].forEach(function(t){
+        v.addEventListener(t, function(){ try { bcVideo(i, v, Date.now(), false); bcSend(); } catch(e){} });
       });
     });
   }

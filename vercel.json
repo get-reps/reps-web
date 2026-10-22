@@ -1,5 +1,11 @@
 {
   "cleanUrls": true,
+  "crons": [
+    {
+      "path": "/api/deck-followup",
+      "schedule": "*/5 * * * *"
+    }
+  ],
   "rewrites": [
     {
       "source": "/echo-set",

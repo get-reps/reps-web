@@ -19,10 +19,13 @@ import {
   json,
   normaliseEmail,
   notifySlack,
+  postSlackAlert,
   readCookie,
   secret,
   uaOf,
 } from "../lib/deck-gate.js";
+import { requestVisitId, trackAlert } from "../lib/deck-followup.js";
+import { storeFromEnv } from "../lib/deck-visit-store.js";
 
 export const runtime = "edge";
 
@@ -176,7 +179,7 @@ export async function POST(request: Request): Promise<Response> {
     return json({ ok: false, error: "send_failed" }, { status: 502 });
   }
 
-  await notifySlack({
+  const posted = await postSlackAlert({
     text: `Angel deck: access code requested by ${email}`,
     blocks: [
       {
@@ -192,6 +195,14 @@ export async function POST(request: Request): Promise<Response> {
       },
       { type: "context", elements: [{ type: "mrkdwn", text: escapeSlack(uaOf(request)) }] },
     ],
+  });
+  await trackAlert(storeFromEnv(), posted, {
+    kind: "code_requested",
+    scope: "email",
+    email,
+    id: await requestVisitId(email, now),
+    windowStart: now,
+    now,
   });
 
   return json(
