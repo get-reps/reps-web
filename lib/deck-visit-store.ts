@@ -214,11 +214,13 @@ export function createRestStore(opts: {
   };
 }
 
-/** null when the project has no database configured, which turns tracking off
-    quietly rather than failing a visitor's page load. */
+/** null when the deck database is not configured, which turns tracking off
+    quietly rather than failing a visitor's page load. Reads only the DECK_*
+    names, never the generic SUPABASE_* ones that api/support.ts and others use,
+    so pointing the deck at its own project cannot change anything else. */
 export function storeFromEnv(): VisitStore | null {
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const url = process.env.DECK_SUPABASE_URL;
+  const key = process.env.DECK_SUPABASE_SERVICE_ROLE_KEY;
   return url && key ? createRestStore({ url, serviceRoleKey: key }) : null;
 }
 

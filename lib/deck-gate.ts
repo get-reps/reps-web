@@ -300,11 +300,18 @@ export async function notifySlack(payload: unknown): Promise<boolean> {
     harmless, a missing one is the failure these alerts exist to prevent. */
 export type SlackPosted = { ok: boolean; channel: string | null; ts: string | null };
 
+/** The bot token for alerts and their thread replies: SLACK_SUPPORT_BOT_TOKEN
+    wins when set, otherwise the project's existing SLACK_BOT_TOKEN. Alerts and
+    replies must use the same token, so both read it from here. */
+export function slackBotToken(): string | null {
+  return process.env.SLACK_SUPPORT_BOT_TOKEN || process.env.SLACK_BOT_TOKEN || null;
+}
+
 export async function postSlackAlert(payload: {
   text: string;
   blocks?: unknown[];
 }): Promise<SlackPosted> {
-  const token = process.env.SLACK_SUPPORT_BOT_TOKEN;
+  const token = slackBotToken();
   const channel = process.env.SLACK_SUPPORT_CHANNEL_ID;
   if (token && channel) {
     const controller = new AbortController();
