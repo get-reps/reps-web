@@ -116,7 +116,7 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
   text-wrap:balance;font-kerning:normal;font-feature-settings:"kern","liga"}
 /* the key phrase: Lora italic in the brand coral gradient, biased to its coral end so the light end still reads on cream.
    padding gives the italic overhang and descenders room inside the clipped background; the matching negative margin keeps spacing unchanged.
-   the hero headline is the only place this treatment appears */
+   the hero headline and the manifesto's closing phrase are the only places this treatment appears */
 .hero h1 em{font-style:italic;font-weight:500;letter-spacing:-.01em;
   background:linear-gradient(100deg,#E8504B 0%,#FF6B6B 52%,#FF8E53 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
   padding:.06em .14em .16em .08em;margin:0 -.14em 0 -.08em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
@@ -140,8 +140,12 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 .it-book{border-radius:3px 5px 5px 3px;box-shadow:0 1px 2px rgba(33,26,20,.18),0 18px 30px -14px rgba(33,26,20,.45)}
 .it-book::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(90deg,rgba(0,0,0,.18),rgba(255,255,255,.10) 4%,rgba(0,0,0,0) 9%)}
 /* a podcast is a sleeve in front of a record, the same idea as Your Knowledge: grooves, a centre hole, the cover overlapping the disc */
+/* the disc sits behind the sleeve, a little smaller than it and peeking out up and to the right (Mike, 2026-10-22: the
+   full-size disc was too prominent). --disc: diameter as a share of the cover's height; --disc-x: how far its right edge sits
+   past the tile's right edge, % of tile width; --disc-y: vertical offset of its centre, % of tile height (negative = up). */
+:root{--disc:.82;--disc-x:2;--disc-y:-9}
 .it-pod{background:none;box-shadow:none;overflow:visible}
-.it-pod .disc{position:absolute;right:0;top:50%;width:76%;aspect-ratio:1;transform:translateY(-50%);border-radius:50%;
+.it-pod .disc{position:absolute;right:calc(var(--disc-x) * -1%);top:calc(50% + var(--disc-y) * 1%);height:calc(var(--disc) * 90%);aspect-ratio:1;transform:translateY(-50%);border-radius:50%;
   background:
     radial-gradient(circle at 50% 50%,#F4EFE6 0 5.2%,#2C2E2C 6% 10.2%,transparent 10.8%),
     repeating-radial-gradient(circle at 50% 50%,#3C3E3A 0 .7px,#1A1C1A 1.5px 3.4px);
@@ -310,7 +314,11 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 .manifesto .m-list p.rv{transition:opacity .5s ease,transform .5s cubic-bezier(.2,.8,.2,1)}
 html.settle .manifesto .m-list p.rv{transition:none}
 .manifesto .w{display:inline-block;position:relative;white-space:nowrap}
-.manifesto .w-shrink,.manifesto .w-grow{transform-origin:0 76%}
+.manifesto .w-shrink{transform-origin:0 76%}
+/* the closing phrase in the brand coral gradient (Mike, 2026-10-22), as the hero headline's key phrase; the padding keeps the
+   descenders inside the clipped background and the matching negative margin keeps the spacing unchanged */
+.manifesto p.m b.w-coral{background:linear-gradient(100deg,#E8504B 0%,#FF6B6B 52%,#FF8E53 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+  padding:0 .06em .14em 0;margin:0 -.06em 0 0;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .manifesto .w-crack .sh{position:absolute;inset:0;color:var(--ink);visibility:hidden;pointer-events:none;user-select:none;-webkit-user-select:none}
 .manifesto .w-crack .sh::before{content:attr(data-w)}
 .manifesto .w-crack.on{color:transparent}
@@ -412,7 +420,7 @@ html.still .v-card{scroll-snap-align:center}
       <p class="m rv">It isn’t you. You are already putting in the effort of consuming quality content. It just has nowhere to live.</p>
       <p class="m rv"><b>So we built the place.</b> What you take in comes back to you, a little each day, until it is part of how you think.</p>
       <p class="m rv">Others fight for your attention. <b>REPS compounds it.</b></p>
-      <p class="m rv">Welcome to the <b class="w w-grow">thinking renaissance.</b></p>
+      <p class="m rv">Welcome to the <b class="w-coral">thinking renaissance.</b></p>
       <p class="sign rv">REPS</p>
     </div>
   </section>
@@ -539,13 +547,16 @@ html.still .v-card{scroll-snap-align:center}
   if (!(TUNE.cs > 0)) TUNE.cs = 0.7; if (!(TUNE.r > 0)) TUNE.r = 1; if (!(TUNE.d > 0)) TUNE.d = 65; if (!(TUNE.o >= 0 && TUNE.o <= 1)) TUNE.o = 0.6;
   // manifesto end states (Mike, 2026-10-21; tuner: reps-backend/work/website-clean-slate-261019/manifesto-tuner.html):
   // ?crack= how far the shards of "attention" travel, in em (default 0.8); ?fade= how much of the ink "memory" loses, 0..0.95
-  // (default 0.9, so it rests at 10% ink); ?shrink= how much of its size "thinking" loses, 0..0.8 (default 0.5, so it rests at 50%);
-  // ?grow= the size the closing "thinking renaissance." grows to from 50% (default 1.1). Mike's picks on the slider page, 2026-10-21.
-  const MAN = { crack: parseFloat(Q.get('crack')), fade: parseFloat(Q.get('fade')), shrink: parseFloat(Q.get('shrink')), grow: parseFloat(Q.get('grow')) };
+  // (default 0.9, so it rests at 10% ink); ?shrink= how much of its size "thinking" loses, 0..0.8 (default 0.5, so it rests at 50%).
+  // Mike's picks on the slider page, 2026-10-21.
+  const MAN = { crack: parseFloat(Q.get('crack')), fade: parseFloat(Q.get('fade')), shrink: parseFloat(Q.get('shrink')) };
   if (!(MAN.crack >= 0 && MAN.crack <= 1.2)) MAN.crack = 0.8;
   if (!(MAN.fade >= 0 && MAN.fade <= 0.95)) MAN.fade = 0.9;
   if (!(MAN.shrink >= 0 && MAN.shrink <= 0.8)) MAN.shrink = 0.5;
-  if (!(MAN.grow >= 0.5 && MAN.grow <= 1.5)) MAN.grow = 1.1;
+  // podcast disc tuning (tuner: reps-backend/work/website-clean-slate-261019/disc-tuner.html): ?disc= ?discx= ?discy= override the
+  // :root defaults; window.__podTune({disc, 'disc-x', 'disc-y'}) changes them live
+  [['disc', 'disc'], ['discx', 'disc-x'], ['discy', 'disc-y']].forEach(([q, v]) => { const n = parseFloat(Q.get(q)); if (isFinite(n)) root.style.setProperty('--' + v, String(n)); });
+  window.__podTune = o => Object.keys(o).forEach(k => root.style.setProperty('--' + k, String(o[k])));
   // desktop ball radius multiplier (2026-10-21: raised with the small covers so the ball reads full, not a ring)
   const RB_D = 1.08;
   if (AT !== null) root.classList.add('pinned');
@@ -1694,16 +1705,14 @@ html.still .v-card{scroll-snap-align:center}
       crack.appendChild(el);
     }
     const ease = t => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-    // the closing line's "thinking renaissance." is the bookend: it starts at half size and grows past full size on the same scroll band
-    const grow = document.querySelector('.manifesto .w-grow');
-    const lines = [crack, fade, shrink, grow].map(w => w.closest('p'));
+    const lines = [crack, fade, shrink].map(w => w.closest('p'));
     // a line's change runs while its top travels from 60% of the viewport height up to 28%: it faded in at 90% over 0.5 s, so at a
     // normal scroll (about 400 px/s on a phone) it is seen whole for a beat before it starts to change
     const prog = p => STATIC ? 1 : clamp((innerHeight * 0.60 - p.getBoundingClientRect().top) / (innerHeight * 0.32));
-    let cur = [-1, -1, -1, -1];
+    let cur = [-1, -1, -1];
     function apply(force) {
       const u = lines.map(prog);
-      for (let i = 0; i < 4; i++) if (!force && Math.abs(u[i] - cur[i]) < 0.002) u[i] = cur[i];
+      for (let i = 0; i < 3; i++) if (!force && Math.abs(u[i] - cur[i]) < 0.002) u[i] = cur[i];
       if (u[0] !== cur[0]) {
         const e = ease(u[0]), A = MAN.crack * e;
         crack.classList.toggle('on', e > 0.0005);
@@ -1712,7 +1721,6 @@ html.still .v-card{scroll-snap-align:center}
       }
       if (u[1] !== cur[1]) fade.style.color = 'rgba(33,26,20,' + (1 - MAN.fade * ease(u[1])).toFixed(3) + ')';
       if (u[2] !== cur[2]) shrink.style.transform = 'scale(' + (1 - MAN.shrink * ease(u[2])).toFixed(4) + ')';
-      if (u[3] !== cur[3]) grow.style.transform = 'scale(' + (0.5 + (MAN.grow - 0.5) * ease(u[3])).toFixed(4) + ')';
       cur = u;
     }
     let pending = 0, watching = false;
@@ -1724,7 +1732,7 @@ html.still .v-card{scroll-snap-align:center}
       else { removeEventListener('scroll', onS); removeEventListener('resize', onS); }
     };
     apply(true);
-    if ('IntersectionObserver' in window && !STATIC) new IntersectionObserver(es => watch(es[es.length - 1].isIntersecting), { rootMargin: '25% 0px 25% 0px' }).observe(list.closest('.manifesto'));
+    if ('IntersectionObserver' in window && !STATIC) new IntersectionObserver(es => watch(es[es.length - 1].isIntersecting), { rootMargin: '25% 0px 25% 0px' }).observe(list);
     window.__manifestoTune = o => { Object.assign(MAN, o); apply(true); };
   }
   // after the story: the manifesto lines arrive one by one (a one-shot fade, nothing keeps running), the voices band
