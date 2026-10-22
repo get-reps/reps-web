@@ -1650,7 +1650,8 @@ html.still .v-card{scroll-snap-align:center}
         if (pyPark < 16) pyPark = p.y + dot + 16;
         const leftPark = Math.min(w - 10 - tw, Math.max(10, p.x - tw / 2));
         const want = p.node.park ? 1 : 0;
-        // a name that was not drawn on the previous frame (rotating back into view, scene reopening) starts at its target
+        // a name that was not drawn on the previous frame (rotating back up through the fade) starts at its target;
+        // a name still on screen when the scene closed resumes its glide when the scene reopens
         const fresh = p.node.seenF !== this.gF - 1;
         p.node.seenF = this.gF;
         if (gsnap || fresh) p.node.pk = want;
