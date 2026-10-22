@@ -143,7 +143,7 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 /* the disc sits behind the sleeve, a little smaller than it and peeking out up and to the right (Mike, 2026-10-22: the
    full-size disc was too prominent). --disc: diameter as a share of the cover's height; --disc-x: how far its right edge sits
    past the tile's right edge, % of tile width; --disc-y: vertical offset of its centre, % of tile height (negative = up). */
-:root{--disc:.82;--disc-x:2;--disc-y:-9}
+:root{--disc:.85;--disc-x:-14;--disc-y:-30}   /* Mike's slider pick, 2026-10-22 */
 .it-pod{background:none;box-shadow:none;overflow:visible}
 .it-pod .disc{position:absolute;right:calc(var(--disc-x) * -1%);top:calc(50% + var(--disc-y) * 1%);height:calc(var(--disc) * 90%);aspect-ratio:1;transform:translateY(-50%);border-radius:50%;
   background:
@@ -291,7 +291,7 @@ html.static .sticky{position:relative;height:100vh;height:clamp(640px,100svh,960
 /* captions */
 .cap{position:absolute;left:50%;top:0;z-index:45;text-align:center;width:min(92vw,900px);margin-left:calc(min(92vw,900px) / -2);will-change:transform,opacity;pointer-events:none}
 .cap{font-family:var(--serif);text-wrap:balance}
-.cap-a{font-size:clamp(24px,2.7vw,38px);font-weight:400;line-height:1.18;letter-spacing:-.015em;color:var(--ink-2)}
+.cap-a{font-size:clamp(24px,2.7vw,38px);font-weight:400;line-height:1.18;letter-spacing:-.015em;color:var(--ink)}
 .cap-a b{display:block;color:var(--ink);font-style:italic;font-weight:500;font-size:1.42em;letter-spacing:-.02em;line-height:1.05;margin-top:.14em}
 .cap-s{font-size:clamp(28px,3vw,46px);font-weight:500;line-height:1.12;letter-spacing:-.02em;color:var(--ink)}
 /* desktop: each title sits directly over its own scene, at a size that belongs to the scene */
@@ -520,7 +520,7 @@ html.still .v-card{scroll-snap-align:center}
 
     <p class="scroll-cue">Scroll<i></i></p>
 
-    <p class="cap cap-a">A new way to interact with your knowledge.</p>
+    <p class="cap cap-a">A daily habit to retain your knowledge.</p>
     <p class="cap cap-s">Consume with intention.</p>
     <p class="cap cap-s">Your knowledge, organized.</p>
     <p class="cap cap-s">Read once. Quote it later.</p>
@@ -1534,12 +1534,15 @@ html.still .v-card{scroll-snap-align:center}
     }
 
     // fifty nodes on a true sphere. Links are uneven on purpose: some dots have one, some have several, a few reach further.
-    // three names stay on a fixed side of their dot, and only switch sides when they would otherwise leave the picture.
+    // eight topic names (the app's macro-topics, in their app colours) on nodes spread around the turn, so at least three are
+    // readable at any moment (Mike, 2026-10-22: one at a time "is pretty sad"; picked by reps-backend
+    // work/website-clean-slate-261019/label-pick.cjs). Each name stays on a fixed side of its dot, and only moves when it
+    // would otherwise leave the picture.
     initGraph() {
       const GN = 50;
       const PAL = ['#FF6B6B', '#FB923C', '#2DD4BF', '#3B82F6', '#A78BFA', '#F59E0B', '#22D3EE', '#4ADE80', '#94A3B8'];
-      const LABELS = { 14: 'philosophy', 33: 'history', 45: 'business' };
-      const LABEL_COLOR = { 14: '#A78BFA', 33: '#3B82F6', 45: '#F59E0B' };
+      const LABELS = { 17: 'philosophy', 33: 'history', 23: 'business', 39: 'psychology', 21: 'science', 37: 'health', 19: 'technology', 35: 'arts' };
+      const LABEL_COLOR = { 17: '#A78BFA', 33: '#F59E0B', 23: '#60A5FA', 39: '#FF6B6B', 21: '#2DD4BF', 37: '#FB7185', 19: '#22D3EE', 35: '#E879F9' };
       let seed = 20261020;
       const rand = () => { seed = (seed * 48271) % 2147483647; return seed / 2147483647; };
       this.gnodes = Array.from({length: GN}, (_, i) => {
@@ -1549,7 +1552,7 @@ html.still .v-card{scroll-snap-align:center}
           c: LABEL_COLOR[i] || PAL[i % PAL.length],
           s: LABELS[i] ? 1.35 : 0.82 + (i % 5) * 0.08,
           label: LABELS[i] || '',
-          anchor: i === 33 ? -1 : 1,
+          anchor: 1,
           park: false
         };
       });
