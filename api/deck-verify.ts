@@ -19,11 +19,14 @@ import {
   json,
   normaliseEmail,
   notifySlack,
+  postSlackAlert,
   readLink,
   secret,
   sessionCookie,
   uaOf,
 } from "../lib/deck-gate.js";
+import { sessionVisitId, trackAlert } from "../lib/deck-followup.js";
+import { storeFromEnv } from "../lib/deck-visit-store.js";
 
 export const runtime = "edge";
 
@@ -74,7 +77,7 @@ export async function POST(request: Request): Promise<Response> {
     /* A typed code means a person with the inbox open. Announce it now, and mark
        the session as already announced so the first-read beacon stays quiet. */
     viewer.c = 1;
-    await notifySlack({
+    const posted = await postSlackAlert({
       text: `Angel deck: opened by ${email}`,
       blocks: [
         { type: "section", text: { type: "mrkdwn", text: "*Angel deck* — someone is reading it" } },
@@ -88,6 +91,13 @@ export async function POST(request: Request): Promise<Response> {
         },
         { type: "context", elements: [{ type: "mrkdwn", text: escapeSlack(uaOf(request)) }] },
       ],
+    });
+    await trackAlert(storeFromEnv(), posted, {
+      kind: "reading_code",
+      scope: "session",
+      email,
+      id: await sessionVisitId(viewer),
+      windowStart: viewer.t,
     });
   } else {
     /* A followed link is NOT yet a reader. On 2026-09-28 one investor's email

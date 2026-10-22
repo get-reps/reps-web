@@ -85,7 +85,7 @@ async function hmac(secret: string, msg: string): Promise<Uint8Array> {
 
 /** Constant-time compare. A `===` here leaks the position of the first wrong
     character through timing, which is the whole game against a 6-char code. */
-function safeEqual(a: string, b: string): boolean {
+export function safeEqual(a: string, b: string): boolean {
   if (a.length !== b.length) return false;
   let diff = 0;
   for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
@@ -288,6 +288,51 @@ export async function notifySlack(payload: unknown): Promise<boolean> {
   } finally {
     clearTimeout(timeout);
   }
+}
+
+/** An incoming webhook returns no message id, so a webhook-posted alert can never
+    be replied to in its thread. When the REPS Support bot token and channel id are
+    configured, alerts that want a follow-up are posted with chat.postMessage, which
+    returns `ts`. Anything that goes wrong there falls back to the webhook, so the
+    alert itself is never lost; the follow-up is simply skipped (ts null). */
+export type SlackPosted = { ok: boolean; channel: string | null; ts: string | null };
+
+export async function postSlackAlert(payload: {
+  text: string;
+  blocks?: unknown[];
+}): Promise<SlackPosted> {
+  const token = process.env.SLACK_SUPPORT_BOT_TOKEN;
+  const channel = process.env.SLACK_SUPPORT_CHANNEL_ID;
+  if (token && channel) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 5000);
+    try {
+      const res = await fetch("https://slack.com/api/chat.postMessage", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ channel, ...payload }),
+        signal: controller.signal,
+      });
+      const data = (await res.json().catch(() => null)) as {
+        ok?: boolean;
+        ts?: string;
+        channel?: string;
+        error?: string;
+      } | null;
+      if (res.ok && data?.ok && typeof data.ts === "string") {
+        return { ok: true, channel: data.channel ?? channel, ts: data.ts };
+      }
+      console.error("deck-gate: chat.postMessage failed, using webhook", res.status, data?.error);
+    } catch (e) {
+      console.error("deck-gate: chat.postMessage threw, using webhook", e);
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+  return { ok: await notifySlack(payload), channel: null, ts: null };
 }
 
 /* ── shared response plumbing ───────────────────────────────────────────── */
