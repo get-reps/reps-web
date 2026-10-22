@@ -101,7 +101,31 @@ test("the thread poster sends thread_ts and reports Slack's refusal", async () =
   assert.deepEqual(await createSlackThreadPoster({ token: "t", fetchImpl: no.impl })({ channel: "C1", thread_ts: "1.1", text: "x" }), {
     ok: false,
     error: "not_in_channel",
+    definite: true,
   });
+});
+
+test("the thread poster only calls a failure definite when Slack itself said no", async () => {
+  const post = (impl: typeof fetch) => createSlackThreadPoster({ token: "t", fetchImpl: impl })({ channel: "C1", thread_ts: "1.1", text: "x" });
+  const rateLimited = await post(stubFetch(() => ({ status: 429, body: { ok: false, error: "ratelimited" } })).impl);
+  assert.equal(rateLimited.definite, true);
+  const gatewayError = await post(stubFetch(() => ({ status: 502 })).impl);
+  assert.equal(gatewayError.ok, false);
+  assert.equal(gatewayError.definite, false);
+  const dropped = await post((async () => {
+    throw new Error("socket hang up");
+  }) as typeof fetch);
+  assert.equal(dropped.ok, false);
+  assert.equal(dropped.definite, false);
+});
+
+test("an unreadable event count fails loudly instead of switching the cap off", async () => {
+  const f = stubFetch(() => ({}));
+  await assert.rejects(
+    store(f.impl).insertEvents("v1", "a@b.com", [{ kind: "slide", slide: "A", slideIndex: 1, ms: 1000 }]),
+    /count missing/,
+  );
+  assert.equal(f.calls.length, 1, "nothing inserted");
 });
 
 /* ── alert posting that returns a message id ────────────────────────────── */

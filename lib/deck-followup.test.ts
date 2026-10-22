@@ -105,7 +105,7 @@ function recorder(ok = true): { post: ThreadPoster; sent: Array<{ channel: strin
     sent,
     post: async (p) => {
       sent.push(p);
-      return ok ? { ok: true } : { ok: false, error: "channel_not_found" };
+      return ok ? { ok: true } : { ok: false, error: "channel_not_found", definite: true };
     },
   };
 }
@@ -140,7 +140,7 @@ test("ranks slides by time, merges revisits, and keeps the top five", () => {
   assert.match(text, /1\. Market \(3m 20s\)/);
   assert.match(text, /4\. Problem \(1m 10s\)/);
   assert.doesNotMatch(text, /Cover/);
-  assert.match(text, /Reading time: 9m 10s across 7 slides/); // 8+40+200+90+30+150+20+12 = 550s
+  assert.match(text, /Time on slides: 9m 10s across 7 slides/); // 8+40+200+90+30+150+20+12 = 550s
   assert.match(text, /Furthest slide reached: 7, Vision/);
 });
 
@@ -161,14 +161,14 @@ test("video: played is reported with length; none played says so", () => {
 test("no events at all: says so plainly and claims nothing else", () => {
   const text = formatReply(analyseVisit([], T0, T0 + FOLLOWUP_DELAY_MS));
   assert.match(text, /No page activity recorded after the alert\./);
-  assert.doesNotMatch(text, /Reading time|Video|Most time/);
+  assert.doesNotMatch(text, /Time on slides|Video|Most time/);
 });
 
 test("reading that all happened before the alert: summary, then no activity after", () => {
   const a = analyseVisit([slide("Cover", 1, 20_000, T0 - MIN), slide("Problem", 2, 30_000, T0 - 10_000)], T0, T0 + FOLLOWUP_DELAY_MS);
   assert.equal(a.afterEvents, 0);
   const text = formatReply(a);
-  assert.match(text, /Reading time: 50s across 2 slides/);
+  assert.match(text, /Time on slides: 50s across 2 slides/);
   assert.match(text, /• No page activity recorded after the alert\./);
 });
 
@@ -234,6 +234,8 @@ test("the sweep replies in the alert's own thread, once, with the analysis", asy
   assert.equal(sent.length, 1);
 });
 
+// Atomicity itself is the database's WHERE replied_at IS NULL (asserted in deck-visit-store.test.ts);
+// this proves the sweep honours a lost claim.
 test("two sweeps running at once still send a single reply", async () => {
   const store = new FakeStore();
   await store.registerVisit(visit());
@@ -302,20 +304,46 @@ test("a failed post gives the slot back, and gives up after three tries", async 
   assert.equal(good.sent.length, 0);
 });
 
-test("a poster that throws is treated as a failed post, not a crash", async () => {
+test("when the outcome of a post is unknown (timeout, dropped connection) it is NOT retried", async () => {
+  const quiet = () => {};
+  for (const post of [
+    (async () => {
+      throw new Error("The operation was aborted");
+    }) as ThreadPoster,
+    (async () => ({ ok: false, error: "AbortError", definite: false })) as ThreadPoster,
+    (async () => ({ ok: false, error: "http_502" })) as ThreadPoster,
+  ]) {
+    const store = new FakeStore();
+    await store.registerVisit(visit());
+    const r = await runSweep({ store, post, now: T0 + 31 * MIN, dryRun: false, log: quiet });
+    assert.equal(r.failed, 1);
+    assert.notEqual(store.visits.get("v1")!.repliedAt, null, "the slot stays used: Slack may already have the message");
+    const again = recorder();
+    await runSweep({ store, post: again.post, now: T0 + 36 * MIN, dryRun: false, log: quiet });
+    assert.equal(again.sent.length, 0, "no second reply after an ambiguous failure");
+  }
+});
+
+test("a database failure BEFORE the post gives the slot back, so the reply is not lost", async () => {
   const store = new FakeStore();
   await store.registerVisit(visit());
-  const r = await runSweep({
-    store,
-    post: async () => {
-      throw new Error("network down");
+  const flaky = Object.assign(Object.create(store) as FakeStore, {
+    eventsFor: async () => {
+      throw new Error("db down");
     },
-    now: T0 + 31 * MIN,
-    dryRun: false,
-    log: () => {},
   });
+  const { post, sent } = recorder();
+  const r = await runSweep({ store: flaky, post, now: T0 + 31 * MIN, dryRun: false, log: () => {} });
   assert.equal(r.failed, 1);
+  assert.equal(sent.length, 0);
   assert.equal(store.visits.get("v1")!.repliedAt, null);
+  assert.equal(store.visits.get("v1")!.attempts, 1);
+});
+
+test("the reply heading says how far back the numbers go, by scope", () => {
+  const a = analyseVisit([slide("Market", 3, 60_000, T0 + MIN)], T0, T0 + FOLLOWUP_DELAY_MS);
+  assert.match(formatReply(a, "session"), /from opening the deck to 30 minutes after this alert/);
+  assert.match(formatReply(a, "email"), /in the 30 minutes after this alert/);
 });
 
 test("a real run without a poster is refused up front, before anything is claimed", async () => {

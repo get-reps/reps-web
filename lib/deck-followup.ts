@@ -96,7 +96,9 @@ export interface VisitStore {
 }
 
 export interface ThreadPoster {
-  (p: { channel: string; thread_ts: string; text: string }): Promise<{ ok: boolean; error?: string }>;
+  /** `definite` is true only when Slack itself answered "no" (so nothing was posted).
+      A timeout or dropped connection is NOT definite: the message may have landed. */
+  (p: { channel: string; thread_ts: string; text: string }): Promise<{ ok: boolean; error?: string; definite?: boolean }>;
 }
 
 /* ── the beacon ─────────────────────────────────────────────────────────── */
@@ -325,14 +327,20 @@ const NO_ACTIVITY = "No page activity recorded after the alert.";
 
 /** The Slack thread reply. Slide names are written by the browser, so they are
     escaped here like every other untrusted string that reaches Slack. */
-export function formatReply(a: Analysis): string {
-  const head = "*What they read in the 30 minutes after this alert*";
+export function formatReply(a: Analysis, scope: VisitScope = "session"): string {
+  /* A session visit counts from the moment the deck opened (a link can be opened
+     well before the "someone is reading it" alert); a code request counts only
+     from the request. The heading says which, so it never overstates the window. */
+  const head =
+    scope === "session"
+      ? "*What they read: from opening the deck to 30 minutes after this alert*"
+      : "*What they read in the 30 minutes after this alert*";
   const foot = "_Counts only what the deck reported while the page was open._";
   if (a.eventCount === 0) return [head, NO_ACTIVITY, foot].join("\n");
 
   const lines: string[] = [head];
   lines.push(
-    `• Reading time: ${fmtDuration(a.readingMs)} across ${a.slidesVisited} slide${a.slidesVisited === 1 ? "" : "s"}`,
+    `• Time on slides: ${fmtDuration(a.readingMs)} across ${a.slidesVisited} slide${a.slidesVisited === 1 ? "" : "s"}`,
   );
   if (a.slides.length > 0) {
     lines.push("• Most time on:");
@@ -402,23 +410,20 @@ export async function runSweep(deps: {
   result.considered = candidates.length;
 
   for (const v of candidates) {
-    if (v.repliedAt !== null || v.droppedAt !== null) {
-      result.skipped += 1;
-      continue;
-    }
-    if (now - v.alertedAt < FOLLOWUP_DELAY_MS) {
-      result.skipped += 1;
-      continue;
-    }
-    if (now - v.alertedAt > DROP_AFTER_MS) {
+    const unanswered = v.repliedAt === null && v.droppedAt === null;
+    if (unanswered && now - v.alertedAt > DROP_AFTER_MS) {
       if (!dryRun) await deps.store.drop(v.id, now);
       result.dropped += 1;
+      continue;
+    }
+    if (selectDue([v], now).length === 0) {
+      result.skipped += 1;
       continue;
     }
 
     if (dryRun) {
       const events = await deps.store.eventsFor(v, v.alertedAt + FOLLOWUP_DELAY_MS);
-      const text = formatReply(analyseVisit(events, v.alertedAt, v.alertedAt + FOLLOWUP_DELAY_MS));
+      const text = formatReply(analyseVisit(events, v.alertedAt, v.alertedAt + FOLLOWUP_DELAY_MS), v.scope);
       log(`deck-followup dry-run: ${JSON.stringify({ channel: v.channel, thread_ts: v.threadTs, text })}`);
       result.sent += 1;
       continue;
@@ -430,15 +435,23 @@ export async function runSweep(deps: {
       continue;
     }
     let ok = false;
+    /* Once the post has been attempted, only an explicit "no" from Slack lets the
+       slot be given back. A timeout may have posted anyway, and posting twice is
+       worse than missing one reply, so an unknown outcome keeps the slot used. */
+    let retryable = true;
     try {
       const windowEnd = claimed.alertedAt + FOLLOWUP_DELAY_MS;
       const events = await deps.store.eventsFor(claimed, windowEnd);
-      const text = formatReply(analyseVisit(events, claimed.alertedAt, windowEnd));
+      const text = formatReply(analyseVisit(events, claimed.alertedAt, windowEnd), claimed.scope);
+      retryable = false;
       const res = await post!({ channel: claimed.channel, thread_ts: claimed.threadTs, text });
       ok = res.ok;
-      if (!ok) log(`deck-followup: slack refused reply (${res.error ?? "unknown"})`);
+      retryable = !ok && res.definite === true;
+      if (!ok) {
+        log(`deck-followup: slack did not take the reply (${res.error ?? "unknown"}; ${retryable ? "will retry" : "outcome unknown, not retrying"})`);
+      }
     } catch (e) {
-      log(`deck-followup: reply threw ${(e as Error)?.message ?? e}`);
+      log(`deck-followup: reply failed ${(e as Error)?.message ?? e} (${retryable ? "will retry" : "outcome unknown, not retrying"})`);
     }
 
     if (ok) {
@@ -446,7 +459,9 @@ export async function runSweep(deps: {
     } else {
       result.failed += 1;
       const attempts = claimed.attempts + 1;
-      if (attempts >= MAX_SEND_ATTEMPTS) await deps.store.drop(claimed.id, now);
+      if (!retryable) {
+        /* replied_at stays set: at most one reply, ever */
+      } else if (attempts >= MAX_SEND_ATTEMPTS) await deps.store.drop(claimed.id, now);
       else await deps.store.release(claimed.id, attempts);
     }
   }

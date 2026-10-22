@@ -294,7 +294,10 @@ export async function notifySlack(payload: unknown): Promise<boolean> {
     be replied to in its thread. When the REPS Support bot token and channel id are
     configured, alerts that want a follow-up are posted with chat.postMessage, which
     returns `ts`. Anything that goes wrong there falls back to the webhook, so the
-    alert itself is never lost; the follow-up is simply skipped (ts null). */
+    alert itself is never lost; the follow-up is simply skipped (ts null). If the
+    bot call timed out after Slack had in fact accepted it, the fallback posts the
+    alert a second time. That is deliberate: a duplicate alert is visible and
+    harmless, a missing one is the failure these alerts exist to prevent. */
 export type SlackPosted = { ok: boolean; channel: string | null; ts: string | null };
 
 export async function postSlackAlert(payload: {

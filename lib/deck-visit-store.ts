@@ -15,7 +15,7 @@ import {
 
 type Fetch = typeof fetch;
 
-const TIMEOUT_MS = 4000;
+const TIMEOUT_MS = 2500;
 const EVENT_KEEP_MS = 48 * 60 * 60 * 1000;
 const VISIT_KEEP_MS = 30 * 24 * 60 * 60 * 1000;
 
@@ -123,7 +123,9 @@ export function createRestStore(opts: {
         headers: { Prefer: "count=exact", Range: "0-0", "Range-Unit": "items" },
       });
       const total = Number((head.headers.get("content-range") ?? "").split("/")[1]);
-      if (Number.isFinite(total) && total >= MAX_EVENTS_PER_VISIT) return false;
+      /* Loud, not open: a count we cannot read must not silently turn the cap off. */
+      if (!Number.isFinite(total)) throw new Error("supabase count missing from content-range");
+      if (total >= MAX_EVENTS_PER_VISIT) return false;
       await call("/deck_events", {
         method: "POST",
         headers: { Prefer: "return=minimal" },
@@ -236,9 +238,13 @@ export function createSlackThreadPoster(opts: { token: string; fetchImpl?: Fetch
         signal: controller.signal,
       });
       const data = (await res.json().catch(() => null)) as { ok?: boolean; error?: string } | null;
-      return res.ok && data?.ok ? { ok: true } : { ok: false, error: data?.error ?? `http_${res.status}` };
+      if (res.ok && data?.ok) return { ok: true };
+      /* Slack answering "no" (an ok:false body, or a 429 before it looked at the
+         message) means nothing was posted. Anything else is unknown. */
+      const definite = res.status === 429 || (res.ok && data?.ok === false);
+      return { ok: false, error: data?.error ?? `http_${res.status}`, definite };
     } catch (e) {
-      return { ok: false, error: e instanceof Error ? e.name : "threw" };
+      return { ok: false, error: e instanceof Error ? e.name : "threw", definite: false };
     } finally {
       clearTimeout(timer);
     }
