@@ -1835,6 +1835,16 @@ body.still .deck-controls{display:none!important;}
   overflow:hidden;background:#fff;border:4px solid #FFFAF7;
   box-shadow:0 6px 16px rgba(33,26,20,.22);}
 .av-badge img{width:100%;height:100%;object-fit:cover;display:block;max-width:none;max-height:none;}
+/* the job title is bold, the company is not -- the badge already carries the
+   company (Mike, 2026-11-04) */
+.person .role b{font-weight:700;}
+/* finale: Mike's contact details pinned to the bottom of the quote panel,
+   out of the flex flow so the Camus quote stays vertically centred (2026-11-04) */
+.finale .panel{position:relative;}
+.finale .contact{position:absolute;left:76px;right:76px;bottom:64px;
+  font-family:var(--sans);font-size:21px;line-height:1.7;}
+.finale .contact .label{display:block;font-size:16px;color:rgba(255,250,247,.5);margin-bottom:6px;}
+.finale .contact a{color:rgba(255,250,247,.88);text-decoration:none;display:block;}
 
 /* === v27 round-3 board response ===
 
@@ -2867,19 +2877,19 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
       <div class="person reveal r2">
         <div class="av-wrap"><div class="av"><img src="/angel/assets/sourced/emmanuel-orssaud-theorg.jpg" alt="Emmanuel Orssaud" /></div><span class="av-badge"><img src="/angel/assets/logos/advisor-duolingo.png" alt="Duolingo" /></span></div>
         <div><h3>Emmanuel Orssaud</h3>
-        <div class="role">Chief Marketing Officer, Duolingo</div>
+        <div class="role"><b>CMO</b>, Duolingo</div>
         <p>Runs global growth for the world&rsquo;s biggest daily&#8209;learning habit.</p></div>
       </div>
       <div class="person reveal r3">
         <div class="av-wrap"><div class="av"><img src="/angel/assets/sourced/mark-gainey-sequoia.jpg" alt="Mark Gainey" /></div><span class="av-badge"><img src="/angel/assets/logos/advisor-strava.png" alt="Strava" /></span></div>
         <div><h3>Mark Gainey</h3>
-        <div class="role">Co-founder, Strava</div>
+        <div class="role"><b>Co-founder</b>, Strava</div>
         <p>Built the daily-habit category from zero.</p></div>
       </div>
       <div class="person reveal r4">
         <div class="av-wrap"><div class="av"><img src="/angel/assets/sourced/patrick-pichette-inovia.png" alt="Patrick Pichette" /></div><span class="av-badge"><img src="/angel/assets/logos/advisor-twitter.png" alt="Twitter" /></span></div>
         <div><h3>Patrick Pichette</h3>
-        <div class="role">Former CFO, Google &middot; former Chair, Twitter</div>
+        <div class="role"><b>Former CFO</b>, Google &middot; <b>former Chair</b>, Twitter</div>
         <p>Always sought the 1B+ user outcomes.</p></div>
       </div>
       </div>
@@ -2887,19 +2897,19 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
       <div class="person reveal r5">
         <div class="av-wrap"><div class="av"><img src="/angel/assets/sourced/matthew-lloyd-thomas-tcg.jpg" alt="Matthew Lloyd-Thomas" /></div><span class="av-badge"><img src="/angel/assets/logos/advisor-nyt.png" alt="The New York Times" /></span></div>
         <div><h3>Matthew Lloyd-Thomas</h3>
-        <div class="role">Former Exec Director, Corporate Development, NYT</div>
+        <div class="role"><b>Former Exec Director, Corporate Development</b>, NYT</div>
         <p>Turned a viral word game into NYT Games&rsquo; cornerstone.</p></div>
       </div>
       <div class="person reveal r6">
         <div class="av-wrap"><div class="av"><img src="/angel/assets/sourced/kendra-rogers-headshot-2023.jpg" alt="Kendra Rogers" /></div><span class="av-badge"><img src="/angel/assets/logos/advisor-visa.png" alt="Visa" /></span></div>
         <div><h3>Kendra Rogers</h3>
-        <div class="role">Chief Communications &amp; Marketing Officer, Featurespace (acquired by Visa)</div>
+        <div class="role"><b>Chief Communications &amp; Marketing Officer</b>, Featurespace (acquired by Visa)</div>
         <p>Voracious polymath and creative brand-builder.</p></div>
       </div>
       <div class="person reveal r6">
         <div class="av-wrap"><div class="av"><img src="/angel/assets/sourced/dakota-smith-hopper.jpg" alt="Dakota Smith" /></div><span class="av-badge"><img src="/angel/assets/logos/advisor-hopper.png" alt="Hopper" /></span></div>
         <div><h3>Dakota Smith</h3>
-        <div class="role">Co-founder, Hopper &middot; CEO, Hopper Technology Solutions</div>
+        <div class="role"><b>Co-founder</b>, Hopper &middot; <b>CEO</b>, Hopper Technology Solutions</div>
         <p>120M downloads on the app, then a B2B arm powering multinationals such as Uber, Capital One and Air Canada.</p></div>
       </div>
       </div>
@@ -2963,6 +2973,7 @@ body.still .cc-line,body.still .cc-line-halo,body.still .cc-arrow-line{animation
     <div class="panel">
       <blockquote class="reveal r2">The only way to deal with an unfree world is to become <span class="hot">so absolutely free</span> that your very existence is an act of rebellion.</blockquote>
       <cite class="reveal r3">Albert Camus</cite>
+      <div class="contact reveal r4"><span class="label">Reach me:</span><a href="mailto:mike@getreps.io">mike@getreps.io</a><a href="tel:+447365873546">+44 7365 873546</a></div>
     </div>
     <div class="shot reveal r1"><img src="/angel/assets/generated/tube-reader.jpg" alt="A woman reading a book on the underground while every other passenger looks at a phone" /></div>
   </div>
