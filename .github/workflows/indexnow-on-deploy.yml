@@ -39,7 +39,7 @@ jobs:
           for file in "${FILES[@]}"; do
             case "$file" in
               sitemap.xml) continue ;;
-              v3c.html) urls+=("https://www.getreps.io/") ;;
+              cs-c-lora.html) urls+=("https://www.getreps.io/") ;;
               *.html)
                 clean="${file%.html}"
                 clean="${clean%/index}"
