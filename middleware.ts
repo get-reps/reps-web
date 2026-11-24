@@ -65,9 +65,9 @@ export function wantsMarkdown(accept: string | null): boolean {
 }
 
 // A Markdown request is rewritten (server-side, same URL in the address bar) to the static twin, which
-// Vercel then serves with the headers vercel.json sets for that .md file (Content-Type text/markdown,
-// rel=canonical back to the page). No fetch, no re-wrapped body: a twin that is missing simply 404s
-// like any static file, and nothing from another response can be copied in.
+// Vercel serves as text/markdown with Vary: Accept (headers still follow the page's own vercel.json rules,
+// so it carries the page's rel=alternate Link, not the twin's rel=canonical). No fetch, no re-wrapped
+// body: a missing twin 404s like any static file, and nothing from another response can be copied in.
 export function handle(request: Request): Response | undefined {
   if (request.method !== "GET" && request.method !== "HEAD") return undefined;
   if (!wantsMarkdown(request.headers.get("accept"))) return undefined;
