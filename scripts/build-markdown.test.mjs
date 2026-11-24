@@ -40,18 +40,9 @@ test('homepage twin carries the hero headline that only JavaScript paints on the
   assert.match(home, /^# Turn what you consume/m);
 });
 
-test('Accept: text/markdown on / rewrites to the homepage twin, ahead of the HTML rewrite', () => {
-  const i = vercel.rewrites.findIndex((r) => r.source === '/' && r.destination === '/index.md');
-  const html = vercel.rewrites.findIndex((r) => r.source === '/' && !r.has);
-  assert.ok(i >= 0 && i < html, 'the markdown rewrite for / must come before the / -> /cs-c-lora rewrite');
-  const [cond] = vercel.rewrites[i].has;
-  assert.equal(cond.type, 'header');
-  assert.equal(cond.key, 'accept');
-  const re = new RegExp(`^${cond.value}$`);
-  assert.ok(re.test('text/markdown, text/html;q=0.9'), 'an agent asking for Markdown must match');
-  assert.ok(
-    !re.test('text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8'),
-    'a browser Accept header must not match',
-  );
-  assert.equal(headersFor('/').vary, 'Accept');
+// Accept: text/markdown is answered by middleware.ts (tested in middleware.test.ts); here, every page's
+// HTML response must say it varies on Accept so caches keep the two answers apart.
+test('every page varies on Accept, and no vercel.json rewrite competes with the middleware', () => {
+  for (const page of all) assert.equal(headersFor(page.path).vary, 'Accept', `vercel.json: Vary: Accept on ${page.path}`);
+  assert.ok(!vercel.rewrites.some((r) => r.destination.endsWith('.md')), 'markdown negotiation lives in middleware.ts');
 });

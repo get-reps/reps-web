@@ -13,11 +13,6 @@
     },
     {
       "source": "/",
-      "has": [{ "type": "header", "key": "accept", "value": "(.*)text/markdown(.*)" }],
-      "destination": "/index.md"
-    },
-    {
-      "source": "/",
       "destination": "/cs-c-lora"
     },
     {
@@ -86,103 +81,120 @@
     {
       "source": "/blog",
       "headers": [
-        { "key": "Link", "value": "<https://www.getreps.io/blog.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+        { "key": "Link", "value": "<https://www.getreps.io/blog.md>; rel=\"alternate\"; type=\"text/markdown\"" },
+        { "key": "Vary", "value": "Accept" }
       ]
     },
     {
       "source": "/planet",
       "headers": [
-        { "key": "Link", "value": "<https://www.getreps.io/planet.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+        { "key": "Link", "value": "<https://www.getreps.io/planet.md>; rel=\"alternate\"; type=\"text/markdown\"" },
+        { "key": "Vary", "value": "Accept" }
       ]
     },
     {
       "source": "/about",
       "headers": [
-        { "key": "Link", "value": "<https://www.getreps.io/about.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+        { "key": "Link", "value": "<https://www.getreps.io/about.md>; rel=\"alternate\"; type=\"text/markdown\"" },
+        { "key": "Vary", "value": "Accept" }
       ]
     },
     {
       "source": "/newsroom",
       "headers": [
-        { "key": "Link", "value": "<https://www.getreps.io/newsroom.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+        { "key": "Link", "value": "<https://www.getreps.io/newsroom.md>; rel=\"alternate\"; type=\"text/markdown\"" },
+        { "key": "Vary", "value": "Accept" }
       ]
     },
     {
       "source": "/facts",
       "headers": [
-        { "key": "Link", "value": "<https://www.getreps.io/facts.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+        { "key": "Link", "value": "<https://www.getreps.io/facts.md>; rel=\"alternate\"; type=\"text/markdown\"" },
+        { "key": "Vary", "value": "Accept" }
       ]
     },
     {
       "source": "/compare",
       "headers": [
-        { "key": "Link", "value": "<https://www.getreps.io/compare.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+        { "key": "Link", "value": "<https://www.getreps.io/compare.md>; rel=\"alternate\"; type=\"text/markdown\"" },
+        { "key": "Vary", "value": "Accept" }
       ]
     },
     {
       "source": "/compare/best-apps-to-remember-what-you-read",
       "headers": [
-        { "key": "Link", "value": "<https://www.getreps.io/compare/best-apps-to-remember-what-you-read.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+        { "key": "Link", "value": "<https://www.getreps.io/compare/best-apps-to-remember-what-you-read.md>; rel=\"alternate\"; type=\"text/markdown\"" },
+        { "key": "Vary", "value": "Accept" }
       ]
     },
     {
       "source": "/compare/best-readwise-alternatives",
       "headers": [
-        { "key": "Link", "value": "<https://www.getreps.io/compare/best-readwise-alternatives.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+        { "key": "Link", "value": "<https://www.getreps.io/compare/best-readwise-alternatives.md>; rel=\"alternate\"; type=\"text/markdown\"" },
+        { "key": "Vary", "value": "Accept" }
       ]
     },
     {
       "source": "/compare/best-spaced-repetition-apps",
       "headers": [
-        { "key": "Link", "value": "<https://www.getreps.io/compare/best-spaced-repetition-apps.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+        { "key": "Link", "value": "<https://www.getreps.io/compare/best-spaced-repetition-apps.md>; rel=\"alternate\"; type=\"text/markdown\"" },
+        { "key": "Vary", "value": "Accept" }
       ]
     },
     {
       "source": "/compare/best-anki-alternatives",
       "headers": [
-        { "key": "Link", "value": "<https://www.getreps.io/compare/best-anki-alternatives.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+        { "key": "Link", "value": "<https://www.getreps.io/compare/best-anki-alternatives.md>; rel=\"alternate\"; type=\"text/markdown\"" },
+        { "key": "Vary", "value": "Accept" }
       ]
     },
     {
       "source": "/compare/reps-vs-readwise",
       "headers": [
-        { "key": "Link", "value": "<https://www.getreps.io/compare/reps-vs-readwise.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+        { "key": "Link", "value": "<https://www.getreps.io/compare/reps-vs-readwise.md>; rel=\"alternate\"; type=\"text/markdown\"" },
+        { "key": "Vary", "value": "Accept" }
       ]
     },
     {
       "source": "/compare/best-pocket-alternatives",
       "headers": [
-        { "key": "Link", "value": "<https://www.getreps.io/compare/best-pocket-alternatives.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+        { "key": "Link", "value": "<https://www.getreps.io/compare/best-pocket-alternatives.md>; rel=\"alternate\"; type=\"text/markdown\"" },
+        { "key": "Vary", "value": "Accept" }
       ]
     },
     {
       "source": "/compare/best-obsidian-alternatives",
       "headers": [
-        { "key": "Link", "value": "<https://www.getreps.io/compare/best-obsidian-alternatives.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+        { "key": "Link", "value": "<https://www.getreps.io/compare/best-obsidian-alternatives.md>; rel=\"alternate\"; type=\"text/markdown\"" },
+        { "key": "Vary", "value": "Accept" }
       ]
     },
     {
       "source": "/compare/best-quizlet-alternatives",
       "headers": [
-        { "key": "Link", "value": "<https://www.getreps.io/compare/best-quizlet-alternatives.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+        { "key": "Link", "value": "<https://www.getreps.io/compare/best-quizlet-alternatives.md>; rel=\"alternate\"; type=\"text/markdown\"" },
+        { "key": "Vary", "value": "Accept" }
       ]
     },
     {
       "source": "/features/active-recall",
       "headers": [
-        { "key": "Link", "value": "<https://www.getreps.io/features/active-recall.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+        { "key": "Link", "value": "<https://www.getreps.io/features/active-recall.md>; rel=\"alternate\"; type=\"text/markdown\"" },
+        { "key": "Vary", "value": "Accept" }
       ]
     },
     {
       "source": "/features/second-brain",
       "headers": [
-        { "key": "Link", "value": "<https://www.getreps.io/features/second-brain.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+        { "key": "Link", "value": "<https://www.getreps.io/features/second-brain.md>; rel=\"alternate\"; type=\"text/markdown\"" },
+        { "key": "Vary", "value": "Accept" }
       ]
     },
     {
       "source": "/features/read-it-later",
       "headers": [
-        { "key": "Link", "value": "<https://www.getreps.io/features/read-it-later.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+        { "key": "Link", "value": "<https://www.getreps.io/features/read-it-later.md>; rel=\"alternate\"; type=\"text/markdown\"" },
+        { "key": "Vary", "value": "Accept" }
       ]
     },
     {
