@@ -37,7 +37,10 @@ Smoothness pass (2026-10-21, findings in reps-backend/work/website-clean-slate-2
 <meta name="twitter:description" content="REPS is your knowledge companion. What you read, watch, and listen to stays with you.">
 <meta name="twitter:image" content="https://www.getreps.io/product/assets/app-icon-512.png">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","name":"REPS","url":"https://www.getreps.io/","description":"REPS is your knowledge companion. What you read, watch, and listen to stays with you."}
+{"@context":"https://schema.org","@type":"WebSite","@id":"https://www.getreps.io/#website","name":"REPS","url":"https://www.getreps.io/","description":"REPS is your knowledge companion. What you read, watch, and listen to stays with you.","publisher":{"@id":"https://www.getreps.io/#organization"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","@id":"https://www.getreps.io/#organization","name":"REPS","legalName":"REPS AI Ltd","url":"https://www.getreps.io/","logo":"https://www.getreps.io/logo.png","sameAs":["https://apps.apple.com/app/id6759216018","https://www.instagram.com/getreps.io/","https://www.tiktok.com/@getreps.io","https://www.youtube.com/@getrepsapp","https://x.com/getreps_io"]}
 </script>
 <meta name="theme-color" content="#FFFAF7">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -77,6 +80,7 @@ img{display:block}
   box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 14px 34px -14px rgba(255,107,107,.75);transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s}
 .cta:hover{transform:translateY(-2px);box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 20px 40px -14px rgba(255,107,107,.85)}
 
+.vh{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
 /* story */
 .story{position:relative;height:700vh}
 /* phone: a longer story so each scene holds its readable state for about half a screen of scroll (plateau-dominant timing),
@@ -402,7 +406,24 @@ html.still .v-card{scroll-snap-align:center}
 </header>
 
 <main>
-  <section class="story" id="story" aria-label="Turn what you consume into what you know."></section>
+  <section class="story" id="story" aria-label="Turn what you consume into what you know.">
+    <!-- crawler copy (Peec agent-readiness, 2026-11-24): the live hero is cloned from <template id="tpl"> by script, so crawlers that
+         don't run JavaScript saw no headline. This holds the same words in the served HTML, visually hidden; the script removes it
+         before the stage mounts, so the rendered page has one H1 and looks exactly as before. -->
+    <div id="story-static" class="vh">
+      <p>Your knowledge companion</p>
+      <h1>Turn what you consume into what you know.</h1>
+      <p><a href="https://apps.apple.com/app/id6759216018">Download REPS on the App Store</a></p>
+      <p>A daily habit to retain your knowledge.</p>
+      <h2>Consume with intention.</h2>
+      <p>Because you read about Sapiens: Is Google Making Us Stupid? Sarah is reading Why Facts Don’t Change Our Minds. Alex is watching Entropy.</p>
+      <h2>Your knowledge, organized.</h2>
+      <h2>Read once. Quote it later.</h2>
+      <p>A crossword made from 1984. 3 Across: Orwell’s man at the Ministry of Truth.</p>
+      <h2>Keep ideas at your fingertips.</h2>
+      <p>A trivia round from Huberman Lab. Within an hour of waking, Huberman says to get… Morning sunlight.</p>
+    </div>
+  </section>
 
   <section class="manifesto" id="manifesto" aria-label="Our manifesto">
     <div class="in">
@@ -534,6 +555,7 @@ html.still .v-card{scroll-snap-align:center}
 
 <script>
 (() => {
+  const storyStatic = document.getElementById('story-static'); if (storyStatic) storyStatic.remove();   // crawler copy of the hero; the stage below renders the real one
   const Q = new URLSearchParams(location.search);
   const STATIC = Q.get('static') === '1';
   const SETTLE = Q.get('motion') === '1';

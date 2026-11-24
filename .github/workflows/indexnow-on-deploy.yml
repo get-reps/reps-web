@@ -9,6 +9,8 @@ on:
       - "blog/**"
       - "*.html"
       - "sitemap.xml"
+      # Markdown twins (scripts/build-markdown.mjs) are not canonical pages; a twin-only push must not run this
+      - "!**/*.md"
 
 jobs:
   ping-indexnow:

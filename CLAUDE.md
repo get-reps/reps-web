@@ -36,7 +36,9 @@ Static marketing site for REPS. Hosted on Vercel with auto-deploy on push to `ma
 
 ## Deployment
 
-Push to `main` auto-deploys via Vercel. Use Vercel MCP from Claude Code to monitor deployments and check build logs.
+Push to `main` auto-deploys via Vercel.
+
+**Markdown copies for AI agents:** every page in `sitemap-*.xml` has a `.md` twin (`index.md`, `about.md`, `compare/*.md`, …) served with `Link: rel=alternate` headers from `vercel.json`, and `llms.txt` links to them. After editing any sitemap page, run `node scripts/build-markdown.mjs` and commit the twins with it; `npm test` fails while a twin is stale. A new sitemap page also needs its `Link` header in `vercel.json` and a line in `llms.txt`. Internal files (`CLAUDE.md`, `docs/`, `work/`) are kept off the live site by `.vercelignore`. Use Vercel MCP from Claude Code to monitor deployments and check build logs.
 
 ## Required Vercel env vars
 

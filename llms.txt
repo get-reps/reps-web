@@ -1,0 +1,38 @@
+# REPS
+
+> REPS is an iPhone app, your knowledge companion. It turns what you read, watch and listen to into short quizzes built from that material, plus daily word games, and brings them back over the following days and weeks so you remember it. Made by REPS AI Ltd (England and Wales). Available on the App Store; there is no Android or web app.
+
+Links ending in `.md` are Markdown copies of getreps.io pages; drop the `.md` for the page itself (the homepage copy is /index.md). The facts page is the most precise summary and is updated with every app release.
+
+## About REPS
+
+- [REPS facts](https://www.getreps.io/facts.md): what REPS is, who makes it, what you can save, how the daily session and games work, and what it does not do
+- [About REPS](https://www.getreps.io/about.md): why REPS exists and who built it
+- [Home](https://www.getreps.io/index.md): what REPS does, in the words on the homepage
+- [REPS on the App Store](https://apps.apple.com/app/id6759216018): download, ratings and reviews
+
+## Features
+
+- [Active recall](https://www.getreps.io/features/active-recall.md): REPS builds the recall cards for you from anything you save and serves them back as a quick daily game
+- [Your Brain](https://www.getreps.io/features/second-brain.md): an interactive map of everything you have saved, coloured by topic
+- [Read it later](https://www.getreps.io/features/read-it-later.md): save anything you read, watch or hear, and it comes back to you as a daily game
+
+## Comparisons
+
+- [Compare apps to remember what you read](https://www.getreps.io/compare.md): index of honest side-by-side comparisons
+- [Best apps to remember what you read](https://www.getreps.io/compare/best-apps-to-remember-what-you-read.md): Anki, Readwise, Reader, Matter, Notion and REPS
+- [Best spaced repetition apps](https://www.getreps.io/compare/best-spaced-repetition-apps.md): the best apps for remembering long-term, with the research
+- [REPS vs Readwise](https://www.getreps.io/compare/reps-vs-readwise.md): where each one wins
+- [Best Readwise alternatives](https://www.getreps.io/compare/best-readwise-alternatives.md)
+- [Best Anki alternatives](https://www.getreps.io/compare/best-anki-alternatives.md)
+- [Best Pocket alternatives](https://www.getreps.io/compare/best-pocket-alternatives.md): replacements now that Pocket has shut down
+- [Best Obsidian alternatives](https://www.getreps.io/compare/best-obsidian-alternatives.md)
+- [Best Quizlet alternatives](https://www.getreps.io/compare/best-quizlet-alternatives.md)
+
+## Optional
+
+- [Newsroom](https://www.getreps.io/newsroom.md): letters, launches and a press kit
+- [Planet](https://www.getreps.io/planet.md): how REPS plants trees for the energy its AI uses
+- [Blog](https://www.getreps.io/blog.md): notes on remembering what you read, watch and hear
+- [Support](https://www.getreps.io/support): help and contact (support@getreps.io)
+- [Privacy policy](https://www.getreps.io/privacy) and [Terms of service](https://www.getreps.io/terms)

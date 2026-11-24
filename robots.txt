@@ -1,4 +1,8 @@
+# How AI may use this site (Content Signals: https://contentsignals.org; IETF AIPREF draft Content-Usage).
+# search: index and link to us. ai-input: quote us in AI answers. ai-train: learn about REPS from these pages.
 User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
+Content-Usage: search=y, ai-use=y, train-ai=y
 Disallow: /product-2026/
 Disallow: /investor-2026/
 Disallow: /get

@@ -13,6 +13,11 @@
     },
     {
       "source": "/",
+      "has": [{ "type": "header", "key": "accept", "value": "(.*)text/markdown(.*)" }],
+      "destination": "/index.md"
+    },
+    {
+      "source": "/",
       "destination": "/cs-c-lora"
     },
     {
@@ -70,6 +75,241 @@
     {
       "source": "/.well-known/apple-app-site-association",
       "headers": [{ "key": "Content-Type", "value": "application/json" }]
+    },
+    {
+      "source": "/",
+      "headers": [
+        { "key": "Link", "value": "<https://www.getreps.io/index.md>; rel=\"alternate\"; type=\"text/markdown\"" },
+        { "key": "Vary", "value": "Accept" }
+      ]
+    },
+    {
+      "source": "/blog",
+      "headers": [
+        { "key": "Link", "value": "<https://www.getreps.io/blog.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+      ]
+    },
+    {
+      "source": "/planet",
+      "headers": [
+        { "key": "Link", "value": "<https://www.getreps.io/planet.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+      ]
+    },
+    {
+      "source": "/about",
+      "headers": [
+        { "key": "Link", "value": "<https://www.getreps.io/about.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+      ]
+    },
+    {
+      "source": "/newsroom",
+      "headers": [
+        { "key": "Link", "value": "<https://www.getreps.io/newsroom.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+      ]
+    },
+    {
+      "source": "/facts",
+      "headers": [
+        { "key": "Link", "value": "<https://www.getreps.io/facts.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+      ]
+    },
+    {
+      "source": "/compare",
+      "headers": [
+        { "key": "Link", "value": "<https://www.getreps.io/compare.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+      ]
+    },
+    {
+      "source": "/compare/best-apps-to-remember-what-you-read",
+      "headers": [
+        { "key": "Link", "value": "<https://www.getreps.io/compare/best-apps-to-remember-what-you-read.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+      ]
+    },
+    {
+      "source": "/compare/best-readwise-alternatives",
+      "headers": [
+        { "key": "Link", "value": "<https://www.getreps.io/compare/best-readwise-alternatives.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+      ]
+    },
+    {
+      "source": "/compare/best-spaced-repetition-apps",
+      "headers": [
+        { "key": "Link", "value": "<https://www.getreps.io/compare/best-spaced-repetition-apps.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+      ]
+    },
+    {
+      "source": "/compare/best-anki-alternatives",
+      "headers": [
+        { "key": "Link", "value": "<https://www.getreps.io/compare/best-anki-alternatives.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+      ]
+    },
+    {
+      "source": "/compare/reps-vs-readwise",
+      "headers": [
+        { "key": "Link", "value": "<https://www.getreps.io/compare/reps-vs-readwise.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+      ]
+    },
+    {
+      "source": "/compare/best-pocket-alternatives",
+      "headers": [
+        { "key": "Link", "value": "<https://www.getreps.io/compare/best-pocket-alternatives.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+      ]
+    },
+    {
+      "source": "/compare/best-obsidian-alternatives",
+      "headers": [
+        { "key": "Link", "value": "<https://www.getreps.io/compare/best-obsidian-alternatives.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+      ]
+    },
+    {
+      "source": "/compare/best-quizlet-alternatives",
+      "headers": [
+        { "key": "Link", "value": "<https://www.getreps.io/compare/best-quizlet-alternatives.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+      ]
+    },
+    {
+      "source": "/features/active-recall",
+      "headers": [
+        { "key": "Link", "value": "<https://www.getreps.io/features/active-recall.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+      ]
+    },
+    {
+      "source": "/features/second-brain",
+      "headers": [
+        { "key": "Link", "value": "<https://www.getreps.io/features/second-brain.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+      ]
+    },
+    {
+      "source": "/features/read-it-later",
+      "headers": [
+        { "key": "Link", "value": "<https://www.getreps.io/features/read-it-later.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+      ]
+    },
+    {
+      "source": "/index.md",
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "Link", "value": "<https://www.getreps.io/>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/blog.md",
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "Link", "value": "<https://www.getreps.io/blog>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/planet.md",
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "Link", "value": "<https://www.getreps.io/planet>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/about.md",
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "Link", "value": "<https://www.getreps.io/about>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/newsroom.md",
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "Link", "value": "<https://www.getreps.io/newsroom>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/facts.md",
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "Link", "value": "<https://www.getreps.io/facts>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/compare.md",
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "Link", "value": "<https://www.getreps.io/compare>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/compare/best-apps-to-remember-what-you-read.md",
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "Link", "value": "<https://www.getreps.io/compare/best-apps-to-remember-what-you-read>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/compare/best-readwise-alternatives.md",
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "Link", "value": "<https://www.getreps.io/compare/best-readwise-alternatives>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/compare/best-spaced-repetition-apps.md",
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "Link", "value": "<https://www.getreps.io/compare/best-spaced-repetition-apps>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/compare/best-anki-alternatives.md",
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "Link", "value": "<https://www.getreps.io/compare/best-anki-alternatives>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/compare/reps-vs-readwise.md",
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "Link", "value": "<https://www.getreps.io/compare/reps-vs-readwise>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/compare/best-pocket-alternatives.md",
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "Link", "value": "<https://www.getreps.io/compare/best-pocket-alternatives>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/compare/best-obsidian-alternatives.md",
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "Link", "value": "<https://www.getreps.io/compare/best-obsidian-alternatives>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/compare/best-quizlet-alternatives.md",
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "Link", "value": "<https://www.getreps.io/compare/best-quizlet-alternatives>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/features/active-recall.md",
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "Link", "value": "<https://www.getreps.io/features/active-recall>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/features/second-brain.md",
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "Link", "value": "<https://www.getreps.io/features/second-brain>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/features/read-it-later.md",
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "Link", "value": "<https://www.getreps.io/features/read-it-later>; rel=\"canonical\"" }
+      ]
     }
   ]
 }
