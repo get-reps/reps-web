@@ -125,7 +125,8 @@ test('AASA permits set links and scoped login while keeping production connectio
   const staging=aasa.applinks.details.find(entry=>entry.appIDs.includes('VS232T422C.io.getreps.app.dev'));
   assert.deepEqual(production.appIDs,['VS232T422C.io.getreps.app']);
   assert.deepEqual(staging.appIDs,['VS232T422C.io.getreps.app.dev']);
-  assert.deepEqual(production.components.map(c=>c['/']).sort(),['/echo-set','/login']);
+  assert.deepEqual(production.components.map(c=>c['/']).sort(),['/echo-set','/login','/pair']);
+  assert.deepEqual(production.components.find(c=>c['/']==='/pair')['?'],{code:'*'});
   const login=production.components.find(c=>c['/']==='/login');
   assert.equal(login['#'],'token_hash=*&type=*');
   const set=production.components.find(c=>c['/']==='/echo-set');

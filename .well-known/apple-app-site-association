@@ -5,6 +5,11 @@
         "appIDs": ["VS232T422C.io.getreps.app"],
         "components": [
           {
+            "/": "/pair",
+            "?": { "code": "*" },
+            "comment": "Chrome-extension pairing QR. Opens REPS straight to app/pair.tsx when installed; otherwise the web page sends iPhones to the App Store. Requires ?code= so a bare /pair stays on the web."
+          },
+          {
             "/": "/echo-set",
             "comment": "Echo set locator; app rechecks access. Website fallback redirects to the App Store without exposing set content."
           },
