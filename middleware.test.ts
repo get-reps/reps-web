@@ -24,46 +24,23 @@ test("only an Accept that asks for markdown matches", () => {
   assert.equal(wantsMarkdown("text/html, text/markdown;q=0"), false);
 });
 
-const okFetch = (seen: string[]) =>
-  (async (u: string | URL | Request) => {
-    seen.push(String(u));
-    return new Response("# About REPS\n", { status: 200, headers: { Link: '<https://www.getreps.io/about>; rel="canonical"' } });
-  }) as typeof fetch;
+const md = (path: string, method = "GET") =>
+  handle(new Request(`https://www.getreps.io${path}`, { method, headers: { accept: "text/markdown" } }));
 
-test("a markdown request for a page gets its twin with Vary: Accept", async () => {
-  const seen: string[] = [];
-  const res = await handle(new Request("https://www.getreps.io/about", { headers: { accept: "text/markdown" } }), okFetch(seen));
-  assert.ok(res);
-  assert.deepEqual(seen, ["https://www.getreps.io/about.md"]);
-  assert.equal(res.headers.get("content-type"), "text/markdown; charset=utf-8");
-  assert.equal(res.headers.get("vary"), "Accept");
-  assert.match(res.headers.get("link") ?? "", /rel="canonical"/);
-  assert.equal(await res.text(), "# About REPS\n");
+test("a markdown request is rewritten to the page's static twin, varying on Accept", () => {
+  for (const [path, twin] of [["/about", "/about.md"], ["/", "/home.md"], ["/compare/reps-vs-readwise", "/compare/reps-vs-readwise.md"]]) {
+    const res = md(path);
+    assert.ok(res, path);
+    assert.equal(res.headers.get("x-middleware-rewrite"), `https://www.getreps.io${twin}`);
+    assert.equal(res.headers.get("vary"), "Accept");
+  }
+  assert.equal(md("/facts", "HEAD")?.headers.get("x-middleware-rewrite"), "https://www.getreps.io/facts.md");
 });
 
-test("the homepage maps to home.md", async () => {
-  const seen: string[] = [];
-  await handle(new Request("https://www.getreps.io/", { headers: { accept: "text/markdown" } }), okFetch(seen));
-  assert.deepEqual(seen, ["https://www.getreps.io/home.md"]);
-});
-
-test("browsers, unknown paths and POSTs fall through to HTML untouched", async () => {
-  const seen: string[] = [];
-  assert.equal(await handle(new Request("https://www.getreps.io/about", { headers: { accept: BROWSER } }), okFetch(seen)), undefined);
-  assert.equal(await handle(new Request("https://www.getreps.io/support", { headers: { accept: "text/markdown" } }), okFetch(seen)), undefined);
-  assert.equal(
-    await handle(new Request("https://www.getreps.io/about", { method: "POST", headers: { accept: "text/markdown" } }), okFetch(seen)),
-    undefined,
-  );
-  assert.deepEqual(seen, []);
-});
-
-test("a missing or failing twin falls back to HTML instead of erroring", async () => {
-  const notFound = (async () => new Response("nope", { status: 404 })) as typeof fetch;
-  const thrower = (async () => {
-    throw new Error("network");
-  }) as typeof fetch;
-  const req = () => new Request("https://www.getreps.io/facts", { headers: { accept: "text/markdown" } });
-  assert.equal(await handle(req(), notFound), undefined);
-  assert.equal(await handle(req(), thrower), undefined);
+test("browsers, unknown paths and POSTs fall through to HTML untouched", () => {
+  assert.equal(handle(new Request("https://www.getreps.io/about", { headers: { accept: BROWSER } })), undefined);
+  assert.equal(handle(new Request("https://www.getreps.io/about")), undefined);
+  assert.equal(md("/support"), undefined);
+  assert.equal(md("/about.md"), undefined);
+  assert.equal(md("/about", "POST"), undefined);
 });

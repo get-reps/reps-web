@@ -10,7 +10,8 @@
   "dependencies": {
     "@slack/web-api": "^7.15.1",
     "@supabase/supabase-js": "^2.45.0",
-    "@trigger.dev/sdk": "^4.4.3"
+    "@trigger.dev/sdk": "^4.4.3",
+    "@vercel/functions": "^3.11.3"
   },
   "devDependencies": {
     "tsx": "^4.23.5",
