@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="referrer" content="no-referrer" />
+<title>Connect REPS</title>
+<!--
+  OAuth consent for the "Save to REPS" plugin (reps-backend/work/chatgpt-plugin-261104/PLAN.md §1.3).
+  Supabase Auth's OAuth 2.1 server sends the user here as <Site URL>/oauth/consent?authorization_id=…
+  from ChatGPT's / Claude's sign-in sheet — usually on a phone.
+
+  Rules that are load-bearing:
+   - Identity of the asking app comes ONLY from the redirect URI matching a vendor callback
+     (consent-logic.mjs classifyRedirect). Never client_name, never logo_uri. DCR fields are
+     rendered with textContent only.
+   - Existing REPS users only, with NO server route and NO deletion: the account must predate
+     this sign-in attempt (accountCheck). A refused brand-new account is signed out and left alone.
+   - Email sign-in is a CODE typed on this page (shouldCreateUser:false), never a link: a link
+     opens in Mail/Safari — a different storage context from the assistant's sheet — and the
+     AASA would send it into the app.
+   - Telemetry is a hand-built beacon with explicit properties; nothing reads location.* into
+     an event (the authorization_id must not leak). Referrer-Policy no-referrer for the same reason.
+   - After Allow / Not now the local web session is signed out: no REPS session lingers in an
+     in-app browser.
+-->
+<style>
+  :root {
+    --cream: #FFFAF7;
+    --ink: #211A14;
+    --muted: #6B625E;
+    --coral: #FF6B6B;
+    --peach: #FF8E53;
+    --coral-ink: #D8443F;
+    --line: rgba(33, 26, 20, 0.10);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: var(--cream); }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    min-height: 100dvh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* top-aligned so the code field stays above the keyboard */
+    padding: max(32px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(32px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+  }
+  .card {
+    width: 100%;
+    max-width: 400px;
+    margin-top: 6vh;
+    background: #fff;
+    border-radius: 24px;
+    padding: 32px 24px 28px;
+    box-shadow: 0 1px 2px rgba(33, 26, 20, 0.06), 0 12px 36px rgba(33, 26, 20, 0.08);
+    animation: rise 240ms ease-out both;
+  }
+  @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .card { animation: none; } }
+  .wordmark { font-size: 13px; font-weight: 800; letter-spacing: 0.3em; color: var(--coral-ink); margin-bottom: 22px; }
+  h1 { font-size: 24px; line-height: 1.25; letter-spacing: -0.01em; font-weight: 700; margin-bottom: 10px; }
+  p { font-size: 16px; line-height: 1.55; color: var(--muted); }
+  p + p { margin-top: 10px; }
+  .who { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); line-height: 1.5; }
+  .who strong { color: var(--ink); font-weight: 600; word-break: break-all; }
+  .pill {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    width: 100%; min-height: 52px; margin-top: 24px;
+    font: inherit; font-size: 17px; font-weight: 700; color: #fff;
+    background: linear-gradient(135deg, var(--coral), var(--peach));
+    border: 0; border-radius: 26px; cursor: pointer;
+    box-shadow: 0 8px 24px rgba(255, 107, 107, 0.30);
+    transition: transform 80ms ease-out;
+  }
+  .pill:active { transform: scale(0.98); }
+  .pill:disabled { opacity: 0.6; cursor: default; }
+  .secondary {
+    display: flex; align-items: center; justify-content: center;
+    width: 100%; min-height: 50px; margin-top: 12px;
+    font: inherit; font-size: 16px; font-weight: 600; color: var(--ink);
+    background: #fff; border: 1px solid var(--line); border-radius: 25px; cursor: pointer;
+  }
+  #btn-google { margin-top: 20px; }
+  .textlink {
+    display: block; margin: 16px auto 0; padding: 12px; min-height: 44px;
+    font: inherit; font-size: 15px; font-weight: 600; color: var(--coral-ink);
+    background: none; border: 0; cursor: pointer; text-decoration: none; text-align: center;
+  }
+  .small { font-size: 13px; color: var(--muted); text-align: center; margin-top: 14px; line-height: 1.5; }
+  .small a, .small button { color: var(--coral-ink); font-weight: 600; text-decoration: none; background: none; border: 0; font: inherit; cursor: pointer; padding: 6px 2px; }
+  label { display: block; font-size: 14px; font-weight: 600; color: var(--ink); margin: 18px 0 8px; }
+  input {
+    width: 100%; min-height: 50px; font: inherit; font-size: 16px; color: var(--ink);
+    background: #fff; border: 1px solid rgba(33, 26, 20, 0.16); border-radius: 14px; padding: 12px 14px;
+  }
+  input:focus { outline: none; border-color: var(--coral-ink); }
+  .code { letter-spacing: 0.25em; font-variant-numeric: tabular-nums; }
+  .status { min-height: 20px; margin-top: 12px; font-size: 14px; color: var(--coral-ink); line-height: 1.5; }
+  .divider { display: flex; align-items: center; gap: 12px; margin: 20px 0 4px; color: var(--muted); font-size: 13px; }
+  .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+  details { margin-top: 10px; }
+  summary { list-style: none; cursor: pointer; text-align: center; font-size: 14px; color: var(--muted); padding: 12px; min-height: 44px; }
+  summary::-webkit-details-marker { display: none; }
+  .spinner { width: 18px; height: 18px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.5); border-top-color: #fff; animation: spin 800ms linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 2400ms; } }
+  .notyou { min-height: 44px; padding: 10px 0; font: inherit; font-size: 14px; font-weight: 600; color: var(--coral-ink); background: none; border: 0; cursor: pointer; }
+  .small a.tap { display: inline-block; padding: 12px 2px; }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+<main class="card" aria-live="polite">
+  <div class="wordmark">REPS</div>
+
+  <section id="view-loading">
+    <h1>One moment…</h1>
+  </section>
+
+  <section id="view-signin" class="hidden">
+    <h1>Connect REPS</h1>
+    <p>Sign in with the account you use in the REPS app.</p>
+    <button id="btn-google" class="secondary hidden" type="button">Continue with Google</button>
+    <button id="btn-apple" class="secondary hidden" type="button">Continue with Apple</button>
+    <div class="divider hidden" id="email-divider">or</div>
+    <form id="form-email" class="hidden">
+      <label for="email">Email</label>
+      <input id="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" required />
+      <button class="pill" id="btn-email" type="submit">Email me a code</button>
+    </form>
+    <details id="password-box">
+      <summary>Have a password?</summary>
+      <form id="form-password">
+        <label for="pw-email">Email</label>
+        <input id="pw-email" type="email" autocomplete="username" autocapitalize="off" spellcheck="false" required />
+        <label for="pw">Password</label>
+        <input id="pw" type="password" autocomplete="current-password" required />
+        <button class="secondary" id="btn-password" type="submit">Sign in</button>
+      </form>
+    </details>
+    <div class="status" id="signin-status" role="alert"></div>
+    <p class="small">New to REPS? <a class="tap" href="https://www.getreps.io/r/assistant-plugin">Get the app first</a>, then come back.</p>
+  </section>
+
+  <section id="view-code" class="hidden">
+    <h1>Check your email</h1>
+    <p>If <strong id="code-email"></strong> has a REPS account, we've sent it a sign-in code.</p>
+    <form id="form-code">
+      <label for="code">Code</label>
+      <input id="code" class="code" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9 ]*" maxlength="14" required />
+      <button class="pill" id="btn-code" type="submit">Continue</button>
+    </form>
+    <div class="status" id="code-status" role="alert"></div>
+    <button class="textlink" id="btn-code-back" type="button">Use a different email</button>
+  </section>
+
+  <section id="view-consent" class="hidden">
+    <h1 id="consent-title"></h1>
+    <p id="consent-body"></p>
+    <p>Everything it saves lands in your library for you to review, like anything else you add. It never sees anyone else's private saves.</p>
+    <div class="who">
+      Signed in as <strong id="consent-email"></strong><br />
+      Connecting to <strong id="consent-domain"></strong>
+      <div><button id="btn-not-you" class="notyou" type="button">Not you?</button></div>
+    </div>
+    <button class="pill" id="btn-allow" type="button">Allow</button>
+    <button class="textlink" id="btn-deny" type="button">Not now</button>
+    <div class="status" id="consent-status" role="alert"></div>
+  </section>
+
+  <section id="view-message" class="hidden">
+    <h1 id="message-title"></h1>
+    <p id="message-body"></p>
+    <button class="secondary hidden" id="btn-message-action" type="button"></button>
+  </section>
+</main>
+
+<script src="/oauth/vendor/supabase-js-2.104.0.umd.js"></script>
+<script type="module">
+import { accountCheck, classifyRedirect, isLocalCallback, normaliseCode, readAuthorizationId, redirectTargetAllowed } from "/oauth/consent-logic.mjs";
+
+const $ = (id) => document.getElementById(id);
+const VIEWS = ["view-loading", "view-signin", "view-code", "view-consent", "view-message"];
+const show = (id) => VIEWS.forEach((v) => $(v).classList.toggle("hidden", v !== id));
+const T0_KEY = "reps_oauth_t0";
+const AUTH_KEY = "reps_plugin_consent_auth";
+
+let cfg = null;
+let sb = null;
+// One id per consent attempt, kept across the Google round-trip (sessionStorage), sent on
+// every event and aliased to the user once known, so viewed → approved is one funnel.
+const CID_KEY = "reps_oauth_cid";
+let consentId = null;
+try { consentId = sessionStorage.getItem(CID_KEY); } catch {}
+if (!consentId) {
+  consentId = "consent_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 10);
+  try { sessionStorage.setItem(CID_KEY, consentId); } catch {}
+}
+let distinctId = consentId;
+let identified = false;
+function identify(userId) {
+  if (identified || !userId) return;
+  identified = true;
+  distinctId = userId;
+  send("$identify", { $anon_distinct_id: consentId });
+}
+
+// Hand-built beacon: literal / enum properties only. NEVER location.*, never the authorization_id.
+function track(event, props) { send(event, { consent_session_id: consentId, ...(props || {}) }); }
+function send(event, props) {
+  if (!cfg || !cfg.posthogKey) return;
+  try {
+    fetch("https://us.i.posthog.com/i/v0/e/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ api_key: cfg.posthogKey, event, distinct_id: distinctId, properties: { page: "/oauth/consent", $lib: "reps-oauth-consent", ...(props || {}) } }),
+      keepalive: true,
+    }).catch(() => {});
+  } catch { /* telemetry never breaks sign-in */ }
+}
+
+function message(title, body, action) {
+  $("message-title").textContent = title;
+  $("message-body").textContent = body;
+  const btn = $("btn-message-action");
+  btn.classList.toggle("hidden", !action);
+  if (action) { btn.textContent = action.label; btn.onclick = action.run; }
+  show("view-message");
+}
+
+function busy(button, on, label) {
+  button.disabled = on;
+  if (on) {
+    button.dataset.label = button.textContent;
+    button.textContent = "";
+    const s = document.createElement("span"); s.className = "spinner"; s.setAttribute("aria-hidden", "true");
+    button.append(s, document.createTextNode(label || ""));
+  } else if (button.dataset.label !== undefined) {
+    button.textContent = button.dataset.label;
+  }
+}
+
+const authorizationId = readAuthorizationId(location.search);
+
+async function start() {
+  if (!authorizationId) {
+    track("oauth_consent_error", { reason: "missing_authorization_id" });
+    await finish();
+    return message("This link has expired", "Go back to ChatGPT or Claude and connect REPS again.");
+  }
+  try {
+    const res = await fetch("/api/oauth-config", { cache: "no-store" });
+    if (!res.ok) throw new Error("config " + res.status);
+    cfg = await res.json();
+  } catch {
+    return message("Something went wrong", "We couldn't load this page. Check your connection and try again.", { label: "Try again", run: () => location.reload() });
+  }
+  sb = window.supabase.createClient(cfg.supabaseUrl, cfg.anonKey, {
+    // sessionStorage: the web session lives only as long as this sheet.
+    auth: { flowType: "pkce", detectSessionInUrl: true, persistSession: true, storage: window.sessionStorage, storageKey: AUTH_KEY, autoRefreshToken: false },
+  });
+  let seen = false;
+  try { seen = sessionStorage.getItem(CID_KEY + "_viewed") === "1"; sessionStorage.setItem(CID_KEY + "_viewed", "1"); } catch {}
+  if (!seen) track("oauth_consent_viewed", {});
+  if (cfg.google) $("btn-google").classList.remove("hidden");
+  if (cfg.apple) $("btn-apple").classList.remove("hidden");
+  if (cfg.emailCode) $("form-email").classList.remove("hidden");
+  if ((cfg.google || cfg.apple) && cfg.emailCode) $("email-divider").classList.remove("hidden");
+
+  const { data } = await sb.auth.getSession();
+  if (data.session) return afterSignIn();
+  show("view-signin");
+}
+
+function markStart() {
+  try { sessionStorage.setItem(T0_KEY, String(Date.now())); } catch { /* private mode: test falls back to "already signed in" */ }
+}
+function readStart() {
+  try { const v = Number(sessionStorage.getItem(T0_KEY)); return Number.isFinite(v) && v > 0 ? v : null; } catch { return null; }
+}
+
+async function afterSignIn() {
+  const { data, error } = await sb.auth.getUser();
+  const user = error ? null : data.user;
+  const verdict = accountCheck(user, readStart());
+  if (!verdict.ok) {
+    if (user) identify(user.id);
+    track("oauth_consent_refused", { reason: verdict.reason });
+    // Signed out, never deleted (PLAN §1.3): deleting from a public page is irreversible.
+    await finish();
+    return message(
+      "Sign in with your REPS account",
+      "Use the account you use in the REPS app. New to REPS? Get the app first, then connect again.",
+      { label: "Try a different account", run: () => show("view-signin") },
+    );
+  }
+  identify(user.id);
+  return showConsent(user);
+}
+
+async function showConsent(user) {
+  const { data: details, error } = await sb.auth.oauth.getAuthorizationDetails(authorizationId);
+  if (error || !details) {
+    const offline = !navigator.onLine || (error && error.status === 0);
+    track("oauth_consent_error", { reason: offline ? "details_network" : "details_failed" });
+    if (offline) return message("You're offline", "Check your connection and try again.", { label: "Try again", run: () => location.reload() });
+    await finish();
+    return message("This link has expired", "Go back to ChatGPT or Claude and connect REPS again.");
+  }
+  // Already consented before: Supabase returns where to send the user, no card needed.
+  if (!details.authorization_id && details.redirect_url) {
+    const to = redirectTargetAllowed(details.redirect_url, { allowDev: cfg.allowDevCallbacks === true });
+    await finish();
+    if (to) return location.replace(to);
+    track("oauth_consent_error", { reason: "consented_redirect_rejected" });
+    return message("This link has expired", "Go back to ChatGPT or Claude and connect REPS again.");
+  }
+  const client = classifyRedirect(details.redirect_uri, { allowDev: cfg.allowDevCallbacks === true });
+  if (!client.allowed) {
+    track("oauth_consent_refused", { reason: isLocalCallback(client.domain) ? "local_client" : "unknown_client" });
+    await finish();
+    if (isLocalCallback(client.domain)) {
+      return message("Local tools can't connect yet", "Claude Code and other tools on your computer can't connect to REPS yet. Use REPS in the ChatGPT or Claude apps instead.");
+    }
+    return message(
+      "We can't connect this app",
+      "REPS connects to ChatGPT and Claude only." + (client.domain ? " This request came from " + client.domain + "." : ""),
+    );
+  }
+  $("consent-title").textContent = "Connect " + client.assistant + " to REPS?";
+  // Must match the plugin's tools (save + read-only search/recommend/quiz) — directory reviewers check it.
+  $("consent-body").textContent = client.assistant + " will be able to save things to your REPS library, find what you've saved, and quiz you on it.";
+  $("consent-email").textContent = user.email || "your REPS account";
+  $("consent-domain").textContent = client.domain;
+  show("view-consent");
+  $("btn-allow").onclick = () => decide(true, client.assistant);
+  $("btn-deny").onclick = () => decide(false, client.assistant);
+}
+
+async function decide(allow, assistant) {
+  const btn = allow ? $("btn-allow") : $("btn-deny");
+  $("btn-allow").disabled = true; $("btn-deny").disabled = true;
+  if (allow) busy(btn, true);
+  const call = allow ? sb.auth.oauth.approveAuthorization(authorizationId, { skipBrowserRedirect: true }) : sb.auth.oauth.denyAuthorization(authorizationId, { skipBrowserRedirect: true });
+  const { data, error } = await call;
+  const to = !error && data ? redirectTargetAllowed(data.redirect_url, { allowDev: cfg.allowDevCallbacks === true }) : null;
+  if (!to) {
+    if (allow) busy(btn, false);
+    $("btn-allow").disabled = false; $("btn-deny").disabled = false;
+    track("oauth_consent_error", { reason: allow ? "approve_failed" : "deny_failed" });
+    $("consent-status").textContent = "That didn't go through. Check your connection and try again.";
+    return;
+  }
+  track(allow ? "oauth_consent_approved" : "oauth_consent_denied", { assistant });
+  await finish();
+  location.replace(to);
+}
+
+async function finish() {
+  try { sessionStorage.removeItem(T0_KEY); sessionStorage.removeItem(CID_KEY); sessionStorage.removeItem(CID_KEY + "_viewed"); } catch {}
+  if (sb) {
+    try {
+      const { error } = await sb.auth.signOut({ scope: "local" });
+      if (error) track("oauth_consent_error", { reason: "logout_failed" });
+    } catch { track("oauth_consent_error", { reason: "logout_failed" }); }
+    finally {
+      // The SDK retains its session when server logout fails. This sheet must not.
+      try { for (const key of [AUTH_KEY, AUTH_KEY + "-code-verifier", AUTH_KEY + "-user"]) sessionStorage.removeItem(key); } catch {}
+    }
+  }
+}
+
+// ── sign-in paths ──────────────────────────────────────────────────────────
+async function provider(name) {
+  markStart();
+  const { error } = await sb.auth.signInWithOAuth({ provider: name, options: { redirectTo: location.href } });
+  if (error) $("signin-status").textContent = cfg.emailCode ? "That didn't work. Try again, or use your email." : "That didn't work. Try again.";
+}
+$("btn-google").onclick = () => provider("google");
+$("btn-apple").onclick = () => provider("apple");
+
+let codeEmail = "";
+$("form-email").onsubmit = async (e) => {
+  e.preventDefault();
+  const btn = $("btn-email");
+  codeEmail = $("email").value.trim();
+  if (!codeEmail) return;
+  busy(btn, true);
+  markStart();
+  const { error } = await sb.auth.signInWithOtp({ email: codeEmail, options: { shouldCreateUser: false } });
+  busy(btn, false);
+  // Same screen whether or not the address has an account (no account enumeration). Only a
+  // rate limit is worth saying out loud.
+  if (error && error.status === 429) {
+    $("signin-status").textContent = "Too many tries. Wait a minute, then try again.";
+    return;
+  }
+  $("code-email").textContent = codeEmail;
+  $("code").value = "";
+  $("code-status").textContent = "";
+  show("view-code");
+  $("code").focus();
+};
+
+$("form-code").onsubmit = async (e) => {
+  e.preventDefault();
+  const token = normaliseCode($("code").value);
+  if (!token) { $("code-status").textContent = "Enter the code from the email."; return; }
+  const btn = $("btn-code");
+  busy(btn, true);
+  const { error } = await sb.auth.verifyOtp({ email: codeEmail, token, type: "email" });
+  busy(btn, false);
+  if (error) { $("code-status").textContent = "That code didn't work. Check it, or send a new one."; return; }
+  afterSignIn();
+};
+$("btn-code-back").onclick = () => show("view-signin");
+
+$("form-password").onsubmit = async (e) => {
+  e.preventDefault();
+  const btn = $("btn-password");
+  busy(btn, true);
+  markStart();
+  const { error } = await sb.auth.signInWithPassword({ email: $("pw-email").value.trim(), password: $("pw").value });
+  busy(btn, false);
+  if (error) { $("signin-status").textContent = "That email and password don't match."; return; }
+  afterSignIn();
+};
+
+$("btn-not-you").onclick = async () => {
+  await finish();
+  show("view-signin");
+};
+
+start().catch(() => {
+  track("oauth_consent_error", { reason: "unexpected" });
+  finish();
+  message("Something went wrong", "Go back to ChatGPT or Claude and connect REPS again.");
+});
+</script>
+</body>
+</html>
