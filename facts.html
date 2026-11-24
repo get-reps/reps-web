@@ -1,0 +1,188 @@
+<!doctype html>
+<!-- REPS facts page ("entity map" for AI search engines), 2026-11-24.
+     EVERY line here must match reps-app/docs/truth/PRODUCT_TRUTH.md §1-§4 (live today, built-but-dark excluded,
+     the not-built list stated as "not available"). Never add a price, plan, "free" or "premium" line while
+     PAYWALL_ENABLED is false (PRODUCT_TRUTH §3). Refresh on every App Store release (the release flow already
+     diffs PRODUCT_TRUTH) and bump "Last updated" + dateModified + sitemap-pages.xml lastmod together. -->
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>REPS facts: what REPS is, who makes it, what it does</title>
+    <meta name="description" content="The plain facts about REPS: the iPhone app, the company behind it, what you can save, how the daily games work, and what it does not do.">
+    <link rel="canonical" href="https://www.getreps.io/facts">
+    <meta property="og:title" content="REPS facts">
+    <meta property="og:description" content="The plain facts about REPS: the app, the company, what it does and what it does not do.">
+    <meta property="og:url" content="https://www.getreps.io/facts">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://www.getreps.io/og-card-v3.png?v=2">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&amp;display=swap" rel="stylesheet">
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "@id": "https://www.getreps.io/facts#page",
+        "url": "https://www.getreps.io/facts",
+        "name": "REPS facts",
+        "dateModified": "2026-11-24",
+        "about": { "@id": "https://www.getreps.io/#organization" },
+        "mainEntity": { "@id": "https://www.getreps.io/#app" }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "@id": "https://www.getreps.io/#organization",
+        "name": "REPS",
+        "legalName": "REPS AI Ltd",
+        "url": "https://www.getreps.io/",
+        "logo": "https://www.getreps.io/logo.png",
+        "founder": { "@id": "https://www.getreps.io/#mike" },
+        "address": { "@type": "PostalAddress", "addressCountry": "GB" },
+        "contactPoint": { "@type": "ContactPoint", "contactType": "customer support", "email": "support@getreps.io" }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "@id": "https://www.getreps.io/#mike",
+        "name": "Mike McGraw",
+        "url": "https://www.getreps.io/about",
+        "jobTitle": "Founder",
+        "worksFor": { "@id": "https://www.getreps.io/#organization" }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "MobileApplication",
+        "@id": "https://www.getreps.io/#app",
+        "name": "REPS",
+        "operatingSystem": "iOS",
+        "applicationCategory": "EducationalApplication",
+        "url": "https://apps.apple.com/app/id6759216018",
+        "publisher": { "@id": "https://www.getreps.io/#organization" },
+        "description": "An iPhone app that turns what you read, watch and listen to into short quizzes built from that material, plus daily word games, and brings them back over the following days and weeks so you remember it."
+      }
+    </script>
+
+    <style>
+      :root {
+        --cream: #fffaf7;
+        --coral: #ff6b6b;
+        --peach: #ff8e53;
+        --coral-ink: #d8443f;
+        --ink: #211a14;
+        --body: rgba(33, 26, 20, 0.78);
+        --muted: rgba(33, 26, 20, 0.56);
+        --hairline: rgba(33, 26, 20, 0.1);
+        --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        --serif: "Lora", Georgia, serif;
+      }
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body { background: var(--cream); }
+      body { color: var(--body); font-family: var(--sans); font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+      a { color: inherit; }
+      :focus-visible { outline: 2px solid var(--coral-ink); outline-offset: 3px; border-radius: 4px; }
+      nav { position: sticky; top: 0; z-index: 10; background: rgba(255, 250, 247, 0.94); border-bottom: 1px solid var(--hairline); padding: 14px 24px; }
+      .nav-inner { max-width: 760px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+      .wordmark { display: flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 700; font-size: 18px; letter-spacing: 0.04em; color: var(--ink); }
+      .wordmark img { width: 26px; height: 26px; border-radius: 7px; }
+      .nav-cta { font-weight: 600; font-size: 14px; color: #fff; text-decoration: none; padding: 10px 16px; border-radius: 999px; background: linear-gradient(90deg, var(--coral), var(--peach)); white-space: nowrap; }
+      main { max-width: 760px; margin: 0 auto; padding: 48px 24px 64px; }
+      .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--coral-ink); margin-bottom: 12px; }
+      h1, h2 { font-family: var(--serif); font-weight: 500; color: var(--ink); letter-spacing: -0.02em; }
+      h1 { font-size: clamp(34px, 6vw, 52px); line-height: 1.05; }
+      .lede { margin-top: 14px; font-size: 18px; max-width: 58ch; }
+      .updated { margin-top: 10px; font-size: 13px; color: var(--muted); }
+      section { margin-top: 44px; }
+      h2 { font-size: 26px; line-height: 1.15; padding-bottom: 10px; border-bottom: 1px solid var(--hairline); }
+      dl { margin-top: 6px; }
+      .fact { display: grid; grid-template-columns: 1fr; gap: 2px; padding: 14px 0; border-bottom: 1px solid var(--hairline); }
+      dt { font-weight: 600; color: var(--ink); font-size: 15px; }
+      dd { font-size: 16px; }
+      dd .src { display: block; margin-top: 4px; font-size: 13px; color: var(--muted); }
+      dd .src a { color: var(--coral-ink); }
+      @media (min-width: 680px) { .fact { grid-template-columns: 200px 1fr; gap: 24px; } }
+      footer { border-top: 1px solid var(--hairline); padding: 32px 24px 44px; text-align: center; font-size: 14px; color: var(--muted); }
+      footer .motto { display: block; font-weight: 600; color: var(--ink); font-size: 16px; margin-bottom: 10px; }
+      footer a { text-decoration: none; }
+      footer .row { margin-top: 6px; }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="nav-inner">
+        <a class="wordmark" href="/"><img src="product/assets/app-icon.png" alt="" width="26" height="26"> REPS</a>
+        <a class="nav-cta" href="https://apps.apple.com/app/id6759216018">Get the app</a>
+      </div>
+    </nav>
+
+    <main>
+      <div class="eyebrow">REPS facts</div>
+      <h1>What REPS is, who makes it, and what it does.</h1>
+      <p class="lede">The plain version, one fact at a time. Where another page covers a fact in more depth, it is linked.</p>
+      <p class="updated">Last updated 24 November 2026. We update this page with every app release.</p>
+
+      <section aria-labelledby="company">
+        <h2 id="company">The company</h2>
+        <dl>
+          <div class="fact"><dt>Name</dt><dd>REPS, at getreps.io.</dd></div>
+          <div class="fact"><dt>Company</dt><dd>REPS AI Ltd, registered in England and Wales (company number 17271160).<span class="src">More: <a href="/terms">Terms of service</a></span></dd></div>
+          <div class="fact"><dt>Founder</dt><dd>Mike McGraw, full-time on REPS since July 2026.<span class="src">More: <a href="/about">About REPS</a></span></dd></div>
+          <div class="fact"><dt>Contact</dt><dd>support@getreps.io for help, privacy@getreps.io for privacy requests.<span class="src">More: <a href="/support">Support</a></span></dd></div>
+        </dl>
+      </section>
+
+      <section aria-labelledby="product">
+        <h2 id="product">What REPS does</h2>
+        <dl>
+          <div class="fact"><dt>In one line</dt><dd>An iPhone app that turns what you read, watch and listen to into short quizzes built from that material, plus daily word games, and brings them back over the following days and weeks so you remember it.<span class="src">More: <a href="/">Home</a></span></dd></div>
+          <div class="fact"><dt>The daily session</dt><dd>A short daily session, played as a game, made of what is due that day. Four formats: multiple choice, true or false, fill in the blank, and answering from memory. The timing uses spaced repetition.<span class="src">More: <a href="/features/active-recall">Active recall</a></span></dd></div>
+          <div class="fact"><dt>Progress</dt><dd>Each idea REPS pulls from what you save moves through six levels, from New to Locked In. A wrong answer brings it back sooner; it never loses a level.</dd></div>
+          <div class="fact"><dt>Games</dt><dd>Five games. Ladder, Crossword, Cryptic and Friends Trivia open once three of your saves are ready, and the first three are built from what you save. Quotle, a daily quote game, is open from day one. In Friends Trivia, you and a friend play the same ten rounds and compare scores.</dd></div>
+          <div class="fact"><dt>Your Brain</dt><dd>An interactive map of everything you have saved, coloured by topic, that you can explore.<span class="src">More: <a href="/features/second-brain">Your Brain</a></span></dd></div>
+          <div class="fact"><dt>Ask Echo</dt><dd>A chat with Echo, the REPS guide, about what you have saved. Echo can also recommend and add sets other people have published.</dd></div>
+          <div class="fact"><dt>Friends</dt><dd>Add friends, see their recent activity, play Friends Trivia together and compare progress on a leaderboard.</dd></div>
+          <div class="fact"><dt>Voice sessions</dt><dd>Spoken sessions in English, French, German, Spanish, Italian and Portuguese. The app's screens are in English.</dd></div>
+        </dl>
+      </section>
+
+      <section aria-labelledby="save">
+        <h2 id="save">What you can save</h2>
+        <dl>
+          <div class="fact"><dt>Sources</dt><dd>Web articles and links, YouTube videos, Instagram and TikTok links, podcast episode links (Spotify, Apple Podcasts or a feed), PDFs, Word, Pages, Markdown and text documents, photos and screenshots, a photo of a book page, a reading list (a screenshot, a pasted list or a Goodreads export), and your own notes.</dd></div>
+          <div class="fact"><dt>Ways to save</dt><dd>In the app, from the iPhone share sheet (a link, text or a single image), with the REPS Chrome extension, or by texting a link or note to Echo over iMessage or emailing it, once connected in the app's settings.</dd></div>
+        </dl>
+      </section>
+
+      <section aria-labelledby="where">
+        <h2 id="where">Where it works, and what it does not do</h2>
+        <dl>
+          <div class="fact"><dt>Platform</dt><dd>iPhone, from the App Store.<span class="src">More: <a href="https://apps.apple.com/app/id6759216018">REPS on the App Store</a></span></dd></div>
+          <div class="fact"><dt>Not available</dt><dd>There is no Android app and no web app: you cannot train in a browser. REPS does not work offline.</dd></div>
+          <div class="fact"><dt>No automatic sync</dt><dd>REPS does not connect to or import from Notion, Readwise, Kindle, Obsidian, Apple Books or Pocket. You save each item yourself, or import a reading list from a screenshot or a Goodreads export.</dd></div>
+          <div class="fact"><dt>Who it is for</dt><dd>Individuals. There are no team, classroom or company accounts, and no ready-made courses: you bring your own content.</dd></div>
+        </dl>
+      </section>
+
+      <section aria-labelledby="privacy">
+        <h2 id="privacy">Privacy and terms</h2>
+        <dl>
+          <div class="fact"><dt>Policies</dt><dd><a href="/privacy">Privacy policy</a>, <a href="/terms">Terms of service</a> and <a href="/fair-use">Fair use policy</a>.</dd></div>
+          <div class="fact"><dt>Deleting your account</dt><dd>You can delete your account from inside the app.<span class="src">More: <a href="/privacy">Privacy policy</a></span></dd></div>
+        </dl>
+      </section>
+    </main>
+
+    <footer>
+      <span class="motto">Your knowledge companion.</span>
+      <div class="row"><a href="/">Home</a> · <a href="/about">About</a> · <a href="/newsroom">Newsroom</a> · <a href="/support">Support</a></div>
+      <div class="row">REPS · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a></div>
+    </footer>
+</body></html>
