@@ -6,7 +6,7 @@
  * source HTML, takes its primary content (<main>, else a single <article>, else <body> without
  * header/nav/footer) and writes a Markdown copy that is served at the page URL + ".md":
  *
- *   /                      -> index.md        (served at /index.md; `Accept: text/markdown` on / rewrites here)
+ *   /                      -> home.md        (served at /home.md; `Accept: text/markdown` on / is answered by middleware.ts)
  *   /about                 -> about.md
  *   /compare               -> compare.md      (twin of compare/index.html, next to the compare/ folder)
  *   /compare/<slug>        -> compare/<slug>.md
@@ -46,7 +46,7 @@ export function pages() {
 }
 
 export function filesFor(path) {
-  if (path === '/') return { source: 'cs-c-lora.html', twin: 'index.md', twinUrl: `${ORIGIN}/index.md` };
+  if (path === '/') return { source: 'cs-c-lora.html', twin: 'home.md', twinUrl: `${ORIGIN}/home.md` };
   const rel = path.slice(1);
   const source = existsSync(join(ROOT, `${rel}.html`)) ? `${rel}.html` : `${rel}/index.html`;
   return { source, twin: `${rel}.md`, twinUrl: `${ORIGIN}/${rel}.md` };

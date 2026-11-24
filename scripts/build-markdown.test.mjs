@@ -36,7 +36,7 @@ for (const page of all) {
 }
 
 test('homepage twin carries the hero headline that only JavaScript paints on the page', () => {
-  const home = lf(readFileSync(join(ROOT, 'index.md'), 'utf8'));
+  const home = lf(readFileSync(join(ROOT, 'home.md'), 'utf8'));
   assert.match(home, /^# Turn what you consume/m);
 });
 

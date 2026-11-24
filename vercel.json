@@ -74,7 +74,7 @@
     {
       "source": "/",
       "headers": [
-        { "key": "Link", "value": "<https://www.getreps.io/index.md>; rel=\"alternate\"; type=\"text/markdown\"" },
+        { "key": "Link", "value": "<https://www.getreps.io/home.md>; rel=\"alternate\"; type=\"text/markdown\"" },
         { "key": "Vary", "value": "Accept" }
       ]
     },
@@ -198,7 +198,7 @@
       ]
     },
     {
-      "source": "/index.md",
+      "source": "/home.md",
       "headers": [
         { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
         { "key": "Link", "value": "<https://www.getreps.io/>; rel=\"canonical\"" }

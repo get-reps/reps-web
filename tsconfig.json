@@ -13,5 +13,5 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "types": []
   },
-  "include": ["api/**/*.ts", "api/**/*.d.ts"]
+  "include": ["api/**/*.ts", "api/**/*.d.ts", "middleware.ts", "middleware.test.ts"]
 }

@@ -2,13 +2,13 @@
 
 > REPS is an iPhone app, your knowledge companion. It turns what you read, watch and listen to into short quizzes built from that material, plus daily word games, and brings them back over the following days and weeks so you remember it. Made by REPS AI Ltd (England and Wales). Available on the App Store; there is no Android or web app.
 
-Links ending in `.md` are Markdown copies of getreps.io pages; drop the `.md` for the page itself (the homepage copy is /index.md). The facts page is the most precise summary and is updated with every app release.
+Links ending in `.md` are Markdown copies of getreps.io pages; drop the `.md` for the page itself (the homepage copy is /home.md). The facts page is the most precise summary and is updated with every app release.
 
 ## About REPS
 
 - [REPS facts](https://www.getreps.io/facts.md): what REPS is, who makes it, what you can save, how the daily session and games work, and what it does not do
 - [About REPS](https://www.getreps.io/about.md): why REPS exists and who built it
-- [Home](https://www.getreps.io/index.md): what REPS does, in the words on the homepage
+- [Home](https://www.getreps.io/home.md): what REPS does, in the words on the homepage
 - [REPS on the App Store](https://apps.apple.com/app/id6759216018): download, ratings and reviews
 
 ## Features
