@@ -28,6 +28,10 @@ Links ending in `.md` are Markdown copies of getreps.io pages; drop the `.md` fo
 - [Best Pocket alternatives](https://www.getreps.io/compare/best-pocket-alternatives.md): replacements now that Pocket has shut down
 - [Best Obsidian alternatives](https://www.getreps.io/compare/best-obsidian-alternatives.md)
 - [Best Quizlet alternatives](https://www.getreps.io/compare/best-quizlet-alternatives.md)
+- [REPS vs Recall](https://www.getreps.io/compare/reps-vs-recall.md): which app helps you remember what you save
+- [Best Recall alternatives](https://www.getreps.io/compare/best-recall-alternatives.md): REPS, Recl, Readwise, Gemini Notebook, Obsidian and Anki
+- [REPS vs Recl](https://www.getreps.io/compare/reps-vs-recl.md): where each one fits
+- [Best apps to remember what you watch and learn](https://www.getreps.io/compare/best-apps-to-remember-what-you-watch.md): what happens after you save a video, podcast or reel
 
 ## Optional
 
