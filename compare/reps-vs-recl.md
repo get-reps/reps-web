@@ -35,14 +35,14 @@ Feature by feature
 | What matters | REPS | Recl |
 | --- | --- | --- |
 | Best at | Being tested on what you save, as a daily game | Summaries of videos, reels and articles you revisit |
-| Platforms | iPhone; Chrome extension for saving | iPhone, iPad, Android, web, Chrome and Edge |
+| Platforms | iPhone app and Chrome extension (for saving) | iPhone, iPad, Android, web, Chrome and Edge |
 | How things come back | Daily questions on the ideas you pick, with spaced repetition | Review after 1, 3, 7, 14, 30, 60 days (tap to mark reviewed); weekly quiz |
-| AI summaries | Not the focus | Yes, with timestamps for video |
+| AI summaries | Yes: pulls out the core ideas of what you save, for you to remember | Yes, with timestamps for video |
 | Games and friends | Ladder, Crossword, Cryptic, Quotle, Friends Trivia; friends and a leaderboard | No word games described; community chat and leaderboard for Pro members |
 | Ask your saves | Ask Echo | Ask Recl, with sources; MCP server |
 | Languages | English screens; voice in six languages | 20 app languages |
 | Books | Book page photos, reading lists, Goodreads export | Public library of AI book summaries; book shelves on your profile |
-| Free to try | See the App Store | On mobile: 3 saves and 5 Ask answers; web needs a paid plan |
+| Free to try | Free | On mobile: 3 saves and 5 Ask answers; web needs a paid plan |
 
 ## Being asked versus being shown
 
@@ -60,7 +60,7 @@ Recl is young: its team announced it was live on iPhone, Android and the web on 
 
 ## Where Recl fits better
 
-- You need Android, iPad, the web, or a Chrome or Edge extension.
+- You need Android, iPad, the web, or an Edge extension.
 - You mostly learn from YouTube, reels and TikTok and want a written summary, with chapter timestamps and three summary lengths for YouTube ([App Store listing](https://apps.apple.com/app/id6804185109)).
 - You want to ask your library questions and see which saves the answer used, or connect it to ChatGPT, Claude and Cursor through its MCP server ([Recl](https://www.recl.app/llms.txt)).
 - You want the app in one of 20 languages, or to save reels from your Instagram DMs (Pro).
@@ -68,9 +68,8 @@ Recl is young: its team announced it was live on iPhone, Android and the web on 
 
 ## Where REPS is weaker
 
-- iPhone only: no Android app, no web app, and no offline use.
+- The app is iPhone only, with a Chrome extension for saving: no Android app, no web app, and no offline use.
 - No library imports from other apps, only a reading list from a screenshot or a Goodreads export.
-- AI summaries are not the focus, so there is no written summary to read back.
 - Screens are in English; only the spoken sessions come in six languages.
 
 FAQ
@@ -91,11 +90,11 @@ If you mainly want a written summary of a video, with timestamps and a choice of
 
 ### Does REPS work on Android or the web?
 
-No. REPS is an iPhone app. There is no Android app or web app, and it does not work offline. Recl is on iPhone, iPad, Android, the web, and Chrome and Edge, so it is the better choice if you need those.
+No. REPS is an iPhone app with a Chrome extension for saving. There is no Android app or web app, and it does not work offline. Recl is on iPhone, iPad, Android, the web, and Chrome and Edge, so it is the better choice if you need Android, iPad or the web.
 
 ### Can I try them for free?
 
-Recl is free to try on iPhone, iPad and Android with 3 saves and 5 Ask answers, and needs a paid plan on the web. REPS is on the App Store; see the listing for details.
+Recl is free to try on iPhone, iPad and Android with 3 saves and 5 Ask answers, and needs a paid plan on the web. REPS is currently free on the App Store.
 
 Related
 
