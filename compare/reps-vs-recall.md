@@ -39,8 +39,9 @@ Feature by feature
 | Quizzes from your saves | Yes, for the ideas you pick from each save | Yes, on Plus: you generate them per card and choose to schedule |
 | Spaced schedule | Six levels from New to Locked In | On Plus: five stages from New to Mastered |
 | Games and friends | Ladder, Crossword, Cryptic, Quotle, Friends Trivia; friends and a leaderboard | Quizzes and shareable challenges with a leaderboard |
-| AI summaries | Yes: pulls out the core ideas of what you save, for you to remember | Yes, core feature |
-| Chat with your saves | Ask Echo, about what you have saved | On Plus: library, web or both; model choice on Max |
+| AI summaries | Yes: a written summary of each save you can read back | Yes, core feature |
+| Chat with your saves | Echo can search the open web and shows which of your saves it used | On Plus: library, web or both; model choice on Max |
+| API and MCP access | Yes, to your library | Yes, on every plan |
 | Import and export | No library imports; reading lists from a screenshot or Goodreads export | Imports Markdown, bookmarks, Pocket, Mem, CSV (bulk on Plus); exports Markdown |
 | Price | Free | Free plan (10 AI summaries a month); quizzes, chat and Listen Mode on Plus; model choice on Max |
 
@@ -48,7 +49,7 @@ Feature by feature
 
 In Recall, you save a card and get a summary. To be quizzed, on the Plus plan, you open the card's Quiz tab, generate questions and can switch on "Schedule for review". A review session gives you up to 10 of your most-due questions, in seven formats including matching, ordering and flashcards ([Recall docs](https://docs.recall.it/deep-dives/quiz-and-spaced-repetition)).
 
-In REPS, you save the thing and REPS pulls out the ideas worth keeping. You tap the ones you want to remember, now or later, and they come back in a short daily session played as a game, in four formats: multiple choice, true or false, fill in the blank, and answering from memory. Each idea moves through six levels, from New to Locked In; a wrong answer brings it back sooner but never costs a level ([REPS facts](https://www.getreps.io/facts)). In Recall, a wrong answer on a mastered question drops it back to Learning. Outside the daily session, the Discover feed lists new articles to explore, each showing how many concepts it holds.
+In REPS, you save the thing and get a written summary you can read back. REPS pulls out the ideas worth keeping. You tap the ones you want to remember, now or later, and they come back in a short daily session played as a game, in four formats: multiple choice, true or false, fill in the blank, and answering from memory. Each idea moves through six levels, from New to Locked In; a wrong answer brings it back sooner but never costs a level ([REPS facts](https://www.getreps.io/facts)). In Recall, a wrong answer on a mastered question drops it back to Learning. Outside the daily session, the Discover feed lists new articles to explore, each showing how many concepts it holds.
 
 ## Where REPS fits better
 
@@ -61,16 +62,14 @@ In REPS, you save the thing and REPS pulls out the ideas worth keeping. You tap 
 ## Where Recall fits better
 
 - You need Android, the web, or an extension for Firefox, Edge or Safari ([Recall](https://www.recall.it/llms-full.txt)).
-- You want chat across your library or the web (Plus), with your choice of AI model, including ChatGPT, Claude and Gemini (Max) ([pricing](https://www.recall.it/pricing)).
-- You are building a research library: a notes editor, a knowledge graph, imports (bulk on Plus) and Markdown export. REPS lets you write your own notes and has Your Brain, a map of your saved ideas coloured by topic.
-- You want API and MCP access, which is included even on the free plan ([pricing](https://www.recall.it/pricing)).
+- You want to choose the AI model, including ChatGPT, Claude and Gemini (Max) ([pricing](https://www.recall.it/pricing)).
+- You are building a research library: a notes editor, a knowledge graph, imports (bulk on Plus) and Markdown export. REPS lets you write your own notes, has folders and highlights you can organize and review, and has Your Brain, a map of your saved ideas coloured by topic.
 - You want PDFs up to 2,000 pages (REPS also saves PDFs), or EPUBs, Google Docs and Slides as sources ([supported content](https://docs.recall.it/supported-content/all-supported-content)).
 
 ## Where REPS is weaker
 
 - The app is for iPhone and iPad, plus a Chrome extension for saving: no Android app, no web app, and no offline use.
 - No library imports from other apps, only a reading list from a screenshot or a Goodreads export.
-- Ask Echo covers what you have saved, not the open web.
 - Four question formats to Recall's seven, and less you can configure.
 
 FAQ

@@ -6,7 +6,7 @@ Compare
 
 ![Mike McGraw, founder of REPS](https://www.getreps.io/compare/assets/mike-mcgraw.jpg) **By Mike McGraw**, founder of REPS · Updated November 2026 · 6 min read We make REPS, so we are not neutral.
 
-REPS, the AI companion we make, turns the ideas you pick from a saved YouTube video, reel or podcast into a short daily game, so you are asked about them again over days and weeks. The other five mostly help you find and skim: Recall and Recl summarize, Snipd captures podcast moments, Readwise Reader highlights transcripts and Gemini Notebook answers questions about your sources. Choose REPS to remember it, Recall for one library everywhere, Recl for video summaries and Snipd for podcasts.
+REPS, the AI companion we make, turns the ideas you pick from a saved YouTube video, reel or podcast into a short daily game, so you are asked about them again over days and weeks. The other five mostly help you find and skim: Snipd captures podcast moments, Readwise Reader highlights transcripts and Gemini Notebook answers questions about your sources. Choose REPS to remember it, Recall for one library everywhere, Recl for video summaries with timestamps and Snipd for podcasts.
 
 Checked on each app's own site and pricing page on 24 November 2026; the links are in each entry. Features and prices change.
 
@@ -49,7 +49,7 @@ A summary helps you find and review the main points, but reading it again is not
 
 ### REPS: the ideas you pick come back as a game
 
-**Our pick.** Save a YouTube video, an Instagram or TikTok link, or a podcast episode from Spotify or Apple Podcasts. REPS pulls out the ideas worth keeping, you tap the ones you want, now or later, and they come back a few minutes a day as a game, timed with spaced repetition. Once three saves are ready, Ladder, Crossword, Cryptic and Friends Trivia open up, and the first three are built from what you saved ([REPS facts](https://www.getreps.io/facts)). A Discover feed lists new articles to explore, each showing how many concepts it holds.
+**Our pick.** Save a YouTube video, an Instagram or TikTok link, or a podcast episode from Spotify or Apple Podcasts. REPS pulls out the ideas worth keeping, you tap the ones you want, now or later, and they come back a few minutes a day as a game, timed with spaced repetition. Once three saves are ready, Ladder, Crossword, Cryptic and Friends Trivia open up, and the first three are built from what you saved ([REPS facts](https://www.getreps.io/facts)). A Discover feed lists new articles to explore, each showing how many concepts it holds. You can also read back a written summary of each save.
 
 ### Recall: the most complete AI knowledge base
 
@@ -79,8 +79,8 @@ A summary helps you find and review the main points, but reading it again is not
 
 ## Where the others fit better
 
-- **Recall:** one searchable library on every device; chat and quizzes are on Plus, API and MCP on every plan.
-- **Recl:** quick summaries of videos and reels, with timestamps, on Android and the web too.
+- **Recall:** one searchable library on every device; chat and quizzes are on Plus.
+- **Recl:** video and reel summaries with timestamps, on Android and the web too.
 - **Snipd:** podcasts are your main source, and you want to capture moments as you listen.
 - **Readwise Reader:** you highlight as you go.
 - **Gemini Notebook:** you are researching one topic from a stack of sources.
@@ -90,7 +90,6 @@ A summary helps you find and review the main points, but reading it again is not
 
 - The app is for iPhone and iPad, plus a Chrome extension for saving: no Android app, no web app, and no offline use.
 - No library imports from other apps, only a reading list from a screenshot or a Goodreads export.
-- No library to search and chat with across the web.
 
 FAQ
 
@@ -98,7 +97,7 @@ FAQ
 
 ### What is the best app to remember what you watch on YouTube?
 
-It depends on what you want back. For a written summary of a video, Recall and Recl both do it well, and Recl adds chapter timestamps. REPS also pulls out the core ideas of a saved video, and turns the ones you pick into questions in a short daily game, so you are tested on them until you remember.
+It depends on what you want back. For a written summary of a video, Recall, Recl and REPS all offer one you can read back, and Recl adds chapter timestamps. REPS also turns the ideas you pick from a saved video into questions in a short daily game, so you are tested on them until you remember.
 
 ### Is there an app that quizzes you on podcasts?
 
