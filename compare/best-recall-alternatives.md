@@ -6,7 +6,7 @@ Compare
 
 ![Mike McGraw, founder of REPS](https://www.getreps.io/compare/assets/mike-mcgraw.jpg) **By Mike McGraw**, founder of REPS · Updated November 2026 · 6 min read We make REPS, so we are not neutral.
 
-If you are leaving Recall to actually remember what you save, REPS, the AI companion we make, is our pick: you tap the ideas you want from each save and they come back as a short daily game on iPhone and iPad. Recall (recall.it) is still the stronger library: it saves and summarizes, and on its paid plans connects, chats and quizzes, on every platform. Choose REPS for remembering, Recl for lighter video summaries, Readwise for highlights, Gemini Notebook for research, Obsidian for notes you own and Anki for cards you write.
+If you are leaving Recall to actually remember what you save, REPS, the AI companion we make, is our pick: you tap the ideas you want from each save and they come back as a short daily game on iPhone and iPad. Recall (recall.it) is still the stronger library if you need every platform and Markdown export: on its paid plans it adds an automatic graph and scheduled quizzes, and Max adds a choice of AI model. Choose REPS for remembering, Recl for lighter video summaries, Readwise for highlights, Gemini Notebook for research, Obsidian for notes you own and Anki for cards you write.
 
 Checked on each app's own site and pricing page on 24 November 2026; Recall facts are from [recall.it](https://www.recall.it/llms-full.txt), its [pricing page](https://www.recall.it/pricing) and [quiz docs](https://docs.recall.it/deep-dives/quiz-and-spaced-repetition). Features and prices change.
 
@@ -43,13 +43,13 @@ At a glance
 
 ## What you would give up
 
-Recall runs on the web, iOS, Android and four browsers, summarizes YouTube videos, podcasts, articles and PDFs, exports to Markdown and offers API and MCP access on every plan, free included. Plus adds the automatic graph, chat, bulk imports and quizzes you can schedule; Max adds the choice of AI model ([pricing](https://www.recall.it/pricing)). See [REPS vs Recall](https://www.getreps.io/compare/reps-vs-recall).
+Recall runs on the web, iOS, Android and four browsers, summarizes YouTube videos, podcasts, articles and PDFs, and exports to Markdown. Plus adds the automatic graph, chat, bulk imports and quizzes you can schedule; Max adds the choice of AI model ([pricing](https://www.recall.it/pricing)). See [REPS vs Recall](https://www.getreps.io/compare/reps-vs-recall).
 
 ## The six alternatives
 
 ### REPS: when you want it to come back to you
 
-**Our pick, for remembering.** Save an article, a YouTube video, a podcast episode, a PDF or a photo of a book page. REPS pulls out the ideas worth keeping, you tap the ones you want, now or later, and they come back in a short daily session in four formats, timed with spaced repetition, through six levels from New to Locked In. Ladder, Crossword and Cryptic are built from your saves, Quotle is a daily quote game, and Friends Trivia lets you play the same ten rounds as a friend ([REPS facts](https://www.getreps.io/facts)). A Discover feed lists new articles to explore, each showing how many concepts it holds.
+**Our pick, for remembering.** Save an article, a YouTube video, a podcast episode, a PDF or a photo of a book page. REPS pulls out the ideas worth keeping, you tap the ones you want, now or later, and they come back in a short daily session in four formats, timed with spaced repetition, through six levels from New to Locked In. Ladder, Crossword and Cryptic are built from your saves, Quotle is a daily quote game, and Friends Trivia lets you play the same ten rounds as a friend ([REPS facts](https://www.getreps.io/facts)). A Discover feed lists new articles to explore, each showing how many concepts it holds. You can also read back a written summary of each save. Echo can search the open web and shows which of your saves it used. REPS has folders and highlights you can organize and review, and API and MCP access to your library.
 
 ### Recl: video-first, with summaries and reviews
 
@@ -81,11 +81,10 @@ Recall runs on the web, iOS, Android and four browsers, summarizes YouTube video
 ## Where Recall fits better
 
 - You use its summaries, chat and graph every week, and the only problem is forgetting to quiz yourself: on Plus, generating questions for the cards that matter and switching on "Schedule for review" gives you spaced repetition inside Recall.
-- You need one library on every platform, with exports, API and MCP access, chat across the web (Plus) and a choice of AI model (Max).
+- You need one library on every platform, with exports, and a choice of AI model (Max).
 
 ## Where REPS is weaker
 
-- It does less than Recall as a library: Ask Echo covers what you have saved, not the open web.
 - The app is for iPhone and iPad, plus a Chrome extension for saving: no Android app, no web app, and no offline use.
 - No library imports from other apps, only a reading list from a screenshot or a Goodreads export.
 

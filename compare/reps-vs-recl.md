@@ -37,9 +37,9 @@ Feature by feature
 | Best at | Being tested on what you save, as a daily game | Summaries of videos, reels and articles you revisit |
 | Platforms | iPhone and iPad app and Chrome extension (for saving) | iPhone, iPad, Android, web, Chrome and Edge |
 | How things come back | Daily questions on the ideas you pick, with spaced repetition | Review after 1, 3, 7, 14, 30, 60 days (tap to mark reviewed); weekly quiz |
-| AI summaries | Yes: pulls out the core ideas of what you save, for you to remember | Yes, with timestamps for video |
+| AI summaries | Yes: a written summary of each save you can read back | Yes, with timestamps for video |
 | Games and friends | Ladder, Crossword, Cryptic, Quotle, Friends Trivia; friends and a leaderboard | No word games described; community chat and leaderboard for Pro members |
-| Ask your saves | Ask Echo | Ask Recl, with sources; MCP server |
+| Ask your saves | Echo can search the open web and shows which of your saves it used; API and MCP access to your library | Ask Recl, with sources; MCP server |
 | Languages | English screens; voice in six languages | 20 app languages |
 | Books | Book page photos, reading lists, Goodreads export | Public library of AI book summaries; book shelves on your profile |
 | Free to try | Free | On mobile: 3 saves and 5 Ask answers; web needs a paid plan |
@@ -61,10 +61,9 @@ Recl is young: its team announced it was live on iPhone, Android and the web on 
 ## Where Recl fits better
 
 - You need Android, the web, or an Edge extension.
-- You mostly learn from YouTube, reels and TikTok and want a written summary, with chapter timestamps and three summary lengths for YouTube ([App Store listing](https://apps.apple.com/app/id6804185109)).
-- You want to ask your library questions and see which saves the answer used, or connect it to ChatGPT, Claude and Cursor through its MCP server ([Recl](https://www.recl.app/llms.txt)).
+- You mostly learn from YouTube, reels and TikTok and want chapter timestamps and three summary lengths for YouTube ([App Store listing](https://apps.apple.com/app/id6804185109)). REPS also has a written summary of each save you can read back.
 - You want the app in one of 20 languages, or to save reels from your Instagram DMs (Pro).
-- You like organizing: topics that sort themselves, folders, highlights and a knowledge graph. REPS lets you write your own notes and has Your Brain, a map of your saved ideas coloured by topic.
+- You like organizing: topics that sort themselves and a knowledge graph. REPS lets you write your own notes, has folders and highlights you can organize and review, and has Your Brain, a map of your saved ideas coloured by topic.
 
 ## Where REPS is weaker
 
@@ -86,7 +85,7 @@ Yes, in two ways. Each save comes back for review after 1, 3, 7, 14, 30 and 60 d
 
 ### Which is better for YouTube videos and reels?
 
-If you mainly want a written summary of a video, with timestamps and a choice of length, Recl is built for that. If you want to be tested on what a video said until you remember it, REPS is built for that. Both save YouTube, Instagram and TikTok links.
+If you mainly want a written summary with timestamps and a choice of length, Recl is built for that. REPS also has a written summary of each save you can read back, and is built for being tested on what a video said until you remember it. Both save YouTube, Instagram and TikTok links.
 
 ### Does REPS work on Android or the web?
 
