@@ -6,7 +6,7 @@ Compare
 
 ![Mike McGraw, founder of REPS](https://www.getreps.io/compare/assets/mike-mcgraw.jpg) **By Mike McGraw**, founder of REPS · Updated November 2026 · 5 min read We make REPS, so we are not neutral.
 
-REPS is an AI companion for iPhone: you save an article, a video, a podcast or a book page, tap the ideas you want to remember, and they come back as a short daily game, with word games and trivia with friends. Recall (recall.it) is the broader tool: an AI knowledge base that saves, summarizes and connects what you read, watch and hear, on the web, iOS, Android and four browsers, with chat and quizzes on its paid Plus plan. Choose REPS to remember what you save, Recall to research and organize it.
+REPS is an AI companion for iPhone and iPad: you save an article, a video, a podcast or a book page, tap the ideas you want to remember, and they come back as a short daily game, with word games and trivia with friends. Recall (recall.it) is the broader tool: an AI knowledge base that saves, summarizes and connects what you read, watch and hear, on the web, iOS, Android and four browsers, with chat and quizzes on its paid Plus plan. Choose REPS to remember what you save, Recall to research and organize it.
 
 Recall facts are from [recall.it](https://www.recall.it/llms-full.txt), its [pricing page](https://www.recall.it/pricing), [quiz docs](https://docs.recall.it/deep-dives/quiz-and-spaced-repetition) and [App Store listing](https://apps.apple.com/us/app/recall-summarize-save/id6445893722); REPS facts are from our [facts page](https://www.getreps.io/facts). Checked 24 November 2026. Features and prices change, so confirm current plans at recall.it/pricing.
 
@@ -35,7 +35,7 @@ Feature by feature
 | What matters | REPS | Recall |
 | --- | --- | --- |
 | Best at | Remembering what you save, as a daily game | Saving, summarizing, connecting and chatting with what you save |
-| Platforms | iPhone app and Chrome extension (for saving); no Android, no web app, no offline use | Web, iOS, Android, plus Chrome, Firefox, Edge and Safari |
+| Platforms | iPhone and iPad app and Chrome extension (for saving); no Android, no web app, no offline use | Web, iOS, Android, plus Chrome, Firefox, Edge and Safari |
 | Quizzes from your saves | Yes, for the ideas you pick from each save | Yes, on Plus: you generate them per card and choose to schedule |
 | Spaced schedule | Six levels from New to Locked In | On Plus: five stages from New to Mastered |
 | Games and friends | Ladder, Crossword, Cryptic, Quotle, Friends Trivia; friends and a leaderboard | Quizzes and shareable challenges with a leaderboard |
@@ -62,13 +62,13 @@ In REPS, you save the thing and REPS pulls out the ideas worth keeping. You tap 
 
 - You need Android, the web, or an extension for Firefox, Edge or Safari ([Recall](https://www.recall.it/llms-full.txt)).
 - You want chat across your library or the web (Plus), with your choice of AI model, including ChatGPT, Claude and Gemini (Max) ([pricing](https://www.recall.it/pricing)).
-- You are building a research library: a notes editor, a knowledge graph, imports (bulk on Plus) and Markdown export.
+- You are building a research library: a notes editor, a knowledge graph, imports (bulk on Plus) and Markdown export. REPS lets you write your own notes and has Your Brain, a map of your saved ideas coloured by topic.
 - You want API and MCP access, which is included even on the free plan ([pricing](https://www.recall.it/pricing)).
-- You want PDFs up to 2,000 pages, EPUBs, Google Docs and Slides as sources ([supported content](https://docs.recall.it/supported-content/all-supported-content)).
+- You want PDFs up to 2,000 pages (REPS also saves PDFs), or EPUBs, Google Docs and Slides as sources ([supported content](https://docs.recall.it/supported-content/all-supported-content)).
 
 ## Where REPS is weaker
 
-- The app is iPhone only, with a Chrome extension for saving: no Android app, no web app, and no offline use.
+- The app is for iPhone and iPad, plus a Chrome extension for saving: no Android app, no web app, and no offline use.
 - No library imports from other apps, only a reading list from a screenshot or a Goodreads export.
 - Ask Echo covers what you have saved, not the open web.
 - Four question formats to Recall's seven, and less you can configure.
@@ -79,7 +79,7 @@ FAQ
 
 ### Is REPS the same as Recall?
 
-No. They are separate apps from separate companies. Recall (recall.it, formerly getrecall.ai) is an AI knowledge base made by a team in Amsterdam. REPS is an iPhone app made by REPS AI Ltd in England and Wales. Recall is also not Microsoft's Recall feature in Windows 11, or Recl (recl.app).
+No. They are separate apps from separate companies. Recall (recall.it, formerly getrecall.ai) is an AI knowledge base made by a team in Amsterdam. REPS is an iPhone and iPad app made by REPS AI Ltd in England and Wales. Recall is also not Microsoft's Recall feature in Windows 11, or Recl (recl.app).
 
 ### Does Recall have spaced repetition?
 
@@ -87,7 +87,7 @@ Yes, on its paid Plus plan. Recall can generate quiz questions from a saved card
 
 ### Does REPS work on Android, the web or a computer?
 
-No. REPS is an iPhone app from the App Store, with a Chrome extension for saving pages from a computer. There is no Android app or web app, and it does not work offline. You play your sessions on your iPhone.
+No. REPS is an iPhone and iPad app from the App Store, with a Chrome extension for saving pages from a computer. There is no Android app or web app, and it does not work offline. You play your sessions on your iPhone or iPad.
 
 ### Can I move my library from Recall to REPS?
 

@@ -34,7 +34,7 @@ At a glance
 
 | App | Best at | Video and audio | Tests you? | Platforms |
 | --- | --- | --- | --- | --- |
-| REPS | Remembering what you save, as a daily game | YouTube, Instagram, TikTok, podcast links | Yes, daily, from the ideas you pick | iPhone app and Chrome extension |
+| REPS | Remembering what you save, as a daily game | YouTube, Instagram, TikTok, podcast links | Yes, daily, from the ideas you pick | iPhone and iPad app and Chrome extension |
 | Recall | AI knowledge base: summaries, chat, graph | YouTube, TikTok, Apple Podcasts, Spotify | Yes, on Plus, when you generate and schedule questions | Web, iOS, Android, four browsers |
 | Recl | Video and reel summaries you revisit | YouTube, reels, TikTok, X, podcasts via YouTube | Weekly quiz; scheduled reviews | iPhone, iPad, Android, web, Chrome, Edge |
 | Snipd | Capturing moments from podcasts | Podcasts; YouTube and audio imports on Premium | Daily recap of your snips, with spaced repetition | Works with CarPlay, Android Auto, Apple Watch |
@@ -88,7 +88,7 @@ A summary helps you find and review the main points, but reading it again is not
 
 ## Where REPS is weaker
 
-- The app is iPhone only, with a Chrome extension for saving: no Android app, no web app, and no offline use.
+- The app is for iPhone and iPad, plus a Chrome extension for saving: no Android app, no web app, and no offline use.
 - No library imports from other apps, only a reading list from a screenshot or a Goodreads export.
 - No library to search and chat with across the web.
 
@@ -114,7 +114,7 @@ Snipd has a free plan with AI features on 2 episodes a week. Recall has a free p
 
 ### Which of these work on Android?
 
-Recall, Recl, Readwise Reader and Gemini Notebook have Android apps. REPS has no Android app: it is an iPhone app with a Chrome extension for saving. Check Snipd's site for its current platforms.
+Recall, Recl, Readwise Reader and Gemini Notebook have Android apps. REPS has no Android app: it is an iPhone and iPad app with a Chrome extension for saving. Check Snipd's site for its current platforms.
 
 Related
 
