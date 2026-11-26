@@ -34,7 +34,7 @@ At a glance
 
 | App | Best at | Video and audio | Tests you? | Platforms |
 | --- | --- | --- | --- | --- |
-| REPS | Remembering what you save, as a daily game | YouTube, Instagram, TikTok, podcast links | Yes, daily, from the ideas you pick | iPhone |
+| REPS | Remembering what you save, as a daily game | YouTube, Instagram, TikTok, podcast links | Yes, daily, from the ideas you pick | iPhone app and Chrome extension |
 | Recall | AI knowledge base: summaries, chat, graph | YouTube, TikTok, Apple Podcasts, Spotify | Yes, on Plus, when you generate and schedule questions | Web, iOS, Android, four browsers |
 | Recl | Video and reel summaries you revisit | YouTube, reels, TikTok, X, podcasts via YouTube | Weekly quiz; scheduled reviews | iPhone, iPad, Android, web, Chrome, Edge |
 | Snipd | Capturing moments from podcasts | Podcasts; YouTube and audio imports on Premium | Daily recap of your snips, with spaced repetition | Works with CarPlay, Android Auto, Apple Watch |
@@ -88,9 +88,9 @@ A summary helps you find and review the main points, but reading it again is not
 
 ## Where REPS is weaker
 
-- iPhone only: no Android app, no web app, and no offline use.
+- The app is iPhone only, with a Chrome extension for saving: no Android app, no web app, and no offline use.
 - No library imports from other apps, only a reading list from a screenshot or a Goodreads export.
-- No written summary to read back, and no library to search and chat with across the web.
+- No library to search and chat with across the web.
 
 FAQ
 
@@ -98,7 +98,7 @@ FAQ
 
 ### What is the best app to remember what you watch on YouTube?
 
-It depends on what you want back. For a written summary of a video, Recall and Recl both do it well, and Recl adds chapter timestamps. To be tested on what a video said until you remember it, REPS turns the ideas you pick from a saved video into questions in a short daily game.
+It depends on what you want back. For a written summary of a video, Recall and Recl both do it well, and Recl adds chapter timestamps. REPS also pulls out the core ideas of a saved video, and turns the ones you pick into questions in a short daily game, so you are tested on them until you remember.
 
 ### Is there an app that quizzes you on podcasts?
 
@@ -110,11 +110,11 @@ A summary helps you find and review the main points, but reading it again is not
 
 ### Is there a free app to remember what I watch?
 
-Snipd has a free plan with AI features on 2 episodes a week. Recall has a free plan with 10 AI summaries a month; its quizzes are on the paid Plus plan. Gemini Notebook has a free tier with a Google account. Recl is free to try on mobile with 3 saves. REPS is on the App Store.
+Snipd has a free plan with AI features on 2 episodes a week. Recall has a free plan with 10 AI summaries a month; its quizzes are on the paid Plus plan. Gemini Notebook has a free tier with a Google account. Recl is free to try on mobile with 3 saves. REPS is currently free on the App Store.
 
 ### Which of these work on Android?
 
-Recall, Recl, Readwise Reader and Gemini Notebook have Android apps. REPS is iPhone only. Check Snipd's site for its current platforms.
+Recall, Recl, Readwise Reader and Gemini Notebook have Android apps. REPS has no Android app: it is an iPhone app with a Chrome extension for saving. Check Snipd's site for its current platforms.
 
 Related
 

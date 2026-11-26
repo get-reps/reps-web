@@ -34,7 +34,7 @@ At a glance
 
 | App | Pick it if you want | Brings things back? | Platforms |
 | --- | --- | --- | --- |
-| REPS | Remembering what you save, as a daily game | Yes, daily questions on the ideas you pick | iPhone |
+| REPS | Remembering what you save, as a daily game | Yes, daily questions on the ideas you pick | iPhone app and Chrome extension |
 | Recl | A lighter, video-first app with summaries | Yes, reviews on a fixed schedule; weekly quiz | iPhone, iPad, Android, web, Chrome, Edge |
 | Readwise | Reading and highlighting, with highlight sync | Yes, Daily Review of your highlights | Web, desktop, iOS, Android |
 | Gemini Notebook | Researching one project from many sources | Flashcards and quizzes on request | Web, Android, iPhone and iPad |
@@ -85,8 +85,8 @@ Recall runs on the web, iOS, Android and four browsers, summarizes YouTube video
 
 ## Where REPS is weaker
 
-- It does much less than Recall as a library: AI summaries are not the focus, and Ask Echo covers what you have saved, not the open web.
-- iPhone only: no Android app, no web app, and no offline use.
+- It does less than Recall as a library: Ask Echo covers what you have saved, not the open web.
+- The app is iPhone only, with a Chrome extension for saving: no Android app, no web app, and no offline use.
 - No library imports from other apps, only a reading list from a screenshot or a Goodreads export.
 
 FAQ
@@ -99,7 +99,7 @@ It depends on why you are leaving. For remembering what you save as a daily game
 
 ### Is there a free alternative to Recall?
 
-Obsidian is free with no sign-up, with optional paid Sync and Publish. Anki is open source, AnkiDroid on Android is free, and AnkiWeb sync is free. Gemini Notebook has a free tier with a Google account. Recall's own free plan has 10 AI summaries a month; its quizzes are on the paid Plus plan.
+Obsidian is free with no sign-up, with optional paid Sync and Publish. Anki is open source, AnkiDroid on Android is free, and AnkiWeb sync is free. Gemini Notebook has a free tier with a Google account. REPS is currently free. Recall's own free plan has 10 AI summaries a month; its quizzes are on the paid Plus plan.
 
 ### Which Recall alternative has spaced repetition?
 

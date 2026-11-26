@@ -35,14 +35,14 @@ Feature by feature
 | What matters | REPS | Recall |
 | --- | --- | --- |
 | Best at | Remembering what you save, as a daily game | Saving, summarizing, connecting and chatting with what you save |
-| Platforms | iPhone only; no Android, no web app, no offline use | Web, iOS, Android, plus Chrome, Firefox, Edge and Safari |
+| Platforms | iPhone app and Chrome extension (for saving); no Android, no web app, no offline use | Web, iOS, Android, plus Chrome, Firefox, Edge and Safari |
 | Quizzes from your saves | Yes, for the ideas you pick from each save | Yes, on Plus: you generate them per card and choose to schedule |
 | Spaced schedule | Six levels from New to Locked In | On Plus: five stages from New to Mastered |
 | Games and friends | Ladder, Crossword, Cryptic, Quotle, Friends Trivia; friends and a leaderboard | Quizzes and shareable challenges with a leaderboard |
-| AI summaries | Not the focus | Yes, core feature |
+| AI summaries | Yes: pulls out the core ideas of what you save, for you to remember | Yes, core feature |
 | Chat with your saves | Ask Echo, about what you have saved | On Plus: library, web or both; model choice on Max |
 | Import and export | No library imports; reading lists from a screenshot or Goodreads export | Imports Markdown, bookmarks, Pocket, Mem, CSV (bulk on Plus); exports Markdown |
-| Price | On the App Store | Free plan (10 AI summaries a month); quizzes, chat and Listen Mode on Plus; model choice on Max |
+| Price | Free | Free plan (10 AI summaries a month); quizzes, chat and Listen Mode on Plus; model choice on Max |
 
 ## How each app brings things back
 
@@ -60,17 +60,17 @@ In REPS, you save the thing and REPS pulls out the ideas worth keeping. You tap 
 
 ## Where Recall fits better
 
-- You need Android, the web, or an extension for Chrome, Firefox, Edge or Safari ([Recall](https://www.recall.it/llms-full.txt)).
-- You want AI summaries and chat across your library or the web (Plus), with your choice of AI model, including ChatGPT, Claude and Gemini (Max) ([pricing](https://www.recall.it/pricing)).
+- You need Android, the web, or an extension for Firefox, Edge or Safari ([Recall](https://www.recall.it/llms-full.txt)).
+- You want chat across your library or the web (Plus), with your choice of AI model, including ChatGPT, Claude and Gemini (Max) ([pricing](https://www.recall.it/pricing)).
 - You are building a research library: a notes editor, a knowledge graph, imports (bulk on Plus) and Markdown export.
 - You want API and MCP access, which is included even on the free plan ([pricing](https://www.recall.it/pricing)).
 - You want PDFs up to 2,000 pages, EPUBs, Google Docs and Slides as sources ([supported content](https://docs.recall.it/supported-content/all-supported-content)).
 
 ## Where REPS is weaker
 
-- iPhone only: no Android app, no web app, and no offline use.
+- The app is iPhone only, with a Chrome extension for saving: no Android app, no web app, and no offline use.
 - No library imports from other apps, only a reading list from a screenshot or a Goodreads export.
-- AI summaries are not the focus, and Ask Echo covers what you have saved, not the open web.
+- Ask Echo covers what you have saved, not the open web.
 - Four question formats to Recall's seven, and less you can configure.
 
 FAQ
@@ -87,7 +87,7 @@ Yes, on its paid Plus plan. Recall can generate quiz questions from a saved card
 
 ### Does REPS work on Android, the web or a computer?
 
-No. REPS is an iPhone app from the App Store, with no Android app or web app, and it does not work offline. You can save pages from a computer with the REPS Chrome extension and play on your iPhone.
+No. REPS is an iPhone app from the App Store, with a Chrome extension for saving pages from a computer. There is no Android app or web app, and it does not work offline. You play your sessions on your iPhone.
 
 ### Can I move my library from Recall to REPS?
 
@@ -95,7 +95,7 @@ Not automatically. Recall exports your data as zipped Markdown files, but REPS d
 
 ### Is Recall free?
 
-Recall has a free plan with 10 AI summaries a month, unlimited saves and notes, and API and MCP access. Quizzes, chat, Listen Mode and the automatic knowledge graph are on the paid Plus plan, and choosing the AI model is on Max. REPS is on the App Store.
+Recall has a free plan with 10 AI summaries a month, unlimited saves and notes, and API and MCP access. Quizzes, chat, Listen Mode and the automatic knowledge graph are on the paid Plus plan, and choosing the AI model is on Max. REPS is currently free on the App Store.
 
 Related
 
