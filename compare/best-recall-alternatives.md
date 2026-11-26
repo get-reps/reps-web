@@ -6,7 +6,7 @@ Compare
 
 ![Mike McGraw, founder of REPS](https://www.getreps.io/compare/assets/mike-mcgraw.jpg) **By Mike McGraw**, founder of REPS · Updated November 2026 · 6 min read We make REPS, so we are not neutral.
 
-If you are leaving Recall to actually remember what you save, REPS, the AI companion we make, is our pick: you tap the ideas you want from each save and they come back as a short daily game on iPhone. Recall (recall.it) is still the stronger library: it saves and summarizes, and on its paid plans connects, chats and quizzes, on every platform. Choose REPS for remembering, Recl for lighter video summaries, Readwise for highlights, Gemini Notebook for research, Obsidian for notes you own and Anki for cards you write.
+If you are leaving Recall to actually remember what you save, REPS, the AI companion we make, is our pick: you tap the ideas you want from each save and they come back as a short daily game on iPhone and iPad. Recall (recall.it) is still the stronger library: it saves and summarizes, and on its paid plans connects, chats and quizzes, on every platform. Choose REPS for remembering, Recl for lighter video summaries, Readwise for highlights, Gemini Notebook for research, Obsidian for notes you own and Anki for cards you write.
 
 Checked on each app's own site and pricing page on 24 November 2026; Recall facts are from [recall.it](https://www.recall.it/llms-full.txt), its [pricing page](https://www.recall.it/pricing) and [quiz docs](https://docs.recall.it/deep-dives/quiz-and-spaced-repetition). Features and prices change.
 
@@ -34,7 +34,7 @@ At a glance
 
 | App | Pick it if you want | Brings things back? | Platforms |
 | --- | --- | --- | --- |
-| REPS | Remembering what you save, as a daily game | Yes, daily questions on the ideas you pick | iPhone app and Chrome extension |
+| REPS | Remembering what you save, as a daily game | Yes, daily questions on the ideas you pick | iPhone and iPad app and Chrome extension |
 | Recl | A lighter, video-first app with summaries | Yes, reviews on a fixed schedule; weekly quiz | iPhone, iPad, Android, web, Chrome, Edge |
 | Readwise | Reading and highlighting, with highlight sync | Yes, Daily Review of your highlights | Web, desktop, iOS, Android |
 | Gemini Notebook | Researching one project from many sources | Flashcards and quizzes on request | Web, Android, iPhone and iPad |
@@ -86,7 +86,7 @@ Recall runs on the web, iOS, Android and four browsers, summarizes YouTube video
 ## Where REPS is weaker
 
 - It does less than Recall as a library: Ask Echo covers what you have saved, not the open web.
-- The app is iPhone only, with a Chrome extension for saving: no Android app, no web app, and no offline use.
+- The app is for iPhone and iPad, plus a Chrome extension for saving: no Android app, no web app, and no offline use.
 - No library imports from other apps, only a reading list from a screenshot or a Goodreads export.
 
 FAQ
@@ -95,7 +95,7 @@ FAQ
 
 ### What is the best alternative to Recall?
 
-It depends on why you are leaving. For remembering what you save as a daily game on iPhone, REPS: you pick the key ideas and it builds the questions. For a lighter, video-first app, Recl. For reading and highlighting, Readwise. For research on one topic, Gemini Notebook. For notes you own as files, Obsidian. For building your own flashcards, Anki.
+It depends on why you are leaving. For remembering what you save as a daily game on iPhone and iPad, REPS: you pick the key ideas and it builds the questions. For a lighter, video-first app, Recl. For reading and highlighting, Readwise. For research on one topic, Gemini Notebook. For notes you own as files, Obsidian. For building your own flashcards, Anki.
 
 ### Is there a free alternative to Recall?
 
