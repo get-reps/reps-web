@@ -40,6 +40,22 @@ Obsidian is a superb tool if you love building a system. If you would rather som
 
 Quizlet put its Learn and Test modes behind a subscription and added ads. If you want to remember what you read and watch without making or hunting for a study set, here is where to go.
 
+[REPS vs Recall: which helps you remember what you save?](https://www.getreps.io/compare/reps-vs-recall)
+
+Recall is an AI knowledge base for saving, summarizing and connecting what you read and watch. REPS turns the ideas you pick into a daily game on iPhone. A fair side-by-side, with a choose-this-if verdict for both.
+
+[The best Recall alternatives, by what you want instead](https://www.getreps.io/compare/best-recall-alternatives)
+
+Six alternatives to Recall (recall.it): REPS, Recl, Readwise, Gemini Notebook, Obsidian and Anki. Where each one beats it, and when to stay put.
+
+[REPS vs Recl: which memory app fits you?](https://www.getreps.io/compare/reps-vs-recl)
+
+Recl summarizes what you save and brings it back on a schedule. REPS turns the ideas you pick into a daily game on iPhone. An honest comparison of the two.
+
+[The best apps to remember what you watch and learn](https://www.getreps.io/compare/best-apps-to-remember-what-you-watch)
+
+REPS, Recall, Recl, Snipd, Readwise Reader and Gemini Notebook, compared on what happens after you save a YouTube video, podcast or reel.
+
 ## Start remembering what you read.
 
 Save anything. REPS turns it into quick games, so you remember it.

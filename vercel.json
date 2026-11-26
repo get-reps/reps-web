@@ -186,6 +186,34 @@
       ]
     },
     {
+      "source": "/compare/reps-vs-recall",
+      "headers": [
+        { "key": "Link", "value": "<https://www.getreps.io/compare/reps-vs-recall.md>; rel=\"alternate\"; type=\"text/markdown\"" },
+        { "key": "Vary", "value": "Accept" }
+      ]
+    },
+    {
+      "source": "/compare/best-recall-alternatives",
+      "headers": [
+        { "key": "Link", "value": "<https://www.getreps.io/compare/best-recall-alternatives.md>; rel=\"alternate\"; type=\"text/markdown\"" },
+        { "key": "Vary", "value": "Accept" }
+      ]
+    },
+    {
+      "source": "/compare/reps-vs-recl",
+      "headers": [
+        { "key": "Link", "value": "<https://www.getreps.io/compare/reps-vs-recl.md>; rel=\"alternate\"; type=\"text/markdown\"" },
+        { "key": "Vary", "value": "Accept" }
+      ]
+    },
+    {
+      "source": "/compare/best-apps-to-remember-what-you-watch",
+      "headers": [
+        { "key": "Link", "value": "<https://www.getreps.io/compare/best-apps-to-remember-what-you-watch.md>; rel=\"alternate\"; type=\"text/markdown\"" },
+        { "key": "Vary", "value": "Accept" }
+      ]
+    },
+    {
       "source": "/compare/best-quizlet-alternatives",
       "headers": [
         { "key": "Link", "value": "<https://www.getreps.io/compare/best-quizlet-alternatives.md>; rel=\"alternate\"; type=\"text/markdown\"" },
@@ -309,6 +337,34 @@
       "headers": [
         { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
         { "key": "Link", "value": "<https://www.getreps.io/compare/best-obsidian-alternatives>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/compare/reps-vs-recall.md",
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "Link", "value": "<https://www.getreps.io/compare/reps-vs-recall>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/compare/best-recall-alternatives.md",
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "Link", "value": "<https://www.getreps.io/compare/best-recall-alternatives>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/compare/reps-vs-recl.md",
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "Link", "value": "<https://www.getreps.io/compare/reps-vs-recl>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/compare/best-apps-to-remember-what-you-watch.md",
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "Link", "value": "<https://www.getreps.io/compare/best-apps-to-remember-what-you-watch>; rel=\"canonical\"" }
       ]
     },
     {
